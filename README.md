@@ -7,14 +7,19 @@ Reines Paper-Trading / Planspiel. Keine echten Orders und kein Broker-Zugang.
 - läuft auf Cloudflare, auch wenn PC und Handy aus sind
 - Cron Trigger jede Minute (`* * * * *`)
 - SQLite Durable Object speichert Depot, Positionen, Verlauf und Entscheidungen dauerhaft
-- Top-500-Aktien-Universum wird täglich per GitHub Action nach Marktkapitalisierung aktualisiert
+- Top-500-Aktien-Universum wird täglich per GitHub Action nach **FX-normalisierter Marktkapitalisierung in USD** aktualisiert
 - zusätzlich normale ETFs und Hebel-/Inverse-ETFs
+- zusätzlich priorisierte Defense-/Tech-Aktien, die auch außerhalb der Top 500 relevant sein können
 - grober Markt-Scan in Batches
 - 1-Minuten-Tiefenanalyse nur für die stärksten Kandidaten und gehaltene Positionen
-- EMA 9/21, RSI 14, 5-/20-Minuten-Momentum, Volumen, Tagesbewegung, News-Sentiment
+- EMA 9/21, RSI 14, 5-/20-Minuten-Momentum, Volumen, Tagesbewegung und News-Sentiment
 - Cloudflare Workers AI als zusätzliche Entscheidungsstufe
-- feste Risiko-Grenzen verhindern, dass die KI beliebige Depotgrößen einsetzt
+- **Budget-only Live-Trading:** keine feste Positionszahl, keine Mindest-/Maximal-Haltedauer, keine Branchen-, Hebel-, Reserve- oder Cooldown-Grenze
+- einzige harte Portfolio-Grenze ist das tatsächlich vorhandene Spielgeld inklusive Gebühren
+- Gebühren und Ausführungspuffer/Slippage werden bei Kauf und Verkauf berücksichtigt
 - vollständige Geld- und Entscheidungs-History
+- HALTEN-Phasen werden zusammengefasst
+- eigener Tab „Vorwoche · 100 €“ als Hindsight-Rückschau ohne feste Trade-/Positionszahl
 - mobile Web-App mit Icon / Manifest
 - kein Marktdaten-API-Key
 
