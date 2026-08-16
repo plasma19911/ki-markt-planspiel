@@ -43,4 +43,11 @@ export class MarketPortfolio extends FinalPortfolio {
     if(s?.risk){s.risk.leverPct=0}
     return s;
   }
+
+  async lastWeek() {
+    const r=await this.env.ASSETS.fetch(new Request('https://assets.local/analysis-2026.json'));
+    if(!r.ok)throw new Error('2026-Auswertung wird gerade vorbereitet. Bitte spaeter erneut versuchen.');
+    const a=await r.json();
+    return {label:`01.01.2026 – ${a.period?.to||'heute'}`,...a.perfect,walkForward:a.walkForward,universeCounts:a.universe,scannedSymbols:a.scannedSymbols,usableSymbols:a.usableSymbols};
+  }
 }
