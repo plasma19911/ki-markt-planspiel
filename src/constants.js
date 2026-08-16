@@ -1,8 +1,11 @@
 export const AI_MODEL = '@cf/zai-org/glm-4.7-flash';
 export const SPARK_BATCH = 40;
 export const DEEP_LIMIT = 12;
-export const NEWS_LIMIT = 6;
-export const NEWS_RADAR_BATCH = 8;
+// Pro Minute nur die wichtigsten Kandidaten individuell per Yahoo-News abfragen.
+// Breite Marktnews kommen zusaetzlich ueber die vier globalen Feeds. Das haelt genug
+// Subrequest-Reserve fuer FX und viele gleichzeitig gehaltene Positionen.
+export const NEWS_LIMIT = 4;
+export const NEWS_RADAR_BATCH = 6;
 
 // Breites, bewusst kuratiertes ETF-Universum. Die Werte werden mit den groessten Aktien gemeinsam gescannt.
 export const CORE_ETFS = [
