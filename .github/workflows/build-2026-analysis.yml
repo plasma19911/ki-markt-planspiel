@@ -38,13 +38,13 @@ jobs:
       - name: Commit changed analysis
         shell: bash
         run: |
-          if git diff --quiet -- public/analysis-2026.json; then
-            echo "Analysis unchanged."
-            exit 0
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/analysis-2026.json
+          if git diff --cached --quiet; then
+            echo "Analysis unchanged."
+            exit 0
+          fi
           git commit -m "chore: refresh 2026 analysis"
           git pull --rebase origin main
           git push origin main
