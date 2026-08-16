@@ -33,6 +33,7 @@ jobs:
           node --check src/portfolio.js
           node --check src/market-v3.js
           node --check src/portfolio-v3.js
+          node --check src/portfolio-prod.js
           node --check src/replay.js
           node --check public/app.js
       - name: Wrangler dry run
