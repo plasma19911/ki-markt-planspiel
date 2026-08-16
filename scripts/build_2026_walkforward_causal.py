@@ -6,12 +6,7 @@ import build_2026_analysis as base
 
 
 def causal_walk_forward(universe: List[dict], eur: Dict[str, object], style_name: str) -> dict:
-    """Walk-forward mit einer vollen Tagesverzoegerung zwischen Signal und Ausfuehrung.
-
-    Signal am Schluss von T entsteht nur aus Daten bis T. Eine daraus folgende Order wird
-    am Schluss des naechsten fuer den Wert verfuegbaren Handelstags ausgefuehrt. Dadurch
-    wird kein Schlusskurs analysiert und rueckwirkend noch zum selben Schlusskurs gehandelt.
-    """
+    """Kausaler Tages-Walk-Forward mit realen Gebuehren und ohne Zukunftsdaten."""
     style = base.STYLE[style_name]
     meta = {x['symbol']: x for x in universe}
     sig = {sym: base.signal_frame(df) for sym, df in eur.items() if len(df) >= 22}
@@ -29,8 +24,20 @@ def causal_walk_forward(universe: List[dict], eur: Dict[str, object], style_name
             'note': 'Zu wenig historische Daten fuer einen kausalen Walk-Forward.'
         }
 
+    def viable_group(group, free_cash):
+        if not group or free_cash <= base.FEE_FIXED:
+            return False
+        total_w = sum(x[4] for x in group)
+        for x in group:
+            alloc = free_cash * x[4] / total_w
+            roundtrip_pct = (2 * base.FEE_FIXED / max(alloc, 0.01)) * 100 + 2 * base.SLIPPAGE * 100 + 2 * base.FEE_PERCENT
+            expected_edge_pct = max(0.6, (x[1] - style['entry'] + 1.0) * 1.2)
+            if expected_edge_pct <= roundtrip_pct * 1.05:
+                return False
+        return True
+
     for global_i, date in enumerate(dates):
-        # EXIT: Entscheidung basiert ausschliesslich auf dem vorherigen Datenpunkt dieses Wertes.
+        # EXIT: Entscheidung basiert ausschliesslich auf dem vorherigen abgeschlossenen Datenpunkt.
         for sym in list(holdings):
             df = sig.get(sym)
             if df is None or date not in df.index:
@@ -70,12 +77,10 @@ def causal_walk_forward(universe: List[dict], eur: Dict[str, object], style_name
                 })
                 del holdings[sym]
 
-        # Am letzten globalen Datenpunkt keine neue Position mehr eroeffnen, die nur wegen
-        # des Auswertungsendes sofort wieder geschlossen werden muesste.
         if global_i == len(dates) - 1:
             continue
 
-        # ENTRY: Das Signal stammt vom vorherigen Datenpunkt, Ausfuehrung erfolgt heute.
+        # ENTRY: Vortagssignal, Ausfuehrung erst heute.
         candidates = []
         for sym, df in sig.items():
             if sym in holdings or date not in df.index:
@@ -88,34 +93,23 @@ def causal_walk_forward(universe: List[dict], eur: Dict[str, object], style_name
             score, conf = float(prev['score']), float(prev['confidence'])
             if score < style['entry'] or conf < 0.55:
                 continue
-            candidates.append((sym, score, conf, float(current['eur'])))
+            edge = max(0.01, score - style['entry'] + conf)
+            candidates.append([sym, score, conf, float(current['eur']), edge])
 
         candidates.sort(key=lambda z: (z[1] + z[2]), reverse=True)
         candidates = candidates[:12]
         if not candidates or cash <= base.FEE_FIXED:
             continue
 
-        # Keine feste Positionszahl. Freies Cash wird kostenbewusst auf alle ausreichend
-        # starken Kandidaten des Deep-Scan-Fensters verteilt.
+        # Kostenbewusste Auswahl: mit 100 EUR wird zuerst der beste Kandidat geprueft.
+        # Weitere Positionen kommen nur hinzu, wenn die Gebuehren auch nach Aufteilung noch
+        # von der erwarteten Signalkante gedeckt werden. So vernichtet eine 12-fache
+        # Mini-Aufteilung nicht mehr alle Trades durch 1-EUR-Fixgebuehren.
         active = []
-        for sym, score, conf, price in candidates:
-            edge = max(0.01, score - style['entry'] + conf)
-            active.append([sym, score, conf, price, edge])
-
-        for _ in range(3):
-            if not active:
-                break
-            total_w = sum(x[4] for x in active)
-            kept = []
-            for x in active:
-                alloc = cash * x[4] / total_w
-                roundtrip_pct = (2 * base.FEE_FIXED / max(alloc, 0.01)) * 100 + 2 * base.SLIPPAGE * 100 + 2 * base.FEE_PERCENT
-                expected_edge_pct = max(0.6, (x[1] - style['entry'] + 1.0) * 1.2)
-                if expected_edge_pct > roundtrip_pct * 1.05:
-                    kept.append(x)
-            if len(kept) == len(active):
-                break
-            active = kept
+        for candidate in candidates:
+            trial = active + [candidate]
+            if viable_group(trial, cash):
+                active = trial
         if not active:
             continue
 
@@ -145,8 +139,8 @@ def causal_walk_forward(universe: List[dict], eur: Dict[str, object], style_name
                 'reason': f"Vortagssignal: Score {score:.2f}, Konfidenz {conf*100:.0f}%",
             })
 
-    # Mark-to-liquidation am letzten verfuegbaren Kurs, damit alle Stile mit einem
-    # vergleichbaren Endkapital nach Verkaufsgebuehr bewertet werden.
+    # Fuer einen fair vergleichbaren Endwert werden offene Positionen am letzten Kurs bewertet
+    # und inklusive Verkaufsgebuehr glattgestellt.
     for sym in list(holdings):
         df = sig[sym]
         date = df.index[-1]
