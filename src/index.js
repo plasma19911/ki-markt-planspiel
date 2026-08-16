@@ -1,4 +1,4 @@
-import {MarketPortfolio} from './portfolio-prod.js';
+import {MarketPortfolio} from './portfolio-final.js';
 export {MarketPortfolio};
 const reply=(x,s=200)=>Response.json(x,{status:s,headers:{'cache-control':'no-store'}});
 const stub=env=>env.PORTFOLIO.getByName('default-paper-portfolio');
