@@ -1,10 +1,18 @@
-import {CORE_ETFS,LEVERAGED_ETFS,SPARK_BATCH,DEEP_LIMIT,NEWS_LIMIT,POS_WORDS,NEG_WORDS,clamp,num,chunks} from './constants.js';
+import {CORE_ETFS,LEVERAGED_ETFS,SPARK_BATCH,DEEP_LIMIT,NEWS_LIMIT,NEWS_RADAR_BATCH,POS_WORDS,NEG_WORDS,clamp,num,chunks} from './constants.js';
 
 const headers={'accept':'application/json','user-agent':'Mozilla/5.0'};
 function ema(a,p){if(a.length<p)return null;const k=2/(p+1);let e=a.slice(0,p).reduce((x,y)=>x+y,0)/p;for(const v of a.slice(p))e=v*k+e*(1-k);return e}
 function rsi(a,p=14){if(a.length<p+1)return null;let g=0,l=0,s=a.slice(-(p+1));for(let i=1;i<s.length;i++){let d=s[i]-s[i-1];d>0?g+=d:l-=d}if(!l)return 100;let rs=(g/p)/(l/p);return 100-100/(1+rs)}
 function sentiment(headlines){let s=0;for(const h of headlines){for(const w of String(h).toLowerCase().replace(/[^a-z0-9]+/g,' ').split(/\s+/)){if(POS_WORDS.includes(w))s+=.35;if(NEG_WORDS.includes(w))s-=.35}}return clamp(s,-2,2)}
-function titles(xml){return [...String(xml).matchAll(/<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/gi)].slice(1,8).map(m=>m[1].replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>').trim()).filter(Boolean)}
+function decodeText(x){return String(x||'').replace(/<!\[CDATA\[|\]\]>/g,'').replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>').trim()}
+function newsItems(xml){
+ const out=[];
+ for(const m of String(xml).matchAll(/<item>([\s\S]*?)<\/item>/gi)){
+  const block=m[1],title=decodeText(block.match(/<title>([\s\S]*?)<\/title>/i)?.[1]),pub=decodeText(block.match(/<pubDate>([\s\S]*?)<\/pubDate>/i)?.[1]);
+  if(title)out.push({title,publishedAt:pub&&Number.isFinite(Date.parse(pub))?new Date(pub).toISOString():null});
+ }
+ return out.slice(0,7);
+}
 async function mapLimit(items,limit,fn){const out=new Array(items.length);let i=0;await Promise.all(Array.from({length:Math.min(limit,items.length)},async()=>{while(true){const x=i++;if(x>=items.length)return;try{out[x]=await fn(items[x])}catch{out[x]=null}}}));return out}
 
 export async function loadUniverse(env,cfg){
@@ -31,13 +39,34 @@ async function deepChart(info){
  return{...info,price,score,dayChange:day,momentum5:m5,momentum20:m20,rsi:rr,volumeRatio:vr,newsScore:0,fresh,reasons:reason,headlines:[]};
 }
 
-async function news(c){try{const u=new URL('https://feeds.finance.yahoo.com/rss/2.0/headline');u.searchParams.set('s',c.symbol);u.searchParams.set('region','US');u.searchParams.set('lang','en-US');const r=await fetch(u,{headers:{'user-agent':'Mozilla/5.0'}});if(!r.ok)return{score:0,headlines:[]};const hs=titles(await r.text());return{score:sentiment(hs),headlines:hs}}catch{return{score:0,headlines:[]}}}
+async function news(c){
+ try{
+  const u=new URL('https://feeds.finance.yahoo.com/rss/2.0/headline');u.searchParams.set('s',c.symbol);u.searchParams.set('region','US');u.searchParams.set('lang','en-US');
+  const r=await fetch(u,{headers:{'user-agent':'Mozilla/5.0'}});if(!r.ok)return{score:0,headlines:[],latestAt:null};
+  const items=newsItems(await r.text()),headlines=items.map(x=>x.title);return{score:sentiment(headlines),headlines,latestAt:items[0]?.publishedAt||null};
+ }catch{return{score:0,headlines:[],latestAt:null}}
+}
+
+function rotatingRadar(items){
+ if(!items.length)return[];
+ const minute=Math.floor(Date.now()/60000),start=(minute*NEWS_RADAR_BATCH)%items.length,out=[];
+ for(let i=0;i<Math.min(NEWS_RADAR_BATCH,items.length);i++)out.push(items[(start+i)%items.length]);
+ return out;
+}
 
 export async function scanMarket(env,cfg,heldSymbols=[]){
  const uni=await loadUniverse(env,cfg),lookup=new Map(uni.items.map(x=>[x.symbol,x])),coarse=[];
  for(const batch of chunks(uni.items.map(x=>x.symbol),SPARK_BATCH)){try{coarse.push(...await sparkBatch(batch,lookup))}catch{}}
  const selected=coarse.filter(x=>x.fresh).sort((a,b)=>b.preScore-a.preScore).slice(0,DEEP_LIMIT);for(const sym of heldSymbols){if(!selected.some(x=>x.symbol===sym)){const x=coarse.find(v=>v.symbol===sym)||lookup.get(sym);if(x)selected.push(x)}}
- const deep=(await mapLimit(selected,6,deepChart)).filter(Boolean).sort((a,b)=>b.score-a.score),targets=deep.slice(0,NEWS_LIMIT);for(const c of deep.filter(x=>heldSymbols.includes(x.symbol))){if(!targets.some(x=>x.symbol===c.symbol)&&targets.length<NEWS_LIMIT+3)targets.push(c)}
- const ns=await mapLimit(targets,5,news),nmap=new Map(targets.map((x,i)=>[x.symbol,ns[i]||{score:0,headlines:[]}])) ;for(const c of deep){const n=nmap.get(c.symbol)||{score:0,headlines:[]};c.newsScore=num(n.score);c.headlines=n.headlines;c.score+=c.newsScore;if(c.newsScore>.35)c.reasons.push(`News +${c.newsScore.toFixed(1)}`);if(c.newsScore<-.35)c.reasons.push(`News ${c.newsScore.toFixed(1)}`);if(c.type==='LEVERAGED_ETF')c.score-=.25}
- deep.sort((a,b)=>b.score-a.score);return{universe:uni.items,generatedAt:uni.generatedAt,candidates:deep};
+ const deep=(await mapLimit(selected,6,deepChart)).filter(Boolean).sort((a,b)=>b.score-a.score);
+
+ const deepNewsTargets=deep.slice(0,NEWS_LIMIT);for(const c of deep.filter(x=>heldSymbols.includes(x.symbol))){if(!deepNewsTargets.some(x=>x.symbol===c.symbol)&&deepNewsTargets.length<NEWS_LIMIT+3)deepNewsTargets.push(c)}
+ const radarTargets=rotatingRadar(uni.items),allNewsTargets=[];for(const c of [...deepNewsTargets,...radarTargets])if(!allNewsTargets.some(x=>x.symbol===c.symbol))allNewsTargets.push(c);
+ const ns=await mapLimit(allNewsTargets,6,news),nmap=new Map(allNewsTargets.map((x,i)=>[x.symbol,ns[i]||{score:0,headlines:[],latestAt:null}]));
+
+ for(const c of deep){const n=nmap.get(c.symbol)||{score:0,headlines:[]};c.newsScore=num(n.score);c.headlines=n.headlines;c.score+=c.newsScore;if(c.newsScore>.35)c.reasons.push(`News +${c.newsScore.toFixed(1)}`);if(c.newsScore<-.35)c.reasons.push(`News ${c.newsScore.toFixed(1)}`);if(c.type==='LEVERAGED_ETF')c.score-=.25}
+ deep.sort((a,b)=>b.score-a.score);
+
+ const newsRadar=radarTargets.map(c=>{const n=nmap.get(c.symbol)||{score:0,headlines:[],latestAt:null};const score=num(n.score),tendency=score>.35?'BULLISH':score<-.35?'BEARISH':'NEUTRAL';return{symbol:c.symbol,name:c.name||c.symbol,type:c.type,score,tendency,headline:n.headlines?.[0]||'',headlines:n.headlines||[],newsAt:n.latestAt||null}}).filter(x=>x.headline);
+ return{universe:uni.items,generatedAt:uni.generatedAt,candidates:deep,newsRadar};
 }
