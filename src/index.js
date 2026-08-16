@@ -5,7 +5,15 @@ const stub=env=>env.PORTFOLIO.getByName('default-paper-portfolio');
 export default{
  async fetch(request,env){
   const u=new URL(request.url);
-  if(!u.pathname.startsWith('/api/'))return env.ASSETS.fetch(request);
+  if(!u.pathname.startsWith('/api/')){
+   const res=await env.ASSETS.fetch(request);
+   if((u.pathname==='/'||u.pathname==='/index.html')&&res.ok&&(res.headers.get('content-type')||'').includes('text/html')){
+    let html=await res.text();
+    html=html.replace('</body>','<script src="/analysis-ui.js" type="module"></script></body>');
+    return new Response(html,{status:res.status,headers:{...Object.fromEntries(res.headers),'cache-control':'no-store'}});
+   }
+   return res;
+  }
   try{
    const p=stub(env);
    if(u.pathname==='/api/status'&&request.method==='GET')return reply(await p.status());
