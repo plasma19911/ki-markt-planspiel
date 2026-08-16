@@ -1,0 +1,35 @@
+KI MARKT-PLANSPIEL – GITHUB + CLOUDFLARE
+
+DAS GITHUB-PROJEKT IST BEREITS VORBEREITET.
+
+1) TOP-500-LISTE
+GitHub -> Actions -> "Refresh Top-500 Universe" -> Run workflow.
+Der Workflow schreibt die 500 groessten gefundenen Aktien nach Marktkapitalisierung nach public/universe.json und aktualisiert sie danach taeglich.
+
+2) CLOUDFLARE
+Cloudflare Dashboard -> Workers & Pages -> Create application -> Import a repository.
+GitHub verbinden und plasma19911/ki-markt-planspiel auswaehlen.
+Production branch: main
+Build command: leer lassen
+Deploy command: npx wrangler deploy
+
+3) CLOUDFLARE LEGT AUTOMATISCH AN
+- Worker ki-markt-planspiel
+- statische Web-App aus public/
+- SQLite Durable Object fuer Depot + History
+- Workers-AI-Binding
+- Cron Trigger jede Minute
+
+Es wird keine D1-Datenbank-ID und kein Marktdaten-API-Key benoetigt.
+
+4) START
+Nach dem Deploy die workers.dev-Adresse oeffnen.
+Spielgeld, Laufzeit und Risikomodus einstellen und "Neu starten" druecken.
+Danach laeuft das Planspiel in Cloudflare weiter, auch wenn PC und Handy aus sind.
+
+5) HANDY
+Website im Handy-Browser oeffnen und "Zum Startbildschirm hinzufuegen" waehlen. Icon und Manifest sind enthalten.
+
+WICHTIG
+Nur Planspiel/Paper-Trading. Keine echten Broker-Orders.
+Die kostenlose Yahoo-Finance-Datenquelle kann verzoegert, unvollstaendig oder zeitweise nicht erreichbar sein. Bei Fehlern wird nicht geraten; der Fehler landet in der History.
