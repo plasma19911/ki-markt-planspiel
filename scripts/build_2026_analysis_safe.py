@@ -3,8 +3,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import build_2026_analysis as base
+import build_2026_walkforward_causal as causal
 
+base = causal.base
 ROOT = Path(__file__).resolve().parents[1]
 ORIGINAL_TO_EUR = base.to_eur_series
 EXCLUDED = []
@@ -41,7 +42,7 @@ def safe_to_eur_series(universe, series, fx):
 
 
 def remove_artificial_final_day_roundtrips(result):
-    """Entfernt nur Trades, die am selben Tag gekauft und allein wegen Auswertungsende verkauft wurden."""
+    """Sicherheitsnetz fuer alte/ungewoehnliche Datenkalender; der kausale Walker kauft am letzten globalen Tag bereits nicht mehr."""
     trades = result.get('trades') or []
     removed = [t for t in trades if t.get('buyAt') == t.get('sellAt') and t.get('reason') == 'Auswertungsende']
     if not removed:
@@ -49,7 +50,6 @@ def remove_artificial_final_day_roundtrips(result):
     result['trades'] = [t for t in trades if t not in removed]
     symbols_dates = {(t.get('symbol'), t.get('buyAt')) for t in removed}
     result['actions'] = [a for a in (result.get('actions') or []) if (a.get('symbol'), a.get('date')) not in symbols_dates]
-    # Ein solcher Roundtrip liegt nach allen echten Trades. Ohne ihn waere das Kapital um dessen P/L unveraendert geblieben.
     correction = -sum(float(t.get('pnl') or 0) for t in removed)
     result['endCapital'] = float(result.get('endCapital') or 0) + correction
     result['profit'] = result['endCapital'] - float(result.get('startCapital') or 100)
@@ -77,7 +77,8 @@ data['walkForwardCalibration'] = {
     'reason': 'Historische Vollperiode nutzt Tagesdaten statt 1-Minuten-Daten; Eintrittsschwellen fuer Tagesaufloesung kalibriert.',
     'styles': base.STYLE,
     'newsReconstructed': False,
+    'causalExecution': 'Signal aus vollstaendig abgeschlossenem Vortag; Ausfuehrung fruehestens am folgenden verfuegbaren Handelstag.',
     'artificialSameDayEndTradesRemoved': True,
 }
 path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
-print(f'Quality-guarded analysis written; excluded={len(EXCLUDED)}')
+print(f'Quality-guarded causal analysis written; excluded={len(EXCLUDED)}')
