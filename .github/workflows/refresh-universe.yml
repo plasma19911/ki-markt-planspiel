@@ -2,6 +2,11 @@ name: Refresh Top-500 Universe
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/refresh_universe.py"
+      - ".github/workflows/refresh-universe.yml"
   schedule:
     - cron: "17 3 * * *"
 
