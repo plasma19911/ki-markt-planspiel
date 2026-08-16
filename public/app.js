@@ -64,7 +64,11 @@ function drawAllocation(positions,cash){
 function actionClass(a){return a==="KAUF"?"good":a==="VERKAUF"?"yellow":a==="FEHLER"?"bad":""}
 function trendClass(label){return label==="BULLISH"?"bullish":label==="BEARISH"?"bearish":"neutral"}
 function historyTime(h){
-  if(h.action==="HALTEN"&&h.end_ts) return `von ${dt(h.ts)}<br>bis ${dt(h.end_ts)}`;
+  if(h.action==="HALTEN"){
+    const n=Math.max(1,Number(h.event_count)||1);
+    const scanText=n>1?`Scan 1–${n} · `:`Scan 1 · `;
+    return `${scanText}von ${dt(h.ts)}<br>bis ${dt(h.end_ts||h.ts)}`;
+  }
   return dt(h.ts);
 }
 
@@ -89,8 +93,9 @@ async function load(){
       $("includeEtfs").checked=Boolean(c.include_etfs);
       $("includeLeverage").checked=Boolean(c.include_leverage);
       $("aiEnabled").checked=Boolean(c.ai_enabled);
-      $("feeFixed").value=Number(c.fee_fixed??1).toFixed(2);
-      $("feePercent").value=Number(c.fee_percent??0).toFixed(2);
+      const oldDefaultFees=!c.running&&Number(c.fee_fixed??1)===1&&Number(c.fee_percent??0)===0;
+      $("feeFixed").value=Number(oldDefaultFees?3.70:(c.fee_fixed??3.70)).toFixed(2);
+      $("feePercent").value=Number(oldDefaultFees?0.08:(c.fee_percent??0.08)).toFixed(2);
       initialized=true;
     }
 
@@ -121,7 +126,7 @@ async function load(){
 
     $("historyBody").innerHTML=s.history.map(h=>`<tr>
       <td>${historyTime(h)}</td>
-      <td class="${actionClass(h.action)}"><b>${h.action}</b>${h.action==="HALTEN"&&h.event_count>1?`<br><span class="muted">${h.event_count} Scans</span>`:""}</td>
+      <td class="${actionClass(h.action)}"><b>${h.action}</b></td>
       <td>${h.symbol||"–"}</td>
       <td class="${h.amount>0?"good":h.amount<0?"yellow":""}">${h.amount?`${h.amount>0?"+":""}${money(h.amount)}`:"–"}</td>
       <td>${h.fee?money(h.fee):"–"}</td>
