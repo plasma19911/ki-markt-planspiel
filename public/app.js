@@ -4,6 +4,8 @@ const fmt=(v,d=2)=>Number(v||0).toLocaleString("de-DE",{minimumFractionDigits:d,
 const money=v=>`${fmt(v)} ${currency==="EUR"?"€":"$"}`;
 const pct=v=>`${Number(v)>=0?"+":""}${fmt(v,2)}%`;
 const dt=s=>s?new Date(s).toLocaleString("de-DE"):"–";
+const parseList=v=>{try{const x=JSON.parse(v||"[]");return Array.isArray(x)?x:[]}catch{return[]}};
+function ageText(s){if(!s)return"Zeit unbekannt";const ms=Date.now()-Date.parse(s);if(!Number.isFinite(ms)||ms<0)return"gerade eben";const m=Math.floor(ms/60000);if(m<1)return"< 1 Min";if(m<60)return`${m} Min alt`;const h=Math.floor(m/60);if(h<24)return`${h} Std alt`;return`${Math.floor(h/24)} Tag(e) alt`}
 
 async function api(path,opts={}){const r=await fetch(path,opts),j=await r.json();if(!r.ok)throw new Error(j.error||`HTTP ${r.status}`);return j}
 
@@ -39,10 +41,17 @@ function historyTime(h){
 async function load(){
  try{
   const s=await api("/api/status"),c=s.config,m=s.executionModel||{};currency=c.currency||"EUR";
-  $("statusPill").textContent=c.running?"LÄUFT · 60 SEKUNDEN":"GESTOPPT";$("statusPill").className="pill "+(c.running?"on":"off");
+  const markets=parseList(c.active_markets),newsOnly=c.market_mode==="NEWS_ONLY";
+  if(!c.running){$("statusPill").textContent="GESTOPPT";$("statusPill").className="pill off"}
+  else if(newsOnly){$("statusPill").textContent="NEWS ONLY · BÖRSEN ZU";$("statusPill").className="pill on"}
+  else{$("statusPill").textContent=`MARKT + NEWS · ${markets.length?markets.join(", "):"AKTIV"}`;$("statusPill").className="pill on"}
+
   $("equity").textContent=money(s.equity);$("cash").textContent=money(c.cash);$("feesTotal").textContent=money(c.total_fees||0);
   $("pnl").textContent=`${s.pnl>=0?"+":""}${money(s.pnl)} · ${pct(s.pnl_pct)}`;$("pnl").className=s.pnl>=0?"good":"bad";$("positionCount").textContent=s.positions.length;$("universeCount").textContent=c.universe_count||"–";
-  $("endTime").textContent=c.ends_at?`Ende ${dt(c.ends_at)}`:"–";$("scanInfo").textContent=`Scans: ${c.scan_count||0} · Letzter Scan: ${dt(c.last_scan)} · Universe-Stand: ${dt(c.universe_generated_at)} · News-Radar: ${dt(c.news_radar_updated_at)}`;$("aiSummary").textContent=`KI: ${c.ai_last_summary||"noch keine Marktentscheidung"}`;
+  $("endTime").textContent=c.ends_at?`Ende ${dt(c.ends_at)}`:"–";
+  const modeText=newsOnly?`NEWS-ONLY · ${c.closed_symbols||0} Werte ohne Kursabfrage`:`Offen: ${markets.join(", ")||"Markt"} · ${c.open_symbols||0} Werte mit Kursprüfung · ${c.closed_symbols||0} nur News`;
+  $("scanInfo").textContent=`${modeText} · Scans: ${c.scan_count||0} · Letzter Scan: ${dt(c.last_scan)} · News-Radar: ${dt(c.news_radar_updated_at)}`;
+  $("aiSummary").textContent=`KI: ${c.ai_last_summary||"noch keine Marktentscheidung"}`;
   $("executionInfo").textContent=`Aktuelles Modell: ${money(m.feeFixed??1)} je Kauf/Verkauf · Ausführungspuffer ${fmt(m.slippagePercent??.1,2)}% normal / ${fmt(m.leveragedSlippagePercent??.2,2)}% Hebel · Mindestorder aus Kostenbremse ca. ${money(m.minOrderNormal??0)} normal / ${money(m.minOrderLeveraged??0)} Hebel.`;
   if(c.last_error){$("errorBox").style.display="block";$("errorBox").textContent=`Letzter Fehler: ${c.last_error}`}else $("errorBox").style.display="none";
 
@@ -53,10 +62,15 @@ async function load(){
   }
 
   $("positionsBody").innerHTML=s.positions.map(p=>{const value=p.invested*(p.last_price/p.entry_price),pl=value-p.invested-(p.entry_fee||0);return `<tr><td><b>${p.symbol}</b><br><span class="muted">${p.name||""}</span></td><td><span class="type">${p.instrument_type}</span></td><td>${money(p.invested)}</td><td>${money(p.entry_fee||0)}</td><td>${fmt(p.last_price,3)}</td><td class="${pl>=0?"good":"bad"}">${pl>=0?"+":""}${money(pl)}</td></tr>`}).join("")||'<tr><td colspan="6" class="muted">Keine offene Position.</td></tr>';
-  $("candidatesBody").innerHTML=s.candidates.map(x=>`<tr><td><b>${x.symbol}</b><br><span class="muted">${x.name||""}</span></td><td><span class="type">${x.instrument_type}</span></td><td class="${x.score>=5?"good":x.score<0?"bad":""}"><b>${fmt(x.score,2)}</b></td><td>${pct(x.day_change)}</td><td>${pct(x.momentum5)}</td><td>${x.rsi==null?"–":fmt(x.rsi,1)}</td><td class="${x.news_score>0?"good":x.news_score<0?"bad":""}">${fmt(x.news_score,1)}</td><td>${x.reason||""}</td></tr>`).join("")||'<tr><td colspan="8" class="muted">Keine frischen Kurssignale. Der News-Radar läuft trotzdem weiter.</td></tr>';
+  $("candidatesBody").innerHTML=s.candidates.map(x=>`<tr><td><b>${x.symbol}</b><br><span class="muted">${x.name||""}</span></td><td><span class="type">${x.instrument_type}</span></td><td class="${x.score>=5?"good":x.score<0?"bad":""}"><b>${fmt(x.score,2)}</b></td><td>${pct(x.day_change)}</td><td>${pct(x.momentum5)}</td><td>${x.rsi==null?"–":fmt(x.rsi,1)}</td><td class="${x.news_score>0?"good":x.news_score<0?"bad":""}">${fmt(x.news_score,1)}</td><td>${x.reason||""}</td></tr>`).join("")||`<tr><td colspan="8" class="muted">${newsOnly?"Börsen geschlossen: bewusst keine Kurssignale. Der News-Radar läuft weiter.":"Keine frischen handelbaren Kurssignale."}</td></tr>`;
 
-  const trend=c.news_tendency_label||"NEUTRAL";$("newsTrendPill").textContent=`${trend} · ${fmt(c.news_tendency_score||0,2)}`;$("newsTrendPill").className=`trend ${trendClass(trend)}`;$("newsTrendSummary").textContent=c.news_tendency_summary||"Noch keine ausreichende Nachrichtenbasis.";$("newsRadarInfo").textContent=`Letzte Radar-Aktualisierung: ${dt(c.news_radar_updated_at)} · Der Radar prüft rotierend auch bei geschlossenem Markt.`;
-  $("newsRadarBody").innerHTML=(s.newsRadar||[]).map(n=>`<tr><td><b>${n.symbol}</b><br><span class="muted">${n.name||""}</span></td><td><span class="trend ${trendClass(n.tendency)}">${n.tendency}</span></td><td class="${n.news_score>0?"good":n.news_score<0?"bad":""}">${n.news_score>=0?"+":""}${fmt(n.news_score,2)}</td><td>${n.headline||""}<br><span class="muted">${n.news_at?dt(n.news_at):""}</span></td></tr>`).join("")||'<tr><td colspan="4" class="muted">Der News-Radar sammelt noch Daten.</td></tr>';
+  const trend=c.news_tendency_label||"NEUTRAL";$("newsTrendPill").textContent=`${trend} · ${fmt(c.news_tendency_score||0,2)}`;$("newsTrendPill").className=`trend ${trendClass(trend)}`;$("newsTrendSummary").textContent=c.news_tendency_summary||"Noch keine ausreichende Nachrichtenbasis.";
+  $("newsRadarInfo").textContent=`Neueste News werden am stärksten gewichtet: ≤15 Min sehr stark, danach schneller Verfall; nach 24 Std nur noch geringer Einfluss, nach 36 Std kein Einfluss mehr. Quellen: Yahoo + GDELT + SEC/EDGAR soweit verfügbar. Letzte Aktualisierung: ${dt(c.news_radar_updated_at)}.`;
+  $("newsRadarBody").innerHTML=(s.newsRadar||[]).map(n=>{
+    const sources=parseList(n.sources),src=sources.length?sources.join(" + "):"Quelle nicht markiert",confirmed=sources.length>=2?` · ${sources.length} Quellen bestätigt`:"";
+    return `<tr><td><b>${n.symbol}</b><br><span class="muted">${n.name||""}${n.theme?` · ${n.theme}`:""}</span></td><td><span class="trend ${trendClass(n.tendency)}">${n.tendency}</span></td><td class="${n.news_score>0?"good":n.news_score<0?"bad":""}">${n.news_score>=0?"+":""}${fmt(n.news_score,2)}<br><span class="muted">Konf. ${fmt((n.confidence||0)*100,0)}%</span></td><td>${n.headline||""}<br><span class="muted"><b>${ageText(n.news_at)}</b> · ${dt(n.news_at)} · ${src}${confirmed}</span></td></tr>`
+  }).join("")||'<tr><td colspan="4" class="muted">Der News-Radar sammelt noch aktuelle Meldungen.</td></tr>';
+
   $("historyBody").innerHTML=s.history.map(h=>`<tr><td>${historyTime(h)}</td><td class="${actionClass(h.action)}"><b>${h.action}</b></td><td>${h.symbol||"–"}</td><td class="${h.amount>0?"good":h.amount<0?"yellow":""}">${h.amount?`${h.amount>0?"+":""}${money(h.amount)}`:"–"}</td><td>${h.fee?money(h.fee):"–"}</td><td>${money(h.cash_after)}</td><td>${money(h.equity)}</td><td class="${h.total_pnl>=0?"good":"bad"}">${h.total_pnl>=0?"+":""}${money(h.total_pnl)}</td><td>${h.reason||""}</td></tr>`).join("")||'<tr><td colspan="9" class="muted">Noch keine History.</td></tr>';
   drawChart(s.snapshots);drawAllocation(s.positions,Number(c.cash));
  }catch(e){$("errorBox").style.display="block";$("errorBox").textContent=e.message}
