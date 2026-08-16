@@ -1,0 +1,39 @@
+name: Refresh Market Calendars
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/refresh_calendars.py"
+      - ".github/workflows/refresh-calendars.yml"
+  schedule:
+    - cron: "31 2 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install exchange calendars
+        run: python -m pip install "exchange-calendars>=4,<5"
+      - name: Refresh exchange sessions
+        run: python scripts/refresh_calendars.py
+      - name: Commit changed calendar
+        shell: bash
+        run: |
+          if git diff --quiet -- public/market-calendar.json; then
+            echo "Calendar unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/market-calendar.json
+          git commit -m "chore: refresh exchange calendars"
+          git push
