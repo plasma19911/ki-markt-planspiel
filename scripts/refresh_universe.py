@@ -1,23 +1,17 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import json
-import math
-import re
-import unicodedata
+import json, math, re, unicodedata
 from datetime import datetime, timezone
 from pathlib import Path
 import yfinance as yf
 
-OUT = Path(__file__).resolve().parents[1] / "public" / "universe.json"
-REGIONS = ["us","ca","gb","de","fr","ch","nl","se","dk","no","fi","it","es","be","at","jp","hk","cn","tw","kr","in","au","sg","br","mx","za"]
-PRIMARY_EXCHANGES = {
-    "us":{"NMS","NYQ","NGM","NCM","ASE","PCX"},"ca":{"TOR","VAN","NEO"},"gb":{"LSE"},"de":{"GER"},"fr":{"PAR"},"ch":{"EBS"},"nl":{"AMS"},"se":{"STO"},"dk":{"CPH"},"no":{"OSL"},"fi":{"HEL"},"it":{"MIL"},"es":{"MCE"},"be":{"BRU"},"at":{"VIE"},"jp":{"JPX","TYO"},"hk":{"HKG"},"cn":{"SHH","SHZ"},"tw":{"TAI","TWO"},"kr":{"KSC","KOE"},"in":{"NSI","BSE"},"au":{"ASX"},"sg":{"SES"},"br":{"SAO"},"mx":{"MEX"},"za":{"JNB"}
-}
+OUT=Path(__file__).resolve().parents[1]/"public"/"universe.json"
+REGIONS=["us","ca","gb","de","fr","ch","nl","se","dk","no","fi","it","es","be","at","jp","hk","cn","tw","kr","in","au","sg","br","mx","za"]
+PRIMARY_EXCHANGES={"us":{"NMS","NYQ","NGM","NCM","ASE","PCX"},"ca":{"TOR","VAN","NEO"},"gb":{"LSE"},"de":{"GER"},"fr":{"PAR"},"ch":{"EBS"},"nl":{"AMS"},"se":{"STO"},"dk":{"CPH"},"no":{"OSL"},"fi":{"HEL"},"it":{"MIL"},"es":{"MCE"},"be":{"BRU"},"at":{"VIE"},"jp":{"JPX","TYO"},"hk":{"HKG"},"cn":{"SHH","SHZ"},"tw":{"TAI","TWO"},"kr":{"KSC","KOE"},"in":{"NSI","BSE"},"au":{"ASX"},"sg":{"SES"},"br":{"SAO"},"mx":{"MEX"},"za":{"JNB"}}
 LISTING_WORDS={"INC","INCORPORATED","CORP","CORPORATION","CO","COMPANY","LTD","LIMITED","PLC","AG","SE","NV","SA","SPA","HOLDING","HOLDINGS","GROUP","ORD","ORDINARY","SHARE","SHARES","SHS","REGISTERED","REG","R","ADR","GDR","CDR","DRN","BDR","ED","HEDGED","HEDGE","ADS","UNIT","UNITS","STOCK","CLASS","CL","SERIES","THE","AND","A","B","C","D","I","II","III"}
 GENERIC_WORDS={"UNITED","GLOBAL","INTERNATIONAL","TECHNOLOGY","TECHNOLOGIES","INDUSTRIES","INDUSTRIAL","ENERGY","SYSTEMS","FINANCIAL","SERVICES","HOLDING","HOLDINGS","GROUP","COMPANY","BANK","BANCO","BANKING"}
 MAX_PLAUSIBLE_MCAP_USD=10_000_000_000_000.0
 MIN_AVG_VOLUME=100.0
-
 
 def scalar(v,default=0):
     if isinstance(v,dict):
@@ -64,36 +58,34 @@ def raw_tokens(name):
     return [t for t in text.split() if t]
 
 def meaningful_tokens(name):
-    toks=[]
+    out=[]
     for t in raw_tokens(name):
         if t in LISTING_WORDS or t in {"USD","EUR","CAD","CHF","GBP","BRL","MXN"} or len(t)<=1:continue
         s=t[:9] if len(t)>9 else t
-        if not toks or toks[-1]!=s:toks.append(s)
-    return toks
+        if not out or out[-1]!=s:out.append(s)
+    return out
 
 def company_key(name,symbol):
-    toks=meaningful_tokens(name);return " ".join(toks[:7]) if toks else re.sub(r"[^A-Z0-9]","",symbol.split(".")[0])
+    t=meaningful_tokens(name);return " ".join(t[:7]) if t else re.sub(r"[^A-Z0-9]","",symbol.split(".")[0])
 
 def alpha_root(symbol):return re.sub(r"[^A-Z]","",str(symbol or "").split('.')[0].upper())
 
 def representative_score(item):
-    region=str(item.get("region") or "").lower();exchange=str(item.get("exchange") or "").upper();name=str(item.get("name") or "").upper();symbol=str(item.get("symbol") or "")
-    primary=1 if exchange in PRIMARY_EXCHANGES.get(region,set()) else 0;depositary=1 if re.search(r"\b(ADR|GDR|CDR|DRN|BDR|ADS)\b",name) else 0;volume=max(0.0,scalar(item.get("avgVolume"),0))
-    return(primary,-depositary,math.log10(volume+1.0),-len(symbol),item.get("marketCapUSD",0.0))
+    region=str(item.get("region") or "").lower();ex=str(item.get("exchange") or "").upper();name=str(item.get("name") or "").upper();sym=str(item.get("symbol") or "");primary=1 if ex in PRIMARY_EXCHANGES.get(region,set()) else 0;dep=1 if re.search(r"\b(ADR|GDR|CDR|DRN|BDR|ADS)\b",name) else 0;vol=max(0.0,scalar(item.get("avgVolume"),0))
+    return(primary,-dep,math.log10(vol+1.0),-len(sym),item.get("marketCapUSD",0.0))
 
 def fuzzy_same_company(a,b):
     ca,cb=float(a.get("marketCapUSD") or 0),float(b.get("marketCapUSD") or 0)
     if ca<=0 or cb<=0 or abs(ca-cb)/max(ca,cb)>0.04:return False
-    ta=set(meaningful_tokens(a.get("name")));tb=set(meaningful_tokens(b.get("name")))
-    # Vierbuchstabige Marken wie META/FORD/SONY muessen ebenfalls Cross-Listings erkennen.
-    distinct_a={x for x in ta if x not in GENERIC_WORDS and len(x)>=4};distinct_b={x for x in tb if x not in GENERIC_WORDS and len(x)>=4}
-    if distinct_a & distinct_b:return True
+    ta,tb=set(meaningful_tokens(a.get("name"))),set(meaningful_tokens(b.get("name")))
+    da={x for x in ta if x not in GENERIC_WORDS and len(x)>=4};db={x for x in tb if x not in GENERIC_WORDS and len(x)>=4}
+    if da&db:return True
     ra,rb=alpha_root(a.get("symbol")),alpha_root(b.get("symbol"));common=0
     for x,y in zip(ra,rb):
         if x!=y:break
         common+=1
     if common>=4:return True
-    union=ta|tb;inter=ta&tb;j=len(inter)/len(union) if union else 0
+    u=ta|tb;i=ta&tb;j=len(i)/len(u) if u else 0
     return common>=3 and j>=0.20
 
 def second_pass_dedupe(items):
@@ -101,7 +93,7 @@ def second_pass_dedupe(items):
     for item in rows:
         match=None
         for old in reversed(out[-100:]):
-            oc=float(old.get("marketCapUSD") or 0);ic=float(item.get("marketCapUSD") or 0)
+            oc,ic=float(old.get("marketCapUSD") or 0),float(item.get("marketCapUSD") or 0)
             if oc and ic and abs(oc-ic)/max(oc,ic)>0.04:continue
             if fuzzy_same_company(item,old):match=old;break
         if match is None:out.append(item)
@@ -118,41 +110,37 @@ def main():
     for off in (0,250,500,750,1000):
         try:rows.extend(broad_fallback(off))
         except Exception as e:failures.append(f"broad-{off}: {e}")
-
-    raw_items=[];currencies=[]
+    raw=[];curr=[]
     for q in rows:
-        symbol=str(q.get("symbol") or "").strip().upper();qt=str(q.get("quoteType") or "EQUITY").upper();mcap=scalar(q.get("marketCap"),scalar(q.get("intradaymarketcap"),0))
-        if not symbol or qt not in ("EQUITY","") or mcap<=0:continue
-        currency=str(q.get("currency") or "USD").strip() or "USD";currencies.append(currency);raw_items.append((q,symbol,mcap,currency))
-    fx,fx_failures=build_fx_map(currencies)
-    if fx_failures:failures.append("FX missing: "+", ".join(sorted(set(fx_failures))))
-
-    by_symbol={};outlier_count=0;receipt_count=0;illiquid_count=0
-    for q,symbol,mcap,currency in raw_items:
-        rate=fx.get(currency)
+        sym=str(q.get("symbol") or "").strip().upper();qt=str(q.get("quoteType") or "EQUITY").upper();mcap=scalar(q.get("marketCap"),scalar(q.get("intradaymarketcap"),0))
+        if not sym or qt not in ("EQUITY","") or mcap<=0:continue
+        cur=str(q.get("currency") or "USD").strip() or "USD";curr.append(cur);raw.append((q,sym,mcap,cur))
+    fx,fx_fail=build_fx_map(curr)
+    if fx_fail:failures.append("FX missing: "+", ".join(sorted(set(fx_fail))))
+    by_symbol={};outliers=receipts=illiquid=0
+    for q,sym,mcap,cur in raw:
+        rate=fx.get(cur)
         if not rate or rate<=0:continue
-        musd=mcap*rate;name=q.get("longName") or q.get("shortName") or q.get("displayName") or symbol;avgvol=scalar(q.get("averageDailyVolume3Month"),scalar(q.get("averageDailyVolume10Day"),0))
-        # Yahoo-Screener kann einzelne internationale Hüllen mit offensichtlich falscher Skalierung liefern.
-        if musd<=0 or musd>MAX_PLAUSIBLE_MCAP_USD:outlier_count+=1;continue
-        if avgvol>0 and avgvol<MIN_AVG_VOLUME:illiquid_count+=1;continue
-        # CDR/DRN/BDR sind fuer dieses globale Firmenuniversum reine Sekundaerhuellen und erzeugen Duplikate.
-        if re.search(r"\b(CDR|DRN|BDR)\b",str(name).upper()):receipt_count+=1;continue
-        item={"symbol":symbol,"name":name,"marketCap":mcap,"marketCapUSD":musd,"region":q.get("region"),"exchange":q.get("exchange"),"currency":currency,"sector":q.get("sector") or q.get("sectorDisp"),"industry":q.get("industry") or q.get("industryDisp"),"avgVolume":avgvol}
-        item["companyKey"]=company_key(name,symbol);old=by_symbol.get(symbol)
-        if old is None or musd>old["marketCapUSD"]:by_symbol[symbol]=item
-
-    by_company={};exact_collapsed=0
+        musd=mcap*rate;name=q.get("longName") or q.get("shortName") or q.get("displayName") or sym;avgvol=scalar(q.get("averageDailyVolume3Month"),scalar(q.get("averageDailyVolume10Day"),0))
+        if musd<=0 or musd>MAX_PLAUSIBLE_MCAP_USD:outliers+=1;continue
+        # Mega-Caps mit nur wenigen hundert Stueck Tagesvolumen sind fast immer skalierte Sekundaerhuellen.
+        if (avgvol>0 and avgvol<MIN_AVG_VOLUME) or (musd>500e9 and avgvol<10_000) or (musd>100e9 and avgvol<1_000):illiquid+=1;continue
+        # Brasilianische BDRs tragen haeufig 34/35 vor .SA, auch wenn Yahoo im Langnamen nicht "BDR" schreibt.
+        if re.search(r"\b(CDR|DRN|BDR)\b",str(name).upper()) or re.search(r"(?:34|35)\.SA$",sym):receipts+=1;continue
+        item={"symbol":sym,"name":name,"marketCap":mcap,"marketCapUSD":musd,"region":q.get("region"),"exchange":q.get("exchange"),"currency":cur,"sector":q.get("sector") or q.get("sectorDisp"),"industry":q.get("industry") or q.get("industryDisp"),"avgVolume":avgvol};item["companyKey"]=company_key(name,sym)
+        old=by_symbol.get(sym)
+        if old is None or musd>old["marketCapUSD"]:by_symbol[sym]=item
+    by_company={};exact=0
     for item in by_symbol.values():
-        key=item["companyKey"];old=by_company.get(key)
-        if old is None:by_company[key]=item
+        k=item["companyKey"];old=by_company.get(k)
+        if old is None:by_company[k]=item
         else:
-            exact_collapsed+=1
-            if representative_score(item)>representative_score(old):by_company[key]=item
-    unique,fuzzy_collapsed=second_pass_dedupe(list(by_company.values()));top=sorted(unique,key=lambda x:x["marketCapUSD"],reverse=True)[:500]
+            exact+=1
+            if representative_score(item)>representative_score(old):by_company[k]=item
+    unique,fuzzy=second_pass_dedupe(list(by_company.values()));top=sorted(unique,key=lambda x:x["marketCapUSD"],reverse=True)[:500]
     if len(top)<450:raise RuntimeError(f"Only {len(top)} unique plausible companies found; refusing overwrite. Failures: {failures[:5]}")
-
-    payload={"generated_at":datetime.now(timezone.utc).isoformat().replace("+00:00","Z"),"source":"yfinance Yahoo EquityQuery; FX-normalized representative listings; outlier/liquidity guard; exact+fuzzy cross-listing dedupe","count":len(top),"unique_companies":len(top),"raw_unique_symbols":len(by_symbol),"duplicate_listings_collapsed":exact_collapsed+fuzzy_collapsed,"exact_duplicates_collapsed":exact_collapsed,"fuzzy_duplicates_collapsed":fuzzy_collapsed,"rejected_implausible_market_caps":outlier_count,"rejected_secondary_receipts":receipt_count,"rejected_ultra_illiquid":illiquid_count,"equities":top}
-    OUT.write_text(json.dumps(payload,ensure_ascii=False,indent=2),encoding="utf-8");print(f"Wrote {len(top)} companies; exact={exact_collapsed}, fuzzy={fuzzy_collapsed}, outliers={outlier_count}, receipts={receipt_count}, illiquid={illiquid_count}")
+    payload={"generated_at":datetime.now(timezone.utc).isoformat().replace("+00:00","Z"),"source":"yfinance Yahoo EquityQuery; FX-normalized representative listings; market-cap/liquidity guards; BDR filter; exact+fuzzy cross-listing dedupe","count":len(top),"unique_companies":len(top),"raw_unique_symbols":len(by_symbol),"duplicate_listings_collapsed":exact+fuzzy,"exact_duplicates_collapsed":exact,"fuzzy_duplicates_collapsed":fuzzy,"rejected_implausible_market_caps":outliers,"rejected_secondary_receipts":receipts,"rejected_implausible_liquidity":illiquid,"equities":top}
+    OUT.write_text(json.dumps(payload,ensure_ascii=False,indent=2),encoding="utf-8");print(f"Wrote {len(top)} companies; exact={exact}, fuzzy={fuzzy}, outliers={outliers}, receipts={receipts}, illiquid={illiquid}")
     if failures:print("Warnings:",failures)
 
 if __name__=="__main__":main()
