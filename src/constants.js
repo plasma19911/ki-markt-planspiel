@@ -6,6 +6,8 @@ export const NEWS_RADAR_BATCH = 8;
 
 export const CORE_ETFS = [
  ['SPY','SPDR S&P 500 ETF Trust'],['QQQ','Invesco QQQ Trust'],['VTI','Vanguard Total Stock Market ETF'],
+ ['VWCE.DE','Vanguard FTSE All-World UCITS ETF USD Accumulating (A2PXXG)'],
+ ['EXXT.DE','iShares NASDAQ-100 UCITS ETF (DE) (A0F5UF)'],
  ['IWM','iShares Russell 2000 ETF'],['DIA','SPDR Dow Jones Industrial Average ETF'],['XLK','Technology Select Sector SPDR'],
  ['XLF','Financial Select Sector SPDR'],['XLE','Energy Select Sector SPDR'],['XLV','Health Care Select Sector SPDR'],
  ['GLD','SPDR Gold Shares'],['TLT','iShares 20+ Year Treasury Bond ETF'],['EEM','iShares MSCI Emerging Markets ETF'],
