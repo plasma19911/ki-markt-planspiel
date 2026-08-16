@@ -1,5 +1,8 @@
 import {MarketPortfolio as FinalPortfolio} from './portfolio-final.js';
 
+const EMPTY_RSS='<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>disabled</title></channel></rss>';
+const parentScan=Object.getPrototypeOf(FinalPortfolio.prototype).scan;
+
 export class MarketPortfolio extends FinalPortfolio {
   async start(options={}) {
     const r=await super.start({...options,includeEtfs:true,includeLeverage:false});
@@ -15,11 +18,22 @@ export class MarketPortfolio extends FinalPortfolio {
 
   async scan() {
     this.ctx.storage.sql.exec('UPDATE config SET include_etfs=1,include_leverage=0 WHERE id=1');
-    // Alte Papierpositionen aus frueheren Versionen sauber glattstellen, statt sie unsichtbar zu machen.
     for (const p of this.positions().filter(x=>x.instrument_type==='LEVERAGED_ETF')) {
       this.close(p.symbol,p.last_price,p.last_fx,p.score,'Hebel-/Inverse-Produkte wurden aus dem Planspiel entfernt');
     }
-    return super.scan();
+
+    // portfolio-final.js stammt aus der frueheren All-Assets-Version und aktiviert in seiner
+    // eigenen scan()-Methode Hebel wieder. Deshalb rufen wir gezielt dessen Eltern-Scanner auf.
+    // Dynamische Methoden wie aiPlan/open/upsertHealth bleiben trotzdem unsere aktuellen Overrides.
+    const nativeFetch=globalThis.fetch;
+    globalThis.fetch=async(input,init)=>{
+      try{
+        const raw=typeof input==='string'||input instanceof URL?String(input):input?.url;
+        if(raw&&new URL(raw).hostname==='news.google.com')return new Response(EMPTY_RSS,{status:200,headers:{'content-type':'application/rss+xml;charset=utf-8','cache-control':'public,max-age=900'}});
+      }catch{}
+      return nativeFetch(input,init);
+    };
+    try{return await parentScan.call(this)}finally{globalThis.fetch=nativeFetch}
   }
 
   open(candidate,pct,reason) {
