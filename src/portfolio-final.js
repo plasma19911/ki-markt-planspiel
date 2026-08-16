@@ -6,40 +6,24 @@ const EMPTY_RSS='<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><chann
 
 export class MarketPortfolio extends ProdPortfolio{
   upsertHealth(h){
-    // Nicht mehr produktiv genutzte/instabile Quellen sofort aus persistentem Health entfernen.
     this.ctx.storage.sql.exec("DELETE FROM source_health WHERE source IN ('GDELT','SEC/EDGAR','Google News')");
-    const clean={};
-    for(const [source,x] of Object.entries(h||{}))if(!REMOVED_SOURCES.has(source))clean[source]=x;
+    const clean={};for(const [source,x] of Object.entries(h||{}))if(!REMOVED_SOURCES.has(source))clean[source]=x;
     return super.upsertHealth(clean);
   }
 
   async scan(){
-    // Google News RSS liefert aus Cloudflare-Isolates wiederholt 503. Der alte V3-Pfad
-    // versucht die URL noch; wir fangen ausschließlich news.google.com lokal ab, sodass
-    // keine nutzlosen externen Requests entstehen. Andere Newsquellen laufen normal weiter.
     const nativeFetch=globalThis.fetch;
     globalThis.fetch=async(input,init)=>{
-      try{
-        const raw=typeof input==='string'||input instanceof URL?String(input):input?.url;
-        if(raw&&new URL(raw).hostname==='news.google.com')return new Response(EMPTY_RSS,{status:200,headers:{'content-type':'application/rss+xml;charset=utf-8','cache-control':'public,max-age=900'}});
-      }catch{}
+      try{const raw=typeof input==='string'||input instanceof URL?String(input):input?.url;if(raw&&new URL(raw).hostname==='news.google.com')return new Response(EMPTY_RSS,{status:200,headers:{'content-type':'application/rss+xml;charset=utf-8','cache-control':'public,max-age=900'}})}catch{}
       return nativeFetch(input,init);
     };
     try{return await super.scan()}finally{globalThis.fetch=nativeFetch}
   }
 
-  async status(){
-    const s=await super.status();
-    s.sourceHealth=(s.sourceHealth||[]).filter(x=>!REMOVED_SOURCES.has(x.source));
-    return s;
-  }
+  async status(){const s=await super.status();s.sourceHealth=(s.sourceHealth||[]).filter(x=>!REMOVED_SOURCES.has(x.source));return s}
 
   async lastWeek(){
     const c=this.cfg(),m=this.executionModel(c);
-    return runLastWeekHindsight(this.env,{
-      feeFixed:m.feeFixed,
-      feePercent:m.feePercent,
-      slippagePercent:m.slippagePercent
-    });
+    return runLastWeekHindsight(this.env,{feeFixed:m.feeFixed,feePercent:m.feePercent,slippagePercent:m.slippagePercent,leveragedSlippagePercent:m.leveragedSlippagePercent});
   }
 }
