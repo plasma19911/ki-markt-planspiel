@@ -14,9 +14,6 @@ REGIONS = [
     "jp","hk","cn","tw","kr","in","au","sg","br","mx","za"
 ]
 
-# Yahoo-Exchange-Codes, die fuer die jeweilige Region typischerweise die primaere/native
-# Notierung darstellen. Sekundaerlistings bleiben als Kandidaten fuer die Gruppierung, werden
-# aber nicht als eigene Unternehmen gezaehlt.
 PRIMARY_EXCHANGES = {
     "us": {"NMS","NYQ","NGM","NCM","ASE","PCX"},
     "ca": {"TOR","VAN","NEO"}, "gb": {"LSE"}, "de": {"GER"}, "fr": {"PAR"},
@@ -101,10 +98,8 @@ def company_key(name: str, symbol: str) -> str:
     for t in text.split():
         if t in LISTING_WORDS or len(t) <= 1:
             continue
-        # Typische reine Listing-/Waehrungsanhaenge entfernen.
         if t in {"USD","EUR","CAD","CHF","GBP","BRL","MXN"}:
             continue
-        # Leichtes Stemmen gleicht z.B. MANUFACTURING / MANUFACT oder TECHNOLOGIES / TECHNOLOGY an.
         s = t[:9] if len(t) > 9 else t
         if not toks or toks[-1] != s:
             toks.append(s)
@@ -120,7 +115,6 @@ def representative_score(item: dict) -> tuple:
     primary = 1 if exchange in PRIMARY_EXCHANGES.get(region, set()) else 0
     depositary = 1 if re.search(r"\b(ADR|GDR|CDR|DRN|BDR|ADS)\b", name) else 0
     volume = max(0.0, scalar(item.get("avgVolume"), 0))
-    # Primaer/native zuerst; dann keine Depositary-Receipt-Huelle; dann Liquiditaet/kuerzerer Ticker.
     return (primary, -depositary, math.log10(volume + 1.0), -len(symbol), item.get("marketCapUSD", 0.0))
 
 def main():
@@ -132,8 +126,6 @@ def main():
         except Exception as e:
             failures.append(f"{region}: {e}")
 
-    # Fuer 500 EINDEUTIGE Firmen brauchen wir deutlich mehr Roh-Listings, weil Yahoo pro Firma
-    # viele internationale Sekundaerlistings liefert.
     if len(rows) < 1500:
         for off in (0,250,500,750,1000):
             try:
@@ -161,7 +153,6 @@ def main():
     if fx_failures:
         failures.append("FX missing: " + ", ".join(sorted(set(fx_failures))))
 
-    # Erst identische Ticker deduplizieren.
     by_symbol={}
     for q,symbol,market_cap_local,currency in raw_items:
         rate=fx.get(currency)
@@ -186,13 +177,13 @@ def main():
         if old is None or market_cap_usd > old["marketCapUSD"]:
             by_symbol[symbol]=item
 
-    # Dann internationale Mehrfachlistings derselben Firma zu EINEM Unternehmen gruppieren.
+    # Internationale Listings werden zu EINER Firma gruppiert. Die Marktkapitalisierung fuer
+    # die Rangfolge stammt bewusst von genau der ausgewaehlten repraesentativen Notierung;
+    # ein fehlerhaft skaliertes Sekundaerlisting darf die Firma nicht kuenstlich aufblasen.
     by_company={}
-    company_caps={}
     duplicate_listings=0
     for item in by_symbol.values():
         key=item["companyKey"]
-        company_caps[key]=max(company_caps.get(key,0.0),item["marketCapUSD"])
         old=by_company.get(key)
         if old is None:
             by_company[key]=item
@@ -201,11 +192,7 @@ def main():
             if representative_score(item) > representative_score(old):
                 by_company[key]=item
 
-    unique=[]
-    for key,item in by_company.items():
-        item=dict(item)
-        item["marketCapUSD"]=company_caps[key]
-        unique.append(item)
+    unique=[dict(item) for item in by_company.values()]
     top=sorted(unique, key=lambda x:x["marketCapUSD"], reverse=True)[:500]
 
     if len(top) < 450:
@@ -213,7 +200,7 @@ def main():
 
     payload={
         "generated_at":datetime.now(timezone.utc).isoformat().replace("+00:00","Z"),
-        "source":"yfinance Yahoo EquityQuery; global region aggregation; FX-normalized market caps; international listings deduplicated to unique companies",
+        "source":"yfinance Yahoo EquityQuery; global region aggregation; FX-normalized representative-listing market caps; international listings deduplicated to unique companies",
         "count":len(top),
         "unique_companies":len(top),
         "raw_unique_symbols":len(by_symbol),
