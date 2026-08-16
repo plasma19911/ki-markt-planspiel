@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 import json
+import math
+import re
+import unicodedata
 from datetime import datetime, timezone
 from pathlib import Path
 import yfinance as yf
@@ -10,6 +13,26 @@ REGIONS = [
     "us","ca","gb","de","fr","ch","nl","se","dk","no","fi","it","es","be","at",
     "jp","hk","cn","tw","kr","in","au","sg","br","mx","za"
 ]
+
+# Yahoo-Exchange-Codes, die fuer die jeweilige Region typischerweise die primaere/native
+# Notierung darstellen. Sekundaerlistings bleiben als Kandidaten fuer die Gruppierung, werden
+# aber nicht als eigene Unternehmen gezaehlt.
+PRIMARY_EXCHANGES = {
+    "us": {"NMS","NYQ","NGM","NCM","ASE","PCX"},
+    "ca": {"TOR","VAN","NEO"}, "gb": {"LSE"}, "de": {"GER"}, "fr": {"PAR"},
+    "ch": {"EBS"}, "nl": {"AMS"}, "se": {"STO"}, "dk": {"CPH"}, "no": {"OSL"},
+    "fi": {"HEL"}, "it": {"MIL"}, "es": {"MCE"}, "be": {"BRU"}, "at": {"VIE"},
+    "jp": {"JPX","TYO"}, "hk": {"HKG"}, "cn": {"SHH","SHZ"}, "tw": {"TAI","TWO"},
+    "kr": {"KSC","KOE"}, "in": {"NSI","BSE"}, "au": {"ASX"}, "sg": {"SES"},
+    "br": {"SAO"}, "mx": {"MEX"}, "za": {"JNB"},
+}
+
+LISTING_WORDS = {
+    "INC","INCORPORATED","CORP","CORPORATION","CO","COMPANY","LTD","LIMITED","PLC","AG","SE","NV","SA","SPA",
+    "HOLDING","HOLDINGS","GROUP","ORD","ORDINARY","SHARE","SHARES","SHS","REGISTERED","REG","R",
+    "ADR","GDR","CDR","DRN","BDR","ED","HEDGED","HEDGE","ADS","UNIT","UNITS","STOCK",
+    "CLASS","CL","SERIES","THE","AND","A","B","C","D","I","II","III"
+}
 
 def scalar(v, default=0):
     if isinstance(v, dict):
@@ -51,7 +74,6 @@ def build_fx_map(currencies):
         c = str(raw).strip()
         if not c or c == "USD":
             continue
-        # Yahoo nutzt bei einigen London-Listings GBp (Pence). MarketCap folgt der Quote-Waehrung.
         if c.lower() in ("gbp", "gbp."):
             c = "GBP"
         if c == "GBp":
@@ -72,6 +94,35 @@ def build_fx_map(currencies):
         failures.append(raw)
     return fx, failures
 
+def company_key(name: str, symbol: str) -> str:
+    text = unicodedata.normalize("NFKD", str(name or "")).encode("ascii", "ignore").decode("ascii").upper()
+    text = re.sub(r"[^A-Z0-9]+", " ", text)
+    toks = []
+    for t in text.split():
+        if t in LISTING_WORDS or len(t) <= 1:
+            continue
+        # Typische reine Listing-/Waehrungsanhaenge entfernen.
+        if t in {"USD","EUR","CAD","CHF","GBP","BRL","MXN"}:
+            continue
+        # Leichtes Stemmen gleicht z.B. MANUFACTURING / MANUFACT oder TECHNOLOGIES / TECHNOLOGY an.
+        s = t[:9] if len(t) > 9 else t
+        if not toks or toks[-1] != s:
+            toks.append(s)
+    if not toks:
+        return re.sub(r"[^A-Z0-9]", "", symbol.split(".")[0])
+    return " ".join(toks[:7])
+
+def representative_score(item: dict) -> tuple:
+    region = str(item.get("region") or "").lower()
+    exchange = str(item.get("exchange") or "").upper()
+    name = str(item.get("name") or "").upper()
+    symbol = str(item.get("symbol") or "")
+    primary = 1 if exchange in PRIMARY_EXCHANGES.get(region, set()) else 0
+    depositary = 1 if re.search(r"\b(ADR|GDR|CDR|DRN|BDR|ADS)\b", name) else 0
+    volume = max(0.0, scalar(item.get("avgVolume"), 0))
+    # Primaer/native zuerst; dann keine Depositary-Receipt-Huelle; dann Liquiditaet/kuerzerer Ticker.
+    return (primary, -depositary, math.log10(volume + 1.0), -len(symbol), item.get("marketCapUSD", 0.0))
+
 def main():
     rows=[]
     failures=[]
@@ -81,8 +132,10 @@ def main():
         except Exception as e:
             failures.append(f"{region}: {e}")
 
-    if len(rows) < 700:
-        for off in (0,250):
+    # Fuer 500 EINDEUTIGE Firmen brauchen wir deutlich mehr Roh-Listings, weil Yahoo pro Firma
+    # viele internationale Sekundaerlistings liefert.
+    if len(rows) < 1500:
+        for off in (0,250,500,750,1000):
             try:
                 rows.extend(broad_fallback(off))
             except Exception as e:
@@ -108,39 +161,67 @@ def main():
     if fx_failures:
         failures.append("FX missing: " + ", ".join(sorted(set(fx_failures))))
 
+    # Erst identische Ticker deduplizieren.
     by_symbol={}
     for q,symbol,market_cap_local,currency in raw_items:
         rate=fx.get(currency)
         if not rate or rate <= 0:
             continue
         market_cap_usd=market_cap_local*rate
+        name=q.get("longName") or q.get("shortName") or q.get("displayName") or symbol
         item={
             "symbol":symbol,
-            "name":q.get("shortName") or q.get("longName") or q.get("displayName") or symbol,
+            "name":name,
             "marketCap":market_cap_local,
             "marketCapUSD":market_cap_usd,
             "region":q.get("region"),
             "exchange":q.get("exchange"),
             "currency":currency,
             "sector":q.get("sector") or q.get("sectorDisp"),
-            "industry":q.get("industry") or q.get("industryDisp")
+            "industry":q.get("industry") or q.get("industryDisp"),
+            "avgVolume":scalar(q.get("averageDailyVolume3Month"), scalar(q.get("averageDailyVolume10Day"), 0)),
         }
+        item["companyKey"]=company_key(name,symbol)
         old=by_symbol.get(symbol)
         if old is None or market_cap_usd > old["marketCapUSD"]:
             by_symbol[symbol]=item
 
-    top=sorted(by_symbol.values(), key=lambda x:x["marketCapUSD"], reverse=True)[:500]
+    # Dann internationale Mehrfachlistings derselben Firma zu EINEM Unternehmen gruppieren.
+    by_company={}
+    company_caps={}
+    duplicate_listings=0
+    for item in by_symbol.values():
+        key=item["companyKey"]
+        company_caps[key]=max(company_caps.get(key,0.0),item["marketCapUSD"])
+        old=by_company.get(key)
+        if old is None:
+            by_company[key]=item
+        else:
+            duplicate_listings+=1
+            if representative_score(item) > representative_score(old):
+                by_company[key]=item
+
+    unique=[]
+    for key,item in by_company.items():
+        item=dict(item)
+        item["marketCapUSD"]=company_caps[key]
+        unique.append(item)
+    top=sorted(unique, key=lambda x:x["marketCapUSD"], reverse=True)[:500]
+
     if len(top) < 450:
-        raise RuntimeError(f"Only {len(top)} usable FX-normalized equities found; refusing to overwrite existing universe. Failures: {failures[:5]}")
+        raise RuntimeError(f"Only {len(top)} unique FX-normalized companies found; refusing to overwrite existing universe. Failures: {failures[:5]}")
 
     payload={
         "generated_at":datetime.now(timezone.utc).isoformat().replace("+00:00","Z"),
-        "source":"yfinance Yahoo EquityQuery; global region aggregation; market caps FX-normalized to USD before ranking",
+        "source":"yfinance Yahoo EquityQuery; global region aggregation; FX-normalized market caps; international listings deduplicated to unique companies",
         "count":len(top),
+        "unique_companies":len(top),
+        "raw_unique_symbols":len(by_symbol),
+        "duplicate_listings_collapsed":duplicate_listings,
         "equities":top
     }
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Wrote {len(top)} FX-normalized equities to {OUT}")
+    print(f"Wrote {len(top)} unique FX-normalized companies to {OUT}; collapsed {duplicate_listings} duplicate listings")
     if failures:
         print("Warnings:", failures)
 
