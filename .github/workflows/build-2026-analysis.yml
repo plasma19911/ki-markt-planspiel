@@ -7,6 +7,7 @@ on:
     paths:
       - "scripts/build_2026_analysis.py"
       - "scripts/build_2026_analysis_safe.py"
+      - "scripts/build_2026_walkforward_causal.py"
       - "src/constants.js"
       - "src/priority-equities.js"
       - "public/universe.json"
@@ -19,7 +20,7 @@ permissions:
 
 concurrency:
   group: build-2026-analysis
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
