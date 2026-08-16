@@ -12,9 +12,8 @@ EXCLUDED = []
 MAX_FACTOR = 2.5
 MIN_FACTOR = 0.4
 
-# Die Live-App bewertet 1-Minuten-Momentum. Die 2026-Rekonstruktion hat fuer den gesamten
-# Zeitraum verlaesslich nur Tagesdaten. Deshalb werden nur die Eintrittsschwellen auf die
-# groebere Datenaufloesung kalibriert; Stop/Take und die restliche Signallogik bleiben gleich.
+# Historische Vollperiode nutzt Tagesdaten. Diese Schwellen sind fuer die Tagesaufloesung
+# kalibriert; die Rangfolge selbst ist seit causal-daily-v2 kontinuierlich statt diskret.
 base.STYLE = {
     'vorsichtig': {'entry': 4.0, 'stop': -0.018, 'take': 0.035},
     'ausgewogen': {'entry': 3.2, 'stop': -0.025, 'take': 0.055},
@@ -74,8 +73,13 @@ data['dataQuality'] = {
     'excluded': EXCLUDED,
 }
 data['walkForwardCalibration'] = {
-    'reason': 'Historische Vollperiode nutzt Tagesdaten statt 1-Minuten-Daten; Eintrittsschwellen fuer Tagesaufloesung kalibriert.',
+    'reason': 'Historische Vollperiode nutzt Tagesdaten statt 1-Minuten-Daten; Eintrittsschwellen sind fuer Tagesaufloesung kalibriert.',
     'styles': base.STYLE,
+    'modelVersion': 'causal-daily-v2',
+    'continuousRanking': True,
+    'duplicateListingsGrouped': True,
+    'stopExcludesFixedEntryFee': True,
+    'dynamicFeeAwareAllocation': True,
     'newsReconstructed': False,
     'causalExecution': 'Signal aus vollstaendig abgeschlossenem Vortag; Ausfuehrung fruehestens am folgenden verfuegbaren Handelstag.',
     'artificialSameDayEndTradesRemoved': True,
