@@ -20,7 +20,7 @@
   <div id="statusPill" class="pill">Lade …</div>
 </header>
 
-<section class="kpis">
+<section class="kpis" aria-label="Depotübersicht">
   <article><span>Depotwert</span><strong id="equity">–</strong></article>
   <article><span>Gesamt P/L</span><strong id="pnl">–</strong></article>
   <article><span>Cash</span><strong id="cash">–</strong></article>
@@ -29,8 +29,18 @@
   <article><span>Universum</span><strong id="universeCount">–</strong></article>
 </section>
 
+<nav class="mobileNav" aria-label="Schnellnavigation">
+  <a href="#depot">Depot</a>
+  <a href="#aufteilung">Aufteilung</a>
+  <a href="#positionen">Positionen</a>
+  <a href="#signale">Signale</a>
+  <a href="#news">News</a>
+  <a href="#verlauf">Verlauf</a>
+  <a href="#einstellungen">Setup</a>
+</nav>
+
 <main class="grid">
-<section class="card settings">
+<section class="card settings" id="einstellungen">
   <div class="cardTitle"><h2>Planspiel</h2><span class="tag">Spielgeld</span></div>
   <div class="two">
     <label>Startkapital<input id="startCapital" type="number" min="1" value="100"></label>
@@ -67,37 +77,37 @@
   <div id="errorBox" class="error"></div>
 </section>
 
-<section class="card chartCard">
+<section class="card chartCard" id="depot">
   <div class="cardTitle"><h2>Depotverlauf</h2><span id="endTime" class="tag">–</span></div>
   <canvas id="chart" width="1000" height="330"></canvas>
   <div id="scanInfo" class="muted"></div>
   <div id="aiSummary" class="aiSummary">KI: –</div>
 </section>
 
-<section class="card allocation">
+<section class="card allocation" id="aufteilung">
   <div class="cardTitle"><h2>Aktuelle KI-Aufteilung</h2><span class="tag">Depot</span></div>
   <canvas id="allocationChart" width="520" height="360"></canvas>
   <div id="allocationLegend" class="legend"></div>
 </section>
 
-<section class="card positions">
+<section class="card positions" id="positionen">
   <div class="cardTitle"><h2>Offene Positionen</h2><span class="tag">virtuell</span></div>
   <div class="tableWrap"><table><thead><tr><th>Wert</th><th>Typ</th><th>Einsatz</th><th>Gebühr Kauf</th><th>Kurs</th><th>P/L</th></tr></thead><tbody id="positionsBody"></tbody></table></div>
 </section>
 
-<section class="card candidates">
+<section class="card candidates" id="signale">
   <div class="cardTitle"><h2>Beste aktuelle Signale</h2><span class="tag">frische Kurse</span></div>
   <div class="tableWrap"><table><thead><tr><th>Symbol</th><th>Typ</th><th>Score</th><th>Tag</th><th>5m</th><th>RSI</th><th>News</th><th>Analyse</th></tr></thead><tbody id="candidatesBody"></tbody></table></div>
 </section>
 
-<section class="card newsRadar">
+<section class="card newsRadar" id="news">
   <div class="cardTitle"><h2>24/7 News-Tendenz</h2><span id="newsTrendPill" class="trend neutral">NEUTRAL</span></div>
   <div id="newsTrendSummary" class="trendSummary">Noch keine News-Tendenz.</div>
   <div class="muted" id="newsRadarInfo">Der Radar rotiert auch außerhalb der Börsenzeiten durch das Universum.</div>
   <div class="tableWrap newsWrap"><table><thead><tr><th>Wert</th><th>Tendenz</th><th>Score</th><th>Headline</th></tr></thead><tbody id="newsRadarBody"></tbody></table></div>
 </section>
 
-<section class="card history">
+<section class="card history" id="verlauf">
   <div class="cardTitle"><h2>Geld- & Entscheidungs-History</h2><span class="tag">HALTEN zusammengefasst</span></div>
   <div class="tableWrap historyWrap"><table><thead><tr><th>Zeit / Zeitraum</th><th>Aktion</th><th>Wert</th><th>Geldbewegung</th><th>Gebühr</th><th>Cash</th><th>Depot</th><th>P/L</th><th>Warum?</th></tr></thead><tbody id="historyBody"></tbody></table></div>
 </section>
