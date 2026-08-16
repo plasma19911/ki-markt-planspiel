@@ -33,7 +33,7 @@ function resultCard(title,badge,r,noteExtra=''){
       ${kpi('Trades',String(r.trades?.length||0))}
     </div>
     <div class="trendSummary">${esc(r.note||'')} ${esc(noteExtra)}</div>
-    <div class="tableWrap weekActions"><table><thead><tr><th>#</th><th>Wert</th><th>Kauf</th><th>Verkauf</th><th>Gebühren</th><th>Trade P/L</th><th>Kapital danach</th></tr></thead><tbody>${tradeRows(r.trades)}</tbody></table></div>
+    <div class="tableWrap weekActions"><table><thead><tr><th>#</th><th>Wert</th><th>Kauf</th><th>Verkauf</th><th>Gebühren</th><th>Trade P/L</th><th>Kapital/Erlös</th></tr></thead><tbody>${tradeRows(r.trades)}</tbody></table></div>
   </section>`;
 }
 
@@ -45,7 +45,8 @@ function render(data){
   byId('analysisMeta').innerHTML=`Zeitraum <b>${date(data.period?.from)} – ${date(data.period?.to)}</b> · ${Number(data.usableSymbols||0)} nutzbare Werte · ${Number(data.universe?.equities||0)} Aktien + ${Number(data.universe?.etfs||0)} ETFs · <b>keine Hebelprodukte</b> · Datenstand ${data.generatedAt?new Date(data.generatedAt).toLocaleString('de-DE'):'–'}`;
   byId('perfectResult').innerHTML=resultCard('Perfekter Rückblick','mit Zukunftswissen',p,'Das ist die theoretische Messlatte innerhalb des verwendeten Tagesdaten-Modells.');
   byId('walkResult').innerHTML=resultCard('KI hätte damals gemacht',`Walk-Forward · ${style}`,walk,'Die Strategie kennt an jedem Tag nur Daten bis zu diesem Tag. Historische News werden nicht nachträglich erfunden.');
-  byId('analysisCompare').innerHTML=`<b>Abstand zur theoretischen Messlatte:</b> ${eur(Number(p.endCapital)-Number(walk.endCapital))} · KI-Rekonstruktion erreichte ${p.endCapital?fmt(Number(walk.endCapital)/Number(p.endCapital)*100,1):'0,0'}% des perfekten Endkapitals.`;
+  const gap=Number(p.endCapital)-Number(walk.endCapital),share=Number(p.endCapital)>0?Number(walk.endCapital)/Number(p.endCapital)*100:0;
+  byId('analysisCompare').innerHTML=`<b>Abstand zur theoretischen Messlatte:</b> ${eur(gap)} · KI-Rekonstruktion erreichte ${fmt(share,1)}% des perfekten Endkapitals.`;
 }
 
 async function loadAnalysis(force=false){
@@ -64,6 +65,28 @@ async function loadAnalysis(force=false){
   }finally{
     if(btn){btn.disabled=false;btn.textContent='2026-Auswertung neu laden'}
   }
+}
+
+function cleanLiveText(text){
+  return String(text||'')
+    .replace(/\s*\/\s*[^·]*%\s*Hebel(?=\s*·|$)/gi,'')
+    .replace(/Aktien,\s*ETFs\s*und\s*Hebel-\/Inverse-ETFs/gi,'Aktien und normale ETFs')
+    .replace(/Aktien\s*\+\s*ETFs\s*\+\s*Hebel-\/Inverse-ETFs/gi,'Aktien + normale ETFs')
+    .replace(/Aktien\s*\+\s*normale ETFs\s*\+\s*Hebel-\/Inverse-ETFs/gi,'Aktien + normale ETFs')
+    .replace(/,\s*Hebel-/gi,', ')
+    .replace(/\s*·\s*aktuelle Hebelquote\s*[-+\d.,]+%/gi,'')
+    .replace(/\s*·?\s*Hebel\/Inverse/gi,'')
+    .replace(/\s*\+\s*Hebel-\/Inverse-ETFs/gi,'')
+    .replace(/Aktien\s*·\s*ETFs\s*·\s*Hebel/gi,'Aktien · ETFs')
+    .replace(/\s{2,}/g,' ')
+    .trim();
+}
+
+function observeClean(id){
+  const el=byId(id);if(!el)return;
+  let busy=false;
+  const apply=()=>{if(busy)return;const n=cleanLiveText(el.textContent);if(n!==el.textContent){busy=true;el.textContent=n;busy=false}};
+  new MutationObserver(apply).observe(el,{childList:true,subtree:true,characterData:true});apply();
 }
 
 function install(){
@@ -85,17 +108,8 @@ function install(){
   byId('analysisRunBtn').onclick=()=>loadAnalysis(true);
   byId('weekTabBtn')?.addEventListener('click',()=>{if(!cache)loadAnalysis(false)});
 
-  // Alte Hebel-Beschriftungen aus dem Live-Frontend entfernen. App.js aktualisiert einige Texte periodisch,
-  // daher sorgen MutationObserver dafuer, dass die produktive Anzeige konsistent bleibt.
-  const replacements=[
-    ['executionInfo','Aktien und normale ETFs sind immer aktiv · keine Hebel-/Inverse-Produkte · keine künstliche Mindestorder, Positionszahl oder Haltedauer.'],
-    ['riskBox','Budget-only-Modus: Aktien + normale ETFs. Keine Hebel-/Inverse-Produkte und keine harte Positionszahl, Haltedauer-, Branchen-, Reserve- oder Cooldown-Grenze.']
-  ];
-  for(const [id,text] of replacements){const el=byId(id);if(!el)continue;const apply=()=>{if(el.textContent!==text)el.textContent=text};new MutationObserver(apply).observe(el,{childList:true,subtree:true,characterData:true});apply()}
-
-  document.querySelectorAll('header p,.notice,.cardTitle .tag').forEach(el=>{
-    el.textContent=el.textContent.replace(/\s*·?\s*Hebel\/Inverse/gi,'').replace(/\s*\+\s*Hebel-\/Inverse-ETFs/gi,'').replace(/Aktien\s*\+\s*normale ETFs\s*\+\s*Hebel-\/Inverse-ETFs/gi,'Aktien + normale ETFs').replace(/Aktien\s*·\s*ETFs\s*·\s*Hebel/gi,'Aktien · ETFs');
-  });
+  observeClean('executionInfo');observeClean('riskBox');
+  document.querySelectorAll('header p,.notice,.cardTitle .tag').forEach(el=>{el.textContent=cleanLiveText(el.textContent)});
 }
 
 install();
