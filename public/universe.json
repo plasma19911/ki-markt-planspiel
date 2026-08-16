@@ -1,12 +1,4007 @@
 {
-  "generated_at": "2026-08-16T00:00:00Z",
-  "source": "bootstrap-major-equities; GitHub Action refreshes to global Top 500",
+  "generated_at": "2026-08-16T18:57:40.054768Z",
+  "source": "yfinance Yahoo EquityQuery; global region aggregation; sorted by market cap",
+  "count": 500,
   "equities": [
-    {"symbol":"NVDA","name":"NVIDIA","marketCap":0},{"symbol":"AAPL","name":"Apple","marketCap":0},{"symbol":"MSFT","name":"Microsoft","marketCap":0},{"symbol":"GOOGL","name":"Alphabet A","marketCap":0},{"symbol":"GOOG","name":"Alphabet C","marketCap":0},{"symbol":"AMZN","name":"Amazon","marketCap":0},{"symbol":"META","name":"Meta Platforms","marketCap":0},{"symbol":"AVGO","name":"Broadcom","marketCap":0},{"symbol":"TSLA","name":"Tesla","marketCap":0},{"symbol":"BRK-B","name":"Berkshire Hathaway","marketCap":0},
-    {"symbol":"TSM","name":"Taiwan Semiconductor ADR","marketCap":0},{"symbol":"LLY","name":"Eli Lilly","marketCap":0},{"symbol":"WMT","name":"Walmart","marketCap":0},{"symbol":"JPM","name":"JPMorgan Chase","marketCap":0},{"symbol":"V","name":"Visa","marketCap":0},{"symbol":"ORCL","name":"Oracle","marketCap":0},{"symbol":"MA","name":"Mastercard","marketCap":0},{"symbol":"XOM","name":"Exxon Mobil","marketCap":0},{"symbol":"NFLX","name":"Netflix","marketCap":0},{"symbol":"COST","name":"Costco","marketCap":0},
-    {"symbol":"JNJ","name":"Johnson & Johnson","marketCap":0},{"symbol":"ABBV","name":"AbbVie","marketCap":0},{"symbol":"PLTR","name":"Palantir","marketCap":0},{"symbol":"HD","name":"Home Depot","marketCap":0},{"symbol":"PG","name":"Procter & Gamble","marketCap":0},{"symbol":"BAC","name":"Bank of America","marketCap":0},{"symbol":"KO","name":"Coca-Cola","marketCap":0},{"symbol":"CSCO","name":"Cisco","marketCap":0},{"symbol":"CRM","name":"Salesforce","marketCap":0},{"symbol":"CVX","name":"Chevron","marketCap":0},
-    {"symbol":"AMD","name":"Advanced Micro Devices","marketCap":0},{"symbol":"TMUS","name":"T-Mobile US","marketCap":0},{"symbol":"IBM","name":"IBM","marketCap":0},{"symbol":"PM","name":"Philip Morris","marketCap":0},{"symbol":"UNH","name":"UnitedHealth","marketCap":0},{"symbol":"GE","name":"GE Aerospace","marketCap":0},{"symbol":"WFC","name":"Wells Fargo","marketCap":0},{"symbol":"MS","name":"Morgan Stanley","marketCap":0},{"symbol":"GS","name":"Goldman Sachs","marketCap":0},{"symbol":"AXP","name":"American Express","marketCap":0},
-    {"symbol":"INTU","name":"Intuit","marketCap":0},{"symbol":"RTX","name":"RTX","marketCap":0},{"symbol":"CAT","name":"Caterpillar","marketCap":0},{"symbol":"NOW","name":"ServiceNow","marketCap":0},{"symbol":"DIS","name":"Walt Disney","marketCap":0},{"symbol":"MCD","name":"McDonald's","marketCap":0},{"symbol":"PEP","name":"PepsiCo","marketCap":0},{"symbol":"T","name":"AT&T","marketCap":0},{"symbol":"VZ","name":"Verizon","marketCap":0},{"symbol":"UBER","name":"Uber","marketCap":0},
-    {"symbol":"SAP","name":"SAP ADR","marketCap":0},{"symbol":"ASML","name":"ASML ADR","marketCap":0},{"symbol":"NVO","name":"Novo Nordisk ADR","marketCap":0},{"symbol":"AZN","name":"AstraZeneca ADR","marketCap":0},{"symbol":"SHEL","name":"Shell ADR","marketCap":0},{"symbol":"TM","name":"Toyota ADR","marketCap":0},{"symbol":"SONY","name":"Sony ADR","marketCap":0},{"symbol":"BABA","name":"Alibaba ADR","marketCap":0},{"symbol":"PDD","name":"PDD Holdings","marketCap":0},{"symbol":"SHOP","name":"Shopify","marketCap":0}
+    {
+      "symbol": "005930.KS",
+      "name": "SamsungElec",
+      "marketCap": 1802521672679424.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "005935.KS",
+      "name": "SamsungElec(1P)",
+      "marketCap": 1290634182787072.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "000660.KS",
+      "name": "SK hynix",
+      "marketCap": 1167711279251456.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "402340.KS",
+      "name": "SKSQUARE",
+      "marketCap": 152106988208128.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "005380.KS",
+      "name": "HyundaiMtr",
+      "marketCap": 118610840256512.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "009150.KS",
+      "name": "SamsungElecMech",
+      "marketCap": 117702614056960.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "NVDA.MX",
+      "name": "NVIDIA CORP",
+      "marketCap": 92852897972224.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "373220.KS",
+      "name": "LG Energy Solution",
+      "marketCap": 86463001657344.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "AAPL.MX",
+      "name": "APPLE INC",
+      "marketCap": 75980806815744.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "GOOGL.MX",
+      "name": "ALPHABET INC",
+      "marketCap": 72156499148800.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "207940.KS",
+      "name": "SAMSUNG BIOLOGICS",
+      "marketCap": 71658391994368.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "GOOG.MX",
+      "name": "ALPHABET INC",
+      "marketCap": 71421355098112.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "MSFT.MX",
+      "name": "MICROSOFT CORP",
+      "marketCap": 62587328790528.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "2330.TW",
+      "name": "TAIWAN SEMICONDUCTOR MANUFACTUR",
+      "marketCap": 62108024700928.0,
+      "region": "US",
+      "exchange": "TAI",
+      "currency": "TWD"
+    },
+    {
+      "symbol": "028260.KS",
+      "name": "SAMSUNG C&T",
+      "marketCap": 60381376544768.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "012450.KS",
+      "name": "HANWHA AEROSPACE",
+      "marketCap": 59680592232448.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "105560.KS",
+      "name": "KBFinancialGroup",
+      "marketCap": 59161379340288.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "005387.KS",
+      "name": "HyundaiMtr(2PB)",
+      "marketCap": 55770657849344.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "005385.KS",
+      "name": "HyundaiMtr(1P)",
+      "marketCap": 55246990606336.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "000270.KS",
+      "name": "KIA CORP.",
+      "marketCap": 55072557891584.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "032830.KS",
+      "name": "SAMSUNG LIFE",
+      "marketCap": 54052008230912.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "329180.KS",
+      "name": "HD HYUNDAI HEAVY INDUSTRIES",
+      "marketCap": 53515716132864.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "005389.KS",
+      "name": "HyundaiMtr(3PB)",
+      "marketCap": 53414151061504.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "034020.KS",
+      "name": "Doosan Enerbility",
+      "marketCap": 52792370659328.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "055550.KS",
+      "name": "ShinhanGroup",
+      "marketCap": 50570832379904.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "012330.KS",
+      "name": "Mobis",
+      "marketCap": 48781781368832.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "AMZN.MX",
+      "name": "AMAZON COM INC",
+      "marketCap": 48422673448960.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "068270.KS",
+      "name": "Celltrion",
+      "marketCap": 46094767620096.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "009155.KS",
+      "name": "SamsungElecMech(1P)",
+      "marketCap": 41853177036800.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "8306.T",
+      "name": "MITSUBISHI UFJ FINANCIAL GROUP ",
+      "marketCap": 41566550884352.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "006400.KS",
+      "name": "SAMSUNG SDI CO.,LTD.",
+      "marketCap": 40605912662016.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "066570.KS",
+      "name": "LGELECTRONICS",
+      "marketCap": 38613832171520.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "TSMN.MX",
+      "name": "TAIWAN SEMICONDUCTOR MANUFACTUR",
+      "marketCap": 37679735504896.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "02826K.KS",
+      "name": "SAMSUNG C&T(1PB)",
+      "marketCap": 37308816424960.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "TYT.L",
+      "name": "TOYOTA MOTOR CORPORATION Y50",
+      "marketCap": 35759977398272.0,
+      "region": "US",
+      "exchange": "LSE",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "7203.T",
+      "name": "TOYOTA MOTOR CORP",
+      "marketCap": 35759977398272.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "086790.KS",
+      "name": "HANAFINANCIALGR",
+      "marketCap": 35680872824832.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "035420.KS",
+      "name": "NAVER",
+      "marketCap": 34104189911040.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "9984.T",
+      "name": "SOFTBANK GROUP CORP",
+      "marketCap": 32706121433088.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "034730.KS",
+      "name": "SK",
+      "marketCap": 31907003760640.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "010120.KS",
+      "name": "LS ELECTRIC",
+      "marketCap": 30724174381056.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "285A.T",
+      "name": "KIOXIA HOLDINGS CORPORATION",
+      "marketCap": 29408811286528.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "042660.KS",
+      "name": "Hanwha Ocean",
+      "marketCap": 29349076008960.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "267260.KS",
+      "name": "HD HYUNDAI ELECTRIC",
+      "marketCap": 28902141460480.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "NVDC34.SA",
+      "name": "NVIDIA CORP DRN",
+      "marketCap": 28507149172736.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "298040.KS",
+      "name": "HYOSUNG HEAVY",
+      "marketCap": 27506883166208.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "009540.KS",
+      "name": "HDKSOE",
+      "marketCap": 27295848857600.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "000810.KS",
+      "name": "SamsungF&MIns",
+      "marketCap": 27164252569600.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "8035.T",
+      "name": "TOKYO ELECTRON",
+      "marketCap": 26883525705728.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "6857.T",
+      "name": "ADVANTEST CORP",
+      "marketCap": 26697351036928.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "8316.T",
+      "name": "SUMITOMO MITSUI FINANCIAL GROUP",
+      "marketCap": 26565832343552.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "6501.T",
+      "name": "HITACHI",
+      "marketCap": 25813902688256.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "META.MX",
+      "name": "META PLATFORMS INC",
+      "marketCap": 25606997671936.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "005490.KS",
+      "name": "POSCO Holdings",
+      "marketCap": 25257339518976.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "316140.KS",
+      "name": "WooriFinancialGroup",
+      "marketCap": 24534803546112.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "010130.KS",
+      "name": "KOREA ZINC",
+      "marketCap": 24390305579008.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "9983.T",
+      "name": "FAST RETAILING CO LTD",
+      "marketCap": 23664349151232.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "AAPL34.SA",
+      "name": "APPLE       DRN ED",
+      "marketCap": 23245610811392.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "TSLA.MX",
+      "name": "TESLA INC",
+      "marketCap": 23065238962176.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "6758.T",
+      "name": "SONY GROUP CORPORATION",
+      "marketCap": 22900090339328.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "6098.T",
+      "name": "RECRUIT HOLDINGS CO LTD",
+      "marketCap": 22828631982080.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "000150.KS",
+      "name": "DOOSAN",
+      "marketCap": 22817825357824.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "GOGL34.SA",
+      "name": "ALPHABET    DRN",
+      "marketCap": 22104879661056.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "051910.KS",
+      "name": "LGCHEM",
+      "marketCap": 21956166418432.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "006800.KS",
+      "name": "MIRAE ASSET SEC",
+      "marketCap": 21904538730496.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "196170.KQ",
+      "name": "Alteogen",
+      "marketCap": 21842836324352.0,
+      "region": "US",
+      "exchange": "KOE",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "096770.KS",
+      "name": "SK Innovation",
+      "marketCap": 21794431959040.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "042700.KS",
+      "name": "HANMISemi",
+      "marketCap": 21721337823232.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "GOGL35.SA",
+      "name": "ALPHABET    DRN",
+      "marketCap": 21426853642240.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "017670.KS",
+      "name": "SKTelecom",
+      "marketCap": 21412320378880.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "6861.T",
+      "name": "KEYENCE CORP",
+      "marketCap": 21259752570880.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "8411.T",
+      "name": "MIZUHO FINANCIAL GROUP",
+      "marketCap": 21002100670464.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "011200.KS",
+      "name": "HMM",
+      "marketCap": 20043807064064.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "138040.KS",
+      "name": "Meritz Financial",
+      "marketCap": 19229145300992.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "MSFT34.SA",
+      "name": "MICROSOFT   DRN",
+      "marketCap": 19213152419840.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "010140.KS",
+      "name": "SamsungHvyInd",
+      "marketCap": 19047552909312.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "018260.KS",
+      "name": "SAMSUNG SDS",
+      "marketCap": 18834769575936.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "MU.MX",
+      "name": "MICRON TECHNOLOGY INC",
+      "marketCap": 18720980205568.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "003550.KS",
+      "name": "LG Corp.",
+      "marketCap": 18504384249856.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "BRKB.MX",
+      "name": "BERKSHIRE HATHAWAY INC",
+      "marketCap": 18410104684544.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "033780.KS",
+      "name": "KT&G",
+      "marketCap": 18270639882240.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "LLY.MX",
+      "name": "ELI LILLY AND COMPANY",
+      "marketCap": 17972584251392.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "000815.KS",
+      "name": "SamsungF&MIns(1P)",
+      "marketCap": 17844483915776.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "079550.KS",
+      "name": "LIG Defense&Aerospace",
+      "marketCap": 17803878858752.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "RELIANCE.BO",
+      "name": "RELIANCE INDUSTRIES LTD.",
+      "marketCap": 17711753068544.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "035720.KS",
+      "name": "Kakao",
+      "marketCap": 17627355283456.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "0M69.IL",
+      "name": "OTP BANK NYRT OTP BANK ORD SHS",
+      "marketCap": 17472205881344.0,
+      "region": "US",
+      "exchange": "IOB",
+      "currency": "HUF"
+    },
+    {
+      "symbol": "8058.T",
+      "name": "MITSUBISHI CORP",
+      "marketCap": 17461686566912.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "010950.KS",
+      "name": "S-Oil",
+      "marketCap": 17183686000640.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "006405.KS",
+      "name": "SAMSUNG SDI(1P)",
+      "marketCap": 16840436744192.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "267250.KS",
+      "name": "HD HYUNDAI",
+      "marketCap": 16642415263744.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "JPM.MX",
+      "name": "JPMORGAN CHASE & CO.",
+      "marketCap": 16414645682176.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "024110.KS",
+      "name": "IBK",
+      "marketCap": 16267487477760.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "064350.KS",
+      "name": "HYUNDAI ROTEM",
+      "marketCap": 16033002815488.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "086280.KS",
+      "name": "HYUNDAIGLOVIS",
+      "marketCap": 15824999940096.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "WMT.MX",
+      "name": "WALMART INC",
+      "marketCap": 15637625700352.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "011070.KS",
+      "name": "LG Innotek",
+      "marketCap": 15476588544000.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "003670.KS",
+      "name": "POSCO FUTURE M",
+      "marketCap": 15165324001280.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "272210.KS",
+      "name": "HANWHA SYSTEMS",
+      "marketCap": 15015559036928.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "6981.T",
+      "name": "MURATA MANUFACTURING CO",
+      "marketCap": 14990271578112.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "AMZO34.SA",
+      "name": "AMAZON      DRN",
+      "marketCap": 14833339596800.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "278470.KS",
+      "name": "APR",
+      "marketCap": 14619599962112.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "8001.T",
+      "name": "ITOCHU CORP",
+      "marketCap": 14430674878464.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "8766.T",
+      "name": "TOKIO MARINE HOLDINGS INC",
+      "marketCap": 14324256997376.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "7011.T",
+      "name": "MITSUBISHI HEAVY INDUSTRIES",
+      "marketCap": 14294330638336.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "AMD.MX",
+      "name": "ADVANCED MICRO DEVICES INC",
+      "marketCap": 14284156305408.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "047810.KS",
+      "name": "KOREA AEROSPACE",
+      "marketCap": 14270354948096.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "8031.T",
+      "name": "MITSUI & CO",
+      "marketCap": 13674958815232.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "066575.KS",
+      "name": "LGELECTRONICS(1P)",
+      "marketCap": 13434021216256.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "307950.KS",
+      "name": "HyundaiAutoever",
+      "marketCap": 13423615148032.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "9432.T",
+      "name": "NTT INC",
+      "marketCap": 13211729395712.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "000720.KS",
+      "name": "HyundaiEng&Const",
+      "marketCap": 13017130467328.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "030200.KS",
+      "name": "KT",
+      "marketCap": 12716238438400.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "086520.KQ",
+      "name": "ECOPRO",
+      "marketCap": 12674754674688.0,
+      "region": "US",
+      "exchange": "KOE",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "2914.T",
+      "name": "JAPAN TOBACCO INC",
+      "marketCap": 12661849849856.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "6503.T",
+      "name": "MITSUBISHI ELECTRIC CORP",
+      "marketCap": 12591720038400.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "BHARTIARTL.NS",
+      "name": "BHARTI AIRTEL LIMITED",
+      "marketCap": 12428031033344.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "BHARTIARTL.BO",
+      "name": "BHARTI AIRTEL LTD.",
+      "marketCap": 12427407130624.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "ASML1N.MX",
+      "name": "ASML HOLDING NV",
+      "marketCap": 12142169292800.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "ASMLN.MX",
+      "name": "ASML HOLDING NV",
+      "marketCap": 11974317441024.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "071050.KS",
+      "name": "KIH",
+      "marketCap": 11912940093440.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "4063.T",
+      "name": "SHIN-ETSU CHEMICAL CO",
+      "marketCap": 11786266869760.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "7182.T",
+      "name": "JAPAN POST BANK CO LTD",
+      "marketCap": 11665503420416.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "TSMC34.SA",
+      "name": "TAIWANSMFAC DRN",
+      "marketCap": 11621851201536.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "V.MX",
+      "name": "VISA INC",
+      "marketCap": 11557040816128.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "247540.KQ",
+      "name": "ECOPROBM",
+      "marketCap": 11416130027520.0,
+      "region": "US",
+      "exchange": "KOE",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "4519.T",
+      "name": "CHUGAI PHARMACEUTICAL CO",
+      "marketCap": 11408786849792.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "096775.KS",
+      "name": "SK Innovation(1P)",
+      "marketCap": 11312106045440.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "9434.T",
+      "name": "SOFTBANK CORP.",
+      "marketCap": 11236139859968.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "XOM.MX",
+      "name": "EXXONMOBIL HOLDINGS CORPORATION",
+      "marketCap": 11234359377920.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "HDFCBANK.NS",
+      "name": "HDFC BANK LTD",
+      "marketCap": 11203797581824.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "HDFCBANK.BO",
+      "name": "HDFC BANK LTD.",
+      "marketCap": 11192472961024.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "078930.KS",
+      "name": "GS",
+      "marketCap": 11076994334720.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "6752.T",
+      "name": "PANASONIC HOLDINGS CORP",
+      "marketCap": 11023181414400.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "003555.KS",
+      "name": "LG Corp.(1P)",
+      "marketCap": 10794223796224.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "0126Z0.KS",
+      "name": "SAMSUNG EPIS HOLDINGS",
+      "marketCap": 10786800926720.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "005940.KS",
+      "name": "NHIS",
+      "marketCap": 10767786049536.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "259960.KS",
+      "name": "KRAFTON",
+      "marketCap": 10733120126976.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "JNJ.MX",
+      "name": "JOHNSON & JOHNSON",
+      "marketCap": 10728868151296.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "005830.KS",
+      "name": "DB INSURANCE",
+      "marketCap": 10721765097472.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "9433.T",
+      "name": "KDDI CORPORATION",
+      "marketCap": 10638259650560.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "323410.KS",
+      "name": "KakaoBank",
+      "marketCap": 10577836507136.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "7974.T",
+      "name": "NINTENDO CO LTD",
+      "marketCap": 10260572012544.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "ICICIBANK.NS",
+      "name": "ICICI BANK LTD.",
+      "marketCap": 10164533985280.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "ICICIBANK.BO",
+      "name": "ICICI BANK LTD.",
+      "marketCap": 10144120307712.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "051915.KS",
+      "name": "LGCHEM(1P)",
+      "marketCap": 9886145445888.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "SBIN.BO",
+      "name": "STATE BANK OF INDIA",
+      "marketCap": 9858299461632.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "SBIN.NS",
+      "name": "STATE BANK OF INDIA",
+      "marketCap": 9855530172416.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "028050.KS",
+      "name": "SamsungE&A",
+      "marketCap": 9760799719424.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "277810.KQ",
+      "name": "Rainbow Robotics",
+      "marketCap": 9719328538624.0,
+      "region": "US",
+      "exchange": "KOE",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "AVGO34.SA",
+      "name": "BROADCOM INCDRN",
+      "marketCap": 9714502991872.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "003490.KS",
+      "name": "KAL",
+      "marketCap": 9713415618560.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "SPCX34.SA",
+      "name": "SPACE X     DRN",
+      "marketCap": 9630253056000.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "003230.KS",
+      "name": "SamyangFood",
+      "marketCap": 9566929551360.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "TCEHYN.MX",
+      "name": "TENCENT HOLDINGS LIMITED",
+      "marketCap": 9462814343168.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "5803.T",
+      "name": "FUJIKURA",
+      "marketCap": 9379543777280.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "090430.KS",
+      "name": "AMOREPACIFIC",
+      "marketCap": 9353362931712.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "005945.KS",
+      "name": "NHIS(1P)",
+      "marketCap": 9325838860288.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "071055.KS",
+      "name": "KIH(1P)",
+      "marketCap": 9127414726656.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "047050.KS",
+      "name": "POSCO INTERNATIONAL",
+      "marketCap": 9084690497536.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "006260.KS",
+      "name": "LS",
+      "marketCap": 8972241207296.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "4502.T",
+      "name": "TAKEDA PHARMACEUTICAL CO LTD",
+      "marketCap": 8959373082624.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "7741.T",
+      "name": "HOYA CORP",
+      "marketCap": 8913298653184.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "443060.KS",
+      "name": "HDHMS",
+      "marketCap": 8822806544384.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "INTC.MX",
+      "name": "INTEL CORP",
+      "marketCap": 8809850339328.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "161390.KS",
+      "name": "HANKOOK TIRE & TECHNOLOGY",
+      "marketCap": 8734394810368.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "TCS.BO",
+      "name": "TATA CONSULTANCY SERVICES LTD.",
+      "marketCap": 8535068377088.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "8053.T",
+      "name": "SUMITOMO CORP",
+      "marketCap": 8487274283008.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "MA.MX",
+      "name": "MASTERCARD INCORPORATED",
+      "marketCap": 8485023514624.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "016360.KS",
+      "name": "SamsungSecu",
+      "marketCap": 8304900177920.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "010955.KS",
+      "name": "S-Oil(1P)",
+      "marketCap": 8149444591616.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "036930.KQ",
+      "name": "JEL",
+      "marketCap": 8124378906624.0,
+      "region": "US",
+      "exchange": "KOE",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "180640.KS",
+      "name": "HANJINKAL",
+      "marketCap": 8075108941824.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "8002.T",
+      "name": "MARUBENI CORP",
+      "marketCap": 8020691517440.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "003495.KS",
+      "name": "KAL(1P)",
+      "marketCap": 8014491287552.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "009830.KS",
+      "name": "HANWHA SOLUTIONS",
+      "marketCap": 7964988014592.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "039490.KS",
+      "name": "KIWOOM",
+      "marketCap": 7876612980736.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "000155.KS",
+      "name": "DOOSAN(1P)",
+      "marketCap": 7859274252288.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "M1TA34.SA",
+      "name": "META PLAT   DRN",
+      "marketCap": 7821354074112.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "006805.KS",
+      "name": "MIRAE ASSET SEC(1P)",
+      "marketCap": 7807673303040.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "064400.KS",
+      "name": "LG CNS",
+      "marketCap": 7741187817472.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "8015.T",
+      "name": "TOYOTA TSUSHO CORP",
+      "marketCap": 7733559951360.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "BAC.MX",
+      "name": "BANK OF AMERICA CORPORATION",
+      "marketCap": 7681884028928.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "352820.KS",
+      "name": "HYBE",
+      "marketCap": 7635965837312.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "NVDA.NE",
+      "name": "NVIDIA CDR (CAD HEDGED)",
+      "marketCap": 7567428812800.0,
+      "region": "US",
+      "exchange": "NEO",
+      "currency": "CAD"
+    },
+    {
+      "symbol": "ABBV.MX",
+      "name": "ABBVIE INC",
+      "marketCap": 7554426470400.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "CSCO.MX",
+      "name": "CISCO SYSTEMS INC",
+      "marketCap": 7488765165568.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "5802.T",
+      "name": "SUMITOMO ELECTRIC INDUSTRIES",
+      "marketCap": 7443555287040.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "047040.KS",
+      "name": "DWEC",
+      "marketCap": 7400051965952.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "ORCL.MX",
+      "name": "ORACLE CORP",
+      "marketCap": 7342320517120.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "COST.MX",
+      "name": "COSTCO WHOLESALE CORP",
+      "marketCap": 7273052635136.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "00680K.KS",
+      "name": "MIRAE ASSET SEC(2PB)",
+      "marketCap": 7121156964352.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "6146.T",
+      "name": "DISCO CORPORATION",
+      "marketCap": 7101382393856.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "LRCX.MX",
+      "name": "LAM RESEARCH CORP",
+      "marketCap": 7072465813504.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "NVDA.TO",
+      "name": "NVIDIA CDR (CAD HEDGED)",
+      "marketCap": 7030167306240.0,
+      "region": "US",
+      "exchange": "TOR",
+      "currency": "CAD"
+    },
+    {
+      "symbol": "TSLA34.SA",
+      "name": "TESLA INC   DRN",
+      "marketCap": 7024507617280.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "007660.KS",
+      "name": "ISUPETASYS",
+      "marketCap": 7017920987136.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "8725.T",
+      "name": "MS&AD INS GP HLDGS",
+      "marketCap": 6933995061248.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "8591.T",
+      "name": "ORIX CORPORATION",
+      "marketCap": 6925585481728.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "021240.KS",
+      "name": "COWAY",
+      "marketCap": 6886659194880.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "6701.T",
+      "name": "NEC CORP",
+      "marketCap": 6854546030592.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "6723.T",
+      "name": "RENESAS ELECTRONICS CORP",
+      "marketCap": 6845774692352.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "AMAT.MX",
+      "name": "APPLIED MATERIALS INC",
+      "marketCap": 6841548406784.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "326030.KS",
+      "name": "SKBP",
+      "marketCap": 6836746452992.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "BAJFINANCE.NS",
+      "name": "BAJAJ FINANCE LIMITED",
+      "marketCap": 6762132406272.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "BAJFINANCE.BO",
+      "name": "BAJAJ FINANCE LIMITED",
+      "marketCap": 6761518989312.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "2454.TW",
+      "name": "MEDIATEK INC",
+      "marketCap": 6719556026368.0,
+      "region": "US",
+      "exchange": "TAI",
+      "currency": "TWD"
+    },
+    {
+      "symbol": "CVX.MX",
+      "name": "CHEVRON CORPORATION",
+      "marketCap": 6708703264768.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "CAT.MX",
+      "name": "CATERPILLAR INC",
+      "marketCap": 6706656444416.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "6178.T",
+      "name": "JAPAN POST HLDGS CO LTD",
+      "marketCap": 6667809325056.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "6702.T",
+      "name": "FUJITSU",
+      "marketCap": 6648874139648.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "A1PH34.SA",
+      "name": "AMPHENOL CORDRN",
+      "marketCap": 6628370808832.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "267270.KS",
+      "name": "HD CE",
+      "marketCap": 6613116649472.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "6301.T",
+      "name": "KOMATSU",
+      "marketCap": 6488403738624.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "7267.T",
+      "name": "HONDA MOTOR CO",
+      "marketCap": 6454621241344.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "KO.MX",
+      "name": "COCA-COLA CO",
+      "marketCap": 6440872837120.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "GE.MX",
+      "name": "GE AEROSPACE",
+      "marketCap": 6396572598272.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "AAPL.NE",
+      "name": "APPLE CDR (CAD HEDGED)",
+      "marketCap": 6350509703168.0,
+      "region": "US",
+      "exchange": "NEO",
+      "currency": "CAD"
+    },
+    {
+      "symbol": "241560.KS",
+      "name": "Doosan Bobcat",
+      "marketCap": 6326682386432.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "4578.T",
+      "name": "OTSUKA HLDGS CO LTD",
+      "marketCap": 6320482680832.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "000100.KS",
+      "name": "Yuhan",
+      "marketCap": 6257756864512.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "8630.T",
+      "name": "SOMPO HOLDINGS INC",
+      "marketCap": 6231163404288.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "UNH.MX",
+      "name": "UNITEDHEALTH GROUP INC",
+      "marketCap": 6139027652608.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "353200.KS",
+      "name": "DaeduckElectronics",
+      "marketCap": 6135132192768.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "377300.KS",
+      "name": "kakaopay",
+      "marketCap": 6106327810048.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "6762.T",
+      "name": "TDK CORP",
+      "marketCap": 6093074857984.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "ROP1N.MX",
+      "name": "ROCHE HOLDINGS AG",
+      "marketCap": 6059914690560.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "078935.KS",
+      "name": "GS(1P)",
+      "marketCap": 6021340725248.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "6954.T",
+      "name": "FANUC CORPORATION",
+      "marketCap": 6004869693440.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "6367.T",
+      "name": "DAIKIN INDUSTRIES",
+      "marketCap": 5916034334720.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "000725.KS",
+      "name": "HyundaiEng&Con(1P)",
+      "marketCap": 5901548781568.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "AAPL.TO",
+      "name": "APPLE CDR (CAD HEDGED)",
+      "marketCap": 5864489484288.0,
+      "region": "US",
+      "exchange": "TOR",
+      "currency": "CAD"
+    },
+    {
+      "symbol": "MS.MX",
+      "name": "MORGAN STANLEY",
+      "marketCap": 5833393438720.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "4062.T",
+      "name": "IBIDEN CO LTD",
+      "marketCap": 5808751902720.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "MUTC34.SA",
+      "name": "MICRON TECHNDRN",
+      "marketCap": 5787010727936.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "HD.MX",
+      "name": "HOME DEPOT INC",
+      "marketCap": 5769317056512.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "028300.KQ",
+      "name": "HLB",
+      "marketCap": 5733591023616.0,
+      "region": "US",
+      "exchange": "KOE",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "PG.MX",
+      "name": "PROCTER & GAMBLE CO",
+      "marketCap": 5718105653248.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "MRK.MX",
+      "name": "MERCK & CO INC",
+      "marketCap": 5709034946560.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "240810.KQ",
+      "name": "WONIK IPS",
+      "marketCap": 5673253339136.0,
+      "region": "US",
+      "exchange": "KOE",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "BERK34.SA",
+      "name": "BERKSHIRE   DRN",
+      "marketCap": 5640770551808.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "LT.BO",
+      "name": "LARSEN & TOUBRO LTD.",
+      "marketCap": 5589212594176.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "LT.NS",
+      "name": "LARSEN & TOUBRO LTD.",
+      "marketCap": 5581888815104.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "0R1I.IL",
+      "name": "NVIDIA CORP NVIDIA ORD SHS",
+      "marketCap": 5576669528064.0,
+      "region": "US",
+      "exchange": "IOB",
+      "currency": "USD"
+    },
+    {
+      "symbol": "062040.KS",
+      "name": "SANIL ELECTRIC",
+      "marketCap": 5576305147904.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "001440.KS",
+      "name": "Taihan Cable & Solution",
+      "marketCap": 5565019848704.0,
+      "region": "US",
+      "exchange": "KSC",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "LILY34.SA",
+      "name": "LILLY       DRN ED",
+      "marketCap": 5551638970368.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "NFLX.MX",
+      "name": "NETFLIX INC",
+      "marketCap": 5548657868800.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "GOOG.TO",
+      "name": "ALPHABET CDR (CAD HEDGED)",
+      "marketCap": 5505946222592.0,
+      "region": "US",
+      "exchange": "TOR",
+      "currency": "CAD"
+    },
+    {
+      "symbol": "8308.T",
+      "name": "RESONA HOLDINGS",
+      "marketCap": 5494192209920.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "marketCap": 5453600260096.0,
+      "region": "US",
+      "exchange": "NMS",
+      "currency": "USD"
+    },
+    {
+      "symbol": "DELLC.MX",
+      "name": "DELL TECHNOLOGIES INC",
+      "marketCap": 5387535253504.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "058470.KQ",
+      "name": "LEENO",
+      "marketCap": 5373408313344.0,
+      "region": "US",
+      "exchange": "KOE",
+      "currency": "KRW"
+    },
+    {
+      "symbol": "GOOG.NE",
+      "name": "ALPHABET INC. CDR (CAD HEDGED)",
+      "marketCap": 5342759485440.0,
+      "region": "US",
+      "exchange": "NEO",
+      "currency": "CAD"
+    },
+    {
+      "symbol": "PANW.MX",
+      "name": "PALO ALTO NETWORKS INC",
+      "marketCap": 5342324850688.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "2802.T",
+      "name": "AJINOMOTO CO INC",
+      "marketCap": 5306267992064.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "LICI.NS",
+      "name": "LIFE INSURA CORP OF INDIA",
+      "marketCap": 5230773141504.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "GS.MX",
+      "name": "GOLDMAN SACHS GROUP INC",
+      "marketCap": 5219419160576.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "5108.T",
+      "name": "BRIDGESTONE CORP",
+      "marketCap": 5122106589184.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "MSFT.NE",
+      "name": "MICROSOFT CDR (CAD HEDGED)",
+      "marketCap": 5100809486336.0,
+      "region": "US",
+      "exchange": "NEO",
+      "currency": "CAD"
+    },
+    {
+      "symbol": "RTX.MX",
+      "name": "RTX CORPORATION",
+      "marketCap": 5067570151424.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "BABAN.MX",
+      "name": "ALIBABA GROUP HOLDING LTD",
+      "marketCap": 5045418983424.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "6971.T",
+      "name": "KYOCERA CORP",
+      "marketCap": 5029816172544.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "ARMN.MX",
+      "name": "ARM HOLDINGS PLC",
+      "marketCap": 5019593605120.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "JPMC34.SA",
+      "name": "JPMORGAN    DRN",
+      "marketCap": 5018655653888.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "8750.T",
+      "name": "DAIICHI LIFE GROUP INC",
+      "marketCap": 4995628400640.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "4568.T",
+      "name": "DAIICHI SANKYO COMPANY LIMITED",
+      "marketCap": 4965833637888.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "NOVNN.MX",
+      "name": "NOVARTIS AG",
+      "marketCap": 4946059067392.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "9988N.MX",
+      "name": "ALIBABA GROUP HOLDING LTD",
+      "marketCap": 4916083949568.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "HINDUNILVR.BO",
+      "name": "HINDUSTAN UNILEVER LTD.",
+      "marketCap": 4908883378176.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "6902.T",
+      "name": "DENSO CORP",
+      "marketCap": 4901459984384.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "2308.TW",
+      "name": "DELTA ELECTRONIC",
+      "marketCap": 4896369147904.0,
+      "region": "US",
+      "exchange": "TAI",
+      "currency": "TWD"
+    },
+    {
+      "symbol": "HINDUNILVR.NS",
+      "name": "HINDUSTAN UNILEVER LTD.",
+      "marketCap": 4880101015552.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "4661.T",
+      "name": "ORIENTAL LAND CO",
+      "marketCap": 4864219283456.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "GEV.MX",
+      "name": "GE VERNOVA INC",
+      "marketCap": 4823301226496.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "MSFT.TO",
+      "name": "MICROSOFT CDR (CAD HEDGED)",
+      "marketCap": 4814439710720.0,
+      "region": "US",
+      "exchange": "TOR",
+      "currency": "CAD"
+    },
+    {
+      "symbol": "6273.T",
+      "name": "SMC CORP",
+      "marketCap": 4789133901824.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "3382.T",
+      "name": "SEVEN & I HOLDINGS CO LTD",
+      "marketCap": 4786570133504.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "8309.T",
+      "name": "SUMITOMO MITSUI TRUST GP INC",
+      "marketCap": 4782575583232.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "INFY.NS",
+      "name": "INFOSYS LIMITED",
+      "marketCap": 4735404343296.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "INFY.BO",
+      "name": "INFOSYS LTD.",
+      "marketCap": 4731832893440.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "NVD.DE",
+      "name": "NVIDIA CORP.                  R",
+      "marketCap": 4712437383168.0,
+      "region": "US",
+      "exchange": "GER",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "1NVDA.MI",
+      "name": "NVIDIA CORP",
+      "marketCap": 4712437383168.0,
+      "region": "US",
+      "exchange": "MIL",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "NVDA.VI",
+      "name": "NVIDIA CORP",
+      "marketCap": 4711469023232.0,
+      "region": "US",
+      "exchange": "VIE",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "NVD.F",
+      "name": "NVIDIA CORP.                  R",
+      "marketCap": 4710984581120.0,
+      "region": "US",
+      "exchange": "FRA",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "WALM34.SA",
+      "name": "WAL MART    DRN",
+      "marketCap": 4700996370432.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "SUNPHARMA.NS",
+      "name": "SUN PHARMACEUTICAL IND L",
+      "marketCap": 4630716612608.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "SUNPHARMA.BO",
+      "name": "SUN PHARMACEUTICAL INDUSTRIES",
+      "marketCap": 4618479730688.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "8604.T",
+      "name": "NOMURA HOLDINGS INC.",
+      "marketCap": 4588471058432.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "0R2V.L",
+      "name": "APPLE INC APPLE ORD",
+      "marketCap": 4584844558336.0,
+      "region": "US",
+      "exchange": "LSE",
+      "currency": "USD"
+    },
+    {
+      "symbol": "WFC.MX",
+      "name": "WELLS FARGO & COMPANY",
+      "marketCap": 4543437864960.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "KLAC.MX",
+      "name": "KLA CORPORATION",
+      "marketCap": 4542863245312.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "TITAN.BO",
+      "name": "TITAN COMPANY LIMITED",
+      "marketCap": 4506248544256.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "TITAN.NS",
+      "name": "TITAN COMPANY LIMITED",
+      "marketCap": 4486428884992.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "AAPL",
+      "name": "Apple Inc.",
+      "marketCap": 4464797286400.0,
+      "region": "US",
+      "exchange": "NMS",
+      "currency": "USD"
+    },
+    {
+      "symbol": "NVDA.SW",
+      "name": "NVIDIA CORP",
+      "marketCap": 4463445671936.0,
+      "region": "US",
+      "exchange": "EBS",
+      "currency": "CHF"
+    },
+    {
+      "symbol": "0Z4S.IL",
+      "name": "TENCENT HOLDINGS LTD TENCENT HO",
+      "marketCap": 4461471727616.0,
+      "region": "US",
+      "exchange": "IOB",
+      "currency": "HKD"
+    },
+    {
+      "symbol": "MUFGN.MX",
+      "name": "MITSUBISHI UFJ FINANCIAL GROUP ",
+      "marketCap": 4420534272000.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "8802.T",
+      "name": "MITSUBISHI ESTATE CO",
+      "marketCap": 4414930157568.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "1605.T",
+      "name": "INPEX CORPORATION",
+      "marketCap": 4395516035072.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "A1MD34.SA",
+      "name": "ADVANCED MICDRN",
+      "marketCap": 4371507052544.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "MARUTI.BO",
+      "name": "MARUTI SUZUKI INDIA LTD.",
+      "marketCap": 4359191527424.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "MARUTI.NS",
+      "name": "MARUTI SUZUKI INDIA LTD.",
+      "marketCap": 4349445013504.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "NFLX.NE",
+      "name": "NETFLIX CDR (CAD HEDGED)",
+      "marketCap": 4347518255104.0,
+      "region": "US",
+      "exchange": "NEO",
+      "currency": "CAD"
+    },
+    {
+      "symbol": "ADANIENT.BO",
+      "name": "ADANI ENTERPRISES LTD.",
+      "marketCap": 4325839208448.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "NVDG.F",
+      "name": "NVIDIA Corp.                  R",
+      "marketCap": 4324749475840.0,
+      "region": "US",
+      "exchange": "FRA",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "ADANIENT.NS",
+      "name": "ADANI ENTERPRISES LIMITED",
+      "marketCap": 4318866702336.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "TXN.MX",
+      "name": "TEXAS INSTRUMENTS INC",
+      "marketCap": 4314008649728.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "ANET.MX",
+      "name": "ARISTA NETWORKS INC",
+      "marketCap": 4283106590720.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "SHEL1N.MX",
+      "name": "SHELL PLC",
+      "marketCap": 4275678740480.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "SIEN.MX",
+      "name": "SIEMENS AG",
+      "marketCap": 4266580508672.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "0RIH.L",
+      "name": "ALPHABET INC ALPHABET ORD CLASS",
+      "marketCap": 4264553086976.0,
+      "region": "US",
+      "exchange": "LSE",
+      "currency": "USD"
+    },
+    {
+      "symbol": "GOOGL",
+      "name": "Alphabet Inc.",
+      "marketCap": 4230334382080.0,
+      "region": "US",
+      "exchange": "NMS",
+      "currency": "USD"
+    },
+    {
+      "symbol": "4503.T",
+      "name": "ASTELLAS PHARMA",
+      "marketCap": 4225236992000.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "0HD6.L",
+      "name": "ALPHABET INC ALPHABET ORD CLASS",
+      "marketCap": 4215222304768.0,
+      "region": "US",
+      "exchange": "LSE",
+      "currency": "USD"
+    },
+    {
+      "symbol": "GOOG",
+      "name": "Alphabet Inc.",
+      "marketCap": 4201472065536.0,
+      "region": "US",
+      "exchange": "NMS",
+      "currency": "USD"
+    },
+    {
+      "symbol": "AZN1N.MX",
+      "name": "ASTRAZENECA PLC",
+      "marketCap": 4185840943104.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "M&M.BO",
+      "name": "MAHINDRA & MAHINDRA LTD.",
+      "marketCap": 4128426164224.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "M&M.NS",
+      "name": "MAHINDRA & MAHINDRA LTD",
+      "marketCap": 4116573323264.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "SNDK1.MX",
+      "name": "SANDISK CORP",
+      "marketCap": 4066100117504.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "SAPN.MX",
+      "name": "SAP SE",
+      "marketCap": 4032789741568.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "7269.T",
+      "name": "SUZUKI MOTOR CORP",
+      "marketCap": 4025429786624.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "ORN.MX",
+      "name": "L'OREAL",
+      "marketCap": 4020989329408.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "SAP1N.MX",
+      "name": "SAP SE",
+      "marketCap": 3993385304064.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "4901.T",
+      "name": "FUJIFILM HOLDINGS CORPORATION",
+      "marketCap": 3981441761280.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "C.MX",
+      "name": "CITIGROUP INC",
+      "marketCap": 3975525171200.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "0700.HK",
+      "name": "TENCENT",
+      "marketCap": 3965369974784.0,
+      "region": "US",
+      "exchange": "HKG",
+      "currency": "HKD"
+    },
+    {
+      "symbol": "9020.T",
+      "name": "EAST JAPAN RAILWAY CO",
+      "marketCap": 3964159655936.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "ADANIPOWER.BO",
+      "name": "ADANI POWER LTD.",
+      "marketCap": 3958183559168.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "ADANIPOWER.NS",
+      "name": "ADANI POWER LTD",
+      "marketCap": 3958183559168.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "4543.T",
+      "name": "TERUMO CORP",
+      "marketCap": 3942208503808.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "AXP.MX",
+      "name": "AMERICAN EXPRESS CO",
+      "marketCap": 3939757457408.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "7751.T",
+      "name": "CANON INC",
+      "marketCap": 3929445761024.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "8801.T",
+      "name": "MITSUI FUDOSAN",
+      "marketCap": 3922512052224.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "ADANIPORTS.NS",
+      "name": "ADANI PORT & SEZ LTD",
+      "marketCap": 3916730466304.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "KOTAKBANK.BO",
+      "name": "KOTAK MAHINDRA BANK LTD.",
+      "marketCap": 3908578574336.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "ADANIPORTS.BO",
+      "name": "ADANI PORTS AND SPECIAL ECONOM",
+      "marketCap": 3905210548224.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "KOTAKBANK.NS",
+      "name": "KOTAK MAHINDRA BANK LTD",
+      "marketCap": 3890559844352.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "APC.F",
+      "name": "Apple Inc.                    R",
+      "marketCap": 3858701221888.0,
+      "region": "US",
+      "exchange": "FRA",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "APC.DE",
+      "name": "Apple Inc.                    R",
+      "marketCap": 3854323154944.0,
+      "region": "US",
+      "exchange": "GER",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "AAPL.VI",
+      "name": "APPLE INC",
+      "marketCap": 3851403919360.0,
+      "region": "US",
+      "exchange": "VIE",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "TMN.MX",
+      "name": "TOYOTA MOTOR CORP",
+      "marketCap": 3850710286336.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "1AAPL.MI",
+      "name": "APPLE",
+      "marketCap": 3848485470208.0,
+      "region": "US",
+      "exchange": "MIL",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "BHPN.MX",
+      "name": "BHP GROUP LTD",
+      "marketCap": 3807977406464.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "8267.T",
+      "name": "AEON CO LTD",
+      "marketCap": 3801342541824.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "LIN1N.MX",
+      "name": "LINDE PLC",
+      "marketCap": 3796632600576.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "AXISBANK.BO",
+      "name": "AXIS BANK LTD.",
+      "marketCap": 3789501235200.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "AXISBANK.NS",
+      "name": "AXIS BANK LIMITED",
+      "marketCap": 3789501235200.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "AMZN.NE",
+      "name": "AMAZON.COM CDR (CAD HEDGED)",
+      "marketCap": 3782179291136.0,
+      "region": "US",
+      "exchange": "NEO",
+      "currency": "CAD"
+    },
+    {
+      "symbol": "AMGN.MX",
+      "name": "AMGEN INC",
+      "marketCap": 3781589991424.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "TMO.MX",
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "marketCap": 3769573572608.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "IBM.MX",
+      "name": "INTERNATIONAL BUS MACH CORP",
+      "marketCap": 3759116386304.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "CRWD.MX",
+      "name": "CROWDSTRIKE HOLDINGS INC",
+      "marketCap": 3757376798720.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "BHP1N.MX",
+      "name": "BHP GROUP LTD",
+      "marketCap": 3753918595072.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "7936.T",
+      "name": "ASICS CORP",
+      "marketCap": 3743758417920.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "AMZN.TO",
+      "name": "AMAZON.COM CDR (CAD HEDGED)",
+      "marketCap": 3721112584192.0,
+      "region": "US",
+      "exchange": "TOR",
+      "currency": "CAD"
+    },
+    {
+      "symbol": "ASML34.SA",
+      "name": "ASML HOLD   DRN",
+      "marketCap": 3704778915840.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "0QYP.L",
+      "name": "MICROSOFT CORP MICROSOFT ORD",
+      "marketCap": 3687160217600.0,
+      "region": "US",
+      "exchange": "LSE",
+      "currency": "USD"
+    },
+    {
+      "symbol": "HCLTECH.BO",
+      "name": "HCL TECHNOLOGIES LTD.",
+      "marketCap": 3679842729984.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "HCLTECH.NS",
+      "name": "HCL TECHNOLOGIES LTD",
+      "marketCap": 3679842729984.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "941N.MX",
+      "name": "CHINA MOBILE LTD",
+      "marketCap": 3679583207424.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
+      "marketCap": 3678615371776.0,
+      "region": "US",
+      "exchange": "NMS",
+      "currency": "USD"
+    },
+    {
+      "symbol": "9022.T",
+      "name": "CENTRAL JAPAN RAILWAY CO",
+      "marketCap": 3665556668416.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "ABEA.F",
+      "name": "Alphabet Inc.                 R",
+      "marketCap": 3646966726656.0,
+      "region": "US",
+      "exchange": "FRA",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "ABEA.DE",
+      "name": "Alphabet Inc.                 R",
+      "marketCap": 3645131980800.0,
+      "region": "US",
+      "exchange": "GER",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "1GOOGL.MI",
+      "name": "ALPHABET CLASSE A",
+      "marketCap": 3643909341184.0,
+      "region": "US",
+      "exchange": "MIL",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "GOOA.VI",
+      "name": "ALPHABET INC-CL A",
+      "marketCap": 3643909341184.0,
+      "region": "US",
+      "exchange": "VIE",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "2317.TW",
+      "name": "HON HAI PRECISION INDUSTRY",
+      "marketCap": 3633498292224.0,
+      "region": "US",
+      "exchange": "TAI",
+      "currency": "TWD"
+    },
+    {
+      "symbol": "ABEAD.XC",
+      "name": "Alphabet Inc",
+      "marketCap": 3625314156544.0,
+      "region": "US",
+      "exchange": "CXE",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "ABEC.DE",
+      "name": "Alphabet Inc.                 R",
+      "marketCap": 3619449470976.0,
+      "region": "US",
+      "exchange": "GER",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "GOOC.VI",
+      "name": "ALPHABET INC-CL C",
+      "marketCap": 3618837626880.0,
+      "region": "US",
+      "exchange": "VIE",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "ABEC.F",
+      "name": "Alphabet Inc.                 R",
+      "marketCap": 3617614725120.0,
+      "region": "US",
+      "exchange": "FRA",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "1GOOG.MI",
+      "name": "ALPHABET CLASSE C",
+      "marketCap": 3617003405312.0,
+      "region": "US",
+      "exchange": "MIL",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "BHG.JO",
+      "name": "BHP Group Limited",
+      "marketCap": 3605816672256.0,
+      "region": "US",
+      "exchange": "JNB",
+      "currency": "ZAc"
+    },
+    {
+      "symbol": "VISA34.SA",
+      "name": "VISA INC    DRN ED",
+      "marketCap": 3603027722240.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "SANN.MX",
+      "name": "BANCO SANTANDER SA",
+      "marketCap": 3599114698752.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "APC8.F",
+      "name": "Apple Inc.                    R",
+      "marketCap": 3593003597824.0,
+      "region": "US",
+      "exchange": "FRA",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "6669.TW",
+      "name": "WIWYNN CORPORATION",
+      "marketCap": 3587656384512.0,
+      "region": "US",
+      "exchange": "TAI",
+      "currency": "TWD"
+    },
+    {
+      "symbol": "AAPL.SW",
+      "name": "APPLE INC",
+      "marketCap": 3585789919232.0,
+      "region": "US",
+      "exchange": "EBS",
+      "currency": "CHF"
+    },
+    {
+      "symbol": "STXN.MX",
+      "name": "SEAGATE TECHNOLOGY HOLDINGS PLC",
+      "marketCap": 3553366638592.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "SOFTN.MX",
+      "name": "SOFTBANK GROUP CORP",
+      "marketCap": 3551284428800.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "ITXN.MX",
+      "name": "INDITEX (IND.DE DISENO TEXTIL S",
+      "marketCap": 3538247745536.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "5401.T",
+      "name": "NIPPON STEEL CORPORATION",
+      "marketCap": 3534542340096.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "APH.MX",
+      "name": "AMPHENOL CORP",
+      "marketCap": 3521868988416.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "5016.T",
+      "name": "JX ADVANCED METALS CORPORATION",
+      "marketCap": 3514231947264.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "NOVOBN.MX",
+      "name": "NOVO NORDISK A/S",
+      "marketCap": 3504964108288.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "SUN.MX",
+      "name": "SCHNEIDER ELECTRIC SE",
+      "marketCap": 3500199641088.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "7832.T",
+      "name": "BANDAI NAMCO HOLDINGS INC",
+      "marketCap": 3485823926272.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "ITC.NS",
+      "name": "ITC LTD",
+      "marketCap": 3485785391104.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "6920.T",
+      "name": "LASERTEC CORP",
+      "marketCap": 3479462477824.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "ITC.BO",
+      "name": "ITC LTD.",
+      "marketCap": 3478114271232.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "4689.T",
+      "name": "LY CORPORATION",
+      "marketCap": 3474394972160.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "ULTRACEMCO.BO",
+      "name": "ULTRATECH CEMENT LTD.",
+      "marketCap": 3446197190656.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "5020.T",
+      "name": "ENEOS HOLDINGS INC",
+      "marketCap": 3436953206784.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "VZ.MX",
+      "name": "VERIZON COMMUNICATIONS",
+      "marketCap": 3435999264768.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "GOOG.SW",
+      "name": "ALPHABET INC-C",
+      "marketCap": 3435388731392.0,
+      "region": "US",
+      "exchange": "EBS",
+      "currency": "CHF"
+    },
+    {
+      "symbol": "ULTRACEMCO.NS",
+      "name": "ULTRATECH CEMENT LIMITED",
+      "marketCap": 3417956941824.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "NVON.MX",
+      "name": "NOVO NORDISK A/S",
+      "marketCap": 3417297125376.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "SHOPN.MX",
+      "name": "SHOPIFY INC",
+      "marketCap": 3400831598592.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "EXXO34.SA",
+      "name": "EXXON MOBIL DRN",
+      "marketCap": 3396768366592.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "ABE0.F",
+      "name": "Alphabet Inc.                 R",
+      "marketCap": 3394145091584.0,
+      "region": "US",
+      "exchange": "FRA",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "MRVL1.MX",
+      "name": "MARVELL TECHNOLOGY INC",
+      "marketCap": 3374767144960.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "HAL.NS",
+      "name": "HINDUSTAN AERONAUTICS LTD",
+      "marketCap": 3363871129600.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "HAL.BO",
+      "name": "Hindustan Aeronautics Limited",
+      "marketCap": 3354241007616.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "AIRN.MX",
+      "name": "AIRBUS SE",
+      "marketCap": 3320680022016.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "NTPC.BO",
+      "name": "NTPC LTD.",
+      "marketCap": 3306563305472.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "NTPC.NS",
+      "name": "NTPC LTD",
+      "marketCap": 3296866598912.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "MCD.MX",
+      "name": "MCDONALD'S CORPORATION",
+      "marketCap": 3290547355648.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "ABT.MX",
+      "name": "ABBOTT LABORATORIES",
+      "marketCap": 3287745822720.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "PEP.MX",
+      "name": "PEPSICO INC",
+      "marketCap": 3275739627520.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "TMUS.MX",
+      "name": "T-MOBILE US INC",
+      "marketCap": 3260921675776.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "BAJAJFINSV.BO",
+      "name": "BAJAJ FINSERV LTD.",
+      "marketCap": 3248496836608.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "SCHW.MX",
+      "name": "CHARLES SCHWAB CORPORATION",
+      "marketCap": 3240775122944.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "BLK.MX",
+      "name": "BLACKROCK INC",
+      "marketCap": 3236525768704.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "JNJB34.SA",
+      "name": "JOHNSON     DRN",
+      "marketCap": 3217576165376.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "BAJAJ-AUTO.BO",
+      "name": "BAJAJ AUTO LTD.",
+      "marketCap": 3215204810752.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "BAJAJ-AUTO.NS",
+      "name": "BAJAJ AUTO LIMITED",
+      "marketCap": 3215204810752.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "BAJAJFINSV.NS",
+      "name": "BAJAJ FINSERV LTD.",
+      "marketCap": 3213771669504.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "7013.T",
+      "name": "IHI CORPORATION",
+      "marketCap": 3210170335232.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "3711.TW",
+      "name": "ASE TECHNOLOGY HOLDING CO LTD",
+      "marketCap": 3207715880960.0,
+      "region": "US",
+      "exchange": "TAI",
+      "currency": "TWD"
+    },
+    {
+      "symbol": "4452.T",
+      "name": "KAO CORP",
+      "marketCap": 3196510011392.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "MSFT.VI",
+      "name": "MICROSOFT CORP",
+      "marketCap": 3191499390976.0,
+      "region": "US",
+      "exchange": "VIE",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "1MSFT.MI",
+      "name": "MICROSOFT CORP",
+      "marketCap": 3190385803264.0,
+      "region": "US",
+      "exchange": "MIL",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "MSF.DE",
+      "name": "MICROSOFT CORP.               R",
+      "marketCap": 3188900757504.0,
+      "region": "US",
+      "exchange": "GER",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "MSF.F",
+      "name": "MICROSOFT CORP.               R",
+      "marketCap": 3179618762752.0,
+      "region": "US",
+      "exchange": "FRA",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "6594.T",
+      "name": "NIDEC CORPORATION",
+      "marketCap": 3177570893824.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "ABBNN.MX",
+      "name": "ABB LTD",
+      "marketCap": 3170716876800.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "UBSN.MX",
+      "name": "UBS GROUP AG",
+      "marketCap": 3146659921920.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "DIS.MX",
+      "name": "WALT DISNEY COMPANY (THE)",
+      "marketCap": 3139703668736.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "8830.T",
+      "name": "SUMITOMO REALTY & DEVELOPMENT C",
+      "marketCap": 3123670417408.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "4004.T",
+      "name": "RESONAC HOLDINGS CORPORATION",
+      "marketCap": 3123525713920.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "JSWSTEEL.NS",
+      "name": "JSW STEEL LIMITED",
+      "marketCap": 3100042330112.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "6326.T",
+      "name": "KUBOTA CORP",
+      "marketCap": 3099269267456.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "BA.MX",
+      "name": "BOEING CO",
+      "marketCap": 3096124588032.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "JSWSTEEL.BO",
+      "name": "JSW STEEL LTD.",
+      "marketCap": 3092719337472.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "NEE.MX",
+      "name": "NEXTERA ENERGY INC",
+      "marketCap": 3065282297856.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "ETN1N.MX",
+      "name": "EATON CORPORATION PLC",
+      "marketCap": 3003140014080.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "BEL.NS",
+      "name": "BHARAT ELECTRONICS LTD",
+      "marketCap": 3002857160704.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "BEL.BO",
+      "name": "BHARAT ELECTRONICS LTD.",
+      "marketCap": 2999933206528.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "WDC.MX",
+      "name": "WESTERN DIGITAL CORP",
+      "marketCap": 2988394151936.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "KNM.L",
+      "name": "KONAMI GROUP CORPORATION ORD JP",
+      "marketCap": 2980886872064.0,
+      "region": "US",
+      "exchange": "LSE",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "9766.T",
+      "name": "KONAMI GROUP CORPORATION",
+      "marketCap": 2980886872064.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "ONGC.BO",
+      "name": "OIL AND NATURAL GAS CORPORATIO",
+      "marketCap": 2973978066944.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "ONGC.NS",
+      "name": "OIL AND NATURAL GAS CORP.",
+      "marketCap": 2973978066944.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "3750.HK",
+      "name": "CATL",
+      "marketCap": 2967999086592.0,
+      "region": "US",
+      "exchange": "HKG",
+      "currency": "HKD"
+    },
+    {
+      "symbol": "MSFT.SW",
+      "name": "MICROSOFT CORP",
+      "marketCap": 2962792644608.0,
+      "region": "US",
+      "exchange": "EBS",
+      "currency": "CHF"
+    },
+    {
+      "symbol": "QCOM.MX",
+      "name": "QUALCOMM INC",
+      "marketCap": 2957849919488.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "8035N.MX",
+      "name": "TOKYO ELECTRON",
+      "marketCap": 2934445965312.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "ETERNAL.NS",
+      "name": "ETERNAL LIMITED",
+      "marketCap": 2931917848576.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "ETERNAL.BO",
+      "name": "Eternal Limited",
+      "marketCap": 2927315124224.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "GILD.MX",
+      "name": "GILEAD SCIENCES INC",
+      "marketCap": 2920082046976.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "MSF0.F",
+      "name": "Microsoft Corp.               R",
+      "marketCap": 2916159062016.0,
+      "region": "US",
+      "exchange": "FRA",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "SAFN.MX",
+      "name": "SAFRAN SA",
+      "marketCap": 2912461258752.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "RRN.MX",
+      "name": "ROLLS ROYCE HOLDINGS",
+      "marketCap": 2912422985728.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "T.MX",
+      "name": "AT&T INC",
+      "marketCap": 2897531371520.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "NESTLEIND.BO",
+      "name": "NESTLE INDIA LTD.",
+      "marketCap": 2892969279488.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "NESTLEIND.NS",
+      "name": "NESTLE INDIA LIMITED",
+      "marketCap": 2890736074752.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "WELL.MX",
+      "name": "WELLTOWER INC.",
+      "marketCap": 2882165800960.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "6857N.MX",
+      "name": "ADVANTEST CORP",
+      "marketCap": 2880142311424.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "4612.T",
+      "name": "NIPPON PAINT HOLDINGS CO LTD",
+      "marketCap": 2872652070912.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "4307.T",
+      "name": "NOMURA RESEARCH INSTITUTE",
+      "marketCap": 2871807442944.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "TJX.MX",
+      "name": "TJX COS INC",
+      "marketCap": 2866707955712.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "1925.T",
+      "name": "DAIWA HOUSE INDUSTRY CO",
+      "marketCap": 2854567280640.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "5801.T",
+      "name": "FURUKAWA ELECTRIC CO",
+      "marketCap": 2854085197824.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "AMZN",
+      "name": "Amazon.com, Inc.",
+      "marketCap": 2833025073152.0,
+      "region": "US",
+      "exchange": "NMS",
+      "currency": "USD"
+    },
+    {
+      "symbol": "RION.MX",
+      "name": "RIO TINTO",
+      "marketCap": 2795166760960.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "7532.T",
+      "name": "PAN PACIFIC INTL HLDGS CORP",
+      "marketCap": 2769452793856.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "0005.HK",
+      "name": "HSBC HOLDINGS",
+      "marketCap": 2756731207680.0,
+      "region": "US",
+      "exchange": "HKG",
+      "currency": "HKD"
+    },
+    {
+      "symbol": "6501N.MX",
+      "name": "HITACHI",
+      "marketCap": 2736533274624.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "CRM.MX",
+      "name": "SALESFORCE INC",
+      "marketCap": 2734722908160.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "BKNG.MX",
+      "name": "BOOKING HOLDINGS INC",
+      "marketCap": 2711732092928.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "ITLC34.SA",
+      "name": "INTEL       DRN",
+      "marketCap": 2709535850496.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "ANB.MX",
+      "name": "ANHEUSER-BUSCH INBEV SA/NV",
+      "marketCap": 2706709413888.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "IBEN.MX",
+      "name": "IBERDROLA SA",
+      "marketCap": 2702622326784.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "7735.T",
+      "name": "SCREEN HOLDINGS CO LTD",
+      "marketCap": 2699228610560.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "BBVA.MX",
+      "name": "BANCO BILBAO VIZCAYA ARGENTAR",
+      "marketCap": 2698451353600.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "601398.SS",
+      "name": "INDUSTRIAL & COMMERCIAL BK OF C",
+      "marketCap": 2694431375360.0,
+      "region": "US",
+      "exchange": "SHH",
+      "currency": "CNY"
+    },
+    {
+      "symbol": "DTEN.MX",
+      "name": "DEUTSCHE TELEKOM AG",
+      "marketCap": 2680414011392.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "601939.SS",
+      "name": "CHINA CONSTRUCTION BANK",
+      "marketCap": 2678787932160.0,
+      "region": "US",
+      "exchange": "SHH",
+      "currency": "CNY"
+    },
+    {
+      "symbol": "9503.T",
+      "name": "KANSAI ELECTRIC POWER CO INC",
+      "marketCap": 2674850267136.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "6361.T",
+      "name": "EBARA CORP",
+      "marketCap": 2672959684608.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "4091.T",
+      "name": "NIPPON SANSO HOLDINGS CORPORATI",
+      "marketCap": 2657719418880.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "ENRN.MX",
+      "name": "SIEMENS ENERGY AG",
+      "marketCap": 2652903309312.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "UBER.MX",
+      "name": "UBER TECHNOLOGIES INC",
+      "marketCap": 2651243151360.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "DMART.NS",
+      "name": "AVENUE SUPERMARTS LIMITED",
+      "marketCap": 2648118657024.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "SHRIRAMFIN.BO",
+      "name": "Shriram Finance Limited",
+      "marketCap": 2644988657664.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "DMART.BO",
+      "name": "Avenue Supermarts Limited",
+      "marketCap": 2644270383104.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "SHRIRAMFIN.NS",
+      "name": "SHRIRAM FINANCE LIMITED",
+      "marketCap": 2640047505408.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "LICI.BO",
+      "name": "LIFE INSURANCE CORPORATION OF",
+      "marketCap": 2616651677696.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "NFC1.F",
+      "name": "Netflix Inc.                  R",
+      "marketCap": 2616392941568.0,
+      "region": "US",
+      "exchange": "FRA",
+      "currency": "EUR"
+    },
+    {
+      "symbol": "PFE.MX",
+      "name": "PFIZER INC",
+      "marketCap": 2612046331904.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "9735.T",
+      "name": "SECOM CO",
+      "marketCap": 2610519605248.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "ASIANPAINT.BO",
+      "name": "ASIAN PAINTS LTD.",
+      "marketCap": 2597790679040.0,
+      "region": "US",
+      "exchange": "BSE",
+      "currency": "INR"
+    },
+    {
+      "symbol": "COP.MX",
+      "name": "CONOCOPHILLIPS",
+      "marketCap": 2593147060224.0,
+      "region": "US",
+      "exchange": "MEX",
+      "currency": "MXN"
+    },
+    {
+      "symbol": "ASIANPAINT.NS",
+      "name": "ASIAN PAINTS LIMITED",
+      "marketCap": 2584792530944.0,
+      "region": "US",
+      "exchange": "NSI",
+      "currency": "INR"
+    },
+    {
+      "symbol": "9101.T",
+      "name": "NIPPON YUSEN KABUSHIKI KAISHA",
+      "marketCap": 2582759342080.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "5713.T",
+      "name": "SUMITOMO METAL MINING CO",
+      "marketCap": 2573454802944.0,
+      "region": "US",
+      "exchange": "JPX",
+      "currency": "JPY"
+    },
+    {
+      "symbol": "MSCD34.SA",
+      "name": "MASTERCARD  DRN",
+      "marketCap": 2565999427584.0,
+      "region": "US",
+      "exchange": "SAO",
+      "currency": "BRL"
+    },
+    {
+      "symbol": "AVGO.NE",
+      "name": "BROADCOM CDR (CAD HEDGED)",
+      "marketCap": 2559938134016.0,
+      "region": "US",
+      "exchange": "NEO",
+      "currency": "CAD"
+    },
+    {
+      "symbol": "1398.HK",
+      "name": "ICBC",
+      "marketCap": 2553650872320.0,
+      "region": "US",
+      "exchange": "HKG",
+      "currency": "HKD"
+    }
   ]
 }
