@@ -42,8 +42,9 @@ function render(data){
   const style=byId('analysisStyle')?.value||byId('riskMode')?.value||'offensiv';
   const walk=data.walkForward?.[style]||data.walkForward?.offensiv;
   const p=data.perfect;
-  byId('analysisMeta').innerHTML=`Zeitraum <b>${date(data.period?.from)} – ${date(data.period?.to)}</b> · ${Number(data.usableSymbols||0)} nutzbare Werte · ${Number(data.universe?.equities||0)} Aktien + ${Number(data.universe?.etfs||0)} ETFs · <b>keine Hebelprodukte</b> · Datenstand ${data.generatedAt?new Date(data.generatedAt).toLocaleString('de-DE'):'–'}`;
-  byId('perfectResult').innerHTML=resultCard('Perfekter Rückblick','mit Zukunftswissen',p,'Das ist die theoretische Messlatte innerhalb des verwendeten Tagesdaten-Modells.');
+  const dq=Number(data.dataQuality?.excludedCount||0);
+  byId('analysisMeta').innerHTML=`Zeitraum <b>${date(data.period?.from)} – ${date(data.period?.to)}</b> · ${Number(data.usableSymbols||0)} nutzbare Werte · ${Number(data.universe?.equities||0)} Aktien + ${Number(data.universe?.etfs||0)} ETFs · <b>keine Hebelprodukte</b> · ${dq} fehlerhafte Kursserien ausgeschlossen · Datenstand ${data.generatedAt?new Date(data.generatedAt).toLocaleString('de-DE'):'–'}`;
+  byId('perfectResult').innerHTML=resultCard('Perfekter Rückblick','mit Zukunftswissen',p,'Das ist die theoretische Messlatte innerhalb des qualitätsgeprüften Tagesdaten-Modells.');
   byId('walkResult').innerHTML=resultCard('KI hätte damals gemacht',`Walk-Forward · ${style}`,walk,'Die Strategie kennt an jedem Tag nur Daten bis zu diesem Tag. Historische News werden nicht nachträglich erfunden.');
   const gap=Number(p.endCapital)-Number(walk.endCapital),share=Number(p.endCapital)>0?Number(walk.endCapital)/Number(p.endCapital)*100:0;
   byId('analysisCompare').innerHTML=`<b>Abstand zur theoretischen Messlatte:</b> ${eur(gap)} · KI-Rekonstruktion erreichte ${fmt(share,1)}% des perfekten Endkapitals.`;
@@ -57,7 +58,7 @@ async function loadAnalysis(force=false){
     const r=await fetch(`/analysis-2026.json${force?`?t=${Date.now()}`:''}`,{cache:'no-store'});
     if(!r.ok)throw new Error(`2026-Auswertung noch nicht verfügbar (HTTP ${r.status}). Die tägliche GitHub-Berechnung läuft möglicherweise noch.`);
     const j=await r.json();
-    if(!j?.perfect||!j?.walkForward)throw new Error('2026-Auswertung ist unvollständig.');
+    if(!j?.perfect||!j?.walkForward||!j?.dataQuality||!j?.walkForwardCalibration)throw new Error('Die qualitätsgeprüfte 2026-Neuberechnung läuft noch. Bitte in Kürze erneut laden.');
     render(j);
   }catch(e){
     byId('analysisError').textContent=String(e?.message||e);
