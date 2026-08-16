@@ -1,5 +1,6 @@
 import {MarketPortfolio as V3Portfolio} from './portfolio-v3.js';
 import {num} from './constants.js';
+import {runLastWeekHindsight} from './last-week.js';
 
 function freshnessFromTradingAge(hours){
  const h=Math.max(0,num(hours,999));
@@ -20,8 +21,6 @@ export class MarketPortfolio extends V3Portfolio{
   const rows=this.ctx.storage.sql.exec('SELECT * FROM news_radar ORDER BY COALESCE(news_at,updated_at) DESC LIMIT 140').toArray();
   const recent=rows.map(x=>{
    const stored=Math.max(0,num(x.trading_age_hours,999));
-   // Wenn die Meldung auf die naechste Marktoeffnung wartet, bleibt ihr Handelsalter komplett eingefroren.
-   // Andernfalls darf seit der letzten Radar-Aktualisierung nur die kurze laufende Handelszeit weiterzaehlen.
    const extra=x.waiting_for_open?0:Math.max(0,(now-Date.parse(x.updated_at||new Date(now).toISOString()))/3600000);
    const tradingAge=stored+Math.min(extra,2);
    return{...x,tradingAge,freshness:freshnessFromTradingAge(tradingAge)};
@@ -30,5 +29,18 @@ export class MarketPortfolio extends V3Portfolio{
   const den=active.reduce((s,x)=>s+weight(x),0),score=den?active.reduce((s,x)=>s+num(x.news_score)*weight(x),0)/den:0,label=score>.18?'BULLISH':score<-.18?'BEARISH':'NEUTRAL';
   recent.sort((a,b)=>(Math.abs(num(b.news_score))*weight(b))-(Math.abs(num(a.news_score))*weight(a)));
   return{score,label,rows:recent.slice(0,60)};
+ }
+ async status(){
+  const s=await super.status();
+  delete s.benchmarks;
+  delete s.replay;
+  return s;
+ }
+ async lastWeek(){
+  const c=this.cfg(),m=this.executionModel(c);
+  return runLastWeekHindsight(this.env,{
+   includeEtfs:Boolean(c.include_etfs),includeLeverage:Boolean(c.include_leverage),
+   feeFixed:m.feeFixed,feePercent:m.feePercent,slippagePercent:m.slippagePercent,leveragedSlippagePercent:m.leveragedSlippagePercent
+  });
  }
 }
