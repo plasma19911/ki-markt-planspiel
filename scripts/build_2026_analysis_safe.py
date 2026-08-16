@@ -40,20 +40,44 @@ def safe_to_eur_series(universe, series, fx):
     return clean
 
 
+def remove_artificial_final_day_roundtrips(result):
+    """Entfernt nur Trades, die am selben Tag gekauft und allein wegen Auswertungsende verkauft wurden."""
+    trades = result.get('trades') or []
+    removed = [t for t in trades if t.get('buyAt') == t.get('sellAt') and t.get('reason') == 'Auswertungsende']
+    if not removed:
+        return result
+    result['trades'] = [t for t in trades if t not in removed]
+    symbols_dates = {(t.get('symbol'), t.get('buyAt')) for t in removed}
+    result['actions'] = [a for a in (result.get('actions') or []) if (a.get('symbol'), a.get('date')) not in symbols_dates]
+    # Ein solcher Roundtrip liegt nach allen echten Trades. Ohne ihn waere das Kapital um dessen P/L unveraendert geblieben.
+    correction = -sum(float(t.get('pnl') or 0) for t in removed)
+    result['endCapital'] = float(result.get('endCapital') or 0) + correction
+    result['profit'] = result['endCapital'] - float(result.get('startCapital') or 100)
+    result['returnPct'] = (result['endCapital'] / float(result.get('startCapital') or 100) - 1) * 100
+    wins = sum(1 for t in result['trades'] if float(t.get('pnl') or 0) > 0)
+    result['winRate'] = wins / len(result['trades']) * 100 if result['trades'] else 0
+    result['removedArtificialEndTrades'] = len(removed)
+    return result
+
+
 base.to_eur_series = safe_to_eur_series
 base.main()
 
 path = ROOT / 'public' / 'analysis-2026.json'
 data = json.loads(path.read_text(encoding='utf-8'))
+for style, result in (data.get('walkForward') or {}).items():
+    data['walkForward'][style] = remove_artificial_final_day_roundtrips(result)
+
 data['dataQuality'] = {
     'rule': f'Komplette Serie ausgeschlossen, wenn ein aufeinanderfolgender EUR-Tagesfaktor < {MIN_FACTOR:.2f} oder > {MAX_FACTOR:.2f} ist.',
     'excludedCount': len(EXCLUDED),
     'excluded': EXCLUDED,
 }
 data['walkForwardCalibration'] = {
-    'reason': 'Historische Vollperiode nutzt Tagesdaten statt 1-Minuten-Daten; Eintrittsschwellen fuer Tagesauflösung kalibriert.',
+    'reason': 'Historische Vollperiode nutzt Tagesdaten statt 1-Minuten-Daten; Eintrittsschwellen fuer Tagesaufloesung kalibriert.',
     'styles': base.STYLE,
     'newsReconstructed': False,
+    'artificialSameDayEndTradesRemoved': True,
 }
 path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
 print(f'Quality-guarded analysis written; excluded={len(EXCLUDED)}')
