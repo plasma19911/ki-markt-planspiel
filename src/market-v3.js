@@ -2,7 +2,7 @@ import {CORE_ETFS,LEVERAGED_ETFS,SPARK_BATCH,DEEP_LIMIT,NEWS_LIMIT,NEWS_RADAR_BA
 import {PRIORITY_EQUITIES} from './priority-equities.js';
 
 const headers={'accept':'application/json','user-agent':'Mozilla/5.0'};
-const feedHeaders={'accept':'application/rss+xml,application/xml,text/xml,application/json,text/html;q=0.8,*/*;q=0.5','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/3.1; +https://github.com/plasma19911/ki-markt-planspiel)'};
+const feedHeaders={'accept':'application/rss+xml,application/xml,text/xml,application/json,text/html;q=0.8,*/*;q=0.5','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/4.2; +https://github.com/plasma19911/ki-markt-planspiel)'};
 const POS_PHRASES=['contract award','awarded contract','wins contract','selected for','raises guidance','raised guidance','beats estimates','beat estimates','record orders','record backlog','backlog growth','approval granted','strategic partnership','new customer','buyback','dividend increase','upgraded to buy','price target raised','funding secured','production increase','guidance raised','strong demand','auftrag','großauftrag','rekordauftrag','prognose angehoben','gewinn steigt','umsatz steigt','übertrifft erwartungen','uebertrifft erwartungen'];
 const NEG_PHRASES=['contract cancelled','contract canceled','loses contract','cuts guidance','cut guidance','misses estimates','missed estimates','investigation','regulatory probe','data breach','cyberattack','production delay','delivery delay','recall','downgraded to sell','price target cut','bankruptcy','default','fraud allegation','export ban','guidance lowered','prognose gesenkt','gewinnwarnung','umsatzwarnung','verfehlt erwartungen','ermittlungen'];
 const NEWS_MAX_TRADING_AGE_HOURS=36;
@@ -14,16 +14,51 @@ export const BENCHMARKS=[
 ];
 
 const SESSION_RULES=[
- [/\.DE$/,'Europe/Berlin',9*60,17*60+30,'Deutschland','XETR','EUR'],[/\.(PA|BR|MI|MC)$/,'Europe/Paris',9*60,17*60+30,'Europa','XPAR','EUR'],
- [/\.AS$/,'Europe/Amsterdam',9*60,17*60+30,'Amsterdam','XAMS','EUR'],[/\.SW$/,'Europe/Zurich',9*60,17*60+30,'Schweiz','XSWX','CHF'],
- [/\.L$/,'Europe/London',8*60,16*60+30,'London','XLON','GBP'],[/\.ST$/,'Europe/Stockholm',9*60,17*60+30,'Stockholm','XSTO','SEK'],
- [/\.OL$/,'Europe/Oslo',9*60,16*60+30,'Oslo','XOSL','NOK'],[/\.IS$/,'Europe/Istanbul',10*60,18*60,'Istanbul','XIST','TRY'],
- [/\.T$/,'Asia/Tokyo',9*60,15*60+30,'Tokio','XTKS','JPY'],[/\.(KS|KQ)$/,'Asia/Seoul',9*60,15*60+30,'Seoul','XKRX','KRW'],
- [/\.(TW|TWO)$/,'Asia/Taipei',9*60,13*60+30,'Taiwan','XTAI','TWD'],[/\.HK$/,'Asia/Hong_Kong',9*60+30,16*60,'Hongkong','XHKG','HKD'],
- [/\.(SS|SZ)$/,'Asia/Shanghai',9*60+30,15*60,'China','XSHG','CNY'],[/\.(NS|BO)$/,'Asia/Kolkata',9*60+15,15*60+30,'Indien','XNSE','INR'],
- [/\.AX$/,'Australia/Sydney',10*60,16*60,'Australien','XASX','AUD'],[/\.(TO|V)$/,'America/Toronto',9*60+30,16*60,'Kanada','XTSE','CAD'],
+ [/\.DE$/,'Europe/Berlin',9*60,17*60+30,'Deutschland','XETR','EUR'],[/\.(F|SG|MU|HM)$/,'Europe/Berlin',9*60,17*60+30,'Deutschland','XETR','EUR'],
+ [/\.(PA|BR|MI|MC)$/,'Europe/Paris',9*60,17*60+30,'Europa','XPAR','EUR'],[/\.AS$/,'Europe/Amsterdam',9*60,17*60+30,'Amsterdam','XAMS','EUR'],
+ [/\.VI$/,'Europe/Vienna',9*60,17*60+30,'Wien','XWBO','EUR'],[/\.HE$/,'Europe/Helsinki',10*60,18*60+30,'Helsinki','XHEL','EUR'],
+ [/\.CO$/,'Europe/Copenhagen',9*60,17*60,'Kopenhagen','XCSE','DKK'],[/\.LS$/,'Europe/Lisbon',8*60,16*60+30,'Lissabon','XLIS','EUR'],
+ [/\.SW$/,'Europe/Zurich',9*60,17*60+30,'Schweiz','XSWX','CHF'],[/\.L$/,'Europe/London',8*60,16*60+30,'London','XLON','GBP'],
+ [/\.ST$/,'Europe/Stockholm',9*60,17*60+30,'Stockholm','XSTO','SEK'],[/\.OL$/,'Europe/Oslo',9*60,16*60+30,'Oslo','XOSL','NOK'],
+ [/\.IS$/,'Europe/Istanbul',10*60,18*60,'Istanbul','XIST','TRY'],[/\.WA$/,'Europe/Warsaw',9*60,17*60,'Warschau','XWAR','PLN'],
+ [/\.PR$/,'Europe/Prague',9*60,16*60+20,'Prag','XPRA','CZK'],[/\.T$/,'Asia/Tokyo',9*60,15*60+30,'Tokio','XTKS','JPY'],
+ [/\.(KS|KQ)$/,'Asia/Seoul',9*60,15*60+30,'Seoul','XKRX','KRW'],[/\.(TW|TWO)$/,'Asia/Taipei',9*60,13*60+30,'Taiwan','XTAI','TWD'],
+ [/\.HK$/,'Asia/Hong_Kong',9*60+30,16*60,'Hongkong','XHKG','HKD'],[/\.(SS|SZ)$/,'Asia/Shanghai',9*60+30,15*60,'China','XSHG','CNY'],
+ [/\.(NS|BO)$/,'Asia/Kolkata',9*60+15,15*60+30,'Indien','XNSE','INR'],[/\.SI$/,'Asia/Singapore',9*60,17*60,'Singapur','XSES','SGD'],
+ [/\.BK$/,'Asia/Bangkok',10*60,16*60+30,'Thailand','XBKK','THB'],[/\.JK$/,'Asia/Jakarta',9*60,16*60,'Indonesien','XIDX','IDR'],
+ [/\.KL$/,'Asia/Kuala_Lumpur',9*60,17*60,'Malaysia','XKLS','MYR'],[/\.TA$/,'Asia/Jerusalem',10*60,17*60+25,'Tel Aviv','XTAE','ILS'],
+ [/\.AX$/,'Australia/Sydney',10*60,16*60,'Australien','XASX','AUD'],[/\.NZ$/,'Pacific/Auckland',10*60,16*60+45,'Neuseeland','XNZE','NZD'],
+ [/\.(TO|V|NE)$/,'America/Toronto',9*60+30,16*60,'Kanada','XTSE','CAD'],[/\.MX$/,'America/Mexico_City',8*60+30,15*60,'Mexiko','XMEX','MXN'],
  [/\.SA$/,'America/Sao_Paulo',10*60,17*60,'Brasilien','BVMF','BRL'],[/\.JO$/,'Africa/Johannesburg',9*60,17*60,'Suedafrika','XJSE','ZAR']
 ];
+
+const EXCHANGE_RULES=[
+ [new Set(['NMS','NYQ','NGM','NCM','ASE','PCX']),[null,'America/New_York',9*60+30,16*60,'USA','XNYS','USD']],
+ [new Set(['GER','FRA','STU','MUN','DUS','HAM']),[null,'Europe/Berlin',9*60,17*60+30,'Deutschland','XETR','EUR']],
+ [new Set(['PAR','BRU']),[null,'Europe/Paris',9*60,17*60+30,'Europa','XPAR','EUR']],
+ [new Set(['MIL','MCE']),[null,'Europe/Paris',9*60,17*60+30,'Europa','XMIL','EUR']],
+ [new Set(['AMS']),[null,'Europe/Amsterdam',9*60,17*60+30,'Amsterdam','XAMS','EUR']],
+ [new Set(['VIE']),[null,'Europe/Vienna',9*60,17*60+30,'Wien','XWBO','EUR']],
+ [new Set(['HEL']),[null,'Europe/Helsinki',10*60,18*60+30,'Helsinki','XHEL','EUR']],
+ [new Set(['CPH']),[null,'Europe/Copenhagen',9*60,17*60,'Kopenhagen','XCSE','DKK']],
+ [new Set(['LSE','IOB']),[null,'Europe/London',8*60,16*60+30,'London','XLON','GBP']],
+ [new Set(['EBS']),[null,'Europe/Zurich',9*60,17*60+30,'Schweiz','XSWX','CHF']],
+ [new Set(['STO']),[null,'Europe/Stockholm',9*60,17*60+30,'Stockholm','XSTO','SEK']],
+ [new Set(['OSL']),[null,'Europe/Oslo',9*60,16*60+30,'Oslo','XOSL','NOK']],
+ [new Set(['JPX','TYO']),[null,'Asia/Tokyo',9*60,15*60+30,'Tokio','XTKS','JPY']],
+ [new Set(['KSC','KOE']),[null,'Asia/Seoul',9*60,15*60+30,'Seoul','XKRX','KRW']],
+ [new Set(['TAI','TWO']),[null,'Asia/Taipei',9*60,13*60+30,'Taiwan','XTAI','TWD']],
+ [new Set(['HKG']),[null,'Asia/Hong_Kong',9*60+30,16*60,'Hongkong','XHKG','HKD']],
+ [new Set(['SHH','SHZ']),[null,'Asia/Shanghai',9*60+30,15*60,'China','XSHG','CNY']],
+ [new Set(['NSI','BSE']),[null,'Asia/Kolkata',9*60+15,15*60+30,'Indien','XNSE','INR']],
+ [new Set(['ASX']),[null,'Australia/Sydney',10*60,16*60,'Australien','XASX','AUD']],
+ [new Set(['TOR','VAN','NEO']),[null,'America/Toronto',9*60+30,16*60,'Kanada','XTSE','CAD']],
+ [new Set(['MEX']),[null,'America/Mexico_City',8*60+30,15*60,'Mexiko','XMEX','MXN']],
+ [new Set(['SAO']),[null,'America/Sao_Paulo',10*60,17*60,'Brasilien','BVMF','BRL']],
+ [new Set(['JNB']),[null,'Africa/Johannesburg',9*60,17*60,'Suedafrika','XJSE','ZAR']],
+ [new Set(['SES']),[null,'Asia/Singapore',9*60,17*60,'Singapur','XSES','SGD']]
+];
+const CURRENCY_RULES={EUR:[null,'Europe/Paris',9*60,17*60+30,'Europa','XPAR','EUR'],GBP:[null,'Europe/London',8*60,16*60+30,'London','XLON','GBP'],CHF:[null,'Europe/Zurich',9*60,17*60+30,'Schweiz','XSWX','CHF'],SEK:[null,'Europe/Stockholm',9*60,17*60+30,'Stockholm','XSTO','SEK'],NOK:[null,'Europe/Oslo',9*60,16*60+30,'Oslo','XOSL','NOK'],DKK:[null,'Europe/Copenhagen',9*60,17*60,'Kopenhagen','XCSE','DKK'],TRY:[null,'Europe/Istanbul',10*60,18*60,'Istanbul','XIST','TRY'],JPY:[null,'Asia/Tokyo',9*60,15*60+30,'Tokio','XTKS','JPY'],KRW:[null,'Asia/Seoul',9*60,15*60+30,'Seoul','XKRX','KRW'],TWD:[null,'Asia/Taipei',9*60,13*60+30,'Taiwan','XTAI','TWD'],HKD:[null,'Asia/Hong_Kong',9*60+30,16*60,'Hongkong','XHKG','HKD'],CNY:[null,'Asia/Shanghai',9*60+30,15*60,'China','XSHG','CNY'],INR:[null,'Asia/Kolkata',9*60+15,15*60+30,'Indien','XNSE','INR'],AUD:[null,'Australia/Sydney',10*60,16*60,'Australien','XASX','AUD'],CAD:[null,'America/Toronto',9*60+30,16*60,'Kanada','XTSE','CAD'],MXN:[null,'America/Mexico_City',8*60+30,15*60,'Mexiko','XMEX','MXN'],BRL:[null,'America/Sao_Paulo',10*60,17*60,'Brasilien','BVMF','BRL'],ZAR:[null,'Africa/Johannesburg',9*60,17*60,'Suedafrika','XJSE','ZAR'],SGD:[null,'Asia/Singapore',9*60,17*60,'Singapur','XSES','SGD']};
 
 const health=()=>({});
 function markHealth(h,source,ok,error='',started=0){const x=h[source]||{ok:0,fail:0,lastError:'',latencyMs:null};if(ok){x.ok++;x.lastError=''}else{x.fail++;x.lastError=String(error||'Fehler').slice(0,180)}if(started)x.latencyMs=Date.now()-started;h[source]=x}
@@ -41,7 +76,7 @@ function jsonNewsItems(text,limit=40){try{const root=JSON.parse(text),out=[],see
 function parseFeed(text,limit=40){const t=String(text||'').trim();if(!t)return[];return (t.startsWith('{')||t.startsWith('[')?jsonNewsItems(t,limit):newsItems(t,limit))}
 async function mapLimit(items,limit,fn){const out=new Array(items.length);let i=0;await Promise.all(Array.from({length:Math.min(limit,items.length)},async()=>{while(true){const x=i++;if(x>=items.length)return;try{out[x]=await fn(items[x])}catch{out[x]=null}}}));return out}
 
-function sessionRule(info){for(const r of SESSION_RULES)if(r[0].test(String(info?.symbol||'')))return r;return [null,'America/New_York',9*60+30,16*60,'USA','XNYS','USD']}
+function sessionRule(info){for(const r of SESSION_RULES)if(r[0].test(String(info?.symbol||'')))return r;const ex=String(info?.exchange||'').toUpperCase();for(const [set,r] of EXCHANGE_RULES)if(set.has(ex))return r;let cur=String(info?.currency||'').trim();if(cur==='GBp'||cur.toUpperCase()==='GBX')cur='GBP';cur=cur.toUpperCase();return CURRENCY_RULES[cur]||[null,'America/New_York',9*60+30,16*60,'USA','XNYS','USD']}
 function localParts(date,tz){const p=new Intl.DateTimeFormat('en-CA',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit',weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(date),o={};for(const x of p)o[x.type]=x.value;return o}
 function ymdFromParts(p){return `${p.year}-${p.month}-${p.day}`}
 function ordFromParts(p){return Math.floor(Date.UTC(Number(p.year),Number(p.month)-1,Number(p.day))/86400000)}
@@ -55,7 +90,8 @@ export function newsTradingAgeHours(info,ts,now=new Date(),calendar=null){const 
 export function newsRecencyWeight(info,ts,calendar=null){const h=newsTradingAgeHours(info,ts,new Date(),calendar);if(h<=.25)return 1.75;if(h<=1)return 1.55;if(h<=3)return 1.30;if(h<=6)return 1;if(h<=12)return .62;if(h<=18)return .35;if(h<=24)return .16;if(h<=36)return .05;return 0}
 
 async function loadCalendar(env){try{const r=await env.ASSETS.fetch(new Request('https://assets.local/market-calendar.json'));if(r.ok)return await r.json()}catch{}return{exchanges:{}}}
-export async function loadUniverse(env,cfg){let data={equities:[],generated_at:null};try{const r=await env.ASSETS.fetch(new Request('https://assets.local/universe.json'));if(r.ok)data=await r.json()}catch{}const all=(data.equities||[]).filter(x=>x?.symbol).map(x=>({symbol:String(x.symbol).toUpperCase(),name:x.name||x.symbol,type:'EQUITY',leverage:1,marketCap:num(x.marketCap),region:x.region||null,exchange:x.exchange||null,currency:x.currency||null}));all.push(...PRIORITY_EQUITIES);if(cfg.include_etfs)all.push(...CORE_ETFS);if(cfg.include_leverage)all.push(...LEVERAGED_ETFS);const seen=new Set(),out=[];for(const x of all){if(!seen.has(x.symbol)){seen.add(x.symbol);out.push({...x,currency:inferCurrency(x)})}}return{items:out,generatedAt:data.generated_at}}
+function liveCompanyKey(x){if(x?.type==='ETF'||x?.type==='BENCHMARK')return `${x.type}:${x.symbol}`;if(x?.companyKey)return `EQ:${String(x.companyKey).toUpperCase()}`;const junk=new Set(['INC','INCORPORATED','CORP','CORPORATION','CO','COMPANY','LTD','LIMITED','PLC','AG','SE','NV','SA','SPA','HOLDING','HOLDINGS','GROUP','ORD','ORDINARY','SHARE','SHARES','SHS','REGISTERED','REG','ADR','GDR','CDR','DRN','BDR','ADS','CLASS','CL','SERIES','THE','AND','R','ED','HEDGED']);const toks=String(x?.name||x?.symbol||'').toUpperCase().replace(/[^A-Z0-9]+/g,' ').split(/\s+/).filter(Boolean).filter(t=>t.length>1&&!junk.has(t)).map(t=>t.length>9?t.slice(0,9):t),u=[];for(const t of toks)if(u.at(-1)!==t)u.push(t);return `EQ:${u.slice(0,7).join(' ')||String(x?.symbol||'').split('.')[0]}`}
+export async function loadUniverse(env,cfg){let data={equities:[],generated_at:null};try{const r=await env.ASSETS.fetch(new Request('https://assets.local/universe.json'));if(r.ok)data=await r.json()}catch{}const all=(data.equities||[]).filter(x=>x?.symbol).map(x=>({symbol:String(x.symbol).toUpperCase(),name:x.name||x.symbol,type:'EQUITY',leverage:1,marketCap:num(x.marketCap),marketCapUSD:num(x.marketCapUSD),companyKey:x.companyKey||null,region:x.region||null,exchange:x.exchange||null,currency:x.currency||null}));all.push(...PRIORITY_EQUITIES);if(cfg.include_etfs)all.push(...CORE_ETFS);if(cfg.include_leverage)all.push(...LEVERAGED_ETFS);const seenSymbol=new Set(),seenCompany=new Set(),out=[];for(const x of all){if(seenSymbol.has(x.symbol))continue;const key=liveCompanyKey(x);if(x.type==='EQUITY'&&seenCompany.has(key))continue;seenSymbol.add(x.symbol);if(x.type==='EQUITY')seenCompany.add(key);out.push({...x,currency:inferCurrency(x),companyKey:x.companyKey||key.replace(/^EQ:/,'')})}return{items:out,generatedAt:data.generated_at}}
 
 async function sparkRaw(symbols,h,source='Yahoo Spark'){if(!symbols.length)return[];const started=Date.now();try{const u=new URL('https://query1.finance.yahoo.com/v7/finance/spark');u.searchParams.set('symbols',symbols.join(','));u.searchParams.set('range','1d');u.searchParams.set('interval','5m');u.searchParams.set('indicators','close');u.searchParams.set('includePrePost','false');const r=await fetch(u,{headers});if(!r.ok)throw new Error(`HTTP ${r.status}`);const j=await r.json();markHealth(h,source,true,'',started);return j?.spark?.result||[]}catch(e){markHealth(h,source,false,e,started);return[]}}
 async function sparkBatch(items,h){const lookup=new Map(items.map(x=>[x.symbol,x])),raw=await sparkRaw(items.map(x=>x.symbol),h),out=[];for(const item of raw){const res=item?.response?.[0];if(!res)continue;const m=res.meta||{},sym=String(item.symbol||m.symbol||'').toUpperCase(),info=lookup.get(sym);if(!info)continue;const c=(res?.indicators?.quote?.[0]?.close||[]).filter(v=>Number.isFinite(Number(v))).map(Number);if(c.length<1)continue;const price=num(m.regularMarketPrice,c.at(-1)),prev=num(m.previousClose,c[0]),day=prev?(price/prev-1)*100:0,back=c[Math.max(0,c.length-4)],mom=back?(price/back-1)*100:0,age=m.regularMarketTime?Date.now()/1000-num(m.regularMarketTime):999999;out.push({...info,price,dayChange:day,preScore:day*.65+mom*1.35,fresh:age<35*60,marketTimestamp:m.regularMarketTime||null})}return out}
@@ -82,10 +118,10 @@ function rotate(pool,count,seed){if(!pool.length||!count)return[];const start=(s
 function rotatingRadar(items){const minute=Math.floor(Date.now()/60000),priority=items.filter(x=>x.priority),regular=items.filter(x=>!x.priority),a=Math.min(Math.ceil(NEWS_RADAR_BATCH/2),priority.length),b=NEWS_RADAR_BATCH-a;return[...rotate(priority,a,minute),...rotate(regular,b,minute+17)]}
 
 export async function scanMarket(env,cfg,heldSymbols=[]){const h=health(),calendar=await loadCalendar(env),uni=await loadUniverse(env,cfg),allScan=[];for(const x of [...uni.items,...BENCHMARKS])if(!allScan.some(y=>y.symbol===x.symbol))allScan.push({...x,currency:inferCurrency(x)});const now=new Date(),states=allScan.map(x=>({item:x,state:marketOpen(x,now,calendar)})),openItems=states.filter(x=>x.state.open).map(x=>x.item),activeMarkets=[...new Set(states.filter(x=>x.state.open).map(x=>x.state.label))],newsOnly=openItems.filter(x=>!x.benchmark).length===0,coarse=[];for(const batch of chunks(openItems,SPARK_BATCH))coarse.push(...await sparkBatch(batch,h));const base=String(cfg.currency||'EUR').toUpperCase(),fx=await fxRates(coarse.map(x=>inferCurrency(x)),base,h);for(const x of coarse){x.currency=inferCurrency(x);x.fxRate=fx[x.currency]||1}
- const tradable=coarse.filter(x=>!x.benchmark),selected=tradable.filter(x=>x.fresh).sort((a,b)=>b.preScore-a.preScore).slice(0,DEEP_LIMIT);for(const sym of heldSymbols){const inf=allScan.find(x=>x.symbol===sym);if(inf&&marketOpen(inf,now,calendar).open&&!selected.some(x=>x.symbol===sym)&&selected.length<DEEP_LIMIT+6){const x=tradable.find(v=>v.symbol===sym)||inf;if(x)selected.push({...x,fxRate:fx[inferCurrency(x)]||1})}}
+ const tradable=coarse.filter(x=>!x.benchmark),selected=tradable.filter(x=>x.fresh).sort((a,b)=>b.preScore-a.preScore).slice(0,DEEP_LIMIT);for(const sym of heldSymbols){const inf=allScan.find(x=>x.symbol===sym);if(inf&&marketOpen(inf,now,calendar).open&&!selected.some(x=>x.symbol===sym)&&selected.length<DEEP_LIMIT+18){const x=tradable.find(v=>v.symbol===sym)||inf;if(x)selected.push({...x,fxRate:fx[inferCurrency(x)]||1})}}
  const deep=(await mapLimit(selected,6,x=>deepChart(x,h))).filter(Boolean).sort((a,b)=>b.score-a.score);for(const c of deep){c.fxRate=fx[c.currency]||1}
- const eventTargets=[...new Set(deep.slice(0,10).map(x=>x.symbol).concat(heldSymbols))].slice(0,18),events=await quoteEvents(eventTargets,h);for(const c of deep){const er=eventRisk(events.get(c.symbol));c.eventRisk=er.level;c.eventText=er.text;if(er.level==='HIGH'){c.score-=1.1;c.contra.push(er.text)}else if(er.level==='MEDIUM'){c.score-=.35;c.contra.push(er.text)}}
- const deepNewsTargets=deep.slice(0,NEWS_LIMIT);for(const c of deep.filter(x=>heldSymbols.includes(x.symbol)))if(!deepNewsTargets.some(x=>x.symbol===c.symbol)&&deepNewsTargets.length<NEWS_LIMIT+2)deepNewsTargets.push(c);const radarTargets=rotatingRadar(uni.items),allNewsTargets=[];for(const c of [...deepNewsTargets,...radarTargets])if(!allNewsTargets.some(x=>x.symbol===c.symbol))allNewsTargets.push(c);
+ const eventTargets=[...new Set(deep.slice(0,12).map(x=>x.symbol).concat(heldSymbols))].slice(0,24),events=await quoteEvents(eventTargets,h);for(const c of deep){const er=eventRisk(events.get(c.symbol));c.eventRisk=er.level;c.eventText=er.text;if(er.level==='HIGH'){c.score-=1.1;c.contra.push(er.text)}else if(er.level==='MEDIUM'){c.score-=.35;c.contra.push(er.text)}}
+ const deepNewsTargets=deep.slice(0,NEWS_LIMIT);for(const c of deep.filter(x=>heldSymbols.includes(x.symbol)))if(!deepNewsTargets.some(x=>x.symbol===c.symbol)&&deepNewsTargets.length<NEWS_LIMIT+6)deepNewsTargets.push(c);const radarTargets=rotatingRadar(uni.items),allNewsTargets=[];for(const c of [...deepNewsTargets,...radarTargets])if(!allNewsTargets.some(x=>x.symbol===c.symbol))allNewsTargets.push(c);
  const yres=await mapLimit(allNewsTargets,6,x=>yahooNews(x,h)),ymap=new Map(allNewsTargets.map((x,i)=>[x.symbol,yres[i]||[]]));
  const enhanced=[];for(const c of (newsOnly?radarTargets.slice(0,4):[...deep.slice(0,2),...radarTargets.filter(x=>x.priority).slice(0,2)]))if(c&&!enhanced.some(x=>x.symbol===c.symbol))enhanced.push(c);const googleRes=await mapLimit(enhanced,4,x=>googleNews(x,h)),googleMap=new Map(enhanced.map((x,i)=>[x.symbol,googleRes[i]||[]]));
  const globalSets=await Promise.all([
@@ -94,7 +130,7 @@ export async function scanMarket(env,cfg,heldSymbols=[]){const h=health(),calend
   publicFeed('wallstreetONLINE','https://www.wallstreet-online.de/rss/nachrichten-aktien-indizes.xml',h,1.02,60),
   publicFeed('BörsenNews','https://www.boersennews.de/service/news.rss',h,1.0,60)
  ]);const globalItems=globalSets.flat(),nmap=new Map();for(const c of allNewsTargets)nmap.set(c.symbol,clusterNews(c,[ymap.get(c.symbol)||[],googleMap.get(c.symbol)||[],selectGlobal(globalItems,c)],calendar));
- for(const c of deep){const n=nmap.get(c.symbol)||clusterNews(c,[],calendar);c.newsScore=num(n.score);c.newsConfidence=num(n.confidence);c.newsSources=n.sources||[];c.headlines=n.headlines||[];c.newsTradingAgeHours=n.latestTradingAge;c.newsClusters=n.clusterCount;c.score+=c.newsScore*c.newsConfidence*n.latestWeight;if(c.newsScore>.25)c.pro.push(`News +${c.newsScore.toFixed(1)} · ${n.clusterCount} Ereigniscluster`);if(c.newsScore<-.25)c.contra.push(`News ${c.newsScore.toFixed(1)} · ${n.clusterCount} Ereigniscluster`);if(c.type==='LEVERAGED_ETF'){c.score-=.25;c.contra.push('Hebelprodukt: höheres Pfad-/Volatilitätsrisiko')}c.confidence=candidateConfidence(c);c.reasons=[...c.pro,...c.contra]}
+ for(const c of deep){const n=nmap.get(c.symbol)||clusterNews(c,[],calendar);c.newsScore=num(n.score);c.newsConfidence=num(n.confidence);c.newsSources=n.sources||[];c.headlines=n.headlines||[];c.newsTradingAgeHours=n.latestTradingAge;c.newsClusters=n.clusterCount;c.score+=c.newsScore*c.newsConfidence*n.latestWeight;if(c.newsScore>.25)c.pro.push(`News +${c.newsScore.toFixed(1)} · ${n.clusterCount} Ereigniscluster`);if(c.newsScore<-.25)c.contra.push(`News ${c.newsScore.toFixed(1)} · ${n.clusterCount} Ereigniscluster`);c.confidence=candidateConfidence(c);c.reasons=[...c.pro,...c.contra]}
  deep.sort((a,b)=>b.score-a.score);
  const newsRadar=radarTargets.map(c=>{const n=nmap.get(c.symbol)||clusterNews(c,[],calendar),score=num(n.score),tendency=score>.28?'BULLISH':score<-.28?'BEARISH':'NEUTRAL',state=marketOpen(c,now,calendar);return{symbol:c.symbol,name:c.name||c.symbol,type:c.type,theme:c.theme||null,score,confidence:n.confidence,freshImpact:n.freshImpact,latestWeight:n.latestWeight,tradingAgeHours:n.latestTradingAge,tendency,sourceCount:(n.sources||[]).length,sources:n.sources||[],clusterCount:n.clusterCount,confirmationCount:n.confirmationCount,headline:n.headlines?.[0]||'',headlines:n.headlines||[],newsAt:n.latestAt||null,waitingForOpen:!state.open&&(n.latestTradingAge??99)<.01,market:state.label}}).filter(x=>x.headline).sort((a,b)=>b.freshImpact-a.freshImpact||(Date.parse(b.newsAt||0)||0)-(Date.parse(a.newsAt||0)||0));
  const benchmarks=BENCHMARKS.map(b=>{const q=coarse.find(x=>x.symbol===b.symbol);return q?{symbol:b.symbol,name:b.name,price:q.price,fxRate:q.fxRate||1,currency:q.currency,fresh:q.fresh}:null}).filter(Boolean);
