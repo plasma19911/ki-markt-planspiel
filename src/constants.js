@@ -93,7 +93,9 @@ export const nowIso=()=>new Date().toISOString();
 export const chunks=(a,n)=>{const r=[];for(let i=0;i<a.length;i+=n)r.push(a.slice(i,i+n));return r};
 export const equityValue=(p,price)=>!p?.entry_price||!price?num(p?.invested):num(p.invested)*(num(price)/num(p.entry_price));
 export function riskParams(mode){
- if(mode==='vorsichtig')return{entry:6.2,stop:-.018,take:.035,reserve:.20,max:2,normal:.34,lever:.12};
- if(mode==='offensiv')return{entry:4.2,stop:-.035,take:.075,reserve:.05,max:4,normal:.30,lever:.18};
- return{entry:5.2,stop:-.025,take:.055,reserve:.10,max:3,normal:.30,lever:.15};
+ // Trading-Stil steuert weiter nur Signal-/Exit-Sensitivitaet. Es gibt keine harte Positionszahl
+ // und keine Reservequote mehr; das vorhandene Spielgeld ist die einzige Portfolio-Grenze.
+ if(mode==='vorsichtig')return{entry:6.2,stop:-.018,take:.035,reserve:0,max:1000000,normal:1,lever:1};
+ if(mode==='offensiv')return{entry:4.2,stop:-.035,take:.075,reserve:0,max:1000000,normal:1,lever:1};
+ return{entry:5.2,stop:-.025,take:.055,reserve:0,max:1000000,normal:1,lever:1};
 }
