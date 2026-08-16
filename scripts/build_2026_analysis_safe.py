@@ -18,20 +18,16 @@ DUPLICATE_LISTINGS = []
 MAX_FACTOR = 2.5
 MIN_FACTOR = 0.4
 
-# Historische Vollperiode nutzt Tagesdaten. Diese Schwellen sind fuer die Tagesaufloesung
-# kalibriert; die Rangfolge selbst ist seit causal-daily-v2 kontinuierlich statt diskret.
 base.STYLE = {
     'vorsichtig': {'entry': 4.0, 'stop': -0.018, 'take': 0.035},
     'ausgewogen': {'entry': 3.2, 'stop': -0.025, 'take': 0.055},
     'offensiv': {'entry': 2.6, 'stop': -0.035, 'take': 0.075},
 }
 
-# Yahoo liefert bei Zusatz-/Sekundaerlistings nicht immer eine Waehrung im statischen
-# Universum. Dann darf nicht pauschal USD angenommen werden.
 CURRENCY_SUFFIX = [
     (r'\.(DE|PA|BR|MI|MC|AS|VI|F|SG|MU|HM|DU|HE|LS)$', 'EUR'),
     (r'\.L$', 'GBP'), (r'\.SW$', 'CHF'), (r'\.ST$', 'SEK'), (r'\.OL$', 'NOK'),
-    (r'\.CO$', 'DKK'), (r'\.IS$', 'TRY'), (r'\.WA$', 'PLN'), (r'\.PR$', 'CZK'),
+    (r'\.CO$', 'DKK'), (r'\.IS$', 'TRY'), (r'\.SR$', 'SAR'), (r'\.WA$', 'PLN'), (r'\.PR$', 'CZK'),
     (r'\.T$', 'JPY'), (r'\.(KS|KQ)$', 'KRW'), (r'\.(TW|TWO)$', 'TWD'),
     (r'\.HK$', 'HKD'), (r'\.(SS|SZ)$', 'CNY'), (r'\.(NS|BO)$', 'INR'),
     (r'\.AX$', 'AUD'), (r'\.(TO|V|NE)$', 'CAD'), (r'\.MX$', 'MXN'),
@@ -51,13 +47,11 @@ def safe_normalize_currency(cur, symbol):
 
 
 def listing_quality(df) -> float:
-    """Statische Auswahl einer repraesentativen Notierung pro Unternehmen."""
     try:
         turnover = (df['volume'].clip(lower=0).astype(float) * df['eur'].astype(float)).replace([np.inf, -np.inf], np.nan).dropna()
         med = float(turnover.median()) if len(turnover) else 0.0
     except Exception:
         med = 0.0
-    # Datenlaenge ist wichtig, Liquiditaet entscheidet bei ansonsten aehnlichen Serien.
     return len(df) * 0.08 + math.log10(max(1.0, med))
 
 
@@ -78,8 +72,6 @@ def safe_to_eur_series(universe, series, fx):
             continue
         clean[sym] = df
 
-    # Fuer Aktien nur eine feste, liquide Notierung je wirtschaftlichem Unternehmen behalten.
-    # Dadurch entstehen weder Doppelpositionen noch kuenstliche Cross-Listing-Wechsel.
     groups = {}
     for sym, df in clean.items():
         item = meta.get(sym, {'symbol': sym, 'name': sym, 'type': 'EQUITY'})
@@ -88,7 +80,6 @@ def safe_to_eur_series(universe, series, fx):
 
     deduped = {}
     for key, rows in groups.items():
-        # ETFs haben per entity_key immer ihren eigenen Symbol-Key und werden nicht zusammengelegt.
         rows.sort(key=lambda x: (x[2], len(x[1])), reverse=True)
         keep_sym, keep_df, _ = rows[0]
         deduped[keep_sym] = keep_df
@@ -106,7 +97,6 @@ def safe_to_eur_series(universe, series, fx):
 
 
 def remove_artificial_final_day_roundtrips(result):
-    """Sicherheitsnetz fuer alte/ungewoehnliche Datenkalender."""
     trades = result.get('trades') or []
     removed = [t for t in trades if t.get('buyAt') == t.get('sellAt') and t.get('reason') == 'Auswertungsende']
     if not removed:
@@ -130,10 +120,18 @@ base.main()
 
 path = ROOT / 'public' / 'analysis-2026.json'
 data = json.loads(path.read_text(encoding='utf-8'))
+universe_meta = json.loads((ROOT / 'public' / 'universe.json').read_text(encoding='utf-8'))
 for style, result in (data.get('walkForward') or {}).items():
     data['walkForward'][style] = remove_artificial_final_day_roundtrips(result)
 
 removed_listing_count = sum(len(x['removed']) for x in DUPLICATE_LISTINGS)
+data['universeSource'] = {
+    'generatedAt': universe_meta.get('generated_at'),
+    'count': universe_meta.get('count'),
+    'uniqueCompanies': universe_meta.get('unique_companies'),
+    'duplicateListingsCollapsed': universe_meta.get('duplicate_listings_collapsed'),
+    'source': universe_meta.get('source'),
+}
 data['dataQuality'] = {
     'rule': f'Komplette Serie ausgeschlossen, wenn ein aufeinanderfolgender EUR-Tagesfaktor < {MIN_FACTOR:.2f} oder > {MAX_FACTOR:.2f} ist. Mehrfachlistings einer Firma werden auf eine feste repraesentative Notierung reduziert.',
     'excludedCount': len(EXCLUDED),
@@ -145,8 +143,9 @@ data['dataQuality'] = {
 data['walkForwardCalibration'] = {
     'reason': 'Historische Vollperiode nutzt Tagesdaten statt 1-Minuten-Daten; Eintrittsschwellen sind fuer Tagesaufloesung kalibriert.',
     'styles': base.STYLE,
-    'modelVersion': 'causal-daily-v3-deduped',
+    'modelVersion': 'causal-daily-v4-unique500',
     'continuousRanking': True,
+    'uniqueCompanyUniverse': True,
     'duplicateListingsGrouped': True,
     'singleRepresentativeListingPerCompany': True,
     'historicalCurrencyFallbackHardened': True,
@@ -157,4 +156,4 @@ data['walkForwardCalibration'] = {
     'artificialSameDayEndTradesRemoved': True,
 }
 path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
-print(f'Quality-guarded causal analysis written; anomalous={len(EXCLUDED)}, duplicate-listings={removed_listing_count}')
+print(f'Final unique-company causal analysis written; anomalous={len(EXCLUDED)}, duplicate-listings={removed_listing_count}')
