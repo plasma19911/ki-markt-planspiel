@@ -46,11 +46,14 @@ export class MarketPortfolio extends ProdPortfolio{
     let amount=before*requestedPct/100,fee=this.fee(amount,cfg);
     if(amount+fee>before){const fixed=Math.max(0,num(cfg.fee_fixed)),rate=Math.max(0,num(cfg.fee_percent))/100;amount=Math.max(0,(before-fixed)/(1+rate));fee=this.fee(amount,cfg)}
     if(amount<=0||amount+fee>before+1e-8)return false;
-    const risk=this.riskCheck(cand,amount,cfg);if(!risk.ok)return false;
-    const slip=this.slippage(cand.type,cfg),execPrice=num(cand.price)*(1+slip/100),after=Math.max(0,before-amount-fee),fx=num(cand.fxRate,1);
-    this.ctx.storage.sql.exec('INSERT INTO positions(symbol,name,instrument_type,theme,leverage,invested,entry_fee,entry_price,last_price,entry_fx,last_fx,currency,opened_at,score,signal_confidence) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',cand.symbol,cand.name||cand.symbol,cand.type,cand.theme||null,1,amount,fee,execPrice,cand.price,fx,fx,cand.currency||null,nowIso(),cand.score,num(cand.confidence));
+    // Budget-only: keine geerbten Tagesverlust-, Branchen-, Cooldown-, Positions- oder Mindestorder-Gates.
+    // Die KI darf frei entscheiden; technisch hart bleiben nur Cash, Kosten, Instrumenttyp und gültige Ausführung.
+    const slip=this.slippage(cand.type,cfg),marketPrice=num(cand.price),fx=num(cand.fxRate,1);
+    if(!(marketPrice>0)||!(fx>0))return false;
+    const execPrice=marketPrice*(1+slip/100),after=Math.max(0,before-amount-fee);
+    this.ctx.storage.sql.exec('INSERT INTO positions(symbol,name,instrument_type,theme,leverage,invested,entry_fee,entry_price,last_price,entry_fx,last_fx,currency,opened_at,score,signal_confidence) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',cand.symbol,cand.name||cand.symbol,cand.type,cand.theme||null,1,amount,fee,execPrice,marketPrice,fx,fx,cand.currency||null,nowIso(),cand.score,num(cand.confidence));
     this.ctx.storage.sql.exec('UPDATE config SET cash=?,total_fees=COALESCE(total_fees,0)+? WHERE id=1',after,fee);
-    const eq=this.equity(after),roundtrip=(2*fee/Math.max(.01,amount)*100)+(2*Math.max(0,num(cfg.fee_percent)))+(2*slip);
+    const eq=this.equity(after),roundtrip=(2*fee/Math.max(.01,amount)*100)+(2*slip);
     this.record('KAUF',{symbol:cand.symbol,name:cand.name,type:cand.type,amount:-(amount+fee),fee,cashBefore:before,cashAfter:after,equity:eq,score:cand.score,scanNo:num(cfg.scan_count)+1,reason:`${reason} · Order ${amount.toFixed(2)} ${cfg.currency} (${requestedPct.toFixed(1)}% des verfügbaren Cash) · keine Positions-/Haltezeitgrenze · FX ${fx.toFixed(5)} · geschätzte Roundtrip-Kosten ~${roundtrip.toFixed(2)}%`});
     this.logAI('TRADE','Kauf ausgeführt',`${cand.symbol}: ${reason}. ${requestedPct.toFixed(1)}% des aktuell verfügbaren Cash eingesetzt; keine harte Positions- oder Haltedauergrenze.`,{symbol:cand.symbol,confidence:num(cand.confidence),meta:{score:cand.score,amount}});return true;
   }
