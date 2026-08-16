@@ -10,7 +10,8 @@ export default{
    if((u.pathname==='/'||u.pathname==='/index.html')&&res.ok&&(res.headers.get('content-type')||'').includes('text/html')){
     let html=await res.text();
     html=html.replace('</body>','<script src="/analysis-ui.js" type="module"></script></body>');
-    return new Response(html,{status:res.status,headers:{...Object.fromEntries(res.headers),'cache-control':'no-store'}});
+    const h=new Headers(res.headers);h.delete('content-length');h.delete('content-encoding');h.delete('etag');h.set('cache-control','no-store');
+    return new Response(html,{status:res.status,headers:h});
    }
    return res;
   }
