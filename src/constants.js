@@ -2,6 +2,7 @@ export const AI_MODEL = '@cf/zai-org/glm-4.7-flash';
 export const SPARK_BATCH = 40;
 export const DEEP_LIMIT = 12;
 export const NEWS_LIMIT = 6;
+export const NEWS_RADAR_BATCH = 8;
 
 export const CORE_ETFS = [
  ['SPY','SPDR S&P 500 ETF Trust'],['QQQ','Invesco QQQ Trust'],['VTI','Vanguard Total Stock Market ETF'],
