@@ -11,7 +11,14 @@ export class MarketPortfolio extends ProdPortfolio{
     return super.upsertHealth(clean);
   }
 
+  async start(o={}){
+    // Live-Universum ist immer vollständig: Aktien + ETFs + Hebel-/Inverse-ETFs.
+    return super.start({...o,includeEtfs:true,includeLeverage:true});
+  }
+
   async scan(){
+    // Auch bestehende Läufe werden automatisch auf das vollständige Universum angehoben.
+    this.ctx.storage.sql.exec('UPDATE config SET include_etfs=1,include_leverage=1 WHERE id=1');
     const nativeFetch=globalThis.fetch;
     globalThis.fetch=async(input,init)=>{
       try{const raw=typeof input==='string'||input instanceof URL?String(input):input?.url;if(raw&&new URL(raw).hostname==='news.google.com')return new Response(EMPTY_RSS,{status:200,headers:{'content-type':'application/rss+xml;charset=utf-8','cache-control':'public,max-age=900'}})}catch{}
