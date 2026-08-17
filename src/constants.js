@@ -6,11 +6,10 @@ export const DEEP_LIMIT = 12;
 export const NEWS_LIMIT = 4;
 export const NEWS_RADAR_BATCH = 6;
 
-// TRADE-UNIVERSUM für das geplante Zieldepot finanzen.net ZERO/gettex.
-// US-domiciled ETFs wie SPY/QQQ bleiben ausschließlich Analyse-/Makro-Proxys.
-// Kaufbare ETF-Kandidaten sind normale europäische UCITS-Produkte mit in Deutschland
-// gebräuchlichen Listings. Die ZERO-Produktliste ist dynamisch; Broker-Verfügbarkeit
-// wird deshalb nicht als dauerhafte Garantie oder als Kaufsignal behandelt.
+// ETF-Masterpool für das geplante Zieldepot finanzen.net ZERO/gettex.
+// Der vollständige Pool darf auf ZERO-Größenordnung wachsen; pro Minute wird aus
+// Cloudflare-Quota-Gründen nur ein rotierender Ausschnitt in den Live-Scan gegeben.
+// Konkrete ZERO-Verfügbarkeit bleibt vor einer späteren Echtgeldorder ein Pflichtcheck.
 const CURATED_CORE_ETFS = [
  ['VWCE.DE','Vanguard FTSE All-World UCITS ETF USD Accumulating (A2PKXG)','GLOBAL'],
  ['EUNL.DE','iShares Core MSCI World UCITS ETF USD Acc','WORLD'],
@@ -30,15 +29,28 @@ const CURATED_CORE_ETFS = [
  ['IS0D.DE','iShares Oil & Gas Exploration & Production UCITS ETF','ENERGY'],
  ['IQQQ.DE','iShares Global Water UCITS ETF','WATER'],
  ['IQQH.DE','iShares Global Clean Energy Transition UCITS ETF','CLEAN_ENERGY']
-].map(([symbol,name,theme])=>({symbol,name,theme,type:'ETF',leverage:1,broker:'finanzen.net ZERO',venue:'gettex',ucits:true,brokerEligible:true,priority:true}));
+].map(([symbol,name,theme])=>({symbol,name,theme,type:'ETF',leverage:1,broker:'finanzen.net ZERO',venue:'gettex',ucits:true,brokerCatalogCandidate:true,brokerVerified:false,priority:true}));
 
 const etfBySymbol=new Map();
 for(const x of [...CURATED_CORE_ETFS,...GENERATED_ZERO_ETFS]){
  const symbol=String(x?.symbol||'').toUpperCase();
  if(!symbol||etfBySymbol.has(symbol))continue;
- etfBySymbol.set(symbol,{...x,symbol,type:'ETF',leverage:1,ucits:true,broker:'finanzen.net ZERO',venue:'gettex',brokerEligible:true});
+ etfBySymbol.set(symbol,{...x,symbol,type:'ETF',leverage:1,ucits:true,broker:'finanzen.net ZERO',venue:'gettex',brokerCatalogCandidate:true,brokerVerified:Boolean(x?.brokerVerified)});
 }
-export const CORE_ETFS=[...etfBySymbol.values()];
+export const ZERO_ETF_MASTER=[...etfBySymbol.values()];
+export const ZERO_ETF_MASTER_COUNT=ZERO_ETF_MASTER.length;
+export const ZERO_ETF_ALWAYS_COUNT=CURATED_CORE_ETFS.length;
+export const ZERO_ETF_ROTATING_PER_MINUTE=102;
+
+function rotateEtfs(pool,count,seed){if(!pool.length||count<=0)return[];const n=Math.min(count,pool.length),start=(seed*n)%pool.length,out=[];for(let i=0;i<n;i++)out.push(pool[(start+i)%pool.length]);return out}
+function liveEtfSlice(){
+ const always=ZERO_ETF_MASTER.filter(x=>x.priority),pool=ZERO_ETF_MASTER.filter(x=>!x.priority),minute=Math.floor(Date.now()/60000),rot=rotateEtfs(pool,ZERO_ETF_ROTATING_PER_MINUTE,minute),seen=new Set(),out=[];
+ for(const x of [...always,...rot]){const k=String(x.symbol).toUpperCase();if(!seen.has(k)){seen.add(k);out.push(x)}}return out;
+}
+
+// loadUniverse nutzt Spread-Syntax (...CORE_ETFS), deshalb liefert der Iterator nur den
+// aktuellen Minuten-Slice. Die Masterliste bleibt dennoch vollständig im Build vorhanden.
+export const CORE_ETFS=new Proxy(ZERO_ETF_MASTER,{get(target,prop,receiver){if(prop===Symbol.iterator)return function*(){yield* liveEtfSlice()};return Reflect.get(target,prop,receiver)}});
 
 export const LEVERAGED_ETFS = [];
 
