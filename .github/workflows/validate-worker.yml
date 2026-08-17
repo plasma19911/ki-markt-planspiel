@@ -10,6 +10,9 @@ on:
       - "scripts/smoke-fast-decisions.mjs"
       - "scripts/smoke-order-approval.mjs"
       - "scripts/smoke-zero-fees.mjs"
+      - "scripts/smoke-zero-universe.mjs"
+      - "scripts/refresh_universe.py"
+      - "scripts/refresh_etfs.py"
       - "scripts/calibrate_fast_signals.py"
       - "package.json"
       - "wrangler.jsonc"
@@ -82,13 +85,16 @@ jobs:
           node --check scripts/smoke-fast-decisions.mjs
           node --check scripts/smoke-order-approval.mjs
           node --check scripts/smoke-zero-fees.mjs
-      - name: Python calibration syntax
-        run: python3 -m py_compile scripts/calibrate_fast_signals.py
+          node --check scripts/smoke-zero-universe.mjs
+      - name: Python syntax
+        run: python3 -m py_compile scripts/calibrate_fast_signals.py scripts/refresh_universe.py scripts/refresh_etfs.py
       - name: Fast decision smoke test
         run: node scripts/smoke-fast-decisions.mjs
       - name: Order approval smoke test
         run: node scripts/smoke-order-approval.mjs
       - name: ZERO fee model smoke test
         run: node scripts/smoke-zero-fees.mjs
+      - name: ZERO master universe smoke test
+        run: node scripts/smoke-zero-universe.mjs
       - name: Wrangler dry run
         run: npx wrangler deploy --dry-run
