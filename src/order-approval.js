@@ -18,7 +18,10 @@ function promptState(prompt){
 }
 function cleanup(state,now=Date.now()){
   state.rows=Array.isArray(state.rows)?state.rows:[];
-  for(const r of state.rows){if(r.status==='PENDING'&&now>num(r.expiresAt))r.status='EXPIRED';if(r.status==='APPROVED_LOCAL'&&now>num(r.dispatchExpiresAt))r.dispatchState='HANDOFF_EXPIRED'}
+  for(const r of state.rows){
+    if(r.status==='PENDING'&&now>num(r.expiresAt))r.status='EXPIRED';
+    if(r.status==='APPROVED_LOCAL'&&now>num(r.dispatchExpiresAt)){r.status='APPROVED_EXPIRED';r.dispatchState='HANDOFF_EXPIRED'}
+  }
   state.rows=state.rows.filter(r=>now-num(r.createdAt)<RETAIN_MS).slice(-MAX_ROWS);
   return state;
 }
