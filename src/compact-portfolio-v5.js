@@ -2,6 +2,7 @@ import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v4.js';
 import {ZERO_BROKER,zeroExecutionNote} from './zero-broker.js';
 import {buildFastDecisionLayer,mergeFastRiskActions} from './fast-signals.js';
 import {buildGapOverlay,applyGapOverlay} from './gap-signals.js';
+import {applyLiveOutcomeLearning} from './live-signal-learning.js';
 
 // Das statische Universum darf deutlich breiter sein als ein einzelner 1-Minuten-Scan.
 // Auf Workers Free werden deshalb die groessten/liquidesten Werte dauerhaft und der
@@ -104,8 +105,8 @@ class ZeroBrokerAiGuard{
   }
   async fast(prompt){
     try{
-      const enriched=this.withPeakPnl(prompt),base=await buildFastDecisionLayer(enriched,this.assets),gap=await buildGapOverlay(enriched);
-      return applyGapOverlay(base,gap);
+      const enriched=this.withPeakPnl(prompt),base=await buildFastDecisionLayer(enriched,this.assets),gap=await buildGapOverlay(enriched),combined=applyGapOverlay(base,gap);
+      return applyLiveOutcomeLearning(combined,enriched,this.storage);
     }catch(e){return{summary:`Fast-Decision nicht verfügbar: ${String(e?.message||e).slice(0,120)}`,actions:[],context:[]}}
   }
   async run(model,input){
@@ -129,7 +130,7 @@ class ZeroBrokerAiGuard{
     let finalInput=input,fast=null;
     if(isPlan){
       fast=await this.fast(prompt);
-      const extra={role:'user',content:`Zieldepot fuer spaetere praktische Umsetzung: finanzen.net ZERO ueber gettex. Das bleibt PAPER-TRADING; keine echten Brokerorders. Der Scanner durchsucht ein breites, rotierendes Universum gut handelbarer Aktien sowie normale europaeische UCITS-ETF-Kandidaten und darf branchenunabhaengig die besten Setups waehlen. Defense/Tech sind Zusatzbereiche, aber kein Hauptfilter. US-domiciled Analyse-Proxys wie SPY/QQQ duerfen Marktinformationen liefern, sind aber keine kaufbaren ETF-Kandidaten. Bevorzuge liquide Werte und vermeide duenne/exotische Notierungen. Bei kleinen oder fraktionalen Orders konservativ 1 EUR Zuschlag plus Spread/Slippage annehmen. Broker-Verfuegbarkeit kann sich aendern und ist keine Kaufaussage. Zusaetzlicher deterministischer Fast-Decision-Layer=${JSON.stringify(fast)}. Nutze Multi-Timeframe-Bestaetigung, Wilder-ADX, VWAP, ATR, relative Staerke zum Gesamtmarkt und zu Sektor-Peers, Swing-Unterstuetzung/Widerstand, Marktregime, Spread/Liquiditaet, Depotkorrelation und Opening-Range/Gap-Verhalten als weitere unabhaengige Bestaetigungen. Ein grosses Aufwaerts-Gap ohne Halt ueber Opening Range/VWAP darf nicht blind gekauft werden; Gap-Fades und Abwaerts-Gap-Fortsetzungen erhoehen bei gehaltenen Positionen den Exit-Druck. Bei klaren, mehrfach bestaetigten Reversals darf SELL schnell priorisiert werden. Laufende Gewinne werden ueber den bisherigen Positions-Peak dynamisch geschuetzt; ein Ruecklauf vom Peak ist nur zusammen mit technischer Verschlechterung ein Exit-Grund. Bei gemischter Lage HOLD statt hektisch handeln. Ein hoher RSI allein ist kein SELL.`};
+      const extra={role:'user',content:`Zieldepot fuer spaetere praktische Umsetzung: finanzen.net ZERO ueber gettex. Das bleibt PAPER-TRADING; keine echten Brokerorders. Der Scanner durchsucht ein breites, rotierendes Universum gut handelbarer Aktien sowie normale europaeische UCITS-ETF-Kandidaten und darf branchenunabhaengig die besten Setups waehlen. Defense/Tech sind Zusatzbereiche, aber kein Hauptfilter. US-domiciled Analyse-Proxys wie SPY/QQQ duerfen Marktinformationen liefern, sind aber keine kaufbaren ETF-Kandidaten. Bevorzuge liquide Werte und vermeide duenne/exotische Notierungen. Bei kleinen oder fraktionalen Orders konservativ 1 EUR Zuschlag plus Spread/Slippage annehmen. Broker-Verfuegbarkeit kann sich aendern und ist keine Kaufaussage. Zusaetzlicher deterministischer Fast-Decision-Layer=${JSON.stringify(fast)}. Nutze Multi-Timeframe-Bestaetigung, Wilder-ADX, VWAP, ATR, relative Staerke zum Gesamtmarkt und zu Sektor-Peers, Swing-Unterstuetzung/Widerstand, Marktregime, Spread/Liquiditaet, Depotkorrelation und Opening-Range/Gap-Verhalten als weitere unabhaengige Bestaetigungen. Ein grosses Aufwaerts-Gap ohne Halt ueber Opening Range/VWAP darf nicht blind gekauft werden; Gap-Fades und Abwaerts-Gap-Fortsetzungen erhoehen bei gehaltenen Positionen den Exit-Druck. Bei klaren, mehrfach bestaetigten Reversals darf SELL schnell priorisiert werden. Laufende Gewinne werden ueber den bisherigen Positions-Peak dynamisch geschuetzt; ein Ruecklauf vom Peak ist nur zusammen mit technischer Verschlechterung ein Exit-Grund. Historische Kalibrierung und Live-Paper-Lernen duerfen Signale nur konservativ verstaerken oder bremsen; sie ersetzen nie die aktuelle Marktpruefung. Bei gemischter Lage HOLD statt hektisch handeln. Ein hoher RSI allein ist kein SELL.`};
       const requested=Number(input?.max_completion_tokens||ZERO_AI_PLAN_MAX_TOKENS);
       finalInput={...input,max_completion_tokens:Math.min(Math.max(120,requested),ZERO_AI_PLAN_MAX_TOKENS),messages:[...(input.messages||[]),extra]};
     }
@@ -163,7 +164,7 @@ export class MarketPortfolio extends BasePortfolio{
       aiNewsCooldownMinutes:ZERO_AI_NEWS_COOLDOWN_MS/60000,
       aiCooldownPersistent:true,
       aiPlanMaxCompletionTokens:ZERO_AI_PLAN_MAX_TOKENS,
-      fastDecisionLayer:{enabled:true,frequency:'jede Planrunde; im KI-Wartefenster deterministisch',depthSymbolsMax:4,signals:['Multi-Timeframe 5m/15m/1h/Tag','VWAP','ATR','Wilder-ADX + DI','relative Stärke Gesamtmarkt','relative Stärke Sektor-Peers','Swing Support/Resistance','Marktregime','Spread/Liquidität','Depotkorrelation','Opening Gap/Range','Momentum Breakout/Reversal','dynamische Gewinnsicherung','historisch kalibrierte Schwellen'],strongSellRiskOverlay:true,profitPeakPersistent:true,gapChaseBlock:true,paperTradingOnly:true},
+      fastDecisionLayer:{enabled:true,frequency:'jede Planrunde; im KI-Wartefenster deterministisch',depthSymbolsMax:4,signals:['Multi-Timeframe 5m/15m/1h/Tag','VWAP','ATR','Wilder-ADX + DI','relative Stärke Gesamtmarkt','relative Stärke Sektor-Peers','Swing Support/Resistance','Marktregime','Spread/Liquidität','Depotkorrelation','Opening Gap/Range','Momentum Breakout/Reversal','dynamische Gewinnsicherung','historisch kalibrierte Schwellen','Live-Lernen aus Paper-Outcomes'],strongSellRiskOverlay:true,profitPeakPersistent:true,gapChaseBlock:true,historicalCalibration:true,livePaperLearning:{enabled:true,minClosedOutcomesPerSetup:12,conservative:true},paperTradingOnly:true},
       executionNote:zeroExecutionNote(Number(s?.config?.cash||0),{fractional:true}),
       paperTradingOnly:true,
       liveBrokerConnection:false
