@@ -197,6 +197,7 @@ def main() -> None:
         and bn_hold >= 60 and sn_hold >= 60
         and bq_train > 0 and sq_train > 0
         and bq_hold > 0 and sq_hold > 0
+        and bm_train > 0 and sm_train > 0
         and bm_hold > 0 and sm_hold > 0
     )
 
