@@ -11,7 +11,9 @@ PRIMARY_EXCHANGES={"us":{"NMS","NYQ","NGM","NCM","ASE","PCX"},"ca":{"TOR","VAN",
 LISTING_WORDS={"INC","INCORPORATED","CORP","CORPORATION","CO","COMPANY","LTD","LIMITED","PLC","AG","SE","NV","SA","SPA","HOLDING","HOLDINGS","GROUP","ORD","ORDINARY","SHARE","SHARES","SHS","REGISTERED","REG","R","ADR","GDR","CDR","DRN","BDR","ED","HEDGED","HEDGE","ADS","UNIT","UNITS","STOCK","CLASS","CL","SERIES","THE","AND","A","B","C","D","I","II","III"}
 GENERIC_WORDS={"UNITED","GLOBAL","INTERNATIONAL","TECHNOLOGY","TECHNOLOGIES","INDUSTRIES","INDUSTRIAL","ENERGY","SYSTEMS","FINANCIAL","SERVICES","HOLDING","HOLDINGS","GROUP","COMPANY","BANK","BANCO","BANKING"}
 MAX_PLAUSIBLE_MCAP_USD=10_000_000_000_000.0
-MIN_AVG_VOLUME=100.0
+MIN_MCAP_USD=100_000_000.0
+MIN_AVG_VOLUME=5_000.0
+TARGET_COUNT=1_200
 
 def scalar(v,default=0):
     if isinstance(v,dict):
@@ -22,7 +24,7 @@ def scalar(v,default=0):
 
 def one_region(region):
     q=yf.EquityQuery("and",[yf.EquityQuery("eq",["region",region]),yf.EquityQuery("gt",["intradaymarketcap",0])])
-    return yf.screen(q,offset=0,size=120,sortField="intradaymarketcap",sortAsc=False).get("quotes",[])
+    return yf.screen(q,offset=0,size=160,sortField="intradaymarketcap",sortAsc=False).get("quotes",[])
 
 def broad_fallback(offset):
     q=yf.EquityQuery("gt",["intradaymarketcap",0])
@@ -92,7 +94,7 @@ def second_pass_dedupe(items):
     rows=sorted(items,key=lambda x:float(x.get("marketCapUSD") or 0),reverse=True);out=[];collapsed=0
     for item in rows:
         match=None
-        for old in reversed(out[-100:]):
+        for old in reversed(out[-140:]):
             oc,ic=float(old.get("marketCapUSD") or 0),float(item.get("marketCapUSD") or 0)
             if oc and ic and abs(oc-ic)/max(oc,ic)>0.04:continue
             if fuzzy_same_company(item,old):match=old;break
@@ -107,7 +109,7 @@ def main():
     for region in REGIONS:
         try:rows.extend(one_region(region))
         except Exception as e:failures.append(f"{region}: {e}")
-    for off in (0,250,500,750,1000):
+    for off in (0,250,500,750,1000,1250,1500,1750,2000):
         try:rows.extend(broad_fallback(off))
         except Exception as e:failures.append(f"broad-{off}: {e}")
     raw=[];curr=[]
@@ -117,17 +119,18 @@ def main():
         cur=str(q.get("currency") or "USD").strip() or "USD";curr.append(cur);raw.append((q,sym,mcap,cur))
     fx,fx_fail=build_fx_map(curr)
     if fx_fail:failures.append("FX missing: "+", ".join(sorted(set(fx_fail))))
-    by_symbol={};outliers=receipts=illiquid=0
+    by_symbol={};outliers=receipts=illiquid=too_small=0
     for q,sym,mcap,cur in raw:
         rate=fx.get(cur)
         if not rate or rate<=0:continue
         musd=mcap*rate;name=q.get("longName") or q.get("shortName") or q.get("displayName") or sym;avgvol=scalar(q.get("averageDailyVolume3Month"),scalar(q.get("averageDailyVolume10Day"),0))
         if musd<=0 or musd>MAX_PLAUSIBLE_MCAP_USD:outliers+=1;continue
-        # Mega-Caps mit nur wenigen hundert Stueck Tagesvolumen sind fast immer skalierte Sekundaerhuellen.
-        if (avgvol>0 and avgvol<MIN_AVG_VOLUME) or (musd>500e9 and avgvol<10_000) or (musd>100e9 and avgvol<1_000):illiquid+=1;continue
-        # Brasilianische BDRs tragen haeufig 34/35 vor .SA, auch wenn Yahoo im Langnamen nicht "BDR" schreibt.
+        if musd<MIN_MCAP_USD:too_small+=1;continue
+        # Ziel ist praktische Handelbarkeit im geplanten ZERO/gettex-Depot, nicht jede theoretische Notierung.
+        if avgvol>0 and avgvol<MIN_AVG_VOLUME:illiquid+=1;continue
+        if (musd>500e9 and avgvol<10_000) or (musd>100e9 and avgvol<5_000):illiquid+=1;continue
         if re.search(r"\b(CDR|DRN|BDR)\b",str(name).upper()) or re.search(r"(?:34|35)\.SA$",sym):receipts+=1;continue
-        item={"symbol":sym,"name":name,"marketCap":mcap,"marketCapUSD":musd,"region":q.get("region"),"exchange":q.get("exchange"),"currency":cur,"sector":q.get("sector") or q.get("sectorDisp"),"industry":q.get("industry") or q.get("industryDisp"),"avgVolume":avgvol};item["companyKey"]=company_key(name,sym)
+        item={"symbol":sym,"name":name,"marketCap":mcap,"marketCapUSD":musd,"region":q.get("region"),"exchange":q.get("exchange"),"currency":cur,"sector":q.get("sector") or q.get("sectorDisp"),"industry":q.get("industry") or q.get("industryDisp"),"avgVolume":avgvol,"brokerTarget":"finanzen.net ZERO","venueTarget":"gettex"};item["companyKey"]=company_key(name,sym)
         old=by_symbol.get(sym)
         if old is None or musd>old["marketCapUSD"]:by_symbol[sym]=item
     by_company={};exact=0
@@ -137,10 +140,10 @@ def main():
         else:
             exact+=1
             if representative_score(item)>representative_score(old):by_company[k]=item
-    unique,fuzzy=second_pass_dedupe(list(by_company.values()));top=sorted(unique,key=lambda x:x["marketCapUSD"],reverse=True)[:500]
-    if len(top)<450:raise RuntimeError(f"Only {len(top)} unique plausible companies found; refusing overwrite. Failures: {failures[:5]}")
-    payload={"generated_at":datetime.now(timezone.utc).isoformat().replace("+00:00","Z"),"source":"yfinance Yahoo EquityQuery; FX-normalized representative listings; market-cap/liquidity guards; BDR filter; exact+fuzzy cross-listing dedupe","count":len(top),"unique_companies":len(top),"raw_unique_symbols":len(by_symbol),"duplicate_listings_collapsed":exact+fuzzy,"exact_duplicates_collapsed":exact,"fuzzy_duplicates_collapsed":fuzzy,"rejected_implausible_market_caps":outliers,"rejected_secondary_receipts":receipts,"rejected_implausible_liquidity":illiquid,"equities":top}
-    OUT.write_text(json.dumps(payload,ensure_ascii=False,indent=2),encoding="utf-8");print(f"Wrote {len(top)} companies; exact={exact}, fuzzy={fuzzy}, outliers={outliers}, receipts={receipts}, illiquid={illiquid}")
+    unique,fuzzy=second_pass_dedupe(list(by_company.values()));top=sorted(unique,key=lambda x:(x["marketCapUSD"],x.get("avgVolume",0)),reverse=True)[:TARGET_COUNT]
+    if len(top)<800:raise RuntimeError(f"Only {len(top)} liquid unique companies found; refusing overwrite. Failures: {failures[:5]}")
+    payload={"generated_at":datetime.now(timezone.utc).isoformat().replace("+00:00","Z"),"source":"yfinance Yahoo EquityQuery; ZERO/gettex target; FX-normalized representative listings; liquidity/market-cap guards; BDR filter; exact+fuzzy cross-listing dedupe","broker_target":"finanzen.net ZERO","venue_target":"gettex","exact_broker_catalog":False,"selection_note":"Breites liquides Zieluniversum für praktische ZERO/gettex-Umsetzbarkeit; keine Garantie, dass jede einzelne Notierung jederzeit bei ZERO verfügbar ist.","count":len(top),"unique_companies":len(top),"raw_unique_symbols":len(by_symbol),"duplicate_listings_collapsed":exact+fuzzy,"exact_duplicates_collapsed":exact,"fuzzy_duplicates_collapsed":fuzzy,"rejected_implausible_market_caps":outliers,"rejected_too_small":too_small,"rejected_secondary_receipts":receipts,"rejected_implausible_liquidity":illiquid,"equities":top}
+    OUT.write_text(json.dumps(payload,ensure_ascii=False,indent=2),encoding="utf-8");print(f"Wrote {len(top)} liquid ZERO-target companies; exact={exact}, fuzzy={fuzzy}, small={too_small}, illiquid={illiquid}")
     if failures:print("Warnings:",failures)
 
 if __name__=="__main__":main()
