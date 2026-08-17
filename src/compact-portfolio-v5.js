@@ -3,6 +3,9 @@ import {ZERO_BROKER,zeroExecutionNote} from './zero-broker.js';
 import {buildFastDecisionLayer,mergeFastRiskActions} from './fast-signals.js';
 import {buildGapOverlay,applyGapOverlay} from './gap-signals.js';
 import {applyVolumeConfirmation} from './volume-overlay.js';
+import {applyRegionalBenchmarkConfirmation} from './regional-benchmark-overlay.js';
+import {applyEvidenceDiversity} from './evidence-overlay.js';
+import {applyExecutionCostDiscipline} from './execution-cost-overlay.js';
 import {applyLiveOutcomeLearning} from './live-signal-learning.js';
 import {enforceFastExecutionGuards,isLowerAiPlanCooldown} from './decision-guard.js';
 import {FAST_CALIBRATION} from './generated-fast-calibration.js';
@@ -28,6 +31,18 @@ function rotate(pool,count,seed){
   return out;
 }
 
+function localMinute(tz,date=new Date()){
+  try{const p=new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(date),o={};for(const x of p)o[x.type]=x.value;return Number(o.hour)*60+Number(o.minute)}catch{return-1}
+}
+function inVerifiedMiddayPause(symbol,date=new Date()){
+  const s=String(symbol||'').toUpperCase();let tz=null,lo=-1,hi=-1;
+  if(/\.T$/.test(s)){tz='Asia/Tokyo';lo=11*60+30;hi=12*60+30}
+  else if(/\.(SS|SZ)$/.test(s)){tz='Asia/Shanghai';lo=11*60+30;hi=13*60}
+  else if(/\.HK$/.test(s)){tz='Asia/Hong_Kong';lo=12*60;hi=13*60}
+  else return false;
+  const m=localMinute(tz,date);return m>=lo&&m<hi;
+}
+
 class ZeroUniverseAssets{
   constructor(base){this.base=base;this.cache=null;this.cacheAt=0}
 
@@ -46,10 +61,9 @@ class ZeroUniverseAssets{
     let u;
     try{u=new URL(typeof request==='string'?request:request.url)}catch{return this.base.fetch(request,init)}
     if(!u.pathname.endsWith('/universe.json'))return this.base.fetch(request,init);
-    const data=await this._load(request,init);
-    const all=Array.isArray(data?.equities)?data.equities.filter(x=>x?.symbol):[];
+    const data=await this._load(request,init),rawAll=Array.isArray(data?.equities)?data.equities.filter(x=>x?.symbol):[],all=rawAll.filter(x=>!inVerifiedMiddayPause(x.symbol)),paused=rawAll.length-all.length;
     if(all.length<=ZERO_CORE_EQUITIES+ZERO_ROTATING_EQUITIES){
-      return Response.json(data,{headers:{'cache-control':'no-store'}});
+      return Response.json({...data,equities:all,full_liquid_equity_count:rawAll.length,scanner_slice_equity_count:all.length,midday_pause_excluded:paused,scanner_mode:'ZERO_BROAD_ROTATION'},{headers:{'cache-control':'no-store'}});
     }
     const core=all.slice(0,ZERO_CORE_EQUITIES),pool=all.slice(ZERO_CORE_EQUITIES);
     const minute=Math.floor(Date.now()/60000),rotating=rotate(pool,ZERO_ROTATING_EQUITIES,minute);
@@ -58,11 +72,12 @@ class ZeroUniverseAssets{
     const body={
       ...data,
       equities,
-      full_liquid_equity_count:all.length,
+      full_liquid_equity_count:rawAll.length,
       scanner_slice_equity_count:equities.length,
       scanner_core_equities:Math.min(ZERO_CORE_EQUITIES,all.length),
       scanner_rotating_equities:Math.min(ZERO_ROTATING_EQUITIES,Math.max(0,all.length-ZERO_CORE_EQUITIES)),
       scanner_rotation_minute:minute,
+      midday_pause_excluded:paused,
       scanner_mode:'ZERO_BROAD_ROTATION'
     };
     return Response.json(body,{headers:{'cache-control':'no-store'}});
@@ -71,14 +86,15 @@ class ZeroUniverseAssets{
   async info(){
     try{
       const data=await this._load();
-      const n=Array.isArray(data?.equities)?data.equities.length:0,pool=Math.max(0,n-ZERO_CORE_EQUITIES);
+      const rows=Array.isArray(data?.equities)?data.equities:[],n=rows.length,pool=Math.max(0,n-ZERO_CORE_EQUITIES),paused=rows.filter(x=>inVerifiedMiddayPause(x.symbol)).length;
       return{
         fullLiquidEquityUniverse:n,
         coreEquitiesEveryMinute:Math.min(n,ZERO_CORE_EQUITIES),
         rotatingEquitiesPerMinute:Math.min(pool,ZERO_ROTATING_EQUITIES),
         estimatedFullRotationMinutes:pool?Math.ceil(pool/ZERO_ROTATING_EQUITIES):1,
         universeGeneratedAt:data?.generated_at||null,
-        exactBrokerCatalog:Boolean(data?.exact_broker_catalog)
+        exactBrokerCatalog:Boolean(data?.exact_broker_catalog),
+        middayPauseExcludedNow:paused
       };
     }catch{return null}
   }
@@ -107,10 +123,25 @@ class ZeroBrokerAiGuard{
       return prompt.slice(0,i+marker.length)+JSON.stringify(enriched);
     }catch{return prompt}
   }
+  async withYahooRequestCache(fn){
+    const nativeFetch=globalThis.fetch,cache=new Map(),stats={hits:0,misses:0};
+    globalThis.fetch=async(input,init)=>{
+      let u,method=String(init?.method||input?.method||'GET').toUpperCase();
+      try{u=new URL(typeof input==='string'||input instanceof URL?String(input):input?.url)}catch{return nativeFetch(input,init)}
+      if(method!=='GET'||u.hostname!=='query1.finance.yahoo.com')return nativeFetch(input,init);
+      const key=u.toString();let p=cache.get(key);
+      if(!p){stats.misses++;p=nativeFetch(input,init).then(r=>r.clone());cache.set(key,p)}else stats.hits++;
+      const stored=await p;return stored.clone();
+    };
+    try{return{value:await fn(),stats}}finally{globalThis.fetch=nativeFetch}
+  }
   async fast(prompt){
     try{
-      const enriched=this.withPeakPnl(prompt),base=await buildFastDecisionLayer(enriched,this.assets),gap=await buildGapOverlay(enriched),gapChecked=applyGapOverlay(base,gap),volumeChecked=await applyVolumeConfirmation(gapChecked);
-      return applyLiveOutcomeLearning(volumeChecked,enriched,this.storage);
+      const enriched=this.withPeakPnl(prompt),run=await this.withYahooRequestCache(async()=>{
+        const base=await buildFastDecisionLayer(enriched,this.assets),gap=await buildGapOverlay(enriched),gapChecked=applyGapOverlay(base,gap),volumeChecked=await applyVolumeConfirmation(gapChecked),regionalChecked=await applyRegionalBenchmarkConfirmation(volumeChecked,enriched),evidenceChecked=applyEvidenceDiversity(regionalChecked,enriched),learned=applyLiveOutcomeLearning(evidenceChecked,enriched,this.storage);
+        return applyExecutionCostDiscipline(learned,enriched);
+      });
+      return{...run.value,requestCache:{scope:'single-fast-decision',...run.stats}};
     }catch(e){return{summary:`Fast-Decision nicht verfügbar: ${String(e?.message||e).slice(0,120)}`,actions:[],context:[]}}
   }
   async run(model,input){
@@ -132,7 +163,7 @@ class ZeroBrokerAiGuard{
     const guardMarker={role:'user',content:ZERO_PERSISTENT_AI_GUARD_MARKER};
     if(isPlan){
       fast=await this.fast(prompt);
-      const extra={role:'user',content:`Zieldepot fuer spaetere praktische Umsetzung: finanzen.net ZERO ueber gettex. Das bleibt PAPER-TRADING; keine echten Brokerorders. Der Scanner durchsucht ein breites, rotierendes Universum gut handelbarer Aktien sowie normale europaeische UCITS-ETF-Kandidaten und darf branchenunabhaengig die besten Setups waehlen. Defense/Tech sind Zusatzbereiche, aber kein Hauptfilter. US-domiciled Analyse-Proxys wie SPY/QQQ duerfen Marktinformationen liefern, sind aber keine kaufbaren ETF-Kandidaten. Bevorzuge liquide Werte und vermeide duenne/exotische Notierungen. Bei kleinen oder fraktionalen Orders konservativ 1 EUR Zuschlag plus Spread/Slippage annehmen. Broker-Verfuegbarkeit kann sich aendern und ist keine Kaufaussage. Zusaetzlicher deterministischer Fast-Decision-Layer=${JSON.stringify(fast)}. Nutze Multi-Timeframe-Bestaetigung, Wilder-ADX, VWAP, ATR, relative Staerke zum Gesamtmarkt und zu Sektor-Peers, Swing-Unterstuetzung/Widerstand, Marktregime, Spread/Liquiditaet, Live-Volumenbestaetigung, Depotkorrelation und Opening-Range/Gap-Verhalten als weitere unabhaengige Bestaetigungen. Ein grosses Aufwaerts-Gap ohne Halt ueber Opening Range/VWAP darf nicht blind gekauft werden; Gap-Fades und Abwaerts-Gap-Fortsetzungen erhoehen bei gehaltenen Positionen den Exit-Druck. Bei klaren, mehrfach bestaetigten Reversals darf SELL schnell priorisiert werden. Laufende Gewinne werden ueber den bisherigen Positions-Peak dynamisch geschuetzt; ein Ruecklauf vom Peak ist nur zusammen mit technischer Verschlechterung ein Exit-Grund. Historische Kalibrierung und Live-Paper-Lernen duerfen Signale nur konservativ verstaerken oder bremsen; sie ersetzen nie die aktuelle Marktpruefung. Ist die historische Kalibrierung nicht validiert, gelten die sicheren Standardschwellen. Bei gemischter Lage HOLD statt hektisch handeln. Ein hoher RSI allein ist kein SELL.`};
+      const extra={role:'user',content:`Zieldepot fuer spaetere praktische Umsetzung: finanzen.net ZERO ueber gettex. Das bleibt PAPER-TRADING; keine echten Brokerorders. Der Scanner durchsucht ein breites, rotierendes Universum gut handelbarer Aktien sowie normale europaeische UCITS-ETF-Kandidaten und darf branchenunabhaengig die besten Setups waehlen. Defense/Tech sind Zusatzbereiche, aber kein Hauptfilter. US-domiciled Analyse-Proxys wie SPY/QQQ duerfen Marktinformationen liefern, sind aber keine kaufbaren ETF-Kandidaten. Bevorzuge liquide Werte und vermeide duenne/exotische Notierungen. Bei kleinen oder fraktionalen Orders konservativ 1 EUR Zuschlag plus Spread/Slippage annehmen. Broker-Verfuegbarkeit kann sich aendern und ist keine Kaufaussage. Zusaetzlicher deterministischer Fast-Decision-Layer=${JSON.stringify(fast)}. Nutze Multi-Timeframe-Bestaetigung, Wilder-ADX, VWAP, ATR, regionale und sektorale Relativstaerke, Swing-Unterstuetzung/Widerstand, Marktregime, Spread/Liquiditaet, Live-Volumenbestaetigung, Depotkorrelation und Opening-Range/Gap-Verhalten als unabhaengige Bestaetigungen. Ein BUY soll mindestens drei unabhaengige Signalsaeulen besitzen; mehrere korrelierte Momentum-Indikatoren zaehlen nicht mehrfach als alleinige Begruendung. Beachte die geschaetzten Handelskosten relativ zur Positionsgroesse. Ein grosses Aufwaerts-Gap ohne Halt ueber Opening Range/VWAP darf nicht blind gekauft werden; Gap-Fades und Abwaerts-Gap-Fortsetzungen erhoehen bei gehaltenen Positionen den Exit-Druck. Bei klaren, mehrfach bestaetigten Reversals darf SELL schnell priorisiert werden. Laufende Gewinne werden ueber den bisherigen Positions-Peak dynamisch geschuetzt; ein Ruecklauf vom Peak ist nur zusammen mit technischer Verschlechterung ein Exit-Grund. Historische Kalibrierung und Live-Paper-Lernen duerfen Signale nur konservativ verstaerken oder bremsen; sie ersetzen nie die aktuelle Marktpruefung. Ist die historische Kalibrierung nicht validiert, gelten die sicheren Standardschwellen. Bei gemischter Lage HOLD statt hektisch handeln. Ein hoher RSI allein ist kein SELL.`};
       const requested=Number(input?.max_completion_tokens||ZERO_AI_PLAN_MAX_TOKENS);
       finalInput={...input,max_completion_tokens:Math.min(Math.max(120,requested),ZERO_AI_PLAN_MAX_TOKENS),messages:[...(input.messages||[]),extra,guardMarker]};
     }else if(isNews){
@@ -178,8 +209,8 @@ export class MarketPortfolio extends BasePortfolio{
         enabled:true,
         frequency:'jede Planrunde; im KI-Wartefenster deterministisch',
         depthSymbolsMax:4,
-        signals:['Multi-Timeframe 5m/15m/1h/Tag','VWAP','ATR','Wilder-ADX + DI','relative Stärke Gesamtmarkt','relative Stärke Sektor-Peers','Swing Support/Resistance','Marktregime','Spread/Liquidität','Live-Volumenbestätigung','Depotkorrelation','Opening Gap/Range','Momentum Breakout/Reversal','dynamische Gewinnsicherung','historische Kalibrierung mit Safe-Fallback','Live-Lernen aus Paper-Outcomes'],
-        strongSellRiskOverlay:true,hardBuyGuards:true,cooldownSynchronization:true,newsCooldownSynchronization:true,liveVolumeConfirmation:true,profitPeakPersistent:true,gapChaseBlock:true,
+        signals:['Multi-Timeframe 5m/15m/1h/Tag','VWAP','ATR','Wilder-ADX + DI','relative Stärke Gesamtmarkt','relative Stärke Sektor-Peers','regionale Benchmark-Stärke','Swing Support/Resistance','Marktregime','Spread/Liquidität','Live-Volumenbestätigung','Depotkorrelation','Opening Gap/Range','Momentum Breakout/Reversal','unabhängige Signalsäulen','Kostenquote je Positionsgröße','dynamische Gewinnsicherung','historische Kalibrierung mit Safe-Fallback','Live-Lernen aus Paper-Outcomes'],
+        strongSellRiskOverlay:true,hardBuyGuards:true,cooldownSynchronization:true,newsCooldownSynchronization:true,liveVolumeConfirmation:true,regionalBenchmarkConfirmation:true,evidenceDiversityMinimum:3,executionCostGuard:true,yahooRequestDeduplication:true,middayPauseGuard:['Japan 11:30-12:30','China 11:30-13:00','Hongkong 12:00-13:00'],profitPeakPersistent:true,gapChaseBlock:true,
         historicalCalibration:{enabled:true,validated:Boolean(FAST_CALIBRATION.validated),version:FAST_CALIBRATION.version,sampleCount:Number(FAST_CALIBRATION.sampleCount||0),usingSafeFallback:!FAST_CALIBRATION.validated,buyThreshold:Number(FAST_CALIBRATION.buyThreshold||4.2),sellThreshold:Number(FAST_CALIBRATION.sellThreshold||4)},
         livePaperLearning:{enabled:true,minClosedOutcomesPerSetup:12,conservative:true},paperTradingOnly:true
       },
