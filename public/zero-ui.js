@@ -8,7 +8,8 @@ function ensure(){
  s.innerHTML=`<div class="cardTitle"><h2>Zieldepot · finanzen.net ZERO</h2><span id="zeroBrokerPill" class="tag">gettex</span></div>
  <div id="zeroBrokerMeta" class="trendSummary">Das Planspiel wird auf praktisch bei ZERO/gettex umsetzbare Aktien und normale UCITS-ETFs ausgerichtet.</div>
  <div id="zeroBrokerGrid" class="miniGrid"></div>
- <div id="zeroBrokerNote" class="notice"></div>`;
+ <div id="zeroBrokerNote" class="notice"></div>
+ <div style="margin-top:10px"><a href="/onepager.html" style="color:#8fc4ff;font-weight:800;text-decoration:none">Funktionsübersicht / Onepager öffnen →</a></div>`;
  anchor.insertAdjacentElement('afterend',s);return s;
 }
 
