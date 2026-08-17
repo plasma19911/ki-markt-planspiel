@@ -37,8 +37,12 @@ jobs:
           node --check src/portfolio-final.js
           node --check src/portfolio-no-leverage.js
           node --check src/portfolio-learning.js
+          node --check src/r2-portfolio.js
+          node --check src/compact-portfolio.js
+          node --check src/investment-intelligence.js
           node --check src/last-week.js
           node --check public/app.js
           node --check public/analysis-ui.js
+          node --check public/investment-ui.js
       - name: Wrangler dry run
         run: npx wrangler deploy --dry-run
