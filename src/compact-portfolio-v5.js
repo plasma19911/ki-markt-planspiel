@@ -3,6 +3,7 @@ import {ZERO_BROKER,zeroExecutionNote} from './zero-broker.js';
 import {buildFastDecisionLayer,mergeFastRiskActions} from './fast-signals.js';
 import {buildGapOverlay,applyGapOverlay} from './gap-signals.js';
 import {applyLiveOutcomeLearning} from './live-signal-learning.js';
+import {enforceFastExecutionGuards,isLowerAiPlanCooldown} from './decision-guard.js';
 
 // Das statische Universum darf deutlich breiter sein als ein einzelner 1-Minuten-Scan.
 // Auf Workers Free werden deshalb die groessten/liquidesten Werte dauerhaft und der
@@ -124,7 +125,6 @@ class ZeroBrokerAiGuard{
       return{response:String(q.lastNewsResponse||'News werden weiter gesammelt; die KI-Zusammenfassung wird im 15-Minuten-Fenster aktualisiert.')};
     }
 
-    if(isPlan){q.planAt=now;this.saveQuota(q)}
     if(isNews){q.newsAt=now;this.saveQuota(q)}
 
     let finalInput=input,fast=null;
@@ -136,7 +136,13 @@ class ZeroBrokerAiGuard{
     }
 
     let r=await this.base.run(model,finalInput);
-    if(isPlan&&fast)r=mergeFastRiskActions(r,fast);
+    if(isPlan){
+      if(isLowerAiPlanCooldown(r)){
+        return{response:JSON.stringify({summary:`KI-Cooldown synchronisiert; ${fast?.summary||'Fast-Decision aktiv.'}`,actions:fast?.actions||[]})};
+      }
+      const latest=this.quota();latest.planAt=now;this.saveQuota(latest);
+      if(fast){r=enforceFastExecutionGuards(r,fast);r=mergeFastRiskActions(r,fast)}
+    }
     if(isNews){
       const response=String(r?.response||r?.result?.response||'').trim();
       const latest=this.quota();latest.newsAt=now;if(response)latest.lastNewsResponse=response.slice(0,500);this.saveQuota(latest);
@@ -164,7 +170,7 @@ export class MarketPortfolio extends BasePortfolio{
       aiNewsCooldownMinutes:ZERO_AI_NEWS_COOLDOWN_MS/60000,
       aiCooldownPersistent:true,
       aiPlanMaxCompletionTokens:ZERO_AI_PLAN_MAX_TOKENS,
-      fastDecisionLayer:{enabled:true,frequency:'jede Planrunde; im KI-Wartefenster deterministisch',depthSymbolsMax:4,signals:['Multi-Timeframe 5m/15m/1h/Tag','VWAP','ATR','Wilder-ADX + DI','relative Stärke Gesamtmarkt','relative Stärke Sektor-Peers','Swing Support/Resistance','Marktregime','Spread/Liquidität','Depotkorrelation','Opening Gap/Range','Momentum Breakout/Reversal','dynamische Gewinnsicherung','historisch kalibrierte Schwellen','Live-Lernen aus Paper-Outcomes'],strongSellRiskOverlay:true,profitPeakPersistent:true,gapChaseBlock:true,historicalCalibration:true,livePaperLearning:{enabled:true,minClosedOutcomesPerSetup:12,conservative:true},paperTradingOnly:true},
+      fastDecisionLayer:{enabled:true,frequency:'jede Planrunde; im KI-Wartefenster deterministisch',depthSymbolsMax:4,signals:['Multi-Timeframe 5m/15m/1h/Tag','VWAP','ATR','Wilder-ADX + DI','relative Stärke Gesamtmarkt','relative Stärke Sektor-Peers','Swing Support/Resistance','Marktregime','Spread/Liquidität','Depotkorrelation','Opening Gap/Range','Momentum Breakout/Reversal','dynamische Gewinnsicherung','historisch kalibrierte Schwellen','Live-Lernen aus Paper-Outcomes'],strongSellRiskOverlay:true,hardBuyGuards:true,cooldownSynchronization:true,profitPeakPersistent:true,gapChaseBlock:true,historicalCalibration:true,livePaperLearning:{enabled:true,minClosedOutcomesPerSetup:12,conservative:true},paperTradingOnly:true},
       executionNote:zeroExecutionNote(Number(s?.config?.cash||0),{fractional:true}),
       paperTradingOnly:true,
       liveBrokerConnection:false
