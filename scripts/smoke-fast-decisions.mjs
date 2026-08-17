@@ -1,13 +1,13 @@
 import assert from 'node:assert/strict';
 import {buildFastDecisionLayer} from '../src/fast-signals.js';
 import {buildGapOverlay,applyGapOverlay} from '../src/gap-signals.js';
+import {applyVolumeConfirmation} from '../src/volume-overlay.js';
 import {enforceFastExecutionGuards} from '../src/decision-guard.js';
 
 const now=Math.floor(Date.now()/1000);
 const originalFetch=globalThis.fetch;
 
 function closes(symbol,n,interval){
-  const up=symbol==='BULL'||symbol==='SPY';
   const down=symbol==='BEAR';
   const step=symbol==='SPY'?(interval==='1d'?.24:.12):(interval==='1d'?.65:.24);
   const start=down?130:100;
@@ -24,7 +24,8 @@ function chartResult(symbol){
   if(symbol==='BULL')cs[cs.length-1]=+(cs[cs.length-2]+1.2).toFixed(4);
   if(symbol==='BEAR')cs[cs.length-1]=+(cs[cs.length-2]-1.2).toFixed(4);
   const os=cs.map((x,i)=>i?cs[i-1]:x),hs=cs.map((x,i)=>+(Math.max(x,os[i])+.08).toFixed(4)),ls=cs.map((x,i)=>+(Math.min(x,os[i])-.08).toFixed(4));
-  return{meta:{symbol,previousClose:down?131:99.5,regularMarketTime:now},timestamp:cs.map((_,i)=>now-(cs.length-1-i)*300),indicators:{quote:[{open:os,high:hs,low:ls,close:cs,volume:cs.map((_,i)=>1000+i*25)}]}};
+  const volume=cs.map((_,i)=>1000+i*25);if(symbol==='BULL')volume[volume.length-1]=2100;
+  return{meta:{symbol,previousClose:down?131:99.5,regularMarketTime:now},timestamp:cs.map((_,i)=>now-(cs.length-1-i)*300),indicators:{quote:[{open:os,high:hs,low:ls,close:cs,volume}]}};
 }
 
 function sparkPayload(symbols,interval){
@@ -68,9 +69,12 @@ try{
   ];
   const held=[{symbol:'BEAR',pnlPct:3.2,peakPnlPct:7.4}];
   const prompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. JSON-only {"summary":"","actions":[]} Kandidaten=${JSON.stringify(candidates)} Gehalten=${JSON.stringify(held)}`;
-  const fast=await buildFastDecisionLayer(prompt,assets);
-  assert.equal(fast.actions.find(x=>x.symbol==='BEAR')?.action,'SELL','held confirmed reversal must FAST-SELL');
-  assert.equal(fast.actions.find(x=>x.symbol==='BULL')?.action,'BUY','confirmed liquid multi-timeframe breakout must FAST-BUY');
+  const fastRaw=await buildFastDecisionLayer(prompt,assets);
+  assert.equal(fastRaw.actions.find(x=>x.symbol==='BEAR')?.action,'SELL','held confirmed reversal must FAST-SELL');
+  assert.equal(fastRaw.actions.find(x=>x.symbol==='BULL')?.action,'BUY','confirmed liquid multi-timeframe breakout must FAST-BUY');
+  const fast=await applyVolumeConfirmation(fastRaw);
+  assert.equal(fast.actions.find(x=>x.symbol==='BULL')?.action,'BUY','confirmed breakout with strong live volume must remain BUY');
+  assert.ok((fast.volumeConfirmation?.ratios?.BULL||0)>=fast.volumeConfirmation.minRatio,'BULL must have confirmed live 5m volume');
 
   const gapPrompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. JSON-only {"summary":"","actions":[]} Kandidaten=${JSON.stringify([{symbol:'GAP'}])} Gehalten=[]`;
   const gap=await buildGapOverlay(gapPrompt);
@@ -86,7 +90,15 @@ try{
   assert.equal(guardedJson.actions[0].action,'HOLD','AI BUY must be hard-blocked when gap overlay blocks entry');
   assert.equal(guardedJson.actions[0].allocation_pct,0,'hard-blocked BUY must allocate zero cash');
 
-  console.log(JSON.stringify({ok:true,fastActions:fast.actions,gap:gapCtx?.state,hardGuard:guardedJson.actions[0].action},null,2));
+  const volumeGuard=enforceFastExecutionGuards(
+    {response:JSON.stringify({summary:'ai',actions:[{symbol:'BULL',action:'BUY',confidence:.82,allocation_pct:20,reason:'AI buy'}]})},
+    {context:[{symbol:'BULL'}],gapContext:[],volumeConfirmation:{minRatio:1.10,ratios:{BULL:.72}}}
+  );
+  const volumeGuardJson=JSON.parse(volumeGuard.response);
+  assert.equal(volumeGuardJson.actions[0].action,'HOLD','AI BUY must be hard-blocked by confirmed weak live volume');
+  assert.equal(volumeGuardJson.actions[0].allocation_pct,0,'volume-blocked BUY must allocate zero cash');
+
+  console.log(JSON.stringify({ok:true,fastActions:fast.actions,gap:gapCtx?.state,hardGuard:guardedJson.actions[0].action,volumeGuard:volumeGuardJson.actions[0].action,volumeRatio:fast.volumeConfirmation?.ratios?.BULL},null,2));
 }finally{
   globalThis.fetch=originalFetch;
 }
