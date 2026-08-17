@@ -10,10 +10,6 @@ import {applyLiveOutcomeLearning} from './live-signal-learning.js';
 import {enforceFastExecutionGuards,isLowerAiPlanCooldown} from './decision-guard.js';
 import {FAST_CALIBRATION} from './generated-fast-calibration.js';
 
-// Das statische Universum darf deutlich breiter sein als ein einzelner 1-Minuten-Scan.
-// Auf Workers Free werden deshalb die groessten/liquidesten Werte dauerhaft und der
-// restliche Aktien-Pool rotierend gescannt. PRIORITY_EQUITIES, ETFs und gehaltene Werte
-// werden von market-v3 danach zusaetzlich beruecksichtigt.
 const ZERO_CORE_EQUITIES=80;
 const ZERO_ROTATING_EQUITIES=160;
 const ZERO_UNIVERSE_CACHE_MS=10*60*1000;
@@ -23,202 +19,51 @@ const ZERO_AI_NEWS_COOLDOWN_MS=15*60*1000;
 const ZERO_AI_QUOTA_KEY='quota/zero-ai-v1';
 const ZERO_FAST_PEAK_KEY='state/zero-fast-profit-peaks-v1';
 const ZERO_PERSISTENT_AI_GUARD_MARKER='ZERO_PERSISTENT_AI_GUARD=1';
+const COMPACT_STATE_KEY='compact/current-v1';
 
-function rotate(pool,count,seed){
-  if(!pool.length||count<=0)return[];
-  const n=Math.min(count,pool.length),start=(seed*n)%pool.length,out=[];
-  for(let i=0;i<n;i++)out.push(pool[(start+i)%pool.length]);
-  return out;
-}
-
-function localMinute(tz,date=new Date()){
-  try{const p=new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(date),o={};for(const x of p)o[x.type]=x.value;return Number(o.hour)*60+Number(o.minute)}catch{return-1}
-}
-function inVerifiedMiddayPause(symbol,date=new Date()){
-  const s=String(symbol||'').toUpperCase();let tz=null,lo=-1,hi=-1;
-  if(/\.T$/.test(s)){tz='Asia/Tokyo';lo=11*60+30;hi=12*60+30}
-  else if(/\.(SS|SZ)$/.test(s)){tz='Asia/Shanghai';lo=11*60+30;hi=13*60}
-  else if(/\.HK$/.test(s)){tz='Asia/Hong_Kong';lo=12*60;hi=13*60}
-  else return false;
-  const m=localMinute(tz,date);return m>=lo&&m<hi;
-}
+function rotate(pool,count,seed){if(!pool.length||count<=0)return[];const n=Math.min(count,pool.length),start=(seed*n)%pool.length,out=[];for(let i=0;i<n;i++)out.push(pool[(start+i)%pool.length]);return out}
+function localMinute(tz,date=new Date()){try{const p=new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(date),o={};for(const x of p)o[x.type]=x.value;return Number(o.hour)*60+Number(o.minute)}catch{return-1}}
+function inVerifiedMiddayPause(symbol,date=new Date()){const s=String(symbol||'').toUpperCase();let tz=null,lo=-1,hi=-1;if(/\.T$/.test(s)){tz='Asia/Tokyo';lo=11*60+30;hi=12*60+30}else if(/\.(SS|SZ)$/.test(s)){tz='Asia/Shanghai';lo=11*60+30;hi=13*60}else if(/\.HK$/.test(s)){tz='Asia/Hong_Kong';lo=12*60;hi=13*60}else return false;const m=localMinute(tz,date);return m>=lo&&m<hi}
+function normalizedCurrency(v){const c=String(v||'').trim();return c==='GBp'||c.toUpperCase()==='GBX'?'GBP':c.toUpperCase()}
+function isPenceListing(x){const c=String(x?.currency||'').trim();return c==='GBp'||c.toUpperCase()==='GBX'}
 
 class ZeroUniverseAssets{
   constructor(base){this.base=base;this.cache=null;this.cacheAt=0}
-
-  async _load(request=null,init=undefined){
-    if(this.cache&&Date.now()-this.cacheAt<ZERO_UNIVERSE_CACHE_MS)return this.cache;
-    const req=request||new Request('https://assets.local/universe.json');
-    const r=await this.base.fetch(req,init);
-    if(!r.ok)throw new Error(`ZERO-Universum HTTP ${r.status}`);
-    const data=await r.json();
-    this.cache=data&&typeof data==='object'?data:{equities:[]};
-    this.cacheAt=Date.now();
-    return this.cache;
-  }
-
+  async _load(request=null,init=undefined){if(this.cache&&Date.now()-this.cacheAt<ZERO_UNIVERSE_CACHE_MS)return this.cache;const req=request||new Request('https://assets.local/universe.json'),r=await this.base.fetch(req,init);if(!r.ok)throw new Error(`ZERO-Universum HTTP ${r.status}`);const data=await r.json();this.cache=data&&typeof data==='object'?data:{equities:[]};this.cacheAt=Date.now();return this.cache}
   async fetch(request,init){
-    let u;
-    try{u=new URL(typeof request==='string'?request:request.url)}catch{return this.base.fetch(request,init)}
-    if(!u.pathname.endsWith('/universe.json'))return this.base.fetch(request,init);
-    const data=await this._load(request,init),rawAll=Array.isArray(data?.equities)?data.equities.filter(x=>x?.symbol):[],all=rawAll.filter(x=>!inVerifiedMiddayPause(x.symbol)),paused=rawAll.length-all.length;
-    if(all.length<=ZERO_CORE_EQUITIES+ZERO_ROTATING_EQUITIES){
-      return Response.json({...data,equities:all,full_liquid_equity_count:rawAll.length,scanner_slice_equity_count:all.length,midday_pause_excluded:paused,scanner_mode:'ZERO_BROAD_ROTATION'},{headers:{'cache-control':'no-store'}});
-    }
-    const core=all.slice(0,ZERO_CORE_EQUITIES),pool=all.slice(ZERO_CORE_EQUITIES);
-    const minute=Math.floor(Date.now()/60000),rotating=rotate(pool,ZERO_ROTATING_EQUITIES,minute);
-    const seen=new Set(),equities=[];
-    for(const x of [...core,...rotating]){const k=String(x.symbol).toUpperCase();if(!seen.has(k)){seen.add(k);equities.push(x)}}
-    const body={
-      ...data,
-      equities,
-      full_liquid_equity_count:rawAll.length,
-      scanner_slice_equity_count:equities.length,
-      scanner_core_equities:Math.min(ZERO_CORE_EQUITIES,all.length),
-      scanner_rotating_equities:Math.min(ZERO_ROTATING_EQUITIES,Math.max(0,all.length-ZERO_CORE_EQUITIES)),
-      scanner_rotation_minute:minute,
-      midday_pause_excluded:paused,
-      scanner_mode:'ZERO_BROAD_ROTATION'
-    };
-    return Response.json(body,{headers:{'cache-control':'no-store'}});
+    let u;try{u=new URL(typeof request==='string'?request:request.url)}catch{return this.base.fetch(request,init)}if(!u.pathname.endsWith('/universe.json'))return this.base.fetch(request,init);
+    const data=await this._load(request,init),rawAll=Array.isArray(data?.equities)?data.equities.filter(x=>x?.symbol):[],supported=rawAll.filter(x=>!isPenceListing(x)),penceExcluded=rawAll.length-supported.length,all=supported.filter(x=>!inVerifiedMiddayPause(x.symbol)),paused=supported.length-all.length;
+    if(all.length<=ZERO_CORE_EQUITIES+ZERO_ROTATING_EQUITIES)return Response.json({...data,equities:all,full_liquid_equity_count:rawAll.length,scanner_slice_equity_count:all.length,midday_pause_excluded:paused,pence_listings_excluded:penceExcluded,scanner_mode:'ZERO_BROAD_ROTATION'},{headers:{'cache-control':'no-store'}});
+    const core=all.slice(0,ZERO_CORE_EQUITIES),pool=all.slice(ZERO_CORE_EQUITIES),minute=Math.floor(Date.now()/60000),rotating=rotate(pool,ZERO_ROTATING_EQUITIES,minute),seen=new Set(),equities=[];for(const x of [...core,...rotating]){const k=String(x.symbol).toUpperCase();if(!seen.has(k)){seen.add(k);equities.push(x)}}
+    return Response.json({...data,equities,full_liquid_equity_count:rawAll.length,scanner_slice_equity_count:equities.length,scanner_core_equities:Math.min(ZERO_CORE_EQUITIES,all.length),scanner_rotating_equities:Math.min(ZERO_ROTATING_EQUITIES,Math.max(0,all.length-ZERO_CORE_EQUITIES)),scanner_rotation_minute:minute,midday_pause_excluded:paused,pence_listings_excluded:penceExcluded,scanner_mode:'ZERO_BROAD_ROTATION'},{headers:{'cache-control':'no-store'}})
   }
-
-  async info(){
-    try{
-      const data=await this._load();
-      const rows=Array.isArray(data?.equities)?data.equities:[],n=rows.length,pool=Math.max(0,n-ZERO_CORE_EQUITIES),paused=rows.filter(x=>inVerifiedMiddayPause(x.symbol)).length;
-      return{
-        fullLiquidEquityUniverse:n,
-        coreEquitiesEveryMinute:Math.min(n,ZERO_CORE_EQUITIES),
-        rotatingEquitiesPerMinute:Math.min(pool,ZERO_ROTATING_EQUITIES),
-        estimatedFullRotationMinutes:pool?Math.ceil(pool/ZERO_ROTATING_EQUITIES):1,
-        universeGeneratedAt:data?.generated_at||null,
-        exactBrokerCatalog:Boolean(data?.exact_broker_catalog),
-        middayPauseExcludedNow:paused
-      };
-    }catch{return null}
-  }
+  async info(){try{const data=await this._load(),rows=Array.isArray(data?.equities)?data.equities:[],supported=rows.filter(x=>!isPenceListing(x)),n=rows.length,pool=Math.max(0,supported.length-ZERO_CORE_EQUITIES),paused=supported.filter(x=>inVerifiedMiddayPause(x.symbol)).length;return{fullLiquidEquityUniverse:n,coreEquitiesEveryMinute:Math.min(supported.length,ZERO_CORE_EQUITIES),rotatingEquitiesPerMinute:Math.min(pool,ZERO_ROTATING_EQUITIES),estimatedFullRotationMinutes:pool?Math.ceil(pool/ZERO_ROTATING_EQUITIES):1,universeGeneratedAt:data?.generated_at||null,exactBrokerCatalog:Boolean(data?.exact_broker_catalog),middayPauseExcludedNow:paused,penceListingsExcluded:rows.length-supported.length}}catch{return null}}
 }
 
 class ZeroBrokerAiGuard{
   constructor(base,storage,assets){this.base=base;this.storage=storage;this.assets=assets}
-  quota(){
-    try{return this.storage?.kv?.get(ZERO_AI_QUOTA_KEY)||{}}
-    catch{return{}}
+  quota(){try{return this.storage?.kv?.get(ZERO_AI_QUOTA_KEY)||{}}catch{return{}}}
+  saveQuota(q){try{this.storage?.kv?.put(ZERO_AI_QUOTA_KEY,q)}catch{}}
+  currentCandidateState(){try{const row=this.storage?.kv?.get(COMPACT_STATE_KEY),s=row?.body?JSON.parse(String(row.body)):null;return new Map((s?.candidates||[]).map(x=>[String(x.symbol||'').toUpperCase(),x]))}catch{return new Map()}}
+  applyFxSafety(fast,prompt){
+    if(!fast)return fast;const base=normalizedCurrency(String(prompt).match(/Cash\s+[0-9.+-]+\s+([A-Z]{3})/i)?.[1]||'EUR'),state=this.currentCandidateState(),results={},context=(fast.context||[]).map(c=>{const key=String(c.symbol||'').toUpperCase(),row=state.get(key),cur=normalizedCurrency(row?.currency),rate=Number(row?.fx_rate),same=cur&&cur===base,valid=Boolean(row&&cur&&(same||(Number.isFinite(rate)&&rate>0&&Math.abs(rate-1)>1e-9))),info={baseCurrency:base,currency:cur||null,scannerFxRate:Number.isFinite(rate)?rate:null,valid,reason:valid?(same?'Basiswährung':'FX-Rate plausibel'):(row?'Fremdwährungs-FX fehlt oder Scanner-Fallback=1':'Kandidat nicht im aktuellen Ausführungszustand')};results[key]=info;return{...c,fxSafety:info}}),actions=(fast.actions||[]).filter(a=>a.action!=='BUY'||results[String(a.symbol||'').toUpperCase()]?.valid!==false);
+    return{...fast,actions,context,fxSafety:{baseCurrency:base,results,blockedBuys:Object.entries(results).filter(([,v])=>!v.valid).map(([k])=>k)}}
   }
-  saveQuota(q){
-    try{this.storage?.kv?.put(ZERO_AI_QUOTA_KEY,q)}catch{}
-  }
-  withPeakPnl(prompt){
-    const marker=' Gehalten=',i=prompt.indexOf(marker);if(i<0)return prompt;
-    try{
-      const held=JSON.parse(prompt.slice(i+marker.length).trim());if(!Array.isArray(held))return prompt;
-      const old=this.storage?.kv?.get(ZERO_FAST_PEAK_KEY)||{},next={};
-      const enriched=held.map(h=>{
-        const symbol=String(h?.symbol||'').toUpperCase(),current=Number(h?.pnlPct||0),prev=Number(old?.[symbol]?.peakPnlPct);
-        const peak=Number.isFinite(prev)?Math.max(prev,current):current;next[symbol]={peakPnlPct:peak,updatedAt:Date.now()};
-        return{...h,peakPnlPct:+peak.toFixed(3),givebackPct:+Math.max(0,peak-current).toFixed(3)};
-      });
-      this.storage?.kv?.put(ZERO_FAST_PEAK_KEY,next);
-      return prompt.slice(0,i+marker.length)+JSON.stringify(enriched);
-    }catch{return prompt}
-  }
-  async withYahooRequestCache(fn){
-    const nativeFetch=globalThis.fetch,cache=new Map(),stats={hits:0,misses:0};
-    globalThis.fetch=async(input,init)=>{
-      let u,method=String(init?.method||input?.method||'GET').toUpperCase();
-      try{u=new URL(typeof input==='string'||input instanceof URL?String(input):input?.url)}catch{return nativeFetch(input,init)}
-      if(method!=='GET'||u.hostname!=='query1.finance.yahoo.com')return nativeFetch(input,init);
-      const key=u.toString();let p=cache.get(key);
-      if(!p){stats.misses++;p=nativeFetch(input,init).then(r=>r.clone());cache.set(key,p)}else stats.hits++;
-      const stored=await p;return stored.clone();
-    };
-    try{return{value:await fn(),stats}}finally{globalThis.fetch=nativeFetch}
-  }
+  withPeakPnl(prompt){const marker=' Gehalten=',i=prompt.indexOf(marker);if(i<0)return prompt;try{const held=JSON.parse(prompt.slice(i+marker.length).trim());if(!Array.isArray(held))return prompt;const old=this.storage?.kv?.get(ZERO_FAST_PEAK_KEY)||{},next={},enriched=held.map(h=>{const symbol=String(h?.symbol||'').toUpperCase(),current=Number(h?.pnlPct||0),prev=Number(old?.[symbol]?.peakPnlPct),peak=Number.isFinite(prev)?Math.max(prev,current):current;next[symbol]={peakPnlPct:peak,updatedAt:Date.now()};return{...h,peakPnlPct:+peak.toFixed(3),givebackPct:+Math.max(0,peak-current).toFixed(3)}});this.storage?.kv?.put(ZERO_FAST_PEAK_KEY,next);return prompt.slice(0,i+marker.length)+JSON.stringify(enriched)}catch{return prompt}}
+  async withYahooRequestCache(fn){const nativeFetch=globalThis.fetch,cache=new Map(),stats={hits:0,misses:0};globalThis.fetch=async(input,init)=>{let u,method=String(init?.method||input?.method||'GET').toUpperCase();try{u=new URL(typeof input==='string'||input instanceof URL?String(input):input?.url)}catch{return nativeFetch(input,init)}if(method!=='GET'||u.hostname!=='query1.finance.yahoo.com')return nativeFetch(input,init);const key=u.toString();let p=cache.get(key);if(!p){stats.misses++;p=nativeFetch(input,init).then(r=>r.clone());cache.set(key,p)}else stats.hits++;const stored=await p;return stored.clone()};try{return{value:await fn(),stats}}finally{globalThis.fetch=nativeFetch}}
   async fast(prompt){
-    try{
-      const enriched=this.withPeakPnl(prompt),run=await this.withYahooRequestCache(async()=>{
-        const base=await buildFastDecisionLayer(enriched,this.assets),gap=await buildGapOverlay(enriched),gapChecked=applyGapOverlay(base,gap),volumeChecked=await applyVolumeConfirmation(gapChecked),regionalChecked=await applyRegionalBenchmarkConfirmation(volumeChecked,enriched),evidenceChecked=applyEvidenceDiversity(regionalChecked,enriched),learned=applyLiveOutcomeLearning(evidenceChecked,enriched,this.storage);
-        return applyExecutionCostDiscipline(learned,enriched);
-      });
-      return{...run.value,requestCache:{scope:'single-fast-decision',...run.stats}};
-    }catch(e){return{summary:`Fast-Decision nicht verfügbar: ${String(e?.message||e).slice(0,120)}`,actions:[],context:[]}}
+    try{const enriched=this.withPeakPnl(prompt),run=await this.withYahooRequestCache(async()=>{const base=await buildFastDecisionLayer(enriched,this.assets),gap=await buildGapOverlay(enriched),gapChecked=applyGapOverlay(base,gap),volumeChecked=await applyVolumeConfirmation(gapChecked),regionalChecked=await applyRegionalBenchmarkConfirmation(volumeChecked,enriched),fxChecked=this.applyFxSafety(regionalChecked,enriched),evidenceChecked=applyEvidenceDiversity(fxChecked,enriched),learned=applyLiveOutcomeLearning(evidenceChecked,enriched,this.storage);return applyExecutionCostDiscipline(learned,enriched)});return{...run.value,requestCache:{scope:'single-fast-decision',...run.stats}}}catch(e){return{summary:`Fast-Decision nicht verfügbar: ${String(e?.message||e).slice(0,120)}`,actions:[],context:[]}}
   }
   async run(model,input){
-    const prompt=String(input?.messages?.map(x=>x?.content||'').join('\n')||'');
-    const isPlan=prompt.includes('JSON-only')&&prompt.includes('Kandidaten=');
-    const isNews=prompt.includes('Fasse die aktuelle Mehrquellen-Nachrichtenlage');
-    if(!isPlan&&!isNews)return this.base.run(model,input);
-
-    const now=Date.now(),q=this.quota();
-    if(isPlan&&now-Number(q.planAt||0)<ZERO_AI_PLAN_COOLDOWN_MS){
-      const fast=await this.fast(prompt);
-      return{response:JSON.stringify({summary:`KI-Wartefenster; ${fast.summary}`,actions:fast.actions})};
-    }
-    if(isNews&&now-Number(q.newsAt||0)<ZERO_AI_NEWS_COOLDOWN_MS){
-      return{response:String(q.lastNewsResponse||'News werden weiter gesammelt; die KI-Zusammenfassung wird im 15-Minuten-Fenster aktualisiert.')};
-    }
-
-    let finalInput=input,fast=null;
-    const guardMarker={role:'user',content:ZERO_PERSISTENT_AI_GUARD_MARKER};
-    if(isPlan){
-      fast=await this.fast(prompt);
-      const extra={role:'user',content:`Zieldepot fuer spaetere praktische Umsetzung: finanzen.net ZERO ueber gettex. Das bleibt PAPER-TRADING; keine echten Brokerorders. Der Scanner durchsucht ein breites, rotierendes Universum gut handelbarer Aktien sowie normale europaeische UCITS-ETF-Kandidaten und darf branchenunabhaengig die besten Setups waehlen. Defense/Tech sind Zusatzbereiche, aber kein Hauptfilter. US-domiciled Analyse-Proxys wie SPY/QQQ duerfen Marktinformationen liefern, sind aber keine kaufbaren ETF-Kandidaten. Bevorzuge liquide Werte und vermeide duenne/exotische Notierungen. Bei kleinen oder fraktionalen Orders konservativ 1 EUR Zuschlag plus Spread/Slippage annehmen. Broker-Verfuegbarkeit kann sich aendern und ist keine Kaufaussage. Zusaetzlicher deterministischer Fast-Decision-Layer=${JSON.stringify(fast)}. Nutze Multi-Timeframe-Bestaetigung, Wilder-ADX, VWAP, ATR, regionale und sektorale Relativstaerke, Swing-Unterstuetzung/Widerstand, Marktregime, Spread/Liquiditaet, Live-Volumenbestaetigung, Depotkorrelation und Opening-Range/Gap-Verhalten als unabhaengige Bestaetigungen. Ein BUY soll mindestens drei unabhaengige Signalsaeulen besitzen; mehrere korrelierte Momentum-Indikatoren zaehlen nicht mehrfach als alleinige Begruendung. Beachte die geschaetzten Handelskosten relativ zur Positionsgroesse. Ein grosses Aufwaerts-Gap ohne Halt ueber Opening Range/VWAP darf nicht blind gekauft werden; Gap-Fades und Abwaerts-Gap-Fortsetzungen erhoehen bei gehaltenen Positionen den Exit-Druck. Bei klaren, mehrfach bestaetigten Reversals darf SELL schnell priorisiert werden. Laufende Gewinne werden ueber den bisherigen Positions-Peak dynamisch geschuetzt; ein Ruecklauf vom Peak ist nur zusammen mit technischer Verschlechterung ein Exit-Grund. Historische Kalibrierung und Live-Paper-Lernen duerfen Signale nur konservativ verstaerken oder bremsen; sie ersetzen nie die aktuelle Marktpruefung. Ist die historische Kalibrierung nicht validiert, gelten die sicheren Standardschwellen. Bei gemischter Lage HOLD statt hektisch handeln. Ein hoher RSI allein ist kein SELL.`};
-      const requested=Number(input?.max_completion_tokens||ZERO_AI_PLAN_MAX_TOKENS);
-      finalInput={...input,max_completion_tokens:Math.min(Math.max(120,requested),ZERO_AI_PLAN_MAX_TOKENS),messages:[...(input.messages||[]),extra,guardMarker]};
-    }else if(isNews){
-      finalInput={...input,messages:[...(input.messages||[]),guardMarker]};
-    }
-
-    let r=await this.base.run(model,finalInput);
-    if(isPlan){
-      if(isLowerAiPlanCooldown(r)){
-        return{response:JSON.stringify({summary:`KI-Cooldown synchronisiert; ${fast?.summary||'Fast-Decision aktiv.'}`,actions:fast?.actions||[]})};
-      }
-      const latest=this.quota();latest.planAt=now;this.saveQuota(latest);
-      if(fast){r=enforceFastExecutionGuards(r,fast);r=mergeFastRiskActions(r,fast)}
-    }
-    if(isNews){
-      const response=String(r?.response||r?.result?.response||'').trim();
-      const latest=this.quota();latest.newsAt=now;if(response)latest.lastNewsResponse=response.slice(0,500);this.saveQuota(latest);
-    }
-    return r;
+    const prompt=String(input?.messages?.map(x=>x?.content||'').join('\n')||''),isPlan=prompt.includes('JSON-only')&&prompt.includes('Kandidaten='),isNews=prompt.includes('Fasse die aktuelle Mehrquellen-Nachrichtenlage');if(!isPlan&&!isNews)return this.base.run(model,input);
+    const now=Date.now(),q=this.quota();if(isPlan&&now-Number(q.planAt||0)<ZERO_AI_PLAN_COOLDOWN_MS){const fast=await this.fast(prompt);return{response:JSON.stringify({summary:`KI-Wartefenster; ${fast.summary}`,actions:fast.actions})}}if(isNews&&now-Number(q.newsAt||0)<ZERO_AI_NEWS_COOLDOWN_MS)return{response:String(q.lastNewsResponse||'News werden weiter gesammelt; die KI-Zusammenfassung wird im 15-Minuten-Fenster aktualisiert.')};
+    let finalInput=input,fast=null;const guardMarker={role:'user',content:ZERO_PERSISTENT_AI_GUARD_MARKER};
+    if(isPlan){fast=await this.fast(prompt);const extra={role:'user',content:`Zieldepot fuer spaetere praktische Umsetzung: finanzen.net ZERO ueber gettex. Das bleibt PAPER-TRADING; keine echten Brokerorders. Der Scanner durchsucht ein breites, rotierendes Universum gut handelbarer Aktien sowie normale europaeische UCITS-ETF-Kandidaten und darf branchenunabhaengig die besten Setups waehlen. US-domiciled Analyse-Proxys wie SPY/QQQ duerfen Marktinformationen liefern, sind aber keine kaufbaren ETF-Kandidaten. Bevorzuge liquide Werte und vermeide duenne/exotische Notierungen. Pence-notierte GBp/GBX-Listings bleiben bis zu einer expliziten Preis-Skalierung vom automatischen Handel ausgeschlossen. Bei Fremdwaehrungen muss eine plausible FX-Rate vorliegen; Scanner-Fallback=1 darf keinen BUY ausloesen. Bei kleinen oder fraktionalen Orders konservativ 1 EUR Zuschlag plus Spread/Slippage annehmen. Zusaetzlicher deterministischer Fast-Decision-Layer=${JSON.stringify(fast)}. Nutze Multi-Timeframe-Bestaetigung, Wilder-ADX, VWAP, ATR, regionale und sektorale Relativstaerke, Swing-Unterstuetzung/Widerstand, Marktregime, Spread/Liquiditaet, Live-Volumenbestaetigung, Depotkorrelation und Opening-Range/Gap-Verhalten als unabhaengige Bestaetigungen. Ein BUY soll mindestens drei unabhaengige Signalsaeulen besitzen; korrelierte Momentum-Indikatoren zaehlen nicht mehrfach als alleinige Begruendung. Beachte die geschaetzten Handelskosten relativ zur Positionsgroesse. Bei klaren, mehrfach bestaetigten Reversals darf SELL schnell priorisiert werden. Laufende Gewinne werden ueber den bisherigen Positions-Peak dynamisch geschuetzt. Historische Kalibrierung und Live-Paper-Lernen duerfen Signale nur konservativ verstaerken oder bremsen. Ist die historische Kalibrierung nicht validiert, gelten die sicheren Standardschwellen. Bei gemischter Lage HOLD statt hektisch handeln. Ein hoher RSI allein ist kein SELL.`},requested=Number(input?.max_completion_tokens||ZERO_AI_PLAN_MAX_TOKENS);finalInput={...input,max_completion_tokens:Math.min(Math.max(120,requested),ZERO_AI_PLAN_MAX_TOKENS),messages:[...(input.messages||[]),extra,guardMarker]}}else if(isNews)finalInput={...input,messages:[...(input.messages||[]),guardMarker]};
+    let r=await this.base.run(model,finalInput);if(isPlan){if(isLowerAiPlanCooldown(r))return{response:JSON.stringify({summary:`KI-Cooldown synchronisiert; ${fast?.summary||'Fast-Decision aktiv.'}`,actions:fast?.actions||[]})};const latest=this.quota();latest.planAt=now;this.saveQuota(latest);if(fast){r=enforceFastExecutionGuards(r,fast);r=mergeFastRiskActions(r,fast)}}if(isNews){const response=String(r?.response||r?.result?.response||'').trim(),latest=this.quota();latest.newsAt=now;if(response)latest.lastNewsResponse=response.slice(0,500);this.saveQuota(latest)}return r
   }
 }
 
 export class MarketPortfolio extends BasePortfolio{
-  constructor(ctx,env){
-    super(ctx,env);
-    const assets=this.engine?.env?.ASSETS;
-    if(assets?.fetch){this.zeroAssets=new ZeroUniverseAssets(assets);this.engine.env.ASSETS=this.zeroAssets}
-    const guarded=this.engine?.env?.AI;
-    if(guarded?.run)this.engine.env.AI=new ZeroBrokerAiGuard(guarded,ctx.storage,this.engine?.env?.ASSETS);
-  }
-
-  async status(){
-    const s=await super.status(),coverage=await this.zeroAssets?.info?.();
-    s.brokerTarget={
-      ...ZERO_BROKER,
-      currentScannerUniverse:Number(s?.config?.universe_count||0),
-      ...(coverage||{}),
-      aiPlanCooldownMinutes:ZERO_AI_PLAN_COOLDOWN_MS/60000,
-      aiNewsCooldownMinutes:ZERO_AI_NEWS_COOLDOWN_MS/60000,
-      aiCooldownPersistent:true,
-      aiPlanMaxCompletionTokens:ZERO_AI_PLAN_MAX_TOKENS,
-      fastDecisionLayer:{
-        enabled:true,
-        frequency:'jede Planrunde; im KI-Wartefenster deterministisch',
-        depthSymbolsMax:4,
-        signals:['Multi-Timeframe 5m/15m/1h/Tag','VWAP','ATR','Wilder-ADX + DI','relative Stärke Gesamtmarkt','relative Stärke Sektor-Peers','regionale Benchmark-Stärke','Swing Support/Resistance','Marktregime','Spread/Liquidität','Live-Volumenbestätigung','Depotkorrelation','Opening Gap/Range','Momentum Breakout/Reversal','unabhängige Signalsäulen','Kostenquote je Positionsgröße','dynamische Gewinnsicherung','historische Kalibrierung mit Safe-Fallback','Live-Lernen aus Paper-Outcomes'],
-        strongSellRiskOverlay:true,hardBuyGuards:true,cooldownSynchronization:true,newsCooldownSynchronization:true,liveVolumeConfirmation:true,regionalBenchmarkConfirmation:true,evidenceDiversityMinimum:3,executionCostGuard:true,yahooRequestDeduplication:true,middayPauseGuard:['Japan 11:30-12:30','China 11:30-13:00','Hongkong 12:00-13:00'],profitPeakPersistent:true,gapChaseBlock:true,
-        historicalCalibration:{enabled:true,validated:Boolean(FAST_CALIBRATION.validated),version:FAST_CALIBRATION.version,sampleCount:Number(FAST_CALIBRATION.sampleCount||0),usingSafeFallback:!FAST_CALIBRATION.validated,buyThreshold:Number(FAST_CALIBRATION.buyThreshold||4.2),sellThreshold:Number(FAST_CALIBRATION.sellThreshold||4)},
-        livePaperLearning:{enabled:true,minClosedOutcomesPerSetup:12,conservative:true},paperTradingOnly:true
-      },
-      executionNote:zeroExecutionNote(Number(s?.config?.cash||0),{fractional:true}),
-      paperTradingOnly:true,
-      liveBrokerConnection:false
-    };
-    if(s.executionModel)s.executionModel={...s.executionModel,targetBroker:ZERO_BROKER.name,venue:ZERO_BROKER.venue,zeroConservativeModel:true};
-    return s;
-  }
+  constructor(ctx,env){super(ctx,env);const assets=this.engine?.env?.ASSETS;if(assets?.fetch){this.zeroAssets=new ZeroUniverseAssets(assets);this.engine.env.ASSETS=this.zeroAssets}const guarded=this.engine?.env?.AI;if(guarded?.run)this.engine.env.AI=new ZeroBrokerAiGuard(guarded,ctx.storage,this.engine?.env?.ASSETS)}
+  async status(){const s=await super.status(),coverage=await this.zeroAssets?.info?.();s.brokerTarget={...ZERO_BROKER,currentScannerUniverse:Number(s?.config?.universe_count||0),...(coverage||{}),aiPlanCooldownMinutes:ZERO_AI_PLAN_COOLDOWN_MS/60000,aiNewsCooldownMinutes:ZERO_AI_NEWS_COOLDOWN_MS/60000,aiCooldownPersistent:true,aiPlanMaxCompletionTokens:ZERO_AI_PLAN_MAX_TOKENS,fastDecisionLayer:{enabled:true,frequency:'jede Planrunde; im KI-Wartefenster deterministisch',depthSymbolsMax:4,signals:['Multi-Timeframe 5m/15m/1h/Tag','VWAP','ATR','Wilder-ADX + DI','relative Stärke Gesamtmarkt','relative Stärke Sektor-Peers','regionale Benchmark-Stärke','FX-Ausführungssicherheit','Swing Support/Resistance','Marktregime','Spread/Liquidität','Live-Volumenbestätigung','Depotkorrelation','Opening Gap/Range','Momentum Breakout/Reversal','unabhängige Signalsäulen','Kostenquote je Positionsgröße','dynamische Gewinnsicherung','historische Kalibrierung mit Safe-Fallback','Live-Lernen aus Paper-Outcomes'],strongSellRiskOverlay:true,hardBuyGuards:true,cooldownSynchronization:true,newsCooldownSynchronization:true,liveVolumeConfirmation:true,regionalBenchmarkConfirmation:true,fxFallbackGuard:true,penceListingsAutoTrade:false,evidenceDiversityMinimum:3,executionCostGuard:true,yahooRequestDeduplication:true,middayPauseGuard:['Japan 11:30-12:30','China 11:30-13:00','Hongkong 12:00-13:00'],profitPeakPersistent:true,gapChaseBlock:true,historicalCalibration:{enabled:true,validated:Boolean(FAST_CALIBRATION.validated),version:FAST_CALIBRATION.version,sampleCount:Number(FAST_CALIBRATION.sampleCount||0),usingSafeFallback:!FAST_CALIBRATION.validated,buyThreshold:Number(FAST_CALIBRATION.buyThreshold||4.2),sellThreshold:Number(FAST_CALIBRATION.sellThreshold||4)},livePaperLearning:{enabled:true,minClosedOutcomesPerSetup:12,conservative:true},paperTradingOnly:true},executionNote:zeroExecutionNote(Number(s?.config?.cash||0),{fractional:true}),paperTradingOnly:true,liveBrokerConnection:false};if(s.executionModel)s.executionModel={...s.executionModel,targetBroker:ZERO_BROKER.name,venue:ZERO_BROKER.venue,zeroConservativeModel:true};return s}
 }
