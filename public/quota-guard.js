@@ -45,3 +45,7 @@ window.fetch=async function quotaAwareFetch(input,init){
 
 window.addEventListener('portfolio-status-invalidate',invalidate);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)cachedAt=0});
+
+// Erst nach Installation des Fetch-Guards laden, damit auch diese Anzeige den gemeinsamen
+// 30-Sekunden-Statuscache nutzt und keine zusätzlichen Cloudflare-Reads erzeugt.
+import('./zero-ui.js').catch(e=>console.error('ZERO target UI failed',e));
