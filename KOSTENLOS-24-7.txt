@@ -1,0 +1,45 @@
+KI MARKT-PLANSPIEL – KOSTENLOS 24/7
+====================================
+
+Der produktive Stand nutzt KEIN R2 mehr.
+Es ist kein R2-Bucket und keine R2-Bindung erforderlich.
+
+SPEICHER
+
+Der komplette aktuelle Planspiel-Zustand wird als ein kompakter KV-Wert innerhalb des bereits vorhandenen SQLite-backed Durable Objects gespeichert.
+Dadurch werden im normalen Betrieb nicht mehr hunderte SQL-Zeilen pro Statusabruf gelesen.
+
+Cloudflare Workers Free / Durable Objects Free:
+- bei Ueberschreitung der Free-Limits werden weitere Operationen blockiert
+- es wird nicht automatisch in einen kostenpflichtigen Tarif gewechselt
+- der Tageszaehler wird um 00:00 UTC zurueckgesetzt
+
+NORMALER BETRIEB
+
+- Status: kompakter 1-Zeilen-Zustand
+- Minuten-Cron: ca. 1 Read zum Laden plus wenige Writes fuer Lock/Zustand
+- Aktien + normale ETFs
+- keine Hebel-/Inverse-Produkte
+- News + Marktanalyse + KI laufen weiter im Worker
+- keine zusaetzliche Hardware erforderlich
+
+Die eigene Netzwerk-Festplatte kann optional als Backup-Ablage dienen. Da sie selbst keinen Internetzugang bzw. keinen ausfuehrbaren Server hat, kann sie den 24/7-Markt-/News-Worker nicht ersetzen.
+
+PRUEFUNG NACH DEM DEPLOY
+
+/api/status im Browser oeffnen.
+In der Antwort soll bei storage stehen:
+
+  backend: "Durable Object Free · kompakter 1-Zeilen-Zustand"
+
+WICHTIG FUER HEUTE
+
+Wenn das alte Durable-Object-Row-Read-Tageslimit bereits erschoepft ist, kann auch die neue Speicherstruktur bis zum taeglichen Cloudflare-Reset noch blockiert sein. Ab dem Reset nutzt der neue Stand dann nur noch den kompakten Zustand.
+
+OPTIONALE ALTDATEN-MIGRATION
+
+Erst nach dem Tagesreset kann der bisherige SQL-Stand einmalig importiert werden:
+
+  POST /api/migrate-from-old-sql
+
+Danach verwendet der normale Betrieb die alten SQL-Tabellen nicht mehr.
