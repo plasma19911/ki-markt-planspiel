@@ -27,11 +27,11 @@ async function load(){
    <div class="mini"><span>Komplette Rotation</span><b>${rot?`~${rot} Min.`:'–'}</b></div>
    <div class="mini"><span>Markt/News Scan</span><b>jede Minute</b></div>
    <div class="mini"><span>KI-Neubewertung</span><b>${aiMin?`max. alle ${aiMin} Min.`:'quota-geschützt'}</b></div>
-   <div class="mini"><span>ETF-Regel</span><b>normale UCITS</b></div>
+   <div class="mini"><span>ETF-Pool</span><b>Kern + täglicher UCITS-Refresh</b></div>
    <div class="mini"><span>Kleine Orders</span><b>1 € konservativ</b></div>
    <div class="mini"><span>US-ETF-Proxys</span><b>nur Analyse</b></div>`;
   const catalog=b.exactBrokerCatalog?'Broker-Katalog synchronisiert':'liquides ZERO/gettex-Zieluniversum; konkrete Broker-Verfügbarkeit vor echter Order erneut prüfen';
-  $('zeroBrokerNote').innerHTML=`<b>Breit statt sektorfixiert:</b> Der Scanner rotiert durch das Aktienuniversum, damit die Cloudflare-Free-Limits nicht durch einen Vollscan in jeder Minute überschritten werden. Die KI-Ausgabe ist zusätzlich auf 600 Tokens je Orderplan begrenzt. ${esc(catalog)}. ${esc(b.executionNote||'')}`;
+  $('zeroBrokerNote').innerHTML=`<b>Breit statt sektorfixiert:</b> Der Scanner rotiert durch das Aktienuniversum, damit die Cloudflare-Free-Limits nicht durch einen Vollscan in jeder Minute überschritten werden. Der zusätzliche normale ETF-Pool wird täglich neu erzeugt. Die KI-Ausgabe ist zusätzlich auf 600 Tokens je Orderplan begrenzt. ${esc(catalog)}. ${esc(b.executionNote||'')}`;
  }catch(e){$('zeroBrokerMeta').textContent=`ZERO-Zielprofil derzeit nicht verfügbar: ${e.message}`}
 }
 
