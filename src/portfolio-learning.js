@@ -3,6 +3,7 @@ import {AI_MODEL,clamp,num} from './constants.js';
 
 const HEADERS={'accept':'application/json','user-agent':'Mozilla/5.0'};
 const FEATURES=['emaGapPct','priceVsEma21Pct','rsi','mom5Pct','mom20Pct','dayPct','volatility20Pct'];
+const STATUS_CACHE_MS=58000;
 
 function ema(a,p){if(a.length<p)return null;const k=2/(p+1);let e=a.slice(0,p).reduce((x,y)=>x+y,0)/p;for(const v of a.slice(p))e=v*k+e*(1-k);return e}
 function rsi(a,p=14){if(a.length<p+1)return null;let g=0,l=0,s=a.slice(-(p+1));for(let i=1;i<s.length;i++){const d=s[i]-s[i-1];d>0?g+=d:l-=d}if(!l)return 100;const rs=(g/p)/(l/p);return 100-100/(1+rs)}
@@ -37,6 +38,24 @@ function applyLearning(ctx,model){
 }
 
 export class MarketPortfolio extends BasePortfolio {
+ constructor(ctx,env){
+  super(ctx,env);
+  this._statusMemo=null;
+  this._statusMemoAt=0;
+ }
+ invalidateStatus(){this._statusMemo=null;this._statusMemoAt=0}
+ async status(){
+  const now=Date.now();
+  if(this._statusMemo&&now-this._statusMemoAt<STATUS_CACHE_MS)return this._statusMemo;
+  const s=await super.status();
+  this._statusMemo=s;this._statusMemoAt=Date.now();
+  return s;
+ }
+ async start(options={}){this.invalidateStatus();const r=await super.start(options);this.invalidateStatus();return r}
+ async stop(){this.invalidateStatus();const r=await super.stop();this.invalidateStatus();return r}
+ async reset(){this.invalidateStatus();const r=await super.reset();this.invalidateStatus();return r}
+ async scan(){this.invalidateStatus();try{return await super.scan()}finally{this.invalidateStatus()}}
+
  async aiPlan(cands,ps,cfg){
   if(!cfg.ai_enabled)return{summary:'KI deaktiviert',actions:[]};
   const allowed=(cands||[]).filter(x=>x.type!=='LEVERAGED_ETF');if(!allowed.length)return{summary:'NEWS-ONLY bzw. keine frischen handelbaren Kurse – keine Orderentscheidung.',actions:[]};
