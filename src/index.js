@@ -1,6 +1,6 @@
 // Production entry: zero-additional-cost paper trading on Workers Free.
 // State is stored as ONE compact KV value inside the existing SQLite-backed Durable Object.
-import {MarketPortfolio} from './compact-portfolio.js';
+import {MarketPortfolio} from './compact-portfolio-v2.js';
 export {MarketPortfolio};
 
 const reply=(x,s=200)=>Response.json(x,{status:s,headers:{'cache-control':'no-store'}});
