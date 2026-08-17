@@ -1,5 +1,6 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v6.js';
 import {ZERO_FEE_MODEL,zeroAffordableBuy,zeroOrderFee} from './zero-fee-model.js';
+import {ZERO_ETF_MASTER_COUNT,ZERO_ETF_ALWAYS_COUNT,ZERO_ETF_ROTATING_PER_MINUTE} from './constants.js';
 
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 
@@ -36,7 +37,7 @@ async function reconcileZeroFees(engine,before){
             const i=s.positions.indexOf(p);if(i>=0)s.positions.splice(i,1);currentBySymbol.delete(symbol);
             cashDelta+=budget;
             h.action='KAUF_BLOCKIERT_ZERO';h.amount=0;h.fee=0;h.trade_pnl=null;h.zero_fee_model_version=ZERO_FEE_MODEL.version;
-            h.reason=`${String(h.reason||'').replace(/ · Gebühr [^·]+/,'')} · ZERO: keine ganze Einheit innerhalb des Budgets; Kauf rückgängig gemacht.`;
+            h.reason=`${String(h.reason||'').replace(/ · Gebühr [^·]+/,'')} · ZERO: keine ganze ETF-Einheit innerhalb des Budgets; Kauf rückgängig gemacht.`;
           }else{
             const fee=fill.fee,actualOut=fill.notional+fee,refund=Math.max(0,budget-actualOut);
             p.invested=fill.notional;p.entry_fee=fee;p.zero_quantity=fill.quantity;p.zero_whole_shares=fill.feeInfo?.wholeQuantity||0;p.zero_fractional_shares=fill.feeInfo?.fractionalQuantity||0;p.zero_uses_fractional=Boolean(fill.usesFractional);p.zero_fee_model_version=ZERO_FEE_MODEL.version;
@@ -83,7 +84,7 @@ export class MarketPortfolio extends BasePortfolio{
   async status(){
     const s=await super.status();
     s.executionModel={...(s.executionModel||{}),feeFixed:0,feePercent:0,brokerFeeModel:ZERO_FEE_MODEL.version,smallOrderThresholdEur:ZERO_FEE_MODEL.smallOrderThresholdEur,smallOrderSurchargeEur:ZERO_FEE_MODEL.smallOrderSurchargeEur,fractionalSurchargeEur:ZERO_FEE_MODEL.fractionalSurchargeEur,spreadIsSeparate:true,wholeShareEtfs:true};
-    if(s.brokerTarget)s.brokerTarget={...s.brokerTarget,feeModel:ZERO_FEE_MODEL,feesMatchedToZeroRules:true,spreadStillMarketDependent:true};
+    if(s.brokerTarget)s.brokerTarget={...s.brokerTarget,feeModel:ZERO_FEE_MODEL,feesMatchedToZeroRules:true,spreadStillMarketDependent:true,fullEtfMasterPool:ZERO_ETF_MASTER_COUNT,etfCoreEveryMinute:ZERO_ETF_ALWAYS_COUNT,etfRotatingPerMinute:Math.min(ZERO_ETF_ROTATING_PER_MINUTE,Math.max(0,ZERO_ETF_MASTER_COUNT-ZERO_ETF_ALWAYS_COUNT)),estimatedEtfRotationMinutes:ZERO_ETF_MASTER_COUNT>ZERO_ETF_ALWAYS_COUNT?Math.ceil((ZERO_ETF_MASTER_COUNT-ZERO_ETF_ALWAYS_COUNT)/ZERO_ETF_ROTATING_PER_MINUTE):1,brokerCatalogVerificationRequired:true,exactBrokerCatalog:false};
     return s;
   }
 }
