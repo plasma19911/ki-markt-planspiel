@@ -2,6 +2,9 @@ import assert from 'node:assert/strict';
 import {buildFastDecisionLayer} from '../src/fast-signals.js';
 import {buildGapOverlay,applyGapOverlay} from '../src/gap-signals.js';
 import {applyVolumeConfirmation} from '../src/volume-overlay.js';
+import {applyRegionalBenchmarkConfirmation} from '../src/regional-benchmark-overlay.js';
+import {applyEvidenceDiversity} from '../src/evidence-overlay.js';
+import {applyExecutionCostDiscipline} from '../src/execution-cost-overlay.js';
 import {enforceFastExecutionGuards} from '../src/decision-guard.js';
 
 const now=Math.floor(Date.now()/1000);
@@ -9,7 +12,7 @@ const originalFetch=globalThis.fetch;
 
 function closes(symbol,n,interval){
   const down=symbol==='BEAR';
-  const step=symbol==='SPY'?(interval==='1d'?.24:.12):(interval==='1d'?.65:.24);
+  const step=symbol==='SPY'?(interval==='1d'?.08:.035):(interval==='1d'?.65:.24);
   const start=down?130:100;
   return Array.from({length:n},(_,i)=>+(start+(down?-1:1)*step*i).toFixed(4));
 }
@@ -31,7 +34,7 @@ function chartResult(symbol){
 function sparkPayload(symbols,interval){
   return{spark:{result:symbols.map(symbol=>{
     const n=interval==='1d'?45:32,cs=closes(symbol,n,interval);
-    return{symbol,response:[{meta:{symbol,regularMarketTime:now},indicators:{quote:[{close:cs}]}}]};
+    return{symbol,response:[{meta:{symbol,regularMarketTime:now,regularMarketPrice:cs.at(-1),previousClose:cs[0]},indicators:{quote:[{close:cs}]}}]};
   })}};
 }
 
@@ -64,19 +67,29 @@ const assets={fetch:async()=>Response.json({equities:[
 
 try{
   const candidates=[
-    {symbol:'BULL',day:2.8,momentumState:'BREAKOUT',momentumSellSignal:'NONE',volumeRatio:1.8,intradayRsi:61,drawdownFrom20mHighPct:-.05,news:.45},
-    {symbol:'BEAR',day:-3.1,momentumState:'REVERSAL',momentumSellSignal:'STRONG',volumeRatio:1.7,intradayRsi:43,drawdownFrom20mHighPct:-1.4,news:-.5}
+    {symbol:'BULL',day:2.8,intraday20m:2.1,momentumState:'BREAKOUT',momentumSellSignal:'NONE',volumeRatio:1.8,intradayRsi:61,drawdownFrom20mHighPct:-.05,news:.45},
+    {symbol:'BEAR',day:-3.1,intraday20m:-2.2,momentumState:'REVERSAL',momentumSellSignal:'STRONG',volumeRatio:1.7,intradayRsi:43,drawdownFrom20mHighPct:-1.4,news:-.5}
   ];
   const held=[{symbol:'BEAR',pnlPct:3.2,peakPnlPct:7.4}];
-  const prompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. JSON-only {"summary":"","actions":[]} Kandidaten=${JSON.stringify(candidates)} Gehalten=${JSON.stringify(held)}`;
+  const prompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. Cash 10000 EUR; Kosten 1.00 je Kauf/Verkauf + 0.000%, Slippage 0.10%. JSON-only {"summary":"","actions":[]} Kandidaten=${JSON.stringify(candidates)} Gehalten=${JSON.stringify(held)}`;
   const fastRaw=await buildFastDecisionLayer(prompt,assets);
   assert.equal(fastRaw.actions.find(x=>x.symbol==='BEAR')?.action,'SELL','held confirmed reversal must FAST-SELL');
   assert.equal(fastRaw.actions.find(x=>x.symbol==='BULL')?.action,'BUY','confirmed liquid multi-timeframe breakout must FAST-BUY');
-  const fast=await applyVolumeConfirmation(fastRaw);
-  assert.equal(fast.actions.find(x=>x.symbol==='BULL')?.action,'BUY','confirmed breakout with strong live volume must remain BUY');
-  assert.ok((fast.volumeConfirmation?.ratios?.BULL||0)>=fast.volumeConfirmation.minRatio,'BULL must have confirmed live 5m volume');
+  const volume=await applyVolumeConfirmation(fastRaw);
+  assert.equal(volume.actions.find(x=>x.symbol==='BULL')?.action,'BUY','confirmed breakout with strong live volume must remain BUY');
+  assert.ok((volume.volumeConfirmation?.ratios?.BULL||0)>=volume.volumeConfirmation.minRatio,'BULL must have confirmed live 5m volume');
+  const regional=await applyRegionalBenchmarkConfirmation(volume,prompt);
+  assert.equal(regional.regionalBenchmark?.results?.BULL?.blockBuy,false,'regionally outperforming BULL must not be blocked');
+  const evidence=applyEvidenceDiversity(regional,prompt);
+  assert.ok((evidence.evidenceDiversity?.results?.BULL?.count||0)>=3,'BUY must have at least three independent evidence pillars');
+  const fast=applyExecutionCostDiscipline(evidence,prompt);
+  assert.equal(fast.actions.find(x=>x.symbol==='BULL')?.action,'BUY','economically sensible BUY must survive cost discipline');
 
-  const gapPrompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. JSON-only {"summary":"","actions":[]} Kandidaten=${JSON.stringify([{symbol:'GAP'}])} Gehalten=[]`;
+  const validAi=enforceFastExecutionGuards({response:JSON.stringify({summary:'ai',actions:[{symbol:'BULL',action:'BUY',confidence:.82,allocation_pct:25,reason:'AI buy'}]})},fast);
+  const validAiJson=JSON.parse(validAi.response);
+  assert.equal(validAiJson.actions[0].action,'BUY','AI BUY with complete fresh fast confirmation must remain BUY');
+
+  const gapPrompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. Cash 10000 EUR; Kosten 1.00 je Kauf/Verkauf + 0.000%, Slippage 0.10%. JSON-only {"summary":"","actions":[]} Kandidaten=${JSON.stringify([{symbol:'GAP'}])} Gehalten=[]`;
   const gap=await buildGapOverlay(gapPrompt);
   const gapCtx=gap.context.find(x=>x.symbol==='GAP');
   assert.equal(gapCtx?.state,'GAP_FADE','large failed opening gap must be classified as GAP_FADE');
@@ -92,13 +105,19 @@ try{
 
   const volumeGuard=enforceFastExecutionGuards(
     {response:JSON.stringify({summary:'ai',actions:[{symbol:'BULL',action:'BUY',confidence:.82,allocation_pct:20,reason:'AI buy'}]})},
-    {context:[{symbol:'BULL'}],gapContext:[],volumeConfirmation:{minRatio:1.10,ratios:{BULL:.72}}}
+    {context:[{symbol:'BULL',technical:{fresh:true,vwapDistancePct:.3,adx:30},multiTimeframe:{longVotes:3},evidenceDiversity:{enoughForFastBuy:true,count:3,minimum:3}}],gapContext:[],volumeConfirmation:{minRatio:1.10,ratios:{BULL:.72}}}
   );
   const volumeGuardJson=JSON.parse(volumeGuard.response);
   assert.equal(volumeGuardJson.actions[0].action,'HOLD','AI BUY must be hard-blocked by confirmed weak live volume');
   assert.equal(volumeGuardJson.actions[0].allocation_pct,0,'volume-blocked BUY must allocate zero cash');
 
-  console.log(JSON.stringify({ok:true,fastActions:fast.actions,gap:gapCtx?.state,hardGuard:guardedJson.actions[0].action,volumeGuard:volumeGuardJson.actions[0].action,volumeRatio:fast.volumeConfirmation?.ratios?.BULL},null,2));
+  const unchecked=enforceFastExecutionGuards({response:JSON.stringify({summary:'ai',actions:[{symbol:'UNKNOWN',action:'BUY',confidence:.9,allocation_pct:40,reason:'AI buy'}]})},{context:[],gapContext:[]});
+  assert.equal(JSON.parse(unchecked.response).actions[0].action,'HOLD','AI BUY without a current deep check must be blocked');
+
+  const costly=applyExecutionCostDiscipline({actions:[{symbol:'BULL',action:'BUY',confidence:.8,allocation_pct:20,reason:'test'}],context:[]},'Cash 100 EUR; Kosten 1.00 je Kauf/Verkauf + 0.000%, Slippage 0.10%. Kandidaten=[] Gehalten=[]');
+  assert.equal(costly.actions.length,0,'tiny position with excessive fixed-cost drag must be blocked');
+
+  console.log(JSON.stringify({ok:true,fastActions:fast.actions,gap:gapCtx?.state,hardGuard:guardedJson.actions[0].action,volumeGuard:volumeGuardJson.actions[0].action,uncheckedGuard:JSON.parse(unchecked.response).actions[0].action,volumeRatio:volume.volumeConfirmation?.ratios?.BULL,evidencePillars:evidence.evidenceDiversity?.results?.BULL?.count},null,2));
 }finally{
   globalThis.fetch=originalFetch;
 }
