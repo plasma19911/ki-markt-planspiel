@@ -12,6 +12,7 @@ export function enforceFastExecutionGuards(aiResponse,fast){
     const j=JSON.parse(raw.slice(a,b+1)),actions=Array.isArray(j.actions)?j.actions:[];
     const ctx=new Map((fast.context||[]).map(x=>[String(x.symbol||'').toUpperCase(),x]));
     const gaps=new Map((fast.gapContext||[]).map(x=>[String(x.symbol||'').toUpperCase(),x]));
+    const ratios=fast?.volumeConfirmation?.ratios||{},minVolume=num(fast?.volumeConfirmation?.minRatio,FAST_CALIBRATION.minRelativeVolume||1.10);
     const maxSpread=num(FAST_CALIBRATION.maxSpreadPct,.8);
     j.actions=actions.map(action=>{
       if(String(action?.action||'').toUpperCase()!=='BUY')return action;
@@ -21,6 +22,7 @@ export function enforceFastExecutionGuards(aiResponse,fast){
       if(spread!=null&&num(spread)>maxSpread)blocks.push(`Spread ${num(spread).toFixed(2)}% > ${maxSpread.toFixed(2)}%`);
       const avgVolume=num(c?.liquidity?.avgVolume);
       if(avgVolume>0&&avgVolume<15000)blocks.push('Liquidität zu niedrig');
+      if(Object.prototype.hasOwnProperty.call(ratios,symbol)&&ratios[symbol]!=null&&num(ratios[symbol])<minVolume)blocks.push(`5m-Volumen x${num(ratios[symbol]).toFixed(2)} < x${minVolume.toFixed(2)}`);
       if(!blocks.length)return action;
       return{...action,action:'HOLD',allocation_pct:0,confidence:Math.min(num(action.confidence,.5),.55),reason:`HARD-BUY-BLOCK: ${blocks.join(' · ')}. ${String(action.reason||'').slice(0,220)}`};
     });
