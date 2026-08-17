@@ -1,5 +1,5 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio.js';
-import {updateNewsLearning,newsLearningContext} from './news-learning.js';
+import {updateNewsLearning,newsLearningContext} from './news-learning-v2.js';
 
 const NEWS_LEARNING_COOLDOWN_MS=10*60*1000;
 
@@ -39,7 +39,7 @@ export class MarketPortfolio extends BasePortfolio{
     const s=await super.status();
     const raw=this.bucketAdapter?.peekState?.();
     const l=raw?.newsLearning||null;
-    s.newsLearning=l?{updatedAt:l.updatedAt,benchmark:l.benchmark,summary:l.summary,sourceStats:l.sourceStats,typeStats:l.typeStats,sourceTypeStats:l.sourceTypeStats}:null;
+    s.newsLearning=l?{updatedAt:l.updatedAt,benchmark:l.benchmark,summary:l.summary,sourceStats:l.sourceStats,typeStats:l.typeStats,sourceTypeStats:l.sourceTypeStats,trustedSources:l.trustedSources,confirmationStats:l.confirmationStats}:null;
     return s;
   }
 
