@@ -7,6 +7,7 @@ const MAX_BYTES=1_800_000;
 const AI_PLAN_COOLDOWN_MS=10*60*1000;
 const AI_NEWS_COOLDOWN_MS=15*60*1000;
 const INTELLIGENCE_COOLDOWN_MS=10*60*1000;
+const PERSISTENT_GUARD_MARKER='ZERO_PERSISTENT_AI_GUARD=1';
 
 const clone=x=>structuredClone(x);
 
@@ -73,12 +74,15 @@ class FreeAiGuard{
     const prompt=String(input?.messages?.map(x=>x?.content||'').join('\n')||'');
     const isPlan=prompt.includes('JSON-only')&&prompt.includes('Kandidaten=');
     const isNews=prompt.includes('Fasse die aktuelle Mehrquellen-Nachrichtenlage');
+    const persistentGuard=prompt.includes(PERSISTENT_GUARD_MARKER);
     const now=Date.now();
 
-    if(isPlan&&now-this.planAt<AI_PLAN_COOLDOWN_MS){
+    // In der produktiven V5-Kette besitzt der persistente Durable-Object-Guard den
+    // Cooldown. Diese lokale Sicherung bleibt nur für direkte/ältere Nutzung aktiv.
+    if(!persistentGuard&&isPlan&&now-this.planAt<AI_PLAN_COOLDOWN_MS){
       return{response:JSON.stringify({summary:'KI-Wartefenster: Markt und News werden weiter jede Minute gescannt; nächste KI-Neubewertung spätestens nach 10 Minuten.',actions:[]})};
     }
-    if(isNews&&now-this.newsAt<AI_NEWS_COOLDOWN_MS){
+    if(!persistentGuard&&isNews&&now-this.newsAt<AI_NEWS_COOLDOWN_MS){
       return{response:this.lastNewsResponse||'News werden weiter gesammelt; die KI-Zusammenfassung wird im 15-Minuten-Fenster aktualisiert.'};
     }
 
