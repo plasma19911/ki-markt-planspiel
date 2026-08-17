@@ -40,13 +40,16 @@ jobs:
           node --check src/r2-portfolio.js
           node --check src/compact-portfolio.js
           node --check src/compact-portfolio-v2.js
+          node --check src/compact-portfolio-v3.js
           node --check src/investment-intelligence.js
           node --check src/news-learning.js
           node --check src/news-learning-v2.js
+          node --check src/macro-geopolitics.js
           node --check src/last-week.js
           node --check public/app.js
           node --check public/analysis-ui.js
           node --check public/investment-ui.js
           node --check public/news-learning-ui.js
+          node --check public/macro-ui.js
       - name: Wrangler dry run
         run: npx wrangler deploy --dry-run
