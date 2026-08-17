@@ -1,6 +1,7 @@
 // Production entry: zero-additional-cost paper trading on Workers Free.
 // State is stored as ONE compact KV value inside the existing SQLite-backed Durable Object.
-import {MarketPortfolio} from './compact-portfolio-v4.js';
+// V5 adds finanzen.net ZERO/gettex as the practical target universe; still PAPER TRADING only.
+import {MarketPortfolio} from './compact-portfolio-v5.js';
 export {MarketPortfolio};
 
 const reply=(x,s=200)=>Response.json(x,{status:s,headers:{'cache-control':'no-store'}});
@@ -17,7 +18,7 @@ export default{
     const b=await request.json().catch(()=>({}));
     const started=await p.start({...b,includeEtfs:true,includeLeverage:false});
     const firstScan=await p.scan();
-    return reply({...started,firstScan,storage:'Durable Object Free · 1 compact row'});
+    return reply({...started,firstScan,storage:'Durable Object Free · 1 compact row',targetBroker:'finanzen.net ZERO · gettex'});
    }
    if(u.pathname==='/api/stop'&&request.method==='POST')return reply(await p.stop());
    if(u.pathname==='/api/reset'&&request.method==='POST')return reply(await p.reset());
