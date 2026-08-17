@@ -1,7 +1,8 @@
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
+const EPS=1e-9;
 
 export const ZERO_FEE_MODEL={
-  version:'zero-securities-2026-08-v1',
+  version:'zero-securities-2026-08-v2',
   standardOrderFeeEur:0,
   smallOrderThresholdEur:500,
   smallOrderSurchargeEur:1,
@@ -14,14 +15,11 @@ export const ZERO_FEE_MODEL={
 
 export function zeroOrderFee({notionalEur=0,priceEur=0,quantity=null,instrumentType='EQUITY',fractionalAllowed=true}={}){
   const notional=Math.max(0,num(notionalEur)),price=Math.max(0,num(priceEur));
-  if(!(notional>0))return{total:0,wholeOrderFee:0,fractionalFee:0,wholeQuantity:0,fractionalQuantity:0,usesFractional:false};
+  if(!(notional>0))return{total:0,wholeOrderFee:0,fractionalFee:0,wholeQuantity:0,fractionalQuantity:0,usesFractional:false,fractionalOrderValue:0};
   let qty=quantity==null?(price>0?notional/price:0):Math.max(0,num(quantity));
   if(!(qty>0)&&price>0)qty=notional/price;
-  const whole=Math.floor(qty+1e-9),fraction=Math.max(0,qty-whole),usesFractional=fraction>1e-6;
-  const stock=String(instrumentType||'EQUITY').toUpperCase()!=='ETF';
-  const canFraction=stock&&fractionalAllowed;
-  const effectiveFraction=canFraction?fraction:0;
-  const wholeValue=price>0?whole*price:Math.max(0,notional-(usesFractional?notional*(fraction/Math.max(qty,1e-9)):0));
+  const whole=Math.floor(qty+EPS),fraction=Math.max(0,qty-whole),stock=String(instrumentType||'EQUITY').toUpperCase()!=='ETF',canFraction=stock&&fractionalAllowed,effectiveFraction=canFraction&&fraction>1e-6?fraction:0;
+  const wholeValue=price>0?whole*price:Math.max(0,notional-(effectiveFraction?notional*(effectiveFraction/Math.max(qty,EPS)):0)),fractionalOrderValue=price>0?effectiveFraction*price:Math.max(0,notional-wholeValue);
   const wholeOrderFee=whole>0&&wholeValue<ZERO_FEE_MODEL.smallOrderThresholdEur?ZERO_FEE_MODEL.smallOrderSurchargeEur:0;
   const fractionalFee=effectiveFraction>1e-6?ZERO_FEE_MODEL.fractionalSurchargeEur:0;
   return{
@@ -31,38 +29,52 @@ export function zeroOrderFee({notionalEur=0,priceEur=0,quantity=null,instrumentT
     fractionalQuantity:effectiveFraction,
     usesFractional:effectiveFraction>1e-6,
     wholeOrderValue:+wholeValue.toFixed(6),
+    fractionalOrderValue:+fractionalOrderValue.toFixed(6),
+    fractionalMeetsMinimum:effectiveFraction<=1e-6||fractionalOrderValue+EPS>=ZERO_FEE_MODEL.fractionalMinEur,
     model:ZERO_FEE_MODEL.version
   };
+}
+
+function candidateWhole(budget,price,instrumentType){
+  let qty=Math.floor(budget/price+EPS);
+  // Nur wenige Korrekturen sind nötig; Formel statt Schleife über evtl. Millionen Penny-Stock-Stücke.
+  const candidates=new Set([qty,qty-1,Math.floor(Math.max(0,budget-ZERO_FEE_MODEL.smallOrderSurchargeEur)/price+EPS)]);
+  let best=null;
+  for(const q0 of candidates){const q=Math.max(0,Math.floor(q0));if(!q)continue;const notional=q*price,info=zeroOrderFee({notionalEur:notional,priceEur:price,quantity:q,instrumentType,fractionalAllowed:false}),total=notional+info.total;if(total<=budget+EPS&&(!best||notional>best.notional||notional===best.notional&&info.total<best.fee))best={ok:true,notional,fee:info.total,totalCost:total,quantity:q,feeInfo:info,usesFractional:false}}
+  return best;
+}
+
+function candidateMixed(budget,price,instrumentType){
+  if(price<=ZERO_FEE_MODEL.fractionalMinEur)return null;
+  const maxWhole=Math.floor(budget/price+EPS),wholeCandidates=new Set([maxWhole,maxWhole-1,Math.floor(Math.max(0,budget-1)/price),Math.floor(Math.max(0,budget-2)/price),0]);
+  let best=null;
+  for(const q0 of wholeCandidates){
+    const whole=Math.max(0,Math.floor(q0)),wholeValue=whole*price,wholeFee=whole>0&&wholeValue<ZERO_FEE_MODEL.smallOrderThresholdEur?ZERO_FEE_MODEL.smallOrderSurchargeEur:0;
+    const availableForFraction=budget-wholeValue-wholeFee-ZERO_FEE_MODEL.fractionalSurchargeEur;
+    // Bruchstück muss >=1 € sein und kleiner als eine volle Aktie bleiben.
+    if(availableForFraction+EPS<ZERO_FEE_MODEL.fractionalMinEur)continue;
+    const fractionalValue=Math.min(price-1e-7,availableForFraction);if(fractionalValue+EPS<ZERO_FEE_MODEL.fractionalMinEur)continue;
+    const fraction=fractionalValue/price,quantity=whole+fraction,notional=wholeValue+fractionalValue,info=zeroOrderFee({notionalEur:notional,priceEur:price,quantity,instrumentType,fractionalAllowed:true}),total=notional+info.total;
+    if(!info.usesFractional||!info.fractionalMeetsMinimum||total>budget+1e-7)continue;
+    if(!best||notional>best.notional+EPS||Math.abs(notional-best.notional)<=EPS&&info.total<best.fee)best={ok:true,notional,fee:info.total,totalCost:total,quantity,feeInfo:info,usesFractional:true};
+  }
+  return best;
 }
 
 export function zeroAffordableBuy({budgetEur=0,priceEur=0,instrumentType='EQUITY',fractionalAllowed=true}={}){
   const budget=Math.max(0,num(budgetEur)),price=Math.max(0,num(priceEur));
   if(!(budget>0&&price>0))return{ok:false,notional:0,fee:0,totalCost:0,quantity:0,reason:'NO_BUDGET_OR_PRICE'};
-  const isEtf=String(instrumentType||'EQUITY').toUpperCase()==='ETF';
-  const canFraction=!isEtf&&fractionalAllowed;
-  if(!canFraction){
-    let qty=Math.floor(budget/price+1e-9);
-    while(qty>0){
-      const notional=qty*price,info=zeroOrderFee({notionalEur:notional,priceEur:price,quantity:qty,instrumentType,fractionalAllowed:false}),total=notional+info.total;
-      if(total<=budget+1e-9)return{ok:true,notional:+notional.toFixed(6),fee:info.total,totalCost:+total.toFixed(6),quantity:qty,feeInfo:info,usesFractional:false};
-      qty--;
+  const isEtf=String(instrumentType||'EQUITY').toUpperCase()==='ETF',canFraction=!isEtf&&fractionalAllowed;
+  const whole=candidateWhole(budget,price,instrumentType),mixed=canFraction?candidateMixed(budget,price,instrumentType):null;
+  const best=[whole,mixed].filter(Boolean).sort((a,b)=>b.notional-a.notional||a.fee-b.fee)[0];
+  if(!best){
+    if(canFraction&&budget>=ZERO_FEE_MODEL.fractionalMinEur+ZERO_FEE_MODEL.fractionalSurchargeEur&&price>ZERO_FEE_MODEL.fractionalMinEur){
+      const fractionalValue=Math.min(price-1e-7,budget-ZERO_FEE_MODEL.fractionalSurchargeEur);
+      if(fractionalValue+EPS>=ZERO_FEE_MODEL.fractionalMinEur){const quantity=fractionalValue/price,info=zeroOrderFee({notionalEur:fractionalValue,priceEur:price,quantity,instrumentType,fractionalAllowed:true}),total=fractionalValue+info.total;if(info.usesFractional&&info.fractionalMeetsMinimum&&total<=budget+EPS)return{ok:true,notional:+fractionalValue.toFixed(6),fee:info.total,totalCost:+total.toFixed(6),quantity,feeInfo:info,usesFractional:true}}
     }
-    return{ok:false,notional:0,fee:0,totalCost:0,quantity:0,reason:'WHOLE_SHARE_NOT_AFFORDABLE'};
+    return{ok:false,notional:0,fee:0,totalCost:0,quantity:0,reason:canFraction?'ZERO_MINIMUM_NOT_AFFORDABLE':'WHOLE_SHARE_NOT_AFFORDABLE'};
   }
-  let notional=budget,info=null;
-  for(let i=0;i<6;i++){
-    const qty=notional/price;
-    info=zeroOrderFee({notionalEur:notional,priceEur:price,quantity:qty,instrumentType,fractionalAllowed:true});
-    const next=Math.max(0,budget-info.total);
-    if(Math.abs(next-notional)<1e-8){notional=next;break}
-    notional=next;
-  }
-  if(!(notional>0))return{ok:false,notional:0,fee:info?.total||0,totalCost:info?.total||0,quantity:0,reason:'FEE_EXCEEDS_BUDGET'};
-  const quantity=notional/price;
-  info=zeroOrderFee({notionalEur:notional,priceEur:price,quantity,instrumentType,fractionalAllowed:true});
-  const total=notional+info.total;
-  if(total>budget+1e-7)return{ok:false,notional:0,fee:info.total,totalCost:total,quantity:0,reason:'BUDGET_MISMATCH'};
-  return{ok:true,notional:+notional.toFixed(6),fee:info.total,totalCost:+total.toFixed(6),quantity,feeInfo:info,usesFractional:info.usesFractional};
+  return{...best,notional:+best.notional.toFixed(6),totalCost:+best.totalCost.toFixed(6)};
 }
 
 export function zeroRoundTripBrokerFees({notionalEur=0,priceEur=0,instrumentType='EQUITY',fractionalAllowed=true}={}){
