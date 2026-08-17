@@ -4,7 +4,7 @@ import {buildInvestmentIntelligence} from './investment-intelligence.js';
 
 const STATE_KEY='compact/current-v1';
 const MAX_BYTES=1_800_000;
-const AI_PLAN_COOLDOWN_MS=5*60*1000;
+const AI_PLAN_COOLDOWN_MS=10*60*1000;
 const AI_NEWS_COOLDOWN_MS=15*60*1000;
 const INTELLIGENCE_COOLDOWN_MS=10*60*1000;
 
@@ -76,7 +76,7 @@ class FreeAiGuard{
     const now=Date.now();
 
     if(isPlan&&now-this.planAt<AI_PLAN_COOLDOWN_MS){
-      return{response:JSON.stringify({summary:'KI-Wartefenster: Markt und News werden weiter jede Minute gescannt; nächste KI-Neubewertung spätestens nach 5 Minuten.',actions:[]})};
+      return{response:JSON.stringify({summary:'KI-Wartefenster: Markt und News werden weiter jede Minute gescannt; nächste KI-Neubewertung spätestens nach 10 Minuten.',actions:[]})};
     }
     if(isNews&&now-this.newsAt<AI_NEWS_COOLDOWN_MS){
       return{response:this.lastNewsResponse||'News werden weiter gesammelt; die KI-Zusammenfassung wird im 15-Minuten-Fenster aktualisiert.'};
