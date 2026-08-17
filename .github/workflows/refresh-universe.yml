@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - "scripts/refresh_universe.py"
+      - "scripts/refresh_etfs.py"
       - ".github/workflows/refresh-universe.yml"
   schedule:
     - cron: "17 3 * * *"
@@ -29,18 +30,20 @@ jobs:
           python-version: "3.12"
       - name: Install yfinance
         run: python -m pip install "yfinance>=1.5,<2"
-      - name: Refresh liquid ZERO-target universe
+      - name: Refresh liquid ZERO-target stocks
         run: python scripts/refresh_universe.py
-      - name: Commit changed universe
+      - name: Refresh normal ZERO-target ETF candidates
+        run: python scripts/refresh_etfs.py
+      - name: Commit changed stock and ETF universes
         shell: bash
         run: |
-          if git diff --quiet -- public/universe.json; then
-            echo "Universe unchanged."
+          if git diff --quiet -- public/universe.json src/generated-zero-etfs.js; then
+            echo "Stock/ETF universes unchanged."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/universe.json
-          git commit -m "chore: refresh liquid ZERO-target universe"
+          git add public/universe.json src/generated-zero-etfs.js
+          git commit -m "chore: refresh ZERO-target stock and ETF universes"
           git pull --rebase origin main
           git push origin main
