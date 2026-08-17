@@ -6,22 +6,28 @@ export {MarketPortfolio};
 
 const reply=(x,s=200)=>Response.json(x,{status:s,headers:{'cache-control':'no-store'}});
 const portfolio=env=>env.PORTFOLIO.getByName('default-paper-portfolio');
+const approvalMode=env=>String(env?.ORDER_APPROVAL_MODE||'disabled').toLowerCase()==='enabled';
 
 export default{
  async fetch(request,env){
   const u=new URL(request.url);
   if(!u.pathname.startsWith('/api/'))return env.ASSETS.fetch(request);
   try{
-   const p=portfolio(env);
+   const p=portfolio(env);let sessionAuth=null;
+   // Sobald der spaetere Echtgeld-/Freigabemodus aktiviert wird, sind alle Depot-/Steuer-APIs
+   // ausser der harmlosen Konfigurationsanzeige nur noch mit gueltigem Cloudflare-Access-JWT erreichbar.
+   if(approvalMode(env)&&u.pathname!=='/api/order-approval-status'){
+    sessionAuth=await verifyCloudflareAccess(request,env);if(!sessionAuth.ok)return reply({error:sessionAuth.error,approvalAuth:false},sessionAuth.status||403);
+   }
    if(u.pathname==='/api/status'&&request.method==='GET')return reply(await p.status());
    if(u.pathname==='/api/order-approval-status'&&request.method==='GET')return reply(await p.orderApprovalStatus());
    if(u.pathname==='/api/order-approvals'&&request.method==='GET'){
-    const auth=await verifyCloudflareAccess(request,env);if(!auth.ok)return reply({error:auth.error,approvalAuth:false},auth.status||403);
+    const auth=sessionAuth||await verifyCloudflareAccess(request,env);if(!auth.ok)return reply({error:auth.error,approvalAuth:false},auth.status||403);
     return reply(await p.orderApprovals());
    }
    const orderAction=u.pathname.match(/^\/api\/order-approvals\/([^/]+)\/(approve|reject)$/);
    if(orderAction&&request.method==='POST'){
-    const auth=await verifyCloudflareAccess(request,env);if(!auth.ok)return reply({error:auth.error,approvalAuth:false},auth.status||403);
+    const auth=sessionAuth||await verifyCloudflareAccess(request,env);if(!auth.ok)return reply({error:auth.error,approvalAuth:false},auth.status||403);
     const id=decodeURIComponent(orderAction[1]),result=orderAction[2]==='approve'?await p.approveOrder(id,auth.user?.email):await p.rejectOrder(id,auth.user?.email);
     return reply(result,result?.ok?200:(result?.status||400));
    }
