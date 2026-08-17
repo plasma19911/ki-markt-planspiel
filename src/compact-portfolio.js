@@ -3,6 +3,8 @@ import {R2Portfolio} from './r2-portfolio.js';
 
 const STATE_KEY='compact/current-v1';
 const MAX_BYTES=1_800_000;
+const AI_PLAN_COOLDOWN_MS=5*60*1000;
+const AI_NEWS_COOLDOWN_MS=15*60*1000;
 
 const clone=x=>structuredClone(x);
 
@@ -46,12 +48,52 @@ class DurableObjectBucketAdapter{
   }
 }
 
+class FreeAiGuard{
+  constructor(ai){
+    this.ai=ai;
+    this.planAt=0;
+    this.newsAt=0;
+    this.lastNewsResponse='';
+  }
+  async run(model,input){
+    const prompt=String(input?.messages?.map(x=>x?.content||'').join('\n')||'');
+    const isPlan=prompt.includes('JSON-only')&&prompt.includes('Kandidaten=');
+    const isNews=prompt.includes('Fasse die aktuelle Mehrquellen-Nachrichtenlage');
+    const now=Date.now();
+
+    if(isPlan&&now-this.planAt<AI_PLAN_COOLDOWN_MS){
+      return{response:JSON.stringify({summary:'KI-Wartefenster: Markt und News werden weiter jede Minute gescannt; nächste KI-Neubewertung spätestens nach 5 Minuten.',actions:[]})};
+    }
+    if(isNews&&now-this.newsAt<AI_NEWS_COOLDOWN_MS){
+      return{response:this.lastNewsResponse||'News werden weiter gesammelt; die KI-Zusammenfassung wird im 15-Minuten-Fenster aktualisiert.'};
+    }
+
+    if(!this.ai?.run){
+      if(isPlan)return{response:JSON.stringify({summary:'KI derzeit nicht verfügbar; keine automatische Ersatzorder.',actions:[]})};
+      return{response:'KI derzeit nicht verfügbar; Markt- und News-Daten werden trotzdem weiter gesammelt.'};
+    }
+
+    try{
+      const r=await this.ai.run(model,input);
+      const response=String(r?.response||r?.result?.response||'');
+      if(isPlan)this.planAt=now;
+      if(isNews){this.newsAt=now;this.lastNewsResponse=response.slice(0,500)}
+      return r;
+    }catch(e){
+      // Auf Workers Free werden verbrauchte AI-Neurons hart blockiert statt berechnet.
+      // Wichtig: Bei AI-Ausfall KEIN regelbasierter Ersatztrade.
+      if(isPlan)return{response:JSON.stringify({summary:`KI-Free-Limit/Fehler: ${String(e?.message||e).slice(0,140)} · keine Ersatzorder.`,actions:[]})};
+      return{response:this.lastNewsResponse||'KI-Free-Limit erreicht oder KI vorübergehend nicht verfügbar; News-Radar läuft ohne Zusatzkosten weiter.'};
+    }
+  }
+}
+
 export class MarketPortfolio extends DurableObject{
   constructor(ctx,env){
     super(ctx,env);
     this.ctx=ctx;
     this.env=env;
-    this.engine=new R2Portfolio({...env,STATE:new DurableObjectBucketAdapter(ctx)});
+    this.engine=new R2Portfolio({...env,STATE:new DurableObjectBucketAdapter(ctx),AI:new FreeAiGuard(env.AI)});
     this._queue=Promise.resolve();
   }
 
@@ -64,7 +106,7 @@ export class MarketPortfolio extends DurableObject{
   async status(){
     return this._serial(async()=>{
       const s=await this.engine.status();
-      s.storage={backend:'Durable Object Free · kompakter 1-Zeilen-Zustand',key:STATE_KEY,rowReadsPerRefresh:'maximal 1'};
+      s.storage={backend:'Durable Object Free · kompakter 1-Zeilen-Zustand',key:STATE_KEY,rowReadsPerRefresh:'maximal 1',r2:false};
       return s;
     });
   }
