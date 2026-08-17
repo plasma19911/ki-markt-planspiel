@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07101d">
+<title>KI Markt-Planspiel · Onepager</title>
+<style>
+:root{--bg:#060a12;--panel:#0d1725;--panel2:#101d2e;--line:#243852;--text:#eef6ff;--muted:#9bb0c9;--blue:#80b6ff;--cyan:#66e3ff;--green:#62dfa8;--yellow:#ffd36d;--red:#ff8190;--shadow:0 20px 60px #0008}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 18% -8%,#173961 0,#09121f 30%,var(--bg) 68%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased}.wrap{max-width:1220px;margin:auto;padding:34px 22px 44px}.hero{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:28px;background:linear-gradient(135deg,#10233b 0,#0b1523 52%,#0a121d 100%);padding:34px;box-shadow:var(--shadow)}.hero:after{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,#2a6db94c 0,transparent 68%);right:-130px;top:-170px;pointer-events:none}.topline{display:flex;justify-content:space-between;gap:14px;align-items:center;position:relative;z-index:1}.brand{font-weight:900;letter-spacing:.08em;font-size:12px;color:var(--cyan)}.status{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border:1px solid #2b694f;border-radius:999px;background:#0b2119;color:var(--green);font-size:12px;font-weight:800}.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 14px var(--green)}h1{position:relative;z-index:1;font-size:clamp(38px,7vw,74px);line-height:.98;letter-spacing:-.045em;margin:34px 0 16px;max-width:900px}.lead{position:relative;z-index:1;max-width:890px;font-size:clamp(16px,2.2vw,22px);line-height:1.5;color:#c7d8ea;margin:0}.heroActions{position:relative;z-index:1;display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 15px;border-radius:12px;text-decoration:none;font-weight:850;font-size:13px;border:1px solid var(--line);color:var(--text);background:#112139}.btn.primary{background:#eaf4ff;color:#07101d;border-color:#eaf4ff}.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px;position:relative;z-index:1}.badge{padding:7px 10px;border:1px solid #2a3e59;border-radius:999px;background:#0c1726;color:#bcd0e5;font-size:11px;font-weight:750}.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}.kpi{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,#101b2b,#0b1420);padding:16px}.kpi b{display:block;font-size:24px;margin-bottom:5px}.kpi span{color:var(--muted);font-size:12px}.section{margin-top:18px;border:1px solid var(--line);border-radius:22px;background:rgba(12,20,32,.94);padding:24px;box-shadow:0 16px 40px #0004}.sectionHead{display:flex;justify-content:space-between;gap:14px;align-items:end;margin-bottom:18px}.eyebrow{font-size:10px;font-weight:900;letter-spacing:.12em;color:var(--blue);text-transform:uppercase}.section h2{font-size:clamp(24px,4vw,36px);margin:4px 0 0;letter-spacing:-.025em}.sectionIntro{max-width:640px;color:var(--muted);font-size:13px;line-height:1.55}.flow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}.step{position:relative;min-height:150px;padding:15px;border:1px solid #223650;border-radius:16px;background:#0c1725}.stepNo{font-size:10px;color:var(--blue);font-weight:900}.step h3{font-size:15px;margin:12px 0 7px}.step p{font-size:11px;color:var(--muted);line-height:1.5;margin:0}.step:not(:last-child):after{content:"→";position:absolute;right:-10px;top:58px;color:#55718f;font-weight:900;z-index:2}.features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.feature{border:1px solid #223650;border-radius:17px;background:linear-gradient(180deg,#0f1c2d,#0b1522);padding:17px;min-height:170px}.icon{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:#142942;border:1px solid #294d73;font-size:19px}.feature h3{font-size:16px;margin:12px 0 7px}.feature p{margin:0;color:var(--muted);font-size:12px;line-height:1.55}.feature strong{color:#dcecff}.brain{display:grid;grid-template-columns:1.1fr .9fr;gap:13px}.stack{display:grid;gap:8px}.layer{display:grid;grid-template-columns:42px 1fr;gap:10px;align-items:start;border:1px solid #223650;background:#0b1624;border-radius:14px;padding:12px}.layerNo{width:32px;height:32px;display:grid;place-items:center;border-radius:10px;background:#122942;color:var(--cyan);font-size:11px;font-weight:900}.layer b{font-size:13px}.layer p{margin:4px 0 0;color:var(--muted);font-size:11px;line-height:1.45}.decision{border:1px solid #2a4361;background:linear-gradient(180deg,#10233a,#0b1726);border-radius:18px;padding:18px}.decision h3{margin:0 0 10px;font-size:18px}.decisionLine{display:grid;grid-template-columns:1fr auto;gap:10px;padding:10px 0;border-bottom:1px solid #20344d;font-size:12px}.decisionLine span{color:var(--muted)}.decisionLine b{white-space:nowrap}.good{color:var(--green)}.warn{color:var(--yellow)}.bad{color:var(--red)}.quote{margin-top:14px;border-left:3px solid var(--blue);padding:12px 14px;background:#0a1522;border-radius:0 12px 12px 0;color:#c8d9eb;font-size:12px;line-height:1.55}.twoCol{display:grid;grid-template-columns:1fr 1fr;gap:12px}.info{border:1px solid #223650;border-radius:16px;padding:17px;background:#0b1624}.info h3{margin:0 0 10px;font-size:16px}.info ul{margin:0;padding-left:18px;color:#c4d5e7;font-size:12px;line-height:1.7}.warning{border-color:#5b4730;background:linear-gradient(180deg,#211b11,#13140f)}.footer{padding:22px 5px 4px;text-align:center;color:#7087a1;font-size:10px;line-height:1.6}@media(max-width:980px){.kpis{grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:repeat(3,1fr)}.step:nth-child(3):after{display:none}.features{grid-template-columns:1fr 1fr}.brain,.twoCol{grid-template-columns:1fr}}@media(max-width:620px){.wrap{padding:12px 9px 24px}.hero{padding:20px;border-radius:20px}.topline{align-items:flex-start;flex-direction:column}.heroActions{display:grid;grid-template-columns:1fr;width:100%}.btn{width:100%}.kpis{grid-template-columns:1fr 1fr;gap:8px}.kpi{padding:12px}.kpi b{font-size:19px}.section{padding:16px;border-radius:17px}.sectionHead{display:block}.sectionIntro{margin-top:8px}.flow,.features{grid-template-columns:1fr}.step{min-height:auto}.step:after{display:none!important}.brain,.twoCol{grid-template-columns:1fr}.decisionLine{grid-template-columns:1fr}.decisionLine b{white-space:normal}.badges{gap:6px}.badge{font-size:9px}}@media print{body{background:#fff;color:#111}.wrap{max-width:none;padding:0}.hero,.section{box-shadow:none;background:#fff;border-color:#bbb;break-inside:avoid}.hero:after{display:none}.lead,.sectionIntro,.feature p,.step p,.layer p,.info ul,.quote,.kpi span{color:#444}.badge,.status,.feature,.step,.layer,.decision,.info{background:#fff;border-color:#bbb}.btn{display:none}.footer{color:#555}.good,.warn,.bad,.brand,.eyebrow,.layerNo{color:#111}.flow{grid-template-columns:repeat(3,1fr)}.features{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<section class="hero">
+  <div class="topline"><div class="brand">KI MARKT-PLANSPIEL · ONEPAGER</div><div class="status"><span class="dot"></span>24/7 PAPER TRADING</div></div>
+  <h1>Eine KI, die Märkte beobachtet, Zusammenhänge bewertet und aus Ergebnissen lernt.</h1>
+  <p class="lead">Das KI Markt-Planspiel kombiniert globale Aktien und normale ETFs mit Live-Kursen, technischer Analyse, Mehrquellen-News, historischen Mustern, Weltwirtschaft und geopolitischen Ereignissen. Die KI bewertet Chancen und Risiken, erklärt ihre wichtigsten Gründe und handelt ausschließlich mit Spielgeld.</p>
+  <div class="heroActions"><a class="btn primary" href="/">Zur Live-App</a><a class="btn" href="#ablauf">So funktioniert sie</a></div>
+  <div class="badges"><span class="badge">Aktien + normale ETFs</span><span class="badge">keine Hebel-/Inverse-Produkte</span><span class="badge">Mehrquellen-News</span><span class="badge">Makro & Geopolitik</span><span class="badge">historisches Lernmodell</span><span class="badge">erklärbare Analyse</span></div>
+</section>
+
+<section class="kpis">
+  <article class="kpi"><b>60 s</b><span>Cloudflare-Cron startet regelmäßig einen neuen Scan – auch bei geschlossenem Browser.</span></article>
+  <article class="kpi"><b>24/7</b><span>News- und Weltlage bleiben Teil der Analyse, auch wenn einzelne Börsen geschlossen sind.</span></article>
+  <article class="kpi"><b>1 Zustand</b><span>Kompakter Durable-Object-Speicher statt tausender unnötiger SQL-Zeilenreads.</span></article>
+  <article class="kpi"><b>0 € Broker</b><span>Keine Broker-Verbindung und keine echten Orders: vollständig als Paper-Trading-Prüfstand.</span></article>
+</section>
+
+<section id="ablauf" class="section">
+  <div class="sectionHead"><div><div class="eyebrow">Ablauf</div><h2>So arbeitet die App</h2></div><div class="sectionIntro">Der Browser ist nur Anzeige und Steuerung. Die eigentliche Arbeit läuft serverseitig über den Cloudflare-Worker und den Minuten-Cron weiter.</div></div>
+  <div class="flow">
+    <article class="step"><div class="stepNo">01</div><h3>Märkte scannen</h3><p>Offene Börsen, aktuelle Kurse, Momentum, RSI, EMA, Volumen, FX und Marktstatus werden gebündelt geprüft.</p></article>
+    <article class="step"><div class="stepNo">02</div><h3>News prüfen</h3><p>Mehrere Quellen werden geclustert, Dubletten reduziert, Aktualität und Quellenbestätigung bewertet.</p></article>
+    <article class="step"><div class="stepNo">03</div><h3>Weltlage einordnen</h3><p>Zinsen, Inflation, Wachstum, Energie, Krieg, Sanktionen und Handelskonflikte werden als Zusatzkontext erkannt.</p></article>
+    <article class="step"><div class="stepNo">04</div><h3>Kandidaten erklären</h3><p>Die stärksten Werte bekommen ein Dossier mit Pro/Contra, Risiko, Überhitzung und Invalidierungsbedingungen.</p></article>
+    <article class="step"><div class="stepNo">05</div><h3>KI entscheidet</h3><p>Die KI kombiniert mehrere unabhängige Säulen und entscheidet zwischen BUY, SELL und HOLD im Planspiel.</p></article>
+    <article class="step"><div class="stepNo">06</div><h3>Aus Wirkung lernen</h3><p>Historische Muster sowie spätere News- und Makroreaktionen fließen nach ausreichender Stichprobe wieder in die Analyse ein.</p></article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="sectionHead"><div><div class="eyebrow">Funktionen</div><h2>Was die App heute kann</h2></div><div class="sectionIntro">Nicht nur ein Kurs-Screener: Die App verbindet Markt-, Nachrichten- und Ereignisdaten zu einer gemeinsamen Entscheidungslage.</div></div>
+  <div class="features">
+    <article class="feature"><div class="icon">📈</div><h3>Live-Marktanalyse</h3><p>Bewertet <strong>Trend, Momentum, RSI, EMA, Volumen, Tagesbewegung und Volatilität</strong>. Gehaltene Positionen werden separat aktualisiert, damit der Scan effizient bleibt.</p></article>
+    <article class="feature"><div class="icon">📰</div><h3>Mehrquellen-News</h3><p>Erkennt aktuelle Meldungen, bündelt ähnliche Headlines, bewertet <strong>Richtung, Frische, Konfidenz und Quellenbestätigung</strong> und trennt offene von geschlossenen Handelszeiten.</p></article>
+    <article class="feature"><div class="icon">🧠</div><h3>KI-Entscheidungsstufe</h3><p>Die KI bekommt Markt-, News-, historische und Makrodaten gemeinsam. Sie soll <strong>mehrere unabhängige Bestätigungen</strong> verlangen und nicht bloß einem einzelnen Signal folgen.</p></article>
+    <article class="feature"><div class="icon">🌍</div><h3>Weltwirtschaft & Geopolitik</h3><p>Erkennt Ereigniskategorien wie <strong>Zinsänderungen, Inflation, Wachstum, Energie-Schocks, Krieg, Waffenruhe, Sanktionen und Zölle</strong> und prüft die tatsächliche Marktreaktion.</p></article>
+    <article class="feature"><div class="icon">🧪</div><h3>Kausales historisches Lernen</h3><p>Das 2026-Modell nutzt nur Informationen, die damals bereits vorhanden waren. <strong>Zukünftige Kurse werden nicht in die damalige Entscheidung hineingeschummelt.</strong></p></article>
+    <article class="feature"><div class="icon">🔎</div><h3>Erklärbare Dossiers</h3><p>Top-Kandidaten zeigen Signalqualität, Risiko, Überhitzung, historische Erwartung, News-Katalysator, <strong>positive und negative Argumente</strong> sowie Bedingungen zum Neuprüfen.</p></article>
+    <article class="feature"><div class="icon">📚</div><h3>News-Wirkungslernen</h3><p>Neue Meldungen werden später gegen die tatsächliche Kursreaktion ausgewertet. So kann die App lernen, <strong>welche News-Arten und Quellen statistisch früh nützlich waren</strong>.</p></article>
+    <article class="feature"><div class="icon">⚖️</div><h3>Reales Kostenmodell</h3><p>Orders im Planspiel berücksichtigen <strong>feste Gebühren, optionale Prozentgebühr und Slippage</strong>. Dadurch wird ein Ergebnis nicht künstlich durch kostenlose Ausführung verschönert.</p></article>
+    <article class="feature"><div class="icon">📊</div><h3>Nachvollziehbare Auswertung</h3><p>Depotwert, Cash, offene Positionen, P/L, Trefferquote, Profit-Faktor, Drawdown, History, KI-Log und Datenquellen-Health werden sichtbar festgehalten.</p></article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="sectionHead"><div><div class="eyebrow">Intelligenz</div><h2>Die Entscheidungslogik in Schichten</h2></div><div class="sectionIntro">Die KI soll nicht „News positiv = kaufen“ lernen, sondern unterschiedliche Informationsarten miteinander abgleichen.</div></div>
+  <div class="brain">
+    <div class="stack">
+      <div class="layer"><div class="layerNo">1</div><div><b>Aktueller Markt</b><p>Ist der Kurs überhaupt frisch und handelbar? Was machen Trend, Momentum, Volatilität und Volumen?</p></div></div>
+      <div class="layer"><div class="layerNo">2</div><div><b>Unternehmens-/ETF-News</b><p>Gibt es einen plausiblen Katalysator? Wie frisch ist er und wie viele unabhängige Quellen bestätigen ihn?</p></div></div>
+      <div class="layer"><div class="layerNo">3</div><div><b>Marktregime</b><p>Risk-on, neutral oder risk-off? Weltmarkt, Nasdaq und VIX helfen, Einzelwerte nicht isoliert zu betrachten.</p></div></div>
+      <div class="layer"><div class="layerNo">4</div><div><b>Makro & Geopolitik</b><p>Ein Ereignis wird nicht automatisch gehandelt. Öl, Gold, VIX, Zinsen, Weltmarkt und Branchen-ETFs müssen die erwartete Wirkung bestätigen.</p></div></div>
+      <div class="layer"><div class="layerNo">5</div><div><b>Historische Erfahrung</b><p>Das kausale 3-Tage-Modell und gelernte News-/Makrowirkungen werden nur als statistische Zusatzsignale genutzt.</p></div></div>
+    </div>
+    <aside class="decision">
+      <h3>Beispiel einer Entscheidung</h3>
+      <div class="decisionLine"><span>Mehrtagetrend</span><b class="good">positiv</b></div>
+      <div class="decisionLine"><span>Intraday-Bestätigung</span><b class="good">vorhanden</b></div>
+      <div class="decisionLine"><span>News-Katalysator</span><b class="good">mehrfach bestätigt</b></div>
+      <div class="decisionLine"><span>Weltlage</span><b class="warn">gemischt</b></div>
+      <div class="decisionLine"><span>Überhitzung</span><b class="good">nein</b></div>
+      <div class="decisionLine"><span>Historisches Modell</span><b class="warn">nur Zusatzsignal</b></div>
+      <div class="quote">Erst aus der Kombination entsteht ein BUY-/SELL-/HOLD-Vorschlag. Ein einzelnes Ereignis, eine einzelne News oder ein historischer Treffer darf keinen automatischen Kauf erzwingen.</div>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="sectionHead"><div><div class="eyebrow">Betrieb & Grenzen</div><h2>Was wichtig ist</h2></div></div>
+  <div class="twoCol">
+    <article class="info"><h3>Für 24/7-Betrieb optimiert</h3><ul><li>Minuten-Cron arbeitet auch bei ausgeschaltetem PC und geschlossenem Browser weiter.</li><li>Browser-Statusabfragen werden gecacht und im Hintergrund stark reduziert.</li><li>Kompakter Ein-Zustands-Speicher reduziert Durable-Object-Row-Reads drastisch.</li><li>R2 ist für den normalen Betrieb nicht erforderlich.</li><li>Die Architektur ist auf den Cloudflare-Free-Betrieb zugeschnitten.</li></ul></article>
+    <article class="info warning"><h3>Bewusste Sicherheitsgrenzen</h3><ul><li><b>Nur Paper Trading:</b> aktuell keine echten Broker-Orders.</li><li>Keine Gewinngarantie und keine erfundenen Erfolgswahrscheinlichkeiten.</li><li>Keine Hebel- oder inversen ETFs.</li><li>Makro-/Kriegsereignisse sind Zusatzsignale, keine starren Kaufregeln.</li><li>Ein späterer Brokeranschluss wäre eine separate, abgesicherte Ausbaustufe.</li></ul></article>
+  </div>
+</section>
+
+<div class="footer">KI Markt-Planspiel · Onepager · Stand 17.08.2026 · Analyse- und Paper-Trading-System, keine Anlageberatung und keine Gewinngarantie.</div>
+</main>
+</body>
+</html>
