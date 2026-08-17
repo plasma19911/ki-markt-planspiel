@@ -7,6 +7,8 @@ on:
     paths:
       - "src/**"
       - "public/**"
+      - "scripts/smoke-fast-decisions.mjs"
+      - "scripts/calibrate_fast_signals.py"
       - "package.json"
       - "wrangler.jsonc"
       - ".github/workflows/validate-worker.yml"
@@ -43,6 +45,11 @@ jobs:
           node --check src/compact-portfolio-v3.js
           node --check src/compact-portfolio-v4.js
           node --check src/compact-portfolio-v5.js
+          node --check src/fast-signals.js
+          node --check src/gap-signals.js
+          node --check src/live-signal-learning.js
+          node --check src/decision-guard.js
+          node --check src/generated-fast-calibration.js
           node --check src/zero-broker.js
           node --check src/investment-intelligence.js
           node --check src/news-learning.js
@@ -58,5 +65,10 @@ jobs:
           node --check public/exposure-ui.js
           node --check public/quota-guard.js
           node --check public/zero-ui.js
+          node --check scripts/smoke-fast-decisions.mjs
+      - name: Python calibration syntax
+        run: python3 -m py_compile scripts/calibrate_fast_signals.py
+      - name: Fast decision smoke test
+        run: node scripts/smoke-fast-decisions.mjs
       - name: Wrangler dry run
         run: npx wrangler deploy --dry-run
