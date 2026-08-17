@@ -13,6 +13,7 @@ const ZERO_AI_PLAN_MAX_TOKENS=600;
 const ZERO_AI_PLAN_COOLDOWN_MS=10*60*1000;
 const ZERO_AI_NEWS_COOLDOWN_MS=15*60*1000;
 const ZERO_AI_QUOTA_KEY='quota/zero-ai-v1';
+const ZERO_FAST_PEAK_KEY='state/zero-fast-profit-peaks-v1';
 
 function rotate(pool,count,seed){
   if(!pool.length||count<=0)return[];
@@ -86,8 +87,22 @@ class ZeroBrokerAiGuard{
   saveQuota(q){
     try{this.storage?.kv?.put(ZERO_AI_QUOTA_KEY,q)}catch{}
   }
+  withPeakPnl(prompt){
+    const marker=' Gehalten=',i=prompt.indexOf(marker);if(i<0)return prompt;
+    try{
+      const held=JSON.parse(prompt.slice(i+marker.length).trim());if(!Array.isArray(held))return prompt;
+      const old=this.storage?.kv?.get(ZERO_FAST_PEAK_KEY)||{},next={};
+      const enriched=held.map(h=>{
+        const symbol=String(h?.symbol||'').toUpperCase(),current=Number(h?.pnlPct||0),prev=Number(old?.[symbol]?.peakPnlPct);
+        const peak=Number.isFinite(prev)?Math.max(prev,current):current;next[symbol]={peakPnlPct:peak,updatedAt:Date.now()};
+        return{...h,peakPnlPct:+peak.toFixed(3),givebackPct:+Math.max(0,peak-current).toFixed(3)};
+      });
+      this.storage?.kv?.put(ZERO_FAST_PEAK_KEY,next);
+      return prompt.slice(0,i+marker.length)+JSON.stringify(enriched);
+    }catch{return prompt}
+  }
   async fast(prompt){
-    try{return await buildFastDecisionLayer(prompt,this.assets)}
+    try{return await buildFastDecisionLayer(this.withPeakPnl(prompt),this.assets)}
     catch(e){return{summary:`Fast-Decision nicht verfügbar: ${String(e?.message||e).slice(0,120)}`,actions:[],context:[]}}
   }
   async run(model,input){
@@ -111,7 +126,7 @@ class ZeroBrokerAiGuard{
     let finalInput=input,fast=null;
     if(isPlan){
       fast=await this.fast(prompt);
-      const extra={role:'user',content:`Zieldepot fuer spaetere praktische Umsetzung: finanzen.net ZERO ueber gettex. Das bleibt PAPER-TRADING; keine echten Brokerorders. Der Scanner durchsucht ein breites, rotierendes Universum gut handelbarer Aktien sowie normale europaeische UCITS-ETF-Kandidaten und darf branchenunabhaengig die besten Setups waehlen. Defense/Tech sind Zusatzbereiche, aber kein Hauptfilter. US-domiciled Analyse-Proxys wie SPY/QQQ duerfen Marktinformationen liefern, sind aber keine kaufbaren ETF-Kandidaten. Bevorzuge liquide Werte und vermeide duenne/exotische Notierungen. Bei kleinen oder fraktionalen Orders konservativ 1 EUR Zuschlag plus Spread/Slippage annehmen. Broker-Verfuegbarkeit kann sich aendern und ist keine Kaufaussage. Zusaetzlicher deterministischer Fast-Decision-Layer=${JSON.stringify(fast)}. Nutze VWAP, ATR, ADX, relative Staerke zum Gesamtmarkt und zu Sektor-Peers sowie dynamische Unterstuetzung/Widerstand als weitere unabhaengige Bestaetigungen. Bei klaren, mehrfach bestaetigten Reversals darf SELL schnell priorisiert werden. Bei gemischter Lage HOLD statt hektisch handeln. Ein hoher RSI allein ist kein SELL.`};
+      const extra={role:'user',content:`Zieldepot fuer spaetere praktische Umsetzung: finanzen.net ZERO ueber gettex. Das bleibt PAPER-TRADING; keine echten Brokerorders. Der Scanner durchsucht ein breites, rotierendes Universum gut handelbarer Aktien sowie normale europaeische UCITS-ETF-Kandidaten und darf branchenunabhaengig die besten Setups waehlen. Defense/Tech sind Zusatzbereiche, aber kein Hauptfilter. US-domiciled Analyse-Proxys wie SPY/QQQ duerfen Marktinformationen liefern, sind aber keine kaufbaren ETF-Kandidaten. Bevorzuge liquide Werte und vermeide duenne/exotische Notierungen. Bei kleinen oder fraktionalen Orders konservativ 1 EUR Zuschlag plus Spread/Slippage annehmen. Broker-Verfuegbarkeit kann sich aendern und ist keine Kaufaussage. Zusaetzlicher deterministischer Fast-Decision-Layer=${JSON.stringify(fast)}. Nutze Multi-Timeframe-Bestaetigung, Wilder-ADX, VWAP, ATR, relative Staerke zum Gesamtmarkt und zu Sektor-Peers, Swing-Unterstuetzung/Widerstand, Marktregime, Spread/Liquiditaet und Depotkorrelation als weitere unabhaengige Bestaetigungen. Bei klaren, mehrfach bestaetigten Reversals darf SELL schnell priorisiert werden. Laufende Gewinne werden ueber den bisherigen Positions-Peak dynamisch geschuetzt; ein Ruecklauf vom Peak ist nur zusammen mit technischer Verschlechterung ein Exit-Grund. Bei gemischter Lage HOLD statt hektisch handeln. Ein hoher RSI allein ist kein SELL.`};
       const requested=Number(input?.max_completion_tokens||ZERO_AI_PLAN_MAX_TOKENS);
       finalInput={...input,max_completion_tokens:Math.min(Math.max(120,requested),ZERO_AI_PLAN_MAX_TOKENS),messages:[...(input.messages||[]),extra]};
     }
@@ -145,7 +160,7 @@ export class MarketPortfolio extends BasePortfolio{
       aiNewsCooldownMinutes:ZERO_AI_NEWS_COOLDOWN_MS/60000,
       aiCooldownPersistent:true,
       aiPlanMaxCompletionTokens:ZERO_AI_PLAN_MAX_TOKENS,
-      fastDecisionLayer:{enabled:true,frequency:'jede Planrunde; im KI-Wartefenster deterministisch',depthSymbolsMax:4,signals:['VWAP','ATR','ADX','relative Stärke Gesamtmarkt','relative Stärke Sektor-Peers','Support/Resistance','Momentum Breakout/Reversal'],strongSellRiskOverlay:true,paperTradingOnly:true},
+      fastDecisionLayer:{enabled:true,frequency:'jede Planrunde; im KI-Wartefenster deterministisch',depthSymbolsMax:4,signals:['Multi-Timeframe 5m/15m/1h/Tag','VWAP','ATR','Wilder-ADX + DI','relative Stärke Gesamtmarkt','relative Stärke Sektor-Peers','Swing Support/Resistance','Marktregime','Spread/Liquidität','Depotkorrelation','Momentum Breakout/Reversal','dynamische Gewinnsicherung'],strongSellRiskOverlay:true,profitPeakPersistent:true,paperTradingOnly:true},
       executionNote:zeroExecutionNote(Number(s?.config?.cash||0),{fractional:true}),
       paperTradingOnly:true,
       liveBrokerConnection:false
