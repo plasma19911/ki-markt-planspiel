@@ -1,4 +1,4 @@
-name: Refresh Top-500 Universe
+name: Refresh ZERO-target Universe
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: top-500-refresh
+  group: zero-target-universe-refresh
   cancel-in-progress: false
 
 jobs:
@@ -29,7 +29,7 @@ jobs:
           python-version: "3.12"
       - name: Install yfinance
         run: python -m pip install "yfinance>=1.5,<2"
-      - name: Refresh global Top 500
+      - name: Refresh liquid ZERO-target universe
         run: python scripts/refresh_universe.py
       - name: Commit changed universe
         shell: bash
@@ -41,6 +41,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/universe.json
-          git commit -m "chore: refresh global top-500 universe"
+          git commit -m "chore: refresh liquid ZERO-target universe"
           git pull --rebase origin main
           git push origin main
