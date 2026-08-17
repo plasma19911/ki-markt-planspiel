@@ -1,7 +1,7 @@
-// Production entry: zero-additional-cost paper trading on Workers Free.
-// State is stored as ONE compact KV value inside the existing SQLite-backed Durable Object.
-// V5 adds finanzen.net ZERO/gettex as the practical target universe; still PAPER TRADING only.
-import {MarketPortfolio} from './compact-portfolio-v5.js';
+// Production entry: paper trading plus prepared human approval workflow.
+// Real broker dispatch remains disabled until an official connector is explicitly added.
+import {MarketPortfolio} from './compact-portfolio-v6.js';
+import {verifyCloudflareAccess} from './access-auth.js';
 export {MarketPortfolio};
 
 const reply=(x,s=200)=>Response.json(x,{status:s,headers:{'cache-control':'no-store'}});
@@ -14,6 +14,17 @@ export default{
   try{
    const p=portfolio(env);
    if(u.pathname==='/api/status'&&request.method==='GET')return reply(await p.status());
+   if(u.pathname==='/api/order-approval-status'&&request.method==='GET')return reply(await p.orderApprovalStatus());
+   if(u.pathname==='/api/order-approvals'&&request.method==='GET'){
+    const auth=await verifyCloudflareAccess(request,env);if(!auth.ok)return reply({error:auth.error,approvalAuth:false},auth.status||403);
+    return reply(await p.orderApprovals());
+   }
+   const orderAction=u.pathname.match(/^\/api\/order-approvals\/([^/]+)\/(approve|reject)$/);
+   if(orderAction&&request.method==='POST'){
+    const auth=await verifyCloudflareAccess(request,env);if(!auth.ok)return reply({error:auth.error,approvalAuth:false},auth.status||403);
+    const id=decodeURIComponent(orderAction[1]),result=orderAction[2]==='approve'?await p.approveOrder(id,auth.user?.email):await p.rejectOrder(id,auth.user?.email);
+    return reply(result,result?.ok?200:(result?.status||400));
+   }
    if(u.pathname==='/api/start'&&request.method==='POST'){
     const b=await request.json().catch(()=>({}));
     const started=await p.start({...b,includeEtfs:true,includeLeverage:false});
