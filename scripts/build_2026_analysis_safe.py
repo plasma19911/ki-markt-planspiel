@@ -3,9 +3,11 @@ from __future__ import annotations
 import json
 import math
 import re
+from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 
 import build_2026_walkforward_causal as causal
 
@@ -15,6 +17,8 @@ ORIGINAL_TO_EUR = base.to_eur_series
 ORIGINAL_NORMALIZE_CURRENCY = base.normalize_currency
 EXCLUDED = []
 DUPLICATE_LISTINGS = []
+LEARNING_EUR = {}
+LEARNING_META = {}
 MAX_FACTOR = 2.5
 MIN_FACTOR = 0.4
 
@@ -34,6 +38,8 @@ CURRENCY_SUFFIX = [
     (r'\.SA$', 'BRL'), (r'\.JO$', 'ZAR'), (r'\.SI$', 'SGD'), (r'\.BK$', 'THB'),
     (r'\.JK$', 'IDR'), (r'\.KL$', 'MYR'), (r'\.TA$', 'ILS'), (r'\.NZ$', 'NZD'),
 ]
+
+FEATURES = ['emaGapPct', 'priceVsEma21Pct', 'rsi', 'mom5Pct', 'mom20Pct', 'dayPct', 'volatility20Pct']
 
 
 def safe_normalize_currency(cur, symbol):
@@ -91,6 +97,10 @@ def safe_to_eur_series(universe, series, fx):
                 'reason': 'Mehrfachlisting derselben Firma; fuer den gesamten Backtest eine feste repraesentative/liquide Notierung verwendet'
             })
 
+    LEARNING_EUR.clear()
+    LEARNING_EUR.update({sym: df.copy() for sym, df in deduped.items()})
+    LEARNING_META.clear()
+    LEARNING_META.update({sym: meta.get(sym, {'symbol': sym, 'name': sym, 'type': 'EQUITY'}) for sym in deduped})
     print(f'Data-quality: excluded {len(EXCLUDED)} anomalous series')
     print(f'Company dedupe: removed {sum(len(x["removed"]) for x in DUPLICATE_LISTINGS)} duplicate listings across {len(DUPLICATE_LISTINGS)} companies')
     return deduped
@@ -112,6 +122,115 @@ def remove_artificial_final_day_roundtrips(result):
     result['winRate'] = wins / len(result['trades']) * 100 if result['trades'] else 0
     result['removedArtificialEndTrades'] = len(removed)
     return result
+
+
+def learning_rsi(c: pd.Series, period: int = 14) -> pd.Series:
+    d = c.diff()
+    gain = d.clip(lower=0).rolling(period).mean()
+    loss = (-d.clip(upper=0)).rolling(period).mean()
+    rs = gain / loss.replace(0, np.nan)
+    return (100 - 100 / (1 + rs)).replace([np.inf, -np.inf], np.nan)
+
+
+def feature_frame(df: pd.DataFrame) -> pd.DataFrame:
+    x = pd.DataFrame(index=df.index)
+    c = df['eur'].astype(float)
+    ema9 = c.ewm(span=9, adjust=False).mean()
+    ema21 = c.ewm(span=21, adjust=False).mean()
+    ret = c.pct_change()
+    x['emaGapPct'] = (ema9 / ema21 - 1) * 100
+    x['priceVsEma21Pct'] = (c / ema21 - 1) * 100
+    x['rsi'] = learning_rsi(c, 14)
+    x['mom5Pct'] = c.pct_change(5) * 100
+    x['mom20Pct'] = c.pct_change(20) * 100
+    x['dayPct'] = ret * 100
+    x['volatility20Pct'] = ret.rolling(20).std() * 100
+    x['forward3Pct'] = (c.shift(-3) / c - 1) * 100
+    return x.replace([np.inf, -np.inf], np.nan)
+
+
+def compute_strategy_learning(perfect_events) -> dict:
+    frames = {sym: feature_frame(df) for sym, df in LEARNING_EUR.items() if len(df) >= 30}
+    samples = []
+    for sym, f in frames.items():
+        good = f[FEATURES + ['forward3Pct']].dropna()
+        for dt, row in good.iterrows():
+            y = float(np.clip(row['forward3Pct'], -20, 20))
+            samples.append((pd.Timestamp(dt), sym, [float(row[k]) for k in FEATURES], y))
+    if len(samples) < 1000:
+        return {'available': False, 'reason': f'Zu wenig kausale Lernbeispiele ({len(samples)}).'}
+
+    dates = np.array([s[0].value for s in samples], dtype=np.int64)
+    X = np.array([s[2] for s in samples], dtype=float)
+    y = np.array([s[3] for s in samples], dtype=float)
+    unique_dates = np.unique(dates)
+    split_date = unique_dates[max(1, int(len(unique_dates) * 0.80)) - 1]
+    train = dates <= split_date
+    valid = dates > split_date
+    if valid.sum() < 200:
+        train = np.arange(len(samples)) < int(len(samples) * 0.8)
+        valid = ~train
+
+    mean = X[train].mean(axis=0)
+    std = X[train].std(axis=0)
+    std[std < 1e-9] = 1.0
+    Z = (X[train] - mean) / std
+    y_mean = float(y[train].mean())
+    centered = y[train] - y_mean
+    ridge = 25.0
+    coef = np.linalg.solve(Z.T @ Z + np.eye(len(FEATURES)) * ridge, Z.T @ centered)
+    pred = y_mean + ((X[valid] - mean) / std) @ coef
+    actual = y[valid]
+    corr = float(np.corrcoef(pred, actual)[0, 1]) if len(actual) > 2 and np.std(pred) > 0 and np.std(actual) > 0 else 0.0
+    direction = float(np.mean(np.sign(pred) == np.sign(actual)) * 100) if len(actual) else 0.0
+    q = float(np.quantile(pred, 0.80)) if len(pred) else 0.0
+    top = actual[pred >= q] if len(pred) else np.array([])
+
+    perfect_pre = []
+    for e in perfect_events or []:
+        if e.get('action') != 'BUY':
+            continue
+        sym = str(e.get('symbol') or '').upper()
+        f = frames.get(sym)
+        if f is None or f.empty:
+            continue
+        dt = pd.Timestamp(e.get('date'))
+        prior = f.index[f.index < dt]
+        if not len(prior):
+            continue
+        row = f.loc[prior[-1], FEATURES]
+        if row.isna().any():
+            continue
+        perfect_pre.append([float(row[k]) for k in FEATURES])
+    profile = np.array(perfect_pre, dtype=float) if perfect_pre else np.empty((0, len(FEATURES)))
+
+    return {
+        'available': True,
+        'modelVersion': 'causal-3day-ridge-v1',
+        'generatedAt': datetime.now(timezone.utc).isoformat(),
+        'target': 'EUR-Gesamtrendite der folgenden 3 Handelstage, auf ±20% gekappt',
+        'features': FEATURES,
+        'mean': {k: float(mean[i]) for i, k in enumerate(FEATURES)},
+        'std': {k: float(std[i]) for i, k in enumerate(FEATURES)},
+        'coefficients': {k: float(coef[i]) for i, k in enumerate(FEATURES)},
+        'interceptPct': y_mean,
+        'sampleCount': int(len(samples)),
+        'trainSamples': int(train.sum()),
+        'validationSamples': int(valid.sum()),
+        'validation': {
+            'correlation': corr,
+            'directionAccuracyPct': direction,
+            'overallForward3Pct': float(actual.mean()) if len(actual) else 0.0,
+            'topPredictedQuintileForward3Pct': float(top.mean()) if len(top) else 0.0,
+            'topPredictedQuintilePositivePct': float(np.mean(top > 0) * 100) if len(top) else 0.0,
+        },
+        'perfectHindsightPreBuyProfile': {
+            'samples': int(len(profile)),
+            'mean': {k: float(profile[:, i].mean()) for i, k in enumerate(FEATURES)} if len(profile) else {},
+            'description': 'Nur Merkmale des letzten abgeschlossenen Handelstags VOR einem perfekten BUY; das spätere Zukunftswissen selbst wird nicht an die Live-KI weitergegeben.'
+        },
+        'limitations': 'Historische News sind nicht vollständig rekonstruierbar. Das Modell lernt nur kausale Kursmuster; aktuelle News, Events, FX, Gebühren und Intraday-Reaktion werden live separat bewertet.'
+    }
 
 
 base.normalize_currency = safe_normalize_currency
@@ -155,5 +274,7 @@ data['walkForwardCalibration'] = {
     'causalExecution': 'Signal aus vollstaendig abgeschlossenem Vortag; Ausfuehrung fruehestens am folgenden verfuegbaren Handelstag.',
     'artificialSameDayEndTradesRemoved': True,
 }
+data['strategyLearning'] = compute_strategy_learning((data.get('perfect') or {}).get('events') or [])
 path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
-print(f'Final unique-company causal analysis written; anomalous={len(EXCLUDED)}, duplicate-listings={removed_listing_count}')
+learning = data.get('strategyLearning') or {}
+print(f'Final unique-company causal analysis written; anomalous={len(EXCLUDED)}, duplicate-listings={removed_listing_count}, learning-samples={learning.get("sampleCount", 0)}')
