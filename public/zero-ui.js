@@ -18,18 +18,20 @@ async function load(){
  try{
   const r=await fetch('/api/status',{cache:'no-store'});if(!r.ok)throw new Error(`HTTP ${r.status}`);const s=await r.json(),b=s.brokerTarget;
   if(!b){$('zeroBrokerMeta').textContent='ZERO-Zielprofil wird mit dem nächsten Deployment aktiv.';return}
-  const full=Number(b.fullLiquidEquityUniverse||0),slice=Number(b.currentScannerUniverse||0),rot=Number(b.estimatedFullRotationMinutes||0);
+  const full=Number(b.fullLiquidEquityUniverse||0),slice=Number(b.currentScannerUniverse||0),rot=Number(b.estimatedFullRotationMinutes||0),aiMin=Number(b.aiPlanCooldownMinutes||0);
   $('zeroBrokerPill').textContent=`${b.name} · ${b.venue}`;
   $('zeroBrokerMeta').textContent=`Ziel für eine spätere reale Umsetzung: ${b.name} über ${b.venue}. Die App bleibt Paper Trading und sendet keine echten Brokerorders. Aktien werden branchenunabhängig bewertet; Tech/Rüstung sind nur Teilbereiche.`;
   $('zeroBrokerGrid').innerHTML=`
    <div class="mini"><span>Liquides Aktien-Zieluniversum</span><b>${full||'–'}</b></div>
    <div class="mini"><span>Aktueller Minuten-Slice</span><b>${slice||'–'}</b></div>
    <div class="mini"><span>Komplette Rotation</span><b>${rot?`~${rot} Min.`:'–'}</b></div>
+   <div class="mini"><span>Markt/News Scan</span><b>jede Minute</b></div>
+   <div class="mini"><span>KI-Neubewertung</span><b>${aiMin?`max. alle ${aiMin} Min.`:'quota-geschützt'}</b></div>
    <div class="mini"><span>ETF-Regel</span><b>normale UCITS</b></div>
    <div class="mini"><span>Kleine Orders</span><b>1 € konservativ</b></div>
    <div class="mini"><span>US-ETF-Proxys</span><b>nur Analyse</b></div>`;
   const catalog=b.exactBrokerCatalog?'Broker-Katalog synchronisiert':'liquides ZERO/gettex-Zieluniversum; konkrete Broker-Verfügbarkeit vor echter Order erneut prüfen';
-  $('zeroBrokerNote').innerHTML=`<b>Breit statt sektorfixiert:</b> Der Scanner rotiert durch das Aktienuniversum, damit die Cloudflare-Free-Limits nicht durch einen Vollscan in jeder Minute überschritten werden. ${esc(catalog)}. ${esc(b.executionNote||'')}`;
+  $('zeroBrokerNote').innerHTML=`<b>Breit statt sektorfixiert:</b> Der Scanner rotiert durch das Aktienuniversum, damit die Cloudflare-Free-Limits nicht durch einen Vollscan in jeder Minute überschritten werden. Die KI-Ausgabe ist zusätzlich auf 600 Tokens je Orderplan begrenzt. ${esc(catalog)}. ${esc(b.executionNote||'')}`;
  }catch(e){$('zeroBrokerMeta').textContent=`ZERO-Zielprofil derzeit nicht verfügbar: ${e.message}`}
 }
 
