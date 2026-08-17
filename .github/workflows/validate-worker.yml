@@ -36,6 +36,7 @@ jobs:
           node --check src/portfolio-prod.js
           node --check src/portfolio-final.js
           node --check src/portfolio-no-leverage.js
+          node --check src/portfolio-learning.js
           node --check src/last-week.js
           node --check public/app.js
           node --check public/analysis-ui.js
