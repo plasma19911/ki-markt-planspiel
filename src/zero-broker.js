@@ -14,7 +14,7 @@ export const ZERO_BROKER={
   productListEtfs:'https://mein.finanzen-zero.net/handelbare-produkte?type=E-C',
   targetOnly:true,
   exactCatalogSynced:false,
-  catalogNote:'ZERO/gettex-Zieluniversum: liquide globale Aktien; ETFs nur kuratierte europäische UCITS-Produkte. Die öffentliche ZERO-Produktliste ist dynamisch und wird nicht als unveränderliche Vollständigkeitsgarantie behandelt.'
+  catalogNote:'ZERO/gettex-Zieluniversum: breites, branchenunabhängiges Universum liquider Aktien plus normale europäische UCITS-ETF-Kandidaten. Tech und Rüstung sind nur Teilbereiche. Die öffentliche ZERO-Produktliste ist dynamisch; vor einer späteren echten Order muss die konkrete Broker-Verfügbarkeit erneut geprüft werden.'
 };
 
 // Das Planspiel soll später praktisch bei ZERO umsetzbar sein. Für Aktien verwenden wir
