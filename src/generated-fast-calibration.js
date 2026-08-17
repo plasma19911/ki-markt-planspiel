@@ -1,16 +1,18 @@
 // Automatisch erzeugt durch scripts/calibrate_fast_signals.py.
 export const FAST_CALIBRATION={
-  version:'historical-15m-v1',
-  generatedAt:'2026-08-17T10:58:57.981592+00:00',
-  sampleCount:14604,
+  version:'historical-15m-purged-holdout-v2',
+  generatedAt:'2026-08-17T11:09:43.490909+00:00',
+  sampleCount:14605,
+  trainSampleCount:10063,
+  holdoutSampleCount:4252,
   validated:true,
-  buyThreshold:3.90,
-  sellThreshold:4.50,
+  buyThreshold:4.30,
+  sellThreshold:4.00,
   maxSpreadPct:0.80,
   minAdxBuy:18,
   strongAdx:22,
   maxAtrPctBuy:2.50,
   minRelativeVolume:1.10,
   trailing:{activatePnlPct:2.0,minGivebackPct:0.8,maxGivebackPct:2.2,givebackShare:0.34},
-  validation:{buySamples:2366,buyHitRate:0.4996,buyQuality:0.1907,sellSamples:693,sellHitRate:0.5166,sellQuality:0.1660,symbols:11}
+  validation:{trainBuySamples:347,trainBuyHitRate:0.5159,trainBuyMeanPct:0.0653,holdoutBuySamples:171,holdoutBuyHitRate:0.4620,holdoutBuyMeanPct:0.0557,trainSellSamples:1544,trainSellHitRate:0.4922,trainSellMeanPct:-0.0249,holdoutSellSamples:540,holdoutSellHitRate:0.4833,holdoutSellMeanPct:0.1492,symbols:11,purgeBars:12}
 };
