@@ -34,6 +34,7 @@ jobs:
           node --check src/market.js
           node --check src/portfolio.js
           node --check src/market-v3.js
+          node --check src/priority-equities.js
           node --check src/portfolio-v3.js
           node --check src/portfolio-prod.js
           node --check src/portfolio-final.js
