@@ -9,6 +9,9 @@ const ZERO_CORE_EQUITIES=80;
 const ZERO_ROTATING_EQUITIES=160;
 const ZERO_UNIVERSE_CACHE_MS=10*60*1000;
 const ZERO_AI_PLAN_MAX_TOKENS=600;
+const ZERO_AI_PLAN_COOLDOWN_MS=10*60*1000;
+const ZERO_AI_NEWS_COOLDOWN_MS=15*60*1000;
+const ZERO_AI_QUOTA_KEY='quota/zero-ai-v1';
 
 function rotate(pool,count,seed){
   if(!pool.length||count<=0)return[];
@@ -74,14 +77,44 @@ class ZeroUniverseAssets{
 }
 
 class ZeroBrokerAiGuard{
-  constructor(base){this.base=base}
+  constructor(base,storage){this.base=base;this.storage=storage}
+  quota(){
+    try{return this.storage?.kv?.get(ZERO_AI_QUOTA_KEY)||{}}
+    catch{return{}}
+  }
+  saveQuota(q){
+    try{this.storage?.kv?.put(ZERO_AI_QUOTA_KEY,q)}catch{}
+  }
   async run(model,input){
     const prompt=String(input?.messages?.map(x=>x?.content||'').join('\n')||'');
     const isPlan=prompt.includes('JSON-only')&&prompt.includes('Kandidaten=');
-    if(!isPlan)return this.base.run(model,input);
-    const extra={role:'user',content:`Zieldepot fuer spaetere praktische Umsetzung: finanzen.net ZERO ueber gettex. Das bleibt PAPER-TRADING; keine echten Brokerorders. Der Scanner durchsucht ein breites, rotierendes Universum gut handelbarer Aktien sowie normale europaeische UCITS-ETF-Kandidaten und darf branchenunabhaengig die besten Setups waehlen. Defense/Tech sind Zusatzbereiche, aber kein Hauptfilter. US-domiciled Analyse-Proxys wie SPY/QQQ duerfen Marktinformationen liefern, sind aber keine kaufbaren ETF-Kandidaten. Bevorzuge liquide Werte und vermeide duenne/exotische Notierungen. Bei kleinen oder fraktionalen Orders konservativ 1 EUR Zuschlag plus Spread/Slippage annehmen. Broker-Verfuegbarkeit kann sich aendern und ist keine Kaufaussage.`};
-    const requested=Number(input?.max_completion_tokens||ZERO_AI_PLAN_MAX_TOKENS);
-    return this.base.run(model,{...input,max_completion_tokens:Math.min(Math.max(120,requested),ZERO_AI_PLAN_MAX_TOKENS),messages:[...(input.messages||[]),extra]});
+    const isNews=prompt.includes('Fasse die aktuelle Mehrquellen-Nachrichtenlage');
+    if(!isPlan&&!isNews)return this.base.run(model,input);
+
+    const now=Date.now(),q=this.quota();
+    if(isPlan&&now-Number(q.planAt||0)<ZERO_AI_PLAN_COOLDOWN_MS){
+      return{response:JSON.stringify({summary:'KI-Wartefenster: Markt und News werden weiter jede Minute gescannt; nächste KI-Neubewertung spätestens nach 10 Minuten.',actions:[]})};
+    }
+    if(isNews&&now-Number(q.newsAt||0)<ZERO_AI_NEWS_COOLDOWN_MS){
+      return{response:String(q.lastNewsResponse||'News werden weiter gesammelt; die KI-Zusammenfassung wird im 15-Minuten-Fenster aktualisiert.')};
+    }
+
+    if(isPlan){q.planAt=now;this.saveQuota(q)}
+    if(isNews){q.newsAt=now;this.saveQuota(q)}
+
+    let finalInput=input;
+    if(isPlan){
+      const extra={role:'user',content:`Zieldepot fuer spaetere praktische Umsetzung: finanzen.net ZERO ueber gettex. Das bleibt PAPER-TRADING; keine echten Brokerorders. Der Scanner durchsucht ein breites, rotierendes Universum gut handelbarer Aktien sowie normale europaeische UCITS-ETF-Kandidaten und darf branchenunabhaengig die besten Setups waehlen. Defense/Tech sind Zusatzbereiche, aber kein Hauptfilter. US-domiciled Analyse-Proxys wie SPY/QQQ duerfen Marktinformationen liefern, sind aber keine kaufbaren ETF-Kandidaten. Bevorzuge liquide Werte und vermeide duenne/exotische Notierungen. Bei kleinen oder fraktionalen Orders konservativ 1 EUR Zuschlag plus Spread/Slippage annehmen. Broker-Verfuegbarkeit kann sich aendern und ist keine Kaufaussage.`};
+      const requested=Number(input?.max_completion_tokens||ZERO_AI_PLAN_MAX_TOKENS);
+      finalInput={...input,max_completion_tokens:Math.min(Math.max(120,requested),ZERO_AI_PLAN_MAX_TOKENS),messages:[...(input.messages||[]),extra]};
+    }
+
+    const r=await this.base.run(model,finalInput);
+    if(isNews){
+      const response=String(r?.response||r?.result?.response||'').trim();
+      const latest=this.quota();latest.newsAt=now;if(response)latest.lastNewsResponse=response.slice(0,500);this.saveQuota(latest);
+    }
+    return r;
   }
 }
 
@@ -89,7 +122,7 @@ export class MarketPortfolio extends BasePortfolio{
   constructor(ctx,env){
     super(ctx,env);
     const guarded=this.engine?.env?.AI;
-    if(guarded?.run)this.engine.env.AI=new ZeroBrokerAiGuard(guarded);
+    if(guarded?.run)this.engine.env.AI=new ZeroBrokerAiGuard(guarded,ctx.storage);
     const assets=this.engine?.env?.ASSETS;
     if(assets?.fetch){this.zeroAssets=new ZeroUniverseAssets(assets);this.engine.env.ASSETS=this.zeroAssets}
   }
@@ -100,7 +133,9 @@ export class MarketPortfolio extends BasePortfolio{
       ...ZERO_BROKER,
       currentScannerUniverse:Number(s?.config?.universe_count||0),
       ...(coverage||{}),
-      aiPlanCooldownMinutes:10,
+      aiPlanCooldownMinutes:ZERO_AI_PLAN_COOLDOWN_MS/60000,
+      aiNewsCooldownMinutes:ZERO_AI_NEWS_COOLDOWN_MS/60000,
+      aiCooldownPersistent:true,
       aiPlanMaxCompletionTokens:ZERO_AI_PLAN_MAX_TOKENS,
       executionNote:zeroExecutionNote(Number(s?.config?.cash||0),{fractional:true}),
       paperTradingOnly:true,
