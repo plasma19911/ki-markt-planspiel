@@ -115,4 +115,21 @@ function install(){
   byId('weekTabBtn')?.addEventListener('click',()=>loadAnalysis(false));
 }
 
+function updateSignalsVisibility(){
+  const section=byId('signals'),body=byId('candidatesBody');
+  if(!section||!body)return;
+  const hasRealSignal=[...body.querySelectorAll('tr')].some(row=>!row.querySelector('td[colspan]'));
+  section.hidden=!hasRealSignal;
+  const nav=document.querySelector('.mobileNav a[href="#signals"]');
+  if(nav)nav.hidden=!hasRealSignal;
+}
+
+function installSignalsVisibility(){
+  const body=byId('candidatesBody');
+  if(!body)return;
+  updateSignalsVisibility();
+  new MutationObserver(updateSignalsVisibility).observe(body,{childList:true,subtree:true});
+}
+
 install();
+installSignalsVisibility();
