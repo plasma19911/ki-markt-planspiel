@@ -13,7 +13,7 @@ GENERIC_WORDS={"UNITED","GLOBAL","INTERNATIONAL","TECHNOLOGY","TECHNOLOGIES","IN
 MAX_PLAUSIBLE_MCAP_USD=10_000_000_000_000.0
 MIN_MCAP_USD=100_000_000.0
 MIN_AVG_VOLUME=5_000.0
-TARGET_COUNT=1_200
+TARGET_COUNT=3_000
 
 def scalar(v,default=0):
     if isinstance(v,dict):
@@ -24,7 +24,7 @@ def scalar(v,default=0):
 
 def one_region(region):
     q=yf.EquityQuery("and",[yf.EquityQuery("eq",["region",region]),yf.EquityQuery("gt",["intradaymarketcap",0])])
-    return yf.screen(q,offset=0,size=160,sortField="intradaymarketcap",sortAsc=False).get("quotes",[])
+    return yf.screen(q,offset=0,size=250,sortField="intradaymarketcap",sortAsc=False).get("quotes",[])
 
 def broad_fallback(offset):
     q=yf.EquityQuery("gt",["intradaymarketcap",0])
@@ -109,7 +109,7 @@ def main():
     for region in REGIONS:
         try:rows.extend(one_region(region))
         except Exception as e:failures.append(f"{region}: {e}")
-    for off in (0,250,500,750,1000,1250,1500,1750,2000):
+    for off in range(0,5000,250):
         try:rows.extend(broad_fallback(off))
         except Exception as e:failures.append(f"broad-{off}: {e}")
     raw=[];curr=[]
@@ -142,7 +142,7 @@ def main():
             if representative_score(item)>representative_score(old):by_company[k]=item
     unique,fuzzy=second_pass_dedupe(list(by_company.values()));top=sorted(unique,key=lambda x:(x["marketCapUSD"],x.get("avgVolume",0)),reverse=True)[:TARGET_COUNT]
     if len(top)<800:raise RuntimeError(f"Only {len(top)} liquid unique companies found; refusing overwrite. Failures: {failures[:5]}")
-    payload={"generated_at":datetime.now(timezone.utc).isoformat().replace("+00:00","Z"),"source":"yfinance Yahoo EquityQuery; ZERO/gettex target; FX-normalized representative listings; liquidity/market-cap guards; BDR filter; exact+fuzzy cross-listing dedupe","broker_target":"finanzen.net ZERO","venue_target":"gettex","exact_broker_catalog":False,"selection_note":"Breites liquides Zieluniversum für praktische ZERO/gettex-Umsetzbarkeit; keine Garantie, dass jede einzelne Notierung jederzeit bei ZERO verfügbar ist.","count":len(top),"unique_companies":len(top),"raw_unique_symbols":len(by_symbol),"duplicate_listings_collapsed":exact+fuzzy,"exact_duplicates_collapsed":exact,"fuzzy_duplicates_collapsed":fuzzy,"rejected_implausible_market_caps":outliers,"rejected_too_small":too_small,"rejected_secondary_receipts":receipts,"rejected_implausible_liquidity":illiquid,"equities":top}
+    payload={"generated_at":datetime.now(timezone.utc).isoformat().replace("+00:00","Z"),"source":"yfinance Yahoo EquityQuery; ZERO/gettex target; FX-normalized representative listings; liquidity/market-cap guards; BDR filter; exact+fuzzy cross-listing dedupe","broker_target":"finanzen.net ZERO","venue_target":"gettex","exact_broker_catalog":False,"selection_note":"Breites, branchenunabhaengiges liquides Zieluniversum fuer praktische ZERO/gettex-Umsetzbarkeit. Fokus sind sinnvolle Aktienkandidaten, nicht jede exotische oder duenne Notierung; Broker-Verfuegbarkeit wird vor spaeteren echten Orders erneut geprueft.","target_count":TARGET_COUNT,"count":len(top),"unique_companies":len(top),"raw_unique_symbols":len(by_symbol),"duplicate_listings_collapsed":exact+fuzzy,"exact_duplicates_collapsed":exact,"fuzzy_duplicates_collapsed":fuzzy,"rejected_implausible_market_caps":outliers,"rejected_too_small":too_small,"rejected_secondary_receipts":receipts,"rejected_implausible_liquidity":illiquid,"equities":top}
     OUT.write_text(json.dumps(payload,ensure_ascii=False,indent=2),encoding="utf-8");print(f"Wrote {len(top)} liquid ZERO-target companies; exact={exact}, fuzzy={fuzzy}, small={too_small}, illiquid={illiquid}")
     if failures:print("Warnings:",failures)
 
