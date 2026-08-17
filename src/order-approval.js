@@ -64,6 +64,8 @@ export function rejectOrderApproval(storage,id,rejectedBy='authenticated-user'){
   const state=cleanup(read(storage)),row=state.rows.find(x=>x.id===id);if(!row)return{ok:false,status:404,error:'Ordervorschlag nicht gefunden.'};if(row.status!=='PENDING')return{ok:false,status:409,error:`Ordervorschlag ist ${row.status}.`,order:row};row.status='REJECTED';row.rejectedAt=Date.now();row.rejectedBy=String(rejectedBy||'authenticated-user').slice(0,180);state.updatedAt=Date.now();write(storage,state);return{ok:true,order:row}
 }
 
+export function clearOrderApprovals(storage){const state={rows:[],updatedAt:Date.now()};write(storage,state);return{ok:true}}
+
 export function orderApprovalCapabilities(env){
   const accessConfigured=Boolean(env?.CF_ACCESS_TEAM_DOMAIN&&env?.CF_ACCESS_AUD),enabled=String(env?.ORDER_APPROVAL_MODE||'disabled').toLowerCase()==='enabled';
   return{enabled,accessConfigured,readyForLocalApproval:enabled&&accessConfigured,brokerConnector:'NONE',brokerConnected:false,brokerDispatchEnabled:false,proposalTtlSeconds:TTL_MS/1000,handoffTtlSeconds:APPROVED_HANDOFF_TTL_MS/1000,humanApprovalRequired:true,brokerFinalConfirmationRequired:true,mode:'PREPARED_NOT_CONNECTED'}
