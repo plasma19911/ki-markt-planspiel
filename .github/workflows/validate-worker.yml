@@ -42,6 +42,7 @@ jobs:
           node --check src/compact-portfolio-v2.js
           node --check src/investment-intelligence.js
           node --check src/news-learning.js
+          node --check src/news-learning-v2.js
           node --check src/last-week.js
           node --check public/app.js
           node --check public/analysis-ui.js
