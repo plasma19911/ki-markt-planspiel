@@ -1,3 +1,5 @@
+import {GENERATED_ZERO_ETFS} from './generated-zero-etfs.js';
+
 export const AI_MODEL = '@cf/zai-org/glm-4.7-flash';
 export const SPARK_BATCH = 40;
 export const DEEP_LIMIT = 12;
@@ -9,11 +11,11 @@ export const NEWS_RADAR_BATCH = 6;
 // Kaufbare ETF-Kandidaten sind normale europäische UCITS-Produkte mit in Deutschland
 // gebräuchlichen Listings. Die ZERO-Produktliste ist dynamisch; Broker-Verfügbarkeit
 // wird deshalb nicht als dauerhafte Garantie oder als Kaufsignal behandelt.
-export const CORE_ETFS = [
+const CURATED_CORE_ETFS = [
  ['VWCE.DE','Vanguard FTSE All-World UCITS ETF USD Accumulating (A2PKXG)','GLOBAL'],
  ['EUNL.DE','iShares Core MSCI World UCITS ETF USD Acc','WORLD'],
  ['SXR8.DE','iShares Core S&P 500 UCITS ETF USD Acc','USA'],
- ['EXXT.DE','iShares NASDAQ-100 UCITS ETF (DE)','TECH'],
+ ['EXXT.DE','iShares NASDAQ-100 UCITS ETF (DE) (A0F5UF)','TECH'],
  ['SXRV.DE','iShares NASDAQ 100 UCITS ETF','TECH'],
  ['IUSN.DE','iShares MSCI World Small Cap UCITS ETF','SMALL_CAP'],
  ['IUS3.DE','iShares S&P SmallCap 600 UCITS ETF','SMALL_CAP_USA'],
@@ -29,6 +31,14 @@ export const CORE_ETFS = [
  ['IQQQ.DE','iShares Global Water UCITS ETF','WATER'],
  ['IQQH.DE','iShares Global Clean Energy Transition UCITS ETF','CLEAN_ENERGY']
 ].map(([symbol,name,theme])=>({symbol,name,theme,type:'ETF',leverage:1,broker:'finanzen.net ZERO',venue:'gettex',ucits:true,brokerEligible:true,priority:true}));
+
+const etfBySymbol=new Map();
+for(const x of [...CURATED_CORE_ETFS,...GENERATED_ZERO_ETFS]){
+ const symbol=String(x?.symbol||'').toUpperCase();
+ if(!symbol||etfBySymbol.has(symbol))continue;
+ etfBySymbol.set(symbol,{...x,symbol,type:'ETF',leverage:1,ucits:true,broker:'finanzen.net ZERO',venue:'gettex',brokerEligible:true});
+}
+export const CORE_ETFS=[...etfBySymbol.values()];
 
 export const LEVERAGED_ETFS = [];
 
