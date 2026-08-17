@@ -48,6 +48,9 @@ jobs:
           node --check src/fast-signals.js
           node --check src/gap-signals.js
           node --check src/volume-overlay.js
+          node --check src/regional-benchmark-overlay.js
+          node --check src/evidence-overlay.js
+          node --check src/execution-cost-overlay.js
           node --check src/live-signal-learning.js
           node --check src/decision-guard.js
           node --check src/generated-fast-calibration.js
