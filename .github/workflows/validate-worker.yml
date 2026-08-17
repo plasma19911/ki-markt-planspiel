@@ -47,6 +47,7 @@ jobs:
           node --check src/compact-portfolio-v5.js
           node --check src/fast-signals.js
           node --check src/gap-signals.js
+          node --check src/volume-overlay.js
           node --check src/live-signal-learning.js
           node --check src/decision-guard.js
           node --check src/generated-fast-calibration.js
