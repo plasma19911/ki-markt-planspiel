@@ -1,27 +1,37 @@
 KI MARKT-PLANSPIEL – R2 UMSTELLUNG
 ===================================
 
-Der Programmcode ist bereits auf R2 als Hauptspeicher umgestellt.
+Der Programmcode ist auf R2 als Hauptspeicher umgestellt.
 Durable Objects werden im normalen Live-Betrieb nicht mehr fuer Status, Trades, History, News oder Cron-Scans benutzt.
 
-EINMALIG IN CLOUDFLARE:
+AUTOMATISCHE R2-BEREITSTELLUNG
 
-1. Cloudflare Dashboard öffnen.
-2. Storage & databases -> R2 -> Overview öffnen.
-3. Falls R2 noch nicht aktiviert ist, R2 aktivieren.
-4. Einen Bucket mit EXAKT diesem Namen anlegen:
-
-   ki-markt-planspiel-state
-
-5. Speicherklasse: Standard reicht aus.
-6. Danach beim Worker "ki-markt-planspiel" den letzten GitHub-Deploy erneut ausführen, falls der automatische Deploy vor dem Anlegen des Buckets fehlgeschlagen ist.
-
-Die Worker-Bindung ist bereits im Repository eingetragen:
+Die R2-Bindung wird jetzt von Wrangler automatisch bereitgestellt.
+Im Repository steht nur noch:
 
    Binding: STATE
-   Bucket:  ki-markt-planspiel-state
 
-NORMALER BETRIEB DANACH:
+Ein fester Bucket-Name ist absichtlich NICHT mehr eingetragen.
+Mit Wrangler >= 4.45 erstellt Cloudflare beim Deploy automatisch einen passenden R2-Bucket und bindet ihn als STATE an den Worker.
+Das funktioniert auch bei Deployments aus dem Cloudflare-Dashboard/GitHub.
+
+WAS DU JETZT TUN MUSST
+
+1. Im Cloudflare Dashboard den Worker "ki-markt-planspiel" oeffnen.
+2. Unter Deployments den neuesten GitHub-Stand abwarten bzw. den Deploy erneut starten.
+3. Nach erfolgreichem Deploy die Website hart neu laden.
+4. /api/status im Browser pruefen.
+
+In der JSON-Antwort muss stehen:
+
+   "storage": {
+     "backend": "R2",
+     "key": "state/current-v1.json"
+   }
+
+Wenn der Deploy noch den alten Fehler "R2-Binding STATE fehlt" zeigt, ist noch ein alter Worker-Stand aktiv. Dann den neuesten GitHub-Commit erneut deployen.
+
+NORMALER BETRIEB DANACH
 
 - /api/status liest den Zustand aus R2.
 - Der Minuten-Cron liest/schreibt R2.
@@ -38,14 +48,3 @@ Sobald das alte Durable-Object-Tageslimit wieder zurueckgesetzt wurde, kann einm
 
 Dadurch werden der alte Depot-/History-/News-/KI-Log-Stand nach R2 kopiert.
 Danach wird das Durable Object fuer den normalen Betrieb nicht mehr benoetigt.
-
-PRUEFUNG:
-
-Im Browser kann /api/status aufgerufen werden.
-In der JSON-Antwort muss stehen:
-
-   "storage": {
-     "backend": "R2",
-     "key": "state/current-v1.json"
-   }
-
