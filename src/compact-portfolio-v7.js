@@ -24,7 +24,7 @@ async function reconcileZeroFees(engine,before){
   if(!fresh.some(h=>h.action==='KAUF'||h.action==='VERKAUF'))return null;
   return engine.store.update(s=>{
     const rows=(s.history||[]).filter(h=>num(h.id)>before.historyId).sort((a,b)=>num(a.id)-num(b.id));
-    let cashDelta=0,equityDelta=0,addedFees=0;
+    let cashDelta=0,equityDelta=0,addedFees=0,blockedBuys=0,reconciledBuys=0,reconciledSells=0;
     const currentBySymbol=new Map((s.positions||[]).map(p=>[String(p.symbol||'').toUpperCase(),p]));
     for(const h of rows){
       if(h.action==='KAUF'){
@@ -35,13 +35,14 @@ async function reconcileZeroFees(engine,before){
           const fill=zeroAffordableBuy({budgetEur:budget,priceEur:priceBase,instrumentType:type,fractionalAllowed});
           if(!fill.ok){
             const i=s.positions.indexOf(p);if(i>=0)s.positions.splice(i,1);currentBySymbol.delete(symbol);
-            cashDelta+=budget;
+            cashDelta+=budget;blockedBuys++;
             h.action='KAUF_BLOCKIERT_ZERO';h.amount=0;h.fee=0;h.trade_pnl=null;h.zero_fee_model_version=ZERO_FEE_MODEL.version;
             h.reason=`${String(h.reason||'').replace(/ · Gebühr [^·]+/,'')} · ZERO: keine ganze ETF-Einheit innerhalb des Budgets; Kauf rückgängig gemacht.`;
+            const id=num(s.aiLog?.at(-1)?.id,0)+1;s.aiLog.push({id,ts:new Date().toISOString(),kind:'SYSTEM',symbol,title:'ZERO-Ausführung blockiert',message:`${symbol}: keine ganze ETF-Einheit innerhalb des vorgesehenen Budgets.`,confidence:null,meta:{feeModel:ZERO_FEE_MODEL.version}});if(s.aiLog.length>300)s.aiLog=s.aiLog.slice(-300);
           }else{
             const fee=fill.fee,actualOut=fill.notional+fee,refund=Math.max(0,budget-actualOut);
             p.invested=fill.notional;p.entry_fee=fee;p.zero_quantity=fill.quantity;p.zero_whole_shares=fill.feeInfo?.wholeQuantity||0;p.zero_fractional_shares=fill.feeInfo?.fractionalQuantity||0;p.zero_uses_fractional=Boolean(fill.usesFractional);p.zero_fee_model_version=ZERO_FEE_MODEL.version;
-            cashDelta+=refund;equityDelta-=fee;addedFees+=fee;
+            cashDelta+=refund;equityDelta-=fee;addedFees+=fee;reconciledBuys++;
             h.amount=-actualOut;h.fee=fee;h.zero_fee_model_version=ZERO_FEE_MODEL.version;h.zero_fee_details=fill.feeInfo;
             h.reason=`${String(h.reason||'').replace(/ · Gebühr [^·]+/,'')} · ZERO Brokergebühr ${fee.toFixed(2)} €${fill.usesFractional?' inkl. Bruchstück-Zuschlag':''}; Spread/Ausführung separat.`;
           }
@@ -51,7 +52,7 @@ async function reconcileZeroFees(engine,before){
         if(p&&gross>0&&qty>0){
           const priceBase=gross/qty,type=String(p.instrument_type||'EQUITY').toUpperCase(),fractionalAllowed=type!=='ETF';
           const info=zeroOrderFee({notionalEur:gross,priceEur:priceBase,quantity:qty,instrumentType:type,fractionalAllowed}),fee=info.total;
-          cashDelta-=fee;equityDelta-=fee;addedFees+=Math.max(0,fee-oldFee);
+          cashDelta-=fee;equityDelta-=fee;addedFees+=Math.max(0,fee-oldFee);reconciledSells++;
           h.amount=Math.max(0,gross-fee);h.fee=fee;h.trade_pnl=num(h.trade_pnl)-Math.max(0,fee-oldFee);h.zero_fee_model_version=ZERO_FEE_MODEL.version;h.zero_fee_details=info;
           h.reason=`${String(h.reason||'').replace(/ · Gebühr [^·]+/,'')} · ZERO Brokergebühr ${fee.toFixed(2)} €${info.usesFractional?' inkl. Bruchstück-Zuschlag':''}; Spread/Ausführung separat.`;
         }
@@ -62,7 +63,7 @@ async function reconcileZeroFees(engine,before){
     }
     s.config.cash=Math.max(0,num(s.config.cash)+cashDelta);s.config.total_fees=Math.max(0,num(s.config.total_fees)+addedFees);s.config.fee_fixed=0;s.config.fee_percent=0;s.config.zero_fee_model_version=ZERO_FEE_MODEL.version;
     for(const snap of s.snapshots||[])if(num(snap.id)>before.snapshotId){snap.cash=Math.max(0,num(snap.cash)+cashDelta);snap.equity=num(snap.equity)+equityDelta}
-    return{cashDelta,equityDelta,addedFees};
+    return{cashDelta,equityDelta,addedFees,blockedBuys,reconciledBuys,reconciledSells};
   });
 }
 
@@ -74,13 +75,17 @@ function installZeroExecution(engine){
     await ensureZeroConfig(engine);
     const loaded=await engine.store.load(true),before={historyId:lastId(loaded.state?.history),snapshotId:lastId(loaded.state?.snapshots),positions:positionSnapshot(loaded.state)};
     const result=await baseScan();
-    if(!result?.aborted&&!result?.skipped)await reconcileZeroFees(engine,before);
+    if(!result?.aborted&&!result?.skipped){
+      const rec=await reconcileZeroFees(engine,before),r=rec?.result||null;
+      if(r){result.zeroExecution=r;if(r.blockedBuys)result.actions=Math.max(0,num(result.actions)-r.blockedBuys)}
+    }
     return result;
   };
 }
 
 export class MarketPortfolio extends BasePortfolio{
   constructor(ctx,env){super(ctx,env);installZeroExecution(this.engine)}
+  async reset(){const r=await super.reset();await ensureZeroConfig(this.engine);return r}
   async status(){
     const s=await super.status();
     s.executionModel={...(s.executionModel||{}),feeFixed:0,feePercent:0,brokerFeeModel:ZERO_FEE_MODEL.version,smallOrderThresholdEur:ZERO_FEE_MODEL.smallOrderThresholdEur,smallOrderSurchargeEur:ZERO_FEE_MODEL.smallOrderSurchargeEur,fractionalSurchargeEur:ZERO_FEE_MODEL.fractionalSurchargeEur,spreadIsSeparate:true,wholeShareEtfs:true};
