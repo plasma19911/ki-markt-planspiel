@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import json, re
+import json
 from pathlib import Path
 import yfinance as yf
 
 OUT=Path(__file__).resolve().parents[1]/"src"/"generated-zero-etfs.js"
-TARGET_COUNT=120
+TARGET_COUNT=60
 EXCHANGES=["GER","FRA"]
 BLOCKED=("LEVERAGED","INVERSE","BEAR ","2X ","3X ","-2X","-3X","SHORT ","ULTRASHORT")
 KNOWN_UCITS_FAMILIES=("ISHARES","VANGUARD","XTRACKERS","AMUNDI","SPDR","VANECK","WISDOMTREE","INVESCO","HSBC","UBS","FRANKLIN","JPM","JPMORGAN","LEGAL & GENERAL","L&G")
@@ -39,8 +39,8 @@ def collect(exchange):
 def is_normal_ucits(name,category):
     u=f"{name} {category}".upper()
     if any(x in u for x in BLOCKED):return False
-    # European German listings from established ETF families are treated only as
-    # UCITS candidates. Exact ZERO availability is still rechecked before live use.
+    # German-listed products from established ETF families are treated only as
+    # normal UCITS candidates. Exact ZERO availability is still rechecked before live use.
     return "UCITS" in u or any(f in u for f in KNOWN_UCITS_FAMILIES)
 
 def main():
@@ -56,7 +56,6 @@ def main():
         vol=n(q.get("averageDailyVolume3Month"),n(q.get("avgdailyvol3m"),n(q.get("eodvolume"),0)))
         assets=n(q.get("fundNetAssets"),n(q.get("fundnetassets"),0))
         expense=n(q.get("annualReportNetExpenseRatio"),n(q.get("annualreportnetexpenseratio"),0))
-        # Keep broad candidates but prefer products with observable size/volume.
         if vol<=0 and assets<=0:continue
         item={"symbol":sym,"name":name,"theme":category,"volume":vol,"assets":assets,"expense":expense}
         old=by_symbol.get(sym)
