@@ -1,5 +1,6 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v4.js';
 import {ZERO_BROKER,zeroExecutionNote} from './zero-broker.js';
+import {buildFastDecisionLayer,mergeFastRiskActions} from './fast-signals.js';
 
 // Das statische Universum darf deutlich breiter sein als ein einzelner 1-Minuten-Scan.
 // Auf Workers Free werden deshalb die groessten/liquidesten Werte dauerhaft und der
@@ -77,13 +78,17 @@ class ZeroUniverseAssets{
 }
 
 class ZeroBrokerAiGuard{
-  constructor(base,storage){this.base=base;this.storage=storage}
+  constructor(base,storage,assets){this.base=base;this.storage=storage;this.assets=assets}
   quota(){
     try{return this.storage?.kv?.get(ZERO_AI_QUOTA_KEY)||{}}
     catch{return{}}
   }
   saveQuota(q){
     try{this.storage?.kv?.put(ZERO_AI_QUOTA_KEY,q)}catch{}
+  }
+  async fast(prompt){
+    try{return await buildFastDecisionLayer(prompt,this.assets)}
+    catch(e){return{summary:`Fast-Decision nicht verfügbar: ${String(e?.message||e).slice(0,120)}`,actions:[],context:[]}}
   }
   async run(model,input){
     const prompt=String(input?.messages?.map(x=>x?.content||'').join('\n')||'');
@@ -93,7 +98,8 @@ class ZeroBrokerAiGuard{
 
     const now=Date.now(),q=this.quota();
     if(isPlan&&now-Number(q.planAt||0)<ZERO_AI_PLAN_COOLDOWN_MS){
-      return{response:JSON.stringify({summary:'KI-Wartefenster: Markt und News werden weiter jede Minute gescannt; nächste KI-Neubewertung spätestens nach 10 Minuten.',actions:[]})};
+      const fast=await this.fast(prompt);
+      return{response:JSON.stringify({summary:`KI-Wartefenster; ${fast.summary}`,actions:fast.actions})};
     }
     if(isNews&&now-Number(q.newsAt||0)<ZERO_AI_NEWS_COOLDOWN_MS){
       return{response:String(q.lastNewsResponse||'News werden weiter gesammelt; die KI-Zusammenfassung wird im 15-Minuten-Fenster aktualisiert.')};
@@ -102,14 +108,16 @@ class ZeroBrokerAiGuard{
     if(isPlan){q.planAt=now;this.saveQuota(q)}
     if(isNews){q.newsAt=now;this.saveQuota(q)}
 
-    let finalInput=input;
+    let finalInput=input,fast=null;
     if(isPlan){
-      const extra={role:'user',content:`Zieldepot fuer spaetere praktische Umsetzung: finanzen.net ZERO ueber gettex. Das bleibt PAPER-TRADING; keine echten Brokerorders. Der Scanner durchsucht ein breites, rotierendes Universum gut handelbarer Aktien sowie normale europaeische UCITS-ETF-Kandidaten und darf branchenunabhaengig die besten Setups waehlen. Defense/Tech sind Zusatzbereiche, aber kein Hauptfilter. US-domiciled Analyse-Proxys wie SPY/QQQ duerfen Marktinformationen liefern, sind aber keine kaufbaren ETF-Kandidaten. Bevorzuge liquide Werte und vermeide duenne/exotische Notierungen. Bei kleinen oder fraktionalen Orders konservativ 1 EUR Zuschlag plus Spread/Slippage annehmen. Broker-Verfuegbarkeit kann sich aendern und ist keine Kaufaussage.`};
+      fast=await this.fast(prompt);
+      const extra={role:'user',content:`Zieldepot fuer spaetere praktische Umsetzung: finanzen.net ZERO ueber gettex. Das bleibt PAPER-TRADING; keine echten Brokerorders. Der Scanner durchsucht ein breites, rotierendes Universum gut handelbarer Aktien sowie normale europaeische UCITS-ETF-Kandidaten und darf branchenunabhaengig die besten Setups waehlen. Defense/Tech sind Zusatzbereiche, aber kein Hauptfilter. US-domiciled Analyse-Proxys wie SPY/QQQ duerfen Marktinformationen liefern, sind aber keine kaufbaren ETF-Kandidaten. Bevorzuge liquide Werte und vermeide duenne/exotische Notierungen. Bei kleinen oder fraktionalen Orders konservativ 1 EUR Zuschlag plus Spread/Slippage annehmen. Broker-Verfuegbarkeit kann sich aendern und ist keine Kaufaussage. Zusaetzlicher deterministischer Fast-Decision-Layer=${JSON.stringify(fast)}. Nutze VWAP, ATR, ADX, relative Staerke zum Gesamtmarkt und zu Sektor-Peers sowie dynamische Unterstuetzung/Widerstand als weitere unabhaengige Bestaetigungen. Bei klaren, mehrfach bestaetigten Reversals darf SELL schnell priorisiert werden. Bei gemischter Lage HOLD statt hektisch handeln. Ein hoher RSI allein ist kein SELL.`};
       const requested=Number(input?.max_completion_tokens||ZERO_AI_PLAN_MAX_TOKENS);
       finalInput={...input,max_completion_tokens:Math.min(Math.max(120,requested),ZERO_AI_PLAN_MAX_TOKENS),messages:[...(input.messages||[]),extra]};
     }
 
-    const r=await this.base.run(model,finalInput);
+    let r=await this.base.run(model,finalInput);
+    if(isPlan&&fast)r=mergeFastRiskActions(r,fast);
     if(isNews){
       const response=String(r?.response||r?.result?.response||'').trim();
       const latest=this.quota();latest.newsAt=now;if(response)latest.lastNewsResponse=response.slice(0,500);this.saveQuota(latest);
@@ -121,10 +129,10 @@ class ZeroBrokerAiGuard{
 export class MarketPortfolio extends BasePortfolio{
   constructor(ctx,env){
     super(ctx,env);
-    const guarded=this.engine?.env?.AI;
-    if(guarded?.run)this.engine.env.AI=new ZeroBrokerAiGuard(guarded,ctx.storage);
     const assets=this.engine?.env?.ASSETS;
     if(assets?.fetch){this.zeroAssets=new ZeroUniverseAssets(assets);this.engine.env.ASSETS=this.zeroAssets}
+    const guarded=this.engine?.env?.AI;
+    if(guarded?.run)this.engine.env.AI=new ZeroBrokerAiGuard(guarded,ctx.storage,this.engine?.env?.ASSETS);
   }
 
   async status(){
@@ -137,6 +145,7 @@ export class MarketPortfolio extends BasePortfolio{
       aiNewsCooldownMinutes:ZERO_AI_NEWS_COOLDOWN_MS/60000,
       aiCooldownPersistent:true,
       aiPlanMaxCompletionTokens:ZERO_AI_PLAN_MAX_TOKENS,
+      fastDecisionLayer:{enabled:true,frequency:'jede Planrunde; im KI-Wartefenster deterministisch',depthSymbolsMax:4,signals:['VWAP','ATR','ADX','relative Stärke Gesamtmarkt','relative Stärke Sektor-Peers','Support/Resistance','Momentum Breakout/Reversal'],strongSellRiskOverlay:true,paperTradingOnly:true},
       executionNote:zeroExecutionNote(Number(s?.config?.cash||0),{fractional:true}),
       paperTradingOnly:true,
       liveBrokerConnection:false
