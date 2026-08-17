@@ -1,27 +1,35 @@
 export const AI_MODEL = '@cf/zai-org/glm-4.7-flash';
 export const SPARK_BATCH = 40;
 export const DEEP_LIMIT = 12;
-// Pro Minute nur die wichtigsten Kandidaten individuell per Yahoo-News abfragen.
 export const NEWS_LIMIT = 4;
 export const NEWS_RADAR_BATCH = 6;
 
 // TRADE-UNIVERSUM für das geplante Zieldepot finanzen.net ZERO/gettex.
-// US-domiciled ETFs wie SPY/QQQ bleiben als Analyse-/Makro-Proxys in anderen Modulen,
-// werden aber nicht mehr als kaufbare ETF-Kandidaten an die Handels-KI gegeben.
-// Hier stehen bewusst normale europäische UCITS-ETFs mit in Deutschland gebräuchlichen
-// Börsenlistings. Das vermeidet PRIIPs-/KID-Probleme bei US-ETFs im deutschen Retail-Depot.
+// US-domiciled ETFs wie SPY/QQQ bleiben ausschließlich Analyse-/Makro-Proxys.
+// Kaufbare ETF-Kandidaten sind normale europäische UCITS-Produkte mit in Deutschland
+// gebräuchlichen Listings. Die ZERO-Produktliste ist dynamisch; Broker-Verfügbarkeit
+// wird deshalb nicht als dauerhafte Garantie oder als Kaufsignal behandelt.
 export const CORE_ETFS = [
  ['VWCE.DE','Vanguard FTSE All-World UCITS ETF USD Accumulating (A2PKXG)','GLOBAL'],
  ['EUNL.DE','iShares Core MSCI World UCITS ETF USD Acc','WORLD'],
  ['SXR8.DE','iShares Core S&P 500 UCITS ETF USD Acc','USA'],
  ['EXXT.DE','iShares NASDAQ-100 UCITS ETF (DE)','TECH'],
+ ['SXRV.DE','iShares NASDAQ 100 UCITS ETF','TECH'],
  ['IUSN.DE','iShares MSCI World Small Cap UCITS ETF','SMALL_CAP'],
+ ['IUS3.DE','iShares S&P SmallCap 600 UCITS ETF','SMALL_CAP_USA'],
  ['EXSA.DE','iShares STOXX Europe 600 UCITS ETF (DE)','EUROPE'],
+ ['EUN1.DE','iShares STOXX Europe 50 UCITS ETF','EUROPE'],
  ['IS3N.DE','iShares Core MSCI Emerging Markets IMI UCITS ETF','EMERGING_MARKETS'],
+ ['SXRZ.DE','iShares Nikkei 225 UCITS ETF','JAPAN'],
+ ['EXV1.DE','iShares STOXX Europe 600 Banks UCITS ETF (DE)','BANKS'],
+ ['EXV5.DE','iShares STOXX Europe 600 Automobiles & Parts UCITS ETF (DE)','AUTOMOTIVE'],
+ ['EXV6.DE','iShares STOXX Europe 600 Basic Resources UCITS ETF (DE)','MATERIALS'],
+ ['EXV8.DE','iShares STOXX Europe 600 Construction & Materials UCITS ETF (DE)','CONSTRUCTION'],
+ ['IS0D.DE','iShares Oil & Gas Exploration & Production UCITS ETF','ENERGY'],
+ ['IQQQ.DE','iShares Global Water UCITS ETF','WATER'],
  ['IQQH.DE','iShares Global Clean Energy Transition UCITS ETF','CLEAN_ENERGY']
 ].map(([symbol,name,theme])=>({symbol,name,theme,type:'ETF',leverage:1,broker:'finanzen.net ZERO',venue:'gettex',ucits:true,brokerEligible:true,priority:true}));
 
-// Absichtlich leer: Das Planspiel handelt ausschließlich Aktien und normale ETFs.
 export const LEVERAGED_ETFS = [];
 
 export const POS_WORDS=['beat','beats','surge','surges','record','upgrade','upgraded','growth','profit','strong','approval','approved','rally','rebound','outperform','buyback','raises','raised','gain','gains'];
