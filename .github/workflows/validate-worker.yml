@@ -8,6 +8,7 @@ on:
       - "src/**"
       - "public/**"
       - "scripts/smoke-fast-decisions.mjs"
+      - "scripts/smoke-order-approval.mjs"
       - "scripts/calibrate_fast_signals.py"
       - "package.json"
       - "wrangler.jsonc"
@@ -46,6 +47,9 @@ jobs:
           node --check src/compact-portfolio-v3.js
           node --check src/compact-portfolio-v4.js
           node --check src/compact-portfolio-v5.js
+          node --check src/compact-portfolio-v6.js
+          node --check src/order-approval.js
+          node --check src/access-auth.js
           node --check src/fast-signals.js
           node --check src/gap-signals.js
           node --check src/volume-overlay.js
@@ -71,10 +75,14 @@ jobs:
           node --check public/exposure-ui.js
           node --check public/quota-guard.js
           node --check public/zero-ui.js
+          node --check public/order-approval-ui.js
           node --check scripts/smoke-fast-decisions.mjs
+          node --check scripts/smoke-order-approval.mjs
       - name: Python calibration syntax
         run: python3 -m py_compile scripts/calibrate_fast_signals.py
       - name: Fast decision smoke test
         run: node scripts/smoke-fast-decisions.mjs
+      - name: Order approval smoke test
+        run: node scripts/smoke-order-approval.mjs
       - name: Wrangler dry run
         run: npx wrangler deploy --dry-run
