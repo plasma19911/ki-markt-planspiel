@@ -1,5 +1,6 @@
 import './investment-ui.js';
 import './news-learning-ui.js';
+import './macro-ui.js';
 
 const byId=id=>document.getElementById(id);
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
