@@ -3,6 +3,14 @@ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const fmt=(v,d=2)=>Number(v||0).toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d});
 let caps=null,timer=null;
 
+function installShell(){
+  if($('approvalList'))return true;const grid=document.querySelector('#livePanel main.grid');if(!grid)return false;
+  const section=document.createElement('section');section.id='orderApproval';section.className='card orderApproval';section.innerHTML=`<div class="cardTitle"><h2>Order-Freigabe</h2><span id="approvalState" class="tag approvalBadge">VORBEREITET</span></div><div class="notice"><b>Spätere Echtgeld-Schnittstelle:</b> Die KI kann hier fertige BUY/SELL-Vorschläge ablegen. Eine Bestätigung sendet aktuell ausdrücklich <b>keine</b> Brokerorder. Echte Übergabe bleibt gesperrt, bis Cloudflare Access und ein offiziell erlaubter ZERO-/Partner-Connector eingerichtet sind.</div><div class="approvalTop"><div><span>Offene Freigaben</span><b id="approvalCount">0</b></div><div><span>Broker</span><b>finanzen.net ZERO · gettex</b></div></div><div id="approvalList"><div class="approvalEmpty">Freigabe-Modul wird geladen …</div></div>`;
+  const pos=$('positions');pos?.insertAdjacentElement('afterend',section)||grid.prepend(section);
+  const nav=document.querySelector('.mobileNav');if(nav&&!nav.querySelector('a[href="#orderApproval"]')){const a=document.createElement('a');a.href='#orderApproval';a.textContent='Freigabe';nav.appendChild(a)}
+  const style=document.createElement('style');style.textContent=`.orderApproval{grid-column:1/-1}.approvalTop{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}.approvalTop>div{background:#101f2f;border:1px solid #243a55;border-radius:12px;padding:10px}.approvalTop span,.approvalMetrics span{display:block;color:#8fa3bd;font-size:12px}.approvalTop b{display:block;margin-top:4px}.approvalList{display:grid;gap:10px}.approvalCard{border:1px solid #29415f;border-radius:14px;background:#0d1825;padding:14px;margin-top:10px}.approvalCard.buy{border-left:4px solid #72e4a7}.approvalCard.sell{border-left:4px solid #ffc66d}.approvalHead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.approvalHead h3{margin:3px 0 0;font-size:24px}.approvalAction{font-size:12px;font-weight:900;letter-spacing:.08em}.approvalConfidence{font-size:26px;font-weight:900}.approvalMetrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0}.approvalMetrics>div{background:#101f2f;border-radius:10px;padding:8px;min-width:0}.approvalMetrics b{display:block;margin-top:3px;overflow-wrap:anywhere}.approvalMeta,.approvalNotice,.approvalEmpty{color:#9eb0c6;font-size:13px}.approvalButtons{display:flex;gap:10px;margin-top:12px}.approvalButtons button{flex:1;min-height:48px;font-weight:900}.approvalApprove{background:#dffbea!important;color:#07150e!important}.approvalReject{background:#2a1820!important;color:#ffd6df!important}.approvalBadge.warn{border-color:#9b6b24;color:#ffc66d}.approvalBadge.off{border-color:#663744;color:#ff9aac}.approvalBadge.on{border-color:#2e6a4a;color:#72e4a7}@media(max-width:650px){.approvalTop,.approvalMetrics{grid-template-columns:1fr}.approvalButtons{position:sticky;bottom:8px;z-index:5;background:#0d1825;padding-top:8px}}`;document.head.appendChild(style);return true
+}
+
 async function getJson(path,opts={}){const r=await fetch(path,{cache:'no-store',...opts});let j={};try{j=await r.json()}catch{}if(!r.ok)throw new Error(j.error||`HTTP ${r.status}`);return j}
 function badge(text,kind=''){const el=$('approvalState');if(!el)return;el.textContent=text;el.className=`tag approvalBadge ${kind}`}
 function msLeft(x){return Math.max(0,Number(x||0)-Date.now())}
@@ -10,43 +18,20 @@ function age(seconds){const s=Math.max(0,Math.ceil(seconds));return `${s} s`}
 
 function disabledView(c){
   const root=$('approvalList');if(!root)return;
-  if(!c?.enabled){badge('VORBEREITET · AUS','off');root.innerHTML='<div class="approvalEmpty"><b>Noch keine echte Broker-Freigabe.</b><br>Die App erzeugt die technische Freigabe-Struktur, sendet aber keine Orders. Zum Aktivieren werden später Cloudflare Access und ein offiziell erlaubter ZERO-/Partner-Connector benötigt.</div>';return}
+  if(!c?.enabled){badge('VORBEREITET · AUS','off');root.innerHTML='<div class="approvalEmpty"><b>Noch keine echte Broker-Freigabe.</b><br>Das Modul ist eingebaut, aber technisch gesperrt. Zum Aktivieren werden Cloudflare Access und später ein offiziell erlaubter ZERO-/Partner-Connector benötigt.</div>';return}
   if(!c?.accessConfigured){badge('ACCESS FEHLT','warn');root.innerHTML='<div class="approvalEmpty"><b>Freigabe gesperrt.</b><br>ORDER_APPROVAL_MODE ist aktiv, aber Cloudflare Access ist noch nicht vollständig konfiguriert. Das ist absichtlich fail-closed.</div>';return}
   badge('ACCESS AKTIV · BROKER AUS','warn');root.innerHTML='<div class="approvalEmpty">Cloudflare Access ist vorbereitet. Broker-Dispatch bleibt deaktiviert, bis ein offiziell erlaubter Connector vorhanden ist.</div>';
 }
 
 function orderCard(o){
-  const left=msLeft(o.expiresAt),expired=o.status==='PENDING'&&left<=0,action=o.action==='BUY'?'KAUF':'VERKAUF',notional=o.estimatedNotional!=null?`${fmt(o.estimatedNotional)} ${esc(o.currency)}`:(o.action==='SELL'?'gesamte Planspiel-Position':'–'),price=o.referencePrice?fmt(o.referencePrice,3):'vor Brokerübergabe neu prüfen';
-  return `<article class="approvalCard ${o.action==='BUY'?'buy':'sell'}" data-order-id="${esc(o.id)}">
-    <div class="approvalHead"><div><span class="approvalAction">${action}</span><h3>${esc(o.symbol)}</h3></div><div class="approvalConfidence">${Math.round(Number(o.confidence||0)*100)}%</div></div>
-    <div class="approvalMetrics"><div><span>Betrag</span><b>${notional}</b></div><div><span>Referenzkurs</span><b>${price}</b></div><div><span>Gültig</span><b class="approvalExpiry" data-exp="${Number(o.expiresAt||0)}">${o.status==='PENDING'?age(left/1000):esc(o.status)}</b></div></div>
-    <p>${esc(o.reason||'Kein Grund angegeben.')}</p>
-    <div class="approvalMeta">${esc(o.source||'')} · ZERO/gettex Ziel · Broker-Connector: ${esc(o.connector||'NONE')}</div>
-    ${o.status==='PENDING'&&!expired?`<div class="approvalButtons"><button class="approvalApprove" data-id="${esc(o.id)}">Bestätigen</button><button class="approvalReject" data-id="${esc(o.id)}">Ablehnen</button></div>`:`<div class="approvalNotice">${o.status==='APPROVED_LOCAL'?'Lokal bestätigt – NICHT an den Broker gesendet.':'Dieser Vorschlag ist nicht mehr freigabefähig.'}</div>`}
-  </article>`;
+  const left=msLeft(o.expiresAt),expired=o.status==='PENDING'&&left<=0,action=o.action==='BUY'?'KAUF':'VERKAUF',notional=o.estimatedNotional!=null?`${fmt(o.estimatedNotional)} ${esc(o.currency)}`:(o.action==='SELL'?'gesamte Position':'–'),price=o.referencePrice?fmt(o.referencePrice,3):'vor Brokerübergabe neu prüfen';
+  return `<article class="approvalCard ${o.action==='BUY'?'buy':'sell'}" data-order-id="${esc(o.id)}"><div class="approvalHead"><div><span class="approvalAction">${action}</span><h3>${esc(o.symbol)}</h3></div><div class="approvalConfidence">${Math.round(Number(o.confidence||0)*100)}%</div></div><div class="approvalMetrics"><div><span>Betrag</span><b>${notional}</b></div><div><span>Referenzkurs</span><b>${price}</b></div><div><span>Gültig</span><b class="approvalExpiry" data-exp="${Number(o.expiresAt||0)}">${o.status==='PENDING'?age(left/1000):esc(o.status)}</b></div></div><p>${esc(o.reason||'Kein Grund angegeben.')}</p><div class="approvalMeta">${esc(o.source||'')} · ZERO/gettex Ziel · Broker-Connector: ${esc(o.connector||'NONE')}</div>${o.status==='PENDING'&&!expired?`<div class="approvalButtons"><button class="approvalApprove" data-id="${esc(o.id)}">Bestätigen</button><button class="approvalReject" data-id="${esc(o.id)}">Ablehnen</button></div>`:`<div class="approvalNotice">${o.status==='APPROVED_LOCAL'?'Lokal bestätigt – NICHT an den Broker gesendet.':'Dieser Vorschlag ist nicht mehr freigabefähig.'}</div>`}</article>`;
 }
 
 async function loadOrders(){
-  try{
-    caps=await getJson('/api/order-approval-status');
-    $('approvalCount').textContent=String(caps.pending||0);
-    if(!caps.readyForLocalApproval){disabledView(caps);return}
-    let data;try{data=await getJson('/api/order-approvals')}catch(e){badge('ACCESS ANMELDUNG NÖTIG','warn');$('approvalList').innerHTML=`<div class="approvalEmpty"><b>Freigabe geschützt.</b><br>${esc(e.message)}<br><span class="muted">Vor echtem Betrieb soll die gesamte App hinter Cloudflare Access liegen.</span></div>`;return}
-    const active=(data.orders||[]).filter(o=>o.status==='PENDING'||o.status==='APPROVED_LOCAL').slice(0,12);
-    badge(`FREIGABE AKTIV · BROKER ${data.capabilities?.brokerConnected?'AN':'AUS'}`,data.capabilities?.brokerConnected?'on':'warn');
-    $('approvalList').innerHTML=active.length?active.map(orderCard).join(''):'<div class="approvalEmpty">Aktuell keine Order zur Freigabe.</div>';
-    bindButtons();
-  }catch(e){badge('FEHLER','off');$('approvalList').innerHTML=`<div class="approvalEmpty">${esc(e.message)}</div>`}
-}
-
-function bindButtons(){
-  document.querySelectorAll('.approvalApprove').forEach(b=>b.onclick=()=>act(b.dataset.id,'approve'));
-  document.querySelectorAll('.approvalReject').forEach(b=>b.onclick=()=>act(b.dataset.id,'reject'));
-}
-async function act(id,what){
-  const verb=what==='approve'?'wirklich lokal bestätigen':'ablehnen';if(!confirm(`Ordervorschlag ${verb}?`))return;
-  try{const r=await getJson(`/api/order-approvals/${encodeURIComponent(id)}/${what}`,{method:'POST'});if(what==='approve'&&!r.brokerSent)alert('Bestätigt. Wichtig: Es wurde KEINE Brokerorder gesendet. Der offizielle Broker-Connector ist noch nicht verbunden.');await loadOrders()}catch(e){alert(e.message);await loadOrders()}
-}
+  try{caps=await getJson('/api/order-approval-status');$('approvalCount').textContent=String(caps.pending||0);if(!caps.readyForLocalApproval){disabledView(caps);return}let data;try{data=await getJson('/api/order-approvals')}catch(e){badge('ACCESS ANMELDUNG NÖTIG','warn');$('approvalList').innerHTML=`<div class="approvalEmpty"><b>Freigabe geschützt.</b><br>${esc(e.message)}<br><span class="muted">Vor echtem Betrieb soll die gesamte App hinter Cloudflare Access liegen.</span></div>`;return}const active=(data.orders||[]).filter(o=>o.status==='PENDING'||o.status==='APPROVED_LOCAL').slice(0,12);badge(`FREIGABE AKTIV · BROKER ${data.capabilities?.brokerConnected?'AN':'AUS'}`,data.capabilities?.brokerConnected?'on':'warn');$('approvalList').innerHTML=active.length?active.map(orderCard).join(''):'<div class="approvalEmpty">Aktuell keine Order zur Freigabe.</div>';bindButtons()}catch(e){badge('FEHLER','off');$('approvalList').innerHTML=`<div class="approvalEmpty">${esc(e.message)}</div>`}}
+function bindButtons(){document.querySelectorAll('.approvalApprove').forEach(b=>b.onclick=()=>act(b.dataset.id,'approve'));document.querySelectorAll('.approvalReject').forEach(b=>b.onclick=()=>act(b.dataset.id,'reject'))}
+async function act(id,what){const verb=what==='approve'?'wirklich lokal bestätigen':'ablehnen';if(!confirm(`Ordervorschlag ${verb}?`))return;try{const r=await getJson(`/api/order-approvals/${encodeURIComponent(id)}/${what}`,{method:'POST'});if(what==='approve'&&!r.brokerSent)alert('Bestätigt. Wichtig: Es wurde KEINE Brokerorder gesendet. Der offizielle Broker-Connector ist noch nicht verbunden.');await loadOrders()}catch(e){alert(e.message);await loadOrders()}}
 function tick(){document.querySelectorAll('.approvalExpiry[data-exp]').forEach(el=>{const left=msLeft(el.dataset.exp);el.textContent=left?age(left/1000):'abgelaufen'})}
 
-if($('approvalList')){loadOrders();timer=setInterval(()=>{tick();loadOrders()},5000)}
+if(installShell()){loadOrders();timer=setInterval(()=>{tick();loadOrders()},5000)}
