@@ -8,6 +8,7 @@ import {ZERO_BROKER,zeroExecutionNote} from './zero-broker.js';
 const ZERO_CORE_EQUITIES=80;
 const ZERO_ROTATING_EQUITIES=160;
 const ZERO_UNIVERSE_CACHE_MS=10*60*1000;
+const ZERO_AI_PLAN_MAX_TOKENS=600;
 
 function rotate(pool,count,seed){
   if(!pool.length||count<=0)return[];
@@ -79,7 +80,8 @@ class ZeroBrokerAiGuard{
     const isPlan=prompt.includes('JSON-only')&&prompt.includes('Kandidaten=');
     if(!isPlan)return this.base.run(model,input);
     const extra={role:'user',content:`Zieldepot fuer spaetere praktische Umsetzung: finanzen.net ZERO ueber gettex. Das bleibt PAPER-TRADING; keine echten Brokerorders. Der Scanner durchsucht ein breites, rotierendes Universum gut handelbarer Aktien sowie normale europaeische UCITS-ETF-Kandidaten und darf branchenunabhaengig die besten Setups waehlen. Defense/Tech sind Zusatzbereiche, aber kein Hauptfilter. US-domiciled Analyse-Proxys wie SPY/QQQ duerfen Marktinformationen liefern, sind aber keine kaufbaren ETF-Kandidaten. Bevorzuge liquide Werte und vermeide duenne/exotische Notierungen. Bei kleinen oder fraktionalen Orders konservativ 1 EUR Zuschlag plus Spread/Slippage annehmen. Broker-Verfuegbarkeit kann sich aendern und ist keine Kaufaussage.`};
-    return this.base.run(model,{...input,messages:[...(input.messages||[]),extra]});
+    const requested=Number(input?.max_completion_tokens||ZERO_AI_PLAN_MAX_TOKENS);
+    return this.base.run(model,{...input,max_completion_tokens:Math.min(Math.max(120,requested),ZERO_AI_PLAN_MAX_TOKENS),messages:[...(input.messages||[]),extra]});
   }
 }
 
@@ -98,6 +100,8 @@ export class MarketPortfolio extends BasePortfolio{
       ...ZERO_BROKER,
       currentScannerUniverse:Number(s?.config?.universe_count||0),
       ...(coverage||{}),
+      aiPlanCooldownMinutes:10,
+      aiPlanMaxCompletionTokens:ZERO_AI_PLAN_MAX_TOKENS,
       executionNote:zeroExecutionNote(Number(s?.config?.cash||0),{fractional:true}),
       paperTradingOnly:true,
       liveBrokerConnection:false
