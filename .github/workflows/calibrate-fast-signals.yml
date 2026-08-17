@@ -1,0 +1,47 @@
+name: Calibrate Fast Signals
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/calibrate_fast_signals.py"
+      - ".github/workflows/calibrate-fast-signals.yml"
+  schedule:
+    - cron: "41 4 * * 1-5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fast-signal-calibration
+  cancel-in-progress: false
+
+jobs:
+  calibrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install calibration dependencies
+        run: python -m pip install "yfinance>=1.5,<2" "numpy>=2,<3" "pandas>=2.2,<3"
+      - name: Backtest and calibrate fast thresholds
+        run: python scripts/calibrate_fast_signals.py
+      - name: Commit validated calibration
+        shell: bash
+        run: |
+          if git diff --quiet -- src/generated-fast-calibration.js; then
+            echo "Fast-signal calibration unchanged."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/generated-fast-calibration.js
+          git commit -m "chore: calibrate fast signal thresholds"
+          git pull --rebase origin main
+          git push origin main
