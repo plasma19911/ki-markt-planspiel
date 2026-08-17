@@ -1,6 +1,6 @@
 // Production entry: paper trading plus prepared human approval workflow.
 // Real broker dispatch remains disabled until an official connector is explicitly added.
-import {MarketPortfolio} from './compact-portfolio-v6.js';
+import {MarketPortfolio} from './compact-portfolio-v7.js';
 import {verifyCloudflareAccess} from './access-auth.js';
 export {MarketPortfolio};
 
