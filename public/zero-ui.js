@@ -6,7 +6,7 @@ function ensure(){
  const anchor=$('setup')||document.querySelector('main.grid .card');if(!anchor)return null;
  const s=document.createElement('section');s.id='zeroBrokerTarget';s.className='card';s.style.gridColumn='1/-1';
  s.innerHTML=`<div class="cardTitle"><h2>Zieldepot · finanzen.net ZERO</h2><span id="zeroBrokerPill" class="tag">gettex</span></div>
- <div id="zeroBrokerMeta" class="trendSummary">Das Planspiel wird auf praktisch bei ZERO/gettex umsetzbare, liquide Aktien und normale UCITS-ETFs ausgerichtet.</div>
+ <div id="zeroBrokerMeta" class="trendSummary">Das Planspiel wird auf praktisch bei ZERO/gettex umsetzbare Aktien und normale UCITS-ETFs ausgerichtet.</div>
  <div id="zeroBrokerGrid" class="miniGrid"></div>
  <div id="zeroBrokerNote" class="notice"></div>`;
  anchor.insertAdjacentElement('afterend',s);return s;
@@ -17,10 +17,18 @@ async function load(){
  try{
   const r=await fetch('/api/status',{cache:'no-store'});if(!r.ok)throw new Error(`HTTP ${r.status}`);const s=await r.json(),b=s.brokerTarget;
   if(!b){$('zeroBrokerMeta').textContent='ZERO-Zielprofil wird mit dem nächsten Deployment aktiv.';return}
+  const full=Number(b.fullLiquidEquityUniverse||0),slice=Number(b.currentScannerUniverse||0),rot=Number(b.estimatedFullRotationMinutes||0);
   $('zeroBrokerPill').textContent=`${b.name} · ${b.venue}`;
-  $('zeroBrokerMeta').textContent=`Ziel für eine spätere reale Umsetzung: ${b.name} über ${b.venue}. Die App bleibt Paper Trading und sendet keine echten Brokerorders.`;
-  $('zeroBrokerGrid').innerHTML=`<div class="mini"><span>Aktuelles Scan-Universum</span><b>${Number(b.currentScannerUniverse||0)}</b></div><div class="mini"><span>ETF-Regel</span><b>normale UCITS</b></div><div class="mini"><span>Kleine Orders</span><b>1 € konservativ</b></div><div class="mini"><span>US-ETF-Proxys</span><b>nur Analyse</b></div>`;
-  $('zeroBrokerNote').innerHTML=`<b>Praktische Handelbarkeit vor theoretischer Breite:</b> sehr kleine/illiquide Notierungen werden aussortiert. Die öffentliche ZERO-Produktliste kann sich ändern; deshalb ist Broker-Verfügbarkeit kein Kaufargument und wird vor einer späteren echten Order erneut geprüft. ${esc(b.executionNote||'')}`;
+  $('zeroBrokerMeta').textContent=`Ziel für eine spätere reale Umsetzung: ${b.name} über ${b.venue}. Die App bleibt Paper Trading und sendet keine echten Brokerorders. Aktien werden branchenunabhängig bewertet; Tech/Rüstung sind nur Teilbereiche.`;
+  $('zeroBrokerGrid').innerHTML=`
+   <div class="mini"><span>Liquides Aktien-Zieluniversum</span><b>${full||'–'}</b></div>
+   <div class="mini"><span>Aktueller Minuten-Slice</span><b>${slice||'–'}</b></div>
+   <div class="mini"><span>Komplette Rotation</span><b>${rot?`~${rot} Min.`:'–'}</b></div>
+   <div class="mini"><span>ETF-Regel</span><b>normale UCITS</b></div>
+   <div class="mini"><span>Kleine Orders</span><b>1 € konservativ</b></div>
+   <div class="mini"><span>US-ETF-Proxys</span><b>nur Analyse</b></div>`;
+  const catalog=b.exactBrokerCatalog?'Broker-Katalog synchronisiert':'liquides ZERO/gettex-Zieluniversum; konkrete Broker-Verfügbarkeit vor echter Order erneut prüfen';
+  $('zeroBrokerNote').innerHTML=`<b>Breit statt sektorfixiert:</b> Der Scanner rotiert durch das Aktienuniversum, damit die Cloudflare-Free-Limits nicht durch einen Vollscan in jeder Minute überschritten werden. ${esc(catalog)}. ${esc(b.executionNote||'')}`;
  }catch(e){$('zeroBrokerMeta').textContent=`ZERO-Zielprofil derzeit nicht verfügbar: ${e.message}`}
 }
 
