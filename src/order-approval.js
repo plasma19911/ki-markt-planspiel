@@ -41,6 +41,7 @@ export function queueOrderApprovals(storage,actions,prompt,fast=null,source='AI_
       symbol,action,confidence:Math.max(0,Math.min(1,num(a?.confidence))),allocationPct:allocation,estimatedNotional:estimatedNotional==null?null:+estimatedNotional.toFixed(2),currency:p.currency,
       referencePrice:priceFromContext(ctx),reason:String(a?.reason||'').slice(0,420),source,createdAt:now,expiresAt:now+TTL_MS,status:'PENDING',
       brokerTarget:'finanzen.net ZERO',venue:'gettex',connector:'NONE',humanApprovalRequired:true,brokerFinalConfirmationRequired:true,
+      brokerAvailabilityVerified:false,brokerVerificationRequired:true,brokerVerificationScope:'instrument/ISIN + gettex handelbar + aktueller Bid/Ask/Spread + Ordertyp + ZERO-Gebühr',
       instrumentType:c?.type||h?.type||null,momentumState:c?.momentumState||null,regime:ctx?.regime||null,evidence:ctx?.evidenceDiversity||null,
       gapState:(fast?.gapContext||[]).find(x=>String(x?.symbol||'').toUpperCase()===symbol)?.state||null,
       regionalBenchmark:ctx?.regionalBenchmark||null,fxSafety:ctx?.fxSafety||null,executionCost:ctx?.executionCost||null
@@ -59,7 +60,7 @@ export function approveOrderApproval(storage,id,approvedBy='authenticated-user')
   const now=Date.now(),state=cleanup(read(storage),now),row=state.rows.find(x=>x.id===id);if(!row)return{ok:false,status:404,error:'Ordervorschlag nicht gefunden.'};
   if(row.status!=='PENDING')return{ok:false,status:409,error:`Ordervorschlag ist ${row.status}.`,order:row};
   if(now>num(row.expiresAt)){row.status='EXPIRED';write(storage,state);return{ok:false,status:409,error:'Ordervorschlag ist abgelaufen und muss neu berechnet werden.',order:row}}
-  row.status='APPROVED_LOCAL';row.approvedAt=now;row.approvedBy=String(approvedBy||'authenticated-user').slice(0,180);row.dispatchState='AWAITING_OFFICIAL_CONNECTOR';row.dispatchExpiresAt=now+APPROVED_HANDOFF_TTL_MS;row.connector='NONE';row.notice='Lokal bestätigt, aber NICHT an einen Broker gesendet. Vor echter Ausführung muss ein offiziell erlaubter Broker-/Partner-Connector Kurs, Spread, Handelbarkeit und Orderdaten erneut prüfen.';
+  row.status='APPROVED_LOCAL';row.approvedAt=now;row.approvedBy=String(approvedBy||'authenticated-user').slice(0,180);row.dispatchState='AWAITING_OFFICIAL_CONNECTOR_AND_BROKER_VERIFICATION';row.dispatchExpiresAt=now+APPROVED_HANDOFF_TTL_MS;row.connector='NONE';row.brokerAvailabilityVerified=false;row.notice='Lokal bestätigt, aber NICHT an einen Broker gesendet. Vor echter Ausführung muss ein offiziell erlaubter Broker-/Partner-Connector Instrument/ISIN, ZERO/gettex-Handelbarkeit, aktuellen Bid/Ask/Spread, Ordertyp und die endgültige ZERO-Gebühr erneut prüfen.';
   state.updatedAt=now;write(storage,state);return{ok:true,order:row,brokerSent:false}
 }
 
@@ -71,5 +72,5 @@ export function clearOrderApprovals(storage){const state={rows:[],updatedAt:Date
 
 export function orderApprovalCapabilities(env){
   const accessConfigured=Boolean(env?.CF_ACCESS_TEAM_DOMAIN&&env?.CF_ACCESS_AUD),enabled=String(env?.ORDER_APPROVAL_MODE||'disabled').toLowerCase()==='enabled';
-  return{enabled,accessConfigured,readyForLocalApproval:enabled&&accessConfigured,brokerConnector:'NONE',brokerConnected:false,brokerDispatchEnabled:false,proposalTtlSeconds:TTL_MS/1000,handoffTtlSeconds:APPROVED_HANDOFF_TTL_MS/1000,humanApprovalRequired:true,brokerFinalConfirmationRequired:true,mode:'PREPARED_NOT_CONNECTED'}
+  return{enabled,accessConfigured,readyForLocalApproval:enabled&&accessConfigured,brokerConnector:'NONE',brokerConnected:false,brokerDispatchEnabled:false,brokerAvailabilityVerificationRequired:true,proposalTtlSeconds:TTL_MS/1000,handoffTtlSeconds:APPROVED_HANDOFF_TTL_MS/1000,humanApprovalRequired:true,brokerFinalConfirmationRequired:true,mode:'PREPARED_NOT_CONNECTED'}
 }
