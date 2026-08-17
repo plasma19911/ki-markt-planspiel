@@ -49,6 +49,7 @@ jobs:
           node --check src/gap-signals.js
           node --check src/volume-overlay.js
           node --check src/regional-benchmark-overlay.js
+          node --check src/fx-safety-overlay.js
           node --check src/evidence-overlay.js
           node --check src/execution-cost-overlay.js
           node --check src/live-signal-learning.js
