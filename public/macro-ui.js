@@ -12,7 +12,13 @@ function ensure(){
  <div id="macroEvents"></div>
  <div id="macroLearning" class="trendSummary"></div>
  <div class="notice"><b>Keine Automatikkäufe:</b> Ein Krieg, Zinsschritt oder anderes Ereignis ist nur ein Zusatzsignal. Die KI verlangt dazu Kurs-/Trendbestätigung und lernt erst nach ausreichend vielen Fällen eine historische Kategorie-Wirkung.</div>`;
- anchor.insertAdjacentElement('afterend',s);return s;
+ anchor.insertAdjacentElement('afterend',s);
+ const nav=document.querySelector('.mobileNav');
+ if(nav&&!nav.querySelector('a[href="#macroRadar"]')){
+  const a=document.createElement('a');a.href='#macroRadar';a.textContent='Weltlage';
+  const after=nav.querySelector('a[href="#analysis"]');after?.insertAdjacentElement('afterend',a)||nav.appendChild(a);
+ }
+ return s;
 }
 
 function riskClass(n){return n>=70?'bad':n>=45?'yellow':'good'}
