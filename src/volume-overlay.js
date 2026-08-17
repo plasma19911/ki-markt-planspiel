@@ -16,22 +16,19 @@ async function volumeRatio(symbol){
 }
 
 export async function applyVolumeConfirmation(fast){
-  if(!fast?.actions?.length)return fast;
-  const buySymbols=[...new Set(fast.actions.filter(x=>x.action==='BUY').map(x=>String(x.symbol).toUpperCase()))].slice(0,4);
-  if(!buySymbols.length)return fast;
-  const ratios=new Map(await Promise.all(buySymbols.map(async s=>[s,await volumeRatio(s)])));
+  if(!fast)return fast;
+  const symbols=[...new Set((fast.context||[]).map(x=>String(x.symbol||'').toUpperCase()).filter(Boolean))].slice(0,4);
+  if(!symbols.length)return fast;
+  const ratios=new Map(await Promise.all(symbols.map(async s=>[s,await volumeRatio(s)])));
   const min=num(FAST_CALIBRATION.minRelativeVolume,1.10),actions=[];
-  for(const a of fast.actions){
+  for(const a of fast.actions||[]){
     if(a.action!=='BUY'){actions.push(a);continue}
     const ratio=ratios.get(String(a.symbol).toUpperCase());
     if(ratio==null){
       actions.push({...a,confidence:Math.min(num(a.confidence,.5),.68),allocation_pct:+(num(a.allocation_pct)*.72).toFixed(1),reason:`${a.reason} · Volumenbestätigung nicht verfügbar: Positionsgröße reduziert`});
       continue;
     }
-    if(ratio<min){
-      // Breakouts ohne wenigstens normales aktuelles Volumen werden nicht schnell gekauft.
-      continue;
-    }
+    if(ratio<min)continue;
     actions.push({...a,reason:`${a.reason} · 5m-Volumen x${ratio.toFixed(2)} bestätigt`});
   }
   return{...fast,actions,volumeConfirmation:{requiredForFastBuy:true,minRatio:min,ratios:Object.fromEntries([...ratios].map(([k,v])=>[k,v==null?null:+v.toFixed(2)]))}};
