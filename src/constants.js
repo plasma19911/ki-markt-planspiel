@@ -1,12 +1,11 @@
 export const AI_MODEL = '@cf/zai-org/glm-4.7-flash';
 export const SPARK_BATCH = 40;
-// Cloudflare-Free-Profil: Der dynamische externe Top-50-Pool wird billig vorgefiltert.
-// Nur die vier stärksten Kandidaten gehen pro 5-Minuten-Runde in die vollständige
-// Deep-/Safety-Kette. So bleibt ein kompletter Scan mit News/Makro unter 50 externen
-// Subrequests pro Worker-Aufruf und wird dafür alle fünf Minuten neu bewertet.
-export const DEEP_LIMIT = 4;
+// Cloudflare-Free-Profil: 25 extern vorsortierte Aktien werden jede Minute billig
+// aktualisiert. Nur die zwei staerksten Finalisten gehen in die vollstaendige
+// Deep-/Safety-Kette. Das spart Subrequests, ohne die Reaktionszeit zu verlieren.
+export const DEEP_LIMIT = 2;
 export const NEWS_LIMIT = 2;
-export const NEWS_RADAR_BATCH = 3;
+export const NEWS_RADAR_BATCH = 2;
 
 // Das Live-Planspiel handelt ausschließlich Aktien.
 // ETFs und Hebelprodukte sind absichtlich aus dem aktiven Universum entfernt.
