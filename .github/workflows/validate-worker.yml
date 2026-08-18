@@ -96,6 +96,7 @@ jobs:
           node --check public/macro-ui.js
           node --check public/exposure-ui.js
           node --check public/future-watch-ui.js
+          node --check public/free-budget-ui.js
           node --check public/quota-guard.js
           node --check public/accounting-ui.js
           node --check public/ui-v2.js
