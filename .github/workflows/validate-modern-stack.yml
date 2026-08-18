@@ -39,6 +39,7 @@ jobs:
             return 0
           }
           runcheck syntax_index node --check src/index.js
+          runcheck syntax_index_v18 node --check src/index-v18.js
           runcheck syntax_constants node --check src/constants.js
           runcheck syntax_market node --check src/market-v3.js
           runcheck syntax_market_base node --check src/market-v3-base.js
@@ -48,6 +49,10 @@ jobs:
           runcheck syntax_yahoo node --check src/yahoo-spark-repair.js
           runcheck syntax_profit node --check src/profit-optimizer.js
           runcheck syntax_profit_v2 node --check src/profit-optimizer-v2.js
+          runcheck syntax_pullback node --check src/pullback-first-ai-guard.js
+          runcheck syntax_day_replay node --check src/day-replay-learning.js
+          runcheck syntax_rotation_replay node --check src/rotation-replay-adjustment.js
+          runcheck syntax_rotation_cost node --check src/rotation-cost-guard.js
           runcheck syntax_learning node --check src/live-signal-learning.js
           runcheck syntax_rebound node --check src/rebound-ai-guard.js
           runcheck syntax_early_breakout node --check src/early-breakout-ai-guard.js
@@ -73,6 +78,7 @@ jobs:
           runcheck second_chance node scripts/smoke-second-chance.mjs
           runcheck second_chance_watch node scripts/smoke-second-chance-watch.mjs
           runcheck capital_in_motion node scripts/smoke-capital-in-motion.mjs
+          runcheck rotation_cost node scripts/smoke-rotation-cost-guard.mjs
           runcheck pc_wide_sweep node scripts/smoke-pc-wide-sweep.mjs
           runcheck yahoo_sanity node scripts/smoke-yahoo-null-sanity.mjs
           runcheck wrangler_dryrun npx wrangler deploy --dry-run
