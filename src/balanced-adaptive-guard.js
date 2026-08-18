@@ -39,8 +39,6 @@ export function assessBalancedSoftEntry(candidate={},storage=null){
  const volumeOk=!x.volumeKnown||x.vol>=.90;
  const notLate=x.day<=4.0&&x.rsi<75;
  const nearHighOk=!nearHigh||(x.day<=3.5&&x.m5>=.07&&x.m20>=.10&&x.accel>=.01&&x.rsi<73);
- // Missed/Late-Chancen lockern nur weiche Grenzen. Peak-Fehler wirken gezielt nur
- // bei Near-High-Setups entgegen, damit Pullbacks nicht unnoetig strenger werden.
  const netOpportunity=clamp(p.opportunityBoost-(nearHigh?p.peakPenalty*.60:0),0,.24);
  const allow=x.hardSafe&&strongOverall&&baseTape&&volumeOk&&notLate&&nearHighOk&&netOpportunity>=.035;
  const cap=clamp(18+netOpportunity*34+(x.score>=5.7&&x.confidence>=.74?4:0)-(nearHigh?p.peakPenalty*18:0),16,28);
@@ -97,11 +95,10 @@ function postProcess(r,input,storage){
  const existingBuy=actions.some(a=>String(a?.action||'').toUpperCase()==='BUY');
  if(!existingBuy){
   const researchWaits=actions.filter(isResearchWait).map(a=>({a,c:cMap.get(key(a))})).filter(x=>x.c);
-  let pool=researchWaits.map(x=>x.c);if(!pool.length)pool=candidates;
-  const soft=pool.map(c=>({c,q:assessBalancedSoftEntry(c,storage)})).filter(x=>x.q.allow).sort((a,b)=>b.q.metrics.score-a.q.metrics.score||b.q.metrics.confidence-a.q.metrics.confidence)[0];
+  const soft=researchWaits.map(x=>({c:x.c,q:assessBalancedSoftEntry(x.c,storage)})).filter(x=>x.q.allow).sort((a,b)=>b.q.metrics.score-a.q.metrics.score||b.q.metrics.confidence-a.q.metrics.confidence)[0];
   if(soft){
    actions=actions.filter(a=>!isResearchWait(a)||key(a)!==key(soft.c));
-   actions.push({symbol:key(soft.c),action:'BUY',confidence:clamp(soft.q.metrics.confidence,.64,.82),allocation_pct:soft.q.allocationCap,reason:`BALANCED-SOFT-ENTRY: starker Kandidat, harte Safety bestanden; Replay zeigt verpasste/zu späte Chancen. Eine weiche Grenze darf knapp verfehlt werden · kleine Startposition ${soft.q.allocationCap.toFixed(1)}% · Score ${soft.q.metrics.score.toFixed(2)} · Konfidenz ${Math.round(soft.q.metrics.confidence*100)}%`});
+   actions.push({symbol:key(soft.c),action:'BUY',confidence:clamp(soft.q.metrics.confidence,.64,.82),allocation_pct:soft.q.allocationCap,reason:`BALANCED-SOFT-ENTRY: starker Kandidat, harte Safety bestanden; Replay zeigt verpasste/zu späte Chancen. Eine weiche Research-Grenze darf knapp verfehlt werden · kleine Startposition ${soft.q.allocationCap.toFixed(1)}% · Score ${soft.q.metrics.score.toFixed(2)} · Konfidenz ${Math.round(soft.q.metrics.confidence*100)}%`});
   }
  }
 
