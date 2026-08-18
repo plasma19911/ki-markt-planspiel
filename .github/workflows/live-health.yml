@@ -79,6 +79,7 @@ jobs:
             'sourceHealth': (s.get('sourceHealth') or [])[:20],
             'risk': s.get('risk'),
             'forwardScan': s.get('forwardScan'),
+            'reboundScan': s.get('reboundScan'),
             'profitOptimizer': s.get('profitOptimizer'),
             'entryTimingLearning': s.get('entryTimingLearning'),
             'futureWatch': {
@@ -98,6 +99,7 @@ jobs:
               'resolvedLeaderCount': a.get('resolvedLeaderCount'),
               'leaderHealthy': a.get('leaderHealthy'),
               'futureCandidates': a.get('futureCandidates'),
+              'reboundCandidates': a.get('reboundCandidates'),
               'metrics': a.get('metrics')
             }
           }
@@ -109,6 +111,13 @@ jobs:
               raise SystemExit('Profit optimizer not deployed yet')
           if not s.get('forwardScan',{}).get('enabled'):
               raise SystemExit('Forward scanner not deployed yet')
+          rebound=s.get('reboundScan') or {}
+          if not rebound.get('enabled'):
+              raise SystemExit('Rebound scanner not deployed yet')
+          if rebound.get('target') != 10:
+              raise SystemExit('Rebound target is not 10')
+          if rebound.get('fallingKnifeBuysBlocked') is not True:
+              raise SystemExit('Falling-knife protection is not active')
           learning=s.get('entryTimingLearning') or {}
           if learning.get('mode')!='15/30/60-minute-entry-timing-learning':
               raise SystemExit('15/30/60 entry timing learning not deployed yet')
