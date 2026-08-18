@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T17:10:07.416333+00:00",
+  "checkedAt": "2026-08-18T17:19:21.025399+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -33,64 +33,147 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 199,
-  "lastScan": "2026-08-18T17:07:09.509Z",
+  "scanCount": 206,
+  "lastScan": "2026-08-18T17:19:09.679Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 4 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 4 aktive Gap-Lagen aus 4/12 möglichen Checks. Aktive Depotentscheidung: INTU BUY  · REBOUND-RADA · EARLY-BREAKO · TARGET-VENUE: 0 nicht sauber auf gettex aufgeloeste BUY(s) blockiert.",
-  "cash": 989.7426404533917,
-  "equity": 989.7426404533917,
-  "pnl": -10.257359546608313,
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 1 SELL / 0 BUY aus 4 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 4 aktive Gap-Lagen aus 4/12 möglichen Checks. Aktive Dep · CAPITAL-IN-MOTION: 100 · REBOUND-RADA · EARLY-BREAKO · TARGET-VENUE: 0 nicht sauber auf gettex aufgeloeste BUY(s) blockiert.",
+  "cash": 0,
+  "equity": 985.0838821178822,
+  "pnl": -14.91611788211776,
   "universeCount": 169,
-  "positions": 0,
-  "positionRows": [],
+  "positions": 1,
+  "positionRows": [
+    {
+      "symbol": "CRM",
+      "name": "Salesforce",
+      "instrument_type": "EQUITY",
+      "theme": "TECH_SOFTWARE",
+      "company_key": "SALESFORC",
+      "invested": 986.068966,
+      "entry_fee": 1,
+      "entry_price": 198.3081106109619,
+      "last_price": 198.11000061035156,
+      "entry_fx": 0.8635,
+      "last_fx": 0.8635,
+      "currency": "USD",
+      "opened_at": "2026-08-18T17:19:09.679Z",
+      "score": 2.9148101265822786,
+      "signal_confidence": 0.7064810126582279,
+      "zero_quantity": 5.758435040087088,
+      "zero_whole_shares": 5,
+      "zero_fractional_shares": 0.7584350400870878,
+      "zero_uses_fractional": true,
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
+    }
+  ],
   "candidates": 4,
   "topCandidates": [
     {
-      "symbol": "INTU",
-      "name": "Intuit",
-      "score": 3.930323076923077,
-      "confidence": 0.765,
-      "day_change": 5.11323294565702,
-      "news_score": 0.031100591715976324,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 52 konstruktiv",
-      "contra": ""
-    },
-    {
-      "symbol": "ADBE",
-      "name": "Adobe",
-      "score": 2.9,
-      "confidence": 0.5700000000000001,
-      "day_change": 4.62722934488049,
-      "news_score": 0,
+      "symbol": "CRM",
+      "name": "Salesforce",
+      "score": 2.9148101265822786,
+      "confidence": 0.7064810126582279,
+      "day_change": 3.7388074620891,
+      "news_score": 0.015189873417721522,
       "event_risk": "NONE",
       "pro": "EMA9 über EMA21 · Kurs über EMA21",
       "contra": ""
     },
     {
-      "symbol": "NOC",
-      "name": "Northrop Grumman",
-      "score": 2.6725290322580646,
-      "confidence": 0.6768529032258064,
-      "day_change": 3.8714528961877326,
-      "news_score": 0.03129032258064516,
+      "symbol": "INTU",
+      "name": "Intuit Inc.",
+      "score": 1.4303230769230768,
+      "confidence": 0.5580323076923077,
+      "day_change": 5.396302578986334,
+      "news_score": 0.031100591715976324,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 49 konstruktiv",
-      "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "contra": "RSI 79 überhitzt"
     },
     {
-      "symbol": "CRM",
-      "name": "Salesforce",
-      "score": 0.20000000000000007,
-      "confidence": 0.30000000000000004,
-      "day_change": 3.6445476649637376,
-      "news_score": 0,
+      "symbol": "ADBE",
+      "name": "Adobe",
+      "score": 1.3925724183334378,
+      "confidence": 0.5542572418333438,
+      "day_change": 4.810269943955681,
+      "news_score": -0.007618032478525298,
       "event_risk": "NONE",
-      "pro": "Kurs über EMA21",
-      "contra": "EMA-Trend schwach"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "contra": "RSI 78 überhitzt"
+    },
+    {
+      "symbol": "NOC",
+      "name": "Northrop Grumman Corporation",
+      "score": -0.4774709677419355,
+      "confidence": 0.45734709677419355,
+      "day_change": 3.898609366094119,
+      "news_score": 0.03129032258064516,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · RSI 50 konstruktiv",
+      "contra": "Kurs unter EMA21 · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
+    {
+      "ts": "2026-08-18T17:19:09.679Z",
+      "action": "KAUF",
+      "symbol": "CRM",
+      "amount": -987.068966,
+      "fee": 1,
+      "trade_pnl": null,
+      "reason": "KI BUY 71%: CAPITAL-IN-MOTION CAPITAL_FLOOR: bestes aktuell hart-sicheres Setup · Erwartungswert 4.59 · verfuegbares Cash aktiv eingesetzt · Zielanteil 100.0% · Order 987.07 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 2.9148101265822786
+    },
+    {
+      "ts": "2026-08-18T17:19:09.679Z",
+      "action": "VERKAUF",
+      "symbol": "NOC",
+      "amount": 117.98466667267081,
+      "fee": 1,
+      "trade_pnl": -2.368038327329188,
+      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.10%, Rücklauf vom 20m-Hoch -0.11%· Trade P/L netto -1.37 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": -0.4774709677419355
+    },
+    {
+      "ts": "2026-08-18T17:19:09.679Z",
+      "action": "VERKAUF",
+      "symbol": "INTU",
+      "amount": 235.23259785204328,
+      "fee": 1,
+      "trade_pnl": -2.3056361479567045,
+      "reason": "KI SELL 74%: CAPITAL-MOTION-ROTATION: CRM Erwartungswert 4.59 ist besser als INTU 2.58 · Differenz 2.01 · P/L -0.03% · Kapital aktiv zum staerkeren Setup verschieben· Trade P/L netto -1.31 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 1.4303230769230768
+    },
+    {
+      "ts": "2026-08-18T17:13:10.325Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal NOC: Score 3.92, Konfidenz 76%.",
+      "score": null
+    },
+    {
+      "ts": "2026-08-18T17:12:05.911Z",
+      "action": "KAUF",
+      "symbol": "NOC",
+      "amount": -120.352705,
+      "fee": 1,
+      "trade_pnl": null,
+      "reason": "KI BUY 60%: BEST-QUALIFIED-ENTRY: bestes aktuell brauchbares, mehrfach bestaetigtes Setup · Erwartungswert 5.91 · Live 3.92 / 76% · 5m +0.14% · 20m +0.18% · kleine Startposition 16% · Order 120.35 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 3.9225290322580646
+    },
+    {
+      "ts": "2026-08-18T17:10:06.536Z",
+      "action": "KAUF",
+      "symbol": "INTU",
+      "amount": -237.538234,
+      "fee": 1,
+      "trade_pnl": null,
+      "reason": "KI BUY 66%: BEST-QUALIFIED-ENTRY: bestes aktuell brauchbares, mehrfach bestaetigtes Setup · Erwartungswert 6.92 · Live 4.73 / 77% · 5m +0.22% · 20m +0.27% · kleine Startposition 24% · Order 237.54 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 4.730323076923077
+    },
     {
       "ts": "2026-08-18T15:16:04.049Z",
       "action": "HALTEN",
@@ -150,49 +233,49 @@
       "trade_pnl": -5.376861757403958,
       "reason": "KI SELL 84%: TIME/THESIS-EXIT: 139 Min. gehalten · P/L -0.24% · aktueller Erwartungs-Score -4.44 · Signal zerfallen· Trade P/L netto -4.38 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
       "score": -2.437318181818182
-    },
-    {
-      "ts": "2026-08-18T12:43:05.636Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal CACI: Score 4.70, Konfidenz 77%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-18T12:41:19.001Z",
-      "action": "KAUF",
-      "symbol": "DTE.DE",
-      "amount": -1000,
-      "fee": 1,
-      "trade_pnl": null,
-      "reason": "KI BUY 50%: OUTER-FULL-CASH-BEST: bester aktueller Aktienkandidat des laufenden Scans · Score 1.20 · OUTER-FULL-CASH 100.00% · Order 1000.00 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 1.2040950000000001
-    },
-    {
-      "ts": "2026-08-18T12:21:17.784Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Keine frischen handelbaren Signale.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-18T12:21:17.502Z",
-      "action": "START",
-      "symbol": "",
-      "amount": 1000,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "R2-Planspiel gestartet: 1000.00 EUR, 7 days, Stil offensiv. Aktien + normale ETFs.",
-      "score": null
     }
   ],
   "recentAiLog": [
+    {
+      "ts": "2026-08-18T17:19:09.679Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "CRM",
+      "message": "CRM: KI BUY 71%: CAPITAL-IN-MOTION CAPITAL_FLOOR: bestes aktuell hart-sicheres Setup · Erwartungswert 4.59 · verfuegbares Cash aktiv eingesetzt · Zielanteil 100.0%",
+      "confidence": 0.7064810126582279
+    },
+    {
+      "ts": "2026-08-18T17:19:09.679Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "NOC",
+      "message": "NOC: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.10%, Rücklauf vom 20m-Hoch -0.11%",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-18T17:19:09.679Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "INTU",
+      "message": "INTU: KI SELL 74%: CAPITAL-MOTION-ROTATION: CRM Erwartungswert 4.59 ist besser als INTU 2.58 · Differenz 2.01 · P/L -0.03% · Kapital aktiv zum staerkeren Setup verschieben",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-18T17:12:05.911Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "NOC",
+      "message": "NOC: KI BUY 60%: BEST-QUALIFIED-ENTRY: bestes aktuell brauchbares, mehrfach bestaetigtes Setup · Erwartungswert 5.91 · Live 3.92 / 76% · 5m +0.14% · 20m +0.18% · kleine Startposition 16%",
+      "confidence": 0.7596
+    },
+    {
+      "ts": "2026-08-18T17:10:06.536Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "INTU",
+      "message": "INTU: KI BUY 66%: BEST-QUALIFIED-ENTRY: bestes aktuell brauchbares, mehrfach bestaetigtes Setup · Erwartungswert 6.92 · Live 4.73 / 77% · 5m +0.22% · 20m +0.27% · kleine Startposition 24%",
+      "confidence": 0.765
+    },
     {
       "ts": "2026-08-18T16:55:13.368Z",
       "kind": "IDEA",
@@ -248,46 +331,6 @@
       "symbol": "CACI",
       "message": "CACI: Kein Trade. Bestes Signal CACI: Score 3.70, Konfidenz 77%.",
       "confidence": 0.765
-    },
-    {
-      "ts": "2026-08-18T15:13:07.303Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "BIG.V",
-      "message": "BIG.V: Momentum-Risk-Exit: starker Lauf kippt (4.0), 5m -0.37%, Rücklauf vom 20m-Hoch -1.11%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-18T15:12:05.719Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "LMT",
-      "message": "LMT: Kein Trade. Bestes Signal LMT: Score 3.91, Konfidenz 77%.",
-      "confidence": 0.765
-    },
-    {
-      "ts": "2026-08-18T15:07:06.559Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "BIG.V",
-      "message": "BIG.V: KI BUY 75%: QUALIFIED-OPPORTUNITY: BUY-Score 4.2 · Scanner-Score 5.5 · ADX 24 · 3/4 Zeitebenen aufwärts · über VWAP · 3 unabhängige Signalsäulen · ZERO-Roundtrip-Kosten ca. 1.0%: Kostenwarnung · PROFIT-SCORE 8.21 · Ruecksetzer/Re-Test · Kapital 54.0%",
-      "confidence": 0.63
-    },
-    {
-      "ts": "2026-08-18T15:00:16.854Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "DTE.DE",
-      "message": "DTE.DE: KI SELL 84%: TIME/THESIS-EXIT: 139 Min. gehalten · P/L -0.24% · aktueller Erwartungs-Score -4.44 · Signal zerfallen",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-18T14:58:21.114Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "CACI",
-      "message": "CACI: Kein Trade. Bestes Signal CACI: Score 4.70, Konfidenz 77%.",
-      "confidence": 0.765
     }
   ],
   "sourceHealth": [
@@ -297,8 +340,8 @@
       "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 419,
-      "updated_at": "2026-08-18T17:07:09.089Z"
+      "latency_ms": 318,
+      "updated_at": "2026-08-18T17:19:08.957Z"
     },
     {
       "source": "Yahoo FX",
@@ -306,8 +349,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 119,
-      "updated_at": "2026-08-18T17:07:09.089Z"
+      "latency_ms": 115,
+      "updated_at": "2026-08-18T17:19:08.957Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -315,8 +358,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 106,
-      "updated_at": "2026-08-18T17:07:09.089Z"
+      "latency_ms": 111,
+      "updated_at": "2026-08-18T17:19:08.957Z"
     },
     {
       "source": "Yahoo Events",
@@ -324,17 +367,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 98,
-      "updated_at": "2026-08-18T17:07:09.089Z"
+      "latency_ms": 103,
+      "updated_at": "2026-08-18T17:19:08.957Z"
     },
     {
       "source": "Yahoo News",
-      "status": "DEGRADED",
-      "ok_count": 4,
-      "fail_count": 1,
-      "last_error": "Error: HTTP 500",
-      "latency_ms": 1133,
-      "updated_at": "2026-08-18T17:07:09.089Z"
+      "status": "OK",
+      "ok_count": 5,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 602,
+      "updated_at": "2026-08-18T17:19:08.957Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -342,26 +385,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 248,
-      "updated_at": "2026-08-18T17:07:09.089Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 293,
-      "updated_at": "2026-08-18T17:07:09.089Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 339,
-      "updated_at": "2026-08-18T17:07:09.089Z"
+      "latency_ms": 243,
+      "updated_at": "2026-08-18T17:19:08.957Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -369,14 +394,32 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 475,
-      "updated_at": "2026-08-18T17:07:09.089Z"
+      "latency_ms": 257,
+      "updated_at": "2026-08-18T17:19:08.957Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 264,
+      "updated_at": "2026-08-18T17:19:08.957Z"
+    },
+    {
+      "source": "BörsenNews",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 307,
+      "updated_at": "2026-08-18T17:19:08.957Z"
     }
   ],
   "risk": {
-    "equity": 989.7426404533917,
-    "dailyPct": -1.0257359546608336,
-    "availableCash": 989.7426404533917,
+    "equity": 985.0838821178822,
+    "dailyPct": -1.4916117882117774,
+    "availableCash": 0,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -424,7 +467,7 @@
     "enabled": true,
     "target": 10,
     "candidateCount": 7,
-    "updatedAt": "2026-08-18T17:07:05.914Z",
+    "updatedAt": "2026-08-18T17:19:06.221Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -441,7 +484,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 3,
-    "updatedAt": "2026-08-18T17:07:05.914Z",
+    "updatedAt": "2026-08-18T17:19:06.221Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -461,7 +504,7 @@
     "enabled": true,
     "target": 16,
     "candidateCount": 0,
-    "updatedAt": "2026-08-18T17:10:02.522Z",
+    "updatedAt": "2026-08-18T17:19:06.596Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8527,
@@ -485,8 +528,8 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 8,
-    "candidateCount": 0,
-    "updatedAt": "2026-08-18T17:07:09.509Z",
+    "candidateCount": 1,
+    "updatedAt": "2026-08-18T17:19:09.679Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 2,
@@ -548,10 +591,10 @@
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 0,
-    "pendingEntries": 19,
+    "activePositions": 2,
+    "pendingEntries": 17,
     "completedTradeOutcomes": 6,
-    "timedCheckpoints": 0,
+    "timedCheckpoints": 1,
     "horizonsMinutes": [
       15,
       30,
@@ -571,8 +614,28 @@
       "scoreDelta": 0
     },
     "matureTimingBuckets": 0,
-    "buckets": [],
-    "recentTiming": []
+    "buckets": [
+      {
+        "bucket": "CHASE_NEAR_HIGH",
+        "samples15": 1,
+        "totalCheckpoints": 1,
+        "qualityPct": -0.12,
+        "winRatePct": 0,
+        "block": false,
+        "scoreDelta": 0
+      }
+    ],
+    "recentTiming": [
+      {
+        "at": 1787073426667,
+        "symbol": "NOC",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 15,
+        "pnlPct": -0.12,
+        "maePct": -0.12,
+        "mfePct": -0.1
+      }
+    ]
   },
   "futureWatch": {
     "candidateCount": 0,
@@ -581,16 +644,16 @@
       {
         "id": "MIDDLE_EAST_ENERGY",
         "label": "Nahost / Öl- und Gasversorgung",
-        "issueStrength": 100,
+        "issueStrength": 52,
         "urgency": 0,
         "horizon": "heute–3 Tage",
-        "headlineCount": 6,
+        "headlineCount": 2,
         "eventAt": null
       },
       {
         "id": "RUSSIA_SANCTIONS_DEFENSE",
         "label": "Russland / Sanktionen / europäische Aufrüstung",
-        "issueStrength": 68,
+        "issueStrength": 55,
         "urgency": 0,
         "horizon": "2 Tage–2 Wochen",
         "headlineCount": 2,
@@ -644,14 +707,19 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T17:08:09.509Z",
+    "nextScanAt": "2026-08-18T17:20:09.679Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
     "persistentLeaderCache": true,
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
-    "lastFetchBudget": null,
+    "lastFetchBudget": {
+      "actual": 34,
+      "cacheHits": 0,
+      "blocked": 0,
+      "cap": 36
+    },
     "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Rebound-Radar beobachtet bis zu 10 Tagesverlierer; fallende Messer bleiben gesperrt, bis eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. HOT/WARM werden minuetlich priorisiert; der liquide Kern rotiert schneller als der lange Rest. Nur die bis zu 16 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen; dadurch steigt die Abdeckung ohne mehr Deep-Checks zu erzwingen. Gute Deep-Kandidaten fallen nicht sofort aus dem Radar. Wenn kein perfekter BUY vorliegt, darf das beste mehrfach bestaetigte sichere Setup bereits ab niedrigerer Soft-Schwelle eine kleine 16-24%-Probeposition bekommen; harte Safety-/Event-/Venue-Sperren bleiben.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
@@ -681,10 +749,10 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T17:10:02.522Z",
-    "ageSeconds": 4,
+    "lastSeenAt": "2026-08-18T17:19:06.596Z",
+    "ageSeconds": 14,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T17:07:05.914Z",
+    "prefetchAt": "2026-08-18T17:19:06.221Z",
     "resolvedLeaderCount": 15,
     "leaderHealthy": true,
     "futureCandidates": 0,
@@ -695,16 +763,16 @@
     "wideSweepMasterCount": 8527,
     "wideSweepScannedCount": 319,
     "metrics": {
-      "lastSeenAt": "2026-08-18T17:10:02.522Z",
+      "lastSeenAt": "2026-08-18T17:19:06.596Z",
       "version": "2.0.7-csharp-dynamic-market-wi",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 5100324,
+      "storageBytes": 5123418,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 53,
-      "downloadedBytes": 28479298,
-      "uploadedBytes": 130963,
+      "ramMb": 53.7,
+      "downloadedBytes": 33844491,
+      "uploadedBytes": 152795,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_DYNAMIC_MARKET_WIDE",
       "lastLocalCleanupAt": "2026-08-18T16:48:19.2307281Z",
