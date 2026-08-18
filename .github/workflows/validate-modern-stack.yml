@@ -4,70 +4,115 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths:
-      - "src/decision-guard.js"
-      - "src/legacy-cash-neutralizer.js"
-      - "src/yahoo-spark-repair.js"
-      - "src/profit-optimizer.js"
-      - "src/live-signal-learning.js"
-      - "src/rebound-ai-guard.js"
-      - "src/compact-portfolio-v10.js"
-      - "src/compact-portfolio-v11-base.js"
-      - "src/compact-portfolio-v11.js"
-      - "src/compact-portfolio-v12.js"
-      - "src/index.js"
-      - "src/constants.js"
-      - "public/position-chart-ui.js"
-      - "public/free-budget-ui.js"
-      - "public/ui-hotfix.css"
-      - "scripts/smoke-best-validated-buy.mjs"
-      - "scripts/smoke-legacy-cash-neutralizer.mjs"
-      - "scripts/smoke-rebound-guard.mjs"
-      - "scripts/smoke-entry-timing-learning.mjs"
-      - "scripts/smoke-yahoo-null-sanity.mjs"
-      - ".github/workflows/validate-modern-stack.yml"
-      - "package.json"
-      - "wrangler.jsonc"
+    paths-ignore:
+      - validation-result.json
+      - live-health-result.json
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   validate-modern-stack:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+
       - name: Install dependencies
-        run: npm install
-      - name: Check production JavaScript
+        id: install
+        continue-on-error: true
+        run: npm install > /tmp/install.log 2>&1
+
+      - name: Run modern validation suite
+        if: always()
         run: |
-          node --check src/index.js
-          node --check src/constants.js
-          node --check src/decision-guard.js
-          node --check src/legacy-cash-neutralizer.js
-          node --check src/yahoo-spark-repair.js
-          node --check src/profit-optimizer.js
-          node --check src/live-signal-learning.js
-          node --check src/rebound-ai-guard.js
-          node --check src/compact-portfolio-v10.js
-          node --check src/compact-portfolio-v11-base.js
-          node --check src/compact-portfolio-v11.js
-          node --check src/compact-portfolio-v12.js
-          node --check public/position-chart-ui.js
-          node --check public/free-budget-ui.js
-      - name: Cash-aware execution regression
-        run: node scripts/smoke-best-validated-buy.mjs
-      - name: Legacy full-cash failsafe regression
-        run: node scripts/smoke-legacy-cash-neutralizer.mjs
-      - name: Rebound falling-knife regression
-        run: node scripts/smoke-rebound-guard.mjs
-      - name: Entry timing learning regression
-        run: node scripts/smoke-entry-timing-learning.mjs
-      - name: Yahoo null-price regression
-        run: node scripts/smoke-yahoo-null-sanity.mjs
-      - name: Wrangler production dry run
-        run: npx wrangler deploy --dry-run
+          set +e
+          : > /tmp/results.tsv
+          runcheck() {
+            name="$1"; shift
+            "$@" > "/tmp/${name}.log" 2>&1
+            rc=$?
+            printf '%s\t%s\n' "$name" "$rc" >> /tmp/results.tsv
+            return 0
+          }
+          runcheck syntax_index node --check src/index.js
+          runcheck syntax_constants node --check src/constants.js
+          runcheck syntax_decision node --check src/decision-guard.js
+          runcheck syntax_legacy node --check src/legacy-cash-neutralizer.js
+          runcheck syntax_yahoo node --check src/yahoo-spark-repair.js
+          runcheck syntax_profit node --check src/profit-optimizer.js
+          runcheck syntax_learning node --check src/live-signal-learning.js
+          runcheck syntax_rebound node --check src/rebound-ai-guard.js
+          runcheck syntax_v10 node --check src/compact-portfolio-v10.js
+          runcheck syntax_v11base node --check src/compact-portfolio-v11-base.js
+          runcheck syntax_v11 node --check src/compact-portfolio-v11.js
+          runcheck syntax_v12 node --check src/compact-portfolio-v12.js
+          runcheck syntax_chart node --check public/position-chart-ui.js
+          runcheck syntax_budget_ui node --check public/free-budget-ui.js
+          runcheck cash_aware node scripts/smoke-best-validated-buy.mjs
+          runcheck legacy_cash node scripts/smoke-legacy-cash-neutralizer.mjs
+          runcheck rebound_guard node scripts/smoke-rebound-guard.mjs
+          runcheck entry_learning node scripts/smoke-entry-timing-learning.mjs
+          runcheck yahoo_sanity node scripts/smoke-yahoo-null-sanity.mjs
+          runcheck wrangler_dryrun npx wrangler deploy --dry-run
+
+      - name: Build validation report
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, pathlib, datetime, os
+          result={}
+          tsv=pathlib.Path('/tmp/results.tsv')
+          if tsv.exists():
+            for line in tsv.read_text().splitlines():
+              if not line.strip(): continue
+              name,rc=line.split('\t',1)
+              p=pathlib.Path('/tmp')/(name+'.log')
+              log=p.read_text(encoding='utf-8',errors='replace') if p.exists() else ''
+              result[name]={'ok':rc=='0','exitCode':int(rc),'tail':log[-2500:]}
+          install_log=pathlib.Path('/tmp/install.log')
+          install_text=install_log.read_text(encoding='utf-8',errors='replace') if install_log.exists() else ''
+          install_ok=os.environ.get('INSTALL_OUTCOME','')=='success'
+          failed=[k for k,v in result.items() if not v['ok']]
+          out={
+            'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            'commit':os.environ.get('GITHUB_SHA'),
+            'install':{'ok':install_ok,'tail':install_text[-2500:]},
+            'checks':result,
+            'failedChecks':failed,
+            'allCodeAndRegressionChecksPassed':install_ok and not failed,
+            'note':'Wrangler dry-run may report required runtime-secret/auth limitations in CI; syntax and smoke regressions are listed separately.'
+          }
+          pathlib.Path('validation-result.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print(json.dumps(out,ensure_ascii=False,indent=2))
+          PY
+        env:
+          INSTALL_OUTCOME: ${{ steps.install.outcome }}
+
+      - name: Publish validation report
+        if: always()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add validation-result.json
+          if git diff --cached --quiet; then
+            echo 'Validation result unchanged'
+          else
+            git commit -m 'Update validation result [skip ci]'
+            git push
+          fi
+
+      - name: Enforce syntax and regression checks
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('validation-result.json',encoding='utf-8'))
+          critical=[k for k,v in (x.get('checks') or {}).items() if k!='wrangler_dryrun' and not v.get('ok')]
+          if not x.get('install',{}).get('ok'): critical.insert(0,'npm_install')
+          if critical: raise SystemExit('Critical validation failed: '+', '.join(critical))
+          print('All critical code/regression checks passed')
+          PY
