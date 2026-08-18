@@ -1,6 +1,7 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v10.js';
 import {MarketPortfolio as V9Portfolio} from './compact-portfolio-v9.js';
 import {FORWARD_EQUITIES} from './forward-equities.js';
+import {ProfitOptimizerAiGuard} from './profit-optimizer.js';
 
 const FORWARD_SCAN_TARGET=15;
 const FORWARD_MIN_SCORE=50;
@@ -44,6 +45,9 @@ export class MarketPortfolio extends BasePortfolio{
    };
    if(this.engine?.env)this.engine.env.ASSETS=assets;
   }
+  // Letzte Entscheidungsschicht: darf die fruehere FULL-CASH-Schicht wieder auf eine
+  // erwartungswertbasierte Kapitalquote reduzieren. Safety/Execution laufen danach weiter.
+  const ai=this.engine?.env?.AI;if(ai?.run&&!ai.__profitOptimizer){const wrapped=new ProfitOptimizerAiGuard(ai,this.bucketAdapter);wrapped.__profitOptimizer=true;this.engine.env.AI=wrapped}
  }
 
  async agentPrefetch(payload={}){
@@ -68,6 +72,7 @@ export class MarketPortfolio extends BasePortfolio{
  async status(){
   const s=await super.status(),fw=s?.futureWatch||null;
   s.forwardScan={enabled:true,leaderPoolTarget:25,forwardPoolTarget:FORWARD_SCAN_TARGET,forwardCandidates:num(fw?.candidateCount),monitoredForwardUniverse:num(fw?.monitoredUniverseCount),activeThemes:arr(fw?.activeThemes).length,mode:'25 aktuelle Leader + bis zu 15 vorausschauende Ereignis-/Themenwerte',confirmationRequired:true};
+  s.profitOptimizer={enabled:true,objective:'maximaler erwarteter Paper-Gewinn nach realistischen Kosten',alwaysInvested:false,maxSinglePositionPct:72,weakSetupsMayStayCash:true,forwardCatalystBoost:true,eventDirectionGuessing:false,profitRotation:true,note:'Aggressiver Paper-Modus: Kapital wird in wenige starke, mehrfach bestaetigte Setups konzentriert. Keine Gewinngarantie; Safety-/Quote-/Kostenpruefungen bleiben aktiv.'};
   if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,forwardLookingPool:true,forwardPoolTarget:FORWARD_SCAN_TARGET,note:`${s.freeTierBudget.note||''} Zusätzlich werden bis zu ${FORWARD_SCAN_TARGET} vorausschauende Ereignis-/Themenkandidaten im Minuten-Scan beobachtet; gekauft wird erst nach Live-Bestaetigung.`};
   return s;
  }
