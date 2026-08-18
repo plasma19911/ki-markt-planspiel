@@ -110,15 +110,15 @@ export default{
    if(u.pathname==='/api/scan'&&request.method==='POST')return reply(await p.scan());
    if(u.pathname==='/api/migrate-from-old-sql'&&request.method==='POST')return reply(await p.migrateLegacySql());
    if(u.pathname==='/api/last-week'&&request.method==='POST')return reply({error:'Der alte Replay-Endpunkt ist entfernt. Nutze den 2026-Tab.'},410);
-   return reply({error:'Not found'},404);
+   return reply({error:'Not found'},404)
   }catch(e){return reply({error:String(e?.message||e)},500)}
  },
  async scheduled(controller,env,ctx){
   const when=new Date(Number(controller?.scheduledTime)||Date.now()),session=gettexSessionState(when);
-  // Ab 21:55 Europe/Berlin wird der Cloudflare-Fallback-Replay in kleinen Batches gerechnet.
-  // Der neue Windows-Agent kann den Replay komplett lokal rechnen und seine Ergebnisse
-  // am Abend oder nach einem Quota-Reset am Folgemorgen ueber replay-learning synchronisieren.
-  if(session.open){ctx.waitUntil((async()=>{const p=portfolio(env);if(session.localMinute>=21*60+55)await p.dailyReplay(8);const agent=await p.agentStatus();if(!agent?.online)await p.scan()})().catch(e=>console.error('Compact DO scan/replay failed',e)));return}
+  // PC online: PC berechnet den Tages-Replay lokal. Cloudflare macht keinen parallelen
+  // Replay und zaehlt damit keine Lern-Samples doppelt. Ist der PC schon aus, uebernimmt
+  // Cloudflare ab 21:55 in kleinen Batches als Fallback.
+  if(session.open){ctx.waitUntil((async()=>{const p=portfolio(env),agent=await p.agentStatus();if(!agent?.online&&session.localMinute>=21*60+55)await p.dailyReplay(8);if(!agent?.online)await p.scan()})().catch(e=>console.error('Compact DO scan/replay failed',e)));return}
   if(session.prepareNow){ctx.waitUntil(portfolio(env).preOpenPrepare().catch(e=>console.error('gettex preopen prepare failed',e)))}
  }
 };
