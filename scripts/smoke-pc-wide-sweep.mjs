@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {normalizeWideSweepEntries,WIDE_SWEEP_TARGET} from '../src/compact-portfolio-v16.js';
+import {normalizeWideSweepEntries,WIDE_SWEEP_TARGET} from '../src/wide-sweep-utils.js';
 
 const now=Date.now(),ts=new Date(now-20_000).toISOString();
 const rows=[];
