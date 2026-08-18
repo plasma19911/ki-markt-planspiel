@@ -64,7 +64,7 @@ queueMicrotask(()=>{
 });
 
 if(!document.querySelector('link[data-ui-v2]')){const l=document.createElement('link');l.rel='stylesheet';l.href='/ui-v2.css';l.dataset.uiV2='1';document.head.appendChild(l)}
-if(!document.querySelector('link[data-ui-hotfix]')){const l=document.createElement('link');l.rel='stylesheet';l.href='/ui-hotfix.css?v=20260818-1';l.dataset.uiHotfix='1';document.head.appendChild(l)}
+if(!document.querySelector('link[data-ui-hotfix]')){const l=document.createElement('link');l.rel='stylesheet';l.href='/ui-hotfix.css?v=20260818-2';l.dataset.uiHotfix='1';document.head.appendChild(l)}
 
 import('./ui-v2.js').catch(e=>console.error('UI V2 failed',e));
 import('./zero-ui.js').catch(e=>console.error('ZERO target UI failed',e));
@@ -72,3 +72,4 @@ import('./order-approval-ui.js').catch(e=>console.error('Order approval UI faile
 import('./accounting-ui.js').catch(e=>console.error('Accounting checksum UI failed',e));
 import('./future-watch-ui.js').catch(e=>console.error('Future watch UI failed',e));
 import('./free-budget-ui.js').catch(e=>console.error('Free budget UI failed',e));
+import('./position-chart-ui.js').catch(e=>console.error('Position trade chart UI failed',e));
