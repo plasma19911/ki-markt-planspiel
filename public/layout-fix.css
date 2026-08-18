@@ -1,0 +1,14 @@
+/* Emergency clean layout: remove chart overload and force full-width primary cards. */
+.dashboardChart{display:none!important}
+.dashboardAllocation{display:none!important}
+.positionTradeChart{display:none!important}
+.futureCard{grid-column:1/-1!important}
+.dashboardCandidates{grid-column:1/-1!important}
+.dashboardPositions{grid-column:1/-1!important}
+.replayCard{grid-column:span 6!important}.activityCard{grid-column:span 6!important}
+.dashboardGrid{grid-auto-flow:row!important}
+.dashboardGrid>*{min-width:0!important}
+/* Old injected UI cards are hidden if an old cached script still manages to create them. */
+#performanceDiagnostics,#uiStatusStrip,.desktopQuickNav,#macroRadar,#newsLearning,#exposureNetwork,#freeBudgetPanel,#futureWatch,#zeroBrokerTarget,#accountingChecksum{display:none!important}
+@media(max-width:950px){.replayCard,.activityCard{grid-column:1/-1!important}}
+@media(max-width:760px){.dashboardGrid>*{grid-column:1/-1!important}}
