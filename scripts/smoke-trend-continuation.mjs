@@ -21,9 +21,9 @@ assert.match(buys[0].reason,/TREND-CONTINUATION/);
 assert.ok(buys[0].allocation_pct>20&&buys[0].allocation_pct<=28,'Kleines offensives Depot soll kosteneffizient statt zu klein positionieren');
 assert.ok(checked.evidenceDiversity.results['TREND.DE'].count>=3,'Trend-Continuation verlangt weiterhin mindestens drei unabhaengige Signalsaeulen');
 
-const weak={...fast,context:[{...baseContext,technical:{...baseContext.technical,adx:17}}]};
+const weak={...fast,context:[{...baseContext,technical:{...baseContext.technical,adx:8,plusDI:9,minusDI:22},multiTimeframe:{longVotes:0,shortVotes:3}}]};
 const weakChecked=applyEvidenceDiversity(weak,prompt);
-assert.equal(weakChecked.actions.some(x=>x.action==='BUY'),false,'Schwacher ADX darf weder Trend-Continuation noch qualifizierte Chance erzeugen');
+assert.equal(weakChecked.actions.some(x=>x.action==='BUY'),false,'Eindeutig schwache technische Struktur darf auch im aktiven Ersteinstieg keinen BUY erzeugen');
 
 const opportunityFast={
   actions:[],
@@ -48,8 +48,37 @@ assert.ok(finalBuy,'Auch wenn die generative KI HOLD sagt, muss der qualifiziert
 assert.equal(finalBuy.symbol,'TREND.DE');
 assert.match(finalBuy.reason,/BEST-VALIDATED-BUY|QUALIFIED-OPPORTUNITY/);
 
-const heldPrompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. Cash 800 EUR; Slippage 0.10%. Kandidaten=${JSON.stringify(candidates)} Gehalten=[{"symbol":"ALT.DE"}]`;
-const notIdle=applyEvidenceDiversity(opportunityFast,heldPrompt);
-assert.equal(notIdle.actions.some(x=>String(x.reason||'').includes('QUALIFIED-OPPORTUNITY')),false,'Der abgesenkte Einstieg gilt nur fuer ein noch komplett leeres Depot');
+const activeFast={
+  actions:[],
+  context:[{
+    ...baseContext,
+    fastScore:1.35,
+    reason:'FAST-HOLD: BUY 1.8 / SELL 0.4 · RANGE',
+    technical:{...baseContext.technical,adx:14,vwapDistancePct:-.02,plusDI:18,minusDI:17},
+    multiTimeframe:{longVotes:1,shortVotes:1},
+    marketRelative20m:.04,
+    sectorRelativeDay:0,
+    regionalBenchmark:{relative20m:.02,blockBuy:false}
+  }],
+  gapContext:[{symbol:'TREND.DE',state:'NORMAL',blockBuy:false}],
+  volumeConfirmation:{minRatio:1.10,ratios:{'TREND.DE':.70}}
+};
+const active=applyEvidenceDiversity(activeFast,prompt),activeBuy=active.actions.find(x=>x.action==='BUY');
+assert.ok(activeBuy,'Leeres Depot soll bei offenem Markt auch ein solides nicht-baerisches Setup aktiv starten statt endlos Cash zu halten');
+assert.match(activeBuy.reason,/ACTIVE-FIRST-ENTRY/);
+assert.equal(activeBuy.allocation_pct,24,'Aktiver offensiver Ersteinstieg bei 1000 EUR nutzt 24%');
 
-console.log(JSON.stringify({ok:true,trendBuy:buys[0],qualifiedBuy:opBuy,cost:costChecked.executionCost.bySymbol['TREND.DE'],finalBuy,evidence:opportunity.evidenceDiversity.results['TREND.DE']},null,2));
+const activeCost=applyExecutionCostDiscipline(active,prompt),activeCostBuy=activeCost.actions.find(x=>x.action==='BUY');
+assert.ok(activeCostBuy,'ACTIVE-FIRST-ENTRY muss die ZERO-Kostenstufe überleben');
+const activeFinal=JSON.parse(enforceFastExecutionGuards(aiHold,activeCost).response),activeFinalBuy=activeFinal.actions.find(x=>x.action==='BUY');
+assert.ok(activeFinalBuy,'ACTIVE-FIRST-ENTRY muss trotz generativem HOLD im finalen Plan als BUY landen');
+assert.match(activeFinalBuy.reason,/BEST-VALIDATED-BUY|ACTIVE-FIRST-ENTRY/);
+
+const activeBlocked={...activeFast,context:[{...activeFast.context[0],technical:{...activeFast.context[0].technical,plusDI:8,minusDI:22},multiTimeframe:{longVotes:0,shortVotes:3}}]};
+assert.equal(applyEvidenceDiversity(activeBlocked,prompt).actions.some(x=>x.action==='BUY'),false,'Klar baerische Struktur bleibt auch im aktiven Modus blockiert');
+
+const heldPrompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. Cash 800 EUR; Slippage 0.10%. Kandidaten=${JSON.stringify(candidates)} Gehalten=[{"symbol":"ALT.DE"}]`;
+const notIdle=applyEvidenceDiversity(activeFast,heldPrompt);
+assert.equal(notIdle.actions.some(x=>String(x.reason||'').includes('ACTIVE-FIRST-ENTRY')),false,'Aktiver Ersteinstieg gilt nur fuer ein komplett leeres Depot');
+
+console.log(JSON.stringify({ok:true,trendBuy:buys[0],qualifiedBuy:opBuy,activeBuy:activeFinalBuy,cost:activeCost.executionCost.bySymbol['TREND.DE']},null,2));
