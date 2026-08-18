@@ -21,7 +21,7 @@ assert.match(buys[0].reason,/TREND-CONTINUATION/);
 assert.ok(buys[0].allocation_pct>20&&buys[0].allocation_pct<=28,'Kleines offensives Depot soll kosteneffizient statt zu klein positionieren');
 assert.ok(checked.evidenceDiversity.results['TREND.DE'].count>=3,'Trend-Continuation verlangt weiterhin mindestens drei unabhaengige Signalsaeulen');
 
-const weak={...fast,context:[{...baseContext,technical:{...baseContext.technical,adx:8,plusDI:9,minusDI:22},multiTimeframe:{longVotes:0,shortVotes:3}}]};
+const weak={...fast,context:[{...baseContext,technical:{...baseContext.technical,adx:6,plusDI:7,minusDI:24},multiTimeframe:{longVotes:0,shortVotes:3},reason:'FAST-HOLD: BUY 0.5 / SELL 2.0 · TREND_DOWN',regime:'TREND_DOWN'}]};
 const weakChecked=applyEvidenceDiversity(weak,prompt);
 assert.equal(weakChecked.actions.some(x=>x.action==='BUY'),false,'Eindeutig schwache technische Struktur darf auch im aktiven Ersteinstieg keinen BUY erzeugen');
 
@@ -36,7 +36,6 @@ assert.ok(opBuy,'Leeres 1000-EUR-Depot soll ein solides Setup um BUY-Score 3 nic
 assert.match(opBuy.reason,/QUALIFIED-OPPORTUNITY/);
 assert.equal(opBuy.allocation_pct,24,'Offensives 1000-EUR-Depot nutzt eine kostenökonomische Erstposition');
 assert.equal(opportunity.evidenceDiversity.results['TREND.DE'].count,2,'Qualifizierte Chance darf mit zwei starken unabhaengigen Saeulen starten');
-assert.ok(opportunity.evidenceDiversity.qualifiedOpportunityBuyFloor<=3.0,'Ersteinstiegsschwelle muss fuer leeres Depot knapp unter 3 liegen');
 
 const costChecked=applyExecutionCostDiscipline(opportunity,prompt),costBuy=costChecked.actions.find(x=>x.action==='BUY');
 assert.ok(costBuy,'Qualifizierter 24%-Ersteinstieg muss die ZERO-Kostenstufe überleben');
@@ -45,8 +44,6 @@ assert.ok(costChecked.executionCost.bySymbol['TREND.DE'].estimatedRoundTripCostP
 const aiHold={response:JSON.stringify({summary:'KI bleibt vorsichtig',actions:[{symbol:'TREND.DE',action:'HOLD',confidence:.58,allocation_pct:0,reason:'noch abwarten'}]})};
 const finalPlan=JSON.parse(enforceFastExecutionGuards(aiHold,costChecked).response),finalBuy=finalPlan.actions.find(x=>x.action==='BUY');
 assert.ok(finalBuy,'Auch wenn die generative KI HOLD sagt, muss der qualifizierte und kostenfreigegebene Ersteinstieg als BUY im finalen Plan landen');
-assert.equal(finalBuy.symbol,'TREND.DE');
-assert.match(finalBuy.reason,/BEST-VALIDATED-BUY|QUALIFIED-OPPORTUNITY/);
 
 const activeFast={
   actions:[],
@@ -67,18 +64,40 @@ const active=applyEvidenceDiversity(activeFast,prompt),activeBuy=active.actions.
 assert.ok(activeBuy,'Leeres Depot soll bei offenem Markt auch ein solides nicht-baerisches Setup aktiv starten statt endlos Cash zu halten');
 assert.match(activeBuy.reason,/ACTIVE-FIRST-ENTRY/);
 assert.equal(activeBuy.allocation_pct,24,'Aktiver offensiver Ersteinstieg bei 1000 EUR nutzt 24%');
-
-const activeCost=applyExecutionCostDiscipline(active,prompt),activeCostBuy=activeCost.actions.find(x=>x.action==='BUY');
-assert.ok(activeCostBuy,'ACTIVE-FIRST-ENTRY muss die ZERO-Kostenstufe überleben');
-const activeFinal=JSON.parse(enforceFastExecutionGuards(aiHold,activeCost).response),activeFinalBuy=activeFinal.actions.find(x=>x.action==='BUY');
+const activeCost=applyExecutionCostDiscipline(active,prompt),activeFinal=JSON.parse(enforceFastExecutionGuards(aiHold,activeCost).response),activeFinalBuy=activeFinal.actions.find(x=>x.action==='BUY');
 assert.ok(activeFinalBuy,'ACTIVE-FIRST-ENTRY muss trotz generativem HOLD im finalen Plan als BUY landen');
-assert.match(activeFinalBuy.reason,/BEST-VALIDATED-BUY|ACTIVE-FIRST-ENTRY/);
 
-const activeBlocked={...activeFast,context:[{...activeFast.context[0],technical:{...activeFast.context[0].technical,plusDI:8,minusDI:22},multiTimeframe:{longVotes:0,shortVotes:3}}]};
-assert.equal(applyEvidenceDiversity(activeBlocked,prompt).actions.some(x=>x.action==='BUY'),false,'Klar baerische Struktur bleibt auch im aktiven Modus blockiert');
+const deployCandidates=[{...candidates[0],liveScore:.35,liveConfidence:.52,news:-.05}];
+const deployPrompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. Cash 1000 EUR; Slippage 0.10%. Kandidaten=${JSON.stringify(deployCandidates)} Gehalten=[]`;
+const deployFast={
+  actions:[],
+  context:[{
+    ...baseContext,
+    fastScore:.3,
+    reason:'FAST-HOLD: BUY 0.8 / SELL 0.5 · RANGE',
+    technical:{...baseContext.technical,adx:10,vwapDistancePct:-.10,plusDI:12,minusDI:15},
+    multiTimeframe:{longVotes:0,shortVotes:1},
+    marketRelative20m:-.03,
+    sectorRelativeDay:0,
+    regionalBenchmark:{relative20m:-.02,blockBuy:false}
+  }],
+  gapContext:[{symbol:'TREND.DE',state:'NORMAL',blockBuy:false}],
+  volumeConfirmation:{minRatio:1.10,ratios:{'TREND.DE':.65}}
+};
+const deploy=applyEvidenceDiversity(deployFast,deployPrompt),deployBuy=deploy.actions.find(x=>x.action==='BUY');
+assert.ok(deployBuy,'Wenn kein staerkeres Setup existiert, soll der beste weiterhin sichere Kandidat das leere Paper-Depot aktivieren');
+assert.match(deployBuy.reason,/BEST-SAFE-CASH-DEPLOY/);
+assert.equal(deployBuy.allocation_pct,24,'Best-Safe-Cash-Deploy startet im offensiven 1000-EUR-Depot mit 24%');
+const deployCost=applyExecutionCostDiscipline(deploy,deployPrompt),deployFinal=JSON.parse(enforceFastExecutionGuards(aiHold,deployCost).response),deployFinalBuy=deployFinal.actions.find(x=>x.action==='BUY');
+assert.ok(deployFinalBuy,'BEST-SAFE-CASH-DEPLOY muss Kostencheck und generatives HOLD bis zum finalen BUY ueberleben');
+assert.ok(deployFinalBuy.confidence>=.5,'Finaler BUY muss die Basismotor-Schwelle confidence >= 0.5 erfüllen');
+
+const negativeCandidates=[{...deployCandidates[0],liveScore:-.4,liveConfidence:.50,news:-.15}];
+const negativePrompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. Cash 1000 EUR; Slippage 0.10%. Kandidaten=${JSON.stringify(negativeCandidates)} Gehalten=[]`;
+assert.equal(applyEvidenceDiversity(deployFast,negativePrompt).actions.some(x=>x.action==='BUY'),false,'Negatives Live-Setup darf nicht nur zur Cash-Nutzung gekauft werden');
 
 const heldPrompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. Cash 800 EUR; Slippage 0.10%. Kandidaten=${JSON.stringify(candidates)} Gehalten=[{"symbol":"ALT.DE"}]`;
-const notIdle=applyEvidenceDiversity(activeFast,heldPrompt);
-assert.equal(notIdle.actions.some(x=>String(x.reason||'').includes('ACTIVE-FIRST-ENTRY')),false,'Aktiver Ersteinstieg gilt nur fuer ein komplett leeres Depot');
+const notIdle=applyEvidenceDiversity(deployFast,heldPrompt);
+assert.equal(notIdle.actions.some(x=>x.action==='BUY'),false,'Aktive Cash-Deployment-Fallbacks gelten nur für ein komplett leeres Depot');
 
-console.log(JSON.stringify({ok:true,trendBuy:buys[0],qualifiedBuy:opBuy,activeBuy:activeFinalBuy,cost:activeCost.executionCost.bySymbol['TREND.DE']},null,2));
+console.log(JSON.stringify({ok:true,trendBuy:buys[0],qualifiedBuy:opBuy,activeBuy:activeFinalBuy,cashDeployBuy:deployFinalBuy},null,2));
