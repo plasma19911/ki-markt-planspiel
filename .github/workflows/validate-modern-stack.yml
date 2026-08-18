@@ -40,10 +40,14 @@ jobs:
           }
           runcheck syntax_index node --check src/index.js
           runcheck syntax_constants node --check src/constants.js
+          runcheck syntax_market node --check src/market-v3.js
+          runcheck syntax_market_base node --check src/market-v3-base.js
+          runcheck syntax_second_runtime node --check src/second-chance-runtime.js
           runcheck syntax_decision node --check src/decision-guard.js
           runcheck syntax_legacy node --check src/legacy-cash-neutralizer.js
           runcheck syntax_yahoo node --check src/yahoo-spark-repair.js
           runcheck syntax_profit node --check src/profit-optimizer.js
+          runcheck syntax_profit_v2 node --check src/profit-optimizer-v2.js
           runcheck syntax_learning node --check src/live-signal-learning.js
           runcheck syntax_rebound node --check src/rebound-ai-guard.js
           runcheck syntax_early_breakout node --check src/early-breakout-ai-guard.js
@@ -56,6 +60,7 @@ jobs:
           runcheck syntax_v14 node --check src/compact-portfolio-v14.js
           runcheck syntax_v15 node --check src/compact-portfolio-v15.js
           runcheck syntax_v16 node --check src/compact-portfolio-v16.js
+          runcheck syntax_v17 node --check src/compact-portfolio-v17.js
           runcheck syntax_chart node --check public/position-chart-ui.js
           runcheck syntax_budget_ui node --check public/free-budget-ui.js
           runcheck cash_aware node scripts/smoke-best-validated-buy.mjs
@@ -65,6 +70,8 @@ jobs:
           runcheck target_venue_guard node scripts/smoke-target-venue-guard.mjs
           runcheck entry_learning node scripts/smoke-entry-timing-learning.mjs
           runcheck opportunity_cost node scripts/smoke-opportunity-cost-rotation.mjs
+          runcheck second_chance node scripts/smoke-second-chance.mjs
+          runcheck second_chance_watch node scripts/smoke-second-chance-watch.mjs
           runcheck pc_wide_sweep node scripts/smoke-pc-wide-sweep.mjs
           runcheck yahoo_sanity node scripts/smoke-yahoo-null-sanity.mjs
           runcheck wrangler_dryrun npx wrangler deploy --dry-run
