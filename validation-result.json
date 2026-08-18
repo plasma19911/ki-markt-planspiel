@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-18T15:18:37.095821+00:00",
-  "commit": "621fa9d70a8491e2c133db434b9059803afc5037",
+  "checkedAt": "2026-08-18T15:19:04.314690+00:00",
+  "commit": "9713f9597921db2f9f4e4706f4b6b1ccad8861bf",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 7s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 5s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -51,6 +51,11 @@
       "exitCode": 0,
       "tail": ""
     },
+    "syntax_target_venue": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
     "syntax_v10": {
       "ok": true,
       "exitCode": 0,
@@ -77,6 +82,11 @@
       "tail": ""
     },
     "syntax_v14": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_v15": {
       "ok": true,
       "exitCode": 0,
       "tail": ""
@@ -110,6 +120,11 @@
       "ok": true,
       "exitCode": 0,
       "tail": "{\n  \"ok\": true,\n  \"earlyConfirmed\": true,\n  \"lateChaseBlocked\": true,\n  \"noForcedBuy\": true,\n  \"earlyBuy\": {\n    \"symbol\": \"EARLY.DE\",\n    \"action\": \"BUY\",\n    \"confidence\": 0.79,\n    \"allocation_pct\": 45,\n    \"reason\": \"starkes Setup · EARLY-BREAKOUT bestätigt 7.60 · Tag +2.2% noch im Early-Fenster · 5m +0.31% · 20m +0.74% · Beschleunigung +0.09 · max. 45%\"\n  }\n}\n"
+    },
+    "target_venue_guard": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"ventureBlocked\": true,\n  \"normalPreserved\": true\n}\n"
     },
     "entry_learning": {
       "ok": true,
