@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-18T14:45:36.497109+00:00",
-  "commit": "e762b004f6133510cbba8954b170315c995e5ec3",
+  "checkedAt": "2026-08-18T14:55:47.249819+00:00",
+  "commit": "d32f15c266cbaa0717f2f71832a9c98ba717a607",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 5s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 7s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -32,9 +32,9 @@
       "tail": ""
     },
     "syntax_profit": {
-      "ok": false,
-      "exitCode": 1,
-      "tail": "/home/runner/work/ki-markt-planspiel/ki-markt-planspiel/src/profit-optimizer.js:87\nexport class ProfitOptimizerAiGuard{\n^^^^^^\n\nSyntaxError: Unexpected token 'export'\n    at checkSyntax (node:internal/main/check_syntax:74:5)\n\nNode.js v22.23.2\n"
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
     },
     "syntax_learning": {
       "ok": true,
@@ -102,15 +102,12 @@
       "tail": "{\n  \"ok\": true,\n  \"nullPricesCannotBecomeZero\": true,\n  \"quoteFallback\": true,\n  \"sanitized\": 5\n}\n"
     },
     "wrangler_dryrun": {
-      "ok": false,
-      "exitCode": 1,
-      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n\n\u001b[31m✘ \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mBuild failed with 1 error:\u001b[0m\n\n  \u001b[31m✘ \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mUnexpected \"export\"\u001b[0m\n  \n      src/profit-optimizer.js:87:0:\n  \u001b[37m      87 │ \u001b[32mexport\u001b[37m class ProfitOptimizerAiGuard{\n           ╵ \u001b[32m~~~~~~\u001b[0m\n  \n  \n\n\n🪵  Logs were written to \"/home/runner/.config/.wrangler/logs/wrangler-2026-08-18_14-45-35_748.log\"\n"
+      "ok": true,
+      "exitCode": 0,
+      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 24 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 464.05 KiB / gzip: 123.89 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
     }
   },
-  "failedChecks": [
-    "syntax_profit",
-    "wrangler_dryrun"
-  ],
-  "allCodeAndRegressionChecksPassed": false,
+  "failedChecks": [],
+  "allCodeAndRegressionChecksPassed": true,
   "note": "Wrangler dry-run may report required runtime-secret/auth limitations in CI; syntax and smoke regressions are listed separately."
 }
