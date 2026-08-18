@@ -32,6 +32,24 @@ async function freeTierAppJs(request,env){
  return new Response(text,{status:r.status,headers:h});
 }
 
+async function positionChartData(p,u){
+ const symbol=String(u.searchParams.get('symbol')||'').trim().toUpperCase();
+ if(!symbol||symbol.length>32)return{error:'Ungültiges Aktiensymbol.',status:400};
+ const rangeRaw=String(u.searchParams.get('range')||'1d'),range=['1d','5d','1mo'].includes(rangeRaw)?rangeRaw:'1d',interval=range==='1d'?'5m':range==='5d'?'15m':'60m';
+ const s=await p.status(),positions=s?.positions||[],history=s?.history||[],pos=positions.find(x=>String(x?.symbol||'').toUpperCase()===symbol)||null,events=history.filter(x=>String(x?.symbol||'').toUpperCase()===symbol&&['KAUF','VERKAUF','BUY','SELL'].includes(String(x?.action||'').toUpperCase()));
+ if(!pos&&!events.length)return{error:'Dieses Symbol wurde im Planspiel noch nicht gehandelt.',status:404};
+ const q=new URL(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}`);q.searchParams.set('range',range);q.searchParams.set('interval',interval);q.searchParams.set('includePrePost','false');q.searchParams.set('events','div,splits');
+ const r=await fetch(q,{headers:{'accept':'application/json','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/TradeChart)'}});if(!r.ok)return{error:`Kurschart derzeit nicht verfügbar (HTTP ${r.status}).`,status:502};
+ const j=await r.json(),res=j?.chart?.result?.[0];if(!res)return{error:'Kurschart enthält keine Daten.',status:502};
+ const ts=res.timestamp||[],close=res?.indicators?.quote?.[0]?.close||[],bars=[];for(let i=0;i<ts.length;i++){const c=Number(close[i]);if(Number.isFinite(c)&&c>0)bars.push({ts:Number(ts[i])*1000,close:c})}
+ if(!bars.length)return{error:'Für den gewählten Zeitraum liegen keine Kursbalken vor.',status:502};
+ const name=pos?.name||events.find(x=>x?.name)?.name||res?.meta?.longName||res?.meta?.shortName||symbol,entryPrice=Number(pos?.entry_price||0),openedAt=pos?.opened_at||events.find(x=>['KAUF','BUY'].includes(String(x?.action||'').toUpperCase()))?.ts||null;
+ const normalizedEvents=events.map(x=>{const action=['KAUF','BUY'].includes(String(x?.action||'').toUpperCase())?'KAUF':'VERKAUF';let price=Number(x?.price||x?.execution_price||0)||null;if(action==='KAUF'&&entryPrice>0&&openedAt&&Math.abs(Date.parse(x.ts)-Date.parse(openedAt))<10*60*1000)price=entryPrice;return{ts:x.ts,action,price,amount:Number(x?.amount||0),reason:String(x?.reason||'').slice(0,240)}}).filter(x=>x.ts);
+ if(pos&&openedAt&&entryPrice>0&&!normalizedEvents.some(x=>x.action==='KAUF'&&Math.abs(Date.parse(x.ts)-Date.parse(openedAt))<10*60*1000))normalizedEvents.push({ts:openedAt,action:'KAUF',price:entryPrice,amount:Number(pos?.invested||0),reason:'Aktueller Einstieg'});
+ normalizedEvents.sort((a,b)=>Date.parse(a.ts)-Date.parse(b.ts));
+ return{ok:true,symbol,name,range,interval,bars,events:normalizedEvents,position:pos?{open:true,entryPrice,openedAt,invested:Number(pos?.invested||0),lastPrice:Number(pos?.last_price||res?.meta?.regularMarketPrice||bars.at(-1)?.close||0)}:{open:false,entryPrice:0,openedAt:null,invested:0},currency:res?.meta?.currency||pos?.currency||null,exchange:res?.meta?.exchangeName||null};
+}
+
 export default{
  async fetch(request,env){
   const u=new URL(request.url);
@@ -43,6 +61,7 @@ export default{
     sessionAuth=await verifyCloudflareAccess(request,env);if(!sessionAuth.ok)return reply({error:sessionAuth.error,approvalAuth:false},sessionAuth.status||403);
    }
    if(u.pathname==='/api/status'&&request.method==='GET')return reply(await p.status());
+   if(u.pathname==='/api/position-chart'&&request.method==='GET'){const data=await positionChartData(p,u);return reply(data,data.status||200)}
    if(u.pathname==='/api/agent/status'&&request.method==='GET')return reply(await p.agentStatus());
    if(agentPath&&request.method==='POST'){
     const auth=await verifyPcAgent(request,env);if(!auth.ok)return reply({error:auth.error,pcAgentAuth:false},auth.status);
