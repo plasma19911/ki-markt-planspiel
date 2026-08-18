@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-08-18T18:36:56.885306+00:00",
-  "commit": "f28c5541f37356b0b8813429be165118bc253250",
+  "checkedAt": "2026-08-18T18:37:19.164789+00:00",
+  "commit": "2092be1fa5f05f2ef9f55c0c9549df2d39d26f98",
   "install": {
     "ok": true,
     "tail": "\nadded 38 packages, and audited 39 packages in 5s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
@@ -86,6 +86,11 @@
       "exitCode": 0,
       "tail": ""
     },
+    "syntax_learning_reconcile": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
     "syntax_rebound": {
       "ok": true,
       "exitCode": 0,
@@ -146,6 +151,11 @@
       "exitCode": 0,
       "tail": ""
     },
+    "syntax_v18": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
     "syntax_chart": {
       "ok": true,
       "exitCode": 0,
@@ -186,6 +196,11 @@
       "exitCode": 0,
       "tail": "{\n  \"ok\": true,\n  \"reboundBucket\": true,\n  \"badReboundBlocked\": {\n    \"bucket\": \"REBOUND_REVERSAL\",\n    \"samples\": 18,\n    \"totalCheckpoints\": 18,\n    \"quality\": -0.5,\n    \"winRate\": 0.222,\n    \"confidenceDelta\": -0.07454444444444445,\n    \"scoreDelta\": -1.4116666666666666,\n    \"sizeMultiplier\": 0.6885777777777777,\n    \"block\": true,\n    \"reason\": \"Rebound-Lernen blockiert schlechtes REVERSAL-Muster: 18 Fälle, Ø -0.50%, Treffer 22%\"\n  },\n  \"goodPullbackBoosted\": {\n    \"bucket\": \"PULLBACK_RETEST\",\n    \"samples\": 6,\n    \"totalCheckpoints\": 18,\n    \"quality\": 0.47,\n    \"winRate\": 0.833,\n    \"confidenceDelta\": 0.025,\n    \"scoreDelta\": 0.4145,\n    \"sizeMultiplier\": 1.08,\n    \"block\": false,\n    \"reason\": \"Timing-Lernen bestätigt PULLBACK_RETEST: 6 Fälle, Ø 0.47%, Treffer 83%\"\n  }\n}\n"
     },
+    "learning_execution_reconcile": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"changed\": true,\n  \"pendingBefore\": 3,\n  \"pendingAfter\": 1,\n  \"removed\": 2,\n  \"staleHeldRemoved\": 1,\n  \"heldCount\": 2,\n  \"maxFreshPendingMinutes\": 8,\n  \"pendingOnlyForExecutedPositions\": true,\n  \"status\": {\n    \"enabled\": true,\n    \"pendingEntries\": 1,\n    \"maxFreshPendingMinutes\": 8,\n    \"pendingOnlyForExecutedPositions\": true,\n    \"lastReconciledAt\": 1800000000000,\n    \"note\": \"FAST-BUY-Vorschlaege werden nur dann als Einstiegssample behalten, wenn danach tatsaechlich eine Paper-Position existiert.\"\n  }\n}\n"
+    },
     "opportunity_cost": {
       "ok": true,
       "exitCode": 0,
@@ -214,7 +229,7 @@
     "pc_wide_sweep": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"target\": 16,\n  \"selected\": 16,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-18T18:36:34.823Z\",\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\"\n  },\n  \"forcedBuy\": false\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"target\": 16,\n  \"selected\": 16,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-18T18:36:57.250Z\",\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\"\n  },\n  \"forcedBuy\": false\n}\n"
     },
     "yahoo_sanity": {
       "ok": true,
