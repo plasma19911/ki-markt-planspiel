@@ -1,6 +1,6 @@
 // Production entry: stocks-only paper trading plus prepared human approval workflow.
 // Real broker dispatch remains disabled until an official connector is explicitly added.
-import {MarketPortfolio} from './compact-portfolio-v7.js';
+import {MarketPortfolio} from './compact-portfolio-v8.js';
 import {verifyCloudflareAccess} from './access-auth.js';
 export {MarketPortfolio};
 
@@ -35,7 +35,7 @@ export default{
     const b=await request.json().catch(()=>({}));
     const started=await p.start({...b,includeEtfs:false,includeLeverage:false});
     const firstScan=await p.scan();
-    return reply({...started,firstScan,storage:'Durable Object Free · 1 compact row',assetClass:'nur Aktien',targetBroker:'finanzen.net ZERO · gettex'});
+    return reply({...started,firstScan,storage:'Durable Object Free · 1 compact row',assetClass:'nur Aktien',targetBroker:'finanzen.net ZERO · gettex',freeTier:'5-Minuten-Scan · max. 288 geplante Scans/Tag'});
    }
    if(u.pathname==='/api/stop'&&request.method==='POST')return reply(await p.stop());
    if(u.pathname==='/api/reset'&&request.method==='POST')return reply(await p.reset());
