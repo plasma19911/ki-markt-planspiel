@@ -1,4 +1,5 @@
-// Production compatibility entry. V16 keeps the complete modern stack, guarded
-// Early-Breakout discovery, gettex target-venue sanity, and adds the Windows-PC
-// full-universe wide sweep without introducing forced buys.
-export {MarketPortfolio} from './compact-portfolio-v16.js';
+// Production compatibility entry. V17 keeps the complete modern stack and adds
+// strong-candidate retention + fresh 1m second-chance rechecks. Nothing in this
+// layer forces a trade; Rebound, Early-Breakout, target-venue, learning, costs
+// and execution safety remain downstream requirements.
+export {MarketPortfolio} from './compact-portfolio-v17.js';
