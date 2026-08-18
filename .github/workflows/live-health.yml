@@ -46,10 +46,10 @@ jobs:
               except:return {}
           s=obj('/tmp/status.json'); a=obj('/tmp/agent.json'); c=s.get('config') or {}
           hotfix=text('/tmp/ui-hotfix.css'); chart=text('/tmp/position-chart-ui.js'); home=text('/tmp/home.html'); app=text('/tmp/app.js')
-          def cand(x): return {k:x.get(k) for k in ['symbol','name','score','liveScore','confidence','liveConfidence','day_change','news_score','event_risk','fastScore','buyScore','sellScore','earlyBreakoutWatch','earlyBreakoutRank','pro','contra'] if k in x}
+          def cand(x): return {k:x.get(k) for k in ['symbol','name','score','liveScore','confidence','liveConfidence','day_change','news_score','event_risk','fastScore','buyScore','sellScore','earlyBreakoutWatch','earlyBreakoutRank','pcWideSweep','pcWideScore','pro','contra'] if k in x}
           def hist(x): return {k:x.get(k) for k in ['ts','action','symbol','amount','fee','trade_pnl','reason','score'] if k in x}
           def log(x): return {k:x.get(k) for k in ['ts','kind','title','symbol','message','confidence'] if k in x}
-          execution=s.get('executionModel') or {}; profit=s.get('profitOptimizer') or {}; forward=s.get('forwardScan') or {}; rebound=s.get('reboundScan') or {}; breakout=s.get('earlyBreakoutScan') or {}; learning=s.get('entryTimingLearning') or {}
+          execution=s.get('executionModel') or {}; profit=s.get('profitOptimizer') or {}; forward=s.get('forwardScan') or {}; rebound=s.get('reboundScan') or {}; breakout=s.get('earlyBreakoutScan') or {}; wide=s.get('pcWideSweep') or {}; learning=s.get('entryTimingLearning') or {}; venue=s.get('targetVenueSanity') or {}
           checks={
             'homepage': code('/tmp/home-code.txt')=='200' and 'KI Markt-Planspiel' in home,
             'appJs': code('/tmp/app-code.txt')=='200' and 'async function load' in app,
@@ -62,6 +62,8 @@ jobs:
             'fallingKnifeProtection': rebound.get('fallingKnifeBuysBlocked') is True,
             'earlyBreakoutScanner': breakout.get('enabled') is True and breakout.get('target')==12,
             'earlyBreakoutGuard': breakout.get('guardActive') is True and breakout.get('lateChaseBlocked') is True and breakout.get('forcedBuys') is False,
+            'pcWideSweep': wide.get('enabled') is True and wide.get('target')==16 and wide.get('forcedBuy') is False and wide.get('confirmationRequired') is True,
+            'targetVenueSanity': venue.get('enabled') is True and venue.get('unverifiedVentureOtcAutoBuyBlocked') is True,
             'entryTimingLearning': learning.get('mode')=='15/30/60-minute-entry-timing-learning' and learning.get('horizonsMinutes')==[15,30,60],
             'cashMayRemain': execution.get('fullCashPolicy') is False and execution.get('cashMayRemain') is True,
             'legacyFullCashFailsafe': profit.get('legacyFullCashFailsafe') is True or execution.get('legacyFullCashFailsafe') is True,
@@ -75,10 +77,10 @@ jobs:
             'running':c.get('running'),'scanCount':c.get('scan_count'),'lastScan':c.get('last_scan'),'lastError':c.get('last_error'),'aiLastSummary':c.get('ai_last_summary'),
             'cash':c.get('cash'),'equity':s.get('equity'),'pnl':s.get('pnl'),'universeCount':c.get('universe_count'),'positions':len(s.get('positions') or []),'positionRows':(s.get('positions') or [])[:8],
             'candidates':len(s.get('candidates') or []),'topCandidates':[cand(x) for x in (s.get('candidates') or [])[:8]],'recentHistory':[hist(x) for x in (s.get('history') or [])[:12]],'recentAiLog':[log(x) for x in (s.get('aiLog') or [])[:12]],
-            'sourceHealth':(s.get('sourceHealth') or [])[:20],'risk':s.get('risk'),'executionModel':execution,'forwardScan':forward,'reboundScan':rebound,'earlyBreakoutScan':breakout,'profitOptimizer':profit,'entryTimingLearning':learning,
+            'sourceHealth':(s.get('sourceHealth') or [])[:20],'risk':s.get('risk'),'executionModel':execution,'forwardScan':forward,'reboundScan':rebound,'earlyBreakoutScan':breakout,'pcWideSweep':wide,'targetVenueSanity':venue,'profitOptimizer':profit,'entryTimingLearning':learning,
             'futureWatch':{'candidateCount':(s.get('futureWatch') or {}).get('candidateCount'),'monitoredUniverseCount':(s.get('futureWatch') or {}).get('monitoredUniverseCount'),'activeThemes':(s.get('futureWatch') or {}).get('activeThemes'),'scheduledEvents':(s.get('futureWatch') or {}).get('scheduledEvents')},
             'freeTierBudget':s.get('freeTierBudget'),
-            'pcAgent':{'configured':a.get('configured'),'online':a.get('online'),'lastSeenAt':a.get('lastSeenAt'),'ageSeconds':a.get('ageSeconds'),'prefetchFresh':a.get('prefetchFresh'),'prefetchAt':a.get('prefetchAt'),'resolvedLeaderCount':a.get('resolvedLeaderCount'),'leaderHealthy':a.get('leaderHealthy'),'futureCandidates':a.get('futureCandidates'),'reboundCandidates':a.get('reboundCandidates'),'earlyBreakoutCandidates':a.get('earlyBreakoutCandidates'),'metrics':a.get('metrics')}
+            'pcAgent':{'configured':a.get('configured'),'online':a.get('online'),'lastSeenAt':a.get('lastSeenAt'),'ageSeconds':a.get('ageSeconds'),'prefetchFresh':a.get('prefetchFresh'),'prefetchAt':a.get('prefetchAt'),'resolvedLeaderCount':a.get('resolvedLeaderCount'),'leaderHealthy':a.get('leaderHealthy'),'futureCandidates':a.get('futureCandidates'),'reboundCandidates':a.get('reboundCandidates'),'earlyBreakoutCandidates':a.get('earlyBreakoutCandidates'),'wideSweepCandidates':wide.get('candidateCount'),'wideSweepFresh':wide.get('fresh'),'wideSweepMasterCount':wide.get('masterCount'),'wideSweepScannedCount':wide.get('scannedCount'),'metrics':a.get('metrics')}
           }
           pathlib.Path('live-health-result.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
           pathlib.Path('/tmp/live-health-result.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
