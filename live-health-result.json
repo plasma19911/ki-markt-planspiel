@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T20:59:08.250548+00:00",
+  "checkedAt": "2026-08-18T20:59:30.305231+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -436,7 +436,7 @@
     "enabled": true,
     "target": 10,
     "candidateCount": 7,
-    "updatedAt": "2026-08-18T20:53:09.167Z",
+    "updatedAt": "2026-08-18T20:59:09.393Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -453,7 +453,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 3,
-    "updatedAt": "2026-08-18T20:53:09.167Z",
+    "updatedAt": "2026-08-18T20:59:09.393Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -473,7 +473,7 @@
     "enabled": true,
     "target": 16,
     "candidateCount": 0,
-    "updatedAt": "2026-08-18T20:58:05.919Z",
+    "updatedAt": "2026-08-18T20:59:10.105Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8527,
@@ -781,10 +781,10 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T20:58:05.919Z",
-    "ageSeconds": 62,
+    "lastSeenAt": "2026-08-18T20:59:10.105Z",
+    "ageSeconds": 20,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T20:53:09.167Z",
+    "prefetchAt": "2026-08-18T20:59:09.393Z",
     "resolvedLeaderCount": 15,
     "leaderHealthy": true,
     "futureCandidates": 0,
@@ -795,16 +795,16 @@
     "wideSweepMasterCount": 8527,
     "wideSweepScannedCount": 519,
     "metrics": {
-      "lastSeenAt": "2026-08-18T20:58:05.919Z",
+      "lastSeenAt": "2026-08-18T20:59:10.105Z",
       "version": "2.0.12-csharp-full-master-24mi",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 6101526,
+      "storageBytes": 6103046,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0,
-      "ramMb": 93.1,
-      "downloadedBytes": 55399009,
-      "uploadedBytes": 389936,
+      "cpuPct": 0.01,
+      "ramMb": 98,
+      "downloadedBytes": 57982318,
+      "uploadedBytes": 391507,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_FULL_MASTER_24MIN",
       "lastLocalCleanupAt": "2026-08-18T20:32:08.9039821Z",
