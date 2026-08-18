@@ -4,6 +4,15 @@ import {estimateAiBuyCost} from './execution-cost-overlay.js';
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 function responseText(r){return String(r?.response||r?.result?.response||'')}
 
+function bestValidatedFastBuy(fast,existingActions=[]){
+  const existingSymbols=new Set((existingActions||[]).filter(x=>String(x?.action||'').toUpperCase()==='BUY').map(x=>String(x?.symbol||'').toUpperCase()));
+  const blockedSymbols=new Set((existingActions||[]).filter(x=>['SELL'].includes(String(x?.action||'').toUpperCase())).map(x=>String(x?.symbol||'').toUpperCase()));
+  return (fast?.actions||[])
+    .filter(x=>String(x?.action||'').toUpperCase()==='BUY')
+    .filter(x=>!existingSymbols.has(String(x?.symbol||'').toUpperCase())&&!blockedSymbols.has(String(x?.symbol||'').toUpperCase()))
+    .sort((a,b)=>num(b.confidence)-num(a.confidence)||num(b.fastScore)-num(a.fastScore))[0]||null;
+}
+
 export function enforceFastExecutionGuards(aiResponse,fast){
   if(!fast)return aiResponse;const raw=responseText(aiResponse),a=raw.indexOf('{'),b=raw.lastIndexOf('}');if(a<0||b<=a)return aiResponse;
   try{
@@ -23,7 +32,17 @@ export function enforceFastExecutionGuards(aiResponse,fast){
       const cost=estimateAiBuyCost(fast,next.allocation_pct,symbol);if(cost&&(!Number.isFinite(cost.costPct)||cost.costPct>cost.maxRoundTripCostPct))blocks.push(`geschätzte Roundtrip-Kosten ${Number.isFinite(cost.costPct)?cost.costPct.toFixed(1):'n/a'}% > ${cost.maxRoundTripCostPct.toFixed(1)}%`);
       if(!blocks.length)return next;return{...next,action:'HOLD',allocation_pct:0,confidence:Math.min(num(next.confidence,.5),.55),reason:`HARD-BUY-BLOCK: ${blocks.join(' · ')}. ${String(next.reason||'').slice(0,220)}`};
     });
-    const blocked=j.actions.filter(x=>String(x.reason||'').startsWith('HARD-BUY-BLOCK:')).length;if(blocked)j.summary=`${String(j.summary||'KI-Plan').slice(0,310)} · ${blocked} BUY durch Ausführungs-Schutz blockiert.`;return{...aiResponse,response:JSON.stringify(j)};
+    const blocked=j.actions.filter(x=>String(x.reason||'').startsWith('HARD-BUY-BLOCK:')).length;
+    const hasExecutableBuy=j.actions.some(x=>String(x?.action||'').toUpperCase()==='BUY');
+    let autoFastBuy=null;
+    if(!hasExecutableBuy){
+      autoFastBuy=bestValidatedFastBuy(fast,j.actions);
+      if(autoFastBuy){
+        j.actions.push({...autoFastBuy,reason:`BEST-VALIDATED-BUY: ${String(autoFastBuy.reason||'Vollständig geprüfter Fast-BUY').slice(0,260)}`});
+      }
+    }
+    const notes=[];if(blocked)notes.push(`${blocked} BUY durch Ausführungs-Schutz blockiert`);if(autoFastBuy)notes.push(`bester vollständig validierter BUY ${String(autoFastBuy.symbol||'')} übernommen`);if(notes.length)j.summary=`${String(j.summary||'KI-Plan').slice(0,300)} · ${notes.join(' · ')}.`;
+    return{...aiResponse,response:JSON.stringify(j)};
   }catch{return aiResponse}
 }
 
