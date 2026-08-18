@@ -1,10 +1,10 @@
 export const AI_MODEL = '@cf/zai-org/glm-4.7-flash';
 export const SPARK_BATCH = 40;
 // Hybrid-Free-Profil: bis zu 40 aktuelle + vorausschauende Aktien werden pro Minute
-// grob aktualisiert. Drei Finalisten gehen in die vollstaendige Deep-/Safety-Kette:
-// Momentum, ein frueher Themenkandidat und der naechstbeste bestaetigte Wert koennen so
-// parallel konkurrieren, ohne das Cloudflare-Free-Subrequestbudget unkontrolliert zu erhoehen.
-export const DEEP_LIMIT = 3;
+// grob aktualisiert. Die zwei staerksten Finalisten gehen in die vollstaendige
+// Deep-/Safety-Kette. So bleibt die Tiefenpruefung stabil, waehrend der Forward-Pool
+// trotzdem deutlich mehr moegliche Gewinner frueh in die Konkurrenz bringt.
+export const DEEP_LIMIT = 2;
 export const NEWS_LIMIT = 2;
 export const NEWS_RADAR_BATCH = 2;
 
