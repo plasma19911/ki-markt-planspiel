@@ -4,13 +4,14 @@ const FREE_SCAN_INTERVAL_MS=60*1000;
 const STATUS_CACHE_MS=55*1000;
 const UNIVERSE_CACHE_MS=10*60*1000;
 const LEADER_CACHE_MS=5*60*1000;
+const LEADER_CACHE_KV_KEY='cache/free-top25-leaders-v1';
 const LEADER_TARGET=25;
 const MIN_EXTERNAL_LEADERS=10;
 const SOURCE_LIMIT=35;
 // Cloudflare Free erlaubt 50 externe Subrequests je Worker-Aufruf. Wir stoppen reale
 // fetch()-Aufrufe bewusst frueher, damit Redirects und spaetere optionale Layer Reserve haben.
 const EXTERNAL_FETCH_SOFT_CAP=36;
-const HEADERS={'accept':'text/html,application/xhtml+xml','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/8.1; +https://github.com/plasma19911/ki-markt-planspiel)'};
+const HEADERS={'accept':'text/html,application/xhtml+xml','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/8.2; +https://github.com/plasma19911/ki-markt-planspiel)'};
 
 const LEADER_SOURCES=[
   {name:'TradingView DE Most Active',kind:'tv-de',weight:5.0,url:'https://www.tradingview.com/markets/stocks-germany/market-movers-active/'},
@@ -58,15 +59,24 @@ function resolveLeaderSymbol(raw,kind,index){
 }
 
 class FreeTierUniverseAssets{
-  constructor(base,heldGetter){this.base=base;this.heldGetter=heldGetter;this.cache=null;this.cacheAt=0;this.leaderCache=null;this.leaderCacheAt=0;this.lastLeaderMeta=null}
+  constructor(base,heldGetter,kv){this.base=base;this.heldGetter=heldGetter;this.kv=kv;this.cache=null;this.cacheAt=0;this.leaderCache=null;this.leaderCacheAt=0;this.lastLeaderMeta=null}
   async _load(request=null,init=undefined){
     if(this.cache&&Date.now()-this.cacheAt<UNIVERSE_CACHE_MS)return this.cache;
     const req=request||new Request('https://assets.local/universe.json'),r=await this.base.fetch(req,init);
     if(!r.ok)throw new Error(`FREE-Universum HTTP ${r.status}`);
     const data=await r.json();this.cache=data&&typeof data==='object'?data:{equities:[]};this.cacheAt=Date.now();return this.cache;
   }
+  _persistentLeaders(){
+    try{
+      const row=this.kv?.get(LEADER_CACHE_KV_KEY),at=Number(row?.at||0),leaders=Array.isArray(row?.leaders)?row.leaders:[];
+      if(!at||Date.now()-at>=LEADER_CACHE_MS||!leaders.length)return null;
+      this.leaderCache=leaders.slice(0,LEADER_TARGET);this.leaderCacheAt=at;this.lastLeaderMeta=row?.meta||null;return this.leaderCache;
+    }catch{return null}
+  }
+  _savePersistentLeaders(leaders){try{this.kv?.put(LEADER_CACHE_KV_KEY,{at:this.leaderCacheAt,leaders:leaders.slice(0,LEADER_TARGET),meta:this.lastLeaderMeta})}catch{}}
   async _externalLeaders(rows){
     if(this.leaderCache&&Date.now()-this.leaderCacheAt<LEADER_CACHE_MS)return this.leaderCache;
+    const persisted=this._persistentLeaders();if(persisted)return persisted;
     const index=symbolIndex(rows),scores=new Map(),sourceStats=[];
     const results=await Promise.all(LEADER_SOURCES.map(async src=>{
       try{const r=await fetch(src.url,{headers:HEADERS,redirect:'follow'});if(!r.ok)throw new Error(`HTTP ${r.status}`);const html=await r.text(),symbols=src.kind==='tv-de'?extractTradingViewSymbols(html):extractYahooSymbols(html);return{src,symbols,error:null}}
@@ -89,7 +99,7 @@ class FreeTierUniverseAssets{
     }
     const leaders=ranked.slice(0,LEADER_TARGET).map((x,i)=>({...x.row,externalLeaderRank:i+1,externalLeaderScore:+x.score.toFixed(3),externalLeaderSources:x.sources}));
     this.lastLeaderMeta={updatedAt:new Date().toISOString(),target:LEADER_TARGET,externalResolved:externalCount,externalHealthy:externalCount>=MIN_EXTERNAL_LEADERS,sourceStats,selected:leaders.length,mode:externalCount>=MIN_EXTERNAL_LEADERS?'EXTERNAL_TOP_25':'EXTERNAL_PLUS_MASTER_FALLBACK'};
-    this.leaderCache=leaders;this.leaderCacheAt=Date.now();return leaders;
+    this.leaderCache=leaders;this.leaderCacheAt=Date.now();this._savePersistentLeaders(leaders);return leaders;
   }
   _heldRows(rows){try{const state=this.heldGetter?.(),held=new Set((state?.positions||[]).map(p=>key(p?.symbol)));return rows.filter(x=>held.has(key(x.symbol)))}catch{return[]}}
   async fetch(request,init){
@@ -97,10 +107,10 @@ class FreeTierUniverseAssets{
     if(!u.pathname.endsWith('/universe.json'))return this.base.fetch(request,init);
     const data=await this._load(request,init),rawAll=Array.isArray(data?.equities)?data.equities.filter(x=>x?.symbol):[],supported=rawAll.filter(x=>!isPenceListing(x)),leaders=await this._externalLeaders(supported),held=this._heldRows(supported),seen=new Set(),equities=[];
     for(const x of [...leaders,...held]){const s=key(x.symbol);if(s&&!seen.has(s)){seen.add(s);equities.push(x)}}
-    return Response.json({...data,equities,full_liquid_equity_count:rawAll.length,scanner_slice_equity_count:equities.length,external_leader_target:LEADER_TARGET,external_leader_count:leaders.length,held_symbols_added:Math.max(0,equities.length-leaders.length),scan_interval_minutes:1,leader_refresh_minutes:5,scanner_mode:this.lastLeaderMeta?.mode||'EXTERNAL_TOP_25'},{headers:{'cache-control':'no-store'}});
+    return Response.json({...data,equities,full_liquid_equity_count:rawAll.length,scanner_slice_equity_count:equities.length,external_leader_target:LEADER_TARGET,external_leader_count:leaders.length,held_symbols_added:Math.max(0,equities.length-leaders.length),scan_interval_minutes:1,leader_refresh_minutes:5,persistent_leader_cache:true,scanner_mode:this.lastLeaderMeta?.mode||'EXTERNAL_TOP_25'},{headers:{'cache-control':'no-store'}});
   }
   async info(){
-    try{const data=await this._load(),rows=Array.isArray(data?.equities)?data.equities:[],supported=rows.filter(x=>!isPenceListing(x));if(!this.lastLeaderMeta)await this._externalLeaders(supported);return{fullLiquidEquityUniverse:rows.length,externalLeaderTarget:LEADER_TARGET,externalLeaderSelected:this.lastLeaderMeta?.selected||0,externalLeaderResolved:this.lastLeaderMeta?.externalResolved||0,externalLeaderHealthy:Boolean(this.lastLeaderMeta?.externalHealthy),externalLeaderSources:this.lastLeaderMeta?.sourceStats||[],externalLeaderUpdatedAt:this.lastLeaderMeta?.updatedAt||null,scanIntervalMinutes:1,leaderRefreshMinutes:5,universeGeneratedAt:data?.generated_at||null,exactBrokerCatalog:Boolean(data?.exact_broker_catalog),penceListingsExcluded:rows.length-supported.length,scannerMode:this.lastLeaderMeta?.mode||'EXTERNAL_TOP_25'}
+    try{const data=await this._load(),rows=Array.isArray(data?.equities)?data.equities:[],supported=rows.filter(x=>!isPenceListing(x));if(!this.lastLeaderMeta)await this._externalLeaders(supported);return{fullLiquidEquityUniverse:rows.length,externalLeaderTarget:LEADER_TARGET,externalLeaderSelected:this.lastLeaderMeta?.selected||0,externalLeaderResolved:this.lastLeaderMeta?.externalResolved||0,externalLeaderHealthy:Boolean(this.lastLeaderMeta?.externalHealthy),externalLeaderSources:this.lastLeaderMeta?.sourceStats||[],externalLeaderUpdatedAt:this.lastLeaderMeta?.updatedAt||null,scanIntervalMinutes:1,leaderRefreshMinutes:5,persistentLeaderCache:true,universeGeneratedAt:data?.generated_at||null,exactBrokerCatalog:Boolean(data?.exact_broker_catalog),penceListingsExcluded:rows.length-supported.length,scannerMode:this.lastLeaderMeta?.mode||'EXTERNAL_TOP_25'}
     }catch{return null}
   }
 }
@@ -123,7 +133,7 @@ export class MarketPortfolio extends BasePortfolio{
   constructor(ctx,env){
     super(ctx,env);
     const rawAssets=this.zeroAssets?.base;
-    if(rawAssets?.fetch){this.zeroAssets=new FreeTierUniverseAssets(rawAssets,()=>this.bucketAdapter?.peekState?.());this.engine.env.ASSETS=this.zeroAssets}
+    if(rawAssets?.fetch){this.zeroAssets=new FreeTierUniverseAssets(rawAssets,()=>this.bucketAdapter?.peekState?.(),ctx?.storage?.kv);this.engine.env.ASSETS=this.zeroAssets}
     this.__freeStatusCache=null;this.__freeStatusCacheAt=0;this.__lastFetchBudget=null;
   }
 
@@ -136,7 +146,7 @@ export class MarketPortfolio extends BasePortfolio{
   async status(){
     const now=Date.now();if(this.__freeStatusCache&&now-this.__freeStatusCacheAt<STATUS_CACHE_MS)return clone(this.__freeStatusCache);
     const s=await super.status(),last=Date.parse(s?.config?.last_scan||''),next=Number.isFinite(last)?last+FREE_SCAN_INTERVAL_MS:null,coverage=s?.brokerTarget||{};
-    s.freeTierBudget={enabled:true,cloudflarePlan:'FREE',scanIntervalMinutes:1,maxScheduledScansPerDay:1440,browserStatusRefreshSeconds:60,extraScansWithinIntervalBlocked:true,nextScanAt:next?new Date(next).toISOString():null,externalTopPoolSize:Number(coverage.externalLeaderSelected||0)||LEADER_TARGET,externalTopPoolHealthy:Boolean(coverage.externalLeaderHealthy),externalLeaderRefreshMinutes:5,externalFetchSoftCap:EXTERNAL_FETCH_SOFT_CAP,lastFetchBudget:this.__lastFetchBudget,note:'24h-Free-Profil: Top 25 jede Minute billig neu bewerten; externe Leaderlisten alle 5 Minuten; teure Deep-Checks nur fuer Finalisten; gehaltene Aktien bleiben zusaetzlich im Monitoring.'};
+    s.freeTierBudget={enabled:true,cloudflarePlan:'FREE',scanIntervalMinutes:1,maxScheduledScansPerDay:1440,browserStatusRefreshSeconds:60,extraScansWithinIntervalBlocked:true,nextScanAt:next?new Date(next).toISOString():null,externalTopPoolSize:Number(coverage.externalLeaderSelected||0)||LEADER_TARGET,externalTopPoolHealthy:Boolean(coverage.externalLeaderHealthy),externalLeaderRefreshMinutes:5,persistentLeaderCache:true,externalFetchSoftCap:EXTERNAL_FETCH_SOFT_CAP,lastFetchBudget:this.__lastFetchBudget,note:'24h-Free-Profil: Top 25 jede Minute billig neu bewerten; externe Leaderlisten alle 5 Minuten persistent gecacht; teure Deep-Checks nur fuer Finalisten; gehaltene Aktien bleiben zusaetzlich im Monitoring.'};
     this.__freeStatusCache=clone(s);this.__freeStatusCacheAt=now;return s;
   }
 }
