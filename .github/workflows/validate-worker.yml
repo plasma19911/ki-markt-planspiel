@@ -17,6 +17,7 @@ on:
       - "scripts/smoke-early-session.mjs"
       - "scripts/smoke-early-volume.mjs"
       - "scripts/smoke-best-validated-buy.mjs"
+      - "scripts/smoke-trend-continuation.mjs"
       - "scripts/refresh_universe.py"
       - "scripts/refresh_etfs.py"
       - "scripts/calibrate_fast-signals.py"
@@ -102,6 +103,7 @@ jobs:
           node --check scripts/smoke-early-session.mjs
           node --check scripts/smoke-early-volume.mjs
           node --check scripts/smoke-best-validated-buy.mjs
+          node --check scripts/smoke-trend-continuation.mjs
       - name: Python syntax
         run: python3 -m py_compile scripts/calibrate_fast_signals.py scripts/refresh_universe.py scripts/refresh_etfs.py
       - name: Fast decision smoke test
@@ -112,6 +114,8 @@ jobs:
         run: node scripts/smoke-early-volume.mjs
       - name: Best validated BUY smoke test
         run: node scripts/smoke-best-validated-buy.mjs
+      - name: Trend continuation smoke test
+        run: node scripts/smoke-trend-continuation.mjs
       - name: Order approval smoke test
         run: node scripts/smoke-order-approval.mjs
       - name: ZERO fee model smoke test
