@@ -1,0 +1,116 @@
+{
+  "checkedAt": "2026-08-18T14:45:36.497109+00:00",
+  "commit": "e762b004f6133510cbba8954b170315c995e5ec3",
+  "install": {
+    "ok": true,
+    "tail": "\nadded 38 packages, and audited 39 packages in 5s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+  },
+  "checks": {
+    "syntax_index": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_constants": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_decision": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_legacy": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_yahoo": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_profit": {
+      "ok": false,
+      "exitCode": 1,
+      "tail": "/home/runner/work/ki-markt-planspiel/ki-markt-planspiel/src/profit-optimizer.js:87\nexport class ProfitOptimizerAiGuard{\n^^^^^^\n\nSyntaxError: Unexpected token 'export'\n    at checkSyntax (node:internal/main/check_syntax:74:5)\n\nNode.js v22.23.2\n"
+    },
+    "syntax_learning": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_rebound": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_v10": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_v11base": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_v11": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_v12": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_chart": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_budget_ui": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "cash_aware": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"stocksOnly\": true,\n  \"cashMayRemain\": true,\n  \"best\": {\n    \"symbol\": \"HIGH.DE\",\n    \"action\": \"BUY\",\n    \"confidence\": 0.7,\n    \"allocation_pct\": 22,\n    \"reason\": \"BEST-VALIDATED-BUY: FAST-BUY HIGH\",\n    \"fastScore\": 5.2,\n    \"buyScore\": 5.2,\n    \"sellScore\": 0.2,\n    \"liveScore\": 5.5\n  },\n  \"cashAllowed\": \"KI bleibt vorsichtig · kein bestätigter BUY – Cash bleibt verfügbar.\",\n  \"preserved\": [\n    {\n      \"symbol\": \"HIGH.DE\",\n      \"action\": \"BUY\",\n      \"confidence\": 0.72,\n      \"allocation_pct\": 30,\n      \"reason\": \"stärker\",\n      \"fastScore\": 5.2,\n      \"buyScore\": 5.2,\n      \"sellScore\": 0.2,\n      \"liveScore\": 5.5\n    },\n    {\n      \"symbol\": \"LOW.DE\",\n      \"action\": \"BUY\",\n      \"confidence\": 0.78,\n      \"allocation_pct\": 20,\n      \"reason\": \"gut\",\n      \"fastScore\": 4.8,\n      \"buyScore\": 4.8,\n      \"sellScore\": 0.2,\n      \"liveScore\": 2.5\n    }\n  ],\n  \"capped\": [\n    {\n      \"symbol\": \"HIGH.DE\",\n      \"action\": \"BUY\",\n      \"confidence\": 0.72,\n      \"allocation_pct\": 57.1429,\n      \"reason\": \"A · Positionssumme auf max. 100% gekappt\",\n      \"fastScore\": 5.2,\n      \"buyScore\": 5.2,\n      \"sellScore\": 0.2,\n      \"liveScore\": 5.5\n    },\n    {\n      \"symbol\": \"LOW.DE\",\n      \"action\": \"BUY\",\n      \"confidence\": 0.78,\n      \"allocation_pct\": 42.8571,\n      \"reason\": \"B · Positionssumme auf max. 100% gekappt\",\n      \"fastScore\": 4.8,\n      \"buyScore\": 4.8,\n      \"sellScore\": 0.2,\n      \"liveScore\": 2.5\n    }\n  ]\n}\n"
+    },
+    "legacy_cash": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"forcedBlocked\": true,\n  \"legacyCapped\": true,\n  \"modernSizingPreserved\": true\n}\n"
+    },
+    "rebound_guard": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"fallingKnifeBlocked\": true,\n  \"confirmedReboundValidated\": true,\n  \"noForcedReboundBuy\": true,\n  \"eventRiskBlocked\": true,\n  \"buy\": {\n    \"symbol\": \"TEST.DE\",\n    \"action\": \"BUY\",\n    \"confidence\": 0.74,\n    \"allocation_pct\": 25,\n    \"reason\": \"AI möchte kaufen · REBOUND bestätigt 8.70 · Lern-Score 0.00 · Einstieg max. 35%\"\n  }\n}\n"
+    },
+    "entry_learning": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"reboundBucket\": true,\n  \"badReboundBlocked\": {\n    \"bucket\": \"REBOUND_REVERSAL\",\n    \"samples\": 18,\n    \"totalCheckpoints\": 18,\n    \"quality\": -0.5,\n    \"winRate\": 0.222,\n    \"confidenceDelta\": -0.07454444444444445,\n    \"scoreDelta\": -1.4116666666666666,\n    \"sizeMultiplier\": 0.6885777777777777,\n    \"block\": true,\n    \"reason\": \"Rebound-Lernen blockiert schlechtes REVERSAL-Muster: 18 Fälle, Ø -0.50%, Treffer 22%\"\n  },\n  \"goodPullbackBoosted\": {\n    \"bucket\": \"PULLBACK_RETEST\",\n    \"samples\": 6,\n    \"totalCheckpoints\": 18,\n    \"quality\": 0.47,\n    \"winRate\": 0.833,\n    \"confidenceDelta\": 0.025,\n    \"scoreDelta\": 0.4145,\n    \"sizeMultiplier\": 1.08,\n    \"block\": false,\n    \"reason\": \"Timing-Lernen bestätigt PULLBACK_RETEST: 6 Fälle, Ø 0.47%, Treffer 83%\"\n  }\n}\n"
+    },
+    "yahoo_sanity": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"nullPricesCannotBecomeZero\": true,\n  \"quoteFallback\": true,\n  \"sanitized\": 5\n}\n"
+    },
+    "wrangler_dryrun": {
+      "ok": false,
+      "exitCode": 1,
+      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n\n\u001b[31m✘ \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mBuild failed with 1 error:\u001b[0m\n\n  \u001b[31m✘ \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mUnexpected \"export\"\u001b[0m\n  \n      src/profit-optimizer.js:87:0:\n  \u001b[37m      87 │ \u001b[32mexport\u001b[37m class ProfitOptimizerAiGuard{\n           ╵ \u001b[32m~~~~~~\u001b[0m\n  \n  \n\n\n🪵  Logs were written to \"/home/runner/.config/.wrangler/logs/wrangler-2026-08-18_14-45-35_748.log\"\n"
+    }
+  },
+  "failedChecks": [
+    "syntax_profit",
+    "wrangler_dryrun"
+  ],
+  "allCodeAndRegressionChecksPassed": false,
+  "note": "Wrangler dry-run may report required runtime-secret/auth limitations in CI; syntax and smoke regressions are listed separately."
+}
