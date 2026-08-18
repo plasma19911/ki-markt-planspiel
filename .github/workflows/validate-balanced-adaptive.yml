@@ -1,0 +1,43 @@
+name: Validate Balanced Adaptive Layer
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/balanced-adaptive-guard.js'
+      - 'src/research-entry-quality-guard.js'
+      - 'src/rotation-cost-guard.js'
+      - 'src/rotation-replay-adjustment.js'
+      - 'src/yahoo-spark-chart-fallback.js'
+      - 'src/compact-portfolio-v18.js'
+      - 'src/compact-portfolio-v11.js'
+      - 'scripts/smoke-balanced-adaptive.mjs'
+      - 'scripts/smoke-research-entry-quality.mjs'
+      - 'scripts/smoke-rotation-cost-guard.mjs'
+      - '.github/workflows/validate-balanced-adaptive.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax
+        run: |
+          node --check src/balanced-adaptive-guard.js
+          node --check src/research-entry-quality-guard.js
+          node --check src/rotation-cost-guard.js
+          node --check src/rotation-replay-adjustment.js
+          node --check src/yahoo-spark-chart-fallback.js
+          node --check src/compact-portfolio-v18.js
+          node --check src/compact-portfolio-v11.js
+      - name: Balanced adaptive regression
+        run: node scripts/smoke-balanced-adaptive.mjs
+      - name: Research entry regression
+        run: node scripts/smoke-research-entry-quality.mjs
+      - name: Rotation cost regression
+        run: node scripts/smoke-rotation-cost-guard.mjs
