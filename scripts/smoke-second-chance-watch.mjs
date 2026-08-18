@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {buildSecondChanceWatch,SECOND_CHANCE_TARGET} from '../src/compact-portfolio-v17.js';
+import {buildSecondChanceWatch,SECOND_CHANCE_TARGET} from '../src/second-chance-watch-utils.js';
 
 const now=Date.now(),iso=new Date(now).toISOString(),stale=new Date(now-20*60_000).toISOString();
 const previous={candidates:[
