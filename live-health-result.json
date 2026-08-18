@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T14:41:58.293872+00:00",
+  "checkedAt": "2026-08-18T15:02:11.550910+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -14,107 +14,75 @@
     "apiStatus": true,
     "agentEndpoint": true,
     "pcSecretConfigured": true,
-    "profitOptimizer": false,
+    "profitOptimizer": true,
     "forwardScanner": true,
-    "reboundScanner": false,
-    "fallingKnifeProtection": false,
-    "entryTimingLearning": false,
-    "cashMayRemain": false,
-    "legacyFullCashFailsafe": false,
+    "reboundScanner": true,
+    "fallingKnifeProtection": true,
+    "entryTimingLearning": true,
+    "cashMayRemain": true,
+    "legacyFullCashFailsafe": true,
     "uiHotfix": true,
     "positionChart": true
   },
-  "allRequiredChecksPassed": false,
-  "failedChecks": [
-    "profitOptimizer",
-    "reboundScanner",
-    "fallingKnifeProtection",
-    "entryTimingLearning",
-    "cashMayRemain",
-    "legacyFullCashFailsafe"
-  ],
+  "allRequiredChecksPassed": true,
+  "failedChecks": [],
   "running": 1,
-  "scanCount": 97,
-  "lastScan": "2026-08-18T14:40:08.071Z",
+  "scanCount": 112,
+  "lastScan": "2026-08-18T15:02:06.650Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision nicht verfügbar: Cannot read properties of undefined (reading 'toFixed')",
-  "cash": 0,
-  "equity": 998.3475744803419,
-  "pnl": -1.6524255196580953,
-  "universeCount": 169,
-  "positions": 1,
-  "positionRows": [
-    {
-      "symbol": "DTE.DE",
-      "name": "Deutsche Telekom AG",
-      "instrument_type": "EQUITY",
-      "theme": null,
-      "company_key": "DEUTSCHE TELEKOM",
-      "invested": 999,
-      "entry_fee": 1,
-      "entry_price": 28.908879159927366,
-      "last_price": 28.889999389648438,
-      "entry_fx": 1,
-      "last_fx": 1,
-      "currency": "EUR",
-      "opened_at": "2026-08-18T12:41:19.001Z",
-      "score": -0.04999999999999982,
-      "signal_confidence": 0.3894,
-      "zero_quantity": 34.556856890694824,
-      "zero_whole_shares": 34,
-      "zero_fractional_shares": 0.5568568906948244,
-      "zero_uses_fractional": true,
-      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
-    }
-  ],
-  "candidates": 4,
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 2 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 2/12 möglichen Checks. Beste HOLDs: SAIC: BUY 2.5 / SELL 0 · REBOUND-RADAR: 10 Verlierer beobachtet; 0 BUY validiert, 0 fallende/ungeklärte Rebounds blockiert; kein Zwangskauf.",
+  "cash": 994.623138242596,
+  "equity": 994.623138242596,
+  "pnl": -5.376861757403958,
+  "universeCount": 176,
+  "positions": 0,
+  "positionRows": [],
+  "candidates": 2,
   "topCandidates": [
     {
-      "symbol": "MELI",
-      "name": "MercadoLibre",
-      "score": 3.795569060773481,
-      "confidence": 0.8042651679759318,
-      "day_change": 0.7546590395760777,
-      "news_score": 0.07955801104972375,
+      "symbol": "SAIC",
+      "name": "Science Applications International",
+      "score": 4.7,
+      "confidence": 0.73026,
+      "day_change": 1.7291280873166448,
+      "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.56%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 50 konstruktiv · 5m +0.56%",
       "contra": ""
     },
     {
-      "symbol": "ADYEN.AS",
-      "name": "Adyen",
-      "score": 3.404017857142857,
-      "confidence": 0.7329017857142857,
-      "day_change": 2.5402342045702353,
-      "news_score": 0.1285714285714286,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.40% · 20m +1.05%",
-      "contra": "RSI 97 überhitzt"
-    },
-    {
-      "symbol": "AAPL",
-      "name": "Apple Inc.",
-      "score": 2.4,
-      "confidence": 0.52,
-      "day_change": 1.83252149658244,
+      "symbol": "CACI",
+      "name": "CACI International",
+      "score": -1.4,
+      "confidence": 0.555,
+      "day_change": 1.6116353028892805,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "Kurs über EMA21 · RSI 50 konstruktiv · 20m +0.60%",
-      "contra": "EMA-Trend schwach"
-    },
-    {
-      "symbol": "DTE.DE",
-      "name": "Deutsche Telekom AG",
-      "score": -0.04999999999999982,
-      "confidence": 0.3894,
-      "day_change": 1.7611813654400787,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "Kurs über EMA21 · RSI 50 konstruktiv",
-      "contra": "EMA-Trend schwach · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "pro": "EMA9 über EMA21 · RSI 63 konstruktiv",
+      "contra": "Kurs unter EMA21 · 5m -0.32% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
+    {
+      "ts": "2026-08-18T15:02:06.650Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal SAIC: Score 4.70, Konfidenz 73%.",
+      "score": null
+    },
+    {
+      "ts": "2026-08-18T15:00:16.854Z",
+      "action": "VERKAUF",
+      "symbol": "DTE.DE",
+      "amount": 994.623138242596,
+      "fee": 1,
+      "trade_pnl": -5.376861757403958,
+      "reason": "KI SELL 84%: TIME/THESIS-EXIT: 139 Min. gehalten · P/L -0.24% · aktueller Erwartungs-Score -4.44 · Signal zerfallen· Trade P/L netto -4.38 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": -2.437318181818182
+    },
     {
       "ts": "2026-08-18T12:43:05.636Z",
       "action": "HALTEN",
@@ -122,7 +90,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal MELI: Score 3.80, Konfidenz 80%.",
+      "reason": "Kein Trade. Bestes Signal CACI: Score 4.70, Konfidenz 77%.",
       "score": null
     },
     {
@@ -157,6 +125,30 @@
     }
   ],
   "recentAiLog": [
+    {
+      "ts": "2026-08-18T15:00:16.854Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "DTE.DE",
+      "message": "DTE.DE: KI SELL 84%: TIME/THESIS-EXIT: 139 Min. gehalten · P/L -0.24% · aktueller Erwartungs-Score -4.44 · Signal zerfallen",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-18T14:58:21.114Z",
+      "kind": "IDEA",
+      "title": "Beobachtungskandidat",
+      "symbol": "CACI",
+      "message": "CACI: Kein Trade. Bestes Signal CACI: Score 4.70, Konfidenz 77%.",
+      "confidence": 0.765
+    },
+    {
+      "ts": "2026-08-18T14:45:07.525Z",
+      "kind": "IDEA",
+      "title": "Beobachtungskandidat",
+      "symbol": "NFLX",
+      "message": "NFLX: Kein Trade. Bestes Signal NFLX: Score 1.30, Konfidenz 55%.",
+      "confidence": 0.5535515424481738
+    },
     {
       "ts": "2026-08-18T14:30:06.814Z",
       "kind": "IDEA",
@@ -233,12 +225,12 @@
   "sourceHealth": [
     {
       "source": "Yahoo Spark",
-      "status": "OK",
-      "ok_count": 4,
-      "fail_count": 0,
-      "last_error": "",
+      "status": "DEGRADED",
+      "ok_count": 2,
+      "fail_count": 1,
+      "last_error": "Error: HTTP 400",
       "latency_ms": 107,
-      "updated_at": "2026-08-18T14:40:07.044Z"
+      "updated_at": "2026-08-18T15:02:05.632Z"
     },
     {
       "source": "Yahoo FX",
@@ -246,17 +238,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 112,
-      "updated_at": "2026-08-18T14:40:07.044Z"
+      "latency_ms": 152,
+      "updated_at": "2026-08-18T15:02:05.632Z"
     },
     {
       "source": "Yahoo 1m Chart",
       "status": "OK",
-      "ok_count": 4,
+      "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 108,
-      "updated_at": "2026-08-18T14:40:07.044Z"
+      "latency_ms": 113,
+      "updated_at": "2026-08-18T15:02:05.632Z"
     },
     {
       "source": "Yahoo Events",
@@ -264,26 +256,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 104,
-      "updated_at": "2026-08-18T14:40:07.044Z"
+      "latency_ms": 102,
+      "updated_at": "2026-08-18T15:02:05.632Z"
     },
     {
       "source": "Yahoo News",
-      "status": "DEGRADED",
-      "ok_count": 4,
-      "fail_count": 1,
-      "last_error": "Error: HTTP 500",
-      "latency_ms": 1308,
-      "updated_at": "2026-08-18T14:40:07.044Z"
-    },
-    {
-      "source": "BörsenNews",
       "status": "OK",
-      "ok_count": 1,
+      "ok_count": 3,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 304,
-      "updated_at": "2026-08-18T14:40:07.044Z"
+      "latency_ms": 747,
+      "updated_at": "2026-08-18T15:02:05.632Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -291,8 +274,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 310,
-      "updated_at": "2026-08-18T14:40:07.044Z"
+      "latency_ms": 369,
+      "updated_at": "2026-08-18T15:02:05.632Z"
+    },
+    {
+      "source": "BörsenNews",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 518,
+      "updated_at": "2026-08-18T15:02:05.632Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -300,8 +292,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 930,
-      "updated_at": "2026-08-18T14:40:07.044Z"
+      "latency_ms": 902,
+      "updated_at": "2026-08-18T15:02:05.632Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -309,14 +301,14 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1274,
-      "updated_at": "2026-08-18T14:40:07.044Z"
+      "latency_ms": 1270,
+      "updated_at": "2026-08-18T15:02:05.632Z"
     }
   ],
   "risk": {
-    "equity": 998.3475744803419,
-    "dailyPct": -0.16524255196580517,
-    "availableCash": 0,
+    "equity": 994.623138242596,
+    "dailyPct": -0.5376861757403928,
+    "availableCash": 994.623138242596,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -338,11 +330,14 @@
     "fractionalMinEur": 1,
     "spreadIsSeparate": true,
     "stocksOnly": true,
-    "fullCashPolicy": true,
-    "strategicCashReservePct": 0,
+    "fullCashPolicy": false,
+    "strategicCashReservePct": null,
     "quoteSanity": true,
     "unsafeFallbackBuysBlocked": true,
-    "sameScanReentryBlocked": true
+    "sameScanReentryBlocked": true,
+    "alwaysInvested": false,
+    "cashMayRemain": true,
+    "legacyFullCashFailsafe": true
   },
   "forwardScan": {
     "enabled": true,
@@ -351,12 +346,85 @@
     "forwardCandidates": 10,
     "monitoredForwardUniverse": 12,
     "activeThemes": 1,
-    "mode": "25 aktuelle Leader + bis zu 15 vorausschauende Ereignis-/Themenwerte",
-    "confirmationRequired": true
+    "mode": "25 aktuelle Leader + bis zu 15 vorausschauende, im Broker-Master aufgelöste Ereignis-/Themenwerte",
+    "confirmationRequired": true,
+    "watchMayBeBroaderThanTradablePool": true
   },
-  "reboundScan": {},
-  "profitOptimizer": {},
-  "entryTimingLearning": {},
+  "reboundScan": {
+    "enabled": true,
+    "target": 10,
+    "candidateCount": 10,
+    "updatedAt": "2026-08-18T14:57:03.674Z",
+    "source": "CLOUDFLARE_FALLBACK",
+    "sourceStats": [
+      {
+        "name": "TradingView DE Biggest Losers",
+        "found": 35,
+        "error": null,
+        "matched": 11
+      },
+      {
+        "name": "Yahoo Day Losers",
+        "found": 34,
+        "error": null,
+        "matched": 12
+      }
+    ],
+    "confirmationRequired": true,
+    "fallingKnifeBuysBlocked": true,
+    "mode": "bis zu 10 Tagesverlierer separat beobachten; BUY nur nach bestaetigter Umkehr"
+  },
+  "profitOptimizer": {
+    "enabled": true,
+    "objective": "maximaler erwarteter Paper-Gewinn nach realistischen Kosten",
+    "alwaysInvested": false,
+    "maxSinglePositionPct": 72,
+    "weakSetupsMayStayCash": true,
+    "forwardCatalystBoost": true,
+    "eventDirectionGuessing": false,
+    "profitRotation": true,
+    "badQuoteEvidenceBlocked": true,
+    "entryTimingLearning": true,
+    "entryTimingHorizonsMinutes": [
+      15,
+      30,
+      60
+    ],
+    "legacyFullCashFailsafe": true,
+    "note": "Aggressiver Paper-Modus: Kapital wird in wenige starke, mehrfach bestaetigte Setups konzentriert. 15/30/60-Minuten-Ergebnisse kalibrieren das Einstiegstiming automatisch. Alte FULL-CASH-Fallbacks werden in Produktion neutralisiert. Keine Gewinngarantie; Safety-/Quote-/Kostenpruefungen bleiben aktiv.",
+    "reboundRadar": true,
+    "fallingKnifeProtection": true,
+    "reboundLearning": true
+  },
+  "entryTimingLearning": {
+    "version": 3,
+    "mode": "15/30/60-minute-entry-timing-learning",
+    "activePositions": 0,
+    "pendingEntries": 14,
+    "completedTradeOutcomes": 5,
+    "timedCheckpoints": 0,
+    "horizonsMinutes": [
+      15,
+      30,
+      60
+    ],
+    "minSamplesBeforeAdjustment": 6,
+    "hardBlockSamples": 12,
+    "reboundHardBlockSamples": 18,
+    "reboundTimingLearning": true,
+    "reboundTiming": {
+      "bucket": "REBOUND_REVERSAL",
+      "samples15": 0,
+      "totalCheckpoints": 0,
+      "qualityPct": 0,
+      "winRatePct": null,
+      "block": false,
+      "scoreDelta": 0
+    },
+    "matureTimingBuckets": 0,
+    "buckets": [],
+    "recentTiming": []
+  },
   "futureWatch": {
     "candidateCount": 10,
     "monitoredUniverseCount": 12,
@@ -391,7 +459,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T14:41:08.071Z",
+    "nextScanAt": "2026-08-18T15:03:06.650Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -399,12 +467,12 @@
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
     "lastFetchBudget": {
-      "actual": 36,
-      "cacheHits": 0,
+      "actual": 25,
+      "cacheHits": 1,
       "blocked": 0,
       "cap": 36
     },
-    "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Zusätzlich werden bis zu 15 vorausschauende Ereignis-/Themenkandidaten im Minuten-Scan beobachtet; gekauft wird erst nach Live-Bestaetigung.",
+    "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Zusätzlich werden bis zu 15 vorausschauende Ereignis-/Themenkandidaten aus dem Broker-Master im Minuten-Scan beobachtet; gekauft wird erst nach Live-Bestaetigung. Einstiegstiming wird nach 15/30/60 Minuten lernend bewertet. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Rebound-Radar beobachtet bis zu 10 Tagesverlierer; fallende Messer bleiben gesperrt, bis eine Umkehr live bestaetigt ist.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
     "newsAtNight": false,
@@ -416,33 +484,35 @@
     "pcAgentOnline": true,
     "pcAgentPrefetchFresh": true,
     "forwardLookingPool": true,
-    "forwardPoolTarget": 15
+    "forwardPoolTarget": 15,
+    "reboundPoolTarget": 10,
+    "reboundPoolCandidates": 10
   },
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T14:41:01.943Z",
-    "ageSeconds": 56,
+    "lastSeenAt": "2026-08-18T15:02:02.000Z",
+    "ageSeconds": 9,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T14:41:01.568Z",
+    "prefetchAt": "2026-08-18T15:02:01.557Z",
     "resolvedLeaderCount": 13,
     "leaderHealthy": true,
     "futureCandidates": 0,
     "reboundCandidates": null,
     "metrics": {
-      "lastSeenAt": "2026-08-18T14:41:01.943Z",
+      "lastSeenAt": "2026-08-18T15:02:02.000Z",
       "version": "2.0.3-csharp-gdelt-backoff",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 531553,
+      "storageBytes": 616341,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 47,
-      "downloadedBytes": 24301290,
-      "uploadedBytes": 482522,
+      "ramMb": 49.3,
+      "downloadedBytes": 29416586,
+      "uploadedBytes": 574327,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP",
-      "lastLocalCleanupAt": "2026-08-18T14:21:08.5614810Z",
+      "lastLocalCleanupAt": "2026-08-18T14:57:18.2890297Z",
       "lastError": null
     }
   }
