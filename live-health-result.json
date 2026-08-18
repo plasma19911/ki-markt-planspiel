@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T20:15:23.438208+00:00",
+  "checkedAt": "2026-08-18T20:20:33.761068+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -37,8 +37,8 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 333,
-  "lastScan": "2026-08-18T20:15:08.368Z",
+  "scanCount": 337,
+  "lastScan": "2026-08-18T20:20:08.085Z",
   "lastError": null,
   "aiLastSummary": "Keine frischen handelbaren Kurse – keine Orderentscheidung.",
   "cash": 242.5656642062093,
@@ -321,8 +321,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 404",
-      "latency_ms": 249,
-      "updated_at": "2026-08-18T20:15:08.257Z"
+      "latency_ms": 391,
+      "updated_at": "2026-08-18T20:20:08.079Z"
     },
     {
       "source": "Yahoo Events",
@@ -330,8 +330,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 209,
-      "updated_at": "2026-08-18T20:15:08.257Z"
+      "latency_ms": 203,
+      "updated_at": "2026-08-18T20:20:08.079Z"
     },
     {
       "source": "Yahoo News",
@@ -339,17 +339,8 @@
       "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 483,
-      "updated_at": "2026-08-18T20:15:08.257Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 253,
-      "updated_at": "2026-08-18T20:15:08.257Z"
+      "latency_ms": 412,
+      "updated_at": "2026-08-18T20:20:08.079Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -357,8 +348,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 269,
-      "updated_at": "2026-08-18T20:15:08.257Z"
+      "latency_ms": 307,
+      "updated_at": "2026-08-18T20:20:08.079Z"
     },
     {
       "source": "BörsenNews",
@@ -366,8 +357,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 522,
-      "updated_at": "2026-08-18T20:15:08.257Z"
+      "latency_ms": 318,
+      "updated_at": "2026-08-18T20:20:08.079Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 702,
+      "updated_at": "2026-08-18T20:20:08.079Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -375,8 +375,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 532,
-      "updated_at": "2026-08-18T20:15:08.257Z"
+      "latency_ms": 1030,
+      "updated_at": "2026-08-18T20:20:08.079Z"
     }
   ],
   "risk": {
@@ -436,7 +436,7 @@
     "enabled": true,
     "target": 10,
     "candidateCount": 7,
-    "updatedAt": "2026-08-18T20:11:08.902Z",
+    "updatedAt": "2026-08-18T20:17:09.681Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -453,7 +453,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 3,
-    "updatedAt": "2026-08-18T20:11:08.902Z",
+    "updatedAt": "2026-08-18T20:17:09.681Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -473,7 +473,7 @@
     "enabled": true,
     "target": 16,
     "candidateCount": 0,
-    "updatedAt": "2026-08-18T20:15:06.744Z",
+    "updatedAt": "2026-08-18T20:20:06.019Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8527,
@@ -501,7 +501,7 @@
     "enabled": true,
     "target": 8,
     "candidateCount": 0,
-    "updatedAt": "2026-08-18T20:15:08.399Z",
+    "updatedAt": "2026-08-18T20:20:08.085Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 2,
@@ -731,7 +731,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T20:16:08.368Z",
+    "nextScanAt": "2026-08-18T20:21:08.085Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -777,10 +777,10 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T20:15:06.744Z",
-    "ageSeconds": 16,
+    "lastSeenAt": "2026-08-18T20:20:06.019Z",
+    "ageSeconds": 27,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T20:11:08.902Z",
+    "prefetchAt": "2026-08-18T20:17:09.681Z",
     "resolvedLeaderCount": 15,
     "leaderHealthy": true,
     "futureCandidates": 0,
@@ -791,16 +791,16 @@
     "wideSweepMasterCount": 8527,
     "wideSweepScannedCount": 519,
     "metrics": {
-      "lastSeenAt": "2026-08-18T20:15:06.744Z",
+      "lastSeenAt": "2026-08-18T20:20:06.019Z",
       "version": "2.0.12-csharp-full-master-24mi",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 5951677,
+      "storageBytes": 5967609,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 57.9,
-      "downloadedBytes": 30115238,
-      "uploadedBytes": 240594,
+      "ramMb": 55.2,
+      "downloadedBytes": 33061005,
+      "uploadedBytes": 256628,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_FULL_MASTER_24MIN",
       "lastLocalCleanupAt": "2026-08-18T20:01:20.1147685Z",
