@@ -1,0 +1,30 @@
+/* Desktop layout hotfix 2026-08-18: keep the real multi-column desktop layout on normal PC browser widths. */
+@media (min-width:901px){
+  body.uiV2 .shell{max-width:1480px!important;padding-left:18px!important;padding-right:18px!important}
+  body.uiV2 #livePanel main.grid{display:grid!important;grid-template-columns:repeat(12,minmax(0,1fr))!important;gap:12px!important;align-items:start!important}
+  body.uiV2 #livePanel .chartCard{grid-column:span 8!important}
+  body.uiV2 #livePanel .allocation{grid-column:span 4!important}
+  body.uiV2 #livePanel .positions{grid-column:1/-1!important}
+  body.uiV2 #livePanel .candidates{grid-column:span 7!important}
+  body.uiV2 #livePanel .stats{grid-column:span 5!important}
+  body.uiV2 #livePanel .health{grid-column:span 6!important}
+  body.uiV2 #livePanel #macroRadar{grid-column:span 7!important}
+  body.uiV2 #livePanel #newsLearning{grid-column:span 5!important}
+  body.uiV2 #livePanel .intelligence,
+  body.uiV2 #livePanel .newsRadar,
+  body.uiV2 #livePanel .aiChat,
+  body.uiV2 #livePanel .history,
+  body.uiV2 #livePanel .settings,
+  body.uiV2 #livePanel #freeBudgetPanel,
+  body.uiV2 #livePanel .performanceDiagnostics{grid-column:1/-1!important}
+  body.uiV2 .desktopQuickNav{display:flex!important}
+}
+@media (min-width:901px) and (max-width:1100px){
+  body.uiV2 .kpis{grid-template-columns:repeat(12,minmax(0,1fr))!important}
+  body.uiV2 .kpis article{grid-column:span 3!important}
+  body.uiV2 .kpis article.kpiPrimary{grid-column:span 3!important}
+  body.uiV2 .uiStatusStrip{grid-template-columns:1.4fr repeat(3,minmax(0,1fr))!important}
+  body.uiV2 .uiStatusItem:first-child{grid-column:auto!important}
+  body.uiV2 .diagnosticGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  body.uiV2 .recentTrades{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
