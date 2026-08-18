@@ -64,6 +64,7 @@ queueMicrotask(()=>{
 });
 
 if(!document.querySelector('link[data-ui-v2]')){const l=document.createElement('link');l.rel='stylesheet';l.href='/ui-v2.css';l.dataset.uiV2='1';document.head.appendChild(l)}
+if(!document.querySelector('link[data-ui-hotfix]')){const l=document.createElement('link');l.rel='stylesheet';l.href='/ui-hotfix.css?v=20260818-1';l.dataset.uiHotfix='1';document.head.appendChild(l)}
 
 import('./ui-v2.js').catch(e=>console.error('UI V2 failed',e));
 import('./zero-ui.js').catch(e=>console.error('ZERO target UI failed',e));
