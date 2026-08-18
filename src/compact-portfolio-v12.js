@@ -109,7 +109,7 @@ export class MarketPortfolio extends BasePortfolio{
       };
       if(this.engine?.env)this.engine.env.ASSETS=assets;
     }
-    const ai=this.engine?.env?.AI;if(ai?.run&&!ai.__reboundGuard){const wrapped=new ReboundAiGuard(ai,this.bucketAdapter);wrapped.__reboundGuard=true;this.engine.env.AI=wrapped}
+    const ai=this.engine?.env?.AI;if(ai?.run&&!ai.__reboundGuard){const wrapped=new ReboundAiGuard(ai,this.bucketAdapter,ctx?.storage);wrapped.__reboundGuard=true;this.engine.env.AI=wrapped}
   }
 
   _readReboundWatch(){
