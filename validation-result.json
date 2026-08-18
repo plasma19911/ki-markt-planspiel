@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-18T17:49:08.874564+00:00",
-  "commit": "e96d968164508bb576f92880ce0b4e9e0a64eec2",
+  "checkedAt": "2026-08-18T17:49:48.782399+00:00",
+  "commit": "7adaf1cc0538efdb8139f3efecf97106bb5afed2",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 5s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 7s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -179,12 +179,12 @@
     "capital_in_motion": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"capitalFloor\": {\n    \"confirmed\": true,\n    \"expected\": 5.335,\n    \"liveScore\": 3.6,\n    \"confidence\": 0.68,\n    \"nearHigh\": false,\n    \"m5\": 0.06,\n    \"m20\": 0.18,\n    \"acceleration\": 0.02,\n    \"day\": 1.2,\n    \"rsi\": 61,\n    \"volumeRatio\": 1.05,\n    \"breakoutScore\": 0.4,\n    \"state\": \"BUILDING\",\n    \"sell\": \"NONE\",\n    \"hardSafe\": true,\n    \"blockers\": []\n  },\n  \"allocation\": [\n    {\n      \"symbol\": \"BEST\",\n      \"pct\": 100,\n      \"expected\": 5.335,\n      \"tier\": \"QUALIFIED\"\n    }\n  ],\n  \"rotation\": true,\n  \"hardSafety\": true,\n  \"pullbackFirst\": {\n    \"pullback\": {\n      \"confirmed\": true,\n      \"expected\": 5.882,\n      \"liveScore\": 4,\n      \"confidence\": 0.73,\n      \"nearHigh\": false,\n      \"m5\": 0.09,\n      \"m20\": 0.22,\n      \"acceleration\": 0.06,\n      \"day\": 2.4,\n      \"rsi\": 59,\n      \"volumeRatio\": 1.05,\n      \"breakoutScore\": 0.4,\n      \"state\": \"BUILDING\",\n      \"sell\": \"NONE\",\n      \"hardSafe\": true,\n      \"blockers\": [],\n      \"buyable\": true,\n      \"mode\": \"PULLBACK_RETEST\",\n      \"pullbackConfirmed\": true,\n      \"earlyBreakout\": false,\n      \"normalEntry\": true,\n      \"peakRisk\": false,\n      \"hardPeak\": false,\n      \"overextended\": false,\n      \"drawKnown\": true,\n      \"drawdownFrom20mHighPct\": -0.82,\n      \"adjustedExpected\": 7.232,\n      \"reason\": \"Ruecksetzer -0.82% vom 20m-Hoch, 1m/5m drehen wieder hoch\"\n    },\n    \"peakBlocked\": true,\n    \"earlyBreakout\": true,\n    \"fallingKnifeBlocked\": true,\n    \"allocation\": [\n      {\n        \"symbol\": \"PULLBACK\",\n        \"pct\": 100,\n        \"mode\": \"PULLBACK_RETEST\",\n        \"score\": 7.232\n      }\n    ]\n  }\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"capitalFloor\": {\n    \"confirmed\": true,\n    \"expected\": 5.335,\n    \"liveScore\": 3.6,\n    \"confidence\": 0.68,\n    \"nearHigh\": false,\n    \"m5\": 0.06,\n    \"m20\": 0.18,\n    \"acceleration\": 0.02,\n    \"day\": 1.2,\n    \"rsi\": 61,\n    \"volumeRatio\": 1.05,\n    \"breakoutScore\": 0.4,\n    \"state\": \"BUILDING\",\n    \"sell\": \"NONE\",\n    \"hardSafe\": true,\n    \"blockers\": []\n  },\n  \"allocation\": [\n    {\n      \"symbol\": \"BEST\",\n      \"pct\": 100,\n      \"expected\": 5.335,\n      \"tier\": \"QUALIFIED\"\n    }\n  ],\n  \"rotation\": true,\n  \"hardSafety\": true,\n  \"pullbackFirst\": {\n    \"pullback\": {\n      \"confirmed\": true,\n      \"expected\": 5.882,\n      \"liveScore\": 4,\n      \"confidence\": 0.73,\n      \"nearHigh\": false,\n      \"m5\": 0.09,\n      \"m20\": 0.22,\n      \"acceleration\": 0.06,\n      \"day\": 2.4,\n      \"rsi\": 59,\n      \"volumeRatio\": 1.05,\n      \"breakoutScore\": 0.4,\n      \"state\": \"BUILDING\",\n      \"sell\": \"NONE\",\n      \"hardSafe\": true,\n      \"blockers\": [],\n      \"buyable\": true,\n      \"mode\": \"PULLBACK_RETEST\",\n      \"pullbackConfirmed\": true,\n      \"earlyBreakout\": false,\n      \"normalEntry\": true,\n      \"peakRisk\": false,\n      \"hardPeak\": false,\n      \"overextended\": false,\n      \"drawKnown\": true,\n      \"drawdownFrom20mHighPct\": -0.82,\n      \"adjustedExpected\": 7.232,\n      \"replayAdjustment\": {\n        \"bucket\": \"PULLBACK_RETEST\",\n        \"count\": 0,\n        \"scoreDelta\": 0,\n        \"sizeMultiplier\": 1,\n        \"block\": false,\n        \"avg30\": 0,\n        \"avg60\": 0,\n        \"win30\": null,\n        \"win60\": null,\n        \"reason\": \"\"\n      },\n      \"reason\": \"Ruecksetzer -0.82% vom 20m-Hoch, 1m/5m drehen wieder hoch\"\n    },\n    \"peakBlocked\": true,\n    \"earlyBreakout\": true,\n    \"fallingKnifeBlocked\": true,\n    \"allocation\": [\n      {\n        \"symbol\": \"PULLBACK\",\n        \"pct\": 100,\n        \"mode\": \"PULLBACK_RETEST\",\n        \"score\": 7.232\n      }\n    ]\n  }\n}\n"
     },
     "pc_wide_sweep": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"target\": 16,\n  \"selected\": 16,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-18T17:48:46.304Z\",\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\"\n  },\n  \"forcedBuy\": false\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"target\": 16,\n  \"selected\": 16,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-18T17:49:26.456Z\",\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\"\n  },\n  \"forcedBuy\": false\n}\n"
     },
     "yahoo_sanity": {
       "ok": true,
@@ -194,7 +194,7 @@
     "wrangler_dryrun": {
       "ok": true,
       "exitCode": 0,
-      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 24 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 568.11 KiB / gzip: 147.22 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
+      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 24 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 569.83 KiB / gzip: 148.48 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
     }
   },
   "failedChecks": [],
