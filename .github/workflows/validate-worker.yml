@@ -11,6 +11,7 @@ on:
       - "scripts/smoke-order-approval.mjs"
       - "scripts/smoke-zero-fees.mjs"
       - "scripts/smoke-zero-universe.mjs"
+      - "scripts/smoke-zero-accounting.mjs"
       - "scripts/refresh_universe.py"
       - "scripts/refresh_etfs.py"
       - "scripts/calibrate_fast_signals.py"
@@ -86,6 +87,7 @@ jobs:
           node --check scripts/smoke-order-approval.mjs
           node --check scripts/smoke-zero-fees.mjs
           node --check scripts/smoke-zero-universe.mjs
+          node --check scripts/smoke-zero-accounting.mjs
       - name: Python syntax
         run: python3 -m py_compile scripts/calibrate_fast_signals.py scripts/refresh_universe.py scripts/refresh_etfs.py
       - name: Fast decision smoke test
@@ -96,5 +98,7 @@ jobs:
         run: node scripts/smoke-zero-fees.mjs
       - name: ZERO master universe smoke test
         run: node scripts/smoke-zero-universe.mjs
+      - name: ZERO accounting smoke test
+        run: node scripts/smoke-zero-accounting.mjs
       - name: Wrangler dry run
         run: npx wrangler deploy --dry-run
