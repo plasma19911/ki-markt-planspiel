@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T20:09:45.864435+00:00",
+  "checkedAt": "2026-08-18T20:14:27.347309+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -37,13 +37,13 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 328,
-  "lastScan": "2026-08-18T20:09:08.603Z",
+  "scanCount": 332,
+  "lastScan": "2026-08-18T20:14:08.085Z",
   "lastError": null,
   "aiLastSummary": "Keine frischen handelbaren Kurse – keine Orderentscheidung.",
   "cash": 242.5656642062093,
-  "equity": 961.2305103076849,
-  "pnl": -38.76948969231512,
+  "equity": 961.1473218777621,
+  "pnl": -38.852678122237876,
   "universeCount": 169,
   "positions": 2,
   "positionRows": [
@@ -58,7 +58,7 @@
       "entry_price": 791.2354523315429,
       "last_price": 795.71,
       "entry_fx": 0.8636,
-      "last_fx": 0.8639,
+      "last_fx": 0.8638,
       "currency": "USD",
       "opened_at": "2026-08-18T17:34:07.358Z",
       "score": 1.6890088787707214,
@@ -80,7 +80,7 @@
       "entry_price": 375.78541366577144,
       "last_price": 375.19,
       "entry_fx": 0.8636,
-      "last_fx": 0.8639,
+      "last_fx": 0.8638,
       "currency": "USD",
       "opened_at": "2026-08-18T19:56:13.615Z",
       "score": 1.3489151358709028,
@@ -321,8 +321,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 404",
-      "latency_ms": 242,
-      "updated_at": "2026-08-18T20:09:08.596Z"
+      "latency_ms": 239,
+      "updated_at": "2026-08-18T20:14:08.078Z"
     },
     {
       "source": "Yahoo Events",
@@ -330,8 +330,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 209,
-      "updated_at": "2026-08-18T20:09:08.596Z"
+      "latency_ms": 390,
+      "updated_at": "2026-08-18T20:14:08.078Z"
     },
     {
       "source": "Yahoo News",
@@ -339,8 +339,8 @@
       "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 668,
-      "updated_at": "2026-08-18T20:09:08.596Z"
+      "latency_ms": 518,
+      "updated_at": "2026-08-18T20:14:08.078Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -348,8 +348,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 239,
-      "updated_at": "2026-08-18T20:09:08.596Z"
+      "latency_ms": 253,
+      "updated_at": "2026-08-18T20:14:08.078Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -357,8 +357,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 273,
-      "updated_at": "2026-08-18T20:09:08.596Z"
+      "latency_ms": 267,
+      "updated_at": "2026-08-18T20:14:08.078Z"
     },
     {
       "source": "BörsenNews",
@@ -366,8 +366,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 305,
-      "updated_at": "2026-08-18T20:09:08.596Z"
+      "latency_ms": 302,
+      "updated_at": "2026-08-18T20:14:08.078Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -375,22 +375,13 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 515,
-      "updated_at": "2026-08-18T20:09:08.596Z"
-    },
-    {
-      "source": "Second-Chance 1m",
-      "status": "DEGRADED",
-      "ok_count": 0,
-      "fail_count": 2,
-      "last_error": "1m-Kurs nicht frisch",
-      "latency_ms": null,
-      "updated_at": "2026-08-18T20:09:08.596Z"
+      "latency_ms": 531,
+      "updated_at": "2026-08-18T20:14:08.078Z"
     }
   ],
   "risk": {
-    "equity": 961.2305103076849,
-    "dailyPct": -3.8769489692315084,
+    "equity": 961.1473218777621,
+    "dailyPct": -3.8852678122237916,
     "availableCash": 242.5656642062093,
     "hardLimits": false,
     "budgetOnly": true,
@@ -445,7 +436,7 @@
     "enabled": true,
     "target": 10,
     "candidateCount": 7,
-    "updatedAt": "2026-08-18T20:07:06.577Z",
+    "updatedAt": "2026-08-18T20:11:08.902Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -462,7 +453,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 3,
-    "updatedAt": "2026-08-18T20:07:06.577Z",
+    "updatedAt": "2026-08-18T20:11:08.902Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -482,11 +473,11 @@
     "enabled": true,
     "target": 16,
     "candidateCount": 0,
-    "updatedAt": "2026-08-18T20:09:06.630Z",
+    "updatedAt": "2026-08-18T20:14:06.335Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8527,
-    "scannedCount": 520,
+    "scannedCount": 519,
     "cycleMinutes": 9,
     "batchCount": 11,
     "coreCount": 1800,
@@ -509,8 +500,8 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 8,
-    "candidateCount": 1,
-    "updatedAt": "2026-08-18T20:09:08.603Z",
+    "candidateCount": 0,
+    "updatedAt": "2026-08-18T20:14:08.182Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 2,
@@ -740,7 +731,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T20:10:08.603Z",
+    "nextScanAt": "2026-08-18T20:15:08.085Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -786,10 +777,10 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T20:09:06.630Z",
-    "ageSeconds": 38,
+    "lastSeenAt": "2026-08-18T20:14:06.335Z",
+    "ageSeconds": 20,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T20:07:06.577Z",
+    "prefetchAt": "2026-08-18T20:11:08.902Z",
     "resolvedLeaderCount": 15,
     "leaderHealthy": true,
     "futureCandidates": 0,
@@ -798,18 +789,18 @@
     "wideSweepCandidates": 0,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8527,
-    "wideSweepScannedCount": 520,
+    "wideSweepScannedCount": 519,
     "metrics": {
-      "lastSeenAt": "2026-08-18T20:09:06.630Z",
+      "lastSeenAt": "2026-08-18T20:14:06.335Z",
       "version": "2.0.12-csharp-full-master-24mi",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 5900393,
+      "storageBytes": 5950157,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 82.7,
-      "downloadedBytes": 26967179,
-      "uploadedBytes": 222982,
+      "ramMb": 57.6,
+      "downloadedBytes": 30071813,
+      "uploadedBytes": 239023,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_FULL_MASTER_24MIN",
       "lastLocalCleanupAt": "2026-08-18T20:01:20.1147685Z",
