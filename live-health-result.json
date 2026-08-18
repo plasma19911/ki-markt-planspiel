@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T16:52:14.201392+00:00",
+  "checkedAt": "2026-08-18T16:53:25.123620+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -33,61 +33,61 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 188,
-  "lastScan": "2026-08-18T16:51:08.081Z",
+  "scanCount": 189,
+  "lastScan": "2026-08-18T16:53:08.727Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 4 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 3 aktive Gap-Lagen aus 4/12 möglichen Checks. Aktive Depotentscheidung: NOC BUY 2 · REBOUND-RADA · EARLY-BREAKO · TARGET-VENUE: 0 nicht sauber auf gettex aufgeloeste BUY(s) blockiert.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 4 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 3 aktive Gap-Lagen aus 4/12 möglichen Checks. Beste HOLDs: LMT: BUY 3.7 / SELL 0. · REBOUND-RADA · EARLY-BREAKO · TARGET-VENUE: 0 nicht sauber auf gettex aufgeloeste BUY(s) blockiert.",
   "cash": 989.7426404533917,
   "equity": 989.7426404533917,
   "pnl": -10.257359546608313,
-  "universeCount": 172,
+  "universeCount": 171,
   "positions": 0,
   "positionRows": [],
   "candidates": 4,
   "topCandidates": [
     {
-      "symbol": "BIG.V",
-      "name": "Hercules Metals Corp.",
-      "score": 4,
-      "confidence": 0.63,
-      "day_change": -2.517984239317528,
+      "symbol": "LMT",
+      "name": "Lockheed Martin",
+      "score": 3.9,
+      "confidence": 0.765,
+      "day_change": 3.032738577702365,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.37% · 20m +3.44%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 58 konstruktiv",
       "contra": ""
+    },
+    {
+      "symbol": "NOW",
+      "name": "ServiceNow",
+      "score": 2.7809165489849956,
+      "confidence": 0.6975916548984995,
+      "day_change": 2.268481517911658,
+      "news_score": 0.02573698146513681,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.18% · Momentum baut sich auf · Beschleunigung +0.07%",
+      "contra": "RSI 81 überhitzt"
     },
     {
       "symbol": "NOC",
       "name": "Northrop Grumman",
-      "score": 3.7225290322580644,
-      "confidence": 0.7596,
-      "day_change": 3.875852308537575,
+      "score": 2.6725290322580646,
+      "confidence": 0.6768529032258064,
+      "day_change": 3.812697727359904,
       "news_score": 0.03129032258064516,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.18%",
-      "contra": ""
-    },
-    {
-      "symbol": "LMT",
-      "name": "Lockheed Martin",
-      "score": 2.9,
-      "confidence": 0.7050000000000001,
-      "day_change": 3.0813105306247257,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21",
-      "contra": ""
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 59 konstruktiv",
+      "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     },
     {
       "symbol": "CRM",
       "name": "Salesforce",
-      "score": 1.25,
-      "confidence": 0.405,
-      "day_change": 3.661566684025952,
+      "score": 2.65,
+      "confidence": 0.545,
+      "day_change": 3.71000297208004,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 52 konstruktiv",
-      "contra": "Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv",
+      "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     }
   ],
   "recentHistory": [
@@ -98,7 +98,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal BIG.V: Score 4.00, Konfidenz 63%.",
+      "reason": "Kein Trade. Bestes Signal LMT: Score 3.90, Konfidenz 77%.",
       "score": null
     },
     {
@@ -297,8 +297,8 @@
       "ok_count": 3,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 104,
-      "updated_at": "2026-08-18T16:51:07.383Z"
+      "latency_ms": 106,
+      "updated_at": "2026-08-18T16:53:07.945Z"
     },
     {
       "source": "Yahoo FX",
@@ -306,8 +306,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 119,
-      "updated_at": "2026-08-18T16:51:07.383Z"
+      "latency_ms": 115,
+      "updated_at": "2026-08-18T16:53:07.945Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -315,8 +315,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 110,
-      "updated_at": "2026-08-18T16:51:07.383Z"
+      "latency_ms": 111,
+      "updated_at": "2026-08-18T16:53:07.945Z"
     },
     {
       "source": "Yahoo Events",
@@ -324,44 +324,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 99,
-      "updated_at": "2026-08-18T16:51:07.383Z"
+      "latency_ms": 98,
+      "updated_at": "2026-08-18T16:53:07.945Z"
     },
     {
       "source": "Yahoo News",
       "status": "OK",
-      "ok_count": 4,
+      "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 996,
-      "updated_at": "2026-08-18T16:51:07.383Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 362,
-      "updated_at": "2026-08-18T16:51:07.383Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 525,
-      "updated_at": "2026-08-18T16:51:07.383Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 941,
-      "updated_at": "2026-08-18T16:51:07.383Z"
+      "latency_ms": 723,
+      "updated_at": "2026-08-18T16:53:07.945Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -369,8 +342,35 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 960,
-      "updated_at": "2026-08-18T16:51:07.383Z"
+      "latency_ms": 934,
+      "updated_at": "2026-08-18T16:53:07.945Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1035,
+      "updated_at": "2026-08-18T16:53:07.945Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1069,
+      "updated_at": "2026-08-18T16:53:07.945Z"
+    },
+    {
+      "source": "BörsenNews",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1229,
+      "updated_at": "2026-08-18T16:53:07.945Z"
     }
   ],
   "risk": {
@@ -424,7 +424,7 @@
     "enabled": true,
     "target": 10,
     "candidateCount": 7,
-    "updatedAt": "2026-08-18T16:49:05.472Z",
+    "updatedAt": "2026-08-18T16:53:03.829Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -441,7 +441,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 3,
-    "updatedAt": "2026-08-18T16:49:05.472Z",
+    "updatedAt": "2026-08-18T16:53:03.829Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -460,8 +460,8 @@
   "pcWideSweep": {
     "enabled": true,
     "target": 16,
-    "candidateCount": 1,
-    "updatedAt": "2026-08-18T16:52:02.618Z",
+    "candidateCount": 2,
+    "updatedAt": "2026-08-18T16:53:04.216Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8527,
@@ -486,7 +486,7 @@
     "enabled": true,
     "target": 8,
     "candidateCount": 0,
-    "updatedAt": "2026-08-18T16:51:08.081Z",
+    "updatedAt": "2026-08-18T16:53:09.939Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 2,
@@ -634,14 +634,19 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T16:52:08.081Z",
+    "nextScanAt": "2026-08-18T16:54:08.727Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
     "persistentLeaderCache": true,
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
-    "lastFetchBudget": null,
+    "lastFetchBudget": {
+      "actual": 36,
+      "cacheHits": 1,
+      "blocked": 3,
+      "cap": 36
+    },
     "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Rebound-Radar beobachtet bis zu 10 Tagesverlierer; fallende Messer bleiben gesperrt, bis eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. HOT/WARM werden minuetlich priorisiert; der liquide Kern rotiert schneller als der lange Rest. Nur die bis zu 16 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen; dadurch steigt die Abdeckung ohne mehr Deep-Checks zu erzwingen. Starke Deep-Kandidaten fallen nicht sofort aus dem Radar: bis zu 8 werden 12 Minuten gehalten; pro Scan werden maximal 2 fehlende Werte mit einem frischen 1m-Chart nachgeprueft.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
@@ -670,30 +675,30 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T16:52:02.618Z",
-    "ageSeconds": 11,
+    "lastSeenAt": "2026-08-18T16:53:04.216Z",
+    "ageSeconds": 21,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T16:49:05.472Z",
+    "prefetchAt": "2026-08-18T16:53:03.829Z",
     "resolvedLeaderCount": 15,
     "leaderHealthy": true,
     "futureCandidates": 0,
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
-    "wideSweepCandidates": 1,
+    "wideSweepCandidates": 2,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8527,
     "wideSweepScannedCount": 319,
     "metrics": {
-      "lastSeenAt": "2026-08-18T16:52:02.618Z",
+      "lastSeenAt": "2026-08-18T16:53:04.216Z",
       "version": "2.0.7-csharp-dynamic-market-wi",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 5045781,
+      "storageBytes": 5046693,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
       "ramMb": 75,
-      "downloadedBytes": 20406544,
-      "uploadedBytes": 78897,
+      "downloadedBytes": 20444660,
+      "uploadedBytes": 79864,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_DYNAMIC_MARKET_WIDE",
       "lastLocalCleanupAt": "2026-08-18T16:48:19.2307281Z",
