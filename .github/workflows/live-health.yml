@@ -13,7 +13,7 @@ permissions:
 jobs:
   live-health:
     runs-on: ubuntu-latest
-    timeout-minutes: 7
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
 
@@ -79,6 +79,7 @@ jobs:
             'pcAgent':{'configured':a.get('configured'),'online':a.get('online'),'lastSeenAt':a.get('lastSeenAt'),'ageSeconds':a.get('ageSeconds'),'prefetchFresh':a.get('prefetchFresh'),'prefetchAt':a.get('prefetchAt'),'resolvedLeaderCount':a.get('resolvedLeaderCount'),'leaderHealthy':a.get('leaderHealthy'),'futureCandidates':a.get('futureCandidates'),'reboundCandidates':a.get('reboundCandidates'),'metrics':a.get('metrics')}
           }
           pathlib.Path('live-health-result.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          pathlib.Path('/tmp/live-health-result.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
           print(json.dumps(out,ensure_ascii=False,indent=2))
           PY
 
@@ -87,20 +88,32 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add live-health-result.json
-          if git diff --cached --quiet; then
-            echo 'Health result unchanged'
-          else
+          for attempt in 1 2 3 4; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/live-health-result.json live-health-result.json
+            git add live-health-result.json
+            if git diff --cached --quiet; then
+              echo 'Health result unchanged'
+              exit 0
+            fi
             git commit -m 'Update live health result [skip ci]'
-            git push
-          fi
+            if git push origin HEAD:main; then
+              echo 'Health result published'
+              exit 0
+            fi
+            echo "Concurrent main update detected; retry $attempt"
+            sleep 3
+          done
+          echo 'Could not publish live health after retries'
+          exit 1
 
       - name: Enforce required production features
         if: always()
         run: |
           python - <<'PY'
           import json
-          x=json.load(open('live-health-result.json',encoding='utf-8'))
+          x=json.load(open('/tmp/live-health-result.json',encoding='utf-8'))
           failed=x.get('failedChecks') or []
           if failed: raise SystemExit('Live health failed: '+', '.join(failed))
           print('All required live checks passed')
