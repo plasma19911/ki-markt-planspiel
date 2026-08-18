@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T18:11:15.889778+00:00",
+  "checkedAt": "2026-08-18T18:37:42.434499+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -34,15 +34,15 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 243,
-  "lastScan": "2026-08-18T18:11:06.802Z",
+  "scanCount": 263,
+  "lastScan": "2026-08-18T18:37:10.820Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 5 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 1/12 möglichen Checks. Beste HOLD · PULLBACK-FIRST: kein preislich guter Neueinstieg; 1 Peak/zu-teuer BUY(s) blockiert. Lieber auf Ruecksetzer warten als oben hinterherkaufen.",
-  "cash": 376.379386661517,
-  "equity": 960.6418473107178,
-  "pnl": -39.35815268928218,
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 7 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks. Beste HOLD · PULLBACK-FIRST: kein preislich guter Neueinstieg; 1 Peak/zu-teuer BUY(s) blockiert, 1 Rotation(en) zurueckgenommen. Lieber auf Ruecksetzer warten als oben hinterherkaufen.",
+  "cash": 207.008662661517,
+  "equity": 960.5036498991274,
+  "pnl": -39.49635010087263,
   "universeCount": 169,
-  "positions": 1,
+  "positions": 2,
   "positionRows": [
     {
       "symbol": "ESLT",
@@ -53,79 +53,143 @@
       "invested": 585.696171,
       "entry_fee": 1,
       "entry_price": 791.2354523315429,
-      "last_price": 789.3900146484375,
+      "last_price": 790.989990234375,
       "entry_fx": 0.8636,
       "last_fx": 0.8635,
       "currency": "USD",
       "opened_at": "2026-08-18T17:34:07.358Z",
-      "score": 4.341004255319149,
-      "signal_confidence": 0.7596,
+      "score": 3.9,
+      "signal_confidence": 0.63,
       "zero_quantity": 0.8571444406520216,
       "zero_whole_shares": 0,
       "zero_fractional_shares": 0.8571444406520216,
       "zero_uses_fractional": true,
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
+    },
+    {
+      "symbol": "SAP",
+      "name": "SAP SE",
+      "instrument_type": "EQUITY",
+      "theme": null,
+      "company_key": "SAP",
+      "invested": 168.370724,
+      "entry_fee": 1,
+      "entry_price": 212.91770683288573,
+      "last_price": 212.50999450683594,
+      "entry_fx": 0.8635,
+      "last_fx": 0.8635,
+      "currency": "USD",
+      "opened_at": "2026-08-18T18:24:08.488Z",
+      "score": -3.186137371739131,
+      "signal_confidence": 0.7213737371739131,
+      "zero_quantity": 0.9157827471279444,
+      "zero_whole_shares": 0,
+      "zero_fractional_shares": 0.9157827471279444,
+      "zero_uses_fractional": true,
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     }
   ],
-  "candidates": 5,
+  "candidates": 7,
   "topCandidates": [
-    {
-      "symbol": "ADBE",
-      "name": "Adobe",
-      "score": 4.7,
-      "confidence": 0.63,
-      "day_change": 5.16848269081025,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv · 5m +0.25%",
-      "contra": ""
-    },
     {
       "symbol": "ESLT",
       "name": "Elbit Systems Ltd.",
-      "score": 4.341004255319149,
-      "confidence": 0.7596,
-      "day_change": 0.8366990251440276,
-      "news_score": 0.05695035460992907,
+      "score": 3.9,
+      "confidence": 0.63,
+      "day_change": 1.041079944097767,
+      "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 49 konstruktiv · 5m +0.32%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 59 konstruktiv",
       "contra": ""
     },
     {
-      "symbol": "INTU",
-      "name": "Intuit",
-      "score": 3.95,
-      "confidence": 0.63,
-      "day_change": 5.987785257514511,
+      "symbol": "TDG",
+      "name": "Transdigm Group Incorporated",
+      "score": 3.3,
+      "confidence": 0.712798,
+      "day_change": 0.05250930693678768,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.29% · 20m +0.66% · Momentum baut sich auf · Beschleunigung +0.07%",
-      "contra": "RSI 81 überhitzt"
-    },
-    {
-      "symbol": "CRM",
-      "name": "Salesforce",
-      "score": 3.6999999999999997,
-      "confidence": 0.63,
-      "day_change": 4.084413401299125,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.22%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.19%",
       "contra": ""
     },
     {
       "symbol": "NOC",
       "name": "Northrop Grumman",
-      "score": -0.5,
-      "confidence": 0.33,
-      "day_change": 4.102941196619603,
+      "score": -0.17393032159264937,
+      "confidence": 0.43239303215926495,
+      "day_change": 3.972286142745962,
+      "news_score": 0.02673813169984686,
+      "event_risk": "NONE",
+      "pro": "RSI 55 konstruktiv",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21"
+    },
+    {
+      "symbol": "SAP",
+      "name": "SAP SE",
+      "score": -3.186137371739131,
+      "confidence": 0.7213737371739131,
+      "day_change": 2.246918065259784,
+      "news_score": 0.1510326086956522,
+      "event_risk": "NONE",
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 31 sehr schwach · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+    },
+    {
+      "symbol": "ADBE",
+      "name": "Adobe",
+      "score": -3.2500000000000004,
+      "confidence": 0.6050000000000001,
+      "day_change": 4.916548094511453,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 52 konstruktiv",
-      "contra": "Kurs unter EMA21 · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 22 sehr schwach · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+    },
+    {
+      "symbol": "CRM",
+      "name": "Salesforce",
+      "score": -3.2500000000000004,
+      "confidence": 0.6050000000000001,
+      "day_change": 4.050375363174674,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 21 sehr schwach · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+    },
+    {
+      "symbol": "INTU",
+      "name": "Intuit",
+      "score": -5.9,
+      "confidence": 0.63,
+      "day_change": 5.670442456141966,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 26 sehr schwach · 5m -0.28% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
+    {
+      "ts": "2026-08-18T18:25:42.689Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal ESLT: Score 3.90, Konfidenz 63%.",
+      "score": null
+    },
+    {
+      "ts": "2026-08-18T18:24:08.488Z",
+      "action": "KAUF",
+      "symbol": "SAP",
+      "amount": -169.370724,
+      "fee": 1,
+      "trade_pnl": null,
+      "reason": "KI BUY 78%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag +2.34%, 5m +0.09%, noch nicht ueberhitzt · Preis-Timing 6.37 (Basis 5.92) · Zielanteil 45.0% · Order 169.37 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 3.9587001411764704
+    },
     {
       "ts": "2026-08-18T18:11:06.802Z",
       "action": "HALTEN",
@@ -133,7 +197,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal ADBE: Score 4.70, Konfidenz 63%.",
+      "reason": "Kein Trade. Bestes Signal ESLT: Score 4.74, Konfidenz 76%.",
       "score": null
     },
     {
@@ -225,29 +289,33 @@
       "trade_pnl": null,
       "reason": "KI BUY 75%: CAPITAL-IN-MOTION QUALIFIED: bestes aktuell hart-sicheres Setup · Erwartungswert 5.59 · verfuegbares Cash aktiv eingesetzt · Zielanteil 100.0% · Order 151.98 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
       "score": 3.9
-    },
-    {
-      "ts": "2026-08-18T17:35:06.543Z",
-      "action": "VERKAUF",
-      "symbol": "INTU",
-      "amount": 150.9840622550378,
-      "fee": 1,
-      "trade_pnl": -2.3731087449621953,
-      "reason": "KI SELL 73%: CAPITAL-MOTION-ROTATION: NOC Erwartungswert 5.59 ist besser als INTU 3.79 · Differenz 1.80 · P/L -0.15% · Kapital aktiv zum staerkeren Setup verschieben· Trade P/L netto -1.37 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 2.680323076923077
-    },
-    {
-      "ts": "2026-08-18T17:34:07.358Z",
-      "action": "KAUF",
-      "symbol": "ESLT",
-      "amount": -586.696171,
-      "fee": 1,
-      "trade_pnl": null,
-      "reason": "KI BUY 78%: CAPITAL-IN-MOTION QUALIFIED: bestes aktuell hart-sicheres Setup · Erwartungswert 6.28 · verfuegbares Cash aktiv eingesetzt · Zielanteil 100.0% · Order 586.70 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 4.3
     }
   ],
   "recentAiLog": [
+    {
+      "ts": "2026-08-18T18:33:10.725Z",
+      "kind": "IDEA",
+      "title": "Beobachtungskandidat",
+      "symbol": "ESLT",
+      "message": "ESLT: Kein Trade. Bestes Signal ESLT: Score 4.74, Konfidenz 76%.",
+      "confidence": 0.7596
+    },
+    {
+      "ts": "2026-08-18T18:24:08.488Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "SAP",
+      "message": "SAP: KI BUY 78%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag +2.34%, 5m +0.09%, noch nicht ueberhitzt · Preis-Timing 6.37 (Basis 5.92) · Zielanteil 45.0%",
+      "confidence": 0.75276
+    },
+    {
+      "ts": "2026-08-18T18:20:06.785Z",
+      "kind": "IDEA",
+      "title": "Beobachtungskandidat",
+      "symbol": "ESLT",
+      "message": "ESLT: Kein Trade. Bestes Signal ESLT: Score 4.34, Konfidenz 76%.",
+      "confidence": 0.7596
+    },
     {
       "ts": "2026-08-18T18:10:06.197Z",
       "kind": "TRADE",
@@ -319,30 +387,6 @@
       "symbol": "ESLT",
       "message": "ESLT: Kein Trade. Bestes Signal ESLT: Score 4.74, Konfidenz 76%.",
       "confidence": 0.7596
-    },
-    {
-      "ts": "2026-08-18T17:35:06.543Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "NOC",
-      "message": "NOC: KI BUY 75%: CAPITAL-IN-MOTION QUALIFIED: bestes aktuell hart-sicheres Setup · Erwartungswert 5.59 · verfuegbares Cash aktiv eingesetzt · Zielanteil 100.0%",
-      "confidence": 0.63
-    },
-    {
-      "ts": "2026-08-18T17:35:06.543Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "INTU",
-      "message": "INTU: KI SELL 73%: CAPITAL-MOTION-ROTATION: NOC Erwartungswert 5.59 ist besser als INTU 3.79 · Differenz 1.80 · P/L -0.15% · Kapital aktiv zum staerkeren Setup verschieben",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-18T17:34:07.358Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "ESLT",
-      "message": "ESLT: KI BUY 78%: CAPITAL-IN-MOTION QUALIFIED: bestes aktuell hart-sicheres Setup · Erwartungswert 6.28 · verfuegbares Cash aktiv eingesetzt · Zielanteil 100.0%",
-      "confidence": 0.63
     }
   ],
   "sourceHealth": [
@@ -352,8 +396,8 @@
       "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 306,
-      "updated_at": "2026-08-18T18:11:06.259Z"
+      "latency_ms": 317,
+      "updated_at": "2026-08-18T18:37:10.303Z"
     },
     {
       "source": "Yahoo FX",
@@ -361,17 +405,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 115,
-      "updated_at": "2026-08-18T18:11:06.259Z"
+      "latency_ms": 8,
+      "updated_at": "2026-08-18T18:37:10.303Z"
     },
     {
       "source": "Yahoo 1m Chart",
       "status": "OK",
-      "ok_count": 5,
+      "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 265,
-      "updated_at": "2026-08-18T18:11:06.259Z"
+      "latency_ms": 112,
+      "updated_at": "2026-08-18T18:37:10.303Z"
     },
     {
       "source": "Yahoo Events",
@@ -379,17 +423,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 97,
-      "updated_at": "2026-08-18T18:11:06.259Z"
+      "latency_ms": 103,
+      "updated_at": "2026-08-18T18:37:10.303Z"
     },
     {
       "source": "Yahoo News",
       "status": "DEGRADED",
-      "ok_count": 1,
-      "fail_count": 4,
+      "ok_count": 4,
+      "fail_count": 2,
       "last_error": "Error: HTTP 500",
-      "latency_ms": 1175,
-      "updated_at": "2026-08-18T18:11:06.259Z"
+      "latency_ms": 1178,
+      "updated_at": "2026-08-18T18:37:10.303Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -397,8 +441,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 237,
-      "updated_at": "2026-08-18T18:11:06.259Z"
+      "latency_ms": 238,
+      "updated_at": "2026-08-18T18:37:10.303Z"
     },
     {
       "source": "BörsenNews",
@@ -406,8 +450,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 292,
-      "updated_at": "2026-08-18T18:11:06.259Z"
+      "latency_ms": 311,
+      "updated_at": "2026-08-18T18:37:10.303Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -415,8 +459,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 435,
-      "updated_at": "2026-08-18T18:11:06.259Z"
+      "latency_ms": 428,
+      "updated_at": "2026-08-18T18:37:10.303Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -424,14 +468,23 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 470,
-      "updated_at": "2026-08-18T18:11:06.259Z"
+      "latency_ms": 504,
+      "updated_at": "2026-08-18T18:37:10.303Z"
+    },
+    {
+      "source": "Second-Chance 1m",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": null,
+      "updated_at": "2026-08-18T18:37:10.303Z"
     }
   ],
   "risk": {
-    "equity": 960.6418473107178,
-    "dailyPct": -3.935815268928222,
-    "availableCash": 376.379386661517,
+    "equity": 960.5036498991274,
+    "dailyPct": -3.94963501008726,
+    "availableCash": 207.008662661517,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -475,8 +528,8 @@
     "leaderPoolTarget": 25,
     "forwardPoolTarget": 15,
     "forwardCandidates": 0,
-    "monitoredForwardUniverse": 36,
-    "activeThemes": 3,
+    "monitoredForwardUniverse": 10,
+    "activeThemes": 1,
     "mode": "25 aktuelle Leader + bis zu 15 vorausschauende, im Broker-Master aufgelöste Ereignis-/Themenwerte",
     "confirmationRequired": true,
     "watchMayBeBroaderThanTradablePool": true
@@ -485,7 +538,7 @@
     "enabled": true,
     "target": 10,
     "candidateCount": 7,
-    "updatedAt": "2026-08-18T18:07:05.689Z",
+    "updatedAt": "2026-08-18T18:37:06.754Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -502,7 +555,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 3,
-    "updatedAt": "2026-08-18T18:07:05.689Z",
+    "updatedAt": "2026-08-18T18:37:06.754Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -522,11 +575,11 @@
     "enabled": true,
     "target": 16,
     "candidateCount": 0,
-    "updatedAt": "2026-08-18T18:11:02.966Z",
+    "updatedAt": "2026-08-18T18:37:07.288Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8527,
-    "scannedCount": 320,
+    "scannedCount": 319,
     "cycleMinutes": 9,
     "batchCount": 7,
     "coreCount": 1800,
@@ -547,7 +600,7 @@
     "enabled": true,
     "target": 8,
     "candidateCount": 2,
-    "updatedAt": "2026-08-18T18:11:06.847Z",
+    "updatedAt": "2026-08-18T18:37:10.820Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 2,
@@ -617,15 +670,16 @@
     "dayReplayUsesRealisticSignals": true,
     "dayReplayAutoAdjustmentMinSamples": 8,
     "pcOfflineReplaySync": true,
-    "nextMorningFreshNewsMerge": true
+    "nextMorningFreshNewsMerge": true,
+    "learningOnlyFromExecutedEntries": true
   },
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 1,
-    "pendingEntries": 16,
+    "activePositions": 2,
+    "pendingEntries": 0,
     "completedTradeOutcomes": 19,
-    "timedCheckpoints": 5,
+    "timedCheckpoints": 6,
     "horizonsMinutes": [
       15,
       30,
@@ -658,14 +712,23 @@
       {
         "bucket": "PULLBACK_RETEST",
         "samples15": 1,
-        "totalCheckpoints": 2,
-        "qualityPct": -0.325,
+        "totalCheckpoints": 3,
+        "qualityPct": -0.268,
         "winRatePct": 0,
         "block": false,
         "scoreDelta": 0
       }
     ],
     "recentTiming": [
+      {
+        "at": 1787078109512,
+        "symbol": "ESLT",
+        "bucket": "PULLBACK_RETEST",
+        "horizonMin": 60,
+        "pnlPct": -0.04,
+        "maePct": -0.55,
+        "mfePct": 0.08
+      },
       {
         "at": 1787076429429,
         "symbol": "ESLT",
@@ -711,30 +774,15 @@
         "maePct": -0.12,
         "mfePct": -0.1
       }
-    ]
+    ],
+    "pendingOnlyForExecutedPositions": true,
+    "pendingExecutionTtlMinutes": 8,
+    "proposalContaminationFixed": true
   },
   "futureWatch": {
     "candidateCount": 0,
-    "monitoredUniverseCount": 36,
+    "monitoredUniverseCount": 10,
     "activeThemes": [
-      {
-        "id": "MIDDLE_EAST_ENERGY",
-        "label": "Nahost / Öl- und Gasversorgung",
-        "issueStrength": 37,
-        "urgency": 0,
-        "horizon": "heute–3 Tage",
-        "headlineCount": 1,
-        "eventAt": null
-      },
-      {
-        "id": "CYBER_SECURITY",
-        "label": "Cyberangriff / kritische Infrastruktur",
-        "issueStrength": 37,
-        "urgency": 0,
-        "horizon": "heute–7 Tage",
-        "headlineCount": 1,
-        "eventAt": null
-      },
       {
         "id": "RATES_MACRO",
         "label": "Zinsen / Fed / ECB / Inflation",
@@ -765,19 +813,14 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T18:12:06.802Z",
+    "nextScanAt": "2026-08-18T18:38:10.820Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
     "persistentLeaderCache": true,
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
-    "lastFetchBudget": {
-      "actual": 36,
-      "cacheHits": 0,
-      "blocked": 6,
-      "cap": 36
-    },
+    "lastFetchBudget": null,
     "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Rebound-Radar beobachtet bis zu 10 Tagesverlierer; fallende Messer bleiben gesperrt, bis eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. HOT/WARM werden minuetlich priorisiert; der liquide Kern rotiert schneller als der lange Rest. Nur die bis zu 16 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen; dadurch steigt die Abdeckung ohne mehr Deep-Checks zu erzwingen. Tages-Replay kann auf dem PC lokal laufen und spaeter synchronisiert werden; morgens werden die aktuellen News-/Forward-Signale neu geladen.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
@@ -816,10 +859,10 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T18:11:02.966Z",
-    "ageSeconds": 13,
+    "lastSeenAt": "2026-08-18T18:37:07.288Z",
+    "ageSeconds": 35,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T18:07:05.689Z",
+    "prefetchAt": "2026-08-18T18:37:06.754Z",
     "resolvedLeaderCount": 15,
     "leaderHealthy": true,
     "futureCandidates": 0,
@@ -828,21 +871,21 @@
     "wideSweepCandidates": 0,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8527,
-    "wideSweepScannedCount": 320,
+    "wideSweepScannedCount": 319,
     "metrics": {
-      "lastSeenAt": "2026-08-18T18:11:02.966Z",
-      "version": "2.0.7-csharp-dynamic-market-wi",
+      "lastSeenAt": "2026-08-18T18:37:07.288Z",
+      "version": "2.0.9-csharp-local-replay",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 5262318,
+      "storageBytes": 5481245,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0,
-      "ramMb": 99.5,
-      "downloadedBytes": 59968132,
-      "uploadedBytes": 286181,
+      "cpuPct": 0.01,
+      "ramMb": 80.6,
+      "downloadedBytes": 12288323,
+      "uploadedBytes": 37945,
       "localPhase": "OPEN",
-      "agentMode": "WINDOWS_CSHARP_DYNAMIC_MARKET_WIDE",
-      "lastLocalCleanupAt": "2026-08-18T18:06:09.0400306Z",
+      "agentMode": "WINDOWS_CSHARP_LOCAL_REPLAY",
+      "lastLocalCleanupAt": "2026-08-18T18:25:44.1150725Z",
       "lastError": null
     }
   }
