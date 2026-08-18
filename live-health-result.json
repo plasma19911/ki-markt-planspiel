@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T16:49:12.822995+00:00",
+  "checkedAt": "2026-08-18T16:50:45.631232+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -31,10 +31,10 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 186,
-  "lastScan": "2026-08-18T16:47:06.855Z",
+  "scanCount": 187,
+  "lastScan": "2026-08-18T16:49:43.685Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 4 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 2 aktive Gap-Lagen aus 4/12 möglichen Checks. Aktive Depotentscheidung: CRM BUY 2 · REBOUND-RADA · EARLY-BREAKO · TARGET-VENUE: 0 nicht sauber auf gettex aufgeloeste BUY(s) blockiert.",
+  "aiLastSummary": "Deterministischer Ersatzplan · OUTER-FULL-CASH: 100% des verfügbaren Cashs auf 1 Aktien-BUY(s) verteilt. · Legacy-Cash-Failsafe: 1 Zwangskauf/-käufe blockiert, 0 Alt-Allokation(en) gekappt.  · REBOUND-RADA · EARLY-BREAKO · TARGET-VENUE: 0 nicht sauber auf gettex aufgeloeste BUY(s) blockiert.",
   "cash": 989.7426404533917,
   "equity": 989.7426404533917,
   "pnl": -10.257359546608313,
@@ -44,48 +44,48 @@
   "candidates": 4,
   "topCandidates": [
     {
-      "symbol": "CACI",
-      "name": "CACI International",
-      "score": 4.7,
+      "symbol": "NOC",
+      "name": "Northrop Grumman",
+      "score": 4.722529032258064,
+      "confidence": 0.7596,
+      "day_change": 3.818831214650542,
+      "news_score": 0.03129032258064516,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 66 konstruktiv · 5m +0.20%",
+      "contra": ""
+    },
+    {
+      "symbol": "BIG.V",
+      "name": "Hercules Metals Corp.",
+      "score": 4,
       "confidence": 0.63,
-      "day_change": 2.625745318082595,
+      "day_change": -2.517984239317528,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv · 5m +0.35%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.37% · 20m +3.04%",
       "contra": ""
+    },
+    {
+      "symbol": "SPCX",
+      "name": "Space Exploration Technologies Corp.",
+      "score": 3.5621875,
+      "confidence": 0.765,
+      "day_change": 0.03419187533124646,
+      "news_score": 0.012499999999999999,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.74% · 20m +1.26% · Momentum baut sich auf · Beschleunigung +0.40%",
+      "contra": "RSI 81 überhitzt"
     },
     {
       "symbol": "CRM",
       "name": "Salesforce",
-      "score": 3.9,
-      "confidence": 0.63,
-      "day_change": 3.7440410102044908,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 63 konstruktiv",
-      "contra": ""
-    },
-    {
-      "symbol": "NOC",
-      "name": "Northrop Grumman",
-      "score": 3.9,
-      "confidence": 0.63,
-      "day_change": 3.768853462189803,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 66 konstruktiv",
-      "contra": ""
-    },
-    {
-      "symbol": "PLTR",
-      "name": "Palantir Technologies",
-      "score": 1,
-      "confidence": 0.38,
-      "day_change": 0.09273063683985505,
+      "score": 2.9,
+      "confidence": 0.5700000000000001,
+      "day_change": 3.775458279196342,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "EMA9 über EMA21 · Kurs über EMA21",
-      "contra": "RSI 88 überhitzt"
+      "contra": ""
     }
   ],
   "recentHistory": [
@@ -96,7 +96,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal CACI: Score 4.70, Konfidenz 63%.",
+      "reason": "Kein Trade. Bestes Signal NOC: Score 4.72, Konfidenz 76%.",
       "score": null
     },
     {
@@ -295,8 +295,8 @@
       "ok_count": 3,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 8,
-      "updated_at": "2026-08-18T16:47:06.209Z"
+      "latency_ms": 105,
+      "updated_at": "2026-08-18T16:49:08.543Z"
     },
     {
       "source": "Yahoo FX",
@@ -304,8 +304,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 7,
-      "updated_at": "2026-08-18T16:47:06.209Z"
+      "latency_ms": 118,
+      "updated_at": "2026-08-18T16:49:08.543Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -313,8 +313,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 115,
-      "updated_at": "2026-08-18T16:47:06.209Z"
+      "latency_ms": 109,
+      "updated_at": "2026-08-18T16:49:08.543Z"
     },
     {
       "source": "Yahoo Events",
@@ -322,17 +322,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 101,
-      "updated_at": "2026-08-18T16:47:06.209Z"
+      "latency_ms": 99,
+      "updated_at": "2026-08-18T16:49:08.543Z"
     },
     {
       "source": "Yahoo News",
-      "status": "DOWN",
-      "ok_count": 0,
-      "fail_count": 5,
-      "last_error": "Error: HTTP 500",
-      "latency_ms": 1210,
-      "updated_at": "2026-08-18T16:47:06.209Z"
+      "status": "OK",
+      "ok_count": 5,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 682,
+      "updated_at": "2026-08-18T16:49:08.543Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -340,17 +340,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 245,
-      "updated_at": "2026-08-18T16:47:06.209Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 256,
-      "updated_at": "2026-08-18T16:47:06.209Z"
+      "latency_ms": 248,
+      "updated_at": "2026-08-18T16:49:08.543Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -358,8 +349,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 261,
-      "updated_at": "2026-08-18T16:47:06.209Z"
+      "latency_ms": 272,
+      "updated_at": "2026-08-18T16:49:08.543Z"
     },
     {
       "source": "BörsenNews",
@@ -367,8 +358,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 321,
-      "updated_at": "2026-08-18T16:47:06.209Z"
+      "latency_ms": 322,
+      "updated_at": "2026-08-18T16:49:08.543Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 479,
+      "updated_at": "2026-08-18T16:49:08.543Z"
     }
   ],
   "risk": {
@@ -459,7 +459,7 @@
     "enabled": true,
     "target": 16,
     "candidateCount": 0,
-    "updatedAt": "2026-08-18T16:49:05.851Z",
+    "updatedAt": "2026-08-18T16:50:03.528Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8527,
@@ -620,7 +620,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T16:48:06.855Z",
+    "nextScanAt": "2026-08-18T16:50:43.685Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -656,8 +656,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T16:49:05.851Z",
-    "ageSeconds": 7,
+    "lastSeenAt": "2026-08-18T16:50:03.528Z",
+    "ageSeconds": 42,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-18T16:49:05.472Z",
     "resolvedLeaderCount": 15,
@@ -670,20 +670,20 @@
     "wideSweepMasterCount": 8527,
     "wideSweepScannedCount": 319,
     "metrics": {
-      "lastSeenAt": "2026-08-18T16:49:05.851Z",
+      "lastSeenAt": "2026-08-18T16:50:03.528Z",
       "version": "2.0.7-csharp-dynamic-market-wi",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 5035527,
+      "storageBytes": 5043957,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.01,
+      "cpuPct": 0,
       "ramMb": 91.3,
-      "downloadedBytes": 20293355,
-      "uploadedBytes": 68792,
+      "downloadedBytes": 20334119,
+      "uploadedBytes": 77158,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_DYNAMIC_MARKET_WIDE",
       "lastLocalCleanupAt": "2026-08-18T16:48:19.2307281Z",
-      "lastError": "Der Remoteserver hat einen Fehler zurückgegeben: (500) Interner Serverfehler."
+      "lastError": null
     }
   }
 }
