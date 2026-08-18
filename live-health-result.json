@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T17:53:53.118258+00:00",
+  "checkedAt": "2026-08-18T17:54:26.486583+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -34,13 +34,13 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 231,
-  "lastScan": "2026-08-18T17:52:06.949Z",
+  "scanCount": 232,
+  "lastScan": "2026-08-18T17:54:16.036Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 5 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 1 aktive Gap-Lagen aus 1/12 möglichen Checks. Beste HOLDs: NOC: BUY 3.7 / SELL 0. · REBOUND-RADA · EARLY-BREAKO · TARGET-VENUE: 0 nicht sauber auf gettex aufgeloeste BUY(s) blockiert.",
+  "aiLastSummary": "Deterministischer Ersatzplan · PROFIT-OPTIMIZER: bester Score -99.00, 0% fuer 0 BUY(s), 0 SELL(s); Anti-Chase + 15/30/60m-Lernen + Opportunity-Cost aktiv. · REBOUND-RADAR: 7 Verlierer beobachtet; 0 BUY val · EARLY-BREAKO · TARGET-VENUE: 0 nicht sauber auf gettex aufgeloeste BUY(s) blockiert.",
   "cash": 0,
-  "equity": 961.8688499891548,
-  "pnl": -38.131150010845204,
+  "equity": 962.0220994260753,
+  "pnl": -37.97790057392467,
   "universeCount": 169,
   "positions": 2,
   "positionRows": [
@@ -53,13 +53,13 @@
       "invested": 585.696171,
       "entry_fee": 1,
       "entry_price": 791.2354523315429,
-      "last_price": 789.0401000976562,
+      "last_price": 789.0150146484375,
       "entry_fx": 0.8636,
       "last_fx": 0.8636,
       "currency": "USD",
       "opened_at": "2026-08-18T17:34:07.358Z",
-      "score": 2.1,
-      "signal_confidence": 0.49000000000000005,
+      "score": 2.1380368421052633,
+      "signal_confidence": 0.6234036842105264,
       "zero_quantity": 0.8571444406520216,
       "zero_whole_shares": 0,
       "zero_fractional_shares": 0.8571444406520216,
@@ -75,7 +75,7 @@
       "invested": 378.028983,
       "entry_fee": 1,
       "entry_price": 593.953345336914,
-      "last_price": 593.5900268554688,
+      "last_price": 593.8599853515625,
       "entry_fx": 0.8636,
       "last_fx": 0.8636,
       "currency": "USD",
@@ -96,55 +96,55 @@
       "name": "Northrop Grumman Corporation",
       "score": 3.925332589285714,
       "confidence": 0.765,
-      "day_change": 4.102074159149183,
+      "day_change": 4.149418686699824,
       "news_score": 0.02598214285714286,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 49 konstruktiv",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 66 konstruktiv",
       "contra": ""
     },
     {
       "symbol": "ESLT",
       "name": "Elbit Systems Ltd.",
-      "score": 2.1,
-      "confidence": 0.49000000000000005,
-      "day_change": 0.7920009322027743,
-      "news_score": 0,
+      "score": 2.1380368421052633,
+      "confidence": 0.6234036842105264,
+      "day_change": 0.7887965163299704,
+      "news_score": 0.05282894736842105,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 49 konstruktiv",
+      "pro": "EMA9 über EMA21 · RSI 57 konstruktiv",
       "contra": "Kurs unter EMA21"
     },
     {
-      "symbol": "CRM",
-      "name": "Salesforce",
-      "score": 0.21481012658227855,
-      "confidence": 0.4364810126582279,
-      "day_change": 3.8592429899411584,
-      "news_score": 0.015189873417721522,
+      "symbol": "ADBE",
+      "name": "Adobe",
+      "score": -1.4500000000000002,
+      "confidence": 0.42500000000000004,
+      "day_change": 4.8220786273507565,
+      "news_score": 0,
       "event_risk": "NONE",
-      "pro": "Kurs über EMA21",
-      "contra": "EMA-Trend schwach"
+      "pro": "RSI 51 konstruktiv",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     },
     {
       "symbol": "INTU",
       "name": "Intuit",
       "score": -2.45,
       "confidence": 0.525,
-      "day_change": 5.332239307862774,
+      "day_change": 5.309896730552555,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
       "contra": "EMA-Trend schwach · Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     },
     {
-      "symbol": "ADBE",
-      "name": "Adobe",
-      "score": -2.45,
-      "confidence": 0.525,
-      "day_change": 4.829983117354808,
+      "symbol": "CRM",
+      "name": "Salesforce",
+      "score": -4.2,
+      "confidence": 0.63,
+      "day_change": 3.8016420000728246,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
@@ -374,8 +374,8 @@
       "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 412,
-      "updated_at": "2026-08-18T17:52:06.525Z"
+      "latency_ms": 416,
+      "updated_at": "2026-08-18T17:54:06.231Z"
     },
     {
       "source": "Yahoo FX",
@@ -383,8 +383,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 114,
-      "updated_at": "2026-08-18T17:52:06.525Z"
+      "latency_ms": 8,
+      "updated_at": "2026-08-18T17:54:06.231Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -392,8 +392,8 @@
       "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 106,
-      "updated_at": "2026-08-18T17:52:06.525Z"
+      "latency_ms": 109,
+      "updated_at": "2026-08-18T17:54:06.231Z"
     },
     {
       "source": "Yahoo Events",
@@ -401,17 +401,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 98,
-      "updated_at": "2026-08-18T17:52:06.525Z"
+      "latency_ms": 272,
+      "updated_at": "2026-08-18T17:54:06.231Z"
     },
     {
       "source": "Yahoo News",
       "status": "DEGRADED",
-      "ok_count": 3,
-      "fail_count": 2,
+      "ok_count": 4,
+      "fail_count": 1,
       "last_error": "Error: HTTP 500",
-      "latency_ms": 1155,
-      "updated_at": "2026-08-18T17:52:06.525Z"
+      "latency_ms": 1143,
+      "updated_at": "2026-08-18T17:54:06.231Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -419,26 +419,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 247,
-      "updated_at": "2026-08-18T17:52:06.525Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 267,
-      "updated_at": "2026-08-18T17:52:06.525Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 326,
-      "updated_at": "2026-08-18T17:52:06.525Z"
+      "latency_ms": 244,
+      "updated_at": "2026-08-18T17:54:06.231Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -447,12 +429,30 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": 501,
-      "updated_at": "2026-08-18T17:52:06.525Z"
+      "updated_at": "2026-08-18T17:54:06.231Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1039,
+      "updated_at": "2026-08-18T17:54:06.231Z"
+    },
+    {
+      "source": "BörsenNews",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1052,
+      "updated_at": "2026-08-18T17:54:06.231Z"
     }
   ],
   "risk": {
-    "equity": 961.8688499891548,
-    "dailyPct": -3.8131150010845216,
+    "equity": 962.0220994260753,
+    "dailyPct": -3.7977900573924694,
     "availableCash": 0,
     "hardLimits": false,
     "budgetOnly": true,
@@ -543,8 +543,8 @@
   "pcWideSweep": {
     "enabled": true,
     "target": 16,
-    "candidateCount": 1,
-    "updatedAt": "2026-08-18T17:53:02.260Z",
+    "candidateCount": 0,
+    "updatedAt": "2026-08-18T17:54:02.744Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8527,
@@ -569,7 +569,7 @@
     "enabled": true,
     "target": 8,
     "candidateCount": 1,
-    "updatedAt": "2026-08-18T17:52:06.949Z",
+    "updatedAt": "2026-08-18T17:54:16.036Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 2,
@@ -758,7 +758,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T17:53:06.949Z",
+    "nextScanAt": "2026-08-18T17:55:16.036Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -802,8 +802,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T17:53:02.260Z",
-    "ageSeconds": 51,
+    "lastSeenAt": "2026-08-18T17:54:02.744Z",
+    "ageSeconds": 23,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-18T17:49:06.155Z",
     "resolvedLeaderCount": 15,
@@ -811,25 +811,25 @@
     "futureCandidates": 0,
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
-    "wideSweepCandidates": 1,
+    "wideSweepCandidates": 0,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8527,
     "wideSweepScannedCount": 319,
     "metrics": {
-      "lastSeenAt": "2026-08-18T17:53:02.260Z",
+      "lastSeenAt": "2026-08-18T17:54:02.744Z",
       "version": "2.0.7-csharp-dynamic-market-wi",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 5215157,
+      "storageBytes": 5216244,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 87.6,
-      "downloadedBytes": 51779921,
-      "uploadedBytes": 240466,
+      "ramMb": 87.7,
+      "downloadedBytes": 51819769,
+      "uploadedBytes": 241435,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_DYNAMIC_MARKET_WIDE",
-      "lastLocalCleanupAt": "2026-08-18T17:49:17.6366307Z",
-      "lastError": null
+      "lastLocalCleanupAt": "2026-08-18T17:53:47.0542429Z",
+      "lastError": "Die zugrunde liegende Verbindung wurde geschlossen: Eine Verbindung, deren Aufrechterhaltung erwartet wurde, ist vom Server geschlossen worden.."
     }
   }
 }
