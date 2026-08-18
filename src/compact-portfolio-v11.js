@@ -1,6 +1,5 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v10.js';
 import {MarketPortfolio as V9Portfolio} from './compact-portfolio-v9.js';
-import {FORWARD_EQUITIES} from './forward-equities.js';
 import {ProfitOptimizerAiGuard} from './profit-optimizer.js';
 
 const FORWARD_SCAN_TARGET=15;
@@ -19,7 +18,6 @@ function masterIndex(rows){
  return{exact,byBase};
 }
 function resolve(symbol,index){const s=key(symbol);if(!s)return null;return index.exact.get(s)||(index.byBase.get(baseSymbol(s))||[])[0]||null}
-function mergedMaster(raw){const out=[],seen=new Set();for(const x of [...arr(raw?.equities),...FORWARD_EQUITIES]){const s=key(x?.symbol);if(!s||seen.has(s))continue;seen.add(s);out.push(x)}return out}
 function mergeThemes(a,b){const m=new Map();for(const x of [...arr(a),...arr(b)]){const id=String(x?.id||x?.label||'');if(!id)continue;const old=m.get(id);if(!old||num(x?.issueStrength)>num(old?.issueStrength))m.set(id,x)}return[...m.values()].slice(0,12)}
 
 export class MarketPortfolio extends BasePortfolio{
@@ -36,7 +34,9 @@ export class MarketPortfolio extends BasePortfolio{
     const state=this.bucketAdapter?.peekState?.(),fw=state?.futureWatch;
     if(!fw||!isFresh(fw.updatedAt,30*60*1000)||!arr(fw.candidates).length)return Response.json(data,{headers:{'cache-control':'no-store'}});
     let raw=null;try{raw=await assets._load?.()}catch{}
-    const rows=mergedMaster(raw||{}),index=masterIndex(rows),seen=new Set(arr(data?.equities).map(x=>key(x?.symbol))),extras=[];
+    // WICHTIG: Fuer echte Scan-/BUY-Kandidaten ausschliesslich den vorhandenen Broker-/Masterkatalog
+    // aufloesen. Themenwerte ausserhalb des Masters bleiben reine Forward-Watch-Ideen.
+    const rows=arr(raw?.equities).filter(x=>x?.symbol),index=masterIndex(rows),seen=new Set(arr(data?.equities).map(x=>key(x?.symbol))),extras=[];
     for(const c of arr(fw.candidates).sort((a,b)=>num(b?.watchScore)-num(a?.watchScore))){
       if(extras.length>=FORWARD_SCAN_TARGET||num(c?.watchScore)<FORWARD_MIN_SCORE)break;
       const row=resolve(c?.symbol,index);if(!row)continue;const s=key(row.symbol);if(!s||seen.has(s))continue;seen.add(s);extras.push({...row,forwardWatch:true,forwardWatchScore:num(c.watchScore),forwardWatchTheme:c.theme||null,forwardWatchHorizon:c.horizon||null,forwardWatchUrgency:num(c.urgency),forwardWatchAlreadyMoving:Boolean(c.alreadyMoving)})
@@ -45,8 +45,6 @@ export class MarketPortfolio extends BasePortfolio{
    };
    if(this.engine?.env)this.engine.env.ASSETS=assets;
   }
-  // Letzte Entscheidungsschicht: darf die fruehere FULL-CASH-Schicht wieder auf eine
-  // erwartungswertbasierte Kapitalquote reduzieren. Safety/Execution laufen danach weiter.
   const ai=this.engine?.env?.AI;if(ai?.run&&!ai.__profitOptimizer){const wrapped=new ProfitOptimizerAiGuard(ai,this.bucketAdapter);wrapped.__profitOptimizer=true;this.engine.env.AI=wrapped}
  }
 
@@ -54,8 +52,6 @@ export class MarketPortfolio extends BasePortfolio{
   const old=this.bucketAdapter?.peekState?.()?.futureWatch,oldRich=arr(old?.candidates).length?structuredClone(old):null;
   const result=await super.agentPrefetch(payload);
   const incoming=payload?.futureWatch;
-  // Der C#-Agent kann bei GDELT-Backoff nur Themen liefern. Das darf eine bereits
-  // reichere Cloudflare-Forward-Watch mit echten Kandidaten nicht wieder auf 0 setzen.
   if(oldRich&&incoming&&arr(incoming?.candidates).length===0&&this.engine?.store?.update){
    await this.engine.store.update(s=>{s.futureWatch={...oldRich,activeThemes:mergeThemes(oldRich.activeThemes,incoming.activeThemes),source:`${oldRich.source||'Forward-Radar'} + PC-Themen`,pcThemeUpdatedAt:new Date().toISOString()};return true});
   }
@@ -64,16 +60,15 @@ export class MarketPortfolio extends BasePortfolio{
 
  async _refreshFutureWatch(force=false){
   const p=this._agentPrefetch?.(),fw=p?.futureWatch;
-  // Nur eine PC-Watch mit echten Aktienkandidaten darf die Cloudflare-Auswertung ersetzen.
   if(fw&&arr(fw.candidates).length>0&&isFresh(p?.receivedAt)&&isFresh(fw?.updatedAt))return super._refreshFutureWatch(force);
   return V9Portfolio.prototype._refreshFutureWatch.call(this,force);
  }
 
  async status(){
   const s=await super.status(),fw=s?.futureWatch||null;
-  s.forwardScan={enabled:true,leaderPoolTarget:25,forwardPoolTarget:FORWARD_SCAN_TARGET,forwardCandidates:num(fw?.candidateCount),monitoredForwardUniverse:num(fw?.monitoredUniverseCount),activeThemes:arr(fw?.activeThemes).length,mode:'25 aktuelle Leader + bis zu 15 vorausschauende Ereignis-/Themenwerte',confirmationRequired:true};
-  s.profitOptimizer={enabled:true,objective:'maximaler erwarteter Paper-Gewinn nach realistischen Kosten',alwaysInvested:false,maxSinglePositionPct:72,weakSetupsMayStayCash:true,forwardCatalystBoost:true,eventDirectionGuessing:false,profitRotation:true,note:'Aggressiver Paper-Modus: Kapital wird in wenige starke, mehrfach bestaetigte Setups konzentriert. Keine Gewinngarantie; Safety-/Quote-/Kostenpruefungen bleiben aktiv.'};
-  if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,forwardLookingPool:true,forwardPoolTarget:FORWARD_SCAN_TARGET,note:`${s.freeTierBudget.note||''} Zusätzlich werden bis zu ${FORWARD_SCAN_TARGET} vorausschauende Ereignis-/Themenkandidaten im Minuten-Scan beobachtet; gekauft wird erst nach Live-Bestaetigung.`};
+  s.forwardScan={enabled:true,leaderPoolTarget:25,forwardPoolTarget:FORWARD_SCAN_TARGET,forwardCandidates:num(fw?.candidateCount),monitoredForwardUniverse:num(fw?.monitoredUniverseCount),activeThemes:arr(fw?.activeThemes).length,mode:'25 aktuelle Leader + bis zu 15 vorausschauende, im Broker-Master aufgelöste Ereignis-/Themenwerte',confirmationRequired:true,watchMayBeBroaderThanTradablePool:true};
+  s.profitOptimizer={enabled:true,objective:'maximaler erwarteter Paper-Gewinn nach realistischen Kosten',alwaysInvested:false,maxSinglePositionPct:72,weakSetupsMayStayCash:true,forwardCatalystBoost:true,eventDirectionGuessing:false,profitRotation:true,badQuoteEvidenceBlocked:true,note:'Aggressiver Paper-Modus: Kapital wird in wenige starke, mehrfach bestaetigte Setups konzentriert. Keine Gewinngarantie; Safety-/Quote-/Kostenpruefungen bleiben aktiv.'};
+  if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,forwardLookingPool:true,forwardPoolTarget:FORWARD_SCAN_TARGET,note:`${s.freeTierBudget.note||''} Zusätzlich werden bis zu ${FORWARD_SCAN_TARGET} vorausschauende Ereignis-/Themenkandidaten aus dem Broker-Master im Minuten-Scan beobachtet; gekauft wird erst nach Live-Bestaetigung.`};
   return s;
  }
 }
