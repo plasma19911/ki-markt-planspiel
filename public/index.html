@@ -8,7 +8,7 @@
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <title>KI-Markt-Planspiel</title>
   <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/rescue-ui.css?v=20260818-2218">
+  <link rel="stylesheet" href="/rescue-ui.css?v=20260818-2224">
 </head>
 <body>
 <div class="appShell">
@@ -16,8 +16,8 @@
     <div class="brand"><img src="/icon.svg" alt="" class="brandIcon"><div><b>KI-Markt</b><span>Planspiel</span></div></div>
     <nav class="sideNav" aria-label="Hauptnavigation">
       <a class="active" href="#overview"><span>⌂</span>Dashboard</a>
-      <a href="#signals"><span>◎</span>Kandidaten</a>
       <a href="#positions"><span>▣</span>Positionen</a>
+      <a href="#signals"><span>◎</span>Kandidaten</a>
       <a href="#futureCard"><span>⚡</span>Katalysatoren</a>
       <a href="#news"><span>◉</span>News</a>
       <a href="#replayCard"><span>↻</span>Tages-Replay</a>
@@ -47,7 +47,7 @@
     </header>
 
     <div class="mobileNav" aria-label="Mobile Navigation">
-      <a href="#overview">Depot</a><a href="#signals">Kandidaten</a><a href="#positions">Positionen</a><a href="#futureCard">News</a><a href="#replayCard">Replay</a><a href="#setup">Setup</a>
+      <a href="#overview">Depot</a><a href="#positions">Positionen</a><a href="#signals">Kandidaten</a><a href="#futureCard">News</a><a href="#replayCard">Replay</a><a href="#setup">Setup</a>
     </div>
 
     <div id="livePanel" class="tabPanel">
@@ -68,7 +68,7 @@
 
         <section class="card chartCard dashboardChart">
           <div class="cardTitle"><div><span class="sectionEyebrow">DEPOT</span><h2>Kapitalverlauf</h2></div><span id="endTime" class="tag">–</span></div>
-          <canvas id="chart" width="1200" height="180"></canvas><div class="chartMeta"><div id="scanInfo" class="muted"></div><div id="aiSummary" class="aiSummary">KI: –</div></div>
+          <canvas id="chart" width="600" height="200"></canvas><div class="chartMeta"><div id="scanInfo" class="muted"></div><div id="aiSummary" class="aiSummary">KI: –</div></div>
         </section>
 
         <section id="futureCard" class="card futureCard">
@@ -81,7 +81,7 @@
           <div id="positionCards" class="positionCards"></div><div class="tableWrap compactTable"><table><thead><tr><th>Wert</th><th>Typ</th><th>Einsatz</th><th>FX</th><th>Kurs</th><th>P/L</th></tr></thead><tbody id="positionsBody"></tbody></table></div>
         </section>
 
-        <section class="card allocation dashboardAllocation"><div class="cardTitle"><div><span class="sectionEyebrow">ALLOKATION</span><h2>Kapitalverteilung</h2></div><span class="tag">Depot</span></div><canvas id="allocationChart" width="520" height="180"></canvas><div id="allocationLegend" class="legend"></div></section>
+        <section class="card allocation dashboardAllocation"><div class="cardTitle"><div><span class="sectionEyebrow">ALLOKATION</span><h2>Kapitalverteilung</h2></div><span class="tag">Depot</span></div><canvas id="allocationChart" width="300" height="220"></canvas><div id="allocationLegend" class="legend"></div></section>
 
         <section id="replayCard" class="card replayCard">
           <div class="cardTitle"><div><span class="sectionEyebrow">LERNEN</span><h2>Tages-Replay</h2></div><span class="tag">aus echten Paper-Trades</span></div>
@@ -113,7 +113,8 @@
     <footer>KI-Markt-Planspiel · Paper Trading · Aktien · PC-Agent + Cloudflare</footer>
   </div>
 </div>
-<script src="/app.js?v=20260818-2218" type="module"></script>
-<script src="/analysis-ui.js?v=20260818-2218" type="module"></script>
+<script src="/app.js?v=20260818-2224" type="module"></script>
+<script src="/candidate-fallback-ui.js?v=20260818-2224" type="module"></script>
+<script src="/analysis-ui.js?v=20260818-2224" type="module"></script>
 </body>
 </html>
