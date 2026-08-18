@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-08-18T14:56:15.040272+00:00",
-  "commit": "5701a271b917f5a0f44446bdedbf5a6daf2c36e9",
+  "checkedAt": "2026-08-18T14:56:42.693345+00:00",
+  "commit": "47dce469828d48725b382ca821a5c3eec83c1288",
   "install": {
     "ok": true,
     "tail": "\nadded 38 packages, and audited 39 packages in 6s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
@@ -96,6 +96,11 @@
       "exitCode": 0,
       "tail": "{\n  \"ok\": true,\n  \"reboundBucket\": true,\n  \"badReboundBlocked\": {\n    \"bucket\": \"REBOUND_REVERSAL\",\n    \"samples\": 18,\n    \"totalCheckpoints\": 18,\n    \"quality\": -0.5,\n    \"winRate\": 0.222,\n    \"confidenceDelta\": -0.07454444444444445,\n    \"scoreDelta\": -1.4116666666666666,\n    \"sizeMultiplier\": 0.6885777777777777,\n    \"block\": true,\n    \"reason\": \"Rebound-Lernen blockiert schlechtes REVERSAL-Muster: 18 Fälle, Ø -0.50%, Treffer 22%\"\n  },\n  \"goodPullbackBoosted\": {\n    \"bucket\": \"PULLBACK_RETEST\",\n    \"samples\": 6,\n    \"totalCheckpoints\": 18,\n    \"quality\": 0.47,\n    \"winRate\": 0.833,\n    \"confidenceDelta\": 0.025,\n    \"scoreDelta\": 0.4145,\n    \"sizeMultiplier\": 1.08,\n    \"block\": false,\n    \"reason\": \"Timing-Lernen bestätigt PULLBACK_RETEST: 6 Fälle, Ø 0.47%, Treffer 83%\"\n  }\n}\n"
     },
+    "opportunity_cost": {
+      "ok": false,
+      "exitCode": 1,
+      "tail": "file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/src/profit-optimizer.js:64\nfunction singleCap(best,regime){if(best>=11.5&&regime!=='VOLATILE')return72;if(best>=9.5)return62;if(best>=8)return54;return45}\n                                                                                         ^\n\nReferenceError: return62 is not defined\n    at singleCap (file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/src/profit-optimizer.js:64:90)\n    at optimizeResponse (file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/src/profit-optimizer.js:122:64)\n    at ProfitOptimizerAiGuard.run (file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/src/profit-optimizer.js:135:331)\n    at async file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/scripts/smoke-opportunity-cost-rotation.mjs:19:23\n\nNode.js v22.23.2\n"
+    },
     "yahoo_sanity": {
       "ok": true,
       "exitCode": 0,
@@ -107,7 +112,9 @@
       "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 24 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 464.05 KiB / gzip: 123.89 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
     }
   },
-  "failedChecks": [],
-  "allCodeAndRegressionChecksPassed": true,
+  "failedChecks": [
+    "opportunity_cost"
+  ],
+  "allCodeAndRegressionChecksPassed": false,
   "note": "Wrangler dry-run may report required runtime-secret/auth limitations in CI; syntax and smoke regressions are listed separately."
 }
