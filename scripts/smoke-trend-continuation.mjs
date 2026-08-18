@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import {applyEvidenceDiversity} from '../src/evidence-overlay.js';
+import {applyExecutionCostDiscipline} from '../src/execution-cost-overlay.js';
+import {enforceFastExecutionGuards} from '../src/decision-guard.js';
 
 const baseContext={
   symbol:'TREND.DE',fastAction:'HOLD',fastScore:4.4,reason:'FAST-HOLD: BUY 4.8 / SELL 0.4 · RANGE',regime:'RANGE',
@@ -10,7 +12,7 @@ const baseContext={
   regionalBenchmark:{relative20m:.25,blockBuy:false},fxSafety:{valid:true}
 };
 const fast={actions:[],context:[baseContext],gapContext:[{symbol:'TREND.DE',state:'NORMAL',blockBuy:false}],volumeConfirmation:{minRatio:1.10,ratios:{'TREND.DE':1.45}}};
-const candidates=[{symbol:'TREND.DE',type:'EQUITY',momentumState:'NORMAL',momentumSellSignal:'NONE',news:0,liveScore:2.2,liveConfidence:.68}];
+const candidates=[{symbol:'TREND.DE',type:'EQUITY',price:100,momentumState:'NORMAL',momentumSellSignal:'NONE',news:0,liveScore:2.2,liveConfidence:.68}];
 const prompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. Cash 1000 EUR; Slippage 0.10%. Kandidaten=${JSON.stringify(candidates)} Gehalten=[]`;
 const checked=applyEvidenceDiversity(fast,prompt),buys=checked.actions.filter(x=>x.action==='BUY');
 assert.equal(buys.length,1,'Stark bestaetigter NORMAL-Aufwaertstrend soll nicht allein wegen fehlendem Breakout auf HOLD bleiben');
@@ -35,8 +37,18 @@ assert.match(opBuy.reason,/QUALIFIED-OPPORTUNITY/);
 assert.equal(opBuy.allocation_pct,24,'Offensives 1000-EUR-Depot nutzt eine kostenökonomische Erstposition');
 assert.equal(opportunity.evidenceDiversity.results['TREND.DE'].count,2,'Qualifizierte Chance darf mit zwei starken unabhaengigen Saeulen starten');
 
+const costChecked=applyExecutionCostDiscipline(opportunity,prompt),costBuy=costChecked.actions.find(x=>x.action==='BUY');
+assert.ok(costBuy,'Qualifizierter 24%-Ersteinstieg muss die ZERO-Kostenstufe überleben');
+assert.ok(costChecked.executionCost.bySymbol['TREND.DE'].estimatedRoundTripCostPct<2,'Ersteinstieg muss unter dem 2%-Roundtrip-Hard-Cap bleiben');
+
+const aiHold={response:JSON.stringify({summary:'KI bleibt vorsichtig',actions:[{symbol:'TREND.DE',action:'HOLD',confidence:.58,allocation_pct:0,reason:'noch abwarten'}]})};
+const finalPlan=JSON.parse(enforceFastExecutionGuards(aiHold,costChecked).response),finalBuy=finalPlan.actions.find(x=>x.action==='BUY');
+assert.ok(finalBuy,'Auch wenn die generative KI HOLD sagt, muss der qualifizierte und kostenfreigegebene Ersteinstieg als BUY im finalen Plan landen');
+assert.equal(finalBuy.symbol,'TREND.DE');
+assert.match(finalBuy.reason,/BEST-VALIDATED-BUY|QUALIFIED-OPPORTUNITY/);
+
 const heldPrompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. Cash 800 EUR; Slippage 0.10%. Kandidaten=${JSON.stringify(candidates)} Gehalten=[{"symbol":"ALT.DE"}]`;
 const notIdle=applyEvidenceDiversity(opportunityFast,heldPrompt);
 assert.equal(notIdle.actions.some(x=>String(x.reason||'').includes('QUALIFIED-OPPORTUNITY')),false,'Der abgesenkte Einstieg gilt nur fuer ein noch komplett leeres Depot');
 
-console.log(JSON.stringify({ok:true,trendBuy:buys[0],qualifiedBuy:opBuy,evidence:opportunity.evidenceDiversity.results['TREND.DE']},null,2));
+console.log(JSON.stringify({ok:true,trendBuy:buys[0],qualifiedBuy:opBuy,cost:costChecked.executionCost.bySymbol['TREND.DE'],finalBuy,evidence:opportunity.evidenceDiversity.results['TREND.DE']},null,2));
