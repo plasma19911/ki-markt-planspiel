@@ -2,6 +2,7 @@ import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v16.js';
 import {setSecondChanceRuntime,clearSecondChanceRuntime} from './second-chance-runtime.js';
 import {SECOND_CHANCE_TARGET,buildSecondChanceWatch,isSecondChanceWatchFresh,isBlockedSecondChanceSymbol} from './second-chance-watch-utils.js';
 import {PullbackFirstAiGuard} from './pullback-first-ai-guard.js';
+import {RotationCostAiGuard} from './rotation-cost-guard.js';
 import {captureDayReplay,runDayReplayBatch,getDayReplayStatus} from './day-replay-learning.js';
 export {SECOND_CHANCE_TARGET,SECOND_CHANCE_RETENTION_MS,buildSecondChanceWatch,isSecondChanceCandidate} from './second-chance-watch-utils.js';
 
@@ -9,6 +10,7 @@ export {SECOND_CHANCE_TARGET,SECOND_CHANCE_RETENTION_MS,buildSecondChanceWatch,i
 // der Profit-Optimizer im Capital-in-Motion-Paper-Modus. Pullback-First blockiert
 // Peak-Chase. Der Tages-Replay-Lerner speichert beobachtete Setups und vergleicht
 // nach Handelsschluss echte Einstiege mit realistisch erkennbaren Alternativen.
+// Der Rotation-Cost-Guard verhindert kostenintensives Minuten-Hin-und-Her.
 
 const WATCH_KEY='state/second-chance-watch-v1';
 const arr=v=>Array.isArray(v)?v:[];
@@ -46,7 +48,8 @@ export class MarketPortfolio extends BasePortfolio{
    };
    if(this.engine?.env)this.engine.env.ASSETS=assets;
   }
-  const ai=this.engine?.env?.AI;
+  let ai=this.engine?.env?.AI;
+  if(ai?.run&&!ai.__rotationCostGuard){const wrapped=new RotationCostAiGuard(ai,ctx?.storage);wrapped.__rotationCostGuard=true;ai=wrapped;this.engine.env.AI=ai}
   if(ai?.run&&!ai.__pullbackFirstGuard){const wrapped=new PullbackFirstAiGuard(ai,ctx?.storage);wrapped.__pullbackFirstGuard=true;this.engine.env.AI=wrapped}
  }
  _readSecondChance(){try{return this.ctx?.storage?.kv?.get(WATCH_KEY)||null}catch{return null}}
@@ -66,9 +69,10 @@ export class MarketPortfolio extends BasePortfolio{
   s.secondChanceWatch={enabled:true,target:SECOND_CHANCE_TARGET,candidateCount:count,updatedAt:watch?.updatedAt||null,fresh:isFresh,retentionMinutes:12,recheckPerScan:2,requiresFreshOneMinuteRecheck:true,forcedBuy:false,mode:'Gute Deep-Kandidaten bleiben bis zu 12 Minuten im Heisspool; fehlen sie im normalen Finalisten-Ranking, erhalten bis zu zwei pro Scan einen frischen 1m-Zweitcheck.'};
   s.entryPriceTiming={enabled:true,mode:'PULLBACK_FIRST',priority:['PULLBACK_RETEST','EARLY_BREAKOUT','NORMAL'],peakChaseBlocked:true,overextendedEntryBlocked:true,pullbackRangePct:[-2.2,-0.22],bounceConfirmationRequired:true,peakProtectionCashException:true,note:'Neueinstieg bevorzugt einen Ruecksetzer vom lokalen 20m-Hoch mit wieder positiv drehendem 1m/5m-Tape. Fruehe Breakouts bleiben erlaubt; spaete/ueberhitzte Near-High-Kaeufe werden vor Ausfuehrung blockiert.'};
   s.dayReplayLearning=getDayReplayStatus(this.ctx?.storage);
-  if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,secondChanceCapture:true,strongCandidateRetentionMinutes:12,secondChanceRecheckPerScan:2,deepFinalists:4,bestQualifiedEntry:true,bestQualifiedMinExpected:4.7,secondChanceMinExpected:5.7,capitalInMotion:true,alwaysInvested:true,capitalMotionMinExpected:3.0,capitalMotionTargetCashDeploymentPct:100,rotationMinGap:0.8,lossRotationMinGap:0.45,rotationMinAgeMinutes:8,hardSafetyStillRequired:true,hardSafetyCashException:true,peakProtectionCashException:true,pullbackFirst:true,peakChaseBlocked:true,overextendedEntryBlocked:true,dayReplayLearning:true,dayReplayUsesRealisticSignals:true,dayReplayAutoAdjustmentMinSamples:8,profitRotation:true,weakSetupsMayStayCash:false,note:'Capital-in-Motion Paper-Modus mit Pullback-First und Tages-Replay-Lernen. Der Replay sucht nach Handelsschluss keine perfekten Tiefpunkte, sondern damals technisch erkennbare Pullback-/Breakout-Einstiege und kalibriert erst nach mehreren Samples begrenzt nach. Keine Gewinngarantie.'};
-  if(s.executionModel)s.executionModel={...s.executionModel,alwaysInvested:true,capitalInMotion:true,cashMayRemain:false,strategicCashReservePct:0,hardSafetyCashException:true,peakProtectionCashException:true,pullbackFirst:true,peakChaseBlocked:true,legacyFullCashFailsafe:true,fullCashPolicy:false};
-  if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,secondChanceWatch:true,secondChanceRetentionMinutes:12,secondChanceRecheckPerScan:2,bestQualifiedEntry:true,capitalInMotion:true,alwaysInvested:true,capitalMotionTargetCashDeploymentPct:100,pullbackFirst:true,peakChaseBlocked:true,dayReplayLearning:true,note:`${s.freeTierBudget.note||''} Tages-Replay verarbeitet nach Handelsschluss nur eine begrenzte beobachtete Symbolmenge in kleinen Batches, um Free-Tier-Subrequests zu schonen.`};
+  s.rotationCostGuard={enabled:true,baseMinAgeMinutes:10,baseGap:0.8,smallOrderPenalty:true,replayAdaptive:true,hardReversalMayExitImmediately:true,mode:'Verhindert kostenintensives Minuten-Hin-und-Her; kleine Positionen brauchen einen groesseren Vorteil, abgeschlossene Tages-Replays koennen Hysterese begrenzt verschaerfen.'};
+  if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,secondChanceCapture:true,strongCandidateRetentionMinutes:12,secondChanceRecheckPerScan:2,deepFinalists:4,bestQualifiedEntry:true,bestQualifiedMinExpected:4.7,secondChanceMinExpected:5.7,capitalInMotion:true,alwaysInvested:true,capitalMotionMinExpected:3.0,capitalMotionTargetCashDeploymentPct:100,rotationMinGap:0.8,lossRotationMinGap:0.45,rotationMinAgeMinutes:10,rotationCostAware:true,smallOrderRotationPenalty:true,replayAdaptiveRotation:true,hardSafetyStillRequired:true,hardSafetyCashException:true,peakProtectionCashException:true,pullbackFirst:true,peakChaseBlocked:true,overextendedEntryBlocked:true,dayReplayLearning:true,dayReplayUsesRealisticSignals:true,dayReplayAutoAdjustmentMinSamples:8,profitRotation:true,weakSetupsMayStayCash:false,note:'Capital-in-Motion Paper-Modus mit Pullback-First, kostenbewusster Rotation und Tages-Replay-Lernen. Replay sucht keine perfekten Tiefpunkte, sondern damals technisch erkennbare Pullback-/Breakout-Einstiege. Schnelle verlustreiche Rotationen und Peak-Einstiege werden als Fehler gelernt. Keine Gewinngarantie.'};
+  if(s.executionModel)s.executionModel={...s.executionModel,alwaysInvested:true,capitalInMotion:true,cashMayRemain:false,strategicCashReservePct:0,hardSafetyCashException:true,peakProtectionCashException:true,pullbackFirst:true,peakChaseBlocked:true,rotationCostAware:true,legacyFullCashFailsafe:true,fullCashPolicy:false};
+  if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,secondChanceWatch:true,secondChanceRetentionMinutes:12,secondChanceRecheckPerScan:2,bestQualifiedEntry:true,capitalInMotion:true,alwaysInvested:true,capitalMotionTargetCashDeploymentPct:100,pullbackFirst:true,peakChaseBlocked:true,dayReplayLearning:true,rotationCostAware:true,note:`${s.freeTierBudget.note||''} Tages-Replay verarbeitet nach Handelsschluss nur eine begrenzte beobachtete Symbolmenge in kleinen Batches, um Free-Tier-Subrequests zu schonen.`};
   return s;
  }
 }
