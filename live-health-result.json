@@ -1,19 +1,19 @@
 {
-  "checkedAt": "2026-08-18T13:02:26.730583+00:00",
+  "checkedAt": "2026-08-18T13:06:14.853013+00:00",
   "homepageOk": true,
   "appJsOk": true,
   "uiHotfixHttp": "200",
   "uiHotfixLive": true,
   "apiStatusOk": true,
   "running": 1,
-  "scanCount": 34,
-  "lastScan": "2026-08-18T13:01:19.420Z",
+  "scanCount": 36,
+  "lastScan": "2026-08-18T13:05:09.171Z",
   "lastError": null,
-  "aiLastSummary": "Deterministischer Ersatzplan",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision nicht verfügbar: Cannot read properties of undefined (reading 'toFixed')",
   "cash": 0,
-  "equity": 999.729880393717,
-  "pnl": -0.27011960628294673,
-  "universeCount": 165,
+  "equity": 999.0387274370294,
+  "pnl": -0.9612725629706347,
+  "universeCount": 171,
   "positions": 1,
   "positionRows": [
     {
@@ -25,13 +25,13 @@
       "invested": 999,
       "entry_fee": 1,
       "entry_price": 28.908879159927366,
-      "last_price": 28.93000030517578,
+      "last_price": 28.90999984741211,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-18T12:41:19.001Z",
-      "score": 2.012681818181818,
-      "signal_confidence": 0.6162681818181819,
+      "score": 2.004095,
+      "signal_confidence": 0.5623095,
       "zero_quantity": 34.556856890694824,
       "zero_whole_shares": 34,
       "zero_fractional_shares": 0.5568568906948244,
@@ -42,33 +42,33 @@
   "candidates": 3,
   "topCandidates": [
     {
-      "symbol": "BAYN.DE",
-      "name": "Bayer Aktiengesellschaft",
-      "score": 2.428423125,
-      "confidence": 0.6695423125,
-      "day_change": 1.106472453394125,
-      "news_score": 0.026826923076923075,
+      "symbol": "EOAN.DE",
+      "name": "E.ON SE",
+      "score": 4.70369,
+      "confidence": 0.7038,
+      "day_change": 0.977856227643259,
+      "news_score": 0.17999999999999997,
       "event_risk": "NONE",
-      "pro": "Kurs über EMA21 · RSI 50 konstruktiv · 20m +Infinity%",
-      "contra": "EMA-Trend schwach"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 50 konstruktiv · 20m +Infinity%",
+      "contra": ""
     },
     {
       "symbol": "DTE.DE",
       "name": "Deutsche Telekom AG",
-      "score": 2.012681818181818,
-      "confidence": 0.6162681818181819,
-      "day_change": 1.9020792714891988,
-      "news_score": 0.010909090909090908,
+      "score": 2.004095,
+      "confidence": 0.5623095,
+      "day_change": 1.8316303184646276,
+      "news_score": 0.17999999999999997,
       "event_risk": "NONE",
       "pro": "Kurs über EMA21 · RSI 50 konstruktiv · 5m +Infinity%",
       "contra": "EMA-Trend schwach"
     },
     {
-      "symbol": "BAS.DE",
-      "name": "BASF SE                       N",
+      "symbol": "BAYN.DE",
+      "name": "Bayer Aktiengesellschaft",
       "score": 1.2000000000000002,
       "confidence": 0.4,
-      "day_change": 1.4254593986068764,
+      "day_change": 1.210854994230326,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "Kurs über EMA21 · RSI 50 konstruktiv",
@@ -83,7 +83,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal BAYN.DE: Score 2.43, Konfidenz 67%.",
+      "reason": "Kein Trade. Bestes Signal EOAN.DE: Score 4.70, Konfidenz 70%.",
       "score": null
     },
     {
@@ -150,8 +150,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 355,
-      "updated_at": "2026-08-18T13:01:06.401Z"
+      "latency_ms": 246,
+      "updated_at": "2026-08-18T13:05:08.716Z"
     },
     {
       "source": "Yahoo FX",
@@ -159,8 +159,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 10,
-      "updated_at": "2026-08-18T13:01:06.401Z"
+      "latency_ms": 295,
+      "updated_at": "2026-08-18T13:05:08.716Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -168,8 +168,8 @@
       "ok_count": 3,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 121,
-      "updated_at": "2026-08-18T13:01:06.401Z"
+      "latency_ms": 111,
+      "updated_at": "2026-08-18T13:05:08.716Z"
     },
     {
       "source": "Yahoo Events",
@@ -177,8 +177,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 111,
-      "updated_at": "2026-08-18T13:01:06.401Z"
+      "latency_ms": 282,
+      "updated_at": "2026-08-18T13:05:08.716Z"
     },
     {
       "source": "Yahoo News",
@@ -186,8 +186,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 776,
-      "updated_at": "2026-08-18T13:01:06.401Z"
+      "latency_ms": 505,
+      "updated_at": "2026-08-18T13:05:08.716Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -195,8 +195,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 251,
-      "updated_at": "2026-08-18T13:01:06.401Z"
+      "latency_ms": 254,
+      "updated_at": "2026-08-18T13:05:08.716Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -204,17 +204,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 287,
-      "updated_at": "2026-08-18T13:01:06.401Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 490,
-      "updated_at": "2026-08-18T13:01:06.401Z"
+      "latency_ms": 281,
+      "updated_at": "2026-08-18T13:05:08.716Z"
     },
     {
       "source": "BörsenNews",
@@ -222,13 +213,22 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 531,
-      "updated_at": "2026-08-18T13:01:06.401Z"
+      "latency_ms": 309,
+      "updated_at": "2026-08-18T13:05:08.716Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 575,
+      "updated_at": "2026-08-18T13:05:08.716Z"
     }
   ],
   "risk": {
-    "equity": 999.729880393717,
-    "dailyPct": -0.027011960628298137,
+    "equity": 999.0387274370294,
+    "dailyPct": -0.09612725629706276,
     "availableCash": 0,
     "hardLimits": false,
     "budgetOnly": true,
@@ -242,7 +242,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T13:02:19.420Z",
+    "nextScanAt": "2026-08-18T13:06:09.171Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -250,7 +250,7 @@
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
     "lastFetchBudget": null,
-    "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb.",
+    "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Zusätzlich werden bis zu 15 vorausschauende Ereignis-/Themenkandidaten im Minuten-Scan beobachtet; gekauft wird erst nach Live-Bestaetigung.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
     "newsAtNight": false,
@@ -260,29 +260,31 @@
     "cloudflareFallbackIntervalMinutes": 5,
     "cloudflareFallbackOnlyWhenPcOffline": true,
     "pcAgentOnline": true,
-    "pcAgentPrefetchFresh": true
+    "pcAgentPrefetchFresh": true,
+    "forwardLookingPool": true,
+    "forwardPoolTarget": 15
   },
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T13:02:02.189Z",
-    "ageSeconds": 24,
+    "lastSeenAt": "2026-08-18T13:06:02.195Z",
+    "ageSeconds": 12,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T13:02:01.826Z",
+    "prefetchAt": "2026-08-18T13:06:01.789Z",
     "resolvedLeaderCount": 14,
     "leaderHealthy": true,
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-08-18T13:02:02.189Z",
+      "lastSeenAt": "2026-08-18T13:06:02.195Z",
       "version": "2.0.3-csharp-gdelt-backoff",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 133360,
+      "storageBytes": 149436,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
       "ramMb": 45.7,
       "downloadedBytes": 3837464,
-      "uploadedBytes": 50568,
+      "uploadedBytes": 68008,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP",
       "lastLocalCleanupAt": "2026-08-18T12:50:14.4530236Z",
