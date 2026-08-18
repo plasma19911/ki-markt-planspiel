@@ -1,8 +1,10 @@
 export const AI_MODEL = '@cf/zai-org/glm-4.7-flash';
 export const SPARK_BATCH = 50;
-// Hybrid-Free-Profil: bis zu 50 Aktien koennen pro Minute grob konkurrieren:
-// 25 aktuelle Leader + bis zu 15 Forward-Kandidaten + bis zu 10 Rebound-Verlierer.
-// Die zwei staerksten Finalisten gehen in die vollstaendige Deep-/Safety-Kette.
+// Hybrid-Free-Profil: Spezial-Pools decken Leader, Forward, Rebound und Early-Breakout ab.
+// Zusaetzlich kann der Windows-PC das gesamte Aktien-Master in grossen Kurs-Batches
+// vorscannen und nur die auffaelligsten Werte hochziehen. Die vollstaendige teure
+// Deep-/Safety-Kette bleibt bewusst auf zwei Finalisten begrenzt; breite Abdeckung
+// entsteht durch den PC-Wide-Sweep statt durch hunderte Einzel-Deep-Requests.
 export const DEEP_LIMIT = 2;
 export const NEWS_LIMIT = 2;
 export const NEWS_RADAR_BATCH = 2;
