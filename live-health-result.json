@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T19:59:07.477939+00:00",
+  "checkedAt": "2026-08-18T19:59:28.470400+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -36,14 +36,14 @@
     "homepage"
   ],
   "running": 1,
-  "scanCount": 321,
-  "lastScan": "2026-08-18T19:58:10.873Z",
+  "scanCount": 322,
+  "lastScan": "2026-08-18T19:59:13.038Z",
   "lastError": null,
   "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 5 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks. Beste HOLD · PULLBACK-FIRST: kein preislich guter Neueinstieg; 0 Peak/zu-teuer BUY(s) blockiert. Lieber auf Ruecksetzer warten als oben hinterherkaufen.",
   "cash": 242.5656642062093,
-  "equity": 961.322473859947,
-  "pnl": -38.67752614005303,
-  "universeCount": 169,
+  "equity": 961.6101395013461,
+  "pnl": -38.38986049865389,
+  "universeCount": 171,
   "positions": 2,
   "positionRows": [
     {
@@ -55,9 +55,9 @@
       "invested": 585.696171,
       "entry_fee": 1,
       "entry_price": 791.2354523315429,
-      "last_price": 796.25,
+      "last_price": 796.5599975585938,
       "entry_fx": 0.8636,
-      "last_fx": 0.8637,
+      "last_fx": 0.8636,
       "currency": "USD",
       "opened_at": "2026-08-18T17:34:07.358Z",
       "score": 5.477806326086957,
@@ -77,9 +77,9 @@
       "invested": 129.61228,
       "entry_fee": 1,
       "entry_price": 375.78541366577144,
-      "last_price": 374.7799987792969,
+      "last_price": 375.19000244140625,
       "entry_fx": 0.8636,
-      "last_fx": 0.8637,
+      "last_fx": 0.8636,
       "currency": "USD",
       "opened_at": "2026-08-18T19:56:13.615Z",
       "score": 3.9817089565527066,
@@ -98,10 +98,10 @@
       "name": "Elbit Systems Ltd.",
       "score": 5.477806326086957,
       "confidence": 0.75276,
-      "day_change": 1.712993715190847,
+      "day_change": 1.7525928106118416,
       "news_score": 0.06576086956521737,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.47% · 20m +0.80% · Momentum baut sich auf · Beschleunigung +0.48%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.37% · 20m +0.84% · Momentum baut sich auf · Beschleunigung +0.27%",
       "contra": ""
     },
     {
@@ -109,44 +109,44 @@
       "name": "GE Aerospace",
       "score": 3.9817089565527066,
       "confidence": 0.7695,
-      "day_change": 1.4481765907741195,
+      "day_change": 1.559159364806928,
       "news_score": 0.06801994301994303,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 56 konstruktiv",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 67 konstruktiv",
       "contra": ""
     },
     {
       "symbol": "RTX",
       "name": "RTX",
-      "score": 1.4,
-      "confidence": 0.555,
-      "day_change": 1.8227723677049612,
+      "score": 2.6,
+      "confidence": 0.675,
+      "day_change": 1.874660787288085,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21",
-      "contra": "RSI 83 überhitzt"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.52%",
+      "contra": "RSI 89 überhitzt"
     },
     {
-      "symbol": "CACI",
-      "name": "CACI International",
-      "score": 1.2000000000000002,
-      "confidence": 0.4,
-      "day_change": 1.4607158356225058,
+      "symbol": "PSN",
+      "name": "Parsons",
+      "score": 2,
+      "confidence": 0.48000000000000004,
+      "day_change": 1.7373258417302972,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "Kurs über EMA21 · RSI 58 konstruktiv",
+      "pro": "Kurs über EMA21 · RSI 59 konstruktiv · 5m +0.51%",
       "contra": "EMA-Trend schwach"
     },
     {
-      "symbol": "INTU",
-      "name": "Intuit",
-      "score": -3.65,
-      "confidence": 0.63,
-      "day_change": 4.308700106851537,
+      "symbol": "NOC",
+      "name": "Northrop Grumman",
+      "score": 1.2000000000000002,
+      "confidence": 0.4,
+      "day_change": 3.5285877453908654,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 20m -0.51% · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "pro": "Kurs über EMA21 · RSI 56 konstruktiv",
+      "contra": "EMA-Trend schwach"
     }
   ],
   "recentHistory": [
@@ -373,11 +373,11 @@
     {
       "source": "Yahoo Spark",
       "status": "OK",
-      "ok_count": 2,
+      "ok_count": 3,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 405,
-      "updated_at": "2026-08-18T19:58:10.490Z"
+      "latency_ms": 114,
+      "updated_at": "2026-08-18T19:59:12.748Z"
     },
     {
       "source": "Yahoo FX",
@@ -385,8 +385,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 110,
-      "updated_at": "2026-08-18T19:58:10.490Z"
+      "latency_ms": 7,
+      "updated_at": "2026-08-18T19:59:12.748Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -394,8 +394,8 @@
       "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 272,
-      "updated_at": "2026-08-18T19:58:10.490Z"
+      "latency_ms": 111,
+      "updated_at": "2026-08-18T19:59:12.748Z"
     },
     {
       "source": "Yahoo Events",
@@ -403,8 +403,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 98,
-      "updated_at": "2026-08-18T19:58:10.490Z"
+      "latency_ms": 101,
+      "updated_at": "2026-08-18T19:59:12.748Z"
     },
     {
       "source": "Yahoo News",
@@ -412,26 +412,8 @@
       "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 915,
-      "updated_at": "2026-08-18T19:58:10.490Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 267,
-      "updated_at": "2026-08-18T19:58:10.490Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 321,
-      "updated_at": "2026-08-18T19:58:10.490Z"
+      "latency_ms": 692,
+      "updated_at": "2026-08-18T19:59:12.748Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -439,8 +421,26 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 712,
-      "updated_at": "2026-08-18T19:58:10.490Z"
+      "latency_ms": 244,
+      "updated_at": "2026-08-18T19:59:12.748Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 270,
+      "updated_at": "2026-08-18T19:59:12.748Z"
+    },
+    {
+      "source": "BörsenNews",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 323,
+      "updated_at": "2026-08-18T19:59:12.748Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -448,22 +448,22 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 992,
-      "updated_at": "2026-08-18T19:58:10.490Z"
+      "latency_ms": 510,
+      "updated_at": "2026-08-18T19:59:12.748Z"
     },
     {
       "source": "Second-Chance 1m",
       "status": "DEGRADED",
       "ok_count": 0,
       "fail_count": 1,
-      "last_error": "Zweitcheck verworfen: Score 1.60, Konfidenz 57%",
+      "last_error": "Zweitcheck verworfen: Score 2.50, Konfidenz 63%",
       "latency_ms": null,
-      "updated_at": "2026-08-18T19:58:10.490Z"
+      "updated_at": "2026-08-18T19:59:12.748Z"
     }
   ],
   "risk": {
-    "equity": 961.322473859947,
-    "dailyPct": -3.8677526140053042,
+    "equity": 961.6101395013461,
+    "dailyPct": -3.8389860498653894,
     "availableCash": 242.5656642062093,
     "hardLimits": false,
     "budgetOnly": true,
@@ -518,7 +518,7 @@
     "enabled": true,
     "target": 10,
     "candidateCount": 7,
-    "updatedAt": "2026-08-18T19:56:07.959Z",
+    "updatedAt": "2026-08-18T19:59:09.437Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -535,7 +535,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 3,
-    "updatedAt": "2026-08-18T19:56:07.959Z",
+    "updatedAt": "2026-08-18T19:59:09.437Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -554,8 +554,8 @@
   "pcWideSweep": {
     "enabled": true,
     "target": 16,
-    "candidateCount": 0,
-    "updatedAt": "2026-08-18T19:58:06.637Z",
+    "candidateCount": 2,
+    "updatedAt": "2026-08-18T19:59:09.867Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8527,
@@ -583,7 +583,7 @@
     "enabled": true,
     "target": 8,
     "candidateCount": 3,
-    "updatedAt": "2026-08-18T19:58:10.873Z",
+    "updatedAt": "2026-08-18T19:59:13.038Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 2,
@@ -813,7 +813,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T19:59:10.873Z",
+    "nextScanAt": "2026-08-18T20:00:13.038Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -859,30 +859,30 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T19:58:06.637Z",
-    "ageSeconds": 61,
+    "lastSeenAt": "2026-08-18T19:59:09.867Z",
+    "ageSeconds": 18,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T19:56:07.959Z",
+    "prefetchAt": "2026-08-18T19:59:09.437Z",
     "resolvedLeaderCount": 15,
     "leaderHealthy": true,
     "futureCandidates": 0,
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
-    "wideSweepCandidates": 0,
+    "wideSweepCandidates": 2,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8527,
     "wideSweepScannedCount": 519,
     "metrics": {
-      "lastSeenAt": "2026-08-18T19:58:06.637Z",
+      "lastSeenAt": "2026-08-18T19:59:09.867Z",
       "version": "2.0.12-csharp-full-master-24mi",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 5822606,
+      "storageBytes": 5841559,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0,
-      "ramMb": 96.1,
-      "downloadedBytes": 21115402,
-      "uploadedBytes": 128288,
+      "cpuPct": 0.01,
+      "ramMb": 101.9,
+      "downloadedBytes": 23901362,
+      "uploadedBytes": 129857,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_FULL_MASTER_24MIN",
       "lastLocalCleanupAt": "2026-08-18T19:38:33.0023231Z",
