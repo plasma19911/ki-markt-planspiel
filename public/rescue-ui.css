@@ -1,4 +1,4 @@
-/* Rescue UI 2: readable type + compact, correctly proportioned depot charts. */
+/* Rescue UI 2.1: readable type, compact charts, strict information priority. */
 :root{--rescue-max:1480px;--rescue-gap:12px;--rescue-radius:14px}
 html,body{overflow-x:hidden}
 body{font-size:15px}
@@ -13,35 +13,36 @@ body{font-size:15px}
 .dashboardGrid>.card{min-width:0!important;width:auto!important;margin:0!important}
 .card{padding:14px!important;border-radius:var(--rescue-radius)!important;box-shadow:0 8px 24px rgba(0,0,0,.18)!important}.cardTitle{margin-bottom:10px!important}.cardTitle h2{font-size:18px!important}.sectionEyebrow{font-size:9px!important}
 
-/* Predictable layout: candidates first, then two balanced half-width cards. */
-.dashboardCandidates{grid-column:1/-1!important}
-.dashboardChart{grid-column:span 6!important;min-height:0!important}
-.futureCard{grid-column:span 6!important;min-height:0!important}
-.dashboardPositions{grid-column:1/-1!important}
-.dashboardAllocation{grid-column:span 4!important;max-width:430px!important;justify-self:start!important}
-.replayCard{grid-column:span 4!important}.activityCard{grid-column:span 4!important}
-.dashboardNews{grid-column:span 7!important}.dashboardAnalysis{grid-column:span 5!important}
-.dashboardStats{grid-column:span 6!important}.dashboardHealth{grid-column:span 6!important}
-.dashboardBrain{grid-column:span 6!important}.dashboardHistory{grid-column:span 6!important}
-.dashboardSettings{grid-column:1/-1!important}
+/* INFORMATION PRIORITY — never depend on DOM order. */
+.dashboardPositions{order:10!important;grid-column:1/-1!important}
+.dashboardCandidates{order:20!important;grid-column:1/-1!important}
+.futureCard{order:30!important;grid-column:span 7!important;min-height:0!important}
+.dashboardChart{order:31!important;grid-column:span 5!important;min-height:0!important}
+.dashboardAllocation{order:40!important;grid-column:span 4!important;max-width:410px!important;justify-self:start!important}
+.replayCard{order:41!important;grid-column:span 4!important}.activityCard{order:42!important;grid-column:span 4!important}
+.dashboardNews{order:50!important;grid-column:span 7!important}.dashboardAnalysis{order:51!important;grid-column:span 5!important}
+.dashboardStats{order:60!important;grid-column:span 6!important}.dashboardHealth{order:61!important;grid-column:span 6!important}
+.dashboardBrain{order:70!important;grid-column:span 6!important}.dashboardHistory{order:71!important;grid-column:span 6!important}
+.dashboardSettings{order:90!important;grid-column:1/-1!important}
 
 /* No old focus behavior may hide/relocate content. */
 .secondaryDetails,.settingsDetails{display:contents!important}.secondaryDetails>summary,.settingsDetails>summary{display:none!important}.secondaryGrid,.settingsInner{display:contents!important}
 
-/* DEPOT CHART: compact card, normal aspect ratio, never a full-width strip. */
-.dashboardChart{display:block!important;max-width:720px!important;justify-self:start!important}
-.dashboardChart #chart{display:block!important;width:100%!important;height:190px!important;min-height:190px!important;max-height:190px!important;border-radius:10px!important}
+/* DEPOT CHART: deliberately small card with normal aspect ratio. */
+.dashboardChart{display:block!important;max-width:580px!important;justify-self:start!important}
+.dashboardChart #chart{display:block!important;width:100%!important;height:195px!important;min-height:195px!important;max-height:195px!important;border-radius:10px!important}
 .dashboardChart .chartMeta{margin-top:7px!important}.dashboardChart .aiSummary{max-height:66px!important;overflow:auto!important;font-size:12px!important;line-height:1.45!important}
 #scanInfo{font-size:11px!important;white-space:normal!important;line-height:1.4!important}
 
-/* ALLOCATION: deliberately small, almost square instead of stretched. */
+/* ALLOCATION: small and near-square, never stretched. */
 .dashboardAllocation{display:block!important}
-.dashboardAllocation canvas{display:block!important;width:250px!important;height:180px!important;min-width:250px!important;max-width:250px!important;min-height:180px!important;max-height:180px!important;margin:0 auto 8px!important}
+.dashboardAllocation canvas{display:block!important;width:230px!important;height:175px!important;min-width:230px!important;max-width:230px!important;min-height:175px!important;max-height:175px!important;margin:0 auto 8px!important}
 .legend{font-size:12px!important}.legendItem{font-size:12px!important;grid-template-columns:10px 1fr auto!important;gap:7px!important}.legendDot{width:9px!important;height:9px!important}
 .positionTradeChart{display:none!important}
 
-/* Readable candidate/news copy. */
+/* Candidates: larger type and useful fallback instead of an empty table. */
 .candidateHelp{font-size:13px!important;line-height:1.5!important;padding:9px 11px!important;margin-bottom:8px!important}.candidatesWrap{max-height:390px!important}.candidatesWrap table{min-width:980px!important;width:100%!important}.candidatesWrap th{font-size:11px!important;padding:10px!important}.candidatesWrap td{font-size:13px!important;padding:10px!important;line-height:1.45!important}.plainCell{font-size:13px!important;line-height:1.5!important}.scorePill,.eventPill,.confidencePill{font-size:11px!important}.muted{font-size:11px!important;line-height:1.45!important}.aiSummary,.trendSummary,.notice,.error{font-size:12px!important;line-height:1.5!important;padding:9px 11px!important}
+.fallbackCandidate{background:rgba(15,29,44,.28)}.candidateState{display:inline-flex;margin-top:5px;padding:3px 7px;border-radius:999px;border:1px solid #31506d;color:#a8c3dc;background:#102133;font-size:9px;font-weight:900;letter-spacing:.04em}.candidateState.im-depot{border-color:#286048;color:#76dda6;background:#0d251b}.candidateState.news-watch{border-color:#5f512a;color:#ffd16a;background:#241f10}.fallbackRating{display:inline-flex;padding:5px 8px;border-radius:999px;border:1px solid #38536e;background:#102033;font-size:10px;font-weight:900}.fallbackRating.hold{color:#78dca8;border-color:#286048;background:#0d251b}.fallbackRating.strong,.fallbackRating.good{color:#71d7ff;border-color:#285979;background:#0d2030}.fallbackRating.watch{color:#ffd16a;border-color:#64542a;background:#241f10}.candidateFallbackEmpty{display:grid;gap:4px;padding:14px 4px}.candidateFallbackEmpty b{font-size:14px}.candidateFallbackEmpty span{font-size:12px;color:#8fa5ba}
 
 .positionCards{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:9px!important}.positionCard{padding:12px!important}.positionSymbol{font-size:15px!important}.positionName{font-size:11px!important}.positionPnl{font-size:14px!important}.positionMetrics span{font-size:10px!important}.positionMetrics b{font-size:11px!important}
 .themeChip{font-size:11px!important;padding:6px 9px!important}.catalystItem{padding:10px!important}.catalystItem b{font-size:13px!important}.catalystItem p,.catalystScore{font-size:11px!important;line-height:1.45!important}
@@ -51,19 +52,18 @@ body{font-size:15px}
 .healthGrid,.miniGrid{gap:8px!important}.mini span,.healthItem span{font-size:10px!important}.mini b,.healthItem b{font-size:12px!important}
 .settingsGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:9px!important}.settings label{font-size:12px!important}.settings input,.settings select{min-height:40px!important;font-size:13px!important}.buttons button{font-size:12px!important;min-height:40px!important}
 
-/* Obsolete injected dashboards stay out. */
 #performanceDiagnostics,#uiStatusStrip,.desktopQuickNav,#macroRadar,#newsLearning,#exposureNetwork,#freeBudgetPanel,#futureWatch,#zeroBrokerTarget,#accountingChecksum{display:none!important}
 
 @media(max-width:1250px){
  .appShell{grid-template-columns:180px minmax(0,1fr)!important}.heroKpis{grid-template-columns:repeat(3,minmax(0,1fr))!important}
- .dashboardChart,.futureCard{grid-column:1/-1!important}.dashboardChart{max-width:760px!important}
- .dashboardAllocation,.replayCard,.activityCard{grid-column:span 6!important}.dashboardAllocation{max-width:430px!important}
+ .futureCard,.dashboardChart{grid-column:1/-1!important}.dashboardChart{max-width:620px!important}
+ .dashboardAllocation,.replayCard,.activityCard{grid-column:span 6!important}.dashboardAllocation{max-width:410px!important}
  .dashboardNews,.dashboardAnalysis{grid-column:1/-1!important}.positionCards{grid-template-columns:repeat(3,minmax(0,1fr))!important}
 }
 @media(max-width:900px){
  .appShell{display:block!important}.sidebar{display:none!important}.mainArea{padding:0 10px 18px!important;max-width:none!important}.mobileBrand,.mobileNav{display:flex!important}.heroKpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}.heroKpis .kpiCard:first-child{grid-column:1/-1!important}
  .dashboardGrid{grid-template-columns:1fr!important}.dashboardGrid>*{grid-column:1/-1!important}.dashboardChart{max-width:none!important}.dashboardChart #chart{height:180px!important;min-height:180px!important;max-height:180px!important}
- .dashboardAllocation{max-width:380px!important}.dashboardAllocation canvas{width:220px!important;height:165px!important;min-width:220px!important;max-width:220px!important;min-height:165px!important;max-height:165px!important}
+ .dashboardAllocation{max-width:360px!important}.dashboardAllocation canvas{width:215px!important;height:165px!important;min-width:215px!important;max-width:215px!important;min-height:165px!important;max-height:165px!important}
  .positionCards{grid-template-columns:repeat(2,minmax(0,1fr))!important}.dossierGrid{grid-template-columns:1fr!important}.settingsGrid{grid-template-columns:1fr 1fr!important}.statusStrip{overflow-x:auto!important}.statusChip{flex:0 0 100px!important}
 }
 @media(max-width:520px){
