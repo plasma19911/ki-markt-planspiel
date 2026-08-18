@@ -25,3 +25,8 @@ const input3={messages:[{role:'user',content:`JSON-only Kandidaten=${JSON.string
 const p3=JSON.parse((await new ResearchEntryQualityGuard(base2).run('x',input3)).response);
 assert.equal(p3.actions[0].action,'BUY');assert.ok(p3.actions[0].allocation_pct<=26,'Near-Miss darf nur kleine Starterposition bekommen');
 console.log(JSON.stringify({ok:true,weakBlocked:true,strongAllowed:true,strongCap:p2.actions[0].allocation_pct,nearMissStarter:p3.actions[0].allocation_pct},null,2));
+
+// Dieser Smoke ist bewusst Teil des bestehenden Pflicht-Research-Checks. Damit darf
+// spaeter niemand die weichen Regeln wieder unbemerkt in harte Alles-oder-Nichts-
+// Sperren verwandeln.
+await import('./smoke-balanced-adaptive.mjs');
