@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-18T17:07:56.581579+00:00",
-  "commit": "0ed50de5a1e651f7a34a5820c3ecf4405309de86",
+  "checkedAt": "2026-08-18T17:08:17.421253+00:00",
+  "commit": "8c8f8260d7b4822e8fbf868d2d9c9cd60d59e291",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 6s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 5s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -169,7 +169,7 @@
     "second_chance": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"eslt\": {\n    \"confirmed\": true,\n    \"expected\": 8.504,\n    \"liveScore\": 6.09,\n    \"confidence\": 0.77,\n    \"nearHigh\": true,\n    \"m5\": 0.15,\n    \"m20\": 0.32,\n    \"acceleration\": 0.04,\n    \"day\": 0.4,\n    \"rsi\": 62,\n    \"volumeRatio\": 1.2,\n    \"breakoutScore\": 1.1,\n    \"blockers\": []\n  },\n  \"lateChaseBlocked\": true,\n  \"reversalBlocked\": true,\n  \"eventBlocked\": true,\n  \"venueBlocked\": true\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"eslt\": {\n    \"confirmed\": true,\n    \"expected\": 8.504,\n    \"liveScore\": 6.09,\n    \"confidence\": 0.77,\n    \"nearHigh\": true,\n    \"m5\": 0.15,\n    \"m20\": 0.32,\n    \"acceleration\": 0.04,\n    \"day\": 0.4,\n    \"rsi\": 62,\n    \"volumeRatio\": 1.2,\n    \"breakoutScore\": 1.1,\n    \"blockers\": []\n  },\n  \"qualifiedBest\": {\n    \"confirmed\": true,\n    \"expected\": 5.599,\n    \"liveScore\": 3.75,\n    \"confidence\": 0.72,\n    \"nearHigh\": false,\n    \"m5\": 0.08,\n    \"m20\": 0.22,\n    \"acceleration\": 0.02,\n    \"day\": 1.1,\n    \"rsi\": 61,\n    \"volumeRatio\": 1.05,\n    \"breakoutScore\": 0.5,\n    \"blockers\": []\n  },\n  \"lateChaseBlocked\": true,\n  \"reversalBlocked\": true,\n  \"eventBlocked\": true,\n  \"venueBlocked\": true,\n  \"weakTapeBlocked\": true\n}\n"
     },
     "second_chance_watch": {
       "ok": true,
@@ -179,7 +179,7 @@
     "pc_wide_sweep": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"target\": 16,\n  \"selected\": 16,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-18T17:07:34.595Z\",\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\"\n  },\n  \"forcedBuy\": false\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"target\": 16,\n  \"selected\": 16,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-18T17:07:55.507Z\",\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\"\n  },\n  \"forcedBuy\": false\n}\n"
     },
     "yahoo_sanity": {
       "ok": true,
