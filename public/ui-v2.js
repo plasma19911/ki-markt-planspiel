@@ -82,7 +82,8 @@ function makeCollapsible(card,collapsed=true){
  const b=document.createElement('button');b.type='button';b.className='advancedToggle';b.textContent=collapsed?'Anzeigen':'Einklappen';b.onclick=()=>{const on=card.classList.toggle('isCollapsed');b.textContent=on?'Anzeigen':'Einklappen'};title.appendChild(b)
 }
 function advancedCards(){
- makeCollapsible($('setup'),window.innerWidth>700);makeCollapsible(document.querySelector('.health'),window.innerWidth>700);makeCollapsible($('brain'),window.innerWidth>700);makeCollapsible($('zeroBrokerTarget'),window.innerWidth>700)
+ const desktop=window.innerWidth>700;
+ makeCollapsible($('setup'),desktop);makeCollapsible(document.querySelector('.health'),desktop);makeCollapsible($('brain'),desktop);makeCollapsible($('zeroBrokerTarget'),desktop);makeCollapsible($('macroRadar'),desktop);makeCollapsible($('newsLearning'),desktop);makeCollapsible($('exposureNetwork'),desktop)
 }
 
 async function load(){try{const r=await fetch('/api/status',{cache:'no-store'});if(!r.ok)return;render(await r.json())}catch{}}
