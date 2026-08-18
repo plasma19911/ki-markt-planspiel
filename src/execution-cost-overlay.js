@@ -1,8 +1,8 @@
 import {ZERO_FEE_MODEL} from './zero-fee-model.js';
 
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
-const MAX_ROUNDTRIP_COST_PCT=4.0;
-const WARN_ROUNDTRIP_COST_PCT=2.0;
+const MAX_ROUNDTRIP_COST_PCT=2.0;
+const WARN_ROUNDTRIP_COST_PCT=1.0;
 
 function parseJsonBetween(text,startMarker,endMarker=null){const start=text.indexOf(startMarker);if(start<0)return[];const from=start+startMarker.length,end=endMarker?text.indexOf(endMarker,from):-1;try{return JSON.parse(text.slice(from,end>=0?end:text.length).trim())}catch{return[]}}
 function configFromPrompt(prompt){
@@ -30,7 +30,7 @@ export function applyExecutionCostDiscipline(fast,prompt){
     const symbol=String(a.symbol||'').toUpperCase(),type=cfg.types[symbol]||'EQUITY',e=estimate(cfg,a.allocation_pct,type);
     bySymbol[symbol]={allocationPct:num(a.allocation_pct),instrumentType:type,notional:+e.notional.toFixed(2),estimatedBrokerFees:+e.estimatedBrokerFees.toFixed(2),estimatedExecutionCost:+e.estimatedExecutionCost.toFixed(2),estimatedRoundTripCost:+e.estimatedCost.toFixed(2),estimatedRoundTripCostPct:Number.isFinite(e.costPct)?+e.costPct.toFixed(2):null,blockBuy:!Number.isFinite(e.costPct)||e.costPct>cfg.maxRoundTripCostPct,feeEstimate:e.feeEstimate};
     if(!Number.isFinite(e.costPct)||e.costPct>cfg.maxRoundTripCostPct)continue;
-    actions.push(e.costPct>cfg.warnRoundTripCostPct?{...a,confidence:Math.min(num(a.confidence,.5),.78),reason:`${a.reason} · ZERO-Kostenobergrenze ca. ${e.costPct.toFixed(1)}% erhöht`}:a)
+    actions.push(e.costPct>cfg.warnRoundTripCostPct?{...a,confidence:Math.min(num(a.confidence,.5),.75),allocation_pct:+(num(a.allocation_pct)*.80).toFixed(1),reason:`${a.reason} · ZERO-Roundtrip-Kosten ca. ${e.costPct.toFixed(1)}%: Einsatz reduziert`}:a)
   }
   return{...fast,actions,executionCost:{...cfg,bySymbol}};
 }
