@@ -18,8 +18,9 @@ on:
       - "scripts/smoke-early-volume.mjs"
       - "scripts/smoke-best-validated-buy.mjs"
       - "scripts/smoke-trend-continuation.mjs"
+      - "scripts/smoke-trading-chain.mjs"
+      - "scripts/smoke-stocks-only.mjs"
       - "scripts/refresh_universe.py"
-      - "scripts/refresh_etfs.py"
       - "scripts/calibrate_fast-signals.py"
       - "package.json"
       - "wrangler.jsonc"
@@ -104,23 +105,29 @@ jobs:
           node --check scripts/smoke-early-volume.mjs
           node --check scripts/smoke-best-validated-buy.mjs
           node --check scripts/smoke-trend-continuation.mjs
+          node --check scripts/smoke-trading-chain.mjs
+          node --check scripts/smoke-stocks-only.mjs
       - name: Python syntax
-        run: python3 -m py_compile scripts/calibrate_fast_signals.py scripts/refresh_universe.py scripts/refresh_etfs.py
+        run: python3 -m py_compile scripts/calibrate_fast_signals.py scripts/refresh_universe.py
       - name: Fast decision smoke test
         run: node scripts/smoke-fast-decisions.mjs
       - name: Early-session technical smoke test
         run: node scripts/smoke-early-session.mjs
       - name: Early-session volume smoke test
         run: node scripts/smoke-early-volume.mjs
-      - name: Best validated BUY smoke test
+      - name: Best validated BUY and full-cash smoke test
         run: node scripts/smoke-best-validated-buy.mjs
-      - name: Trend continuation smoke test
+      - name: Trend continuation and score handoff smoke test
         run: node scripts/smoke-trend-continuation.mjs
+      - name: End-to-end trading chain smoke test
+        run: node scripts/smoke-trading-chain.mjs
+      - name: Stocks-only production invariant smoke test
+        run: node scripts/smoke-stocks-only.mjs
       - name: Order approval smoke test
         run: node scripts/smoke-order-approval.mjs
       - name: ZERO fee model smoke test
         run: node scripts/smoke-zero-fees.mjs
-      - name: ZERO master universe smoke test
+      - name: ZERO stock master universe smoke test
         run: node scripts/smoke-zero-universe.mjs
       - name: ZERO accounting smoke test
         run: node scripts/smoke-zero-accounting.mjs
