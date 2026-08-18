@@ -46,6 +46,9 @@ window.fetch=async function quotaAwareFetch(input,init){
 window.addEventListener('portfolio-status-invalidate',invalidate);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)cachedAt=0});
 
+// UI V2 CSS is loaded here so no extra HTML wiring is needed.
+if(!document.querySelector('link[data-ui-v2]')){const l=document.createElement('link');l.rel='stylesheet';l.href='/ui-v2.css';l.dataset.uiV2='1';document.head.appendChild(l)}
+
 // Erst nach Installation des Fetch-Guards laden, damit auch diese Anzeigen den gemeinsamen
 // Statuscache nutzen und keine unnötigen Cloudflare-Reads erzeugen.
 import('./ui-v2.js').catch(e=>console.error('UI V2 failed',e));
