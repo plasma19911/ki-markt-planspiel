@@ -1,3 +1,3 @@
-// Production compatibility entry. V12 adds the separate rebound/decliner radar
-// while preserving the complete V11 forward-scan, profit-optimizer and timing-learning stack.
-export {MarketPortfolio} from './compact-portfolio-v12.js';
+// Production compatibility entry. V13 keeps the complete V11/V12 stack and adds
+// a fourth Early-Breakout discovery pool without introducing forced buys.
+export {MarketPortfolio} from './compact-portfolio-v13.js';
