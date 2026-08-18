@@ -12,10 +12,7 @@
 <body>
 <div class="appShell">
   <aside class="sidebar">
-    <div class="brand">
-      <img src="/icon.svg" alt="" class="brandIcon">
-      <div><b>KI-Markt</b><span>Planspiel</span></div>
-    </div>
+    <div class="brand"><img src="/icon.svg" alt="" class="brandIcon"><div><b>KI-Markt</b><span>Planspiel</span></div></div>
     <nav class="sideNav" aria-label="Hauptnavigation">
       <a class="active" href="#overview"><span>⌂</span>Dashboard</a>
       <a href="#signals"><span>◎</span>Kandidaten</a>
@@ -52,11 +49,6 @@
       <a href="#overview">Depot</a><a href="#signals">Kandidaten</a><a href="#positions">Positionen</a><a href="#futureCard">News</a><a href="#replayCard">Replay</a><a href="#setup">Setup</a>
     </div>
 
-    <div class="appTabs" role="tablist">
-      <button id="liveTabBtn" class="appTab active" type="button">Live-Dashboard</button>
-      <button id="weekTabBtn" class="appTab" type="button">2026 · Perfekt vs. KI damals</button>
-    </div>
-
     <div id="livePanel" class="tabPanel">
       <section id="overview" class="heroKpis">
         <article class="kpiCard primary"><div><span>Depotwert</span><strong id="equity">–</strong><small>Gesamt P/L <b id="pnl">–</b></small></div><div class="kpiIcon">↗</div></article>
@@ -68,103 +60,53 @@
 
       <main class="dashboardGrid">
         <section id="signals" class="card candidates dashboardCandidates">
-          <div class="cardTitle"><div><span class="sectionEyebrow">SCANNER</span><h2>Beste aktuelle Kandidaten</h2></div><span class="tag">Deep + Live</span></div>
-          <div class="tableWrap candidatesWrap"><table><thead><tr><th>Aktie</th><th>Score</th><th>Konf.</th><th>Tag</th><th>News</th><th>Event</th><th>Pro</th><th>Contra</th></tr></thead><tbody id="candidatesBody"></tbody></table></div>
+          <div class="cardTitle"><div><span class="sectionEyebrow">SCANNER</span><h2>Beste aktuelle Kandidaten</h2></div><span class="tag">einfach erklärt</span></div>
+          <div class="candidateHelp">Die Technik wie EMA, RSI und Momentum arbeitet weiter im Hintergrund. Hier siehst du nur noch, <b>was die Firma macht</b> und <b>was die Aktie gerade bewegt</b>.</div>
+          <div class="tableWrap candidatesWrap"><table><thead><tr><th>Aktie</th><th>Was macht die Firma?</th><th>Was bewegt die Aktie gerade?</th><th>Bewertung</th><th>Sicherheit</th><th>Heute</th><th>Risiko</th></tr></thead><tbody id="candidatesBody"></tbody></table></div>
         </section>
 
         <section class="card chartCard dashboardChart">
           <div class="cardTitle"><div><span class="sectionEyebrow">DEPOT</span><h2>Kapitalverlauf</h2></div><span id="endTime" class="tag">–</span></div>
-          <canvas id="chart" width="1000" height="330"></canvas>
-          <div class="chartMeta"><div id="scanInfo" class="muted"></div><div id="aiSummary" class="aiSummary">KI: –</div></div>
+          <canvas id="chart" width="1000" height="330"></canvas><div class="chartMeta"><div id="scanInfo" class="muted"></div><div id="aiSummary" class="aiSummary">KI: –</div></div>
         </section>
 
         <section id="futureCard" class="card futureCard">
           <div class="cardTitle"><div><span class="sectionEyebrow">FRÜHINDIKATOR</span><h2>Welt-News &amp; Katalysatoren</h2></div><span class="tag">vor dem Kurs</span></div>
-          <div id="futureThemeChips" class="themeChips"><span class="themeChip">News-Radar lädt …</span></div>
-          <div id="futureCatalystList" class="catalystList"><div class="emptyState">Noch keine Katalysatoren geladen.</div></div>
+          <div id="futureThemeChips" class="themeChips"><span class="themeChip">News-Radar lädt …</span></div><div id="futureCatalystList" class="catalystList"><div class="emptyState">Noch keine Katalysatoren geladen.</div></div>
         </section>
 
         <section id="positions" class="card positions dashboardPositions">
           <div class="cardTitle"><div><span class="sectionEyebrow">DEPOT</span><h2>Aktive Positionen</h2></div><span class="tag">FX inklusive</span></div>
-          <div id="positionCards" class="positionCards"></div>
-          <div class="tableWrap compactTable"><table><thead><tr><th>Wert</th><th>Typ</th><th>Einsatz</th><th>FX</th><th>Kurs</th><th>P/L</th></tr></thead><tbody id="positionsBody"></tbody></table></div>
+          <div id="positionCards" class="positionCards"></div><div class="tableWrap compactTable"><table><thead><tr><th>Wert</th><th>Typ</th><th>Einsatz</th><th>FX</th><th>Kurs</th><th>P/L</th></tr></thead><tbody id="positionsBody"></tbody></table></div>
         </section>
 
-        <section class="card allocation dashboardAllocation">
-          <div class="cardTitle"><div><span class="sectionEyebrow">ALLOKATION</span><h2>Kapitalverteilung</h2></div><span class="tag">Depot</span></div>
-          <canvas id="allocationChart" width="520" height="350"></canvas><div id="allocationLegend" class="legend"></div>
-        </section>
+        <section class="card allocation dashboardAllocation"><div class="cardTitle"><div><span class="sectionEyebrow">ALLOKATION</span><h2>Kapitalverteilung</h2></div><span class="tag">Depot</span></div><canvas id="allocationChart" width="520" height="350"></canvas><div id="allocationLegend" class="legend"></div></section>
 
         <section id="replayCard" class="card replayCard">
           <div class="cardTitle"><div><span class="sectionEyebrow">LERNEN</span><h2>Tages-Replay</h2></div><span class="tag">aus echten Paper-Trades</span></div>
-          <div id="replaySummary" class="replayGrid"><div class="replayMetric"><span>Peak Entry</span><b>–</b><small>Wird nach Replay gefüllt</small></div><div class="replayMetric"><span>Late Entry</span><b>–</b><small>Wird nach Replay gefüllt</small></div><div class="replayMetric"><span>Missed Safe Move</span><b>–</b><small>Wird nach Replay gefüllt</small></div><div class="replayMetric"><span>Rotation Churn</span><b>–</b><small>Wird nach Replay gefüllt</small></div></div>
-          <div id="replayFocus" class="replayFocus">Heute lernt die KI aus Einstieg, Timing, Rotation und verpassten sicheren Bewegungen.</div>
+          <div id="replaySummary" class="replayGrid"><div class="replayMetric"><span>Peak Entry</span><b>–</b><small>Wird nach Replay gefüllt</small></div><div class="replayMetric"><span>Late Entry</span><b>–</b><small>Wird nach Replay gefüllt</small></div><div class="replayMetric"><span>Missed Safe Move</span><b>–</b><small>Wird nach Replay gefüllt</small></div><div class="replayMetric"><span>Rotation Churn</span><b>–</b><small>Wird nach Replay gefüllt</small></div></div><div id="replayFocus" class="replayFocus">Heute lernt die KI aus Einstieg, Timing, Rotation und verpassten sicheren Bewegungen.</div>
         </section>
 
-        <section class="card activityCard">
-          <div class="cardTitle"><div><span class="sectionEyebrow">LIVE</span><h2>Letzte Aktivitäten</h2></div><span class="tag">Trades &amp; Scanner</span></div>
-          <div id="activityTimeline" class="activityTimeline"><div class="emptyState">Noch keine Aktivität.</div></div>
-        </section>
+        <section class="card activityCard"><div class="cardTitle"><div><span class="sectionEyebrow">LIVE</span><h2>Letzte Aktivitäten</h2></div><span class="tag">Trades &amp; Scanner</span></div><div id="activityTimeline" class="activityTimeline"><div class="emptyState">Noch keine Aktivität.</div></div></section>
 
         <section id="news" class="card newsRadar dashboardNews">
           <div class="cardTitle"><div><span class="sectionEyebrow">MEHRQUELLEN-NEWS</span><h2>24/7 News-Tendenz</h2></div><span id="newsTrendPill" class="trend neutral">NEUTRAL</span></div>
-          <div id="newsTrendSummary" class="trendSummary">Noch keine News-Tendenz.</div><div id="newsRadarInfo" class="muted"></div>
-          <div class="tableWrap newsWrap"><table><thead><tr><th>Wert</th><th>Tendenz</th><th>Konf.</th><th>Handelsalter</th><th>Quellen</th><th>Meldung</th></tr></thead><tbody id="newsRadarBody"></tbody></table></div>
+          <div id="newsTrendSummary" class="trendSummary">Noch keine News-Tendenz.</div><div id="newsRadarInfo" class="muted"></div><div class="tableWrap newsWrap"><table><thead><tr><th>Wert</th><th>Tendenz</th><th>Konf.</th><th>Handelsalter</th><th>Quellen</th><th>Meldung</th></tr></thead><tbody id="newsRadarBody"></tbody></table></div>
         </section>
 
-        <section id="analysis" class="card intelligence dashboardAnalysis">
-          <div class="cardTitle"><div><span class="sectionEyebrow">ANALYSE</span><h2>Erklärbare Anlage-Analyse</h2></div><span id="regimePill" class="tag">Marktregime –</span></div>
-          <div id="intelligenceMeta" class="muted">Live-Signal, Mehrtagetrend, News, Risiko und Lernmodell.</div>
-          <div id="dossierGrid" class="dossierGrid"><div class="analysisStatus">Nach dem nächsten Markt-Scan erscheinen hier die stärksten Anlage-Dossiers.</div></div>
-        </section>
+        <section id="analysis" class="card intelligence dashboardAnalysis"><div class="cardTitle"><div><span class="sectionEyebrow">LIVE-ANALYSE</span><h2>Erklärbare Anlage-Analyse</h2></div><span id="regimePill" class="tag">Marktregime –</span></div><div id="intelligenceMeta" class="muted">Live-Signal, News, Risiko und Lernmodell.</div><div id="dossierGrid" class="dossierGrid"><div class="analysisStatus">Nach dem nächsten Markt-Scan erscheinen hier die stärksten Anlage-Dossiers.</div></div></section>
 
-        <section id="stats" class="card stats dashboardStats">
-          <div class="cardTitle"><div><span class="sectionEyebrow">PERFORMANCE</span><h2>Strategie-Statistik</h2></div><span class="tag">nach Gebühren</span></div><div id="statsGrid" class="miniGrid"></div><div id="riskBox" class="trendSummary"></div>
-        </section>
-
-        <section class="card health dashboardHealth">
-          <div class="cardTitle"><div><span class="sectionEyebrow">SYSTEM</span><h2>Datenquellen &amp; Health</h2></div><span class="tag">live</span></div><div id="healthGrid" class="healthGrid"></div>
-        </section>
-
-        <section id="brain" class="card aiChat dashboardBrain">
-          <div class="cardTitle"><div><span class="sectionEyebrow">KI</span><h2>KI-Log &amp; Entscheidungen</h2></div><span class="tag">nachvollziehbar</span></div>
-          <div id="aiLog" class="chat"></div>
-        </section>
-
-        <section class="card history dashboardHistory">
-          <div class="cardTitle"><div><span class="sectionEyebrow">ARCHIV</span><h2>Geld- &amp; Entscheidungs-History</h2></div><span class="tag">HALTEN zusammengefasst</span></div>
-          <div class="tableWrap historyWrap"><table><thead><tr><th>Zeit / Zeitraum</th><th>Aktion</th><th>Wert</th><th>Geldbewegung</th><th>Gebühr</th><th>Cash</th><th>Depot</th><th>P/L</th><th>Warum?</th></tr></thead><tbody id="historyBody"></tbody></table></div>
-        </section>
+        <section id="stats" class="card stats dashboardStats"><div class="cardTitle"><div><span class="sectionEyebrow">PERFORMANCE</span><h2>Strategie-Statistik</h2></div><span class="tag">nach Gebühren</span></div><div id="statsGrid" class="miniGrid"></div><div id="riskBox" class="trendSummary"></div></section>
+        <section class="card health dashboardHealth"><div class="cardTitle"><div><span class="sectionEyebrow">SYSTEM</span><h2>Datenquellen &amp; Health</h2></div><span class="tag">live</span></div><div id="healthGrid" class="healthGrid"></div></section>
+        <section id="brain" class="card aiChat dashboardBrain"><div class="cardTitle"><div><span class="sectionEyebrow">KI</span><h2>KI-Log &amp; Entscheidungen</h2></div><span class="tag">nachvollziehbar</span></div><div id="aiLog" class="chat"></div></section>
+        <section class="card history dashboardHistory"><div class="cardTitle"><div><span class="sectionEyebrow">ARCHIV</span><h2>Geld- &amp; Entscheidungs-History</h2></div><span class="tag">HALTEN zusammengefasst</span></div><div class="tableWrap historyWrap"><table><thead><tr><th>Zeit / Zeitraum</th><th>Aktion</th><th>Wert</th><th>Geldbewegung</th><th>Gebühr</th><th>Cash</th><th>Depot</th><th>P/L</th><th>Warum?</th></tr></thead><tbody id="historyBody"></tbody></table></div></section>
 
         <section id="setup" class="card settings dashboardSettings">
           <div class="cardTitle"><div><span class="sectionEyebrow">SETUP</span><h2>Planspiel &amp; Kostenmodell</h2></div><span class="tag">Spielgeld</span></div>
-          <div class="settingsGrid">
-            <label>Startkapital<input id="startCapital" type="number" min="1" value="100"></label>
-            <label>Währung<select id="currency"><option>EUR</option><option>USD</option></select></label>
-            <label>Laufzeit<input id="durationValue" type="number" min="1" value="7"></label>
-            <label>Einheit<select id="durationUnit"><option value="hours">Stunden</option><option value="days" selected>Tage</option><option value="weeks">Wochen</option></select></label>
-            <label>KI-Handelsstil<select id="riskMode"><option value="vorsichtig">Vorsichtig</option><option value="ausgewogen">Ausgewogen</option><option value="offensiv" selected>Offensiv</option></select></label>
-            <label>Fix pro Kauf / Verkauf<input id="feeFixed" type="number" min="0" step="0.01" value="1.00"></label>
-            <label>Zusätzliche Ordergebühr %<input id="feePercent" type="number" min="0" step="0.01" value="0.00"></label>
-          </div>
-          <div class="checks"><label><input id="aiEnabled" type="checkbox" checked> Cloudflare-KI als Entscheidungsstufe</label></div>
-          <div id="executionInfo" class="muted"></div>
-          <div class="buttons"><button id="startBtn">Neu starten</button><button id="scanBtn" class="secondary">Jetzt scannen</button><button id="stopBtn" class="warn">Stop</button><button id="resetBtn" class="ghost">Reset</button></div>
-          <div class="notice"><b>Nur Planspiel.</b> Keine Broker-Verbindung und keine echten Orders.</div><div id="errorBox" class="error"></div>
+          <div class="settingsGrid"><label>Startkapital<input id="startCapital" type="number" min="1" value="100"></label><label>Währung<select id="currency"><option>EUR</option><option>USD</option></select></label><label>Laufzeit<input id="durationValue" type="number" min="1" value="7"></label><label>Einheit<select id="durationUnit"><option value="hours">Stunden</option><option value="days" selected>Tage</option><option value="weeks">Wochen</option></select></label><label>KI-Handelsstil<select id="riskMode"><option value="vorsichtig">Vorsichtig</option><option value="ausgewogen">Ausgewogen</option><option value="offensiv" selected>Offensiv</option></select></label><label>Fix pro Kauf / Verkauf<input id="feeFixed" type="number" min="0" step="0.01" value="1.00"></label><label>Zusätzliche Ordergebühr %<input id="feePercent" type="number" min="0" step="0.01" value="0.00"></label></div>
+          <div class="checks"><label><input id="aiEnabled" type="checkbox" checked> Cloudflare-KI als Entscheidungsstufe</label></div><div id="executionInfo" class="muted"></div><div class="buttons"><button id="startBtn">Neu starten</button><button id="scanBtn" class="secondary">Jetzt scannen</button><button id="stopBtn" class="warn">Stop</button><button id="resetBtn" class="ghost">Reset</button></div><div class="notice"><b>Nur Planspiel.</b> Keine Broker-Verbindung und keine echten Orders.</div><div id="errorBox" class="error"></div>
         </section>
       </main>
-    </div>
-
-    <div id="weekPanel" class="tabPanel weekPanel" hidden>
-      <section class="card">
-        <div class="cardTitle"><div><span class="sectionEyebrow">RÜCKBLICK</span><h2>2026 · 100 €: Perfekt gegen KI damals</h2></div><span class="tag">nur Aktien</span></div>
-        <div class="notice"><b>Links:</b> theoretischer perfekter Rückblick mit vollständigem Wissen. <b>Rechts:</b> kausaler Walk-Forward nur mit damals bekannten Informationen.</div>
-        <div class="analysisControls"><label>KI-Handelsstil<select id="analysisStyle"><option value="vorsichtig">Vorsichtig</option><option value="ausgewogen">Ausgewogen</option><option value="offensiv" selected>Offensiv</option></select></label><button id="analysisRunBtn" type="button">2026-Auswertung laden</button></div>
-        <div id="analysisMeta" class="muted"></div><div id="analysisError" class="error"></div>
-      </section>
-      <div id="analysisCompare" class="trendSummary"></div>
-      <div class="analysisCompareGrid"><div id="perfectResult" class="analysisResult"><div class="analysisStatus"><b>Perfekter Rückblick</b><br>Wird beim Öffnen geladen.</div></div><div id="walkResult" class="analysisResult"><div class="analysisStatus"><b>KI hätte damals täglich gehandelt</b><br>Wird gleichzeitig berechnet/geladen.</div></div></div>
-      <div id="walkTimeline"></div>
     </div>
 
     <footer>KI-Markt-Planspiel · Paper Trading · Aktien · PC-Agent + Cloudflare</footer>
