@@ -3,59 +3,76 @@ name: Live Worker Health
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - live-health-result.json
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   live-health:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Check homepage
+      - uses: actions/checkout@v4
+
+      - name: Probe live Worker
         run: |
           set -euo pipefail
-          curl -fsS --retry 3 --retry-delay 2 -D /tmp/home.headers -o /tmp/home.html https://ki-markt-planspiel.orkimperium.workers.dev/
-          grep -q "KI Markt-Planspiel" /tmp/home.html
-          echo "HOME_OK bytes=$(wc -c </tmp/home.html)"
-      - name: Check app.js
+          BASE='https://ki-markt-planspiel.orkimperium.workers.dev'
+          curl -fsS --retry 3 --retry-delay 2 -D /tmp/home.headers -o /tmp/home.html "$BASE/"
+          curl -fsS --retry 3 --retry-delay 2 -o /tmp/app.js "$BASE/app.js"
+          curl -fsS --retry 3 --retry-delay 2 -o /tmp/status.json "$BASE/api/status"
+          curl -fsS --retry 3 --retry-delay 2 -o /tmp/agent.json "$BASE/api/agent/status"
+          grep -q 'KI Markt-Planspiel' /tmp/home.html
+          grep -q 'async function load' /tmp/app.js
+
+      - name: Build compact result
         run: |
-          set -euo pipefail
-          curl -fsS --retry 3 --retry-delay 2 -o /tmp/app.js https://ki-markt-planspiel.orkimperium.workers.dev/app.js
-          grep -q "async function load" /tmp/app.js
-          echo "APP_JS_OK bytes=$(wc -c </tmp/app.js)"
-      - name: Check API status
-        run: |
-          set -euo pipefail
-          curl -fsS --retry 3 --retry-delay 2 -o /tmp/status.json https://ki-markt-planspiel.orkimperium.workers.dev/api/status
           python - <<'PY'
-          import json
+          import json, datetime, pathlib
           s=json.load(open('/tmp/status.json',encoding='utf-8'))
+          a=json.load(open('/tmp/agent.json',encoding='utf-8'))
           c=s.get('config') or {}
-          a=s.get('pcAgent') or {}
-          print(json.dumps({
+          out={
+            'checkedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            'homepageOk': 'KI Markt-Planspiel' in pathlib.Path('/tmp/home.html').read_text(encoding='utf-8',errors='replace'),
+            'appJsOk': 'async function load' in pathlib.Path('/tmp/app.js').read_text(encoding='utf-8',errors='replace'),
+            'apiStatusOk': bool(c),
             'running': c.get('running'),
-            'scan_count': c.get('scan_count'),
-            'last_scan': c.get('last_scan'),
-            'universe_count': c.get('universe_count'),
+            'scanCount': c.get('scan_count'),
+            'lastScan': c.get('last_scan'),
+            'universeCount': c.get('universe_count'),
             'positions': len(s.get('positions') or []),
             'candidates': len(s.get('candidates') or []),
-            'pcAgent': a,
-          },ensure_ascii=False,indent=2))
-          assert isinstance(c,dict) and c, 'status.config missing'
+            'pcAgent': {
+              'configured': a.get('configured'),
+              'online': a.get('online'),
+              'lastSeenAt': a.get('lastSeenAt'),
+              'ageSeconds': a.get('ageSeconds'),
+              'prefetchFresh': a.get('prefetchFresh'),
+              'prefetchAt': a.get('prefetchAt'),
+              'resolvedLeaderCount': a.get('resolvedLeaderCount'),
+              'leaderHealthy': a.get('leaderHealthy'),
+              'futureCandidates': a.get('futureCandidates'),
+              'metrics': a.get('metrics')
+            }
+          }
+          pathlib.Path('live-health-result.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print(json.dumps(out,ensure_ascii=False,indent=2))
+          if a.get('configured') is not True:
+              raise SystemExit('PC_AGENT_TOKEN missing in runtime Worker')
           PY
-      - name: Check PC agent endpoint
+
+      - name: Publish result
         run: |
-          set -euo pipefail
-          curl -fsS --retry 3 --retry-delay 2 -o /tmp/agent.json https://ki-markt-planspiel.orkimperium.workers.dev/api/agent/status
-          cat /tmp/agent.json
-          echo
-          python - <<'PY'
-          import json
-          a=json.load(open('/tmp/agent.json',encoding='utf-8'))
-          assert a.get('configured') is True, 'PC_AGENT_TOKEN is not configured in runtime Worker'
-          print('PC_AGENT_CONFIGURED_OK')
-          print('PC_AGENT_ONLINE=',a.get('online'))
-          print('AGE_SECONDS=',a.get('ageSeconds'))
-          print('PREFETCH_FRESH=',a.get('prefetchFresh'))
-          print('RESOLVED_LEADERS=',a.get('resolvedLeaderCount'))
-          print('FUTURE_CANDIDATES=',a.get('futureCandidates'))
-          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add live-health-result.json
+          if git diff --cached --quiet; then
+            echo 'Health result unchanged'
+          else
+            git commit -m 'Update live health result [skip ci]'
+            git push
+          fi
