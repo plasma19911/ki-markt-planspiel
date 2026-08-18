@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T14:35:15.948030+00:00",
+  "checkedAt": "2026-08-18T14:41:58.293872+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -34,13 +34,13 @@
     "legacyFullCashFailsafe"
   ],
   "running": 1,
-  "scanCount": 94,
-  "lastScan": "2026-08-18T14:35:05.659Z",
+  "scanCount": 97,
+  "lastScan": "2026-08-18T14:40:08.071Z",
   "lastError": null,
   "aiLastSummary": "KI-Wartefenster; Fast-Decision nicht verfügbar: Cannot read properties of undefined (reading 'toFixed')",
   "cash": 0,
-  "equity": 999.3843039153734,
-  "pnl": -0.6156960846266202,
+  "equity": 998.3475744803419,
+  "pnl": -1.6524255196580953,
   "universeCount": 169,
   "positions": 1,
   "positionRows": [
@@ -53,13 +53,13 @@
       "invested": 999,
       "entry_fee": 1,
       "entry_price": 28.908879159927366,
-      "last_price": 28.920000076293945,
+      "last_price": 28.889999389648438,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-18T12:41:19.001Z",
-      "score": 1.2040950000000001,
-      "signal_confidence": 0.48230950000000006,
+      "score": -0.04999999999999982,
+      "signal_confidence": 0.3894,
       "zero_quantity": 34.556856890694824,
       "zero_whole_shares": 34,
       "zero_fractional_shares": 0.5568568906948244,
@@ -70,48 +70,48 @@
   "candidates": 4,
   "topCandidates": [
     {
-      "symbol": "ADYEN.AS",
-      "name": "Adyen",
-      "score": 4.904017857142858,
-      "confidence": 0.7424999999999999,
-      "day_change": 2.1330254425113937,
-      "news_score": 0.1285714285714286,
+      "symbol": "MELI",
+      "name": "MercadoLibre",
+      "score": 3.795569060773481,
+      "confidence": 0.8042651679759318,
+      "day_change": 0.7546590395760777,
+      "news_score": 0.07955801104972375,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.38% · 20m +1.07%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.56%",
       "contra": ""
     },
     {
-      "symbol": "CACI",
-      "name": "CACI International",
-      "score": 2.65,
-      "confidence": 0.68,
-      "day_change": 1.3367449304293455,
-      "news_score": 0,
+      "symbol": "ADYEN.AS",
+      "name": "Adyen",
+      "score": 3.404017857142857,
+      "confidence": 0.7329017857142857,
+      "day_change": 2.5402342045702353,
+      "news_score": 0.1285714285714286,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 50 konstruktiv",
-      "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.40% · 20m +1.05%",
+      "contra": "RSI 97 überhitzt"
     },
     {
       "symbol": "AAPL",
       "name": "Apple Inc.",
-      "score": 2,
-      "confidence": 0.48000000000000004,
-      "day_change": 1.7130836110577086,
+      "score": 2.4,
+      "confidence": 0.52,
+      "day_change": 1.83252149658244,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "Kurs über EMA21 · RSI 50 konstruktiv · 5m +0.29%",
+      "pro": "Kurs über EMA21 · RSI 50 konstruktiv · 20m +0.60%",
       "contra": "EMA-Trend schwach"
     },
     {
       "symbol": "DTE.DE",
       "name": "Deutsche Telekom AG",
-      "score": 1.2040950000000001,
-      "confidence": 0.48230950000000006,
-      "day_change": 1.866854794976902,
-      "news_score": 0.17999999999999997,
+      "score": -0.04999999999999982,
+      "confidence": 0.3894,
+      "day_change": 1.7611813654400787,
+      "news_score": 0,
       "event_risk": "NONE",
       "pro": "Kurs über EMA21 · RSI 50 konstruktiv",
-      "contra": "EMA-Trend schwach"
+      "contra": "EMA-Trend schwach · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     }
   ],
   "recentHistory": [
@@ -122,7 +122,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal ADYEN.AS: Score 4.90, Konfidenz 74%.",
+      "reason": "Kein Trade. Bestes Signal MELI: Score 3.80, Konfidenz 80%.",
       "score": null
     },
     {
@@ -237,8 +237,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 9,
-      "updated_at": "2026-08-18T14:35:04.458Z"
+      "latency_ms": 107,
+      "updated_at": "2026-08-18T14:40:07.044Z"
     },
     {
       "source": "Yahoo FX",
@@ -246,8 +246,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 117,
-      "updated_at": "2026-08-18T14:35:04.458Z"
+      "latency_ms": 112,
+      "updated_at": "2026-08-18T14:40:07.044Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -255,8 +255,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 118,
-      "updated_at": "2026-08-18T14:35:04.458Z"
+      "latency_ms": 108,
+      "updated_at": "2026-08-18T14:40:07.044Z"
     },
     {
       "source": "Yahoo Events",
@@ -264,8 +264,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 103,
-      "updated_at": "2026-08-18T14:35:04.458Z"
+      "latency_ms": 104,
+      "updated_at": "2026-08-18T14:40:07.044Z"
     },
     {
       "source": "Yahoo News",
@@ -273,26 +273,8 @@
       "ok_count": 4,
       "fail_count": 1,
       "last_error": "Error: HTTP 500",
-      "latency_ms": 1159,
-      "updated_at": "2026-08-18T14:35:04.458Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 255,
-      "updated_at": "2026-08-18T14:35:04.458Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 276,
-      "updated_at": "2026-08-18T14:35:04.458Z"
+      "latency_ms": 1308,
+      "updated_at": "2026-08-18T14:40:07.044Z"
     },
     {
       "source": "BörsenNews",
@@ -300,8 +282,26 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 309,
-      "updated_at": "2026-08-18T14:35:04.458Z"
+      "latency_ms": 304,
+      "updated_at": "2026-08-18T14:40:07.044Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 310,
+      "updated_at": "2026-08-18T14:40:07.044Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 930,
+      "updated_at": "2026-08-18T14:40:07.044Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -309,13 +309,13 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 324,
-      "updated_at": "2026-08-18T14:35:04.458Z"
+      "latency_ms": 1274,
+      "updated_at": "2026-08-18T14:40:07.044Z"
     }
   ],
   "risk": {
-    "equity": 999.3843039153734,
-    "dailyPct": -0.061569608462663794,
+    "equity": 998.3475744803419,
+    "dailyPct": -0.16524255196580517,
     "availableCash": 0,
     "hardLimits": false,
     "budgetOnly": true,
@@ -391,7 +391,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T14:36:05.659Z",
+    "nextScanAt": "2026-08-18T14:41:08.071Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -401,7 +401,7 @@
     "lastFetchBudget": {
       "actual": 36,
       "cacheHits": 0,
-      "blocked": 1,
+      "blocked": 0,
       "cap": 36
     },
     "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Zusätzlich werden bis zu 15 vorausschauende Ereignis-/Themenkandidaten im Minuten-Scan beobachtet; gekauft wird erst nach Live-Bestaetigung.",
@@ -421,25 +421,25 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T14:35:01.912Z",
-    "ageSeconds": 14,
+    "lastSeenAt": "2026-08-18T14:41:01.943Z",
+    "ageSeconds": 56,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T14:35:01.531Z",
+    "prefetchAt": "2026-08-18T14:41:01.568Z",
     "resolvedLeaderCount": 13,
     "leaderHealthy": true,
     "futureCandidates": 0,
     "reboundCandidates": null,
     "metrics": {
-      "lastSeenAt": "2026-08-18T14:35:01.912Z",
+      "lastSeenAt": "2026-08-18T14:41:01.943Z",
       "version": "2.0.3-csharp-gdelt-backoff",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 507427,
+      "storageBytes": 531553,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 48.9,
-      "downloadedBytes": 23022367,
-      "uploadedBytes": 456344,
+      "ramMb": 47,
+      "downloadedBytes": 24301290,
+      "uploadedBytes": 482522,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP",
       "lastLocalCleanupAt": "2026-08-18T14:21:08.5614810Z",
