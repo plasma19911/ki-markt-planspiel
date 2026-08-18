@@ -3,34 +3,47 @@ import {FAST_CALIBRATION} from './generated-fast-calibration.js';
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 function parseJsonBetween(text,startMarker,endMarker=null){const start=text.indexOf(startMarker);if(start<0)return[];const from=start+startMarker.length,end=endMarker?text.indexOf(endMarker,from):-1;try{return JSON.parse(text.slice(from,end>=0?end:text.length).trim())}catch{return[]}}
 function styleFromPrompt(prompt){return String(String(prompt).match(/Handelsstil=([^.;\n]+)/)?.[1]||'offensiv').trim().toLowerCase()}
+function cashFromPrompt(prompt){return num(String(prompt).match(/Cash\s+([0-9.+-]+)/i)?.[1],0)}
 function holdScores(reason){const m=String(reason||'').match(/BUY\s+([0-9.+-]+)\s*\/\s*SELL\s+([0-9.+-]+)/i);return m?{buy:num(m[1]),sell:num(m[2])}:{buy:0,sell:99}}
-function continuationAllocation(style,confidence){const base=style==='vorsichtig'?8:style==='ausgewogen'?12:16;return Math.max(6,Math.min(20,base+(num(confidence)-.65)*10))}
+function continuationAllocation(style,confidence,cash){
+  // Bei kleinen Depots darf eine qualitativ gute Position nicht so klein werden, dass
+  // fixe Brokerkosten die Kostenquote selbst wieder über den Hard-Cap drücken.
+  const small=cash>0&&cash<=1500,base=small?(style==='vorsichtig'?16:style==='ausgewogen'?20:24):(style==='vorsichtig'?8:style==='ausgewogen'?12:16);
+  return Math.max(6,Math.min(28,base+(num(confidence)-.65)*8));
+}
+function opportunityAllocation(style,cash){
+  if(cash>0&&cash<=1500)return style==='vorsichtig'?16:style==='ausgewogen'?20:24;
+  return style==='vorsichtig'?8:style==='ausgewogen'?12:16;
+}
 
 export function applyEvidenceDiversity(fast,prompt){
   if(!fast)return fast;
-  const candidates=parseJsonBetween(prompt,'Kandidaten=',' Gehalten='),cm=new Map((Array.isArray(candidates)?candidates:[]).map(x=>[String(x.symbol||'').toUpperCase(),x])),gap=new Map((fast.gapContext||[]).map(x=>[String(x.symbol||'').toUpperCase(),x])),ratios=fast?.volumeConfirmation?.ratios||{},minVol=num(fast?.volumeConfirmation?.minRatio,FAST_CALIBRATION.minRelativeVolume||1.10),context=[],evidenceMap=new Map(),continuation=[];
-  const strongAdx=num(FAST_CALIBRATION.strongAdx,22),baseBuy=num(FAST_CALIBRATION.buyThreshold,4.2),maxSpread=num(FAST_CALIBRATION.maxSpreadPct,.8),style=styleFromPrompt(prompt);
+  const candidates=parseJsonBetween(prompt,'Kandidaten=',' Gehalten='),held=parseJsonBetween(prompt,' Gehalten='),cm=new Map((Array.isArray(candidates)?candidates:[]).map(x=>[String(x.symbol||'').toUpperCase(),x])),gap=new Map((fast.gapContext||[]).map(x=>[String(x.symbol||'').toUpperCase(),x])),ratios=fast?.volumeConfirmation?.ratios||{},minVol=num(fast?.volumeConfirmation?.minRatio,FAST_CALIBRATION.minRelativeVolume||1.10),context=[],evidenceMap=new Map(),continuation=[],opportunities=[];
+  const strongAdx=num(FAST_CALIBRATION.strongAdx,22),minAdx=num(FAST_CALIBRATION.minAdxBuy,18),baseBuy=num(FAST_CALIBRATION.buyThreshold,4.2),maxSpread=num(FAST_CALIBRATION.maxSpreadPct,.8),style=styleFromPrompt(prompt),cash=cashFromPrompt(prompt),idlePortfolio=!Array.isArray(held)||held.length===0;
   for(const c of fast.context||[]){
     const key=String(c.symbol||'').toUpperCase(),raw=cm.get(key)||{},g=gap.get(key),ratio=Object.prototype.hasOwnProperty.call(ratios,key)?ratios[key]:null,tech=c.technical||{},mtf=c.multiTimeframe||{},regional=c.regionalBenchmark||{},pillars=[];
-    const trend=tech.fresh===true&&num(tech.vwapDistancePct)>0&&num(tech.adx)>=num(FAST_CALIBRATION.minAdxBuy,18)&&num(mtf.longVotes)>=2;
+    const trend=tech.fresh===true&&num(tech.vwapDistancePct)>0&&num(tech.adx)>=minAdx&&num(mtf.longVotes)>=2;
     const momentum=['BREAKOUT','BUILDING'].includes(String(raw.momentumState||''));
     const participation=(ratio!=null&&num(ratio)>=minVol)&&(num(c?.liquidity?.avgVolume)<=0||num(c?.liquidity?.avgVolume)>=15000);
     const relative=num(c.marketRelative20m)>.12||num(c.sectorRelativeDay)>.25||num(regional.relative20m)>.20;
     const catalyst=num(raw.news)>.25||g?.state==='GAP_AND_GO';
     if(trend)pillars.push('TREND_STRUKTUR');if(momentum)pillars.push('MOMENTUM');if(participation)pillars.push('TEILNAHME_VOL');if(relative)pillars.push('RELATIVE_STAERKE');if(catalyst)pillars.push('KATALYSATOR');
-    const enough=pillars.length>=3,e={count:pillars.length,pillars,enoughForFastBuy:enough,minimum:3};evidenceMap.set(key,e);const enriched={...c,evidenceDiversity:e};context.push(enriched);
+    const enough=pillars.length>=3,e={count:pillars.length,pillars,enoughForFastBuy:enough,enoughForQualifiedOpportunity:pillars.length>=2,minimum:3,qualifiedMinimum:2};evidenceMap.set(key,e);const enriched={...c,evidenceDiversity:e};context.push(enriched);
 
-    // Ein starker, sauber bestaetigter Aufwaertstrend darf gekauft werden, auch wenn der
-    // 1m-Momentumzustand gerade NORMAL statt BREAKOUT/BUILDING lautet. Kein Fallback:
-    // Volumen, ADX/DI, MTF, VWAP und mindestens drei unabhaengige Saeulen bleiben Pflicht.
-    const hs=holdScores(c.reason),spread=c?.liquidity?.spreadPct,continuationReady=
-      c.fastAction==='HOLD'&&String(raw.momentumState||'NORMAL')==='NORMAL'&&String(raw.momentumSellSignal||'NONE')==='NONE'&&
-      hs.buy>=baseBuy+.30&&hs.sell<1.2&&tech.fresh===true&&num(tech.vwapDistancePct)>.10&&num(tech.adx)>=strongAdx&&num(tech.plusDI)>num(tech.minusDI)&&
-      num(mtf.longVotes)>=3&&c.regime!=='TREND_DOWN'&&participation&&enough&&!g?.blockBuy&&!regional?.blockBuy&&c?.fxSafety?.valid!==false&&
-      (spread==null||num(spread)<=maxSpread);
-    if(continuationReady){const confidence=Math.max(.66,Math.min(.86,.60+hs.buy*.04+Math.min(2,e.count)*.015));continuation.push({symbol:c.symbol,action:'BUY',confidence,allocation_pct:+continuationAllocation(style,confidence).toFixed(1),reason:`TREND-CONTINUATION: starker ADX ${num(tech.adx).toFixed(0)} · ${num(mtf.longVotes)}/4 Zeitebenen aufwärts · über VWAP · Volumen bestätigt · ${e.count} unabhängige Signalsäulen`,rank:hs.buy+e.count*.25+num(c.marketRelative20m)*.2})}
+    const hs=holdScores(c.reason),spread=c?.liquidity?.spreadPct,avgVolume=num(c?.liquidity?.avgVolume),state=String(raw.momentumState||'NORMAL'),sellSignal=String(raw.momentumSellSignal||'NONE'),hardSafe=!g?.blockBuy&&!regional?.blockBuy&&c?.fxSafety?.valid!==false&&(spread==null||num(spread)<=maxSpread)&&(avgVolume<=0||avgVolume>=15000)&&sellSignal==='NONE'&&!['REVERSAL','EXHAUSTION'].includes(state);
+
+    // Starke Trendfortsetzung: normale BUY-Schwelle erreicht, aber kein frischer Breakout nötig.
+    const continuationReady=c.fastAction==='HOLD'&&state==='NORMAL'&&hs.buy>=baseBuy+.30&&hs.sell<1.2&&tech.fresh===true&&num(tech.vwapDistancePct)>.10&&num(tech.adx)>=strongAdx&&num(tech.plusDI)>num(tech.minusDI)&&num(mtf.longVotes)>=3&&c.regime!=='TREND_DOWN'&&participation&&enough&&hardSafe;
+    if(continuationReady){const confidence=Math.max(.66,Math.min(.86,.60+hs.buy*.04+Math.min(2,e.count)*.015));continuation.push({symbol:c.symbol,action:'BUY',confidence,allocation_pct:+continuationAllocation(style,confidence,cash).toFixed(1),reason:`TREND-CONTINUATION: starker ADX ${num(tech.adx).toFixed(0)} · ${num(mtf.longVotes)}/4 Zeitebenen aufwärts · über VWAP · Volumen bestätigt · ${e.count} unabhängige Signalsäulen`,rank:hs.buy+e.count*.25+num(c.marketRelative20m)*.2})}
+
+    // Leeres Depot: den besten wirklich qualifizierten Kandidaten nicht endlos wegen einer
+    // knapp verfehlten Momentum-Schwelle auf HOLD lassen. Zwei unabhängige Säulen reichen
+    // hier nur zusammen mit frischer Trendstruktur und allen harten Ausführungs-Sicherheiten.
+    const opportunityReady=idlePortfolio&&c.fastAction==='HOLD'&&hs.buy>=Math.max(3.55,baseBuy-.65)&&hs.sell<1.35&&tech.fresh===true&&num(tech.vwapDistancePct)>0&&num(tech.adx)>=minAdx&&num(tech.plusDI)>num(tech.minusDI)&&num(mtf.longVotes)>=2&&(c.regime!=='TREND_DOWN'||num(mtf.longVotes)>=3)&&e.enoughForQualifiedOpportunity&&hardSafe&&num(raw.news)>-.35&&num(raw.liveScore)>-.5&&num(raw.liveConfidence,.45)>=.42;
+    if(opportunityReady){const confidence=Math.max(.60,Math.min(.76,.54+hs.buy*.035+e.count*.02));opportunities.push({symbol:c.symbol,action:'BUY',confidence,allocation_pct:+opportunityAllocation(style,cash).toFixed(1),reason:`QUALIFIED-OPPORTUNITY: bestes freies Setup · BUY-Score ${hs.buy.toFixed(1)} · ADX ${num(tech.adx).toFixed(0)} · ${num(mtf.longVotes)}/4 Zeitebenen aufwärts · über VWAP · ${e.count} unabhängige Signalsäulen`,rank:hs.buy+e.count*.3+num(raw.liveScore)*.12+num(raw.liveConfidence)*.3+num(c.marketRelative20m)*.15})}
   }
   const actions=[];for(const a of fast.actions||[]){if(a.action!=='BUY'){actions.push(a);continue}const e=evidenceMap.get(String(a.symbol||'').toUpperCase());if(!e?.enoughForFastBuy)continue;actions.push({...a,reason:`${a.reason} · ${e.count} unabhängige Signalsäulen`})}
   if(!actions.some(x=>x.action==='BUY')&&continuation.length){continuation.sort((a,b)=>num(b.rank)-num(a.rank));const best=continuation[0],{rank,...clean}=best;actions.push(clean)}
-  return{...fast,actions,context,evidenceDiversity:{minimumPillars:3,results:Object.fromEntries(evidenceMap),blockedBuys:[...evidenceMap].filter(([,v])=>!v.enoughForFastBuy).map(([k])=>k),trendContinuationCandidates:continuation.map(x=>x.symbol)}};
+  if(!actions.some(x=>x.action==='BUY')&&opportunities.length){opportunities.sort((a,b)=>num(b.rank)-num(a.rank));const best=opportunities[0],{rank,...clean}=best;actions.push(clean)}
+  return{...fast,actions,context,evidenceDiversity:{minimumPillars:3,qualifiedOpportunityMinimumPillars:2,results:Object.fromEntries(evidenceMap),blockedBuys:[...evidenceMap].filter(([,v])=>!v.enoughForFastBuy).map(([k])=>k),trendContinuationCandidates:continuation.map(x=>x.symbol),qualifiedOpportunityCandidates:opportunities.map(x=>x.symbol),idlePortfolio}};
 }
