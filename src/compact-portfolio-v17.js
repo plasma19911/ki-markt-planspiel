@@ -4,7 +4,7 @@ import {SECOND_CHANCE_TARGET,buildSecondChanceWatch,isSecondChanceWatchFresh,isB
 export {SECOND_CHANCE_TARGET,SECOND_CHANCE_RETENTION_MS,buildSecondChanceWatch,isSecondChanceCandidate} from './second-chance-watch-utils.js';
 
 // V17: Gute Deep-Kandidaten verschwinden nicht mehr sofort, nur weil sie im
-// naechsten Minutenranking knapp aus den Finalisten fallen. Bis zu 8 starke,
+// naechsten Minutenranking knapp aus den Finalisten fallen. Bis zu 8 gute,
 // ungefaehrliche Werte bleiben 12 Minuten im Zweitcheck-Pool. Market-v3 fuehrt
 // fuer bis zu zwei fehlende Kandidaten pro Runde einen frischen 1m-Recheck aus.
 // Die Watchlist ist KEIN Kaufsignal und erzwingt niemals einen Trade.
@@ -58,9 +58,9 @@ export class MarketPortfolio extends BasePortfolio{
  }
  async status(){
   const s=await super.status(),watch=this._readSecondChance(),isFresh=isSecondChanceWatchFresh(watch),count=isFresh?num(watch?.candidateCount):0;
-  s.secondChanceWatch={enabled:true,target:SECOND_CHANCE_TARGET,candidateCount:count,updatedAt:watch?.updatedAt||null,fresh:isFresh,retentionMinutes:12,recheckPerScan:2,requiresFreshOneMinuteRecheck:true,forcedBuy:false,mode:'Starke Deep-Kandidaten bleiben bis zu 12 Minuten im Heisspool; fehlen sie im normalen Finalisten-Ranking, erhalten bis zu zwei pro Scan einen frischen 1m-Zweitcheck.'};
-  if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,secondChanceCapture:true,strongCandidateRetentionMinutes:12,secondChanceRecheckPerScan:2,secondChanceProbeMaxPct:28,deepFinalists:4};
-  if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,secondChanceWatch:true,secondChanceRetentionMinutes:12,secondChanceRecheckPerScan:2,note:`${s.freeTierBudget.note||''} Starke Deep-Kandidaten fallen nicht sofort aus dem Radar: bis zu ${SECOND_CHANCE_TARGET} werden 12 Minuten gehalten; pro Scan werden maximal 2 fehlende Werte mit einem frischen 1m-Chart nachgeprueft.`};
+  s.secondChanceWatch={enabled:true,target:SECOND_CHANCE_TARGET,candidateCount:count,updatedAt:watch?.updatedAt||null,fresh:isFresh,retentionMinutes:12,recheckPerScan:2,requiresFreshOneMinuteRecheck:true,forcedBuy:false,mode:'Gute Deep-Kandidaten bleiben bis zu 12 Minuten im Heisspool; fehlen sie im normalen Finalisten-Ranking, erhalten bis zu zwei pro Scan einen frischen 1m-Zweitcheck.'};
+  if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,secondChanceCapture:true,strongCandidateRetentionMinutes:12,secondChanceRecheckPerScan:2,secondChanceProbeMaxPct:28,deepFinalists:4,bestQualifiedEntry:true,bestQualifiedMinExpected:5.35,bestQualifiedProbePct:[16,20,24],secondChanceMinExpected:6.2,looserSoftThresholds:true,hardSafetyStillRequired:true};
+  if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,secondChanceWatch:true,secondChanceRetentionMinutes:12,secondChanceRecheckPerScan:2,bestQualifiedEntry:true,note:`${s.freeTierBudget.note||''} Gute Deep-Kandidaten fallen nicht sofort aus dem Radar. Wenn kein perfekter BUY vorliegt, darf das beste mehrfach bestaetigte sichere Setup bereits ab niedrigerer Soft-Schwelle eine kleine 16-24%-Probeposition bekommen; harte Safety-/Event-/Venue-Sperren bleiben.`};
   return s;
  }
 }
