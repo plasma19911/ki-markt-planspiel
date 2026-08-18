@@ -34,13 +34,13 @@ export class MarketPortfolio extends BasePortfolio{
     const kv=this.ctx?.storage?.kv;
     try{const old=kv?.get(PREOPEN_KEY);if(old?.localDate===session.localDate)return{ok:true,skipped:'gettex-preopen-already-prepared',gettexSession:session,preparedAt:old.preparedAt||null,freeFetchBudget:old.freeFetchBudget||null}}catch{}
     const run=await withPreopenFetchBudget(async()=>{
-      // 1) externe Top-25-Listen aktualisieren, 2) Overnight-Makro/Weltlage einlesen,
-      // 3) strukturelle Future-Watch-Kandidaten aktualisieren. Keine Orderausfuehrung.
+      // Externe Daten sind nur hier und waehrend echter Handels-Scans erlaubt.
+      // Status-Aufrufe laden diese Listen niemals nach.
       let leaders=null,macro=null,future=null;
-      try{leaders=await this.zeroAssets?.info?.()}catch{}
+      try{leaders=await this.zeroAssets?.refreshExternalLeaders?.()}catch(e){console.error('Preopen leaders failed',e)}
       try{macro=await this._refreshMacro(true)}catch(e){console.error('Preopen macro failed',e)}
       try{future=await this._refreshFutureWatch(true)}catch(e){console.error('Preopen future watch failed',e)}
-      return{leaders,macro:macro?.radar?{updatedAt:macro.radar.updatedAt,eventCount:macro.radar.events?.length||0}:null,future:future?{updatedAt:future.updatedAt,candidateCount:future.candidateCount||0}:null};
+      return{leaderCount:Array.isArray(leaders)?leaders.length:0,macro:macro?.radar?{updatedAt:macro.radar.updatedAt,eventCount:macro.radar.events?.length||0}:null,future:future?{updatedAt:future.updatedAt,candidateCount:future.candidateCount||0}:null};
     });
     const preparedAt=new Date().toISOString(),payload={localDate:session.localDate,preparedAt,freeFetchBudget:run.stats};try{kv?.put(PREOPEN_KEY,payload)}catch{}
     return{ok:true,preopen:true,noTrades:true,gettexSession:session,preparedAt,freeFetchBudget:run.stats,prepared:run.value};
@@ -48,8 +48,6 @@ export class MarketPortfolio extends BasePortfolio{
 
   async scan(){
     const session=gettexSessionState(new Date());
-    // Harte Aussenkontrolle: ausserhalb gettex 07:30-23:00 werden weder Kurs-,
-    // News-, Makro- noch Future-Watch-Scans gestartet. 07:25 ist nur Vorbereitung.
     if(!session.open){
       if(session.preopen)return this.preOpenPrepare(new Date());
       return{ok:true,skipped:'gettex-closed-sleep',sleeping:true,noNews:true,noMarketScan:true,gettexSession:session};
@@ -63,7 +61,7 @@ export class MarketPortfolio extends BasePortfolio{
     const s=await super.status(),raw=this.bucketAdapter?.peekState?.(),session=gettexSessionState(new Date());
     s.futureWatch=raw?.futureWatch||null;s.gettexSession=session;
     if(s.freeTierBudget){
-      s.freeTierBudget={...s.freeTierBudget,activeWindowLocal:'07:25 Vorbereitung · 07:30-23:00 Handel',sleepOutsideGettexHours:true,newsAtNight:false,maxScheduledMarketScansPerTradingDay:930,preopenPrepareOncePerTradingDay:true,note:'Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb.'};
+      s.freeTierBudget={...s.freeTierBudget,activeWindowLocal:'07:25 Vorbereitung · 07:30-23:00 Handel',sleepOutsideGettexHours:true,newsAtNight:false,maxScheduledScansPerDay:930,maxScheduledMarketScansPerTradingDay:930,preopenPrepareOncePerTradingDay:true,note:'Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb.'};
     }
     return s;
   }
