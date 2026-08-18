@@ -61,7 +61,7 @@ function deployPct(best,second,regime){
  if(best>=6.4&&second>=5.8)return regime==='TREND_UP'?52:42;
  return 0;
 }
-function singleCap(best,regime){if(best>=11.5&&regime!=='VOLATILE')return72;if(best>=9.5)return62;if(best>=8)return54;return45}
+function singleCap(best,regime){if(best>=11.5&&regime!=='VOLATILE')return 72;if(best>=9.5)return 62;if(best>=8)return 54;return 45}
 function positionMap(state){return new Map(arr(state?.positions).map(p=>[key(p),p]))}
 function heldAgeMinutes(h,state){const p=positionMap(state).get(key(h))||h,raw=p?.opened_at||p?.openedAt||h?.opened_at||h?.openedAt,t=Date.parse(String(raw||''));return Number.isFinite(t)?Math.max(0,(Date.now()-t)/60000):0}
 function heldPnl(h,state){const p=positionMap(state).get(key(h));if(Number.isFinite(Number(h?.pnlPct)))return Number(h.pnlPct);if(p&&num(p.invested)>0&&num(p.entry_price)>0&&num(p.last_price)>0)return(num(p.last_price)/num(p.entry_price)-1)*100;return 0}
