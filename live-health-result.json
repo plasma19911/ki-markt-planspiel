@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T20:03:44.876240+00:00",
+  "checkedAt": "2026-08-18T20:04:35.587676+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -36,10 +36,10 @@
     "homepage"
   ],
   "running": 1,
-  "scanCount": 323,
-  "lastScan": "2026-08-18T20:03:08.555Z",
+  "scanCount": 324,
+  "lastScan": "2026-08-18T20:04:07.738Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 1 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 1/12 möglichen Checks. Beste HOLD · PULLBACK-FIRST: kein preislich guter Neueinstieg; 0 Peak/zu-teuer BUY(s) blockiert. Lieber auf Ruecksetzer warten als oben hinterherkaufen.",
+  "aiLastSummary": "Keine frischen handelbaren Kurse – keine Orderentscheidung.",
   "cash": 242.5656642062093,
   "equity": 961.1473218777621,
   "pnl": -38.852678122237876,
@@ -91,20 +91,8 @@
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     }
   ],
-  "candidates": 1,
-  "topCandidates": [
-    {
-      "symbol": "BAH",
-      "name": "Booz Allen Hamilton",
-      "score": 3.1999999999999997,
-      "confidence": 0.736632,
-      "day_change": 1.0404161664665956,
-      "news_score": 0.005263157894736841,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 50 konstruktiv · Volumen x4.3",
-      "contra": "Kurs unter EMA21"
-    }
-  ],
+  "candidates": 0,
+  "topCandidates": [],
   "recentHistory": [
     {
       "ts": "2026-08-18T19:58:10.873Z",
@@ -113,7 +101,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal BAH: Score 3.20, Konfidenz 74%.",
+      "reason": "Keine frischen handelbaren Signale.",
       "score": null
     },
     {
@@ -332,8 +320,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 404",
-      "latency_ms": 248,
-      "updated_at": "2026-08-18T20:03:07.924Z"
+      "latency_ms": 253,
+      "updated_at": "2026-08-18T20:04:07.627Z"
     },
     {
       "source": "Yahoo Events",
@@ -341,8 +329,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 213,
-      "updated_at": "2026-08-18T20:03:07.924Z"
+      "latency_ms": 217,
+      "updated_at": "2026-08-18T20:04:07.627Z"
     },
     {
       "source": "Yahoo News",
@@ -350,8 +338,8 @@
       "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 665,
-      "updated_at": "2026-08-18T20:03:07.924Z"
+      "latency_ms": 568,
+      "updated_at": "2026-08-18T20:04:07.627Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -359,8 +347,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 242,
-      "updated_at": "2026-08-18T20:03:07.924Z"
+      "latency_ms": 243,
+      "updated_at": "2026-08-18T20:04:07.627Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -368,8 +356,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 284,
-      "updated_at": "2026-08-18T20:03:07.924Z"
+      "latency_ms": 269,
+      "updated_at": "2026-08-18T20:04:07.627Z"
     },
     {
       "source": "BörsenNews",
@@ -377,8 +365,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 322,
-      "updated_at": "2026-08-18T20:03:07.924Z"
+      "latency_ms": 309,
+      "updated_at": "2026-08-18T20:04:07.627Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -386,17 +374,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 526,
-      "updated_at": "2026-08-18T20:03:07.924Z"
+      "latency_ms": 529,
+      "updated_at": "2026-08-18T20:04:07.627Z"
     },
     {
       "source": "Second-Chance 1m",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 1,
+      "status": "DEGRADED",
+      "ok_count": 0,
+      "fail_count": 2,
       "last_error": "Zweitcheck verworfen: Score 2.85, Konfidenz 70%",
       "latency_ms": null,
-      "updated_at": "2026-08-18T20:03:07.924Z"
+      "updated_at": "2026-08-18T20:04:07.627Z"
     }
   ],
   "risk": {
@@ -493,7 +481,7 @@
     "enabled": true,
     "target": 16,
     "candidateCount": 0,
-    "updatedAt": "2026-08-18T20:03:06.114Z",
+    "updatedAt": "2026-08-18T20:04:05.718Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8527,
@@ -521,7 +509,7 @@
     "enabled": true,
     "target": 8,
     "candidateCount": 3,
-    "updatedAt": "2026-08-18T19:59:13.038Z",
+    "updatedAt": "2026-08-18T20:04:23.459Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 2,
@@ -751,7 +739,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T20:04:08.555Z",
+    "nextScanAt": "2026-08-18T20:05:07.738Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -797,8 +785,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T20:03:06.114Z",
-    "ageSeconds": 38,
+    "lastSeenAt": "2026-08-18T20:04:05.718Z",
+    "ageSeconds": 30,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-18T19:59:09.437Z",
     "resolvedLeaderCount": 15,
@@ -811,16 +799,16 @@
     "wideSweepMasterCount": 8527,
     "wideSweepScannedCount": 521,
     "metrics": {
-      "lastSeenAt": "2026-08-18T20:03:06.114Z",
+      "lastSeenAt": "2026-08-18T20:04:05.718Z",
       "version": "2.0.12-csharp-full-master-24mi",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 5871421,
+      "storageBytes": 5876267,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.01,
-      "ramMb": 103.4,
-      "downloadedBytes": 24173153,
-      "uploadedBytes": 145932,
+      "cpuPct": 0,
+      "ramMb": 101.9,
+      "downloadedBytes": 24185764,
+      "uploadedBytes": 147506,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_FULL_MASTER_24MIN",
       "lastLocalCleanupAt": "2026-08-18T20:01:20.1147685Z",
