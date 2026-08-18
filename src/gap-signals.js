@@ -1,6 +1,7 @@
 const HEADERS={'accept':'application/json','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/GapOverlay)'};
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,Number(v)||0));
+const MAX_GAP_SYMBOLS=12;
 
 function parseJsonBetween(text,startMarker,endMarker=null){const start=text.indexOf(startMarker);if(start<0)return[];const from=start+startMarker.length,end=endMarker?text.indexOf(endMarker,from):-1;try{return JSON.parse(text.slice(from,end>=0?end:text.length).trim())}catch{return[]}}
 function stateFromPrompt(prompt){const candidates=parseJsonBetween(prompt,'Kandidaten=',' Gehalten='),held=parseJsonBetween(prompt,' Gehalten=');return{candidates:Array.isArray(candidates)?candidates:[],held:Array.isArray(held)?held:[]}}
@@ -36,13 +37,15 @@ function analyze(c){
 }
 
 export async function buildGapOverlay(prompt){
-  const s=stateFromPrompt(prompt),held=new Set(s.held.map(x=>String(x.symbol).toUpperCase())),selected=[];for(const c of s.candidates)if(held.has(String(c.symbol).toUpperCase())&&selected.length<3)selected.push(c);for(const c of s.candidates){if(selected.length>=3)break;if(!selected.some(x=>x.symbol===c.symbol))selected.push(c)}
+  const s=stateFromPrompt(prompt),held=new Set(s.held.map(x=>String(x.symbol).toUpperCase())),selected=[];
+  for(const c of s.candidates)if(held.has(String(c.symbol).toUpperCase())&&!selected.some(x=>x.symbol===c.symbol)&&selected.length<MAX_GAP_SYMBOLS)selected.push(c);
+  for(const c of s.candidates){if(selected.length>=MAX_GAP_SYMBOLS)break;if(!selected.some(x=>x.symbol===c.symbol))selected.push(c)}
   const rows=await Promise.all(selected.map(async c=>({candidate:c,gap:analyze(await chart(c.symbol))}))),context=[],actions=[];
   for(const x of rows){const c=x.candidate,g=x.gap,key=String(c.symbol).toUpperCase();if(!g)continue;let action='HOLD',confidence=.5,reason=`GAP ${g.state}: ${g.reasons.join(' · ')}`;
     if(held.has(key)&&g.sellRisk>=2.2&&(g.state==='GAP_FADE'||g.state==='GAP_DOWN_CONTINUATION')){action='SELL';confidence=clamp(.65+g.sellRisk*.08,.68,.9);actions.push({symbol:c.symbol,action:'SELL',confidence,allocation_pct:0,reason:`FAST-GAP-SELL: ${g.reasons.join(' · ')}`})}
     context.push({symbol:c.symbol,held:held.has(key),gapPct:+g.gapPct.toFixed(2),state:g.state,blockBuy:g.blockBuy,openingVolumeRatio:+g.openingVolumeRatio.toFixed(2),aboveOpeningRange:g.aboveRange,belowOpeningRange:g.belowRange,aboveVwap:g.aboveVwap,action,confidence,reason});
   }
-  return{summary:`Gap/Opening-Range: ${context.filter(x=>x.state!=='NORMAL').length} aktive Gap-Lagen aus ${context.length} Checks.`,actions,context};
+  return{summary:`Gap/Opening-Range: ${context.filter(x=>x.state!=='NORMAL').length} aktive Gap-Lagen aus ${context.length}/${MAX_GAP_SYMBOLS} möglichen Checks.`,actions,context,maxSymbols:MAX_GAP_SYMBOLS};
 }
 
 export function applyGapOverlay(fast,gap){
