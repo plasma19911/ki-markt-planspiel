@@ -47,18 +47,21 @@ jobs:
           runcheck syntax_learning node --check src/live-signal-learning.js
           runcheck syntax_rebound node --check src/rebound-ai-guard.js
           runcheck syntax_early_breakout node --check src/early-breakout-ai-guard.js
+          runcheck syntax_target_venue node --check src/target-venue-ai-guard.js
           runcheck syntax_v10 node --check src/compact-portfolio-v10.js
           runcheck syntax_v11base node --check src/compact-portfolio-v11-base.js
           runcheck syntax_v11 node --check src/compact-portfolio-v11.js
           runcheck syntax_v12 node --check src/compact-portfolio-v12.js
           runcheck syntax_v13 node --check src/compact-portfolio-v13.js
           runcheck syntax_v14 node --check src/compact-portfolio-v14.js
+          runcheck syntax_v15 node --check src/compact-portfolio-v15.js
           runcheck syntax_chart node --check public/position-chart-ui.js
           runcheck syntax_budget_ui node --check public/free-budget-ui.js
           runcheck cash_aware node scripts/smoke-best-validated-buy.mjs
           runcheck legacy_cash node scripts/smoke-legacy-cash-neutralizer.mjs
           runcheck rebound_guard node scripts/smoke-rebound-guard.mjs
           runcheck early_breakout_guard node scripts/smoke-early-breakout-guard.mjs
+          runcheck target_venue_guard node scripts/smoke-target-venue-guard.mjs
           runcheck entry_learning node scripts/smoke-entry-timing-learning.mjs
           runcheck opportunity_cost node scripts/smoke-opportunity-cost-rotation.mjs
           runcheck yahoo_sanity node scripts/smoke-yahoo-null-sanity.mjs
@@ -91,8 +94,10 @@ jobs:
             'allCodeAndRegressionChecksPassed':install_ok and not failed,
             'note':'Wrangler dry-run may report required runtime-secret/auth limitations in CI; syntax and smoke regressions are listed separately.'
           }
-          pathlib.Path('validation-result.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-          print(json.dumps(out,ensure_ascii=False,indent=2))
+          raw=json.dumps(out,ensure_ascii=False,indent=2)+'\n'
+          pathlib.Path('validation-result.json').write_text(raw,encoding='utf-8')
+          pathlib.Path('/tmp/validation-result.json').write_text(raw,encoding='utf-8')
+          print(raw)
           PY
         env:
           INSTALL_OUTCOME: ${{ steps.install.outcome }}
@@ -102,20 +107,32 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add validation-result.json
-          if git diff --cached --quiet; then
-            echo 'Validation result unchanged'
-          else
+          for attempt in 1 2 3 4; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/validation-result.json validation-result.json
+            git add validation-result.json
+            if git diff --cached --quiet; then
+              echo 'Validation result unchanged'
+              exit 0
+            fi
             git commit -m 'Update validation result [skip ci]'
-            git push
-          fi
+            if git push origin HEAD:main; then
+              echo 'Validation result published'
+              exit 0
+            fi
+            echo "Concurrent main update detected; retry $attempt"
+            sleep 3
+          done
+          echo 'Could not publish validation result after retries'
+          exit 1
 
       - name: Enforce syntax and regression checks
         if: always()
         run: |
           python - <<'PY'
           import json
-          x=json.load(open('validation-result.json',encoding='utf-8'))
+          x=json.load(open('/tmp/validation-result.json',encoding='utf-8'))
           critical=[k for k,v in (x.get('checks') or {}).items() if k!='wrangler_dryrun' and not v.get('ok')]
           if not x.get('install',{}).get('ok'): critical.insert(0,'npm_install')
           if critical: raise SystemExit('Critical validation failed: '+', '.join(critical))
