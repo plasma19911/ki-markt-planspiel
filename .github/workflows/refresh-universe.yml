@@ -1,4 +1,4 @@
-name: Refresh ZERO-target Universe
+name: Refresh ZERO-target Stock Universe
 
 on:
   workflow_dispatch:
@@ -6,7 +6,6 @@ on:
     branches: [main]
     paths:
       - "scripts/refresh_universe.py"
-      - "scripts/refresh_etfs.py"
       - ".github/workflows/refresh-universe.yml"
   schedule:
     - cron: "17 3 * * *"
@@ -15,7 +14,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: zero-target-universe-refresh
+  group: zero-target-stock-universe-refresh
   cancel-in-progress: false
 
 jobs:
@@ -35,18 +34,16 @@ jobs:
         run: python -m pip install "yfinance>=1.5,<2"
       - name: Refresh ZERO-scale stock master pool
         run: python scripts/refresh_universe.py
-      - name: Refresh ZERO-scale normal ETF master pool
-        run: python scripts/refresh_etfs.py
-      - name: Commit changed stock and ETF universes
+      - name: Commit changed stock universe
         shell: bash
         run: |
-          if git diff --quiet -- public/universe.json src/generated-zero-etfs.js; then
-            echo "Stock/ETF universes unchanged."
+          if git diff --quiet -- public/universe.json; then
+            echo "Stock universe unchanged."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/universe.json src/generated-zero-etfs.js
-          git commit -m "chore: refresh ZERO-scale stock and ETF master pools"
+          git add public/universe.json
+          git commit -m "chore: refresh ZERO-scale stock master pool"
           git pull --rebase origin main
           git push origin main
