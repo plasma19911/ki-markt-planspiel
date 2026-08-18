@@ -1,7 +1,9 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v2.js';
 import {updateMacroGeopolitics,macroContext} from './macro-geopolitics.js';
 
-const MACRO_COOLDOWN_MS=10*60*1000;
+// 11 Minuten entkoppeln den Makro-Refresh von den 5-Minuten-Leaderlisten und
+// vom 10-Minuten-Investment-Refresh. Die Live-Kursrunde bleibt jede Minute aktiv.
+const MACRO_COOLDOWN_MS=11*60*1000;
 
 class MacroAiGuard{
   constructor(base,adapter){this.base=base;this.adapter=adapter}
@@ -25,7 +27,10 @@ export class MarketPortfolio extends BasePortfolio{
 
   async _refreshMacro(force=false){
     const raw=this.bucketAdapter?.peekState?.();
-    const last=Date.parse(raw?.macroRadar?.updatedAt||'');
+    const last=Date.parse(raw?.macroRadar?.updatedAt||''),scanNo=Number(raw?.config?.scan_count||0);
+    // Start entzerren: Makro erst ab Scan 4. So bekommt der erste Minutenlauf
+    // garantiert Luft fuer Kurs-, Fast- und Leader-Daten.
+    if(!force&&!Number.isFinite(last)&&scanNo<4)return null;
     if(!force&&Number.isFinite(last)&&Date.now()-last<MACRO_COOLDOWN_MS)return null;
     if(!this.engine?.store?.update)return null;
     const r=await this.engine.store.update(async s=>{
