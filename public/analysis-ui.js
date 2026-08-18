@@ -6,8 +6,9 @@ function addCss(href,key){
  if(document.querySelector(`link[data-ui-${key}]`))return;
  const link=document.createElement('link');link.rel='stylesheet';link.href=href;link.dataset[`ui${key[0].toUpperCase()+key.slice(1)}`]='1';document.head.appendChild(link);
 }
-addCss('/candidate-plain-ui.css?v=20260818-2210','candidate');
-addCss('/stable-ui.css?v=20260818-2210','stable');
+addCss('/candidate-plain-ui.css?v=20260818-2212','candidate');
+addCss('/stable-ui.css?v=20260818-2212','stable');
+addCss('/layout-fix.css?v=20260818-2212','layoutfix');
 
 // Keine zusätzlichen Macro-/Exposure-/News-Learning-Panels mehr im Dashboard.
 // Die zugrunde liegenden Daten/Entscheidungen bleiben im Backend aktiv; sichtbar
