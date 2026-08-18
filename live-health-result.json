@@ -1,24 +1,90 @@
 {
-  "checkedAt": "2026-08-18T12:41:16.758581+00:00",
+  "checkedAt": "2026-08-18T12:53:51.963808+00:00",
   "homepageOk": true,
   "appJsOk": true,
   "uiHotfixHttp": "200",
   "uiHotfixLive": true,
   "apiStatusOk": true,
   "running": 1,
-  "scanCount": 15,
-  "lastScan": "2026-08-18T12:39:05.539Z",
+  "scanCount": 26,
+  "lastScan": "2026-08-18T12:53:06.149Z",
   "lastError": null,
-  "aiLastSummary": "Keine frischen handelbaren Kurse – keine Orderentscheidung.",
-  "cash": 1000,
-  "equity": 1000,
-  "pnl": 0,
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 2 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 2/12 möglichen Checks. Beste HOLDs: BAS.DE: BUY 2.3 / SELL 0.0 · RANGE | DTE.DE: BUY 1.3 / SELL 0.0 · RANGE",
+  "cash": 0,
+  "equity": 997.3109109572842,
+  "pnl": -2.68908904271575,
   "universeCount": 165,
-  "positions": 0,
-  "positionRows": [],
-  "candidates": 0,
-  "topCandidates": [],
+  "positions": 1,
+  "positionRows": [
+    {
+      "symbol": "DTE.DE",
+      "name": "Deutsche Telekom AG",
+      "instrument_type": "EQUITY",
+      "theme": null,
+      "company_key": "DEUTSCHE TELEKOM",
+      "invested": 999,
+      "entry_fee": 1,
+      "entry_price": 28.908879159927366,
+      "last_price": 28.860000610351562,
+      "entry_fx": 1,
+      "last_fx": 1,
+      "currency": "EUR",
+      "opened_at": "2026-08-18T12:41:19.001Z",
+      "score": 1.213110810810811,
+      "signal_confidence": 0.5399110810810812,
+      "zero_quantity": 34.556856890694824,
+      "zero_whole_shares": 34,
+      "zero_fractional_shares": 0.5568568906948244,
+      "zero_uses_fractional": true,
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
+    }
+  ],
+  "candidates": 2,
+  "topCandidates": [
+    {
+      "symbol": "DTE.DE",
+      "name": "Deutsche Telekom AG",
+      "score": 1.213110810810811,
+      "confidence": 0.5399110810810812,
+      "day_change": 1.6555146542851729,
+      "news_score": 0.00972972972972973,
+      "event_risk": "NONE",
+      "pro": "Kurs über EMA21 · RSI 50 konstruktiv",
+      "contra": "EMA-Trend schwach"
+    },
+    {
+      "symbol": "BAS.DE",
+      "name": "BASF SE                       N",
+      "score": 1.2078553358490567,
+      "confidence": 0.5008655335849057,
+      "day_change": 1.3264706101282497,
+      "news_score": 0.08830188679245282,
+      "event_risk": "NONE",
+      "pro": "Kurs über EMA21 · RSI 50 konstruktiv",
+      "contra": "EMA-Trend schwach"
+    }
+  ],
   "recentHistory": [
+    {
+      "ts": "2026-08-18T12:43:05.636Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal DTE.DE: Score 1.21, Konfidenz 54%.",
+      "score": null
+    },
+    {
+      "ts": "2026-08-18T12:41:19.001Z",
+      "action": "KAUF",
+      "symbol": "DTE.DE",
+      "amount": -1000,
+      "fee": 1,
+      "trade_pnl": null,
+      "reason": "KI BUY 50%: OUTER-FULL-CASH-BEST: bester aktueller Aktienkandidat des laufenden Scans · Score 1.20 · OUTER-FULL-CASH 100.00% · Order 1000.00 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 1.2040950000000001
+    },
     {
       "ts": "2026-08-18T12:21:17.784Z",
       "action": "HALTEN",
@@ -40,25 +106,69 @@
       "score": null
     }
   ],
-  "recentAiLog": [],
+  "recentAiLog": [
+    {
+      "ts": "2026-08-18T12:46:08.401Z",
+      "kind": "IDEA",
+      "title": "Beobachtungskandidat",
+      "symbol": "BAS.DE",
+      "message": "BAS.DE: Kein Trade. Bestes Signal BAS.DE: Score 1.21, Konfidenz 50%.",
+      "confidence": 0.5008655335849057
+    },
+    {
+      "ts": "2026-08-18T12:41:19.001Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "DTE.DE",
+      "message": "DTE.DE: KI BUY 50%: OUTER-FULL-CASH-BEST: bester aktueller Aktienkandidat des laufenden Scans · Score 1.20 · OUTER-FULL-CASH 100.00%",
+      "confidence": 0.48230950000000006
+    }
+  ],
   "sourceHealth": [
     {
       "source": "Yahoo Spark",
-      "status": "DOWN",
-      "ok_count": 0,
-      "fail_count": 1,
-      "last_error": "Error: HTTP 400",
-      "latency_ms": 114,
-      "updated_at": "2026-08-18T12:39:05.539Z"
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 484,
+      "updated_at": "2026-08-18T12:53:05.400Z"
     },
     {
-      "source": "Yahoo News",
+      "source": "Yahoo FX",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 121,
+      "updated_at": "2026-08-18T12:53:05.400Z"
+    },
+    {
+      "source": "Yahoo 1m Chart",
       "status": "OK",
       "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 861,
-      "updated_at": "2026-08-18T12:39:05.539Z"
+      "latency_ms": 127,
+      "updated_at": "2026-08-18T12:53:05.400Z"
+    },
+    {
+      "source": "Yahoo Events",
+      "status": "DOWN",
+      "ok_count": 0,
+      "fail_count": 1,
+      "last_error": "Error: HTTP 401",
+      "latency_ms": 111,
+      "updated_at": "2026-08-18T12:53:05.400Z"
+    },
+    {
+      "source": "Yahoo News",
+      "status": "OK",
+      "ok_count": 3,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1404,
+      "updated_at": "2026-08-18T12:53:05.400Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -66,8 +176,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 241,
-      "updated_at": "2026-08-18T12:39:05.539Z"
+      "latency_ms": 263,
+      "updated_at": "2026-08-18T12:53:05.400Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -75,8 +185,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 293,
-      "updated_at": "2026-08-18T12:39:05.539Z"
+      "latency_ms": 268,
+      "updated_at": "2026-08-18T12:53:05.400Z"
     },
     {
       "source": "BörsenNews",
@@ -84,8 +194,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 312,
-      "updated_at": "2026-08-18T12:39:05.539Z"
+      "latency_ms": 301,
+      "updated_at": "2026-08-18T12:53:05.400Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -93,14 +203,14 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 599,
-      "updated_at": "2026-08-18T12:39:05.539Z"
+      "latency_ms": 484,
+      "updated_at": "2026-08-18T12:53:05.400Z"
     }
   ],
   "risk": {
-    "equity": 1000,
-    "dailyPct": 0,
-    "availableCash": 1000,
+    "equity": 997.3109109572842,
+    "dailyPct": -0.26890890427156977,
+    "availableCash": 0,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -113,7 +223,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T12:40:05.539Z",
+    "nextScanAt": "2026-08-18T12:54:06.149Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -136,27 +246,27 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T12:41:15.910Z",
-    "ageSeconds": 0,
+    "lastSeenAt": "2026-08-18T12:53:02.628Z",
+    "ageSeconds": 49,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T12:41:15.519Z",
+    "prefetchAt": "2026-08-18T12:53:02.214Z",
     "resolvedLeaderCount": 14,
     "leaderHealthy": true,
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-08-18T12:41:15.910Z",
-      "version": "2.0.2-csharp-tls",
+      "lastSeenAt": "2026-08-18T12:53:02.628Z",
+      "version": "2.0.3-csharp-gdelt-backoff",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 52388,
+      "storageBytes": 98408,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 46.8,
-      "downloadedBytes": 3836549,
-      "uploadedBytes": 45454,
+      "ramMb": 40.8,
+      "downloadedBytes": 1279015,
+      "uploadedBytes": 12550,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP",
-      "lastLocalCleanupAt": "2026-08-18T12:30:12.8331424Z",
+      "lastLocalCleanupAt": "2026-08-18T12:50:14.4530236Z",
       "lastError": null
     }
   }
