@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T20:55:33.123315+00:00",
+  "checkedAt": "2026-08-18T20:55:49.663132+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -576,7 +576,11 @@
     "learningOnlyFromExecutedEntries": true,
     "researchBackedEntryPolicy": true,
     "earlyBreakoutQualityGuard": true,
-    "earlyBreakoutInitialCapPct": 35
+    "earlyBreakoutInitialCapPct": 35,
+    "balancedSoftOverride": true,
+    "balancedSoftStarterMaxPct": 28,
+    "marginalExitConfirmation": true,
+    "exceptionalRotationEscape": true
   },
   "entryTimingLearning": {
     "version": 3,
@@ -778,7 +782,7 @@
     "configured": true,
     "online": true,
     "lastSeenAt": "2026-08-18T20:55:06.532Z",
-    "ageSeconds": 26,
+    "ageSeconds": 43,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-18T20:53:09.167Z",
     "resolvedLeaderCount": 15,
