@@ -3,6 +3,8 @@ import {ZERO_FEE_MODEL,zeroRoundTripBrokerFees} from './zero-fee-model.js';
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const MAX_ROUNDTRIP_COST_PCT=2.0;
 const WARN_ROUNDTRIP_COST_PCT=1.0;
+const SMALL_IDLE_PORTFOLIO_MAX_EUR=1500;
+const SMALL_IDLE_SINGLE_BUY_FLOOR_PCT=24;
 
 function parseJsonBetween(text,startMarker,endMarker=null){const start=text.indexOf(startMarker);if(start<0)return[];const from=start+startMarker.length,end=endMarker?text.indexOf(endMarker,from):-1;try{return JSON.parse(text.slice(from,end>=0?end:text.length).trim())}catch{return[]}}
 function configFromPrompt(prompt){
@@ -13,8 +15,6 @@ function configFromPrompt(prompt){
 function brokerFeeEstimate(notional,type,price=0){
   const n=Math.max(0,num(notional)),t=String(type||'EQUITY').toUpperCase();if(!(n>0))return 0;
   if(num(price)>0){const exact=zeroRoundTripBrokerFees({notionalEur:n,priceEur:num(price),instrumentType:t,fractionalAllowed:t!=='ETF'});if(exact.affordable)return num(exact.total)}
-  // Ohne belastbaren Stückpreis nicht pauschal Ganzstück- UND Bruchstückgebühr addieren.
-  // Realistischer Basisschätzer: eine Brokergebühr je Richtung bei Orders unter 500 €.
   return n<ZERO_FEE_MODEL.smallOrderThresholdEur?2*ZERO_FEE_MODEL.smallOrderSurchargeEur:0;
 }
 function estimate(cfg,allocationPct,type='EQUITY',price=0){
@@ -24,17 +24,17 @@ function estimate(cfg,allocationPct,type='EQUITY',price=0){
 }
 
 export function applyExecutionCostDiscipline(fast,prompt){
-  if(!fast)return fast;const cfg=configFromPrompt(prompt),actions=[],bySymbol={};
+  if(!fast)return fast;const cfg=configFromPrompt(prompt),actions=[],bySymbol={},buyCount=(fast.actions||[]).filter(x=>x.action==='BUY').length,idleInitial=Boolean(fast?.evidenceDiversity?.idlePortfolio)&&cfg.cash>0&&cfg.cash<=SMALL_IDLE_PORTFOLIO_MAX_EUR&&buyCount===1;
   for(const a of fast.actions||[]){
     if(a.action!=='BUY'){actions.push(a);continue}
-    const symbol=String(a.symbol||'').toUpperCase(),type=cfg.types[symbol]||'EQUITY',price=num(cfg.prices[symbol]),e=estimate(cfg,a.allocation_pct,type,price);
-    bySymbol[symbol]={allocationPct:num(a.allocation_pct),instrumentType:type,referencePrice:price||null,notional:+e.notional.toFixed(2),estimatedBrokerFees:+e.estimatedBrokerFees.toFixed(2),estimatedExecutionCost:+e.estimatedExecutionCost.toFixed(2),estimatedRoundTripCost:+e.estimatedCost.toFixed(2),estimatedRoundTripCostPct:Number.isFinite(e.costPct)?+e.costPct.toFixed(2):null,blockBuy:!Number.isFinite(e.costPct)||e.costPct>cfg.maxRoundTripCostPct,feeEstimate:e.feeEstimate};
+    let working=a;
+    if(idleInitial&&num(a.allocation_pct)<SMALL_IDLE_SINGLE_BUY_FLOOR_PCT){working={...a,allocation_pct:SMALL_IDLE_SINGLE_BUY_FLOOR_PCT,reason:`${a.reason} · kleines leeres Depot: Erstposition kostenökonomisch auf ${SMALL_IDLE_SINGLE_BUY_FLOOR_PCT}% gesetzt`}}
+    const symbol=String(working.symbol||'').toUpperCase(),type=cfg.types[symbol]||'EQUITY',price=num(cfg.prices[symbol]),e=estimate(cfg,working.allocation_pct,type,price);
+    bySymbol[symbol]={allocationPct:num(working.allocation_pct),instrumentType:type,referencePrice:price||null,notional:+e.notional.toFixed(2),estimatedBrokerFees:+e.estimatedBrokerFees.toFixed(2),estimatedExecutionCost:+e.estimatedExecutionCost.toFixed(2),estimatedRoundTripCost:+e.estimatedCost.toFixed(2),estimatedRoundTripCostPct:Number.isFinite(e.costPct)?+e.costPct.toFixed(2):null,blockBuy:!Number.isFinite(e.costPct)||e.costPct>cfg.maxRoundTripCostPct,feeEstimate:e.feeEstimate,initialSizingFloorApplied:working!==a};
     if(!Number.isFinite(e.costPct)||e.costPct>cfg.maxRoundTripCostPct)continue;
-    // Bei Fixgebühren würde eine kleinere Order die Kostenquote sogar verschlechtern.
-    // Im Warnbereich deshalb Positionsgröße beibehalten und nur die Konfidenz deckeln.
-    actions.push(e.costPct>cfg.warnRoundTripCostPct?{...a,confidence:Math.min(num(a.confidence,.5),.75),reason:`${a.reason} · ZERO-Roundtrip-Kosten ca. ${e.costPct.toFixed(1)}%: Kostenwarnung, Positionsgröße beibehalten`}:a)
+    actions.push(e.costPct>cfg.warnRoundTripCostPct?{...working,confidence:Math.min(num(working.confidence,.5),.75),reason:`${working.reason} · ZERO-Roundtrip-Kosten ca. ${e.costPct.toFixed(1)}%: Kostenwarnung, Positionsgröße beibehalten`}:working)
   }
-  return{...fast,actions,executionCost:{...cfg,bySymbol}};
+  return{...fast,actions,executionCost:{...cfg,smallIdleSingleBuyFloorPct:SMALL_IDLE_SINGLE_BUY_FLOOR_PCT,smallIdlePortfolioMaxEur:SMALL_IDLE_PORTFOLIO_MAX_EUR,bySymbol}};
 }
 
 export function estimateAiBuyCost(fast,allocationPct,symbol=''){
