@@ -48,6 +48,7 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)cachedAt=0
 
 // Erst nach Installation des Fetch-Guards laden, damit auch diese Anzeigen den gemeinsamen
 // Statuscache nutzen und keine unnötigen Cloudflare-Reads erzeugen.
+import('./ui-v2.js').catch(e=>console.error('UI V2 failed',e));
 import('./zero-ui.js').catch(e=>console.error('ZERO target UI failed',e));
 import('./order-approval-ui.js').catch(e=>console.error('Order approval UI failed',e));
 import('./accounting-ui.js').catch(e=>console.error('Accounting checksum UI failed',e));
