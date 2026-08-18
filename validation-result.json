@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-18T21:04:22.246157+00:00",
-  "commit": "c3fc8b2c11c2b4a7db889079e3c725a082faa1a9",
+  "checkedAt": "2026-08-18T21:06:47.888790+00:00",
+  "commit": "baf9848b8002e4b8828fcf2a9fa3acfd39b94e98",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 5s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 6s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -194,7 +194,7 @@
     "research_entry": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"weakBlocked\": true,\n  \"strongAllowed\": true,\n  \"strongCap\": 35,\n  \"nearMissStarter\": 22\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"weakBlocked\": true,\n  \"strongAllowed\": true,\n  \"strongCap\": 35,\n  \"nearMissStarter\": 22\n}\n{\n  \"ok\": true,\n  \"pressure\": {\n    \"total\": 60,\n    \"completedDays\": 1,\n    \"missed\": 12,\n    \"late\": 5,\n    \"peak\": 3,\n    \"evidence\": 0.773,\n    \"opportunityBoost\": 0.151,\n    \"peakPenalty\": 0.035,\n    \"active\": true\n  },\n  \"softStarterPct\": 23.1,\n  \"firstMarginalExitHeld\": true,\n  \"secondMarginalExitAllowed\": true,\n  \"hardSafetyPreserved\": true,\n  \"exceptionalRotationAllowed\": true\n}\n"
     },
     "target_venue_guard": {
       "ok": true,
@@ -239,7 +239,7 @@
     "pc_wide_sweep": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"target\": 16,\n  \"selected\": 16,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-18T21:04:00.282Z\",\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\"\n  },\n  \"forcedBuy\": false\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"target\": 16,\n  \"selected\": 16,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-18T21:06:25.816Z\",\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\"\n  },\n  \"forcedBuy\": false\n}\n"
     },
     "yahoo_sanity": {
       "ok": true,
