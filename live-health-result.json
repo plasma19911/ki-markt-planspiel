@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T15:16:34.547566+00:00",
+  "checkedAt": "2026-08-18T15:19:18.234639+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -29,10 +29,10 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 122,
-  "lastScan": "2026-08-18T15:16:04.049Z",
+  "scanCount": 125,
+  "lastScan": "2026-08-18T15:19:08.585Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 1 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 1 aktive Gap-Lagen aus 1/12 möglichen Checks. Beste HOLDs: TRGP: BUY 3.7 / SELL 4 · REBOUND-RADA · EARLY-BREAKOUT: 12 entdeckt, 0 BUY validiert, 0 spaete/unbestaetigte BUYs blockiert; kein Zwangskauf.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 1 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 1 aktive Gap-Lagen aus 1/12 möglichen Checks. Beste HOLDs: TRGP: BUY 3.3 / SELL 1 · REBOUND-RADA · EARLY-BREAKOUT: 12 entdeckt, 0 BUY validiert, 0 spaete/unbestaetigte BUYs blockiert; kein Zwangskauf.",
   "cash": 989.7426404533917,
   "equity": 989.7426404533917,
   "pnl": -10.257359546608313,
@@ -44,13 +44,13 @@
     {
       "symbol": "TRGP",
       "name": "Targa Resources Corp.",
-      "score": -1.2172616279069766,
-      "confidence": 0.5367261627906976,
-      "day_change": 7.030298260893764,
+      "score": 0.4327383720930233,
+      "confidence": 0.45827383720930237,
+      "day_change": 7.024896142293535,
       "news_score": 0.18742397137745978,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 54 konstruktiv",
-      "contra": "Kurs unter EMA21 · 5m -0.27% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "pro": "EMA9 über EMA21",
+      "contra": "Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     }
   ],
   "recentHistory": [
@@ -61,7 +61,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal TRGP: Score -1.22, Konfidenz 54%.",
+      "reason": "Kein Trade. Bestes Signal TRGP: Score 0.43, Konfidenz 46%.",
       "score": null
     },
     {
@@ -260,8 +260,8 @@
       "ok_count": 2,
       "fail_count": 1,
       "last_error": "Error: HTTP 400",
-      "latency_ms": 102,
-      "updated_at": "2026-08-18T15:16:03.655Z"
+      "latency_ms": 105,
+      "updated_at": "2026-08-18T15:19:05.362Z"
     },
     {
       "source": "Yahoo FX",
@@ -269,8 +269,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 7,
-      "updated_at": "2026-08-18T15:16:03.655Z"
+      "latency_ms": 8,
+      "updated_at": "2026-08-18T15:19:05.362Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -278,8 +278,8 @@
       "ok_count": 1,
       "fail_count": 1,
       "last_error": "",
-      "latency_ms": 271,
-      "updated_at": "2026-08-18T15:16:03.655Z"
+      "latency_ms": 107,
+      "updated_at": "2026-08-18T15:19:05.362Z"
     },
     {
       "source": "Yahoo Events",
@@ -287,8 +287,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 107,
-      "updated_at": "2026-08-18T15:16:03.655Z"
+      "latency_ms": 103,
+      "updated_at": "2026-08-18T15:19:05.362Z"
     },
     {
       "source": "Yahoo News",
@@ -296,8 +296,8 @@
       "ok_count": 3,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 920,
-      "updated_at": "2026-08-18T15:16:03.655Z"
+      "latency_ms": 1094,
+      "updated_at": "2026-08-18T15:19:05.362Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -305,8 +305,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 249,
-      "updated_at": "2026-08-18T15:16:03.655Z"
+      "latency_ms": 236,
+      "updated_at": "2026-08-18T15:19:05.362Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -314,8 +314,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 303,
-      "updated_at": "2026-08-18T15:16:03.655Z"
+      "latency_ms": 282,
+      "updated_at": "2026-08-18T15:19:05.362Z"
     },
     {
       "source": "BörsenNews",
@@ -323,8 +323,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 311,
-      "updated_at": "2026-08-18T15:16:03.655Z"
+      "latency_ms": 310,
+      "updated_at": "2026-08-18T15:19:05.362Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -332,8 +332,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 497,
-      "updated_at": "2026-08-18T15:16:03.655Z"
+      "latency_ms": 494,
+      "updated_at": "2026-08-18T15:19:05.362Z"
     }
   ],
   "risk": {
@@ -539,14 +539,19 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T15:17:04.049Z",
+    "nextScanAt": "2026-08-18T15:20:08.585Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
     "persistentLeaderCache": true,
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
-    "lastFetchBudget": null,
+    "lastFetchBudget": {
+      "actual": 23,
+      "cacheHits": 1,
+      "blocked": 0,
+      "cap": 36
+    },
     "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Zusätzlich werden bis zu 15 vorausschauende Ereignis-/Themenkandidaten aus dem Broker-Master im Minuten-Scan beobachtet; gekauft wird erst nach Live-Bestaetigung. Einstiegstiming wird nach 15/30/60 Minuten lernend bewertet. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Rebound-Radar beobachtet bis zu 10 Tagesverlierer; fallende Messer bleiben gesperrt, bis eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
@@ -568,26 +573,26 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T15:16:00.621Z",
-    "ageSeconds": 34,
+    "lastSeenAt": "2026-08-18T15:19:02.513Z",
+    "ageSeconds": 15,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T15:16:00.236Z",
+    "prefetchAt": "2026-08-18T15:19:02.116Z",
     "resolvedLeaderCount": 14,
     "leaderHealthy": true,
     "futureCandidates": 0,
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
     "metrics": {
-      "lastSeenAt": "2026-08-18T15:16:00.621Z",
+      "lastSeenAt": "2026-08-18T15:19:02.513Z",
       "version": "2.0.3-csharp-gdelt-backoff",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 672649,
+      "storageBytes": 684715,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 50.4,
-      "downloadedBytes": 31974858,
-      "uploadedBytes": 635437,
+      "ramMb": 51.2,
+      "downloadedBytes": 33253992,
+      "uploadedBytes": 648532,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP",
       "lastLocalCleanupAt": "2026-08-18T14:57:18.2890297Z",
