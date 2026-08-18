@@ -9,7 +9,7 @@ const key=x=>String(x?.symbol||x||'').toUpperCase();
 const arr=v=>Array.isArray(v)?v:[];
 const responseText=r=>String(r?.response||r?.result?.response||'');
 
-function parseBlock(text,start,end){const a=text.indexOf(start),b=a>=0?text.indexOf(end,a+start.length):-1;if(a<0||b<0)return null;try{return JSON.parse(text.slice(a+start.length,b).trim())}catch{return null}}
+function parseBlock(text,start,end=null){const a=text.indexOf(start);if(a<0)return null;const from=a+start.length,b=end?text.indexOf(end,from):-1;try{return JSON.parse(text.slice(from,b>=0?b:text.length).trim())}catch{return null}}
 function parsePlan(r){const raw=responseText(r),a=raw.indexOf('{'),b=raw.lastIndexOf('}');if(a<0||b<=a)return null;try{const j=JSON.parse(raw.slice(a,b+1));return Array.isArray(j.actions)?j:null}catch{return null}}
 function findPlanMessage(input){for(let i=0;i<arr(input?.messages).length;i++){const t=String(input.messages[i]?.content||'');if(t.includes('Kandidaten=')&&t.includes(' Gehalten='))return{i,text:t}}return null}
 
@@ -46,7 +46,7 @@ function singleCap(best,regime){if(best>=10.5&&regime!=='VOLATILE')return72;if(b
 
 function optimizeResponse(r,input,state){
  const j=parsePlan(r);if(!j)return r;const hit=findPlanMessage(input);if(!hit)return r;
- const candidates=parseBlock(hit.text,'Kandidaten=',' Gehalten=');if(!Array.isArray(candidates))return r;const held=parseBlock(hit.text,' Gehalten=','__NO_END__')||[];
+ const candidates=parseBlock(hit.text,'Kandidaten=',' Gehalten=');if(!Array.isArray(candidates))return r;const held=parseBlock(hit.text,' Gehalten=')||[];
  const cMap=new Map(candidates.map(x=>[key(x),x])),fw=forwardMap(state),heldSet=new Set(arr(held).map(key));
  const sells=arr(j.actions).filter(a=>String(a?.action||'').toUpperCase()==='SELL');const holds=arr(j.actions).filter(a=>String(a?.action||'').toUpperCase()==='HOLD');
  const buyMap=new Map();for(const a of arr(j.actions)){if(String(a?.action||'').toUpperCase()!=='BUY')continue;const c=cMap.get(key(a));if(!c||heldSet.has(key(a)))continue;buyMap.set(key(a),{...a,_score:scoreCandidate(c,fw.get(key(a))),_cand:c})}
