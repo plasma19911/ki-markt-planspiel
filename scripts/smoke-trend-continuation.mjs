@@ -1,30 +1,42 @@
 import assert from 'node:assert/strict';
 import {applyEvidenceDiversity} from '../src/evidence-overlay.js';
 
-const fast={
-  actions:[],
-  context:[{
-    symbol:'TREND.DE',fastAction:'HOLD',fastScore:4.4,reason:'FAST-HOLD: BUY 4.8 / SELL 0.4 · RANGE',regime:'RANGE',
-    technical:{fresh:true,vwapDistancePct:.42,adx:28,plusDI:31,minusDI:14},
-    multiTimeframe:{longVotes:3,shortVotes:0},
-    liquidity:{spreadPct:.12,avgVolume:500000},
-    marketRelative20m:.30,sectorRelativeDay:.10,
-    regionalBenchmark:{relative20m:.25,blockBuy:false},fxSafety:{valid:true}
-  }],
-  gapContext:[{symbol:'TREND.DE',state:'NORMAL',blockBuy:false}],
-  volumeConfirmation:{minRatio:1.10,ratios:{'TREND.DE':1.45}}
+const baseContext={
+  symbol:'TREND.DE',fastAction:'HOLD',fastScore:4.4,reason:'FAST-HOLD: BUY 4.8 / SELL 0.4 · RANGE',regime:'RANGE',
+  technical:{fresh:true,vwapDistancePct:.42,adx:28,plusDI:31,minusDI:14},
+  multiTimeframe:{longVotes:3,shortVotes:0},
+  liquidity:{spreadPct:.12,avgVolume:500000},
+  marketRelative20m:.30,sectorRelativeDay:.10,
+  regionalBenchmark:{relative20m:.25,blockBuy:false},fxSafety:{valid:true}
 };
-const candidates=[{symbol:'TREND.DE',type:'EQUITY',momentumState:'NORMAL',momentumSellSignal:'NONE',news:0}];
+const fast={actions:[],context:[baseContext],gapContext:[{symbol:'TREND.DE',state:'NORMAL',blockBuy:false}],volumeConfirmation:{minRatio:1.10,ratios:{'TREND.DE':1.45}}};
+const candidates=[{symbol:'TREND.DE',type:'EQUITY',momentumState:'NORMAL',momentumSellSignal:'NONE',news:0,liveScore:2.2,liveConfidence:.68}];
 const prompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. Cash 1000 EUR; Slippage 0.10%. Kandidaten=${JSON.stringify(candidates)} Gehalten=[]`;
 const checked=applyEvidenceDiversity(fast,prompt),buys=checked.actions.filter(x=>x.action==='BUY');
 assert.equal(buys.length,1,'Stark bestaetigter NORMAL-Aufwaertstrend soll nicht allein wegen fehlendem Breakout auf HOLD bleiben');
 assert.equal(buys[0].symbol,'TREND.DE');
 assert.match(buys[0].reason,/TREND-CONTINUATION/);
-assert.ok(buys[0].allocation_pct>0&&buys[0].allocation_pct<=20);
-assert.ok(checked.evidenceDiversity.results['TREND.DE'].count>=3,'Mindestens drei unabhaengige Signalsaeulen bleiben Pflicht');
+assert.ok(buys[0].allocation_pct>20&&buys[0].allocation_pct<=28,'Kleines offensives Depot soll kosteneffizient statt zu klein positionieren');
+assert.ok(checked.evidenceDiversity.results['TREND.DE'].count>=3,'Trend-Continuation verlangt weiterhin mindestens drei unabhaengige Signalsaeulen');
 
-const weak={...fast,context:[{...fast.context[0],technical:{...fast.context[0].technical,adx:17}}]};
+const weak={...fast,context:[{...baseContext,technical:{...baseContext.technical,adx:17}}]};
 const weakChecked=applyEvidenceDiversity(weak,prompt);
-assert.equal(weakChecked.actions.some(x=>x.action==='BUY'),false,'Schwacher ADX darf keinen Trend-Continuation-BUY erzeugen');
+assert.equal(weakChecked.actions.some(x=>x.action==='BUY'),false,'Schwacher ADX darf weder Trend-Continuation noch qualifizierte Chance erzeugen');
 
-console.log(JSON.stringify({ok:true,buy:buys[0],evidence:checked.evidenceDiversity.results['TREND.DE']},null,2));
+const opportunityFast={
+  actions:[],
+  context:[{...baseContext,fastScore:3.5,reason:'FAST-HOLD: BUY 3.8 / SELL 0.5 · RANGE',technical:{...baseContext.technical,adx:20,vwapDistancePct:.18},multiTimeframe:{longVotes:2,shortVotes:0},regionalBenchmark:{relative20m:.24,blockBuy:false}}],
+  gapContext:[{symbol:'TREND.DE',state:'NORMAL',blockBuy:false}],
+  volumeConfirmation:{minRatio:1.10,ratios:{'TREND.DE':.72}}
+};
+const opportunity=applyEvidenceDiversity(opportunityFast,prompt),opBuy=opportunity.actions.find(x=>x.action==='BUY');
+assert.ok(opBuy,'Leeres 1000-EUR-Depot soll das beste solide Setup knapp unter der normalen Schwelle nicht endlos auf HOLD lassen');
+assert.match(opBuy.reason,/QUALIFIED-OPPORTUNITY/);
+assert.equal(opBuy.allocation_pct,24,'Offensives 1000-EUR-Depot nutzt eine kostenökonomische Erstposition');
+assert.equal(opportunity.evidenceDiversity.results['TREND.DE'].count,2,'Qualifizierte Chance darf mit zwei starken unabhaengigen Saeulen starten');
+
+const heldPrompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. Cash 800 EUR; Slippage 0.10%. Kandidaten=${JSON.stringify(candidates)} Gehalten=[{"symbol":"ALT.DE"}]`;
+const notIdle=applyEvidenceDiversity(opportunityFast,heldPrompt);
+assert.equal(notIdle.actions.some(x=>String(x.reason||'').includes('QUALIFIED-OPPORTUNITY')),false,'Der abgesenkte Einstieg gilt nur fuer ein noch komplett leeres Depot');
+
+console.log(JSON.stringify({ok:true,trendBuy:buys[0],qualifiedBuy:opBuy,evidence:opportunity.evidenceDiversity.results['TREND.DE']},null,2));
