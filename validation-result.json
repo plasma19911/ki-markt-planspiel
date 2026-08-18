@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-18T17:18:19.806244+00:00",
-  "commit": "990da94a63e9ee3c34a6a9a233b8c6b69c15fa5c",
+  "checkedAt": "2026-08-18T17:18:58.620108+00:00",
+  "commit": "2a654107c68fdc0aa7e764ee3fa9879a212e8564",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 9s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 7s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -176,10 +176,15 @@
       "exitCode": 0,
       "tail": "{\n  \"ok\": true,\n  \"count\": 2,\n  \"retentionMinutes\": 12,\n  \"recheckPerScan\": 2,\n  \"symbols\": [\n    \"ESLT\",\n    \"KEEP\"\n  ]\n}\n"
     },
+    "capital_in_motion": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"capitalFloor\": {\n    \"confirmed\": true,\n    \"expected\": 5.335,\n    \"liveScore\": 3.6,\n    \"confidence\": 0.68,\n    \"nearHigh\": false,\n    \"m5\": 0.06,\n    \"m20\": 0.18,\n    \"acceleration\": 0.02,\n    \"day\": 1.2,\n    \"rsi\": 61,\n    \"volumeRatio\": 1.05,\n    \"breakoutScore\": 0.4,\n    \"state\": \"BUILDING\",\n    \"sell\": \"NONE\",\n    \"hardSafe\": true,\n    \"blockers\": []\n  },\n  \"allocation\": [\n    {\n      \"symbol\": \"BEST\",\n      \"pct\": 100,\n      \"expected\": 5.335,\n      \"tier\": \"QUALIFIED\"\n    }\n  ],\n  \"rotation\": true,\n  \"hardSafety\": true\n}\n"
+    },
     "pc_wide_sweep": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"target\": 16,\n  \"selected\": 16,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-18T17:17:58.264Z\",\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\"\n  },\n  \"forcedBuy\": false\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"target\": 16,\n  \"selected\": 16,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-18T17:18:36.298Z\",\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\"\n  },\n  \"forcedBuy\": false\n}\n"
     },
     "yahoo_sanity": {
       "ok": true,
