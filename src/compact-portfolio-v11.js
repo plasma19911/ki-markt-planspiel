@@ -1,6 +1,7 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v10.js';
 import {MarketPortfolio as V9Portfolio} from './compact-portfolio-v9.js';
 import {ProfitOptimizerAiGuard} from './profit-optimizer.js';
+import {getLiveLearningStatus} from './live-signal-learning.js';
 
 const FORWARD_SCAN_TARGET=15;
 const FORWARD_MIN_SCORE=50;
@@ -23,6 +24,7 @@ function mergeThemes(a,b){const m=new Map();for(const x of [...arr(a),...arr(b)]
 export class MarketPortfolio extends BasePortfolio{
  constructor(ctx,env){
   super(ctx,env);
+  this.ctx=ctx;this.env=env;
   const assets=this.zeroAssets;
   if(assets?.fetch&&!assets.__forwardUniverseOverlay){
    assets.__forwardUniverseOverlay=true;
@@ -34,8 +36,6 @@ export class MarketPortfolio extends BasePortfolio{
     const state=this.bucketAdapter?.peekState?.(),fw=state?.futureWatch;
     if(!fw||!isFresh(fw.updatedAt,30*60*1000)||!arr(fw.candidates).length)return Response.json(data,{headers:{'cache-control':'no-store'}});
     let raw=null;try{raw=await assets._load?.()}catch{}
-    // WICHTIG: Fuer echte Scan-/BUY-Kandidaten ausschliesslich den vorhandenen Broker-/Masterkatalog
-    // aufloesen. Themenwerte ausserhalb des Masters bleiben reine Forward-Watch-Ideen.
     const rows=arr(raw?.equities).filter(x=>x?.symbol),index=masterIndex(rows),seen=new Set(arr(data?.equities).map(x=>key(x?.symbol))),extras=[];
     for(const c of arr(fw.candidates).sort((a,b)=>num(b?.watchScore)-num(a?.watchScore))){
       if(extras.length>=FORWARD_SCAN_TARGET||num(c?.watchScore)<FORWARD_MIN_SCORE)break;
@@ -45,7 +45,7 @@ export class MarketPortfolio extends BasePortfolio{
    };
    if(this.engine?.env)this.engine.env.ASSETS=assets;
   }
-  const ai=this.engine?.env?.AI;if(ai?.run&&!ai.__profitOptimizer){const wrapped=new ProfitOptimizerAiGuard(ai,this.bucketAdapter);wrapped.__profitOptimizer=true;this.engine.env.AI=wrapped}
+  const ai=this.engine?.env?.AI;if(ai?.run&&!ai.__profitOptimizer){const wrapped=new ProfitOptimizerAiGuard(ai,this.bucketAdapter,ctx?.storage);wrapped.__profitOptimizer=true;this.engine.env.AI=wrapped}
  }
 
  async agentPrefetch(payload={}){
@@ -65,10 +65,11 @@ export class MarketPortfolio extends BasePortfolio{
  }
 
  async status(){
-  const s=await super.status(),fw=s?.futureWatch||null;
+  const s=await super.status(),fw=s?.futureWatch||null,learning=getLiveLearningStatus(this.ctx?.storage);
   s.forwardScan={enabled:true,leaderPoolTarget:25,forwardPoolTarget:FORWARD_SCAN_TARGET,forwardCandidates:num(fw?.candidateCount),monitoredForwardUniverse:num(fw?.monitoredUniverseCount),activeThemes:arr(fw?.activeThemes).length,mode:'25 aktuelle Leader + bis zu 15 vorausschauende, im Broker-Master aufgelöste Ereignis-/Themenwerte',confirmationRequired:true,watchMayBeBroaderThanTradablePool:true};
-  s.profitOptimizer={enabled:true,objective:'maximaler erwarteter Paper-Gewinn nach realistischen Kosten',alwaysInvested:false,maxSinglePositionPct:72,weakSetupsMayStayCash:true,forwardCatalystBoost:true,eventDirectionGuessing:false,profitRotation:true,badQuoteEvidenceBlocked:true,note:'Aggressiver Paper-Modus: Kapital wird in wenige starke, mehrfach bestaetigte Setups konzentriert. Keine Gewinngarantie; Safety-/Quote-/Kostenpruefungen bleiben aktiv.'};
-  if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,forwardLookingPool:true,forwardPoolTarget:FORWARD_SCAN_TARGET,note:`${s.freeTierBudget.note||''} Zusätzlich werden bis zu ${FORWARD_SCAN_TARGET} vorausschauende Ereignis-/Themenkandidaten aus dem Broker-Master im Minuten-Scan beobachtet; gekauft wird erst nach Live-Bestaetigung.`};
+  s.profitOptimizer={enabled:true,objective:'maximaler erwarteter Paper-Gewinn nach realistischen Kosten',alwaysInvested:false,maxSinglePositionPct:72,weakSetupsMayStayCash:true,forwardCatalystBoost:true,eventDirectionGuessing:false,profitRotation:true,badQuoteEvidenceBlocked:true,entryTimingLearning:true,entryTimingHorizonsMinutes:[15,30,60],note:'Aggressiver Paper-Modus: Kapital wird in wenige starke, mehrfach bestaetigte Setups konzentriert. 15/30/60-Minuten-Ergebnisse kalibrieren das Einstiegstiming automatisch. Keine Gewinngarantie; Safety-/Quote-/Kostenpruefungen bleiben aktiv.'};
+  s.entryTimingLearning=learning;
+  if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,forwardLookingPool:true,forwardPoolTarget:FORWARD_SCAN_TARGET,note:`${s.freeTierBudget.note||''} Zusätzlich werden bis zu ${FORWARD_SCAN_TARGET} vorausschauende Ereignis-/Themenkandidaten aus dem Broker-Master im Minuten-Scan beobachtet; gekauft wird erst nach Live-Bestaetigung. Einstiegstiming wird nach 15/30/60 Minuten lernend bewertet.`};
   return s;
  }
 }
