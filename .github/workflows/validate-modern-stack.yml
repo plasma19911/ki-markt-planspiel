@@ -72,6 +72,7 @@ jobs:
           runcheck opportunity_cost node scripts/smoke-opportunity-cost-rotation.mjs
           runcheck second_chance node scripts/smoke-second-chance.mjs
           runcheck second_chance_watch node scripts/smoke-second-chance-watch.mjs
+          runcheck capital_in_motion node scripts/smoke-capital-in-motion.mjs
           runcheck pc_wide_sweep node scripts/smoke-pc-wide-sweep.mjs
           runcheck yahoo_sanity node scripts/smoke-yahoo-null-sanity.mjs
           runcheck wrangler_dryrun npx wrangler deploy --dry-run
