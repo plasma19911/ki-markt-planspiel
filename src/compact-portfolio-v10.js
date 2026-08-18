@@ -73,7 +73,7 @@ function buildLeaderCache(entries,rows){
 }
 
 function normalizeFutureWatch(input,index){
-  if(!input||typeof input!=='object')return null;
+  if(!input||typeof input!=='object'||(!arr(input.candidates).length&&!arr(input.activeThemes).length))return null;
   const candidates=[];
   for(const x of arr(input.candidates).slice(0,20)){
     const entry={symbol:key(x?.symbol),market:'GLOBAL'},row=resolveMaster(entry,index);if(!row)continue;
@@ -98,18 +98,19 @@ export class MarketPortfolio extends BasePortfolio{
 
   async agentPrefetch(payload={}){
     const heartbeat=normalizeHeartbeat(payload?.metrics||payload);try{this.ctx?.storage?.kv?.put(AGENT_STATE_KEY,heartbeat)}catch{}
-    const entries=normalizeLeaderEntries(payload),data=await this.zeroAssets?._load?.().catch(()=>null),rows=arr(data?.equities).filter(x=>x?.symbol),index=masterIndex(rows),leader=buildLeaderCache(entries,rows),futureWatch=normalizeFutureWatch(payload?.futureWatch,index);
-    const prefetch={receivedAt:new Date().toISOString(),leaderUpdatedAt:payload?.leaderUpdatedAt?cleanText(payload.leaderUpdatedAt,50):new Date().toISOString(),futureUpdatedAt:futureWatch?.updatedAt||null,leaderEntryCount:entries.length,resolvedLeaderCount:leader.meta.externalResolved,futureWatch,metrics:heartbeat};
-    try{this.ctx?.storage?.kv?.put(AGENT_PREFETCH_KEY,prefetch);this.ctx?.storage?.kv?.put(LEADER_CACHE_KV_KEY,{at:Date.now(),leaders:leader.leaders,meta:leader.meta})}catch{}
-    if(this.zeroAssets){this.zeroAssets.leaderCache=null;this.zeroAssets.leaderCacheAt=0;this.zeroAssets.lastLeaderMeta=leader.meta}
+    const entries=normalizeLeaderEntries(payload);let data=null;try{data=await this.zeroAssets?._load?.()}catch{}
+    const rows=arr(data?.equities).filter(x=>x?.symbol),index=masterIndex(rows),leader=buildLeaderCache(entries,rows),futureWatch=normalizeFutureWatch(payload?.futureWatch,index),leaderHealthy=Boolean(leader.meta.externalHealthy);
+    const prefetch={receivedAt:new Date().toISOString(),leaderUpdatedAt:payload?.leaderUpdatedAt?cleanText(payload.leaderUpdatedAt,50):new Date().toISOString(),futureUpdatedAt:futureWatch?.updatedAt||null,leaderEntryCount:entries.length,resolvedLeaderCount:leader.meta.externalResolved,leaderHealthy,futureWatch,metrics:heartbeat};
+    try{this.ctx?.storage?.kv?.put(AGENT_PREFETCH_KEY,prefetch);if(leaderHealthy)this.ctx?.storage?.kv?.put(LEADER_CACHE_KV_KEY,{at:Date.now(),leaders:leader.leaders,meta:leader.meta})}catch{}
+    if(leaderHealthy&&this.zeroAssets){this.zeroAssets.leaderCache=null;this.zeroAssets.leaderCacheAt=0;this.zeroAssets.lastLeaderMeta=leader.meta}
     if(futureWatch&&this.engine?.store?.update){await this.engine.store.update(s=>{s.futureWatch=futureWatch;return true})}
-    return{ok:true,agent:'WINDOWS_PC_AGENT',prefetch:{receivedAt:prefetch.receivedAt,leaderEntryCount:entries.length,resolvedLeaderCount:leader.meta.externalResolved,futureCandidates:futureWatch?.candidateCount||0},heartbeat};
+    return{ok:true,agent:'WINDOWS_PC_AGENT',prefetch:{receivedAt:prefetch.receivedAt,leaderEntryCount:entries.length,resolvedLeaderCount:leader.meta.externalResolved,leaderHealthy,futureCandidates:futureWatch?.candidateCount||0},heartbeat};
   }
 
   agentStatus(){
     let h=null,p=null;try{h=this.ctx?.storage?.kv?.get(AGENT_STATE_KEY)||null;p=this.ctx?.storage?.kv?.get(AGENT_PREFETCH_KEY)||null}catch{}
     const online=fresh(h?.lastSeenAt,AGENT_ONLINE_MS),ageMs=h?.lastSeenAt?Math.max(0,Date.now()-Date.parse(h.lastSeenAt)):null;
-    return{configured:Boolean(this.env?.PC_AGENT_TOKEN),online,lastSeenAt:h?.lastSeenAt||null,ageSeconds:Number.isFinite(ageMs)?Math.round(ageMs/1000):null,fallbackAfterSeconds:Math.round(AGENT_ONLINE_MS/1000),prefetchFresh:fresh(p?.receivedAt),prefetchAt:p?.receivedAt||null,resolvedLeaderCount:num(p?.resolvedLeaderCount),futureCandidates:num(p?.futureWatch?.candidateCount),metrics:h||null};
+    return{configured:Boolean(this.env?.PC_AGENT_TOKEN),online,lastSeenAt:h?.lastSeenAt||null,ageSeconds:Number.isFinite(ageMs)?Math.round(ageMs/1000):null,fallbackAfterSeconds:Math.round(AGENT_ONLINE_MS/1000),prefetchFresh:fresh(p?.receivedAt),prefetchAt:p?.receivedAt||null,resolvedLeaderCount:num(p?.resolvedLeaderCount),leaderHealthy:Boolean(p?.leaderHealthy),futureCandidates:num(p?.futureWatch?.candidateCount),metrics:h||null};
   }
 
   async _refreshFutureWatch(force=false){
