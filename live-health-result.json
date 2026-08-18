@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T16:53:25.123620+00:00",
+  "checkedAt": "2026-08-18T17:09:08.654102+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -33,61 +33,61 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 189,
-  "lastScan": "2026-08-18T16:53:08.727Z",
+  "scanCount": 199,
+  "lastScan": "2026-08-18T17:07:09.509Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 4 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 3 aktive Gap-Lagen aus 4/12 möglichen Checks. Beste HOLDs: LMT: BUY 3.7 / SELL 0. · REBOUND-RADA · EARLY-BREAKO · TARGET-VENUE: 0 nicht sauber auf gettex aufgeloeste BUY(s) blockiert.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 4 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 4 aktive Gap-Lagen aus 4/12 möglichen Checks. Aktive Depotentscheidung: INTU BUY  · REBOUND-RADA · EARLY-BREAKO · TARGET-VENUE: 0 nicht sauber auf gettex aufgeloeste BUY(s) blockiert.",
   "cash": 989.7426404533917,
   "equity": 989.7426404533917,
   "pnl": -10.257359546608313,
-  "universeCount": 171,
+  "universeCount": 169,
   "positions": 0,
   "positionRows": [],
   "candidates": 4,
   "topCandidates": [
     {
-      "symbol": "LMT",
-      "name": "Lockheed Martin",
-      "score": 3.9,
+      "symbol": "INTU",
+      "name": "Intuit",
+      "score": 3.930323076923077,
       "confidence": 0.765,
-      "day_change": 3.032738577702365,
-      "news_score": 0,
+      "day_change": 5.11323294565702,
+      "news_score": 0.031100591715976324,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 58 konstruktiv",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 52 konstruktiv",
       "contra": ""
     },
     {
-      "symbol": "NOW",
-      "name": "ServiceNow",
-      "score": 2.7809165489849956,
-      "confidence": 0.6975916548984995,
-      "day_change": 2.268481517911658,
-      "news_score": 0.02573698146513681,
+      "symbol": "ADBE",
+      "name": "Adobe",
+      "score": 2.9,
+      "confidence": 0.5700000000000001,
+      "day_change": 4.62722934488049,
+      "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.18% · Momentum baut sich auf · Beschleunigung +0.07%",
-      "contra": "RSI 81 überhitzt"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "contra": ""
     },
     {
       "symbol": "NOC",
       "name": "Northrop Grumman",
       "score": 2.6725290322580646,
       "confidence": 0.6768529032258064,
-      "day_change": 3.812697727359904,
+      "day_change": 3.8714528961877326,
       "news_score": 0.03129032258064516,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 59 konstruktiv",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 49 konstruktiv",
       "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     },
     {
       "symbol": "CRM",
       "name": "Salesforce",
-      "score": 2.65,
-      "confidence": 0.545,
-      "day_change": 3.71000297208004,
+      "score": 0.20000000000000007,
+      "confidence": 0.30000000000000004,
+      "day_change": 3.6445476649637376,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv",
-      "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "pro": "Kurs über EMA21",
+      "contra": "EMA-Trend schwach"
     }
   ],
   "recentHistory": [
@@ -98,7 +98,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal LMT: Score 3.90, Konfidenz 77%.",
+      "reason": "Kein Trade. Bestes Signal INTU: Score 3.93, Konfidenz 77%.",
       "score": null
     },
     {
@@ -194,6 +194,14 @@
   ],
   "recentAiLog": [
     {
+      "ts": "2026-08-18T16:55:13.368Z",
+      "kind": "IDEA",
+      "title": "Beobachtungskandidat",
+      "symbol": "INTU",
+      "message": "INTU: Kein Trade. Bestes Signal INTU: Score 3.93, Konfidenz 77%.",
+      "confidence": 0.765
+    },
+    {
       "ts": "2026-08-18T16:40:06.440Z",
       "kind": "IDEA",
       "title": "Beobachtungskandidat",
@@ -280,25 +288,17 @@
       "symbol": "CACI",
       "message": "CACI: Kein Trade. Bestes Signal CACI: Score 4.70, Konfidenz 77%.",
       "confidence": 0.765
-    },
-    {
-      "ts": "2026-08-18T14:45:07.525Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "NFLX",
-      "message": "NFLX: Kein Trade. Bestes Signal NFLX: Score 1.30, Konfidenz 55%.",
-      "confidence": 0.5535515424481738
     }
   ],
   "sourceHealth": [
     {
       "source": "Yahoo Spark",
       "status": "OK",
-      "ok_count": 3,
+      "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 106,
-      "updated_at": "2026-08-18T16:53:07.945Z"
+      "latency_ms": 419,
+      "updated_at": "2026-08-18T17:07:09.089Z"
     },
     {
       "source": "Yahoo FX",
@@ -306,8 +306,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 115,
-      "updated_at": "2026-08-18T16:53:07.945Z"
+      "latency_ms": 119,
+      "updated_at": "2026-08-18T17:07:09.089Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -315,8 +315,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 111,
-      "updated_at": "2026-08-18T16:53:07.945Z"
+      "latency_ms": 106,
+      "updated_at": "2026-08-18T17:07:09.089Z"
     },
     {
       "source": "Yahoo Events",
@@ -325,16 +325,16 @@
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
       "latency_ms": 98,
-      "updated_at": "2026-08-18T16:53:07.945Z"
+      "updated_at": "2026-08-18T17:07:09.089Z"
     },
     {
       "source": "Yahoo News",
-      "status": "OK",
-      "ok_count": 5,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 723,
-      "updated_at": "2026-08-18T16:53:07.945Z"
+      "status": "DEGRADED",
+      "ok_count": 4,
+      "fail_count": 1,
+      "last_error": "Error: HTTP 500",
+      "latency_ms": 1133,
+      "updated_at": "2026-08-18T17:07:09.089Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -342,26 +342,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 934,
-      "updated_at": "2026-08-18T16:53:07.945Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1035,
-      "updated_at": "2026-08-18T16:53:07.945Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1069,
-      "updated_at": "2026-08-18T16:53:07.945Z"
+      "latency_ms": 248,
+      "updated_at": "2026-08-18T17:07:09.089Z"
     },
     {
       "source": "BörsenNews",
@@ -369,8 +351,26 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1229,
-      "updated_at": "2026-08-18T16:53:07.945Z"
+      "latency_ms": 293,
+      "updated_at": "2026-08-18T17:07:09.089Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 339,
+      "updated_at": "2026-08-18T17:07:09.089Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 475,
+      "updated_at": "2026-08-18T17:07:09.089Z"
     }
   ],
   "risk": {
@@ -424,7 +424,7 @@
     "enabled": true,
     "target": 10,
     "candidateCount": 7,
-    "updatedAt": "2026-08-18T16:53:03.829Z",
+    "updatedAt": "2026-08-18T17:07:05.914Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -441,7 +441,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 3,
-    "updatedAt": "2026-08-18T16:53:03.829Z",
+    "updatedAt": "2026-08-18T17:07:05.914Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -460,8 +460,8 @@
   "pcWideSweep": {
     "enabled": true,
     "target": 16,
-    "candidateCount": 2,
-    "updatedAt": "2026-08-18T16:53:04.216Z",
+    "candidateCount": 0,
+    "updatedAt": "2026-08-18T17:09:02.456Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8527,
@@ -486,7 +486,7 @@
     "enabled": true,
     "target": 8,
     "candidateCount": 0,
-    "updatedAt": "2026-08-18T16:53:09.939Z",
+    "updatedAt": "2026-08-18T17:07:09.509Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 2,
@@ -539,7 +539,7 @@
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
     "activePositions": 0,
-    "pendingEntries": 18,
+    "pendingEntries": 19,
     "completedTradeOutcomes": 6,
     "timedCheckpoints": 0,
     "horizonsMinutes": [
@@ -571,19 +571,19 @@
       {
         "id": "MIDDLE_EAST_ENERGY",
         "label": "Nahost / Öl- und Gasversorgung",
-        "issueStrength": 39,
+        "issueStrength": 100,
         "urgency": 0,
         "horizon": "heute–3 Tage",
-        "headlineCount": 1,
+        "headlineCount": 6,
         "eventAt": null
       },
       {
         "id": "RUSSIA_SANCTIONS_DEFENSE",
         "label": "Russland / Sanktionen / europäische Aufrüstung",
-        "issueStrength": 44,
+        "issueStrength": 68,
         "urgency": 0,
         "horizon": "2 Tage–2 Wochen",
-        "headlineCount": 1,
+        "headlineCount": 2,
         "eventAt": null
       },
       {
@@ -634,7 +634,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T16:54:08.727Z",
+    "nextScanAt": "2026-08-18T17:08:09.509Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -642,9 +642,9 @@
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
     "lastFetchBudget": {
-      "actual": 36,
-      "cacheHits": 1,
-      "blocked": 3,
+      "actual": 33,
+      "cacheHits": 0,
+      "blocked": 0,
       "cap": 36
     },
     "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Rebound-Radar beobachtet bis zu 10 Tagesverlierer; fallende Messer bleiben gesperrt, bis eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. HOT/WARM werden minuetlich priorisiert; der liquide Kern rotiert schneller als der lange Rest. Nur die bis zu 16 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen; dadurch steigt die Abdeckung ohne mehr Deep-Checks zu erzwingen. Starke Deep-Kandidaten fallen nicht sofort aus dem Radar: bis zu 8 werden 12 Minuten gehalten; pro Scan werden maximal 2 fehlende Werte mit einem frischen 1m-Chart nachgeprueft.",
@@ -675,30 +675,30 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T16:53:04.216Z",
-    "ageSeconds": 21,
+    "lastSeenAt": "2026-08-18T17:09:02.456Z",
+    "ageSeconds": 5,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T16:53:03.829Z",
+    "prefetchAt": "2026-08-18T17:07:05.914Z",
     "resolvedLeaderCount": 15,
     "leaderHealthy": true,
     "futureCandidates": 0,
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
-    "wideSweepCandidates": 2,
+    "wideSweepCandidates": 0,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8527,
     "wideSweepScannedCount": 319,
     "metrics": {
-      "lastSeenAt": "2026-08-18T16:53:04.216Z",
+      "lastSeenAt": "2026-08-18T17:09:02.456Z",
       "version": "2.0.7-csharp-dynamic-market-wi",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 5046693,
+      "storageBytes": 5099412,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 75,
-      "downloadedBytes": 20444660,
-      "uploadedBytes": 79864,
+      "ramMb": 52.8,
+      "downloadedBytes": 28446782,
+      "uploadedBytes": 130190,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_DYNAMIC_MARKET_WIDE",
       "lastLocalCleanupAt": "2026-08-18T16:48:19.2307281Z",
