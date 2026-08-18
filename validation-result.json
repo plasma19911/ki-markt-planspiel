@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-18T18:41:51.204988+00:00",
-  "commit": "01dfe917c092b56bc71d8751c80f7b665dc98765",
+  "checkedAt": "2026-08-18T18:42:21.486856+00:00",
+  "commit": "3fdbb6b199d7924cf00c7381ab12f84fc19833f0",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 9s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 7s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -62,6 +62,11 @@
       "tail": ""
     },
     "syntax_pullback": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_research_entry": {
       "ok": true,
       "exitCode": 0,
       "tail": ""
@@ -186,6 +191,11 @@
       "exitCode": 0,
       "tail": "{\n  \"ok\": true,\n  \"earlyConfirmed\": true,\n  \"lateChaseBlocked\": true,\n  \"noForcedBuy\": true,\n  \"earlyBuy\": {\n    \"symbol\": \"EARLY.DE\",\n    \"action\": \"BUY\",\n    \"confidence\": 0.79,\n    \"allocation_pct\": 45,\n    \"reason\": \"starkes Setup · EARLY-BREAKOUT bestätigt 7.60 · Tag +2.2% noch im Early-Fenster · 5m +0.31% · 20m +0.74% · Beschleunigung +0.09 · max. 45%\"\n  }\n}\n"
     },
+    "research_entry": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"weakBlocked\": true,\n  \"strongAllowed\": true,\n  \"strongCap\": 35\n}\n"
+    },
     "target_venue_guard": {
       "ok": true,
       "exitCode": 0,
@@ -229,7 +239,7 @@
     "pc_wide_sweep": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"target\": 16,\n  \"selected\": 16,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-18T18:41:28.791Z\",\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\"\n  },\n  \"forcedBuy\": false\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"target\": 16,\n  \"selected\": 16,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-18T18:41:58.866Z\",\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\"\n  },\n  \"forcedBuy\": false\n}\n"
     },
     "yahoo_sanity": {
       "ok": true,
