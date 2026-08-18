@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T15:45:46.692887+00:00",
+  "checkedAt": "2026-08-18T15:46:19.816399+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -31,10 +31,10 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 140,
-  "lastScan": "2026-08-18T15:44:23.660Z",
+  "scanCount": 141,
+  "lastScan": "2026-08-18T15:46:04.280Z",
   "lastError": null,
-  "aiLastSummary": "Deterministischer Ersatzplan · OUTER-FULL-CASH: 100% des verfügbaren Cashs auf 1 Aktien-BUY(s) verteilt. · Legacy-Cash-Failsafe: 1 Zwangskauf/-käufe blockiert, 0 Alt-Allokation(en) gekappt.  · REBOUND-RADA · EARLY-BREAKO · TARGET-VENUE: 0 nicht sauber auf gettex aufgeloeste BUY(s) blockiert.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 2 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 2 aktive Gap-Lagen aus 2/12 möglichen Checks. Aktive Depotentscheidung: NOC BUY 2 · REBOUND-RADA · EARLY-BREAKO · TARGET-VENUE: 0 nicht sauber auf gettex aufgeloeste BUY(s) blockiert.",
   "cash": 989.7426404533917,
   "equity": 989.7426404533917,
   "pnl": -10.257359546608313,
@@ -44,26 +44,26 @@
   "candidates": 2,
   "topCandidates": [
     {
-      "symbol": "NOC",
-      "name": "Northrop Grumman",
-      "score": 2.9,
-      "confidence": 0.5700000000000001,
-      "day_change": 3.3610996552744465,
-      "news_score": 0,
+      "symbol": "CRM",
+      "name": "Salesforce",
+      "score": 3.910271107668474,
+      "confidence": 0.765,
+      "day_change": 3.419385243755557,
+      "news_score": 0.01053446940356313,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 66 konstruktiv",
       "contra": ""
     },
     {
-      "symbol": "CRM",
-      "name": "Salesforce",
-      "score": 0.25,
-      "confidence": 0.30500000000000005,
-      "day_change": 3.273445157759558,
-      "news_score": 0,
+      "symbol": "NOC",
+      "name": "Northrop Grumman",
+      "score": 2.927546116504854,
+      "confidence": 0.7077546116504855,
+      "day_change": 3.3610996552744465,
+      "news_score": 0.028252427184466022,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21",
-      "contra": "Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "contra": ""
     }
   ],
   "recentHistory": [
@@ -74,7 +74,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal NOC: Score 2.90, Konfidenz 57%.",
+      "reason": "Kein Trade. Bestes Signal CRM: Score 3.91, Konfidenz 77%.",
       "score": null
     },
     {
@@ -273,8 +273,8 @@
       "ok_count": 3,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 106,
-      "updated_at": "2026-08-18T15:44:08.754Z"
+      "latency_ms": 9,
+      "updated_at": "2026-08-18T15:46:03.448Z"
     },
     {
       "source": "Yahoo FX",
@@ -282,8 +282,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 113,
-      "updated_at": "2026-08-18T15:44:08.754Z"
+      "latency_ms": 9,
+      "updated_at": "2026-08-18T15:46:03.448Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -291,8 +291,8 @@
       "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 106,
-      "updated_at": "2026-08-18T15:44:08.754Z"
+      "latency_ms": 117,
+      "updated_at": "2026-08-18T15:46:03.448Z"
     },
     {
       "source": "Yahoo Events",
@@ -300,35 +300,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 99,
-      "updated_at": "2026-08-18T15:44:08.754Z"
+      "latency_ms": 115,
+      "updated_at": "2026-08-18T15:46:03.448Z"
     },
     {
       "source": "Yahoo News",
-      "status": "DOWN",
-      "ok_count": 0,
-      "fail_count": 4,
-      "last_error": "Error: HTTP 500",
-      "latency_ms": 1327,
-      "updated_at": "2026-08-18T15:44:08.754Z"
-    },
-    {
-      "source": "FinanzNachrichten",
       "status": "OK",
-      "ok_count": 1,
+      "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 919,
-      "updated_at": "2026-08-18T15:44:08.754Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 999,
-      "updated_at": "2026-08-18T15:44:08.754Z"
+      "latency_ms": 520,
+      "updated_at": "2026-08-18T15:46:03.448Z"
     },
     {
       "source": "BörsenNews",
@@ -336,8 +318,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1030,
-      "updated_at": "2026-08-18T15:44:08.754Z"
+      "latency_ms": 305,
+      "updated_at": "2026-08-18T15:46:03.448Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -345,8 +327,26 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1173,
-      "updated_at": "2026-08-18T15:44:08.754Z"
+      "latency_ms": 481,
+      "updated_at": "2026-08-18T15:46:03.448Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 933,
+      "updated_at": "2026-08-18T15:46:03.448Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 977,
+      "updated_at": "2026-08-18T15:46:03.448Z"
     }
   ],
   "risk": {
@@ -567,14 +567,19 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T15:45:23.660Z",
+    "nextScanAt": "2026-08-18T15:47:04.280Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
     "persistentLeaderCache": true,
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
-    "lastFetchBudget": null,
+    "lastFetchBudget": {
+      "actual": 26,
+      "cacheHits": 1,
+      "blocked": 0,
+      "cap": 36
+    },
     "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Zusätzlich werden bis zu 15 vorausschauende Ereignis-/Themenkandidaten aus dem Broker-Master im Minuten-Scan beobachtet; gekauft wird erst nach Live-Bestaetigung. Einstiegstiming wird nach 15/30/60 Minuten lernend bewertet. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Rebound-Radar beobachtet bis zu 10 Tagesverlierer; fallende Messer bleiben gesperrt, bis eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum in Kurs-Batches. Nur die bis zu 16 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen; dadurch steigt die Abdeckung ohne mehr Deep-Checks zu erzwingen.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
@@ -598,8 +603,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T15:45:01.285Z",
-    "ageSeconds": 45,
+    "lastSeenAt": "2026-08-18T15:46:00.870Z",
+    "ageSeconds": 19,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-18T15:44:04.061Z",
     "resolvedLeaderCount": 14,
@@ -612,16 +617,16 @@
     "wideSweepMasterCount": 0,
     "wideSweepScannedCount": 0,
     "metrics": {
-      "lastSeenAt": "2026-08-18T15:45:01.285Z",
+      "lastSeenAt": "2026-08-18T15:46:00.870Z",
       "version": "2.0.6-csharp-early-breakout",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
       "storageBytes": 746014,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 48.1,
-      "downloadedBytes": 10176997,
-      "uploadedBytes": 35079,
+      "ramMb": 48,
+      "downloadedBytes": 10177392,
+      "uploadedBytes": 35425,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP",
       "lastLocalCleanupAt": "2026-08-18T15:40:07.4564588Z",
