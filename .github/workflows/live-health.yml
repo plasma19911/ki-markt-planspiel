@@ -13,119 +13,77 @@ permissions:
 jobs:
   live-health:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 7
     steps:
       - uses: actions/checkout@v4
 
       - name: Allow Cloudflare build to publish
-        run: sleep 55
+        run: sleep 90
 
-      - name: Probe live Worker
+      - name: Probe live Worker without hiding failures
         run: |
-          set -euo pipefail
           BASE='https://ki-markt-planspiel.orkimperium.workers.dev'
-          curl -fsS --retry 3 --retry-delay 2 -D /tmp/home.headers -o /tmp/home.html "$BASE/"
-          curl -fsS --retry 3 --retry-delay 2 -o /tmp/app.js "$BASE/app.js"
-          curl -fsS --retry 3 --retry-delay 2 -o /tmp/status.json "$BASE/api/status"
-          curl -fsS --retry 3 --retry-delay 2 -o /tmp/agent.json "$BASE/api/agent/status"
-          HOTFIX_CODE=$(curl -sS -o /tmp/ui-hotfix.css -w '%{http_code}' "$BASE/ui-hotfix.css?v=health")
-          CHART_CODE=$(curl -sS -o /tmp/position-chart-ui.js -w '%{http_code}' "$BASE/position-chart-ui.js?v=health")
-          echo "$HOTFIX_CODE" >/tmp/ui-hotfix-code.txt
-          echo "$CHART_CODE" >/tmp/chart-code.txt
-          grep -q 'KI Markt-Planspiel' /tmp/home.html
-          grep -q 'async function load' /tmp/app.js
+          curl -sS --retry 2 --retry-delay 2 -o /tmp/home.html -w '%{http_code}' "$BASE/" > /tmp/home-code.txt || echo 000 > /tmp/home-code.txt
+          curl -sS --retry 2 --retry-delay 2 -o /tmp/app.js -w '%{http_code}' "$BASE/app.js?v=health" > /tmp/app-code.txt || echo 000 > /tmp/app-code.txt
+          curl -sS --retry 2 --retry-delay 2 -o /tmp/status.json -w '%{http_code}' "$BASE/api/status" > /tmp/status-code.txt || echo 000 > /tmp/status-code.txt
+          curl -sS --retry 2 --retry-delay 2 -o /tmp/agent.json -w '%{http_code}' "$BASE/api/agent/status" > /tmp/agent-code.txt || echo 000 > /tmp/agent-code.txt
+          curl -sS -o /tmp/ui-hotfix.css -w '%{http_code}' "$BASE/ui-hotfix.css?v=health" > /tmp/ui-hotfix-code.txt || echo 000 > /tmp/ui-hotfix-code.txt
+          curl -sS -o /tmp/position-chart-ui.js -w '%{http_code}' "$BASE/position-chart-ui.js?v=health" > /tmp/chart-code.txt || echo 000 > /tmp/chart-code.txt
 
-      - name: Build compact result
+      - name: Build diagnostic result
+        if: always()
         run: |
           python - <<'PY'
           import json, datetime, pathlib
-          s=json.load(open('/tmp/status.json',encoding='utf-8'))
-          a=json.load(open('/tmp/agent.json',encoding='utf-8'))
-          c=s.get('config') or {}
-          hotfix_code=pathlib.Path('/tmp/ui-hotfix-code.txt').read_text().strip()
-          chart_code=pathlib.Path('/tmp/chart-code.txt').read_text().strip()
-          hotfix_text=pathlib.Path('/tmp/ui-hotfix.css').read_text(encoding='utf-8',errors='replace') if pathlib.Path('/tmp/ui-hotfix.css').exists() else ''
-          chart_text=pathlib.Path('/tmp/position-chart-ui.js').read_text(encoding='utf-8',errors='replace') if pathlib.Path('/tmp/position-chart-ui.js').exists() else ''
-          def cand(x):
-              return {k:x.get(k) for k in ['symbol','name','score','liveScore','confidence','liveConfidence','day_change','news_score','event_risk','fastScore','buyScore','sellScore','pro','contra'] if k in x}
-          def hist(x):
-              return {k:x.get(k) for k in ['ts','action','symbol','amount','fee','trade_pnl','reason','score'] if k in x}
-          def log(x):
-              return {k:x.get(k) for k in ['ts','kind','title','symbol','message','confidence'] if k in x}
+          def code(name):
+              try:return pathlib.Path(name).read_text().strip().splitlines()[-1]
+              except:return '000'
+          def text(name):
+              try:return pathlib.Path(name).read_text(encoding='utf-8',errors='replace')
+              except:return ''
+          def obj(name):
+              try:return json.loads(text(name))
+              except:return {}
+          s=obj('/tmp/status.json'); a=obj('/tmp/agent.json'); c=s.get('config') or {}
+          hotfix=text('/tmp/ui-hotfix.css'); chart=text('/tmp/position-chart-ui.js'); home=text('/tmp/home.html'); app=text('/tmp/app.js')
+          def cand(x): return {k:x.get(k) for k in ['symbol','name','score','liveScore','confidence','liveConfidence','day_change','news_score','event_risk','fastScore','buyScore','sellScore','pro','contra'] if k in x}
+          def hist(x): return {k:x.get(k) for k in ['ts','action','symbol','amount','fee','trade_pnl','reason','score'] if k in x}
+          def log(x): return {k:x.get(k) for k in ['ts','kind','title','symbol','message','confidence'] if k in x}
+          execution=s.get('executionModel') or {}; profit=s.get('profitOptimizer') or {}; forward=s.get('forwardScan') or {}; rebound=s.get('reboundScan') or {}; learning=s.get('entryTimingLearning') or {}
+          checks={
+            'homepage': code('/tmp/home-code.txt')=='200' and 'KI Markt-Planspiel' in home,
+            'appJs': code('/tmp/app-code.txt')=='200' and 'async function load' in app,
+            'apiStatus': code('/tmp/status-code.txt')=='200' and bool(c),
+            'agentEndpoint': code('/tmp/agent-code.txt')=='200',
+            'pcSecretConfigured': a.get('configured') is True,
+            'profitOptimizer': profit.get('enabled') is True,
+            'forwardScanner': forward.get('enabled') is True,
+            'reboundScanner': rebound.get('enabled') is True and rebound.get('target')==10,
+            'fallingKnifeProtection': rebound.get('fallingKnifeBuysBlocked') is True,
+            'entryTimingLearning': learning.get('mode')=='15/30/60-minute-entry-timing-learning' and learning.get('horizonsMinutes')==[15,30,60],
+            'cashMayRemain': execution.get('fullCashPolicy') is False and execution.get('cashMayRemain') is True,
+            'legacyFullCashFailsafe': profit.get('legacyFullCashFailsafe') is True or execution.get('legacyFullCashFailsafe') is True,
+            'uiHotfix': code('/tmp/ui-hotfix-code.txt')=='200' and 'Desktop layout hotfix 2026-08-18' in hotfix,
+            'positionChart': code('/tmp/chart-code.txt')=='200' and 'Trade-Chart' in chart,
+          }
           out={
-            'checkedAt': datetime.datetime.now(datetime.timezone.utc).isoformat(),
-            'homepageOk': 'KI Markt-Planspiel' in pathlib.Path('/tmp/home.html').read_text(encoding='utf-8',errors='replace'),
-            'appJsOk': 'async function load' in pathlib.Path('/tmp/app.js').read_text(encoding='utf-8',errors='replace'),
-            'uiHotfixHttp': hotfix_code,
-            'uiHotfixLive': hotfix_code=='200' and 'Desktop layout hotfix 2026-08-18' in hotfix_text,
-            'positionChartUiHttp': chart_code,
-            'positionChartUiLive': chart_code=='200' and 'Trade-Chart' in chart_text,
-            'apiStatusOk': bool(c),
-            'running': c.get('running'),
-            'scanCount': c.get('scan_count'),
-            'lastScan': c.get('last_scan'),
-            'lastError': c.get('last_error'),
-            'aiLastSummary': c.get('ai_last_summary'),
-            'cash': c.get('cash'),
-            'equity': s.get('equity'),
-            'pnl': s.get('pnl'),
-            'universeCount': c.get('universe_count'),
-            'positions': len(s.get('positions') or []),
-            'positionRows': (s.get('positions') or [])[:8],
-            'candidates': len(s.get('candidates') or []),
-            'topCandidates': [cand(x) for x in (s.get('candidates') or [])[:8]],
-            'recentHistory': [hist(x) for x in (s.get('history') or [])[:12]],
-            'recentAiLog': [log(x) for x in (s.get('aiLog') or [])[:12]],
-            'sourceHealth': (s.get('sourceHealth') or [])[:20],
-            'risk': s.get('risk'),
-            'forwardScan': s.get('forwardScan'),
-            'reboundScan': s.get('reboundScan'),
-            'profitOptimizer': s.get('profitOptimizer'),
-            'entryTimingLearning': s.get('entryTimingLearning'),
-            'futureWatch': {
-              'candidateCount': (s.get('futureWatch') or {}).get('candidateCount'),
-              'monitoredUniverseCount': (s.get('futureWatch') or {}).get('monitoredUniverseCount'),
-              'activeThemes': (s.get('futureWatch') or {}).get('activeThemes'),
-              'scheduledEvents': (s.get('futureWatch') or {}).get('scheduledEvents')
-            },
-            'freeTierBudget': s.get('freeTierBudget'),
-            'pcAgent': {
-              'configured': a.get('configured'),
-              'online': a.get('online'),
-              'lastSeenAt': a.get('lastSeenAt'),
-              'ageSeconds': a.get('ageSeconds'),
-              'prefetchFresh': a.get('prefetchFresh'),
-              'prefetchAt': a.get('prefetchAt'),
-              'resolvedLeaderCount': a.get('resolvedLeaderCount'),
-              'leaderHealthy': a.get('leaderHealthy'),
-              'futureCandidates': a.get('futureCandidates'),
-              'reboundCandidates': a.get('reboundCandidates'),
-              'metrics': a.get('metrics')
-            }
+            'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            'http':{'home':code('/tmp/home-code.txt'),'appJs':code('/tmp/app-code.txt'),'status':code('/tmp/status-code.txt'),'agent':code('/tmp/agent-code.txt'),'uiHotfix':code('/tmp/ui-hotfix-code.txt'),'positionChart':code('/tmp/chart-code.txt')},
+            'checks':checks,'allRequiredChecksPassed':all(checks.values()),'failedChecks':[k for k,v in checks.items() if not v],
+            'running':c.get('running'),'scanCount':c.get('scan_count'),'lastScan':c.get('last_scan'),'lastError':c.get('last_error'),'aiLastSummary':c.get('ai_last_summary'),
+            'cash':c.get('cash'),'equity':s.get('equity'),'pnl':s.get('pnl'),'universeCount':c.get('universe_count'),'positions':len(s.get('positions') or []),'positionRows':(s.get('positions') or [])[:8],
+            'candidates':len(s.get('candidates') or []),'topCandidates':[cand(x) for x in (s.get('candidates') or [])[:8]],'recentHistory':[hist(x) for x in (s.get('history') or [])[:12]],'recentAiLog':[log(x) for x in (s.get('aiLog') or [])[:12]],
+            'sourceHealth':(s.get('sourceHealth') or [])[:20],'risk':s.get('risk'),'executionModel':execution,'forwardScan':forward,'reboundScan':rebound,'profitOptimizer':profit,'entryTimingLearning':learning,
+            'futureWatch':{'candidateCount':(s.get('futureWatch') or {}).get('candidateCount'),'monitoredUniverseCount':(s.get('futureWatch') or {}).get('monitoredUniverseCount'),'activeThemes':(s.get('futureWatch') or {}).get('activeThemes'),'scheduledEvents':(s.get('futureWatch') or {}).get('scheduledEvents')},
+            'freeTierBudget':s.get('freeTierBudget'),
+            'pcAgent':{'configured':a.get('configured'),'online':a.get('online'),'lastSeenAt':a.get('lastSeenAt'),'ageSeconds':a.get('ageSeconds'),'prefetchFresh':a.get('prefetchFresh'),'prefetchAt':a.get('prefetchAt'),'resolvedLeaderCount':a.get('resolvedLeaderCount'),'leaderHealthy':a.get('leaderHealthy'),'futureCandidates':a.get('futureCandidates'),'reboundCandidates':a.get('reboundCandidates'),'metrics':a.get('metrics')}
           }
           pathlib.Path('live-health-result.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
           print(json.dumps(out,ensure_ascii=False,indent=2))
-          if a.get('configured') is not True:
-              raise SystemExit('PC_AGENT_TOKEN missing in runtime Worker')
-          if not s.get('profitOptimizer',{}).get('enabled'):
-              raise SystemExit('Profit optimizer not deployed yet')
-          if not s.get('forwardScan',{}).get('enabled'):
-              raise SystemExit('Forward scanner not deployed yet')
-          rebound=s.get('reboundScan') or {}
-          if not rebound.get('enabled'):
-              raise SystemExit('Rebound scanner not deployed yet')
-          if rebound.get('target') != 10:
-              raise SystemExit('Rebound target is not 10')
-          if rebound.get('fallingKnifeBuysBlocked') is not True:
-              raise SystemExit('Falling-knife protection is not active')
-          learning=s.get('entryTimingLearning') or {}
-          if learning.get('mode')!='15/30/60-minute-entry-timing-learning':
-              raise SystemExit('15/30/60 entry timing learning not deployed yet')
-          if learning.get('horizonsMinutes') != [15,30,60]:
-              raise SystemExit('Entry timing learning horizons are wrong')
           PY
 
-      - name: Publish result
+      - name: Publish diagnostic result even when unhealthy
+        if: always()
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -136,3 +94,14 @@ jobs:
             git commit -m 'Update live health result [skip ci]'
             git push
           fi
+
+      - name: Enforce required production features
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('live-health-result.json',encoding='utf-8'))
+          failed=x.get('failedChecks') or []
+          if failed: raise SystemExit('Live health failed: '+', '.join(failed))
+          print('All required live checks passed')
+          PY
