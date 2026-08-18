@@ -28,7 +28,14 @@ export function enforceFastExecutionGuards(aiResponse,fast){
       if(c?.technical){if(c.technical.fresh!==true)blocks.push('technische Daten nicht frisch');if(num(c.technical.vwapDistancePct)<=0)blocks.push('Kurs nicht über VWAP');if(num(c.technical.adx)<minAdx)blocks.push(`ADX ${num(c.technical.adx).toFixed(1)} < ${minAdx.toFixed(1)}`)}else if(c)blocks.push('technischer Deep-Check fehlt');
       if(c&&num(c?.multiTimeframe?.longVotes)<2)blocks.push('weniger als 2 positive Zeitebenen');if(c?.regime==='TREND_DOWN'&&num(c?.multiTimeframe?.longVotes)<3)blocks.push('Abwärtsregime ohne 3/4 MTF-Gegenbestätigung');
       const spread=c?.liquidity?.spreadPct;if(spread!=null&&num(spread)>maxSpread)blocks.push(`Spread ${num(spread).toFixed(2)}% > ${maxSpread.toFixed(2)}%`);const avgVolume=num(c?.liquidity?.avgVolume);if(avgVolume>0&&avgVolume<15000)blocks.push('Liquidität zu niedrig');
-      const hasVolume=Object.prototype.hasOwnProperty.call(ratios,symbol)&&ratios[symbol]!=null;if(hasVolume&&num(ratios[symbol])<minVolume)blocks.push(`5m-Volumen x${num(ratios[symbol]).toFixed(2)} < x${minVolume.toFixed(2)}`);if(!hasVolume){next.confidence=Math.min(num(next.confidence,.5),.62);next.allocation_pct=+(num(next.allocation_pct)*.70).toFixed(1);next.reason=`Volumenbestätigung nicht verfügbar: Einsatz reduziert. ${String(next.reason||'').slice(0,220)}`}
+
+      // Relative 5m-Lautstärke ist ein Bestätigungssignal, kein alleiniger Hard-Block.
+      // Vorher wurde bei fehlendem Volumen zusätzlich die Order verkleinert; bei festen
+      // Brokergebühren erhöhte das paradoxerweise die Kostenquote und blockierte Käufe.
+      const hasVolume=Object.prototype.hasOwnProperty.call(ratios,symbol)&&ratios[symbol]!=null;
+      if(hasVolume&&num(ratios[symbol])<minVolume){next.confidence=Math.min(num(next.confidence,.5),num(ratios[symbol])<.55?.60:.66);next.reason=`5m-Volumen x${num(ratios[symbol]).toFixed(2)} unter x${minVolume.toFixed(2)}: Konfidenz reduziert. ${String(next.reason||'').slice(0,220)}`}
+      if(!hasVolume){next.confidence=Math.min(num(next.confidence,.5),.64);next.reason=`Volumenbestätigung nicht verfügbar: Konfidenz reduziert. ${String(next.reason||'').slice(0,220)}`}
+
       const cost=estimateAiBuyCost(fast,next.allocation_pct,symbol);if(cost&&(!Number.isFinite(cost.costPct)||cost.costPct>cost.maxRoundTripCostPct))blocks.push(`geschätzte Roundtrip-Kosten ${Number.isFinite(cost.costPct)?cost.costPct.toFixed(1):'n/a'}% > ${cost.maxRoundTripCostPct.toFixed(1)}%`);
       if(!blocks.length)return next;return{...next,action:'HOLD',allocation_pct:0,confidence:Math.min(num(next.confidence,.5),.55),reason:`HARD-BUY-BLOCK: ${blocks.join(' · ')}. ${String(next.reason||'').slice(0,220)}`};
     });
@@ -37,9 +44,7 @@ export function enforceFastExecutionGuards(aiResponse,fast){
     let autoFastBuy=null;
     if(!hasExecutableBuy){
       autoFastBuy=bestValidatedFastBuy(fast,j.actions);
-      if(autoFastBuy){
-        j.actions.push({...autoFastBuy,reason:`BEST-VALIDATED-BUY: ${String(autoFastBuy.reason||'Vollständig geprüfter Fast-BUY').slice(0,260)}`});
-      }
+      if(autoFastBuy){j.actions.push({...autoFastBuy,reason:`BEST-VALIDATED-BUY: ${String(autoFastBuy.reason||'Vollständig geprüfter Fast-BUY').slice(0,260)}`})}
     }
     const notes=[];if(blocked)notes.push(`${blocked} BUY durch Ausführungs-Schutz blockiert`);if(autoFastBuy)notes.push(`bester vollständig validierter BUY ${String(autoFastBuy.symbol||'')} übernommen`);if(notes.length)j.summary=`${String(j.summary||'KI-Plan').slice(0,300)} · ${notes.join(' · ')}.`;
     return{...aiResponse,response:JSON.stringify(j)};
