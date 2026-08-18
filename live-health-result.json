@@ -1,11 +1,11 @@
 {
-  "checkedAt": "2026-08-18T12:38:54.195912+00:00",
+  "checkedAt": "2026-08-18T12:39:19.537517+00:00",
   "homepageOk": true,
   "appJsOk": true,
   "apiStatusOk": true,
   "running": 1,
-  "scanCount": 14,
-  "lastScan": "2026-08-18T12:38:04.022Z",
+  "scanCount": 15,
+  "lastScan": "2026-08-18T12:39:05.539Z",
   "lastError": null,
   "aiLastSummary": "Keine frischen handelbaren Kurse – keine Orderentscheidung.",
   "cash": 1000,
@@ -46,8 +46,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 400",
-      "latency_ms": 105,
-      "updated_at": "2026-08-18T12:38:04.022Z"
+      "latency_ms": 114,
+      "updated_at": "2026-08-18T12:39:05.539Z"
     },
     {
       "source": "Yahoo News",
@@ -55,8 +55,8 @@
       "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 611,
-      "updated_at": "2026-08-18T12:38:04.022Z"
+      "latency_ms": 861,
+      "updated_at": "2026-08-18T12:39:05.539Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -64,8 +64,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 243,
-      "updated_at": "2026-08-18T12:38:04.022Z"
+      "latency_ms": 241,
+      "updated_at": "2026-08-18T12:39:05.539Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -73,8 +73,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 280,
-      "updated_at": "2026-08-18T12:38:04.022Z"
+      "latency_ms": 293,
+      "updated_at": "2026-08-18T12:39:05.539Z"
     },
     {
       "source": "BörsenNews",
@@ -82,8 +82,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 298,
-      "updated_at": "2026-08-18T12:38:04.022Z"
+      "latency_ms": 312,
+      "updated_at": "2026-08-18T12:39:05.539Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -91,8 +91,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 579,
-      "updated_at": "2026-08-18T12:38:04.022Z"
+      "latency_ms": 599,
+      "updated_at": "2026-08-18T12:39:05.539Z"
     }
   ],
   "risk": {
@@ -111,19 +111,14 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T12:39:04.022Z",
+    "nextScanAt": "2026-08-18T12:40:05.539Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
     "persistentLeaderCache": true,
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
-    "lastFetchBudget": {
-      "actual": 7,
-      "cacheHits": 0,
-      "blocked": 0,
-      "cap": 36
-    },
+    "lastFetchBudget": null,
     "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
@@ -139,24 +134,24 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T12:38:02.707Z",
-    "ageSeconds": 51,
+    "lastSeenAt": "2026-08-18T12:39:03.944Z",
+    "ageSeconds": 15,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T12:38:02.352Z",
+    "prefetchAt": "2026-08-18T12:39:02.415Z",
     "resolvedLeaderCount": 14,
     "leaderHealthy": true,
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-08-18T12:38:02.707Z",
+      "lastSeenAt": "2026-08-18T12:39:03.944Z",
       "version": "2.0.2-csharp-tls",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 40845,
+      "storageBytes": 44653,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 43.2,
+      "ramMb": 43.4,
       "downloadedBytes": 2557733,
-      "uploadedBytes": 33040,
+      "uploadedBytes": 37178,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP",
       "lastLocalCleanupAt": "2026-08-18T12:30:12.8331424Z",
