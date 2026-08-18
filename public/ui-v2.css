@@ -1,0 +1,109 @@
+/* UI V2: clearer hierarchy for desktop and mobile without changing trading logic */
+:root{--ui2-surface:#0b1420;--ui2-surface2:#0e1a29;--ui2-border:#263a55;--ui2-soft:#121f30;--ui2-cyan:#78d6ff}
+body.uiV2 .shell{max-width:1480px;padding-top:14px}
+body.uiV2 header{margin-bottom:8px;padding:6px 2px}
+body.uiV2 header h1{letter-spacing:-.04em;line-height:1.02}
+body.uiV2 header p{max-width:920px}
+body.uiV2 .appTabs{margin-bottom:8px;border-bottom:1px solid rgba(122,171,255,.12)}
+body.uiV2 .appTab{transition:transform .16s ease,border-color .16s ease,background .16s ease}
+body.uiV2 .appTab:hover{transform:translateY(-1px);border-color:#52759d}
+
+/* Primary account summary */
+body.uiV2 .kpis{grid-template-columns:repeat(12,minmax(0,1fr));gap:10px;margin-bottom:10px}
+body.uiV2 .kpis article{grid-column:span 2;min-height:76px;padding:13px;background:linear-gradient(145deg,#111d2d,#0a121e);border-color:#23364f;box-shadow:0 10px 28px rgba(0,0,0,.16);position:relative;overflow:hidden}
+body.uiV2 .kpis article::after{content:"";position:absolute;width:90px;height:90px;right:-42px;bottom:-52px;border-radius:50%;background:rgba(122,171,255,.055)}
+body.uiV2 .kpis article.kpiPrimary{grid-column:span 3;min-height:94px;border-color:#36577e}
+body.uiV2 .kpis article.kpiPrimary strong{font-size:clamp(22px,2vw,29px);letter-spacing:-.025em}
+body.uiV2 .kpis article.kpiPositive{border-color:rgba(70,214,154,.42)}
+body.uiV2 .kpis article.kpiNegative{border-color:rgba(255,112,128,.45)}
+body.uiV2 .kpis article.kpiSecondary{opacity:.96}
+body.uiV2 .kpis article.kpiMoved{display:none}
+
+/* Slim live status row */
+.uiStatusStrip{display:grid;grid-template-columns:1.4fr repeat(3,minmax(0,1fr));gap:8px;margin:0 0 12px}
+.uiStatusItem{min-width:0;border:1px solid #203249;background:linear-gradient(145deg,#0e1a29,#0a121d);border-radius:13px;padding:10px 12px}
+.uiStatusItem:first-child{display:flex;align-items:center;gap:10px}
+.uiStatusDot{width:10px;height:10px;border-radius:50%;background:#8193aa;box-shadow:0 0 0 5px rgba(129,147,170,.08);flex:0 0 auto}
+.uiStatusDot.on{background:#46d69a;box-shadow:0 0 0 5px rgba(70,214,154,.1)}
+.uiStatusItem span{display:block;color:#8599b2;font-size:9px;text-transform:uppercase;letter-spacing:.06em}
+.uiStatusItem b{display:block;margin-top:3px;font-size:12px;overflow-wrap:anywhere}
+
+/* Desktop quick navigation */
+.desktopQuickNav{display:flex;gap:6px;overflow:auto;margin:0 0 11px;padding:1px 0 3px;scrollbar-width:none}
+.desktopQuickNav::-webkit-scrollbar{display:none}
+.desktopQuickNav a{flex:0 0 auto;color:#cbd9eb;text-decoration:none;font-size:10px;font-weight:800;border:1px solid #243a55;background:#0c1724;border-radius:999px;padding:7px 11px}
+.desktopQuickNav a:hover{border-color:#4d7198;background:#122238}
+
+/* Main cards */
+body.uiV2 .grid{gap:12px}
+body.uiV2 .card{border-color:#20324a;box-shadow:0 14px 36px rgba(0,0,0,.25)}
+body.uiV2 .chartCard{grid-column:span 8}
+body.uiV2 .allocation{grid-column:span 4}
+body.uiV2 .positions{grid-column:1/-1}
+body.uiV2 .candidates{grid-column:span 7}
+body.uiV2 .stats{grid-column:span 5}
+body.uiV2 .history{grid-column:1/-1}
+body.uiV2 .settings{grid-column:1/-1;background:#0a121d;box-shadow:none}
+body.uiV2 .settings>.cardTitle h2::after{content:" · Einstellungen";font-size:10px;font-weight:500;color:#7187a2}
+body.uiV2 .cardTitle h2{letter-spacing:-.01em}
+body.uiV2 canvas{background:linear-gradient(180deg,#09131f,#08101a)}
+
+/* Performance diagnostics */
+.performanceDiagnostics{grid-column:1/-1!important;background:linear-gradient(145deg,#0f1c2c,#09121d)!important}
+.performanceIntro{color:#91a4bc;font-size:11px;line-height:1.45}
+.diagnosticGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-top:11px}
+.diag{border:1px solid #1d3048;background:#09131f;border-radius:12px;padding:10px;min-width:0}
+.diag span{display:block;color:#8296ae;font-size:9px;text-transform:uppercase;letter-spacing:.05em}
+.diag b{display:block;margin-top:4px;font-size:14px;overflow-wrap:anywhere}
+.diag.good b{color:#46d69a}.diag.bad b{color:#ff7080}.diag.warn b{color:#ffd06a}
+.lossDriver{margin-top:10px;border-radius:12px;padding:11px 12px;background:#101b2a;border:1px solid #29405d;font-size:12px;line-height:1.5}
+.lossDriver.good{border-color:#245d49;background:#0b1e18}.lossDriver.bad{border-color:#63313c;background:#241218}.lossDriver.warn{border-color:#69562d;background:#211b0e}
+.recentTradeTitle{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:13px}
+.recentTradeTitle b{font-size:13px}
+.recentTrades{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}
+.recentTrade{border:1px solid #1e3149;background:#09131f;border-radius:12px;padding:10px;min-width:0}
+.recentTrade.buy{border-left:3px solid #46d69a}.recentTrade.sell{border-left:3px solid #ffd06a}.recentTrade.blocked{border-left:3px solid #7187a2}.recentTrade.error{border-left:3px solid #ff7080}
+.rtTop{display:flex;align-items:center;justify-content:space-between;gap:8px}.rtAction{font-size:9px;font-weight:900;letter-spacing:.07em}.rtTime{color:#788da7;font-size:8px}.rtSymbol{font-size:16px;font-weight:900;margin:5px 0}.rtMeta{color:#93a6bd;font-size:9px;line-height:1.35}.rtReason{font-size:10px;line-height:1.4;color:#cbd9e9;margin-top:6px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Better desktop tables */
+body.uiV2 .tableWrap{border-color:#1d2d42;background:#09121d}
+body.uiV2 table{font-size:11px}
+body.uiV2 th{background:#0c1724;color:#9aabc0;padding-top:10px;padding-bottom:10px}
+body.uiV2 td{padding-top:10px;padding-bottom:10px}
+body.uiV2 tbody tr:hover{background:#101c2b}
+body.uiV2 #historyBody tr.trade-buy{box-shadow:inset 3px 0 #46d69a}
+body.uiV2 #historyBody tr.trade-sell{box-shadow:inset 3px 0 #ffd06a}
+body.uiV2 #historyBody tr.trade-blocked{box-shadow:inset 3px 0 #7187a2;opacity:.82}
+body.uiV2 #historyBody tr.trade-error{box-shadow:inset 3px 0 #ff7080}
+
+/* Collapsible advanced cards */
+body.uiV2 .advancedCard>.cardTitle{margin-bottom:0}
+.advancedToggle{margin-left:auto;background:#17263a!important;color:#c8d6e7!important;border:1px solid #2a405d!important;padding:6px 9px!important;min-height:0!important;font-size:9px!important;border-radius:999px!important}
+body.uiV2 .advancedCard.isCollapsed>*:not(.cardTitle){display:none!important}
+body.uiV2 .advancedCard.isCollapsed{padding-bottom:11px;box-shadow:none;background:#0a121d}
+body.uiV2 .advancedCard.isCollapsed>.cardTitle{margin-bottom:0}
+
+/* Accounting line stays prominent but compact */
+body.uiV2 #accountingChecksum{margin:0 0 12px!important;border-color:#2b4666!important;background:#0d1b2c!important}
+
+@media(max-width:1100px){
+ body.uiV2 .kpis article,body.uiV2 .kpis article.kpiPrimary{grid-column:span 3}
+ .uiStatusStrip{grid-template-columns:repeat(2,minmax(0,1fr))}.uiStatusItem:first-child{grid-column:1/-1}
+ .diagnosticGrid{grid-template-columns:repeat(3,minmax(0,1fr))}.recentTrades{grid-template-columns:repeat(2,minmax(0,1fr))}
+ body.uiV2 .chartCard,body.uiV2 .allocation,body.uiV2 .positions,body.uiV2 .candidates,body.uiV2 .stats{grid-column:1/-1}
+}
+@media(max-width:700px){
+ body.uiV2 .shell{padding-top:max(7px,env(safe-area-inset-top))}
+ body.uiV2 header{padding-top:1px}body.uiV2 header p{max-width:94%}
+ .desktopQuickNav{display:none}
+ body.uiV2 .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ body.uiV2 .kpis article,body.uiV2 .kpis article.kpiPrimary{grid-column:span 1;min-height:72px}
+ body.uiV2 .kpis article.kpiPrimary{min-height:88px}body.uiV2 .kpis article.kpiPrimary strong{font-size:20px}
+ .uiStatusStrip{grid-template-columns:1fr 1fr;gap:7px}.uiStatusItem:first-child{grid-column:1/-1}.uiStatusItem{padding:9px}
+ .diagnosticGrid{grid-template-columns:1fr 1fr}.diag{padding:9px}.diag b{font-size:12px}
+ .recentTrades{grid-template-columns:1fr}
+ .performanceDiagnostics{padding:11px!important}
+ body.uiV2 .history tbody tr,body.uiV2 .positions tbody tr,body.uiV2 .candidates tbody tr{box-shadow:0 8px 20px rgba(0,0,0,.14)}
+ body.uiV2 .settings{order:99}
+}
+@media(max-width:390px){.uiStatusStrip{grid-template-columns:1fr}.uiStatusItem:first-child{grid-column:auto}.diagnosticGrid{grid-template-columns:1fr 1fr}.diag:last-child{grid-column:1/-1}}
