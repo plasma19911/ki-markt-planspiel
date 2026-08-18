@@ -3,6 +3,7 @@ import {FAST_CALIBRATION} from './generated-fast-calibration.js';
 const HEADERS={'accept':'application/json','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/VolumeOverlay)'};
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0;
+const MAX_VOLUME_SYMBOLS=12;
 
 function dayKey(ts,tz){
   try{return new Intl.DateTimeFormat('en-CA',{timeZone:tz||'UTC',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(num(ts)*1000))}catch{return new Date(num(ts)*1000).toISOString().slice(0,10)}
@@ -39,7 +40,7 @@ async function volumeRatio(symbol){
 
 export async function applyVolumeConfirmation(fast){
   if(!fast)return fast;
-  const symbols=[...new Set((fast.context||[]).map(x=>String(x.symbol||'').toUpperCase()).filter(Boolean))].slice(0,4);
+  const symbols=[...new Set((fast.context||[]).map(x=>String(x.symbol||'').toUpperCase()).filter(Boolean))].slice(0,MAX_VOLUME_SYMBOLS);
   if(!symbols.length)return fast;
   const ratios=new Map(await Promise.all(symbols.map(async s=>[s,await volumeRatio(s)])));
   const min=num(FAST_CALIBRATION.minRelativeVolume,1.10),actions=[];
@@ -53,5 +54,5 @@ export async function applyVolumeConfirmation(fast){
     if(ratio<min)continue;
     actions.push({...a,reason:`${a.reason} · 5m-Volumen x${ratio.toFixed(2)} bestätigt`});
   }
-  return{...fast,actions,volumeConfirmation:{requiredForFastBuy:true,minRatio:min,method:'same-time 5d historical baseline; current-session fallback',ratios:Object.fromEntries([...ratios].map(([k,v])=>[k,v==null?null:+v.toFixed(2)]))}};
+  return{...fast,actions,volumeConfirmation:{requiredForFastBuy:true,minRatio:min,maxSymbols:MAX_VOLUME_SYMBOLS,method:'same-time 5d historical baseline; current-session fallback',ratios:Object.fromEntries([...ratios].map(([k,v])=>[k,v==null?null:+v.toFixed(2)]))}};
 }
