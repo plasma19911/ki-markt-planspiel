@@ -35,7 +35,7 @@ export default{
     const b=await request.json().catch(()=>({}));
     const started=await p.start({...b,includeEtfs:false,includeLeverage:false});
     const firstScan=await p.scan();
-    return reply({...started,firstScan,storage:'Durable Object Free · 1 compact row',assetClass:'Aktien בלבד',targetBroker:'finanzen.net ZERO · gettex'});
+    return reply({...started,firstScan,storage:'Durable Object Free · 1 compact row',assetClass:'nur Aktien',targetBroker:'finanzen.net ZERO · gettex'});
    }
    if(u.pathname==='/api/stop'&&request.method==='POST')return reply(await p.stop());
    if(u.pathname==='/api/reset'&&request.method==='POST')return reply(await p.reset());
