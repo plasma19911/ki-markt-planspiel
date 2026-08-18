@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T15:20:30.814285+00:00",
+  "checkedAt": "2026-08-18T15:23:17.029603+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -29,10 +29,10 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 125,
-  "lastScan": "2026-08-18T15:19:08.585Z",
+  "scanCount": 127,
+  "lastScan": "2026-08-18T15:22:14.158Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 1 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 1 aktive Gap-Lagen aus 1/12 möglichen Checks. Beste HOLDs: TRGP: BUY 3.3 / SELL 1 · REBOUND-RADA · EARLY-BREAKOUT: 12 entdeckt, 0 BUY validiert, 0 spaete/unbestaetigte BUYs blockiert; kein Zwangskauf.",
+  "aiLastSummary": "Deterministischer Ersatzplan · OUTER-FULL-CASH: 100% des verfügbaren Cashs auf 1 Aktien-BUY(s) verteilt. · Legacy-Cash-Failsafe: 1 Zwangskauf/-käufe blockiert, 0 Alt-Allokation(en) gekappt.  · REBOUND-RADA · EARLY-BREAKO · TARGET-VENUE: 0 nicht sauber auf gettex aufgeloeste BUY(s) blockiert.",
   "cash": 989.7426404533917,
   "equity": 989.7426404533917,
   "pnl": -10.257359546608313,
@@ -44,13 +44,13 @@
     {
       "symbol": "TRGP",
       "name": "Targa Resources Corp.",
-      "score": 0.4327383720930233,
-      "confidence": 0.45827383720930237,
-      "day_change": 7.024896142293535,
+      "score": -1.0172616279069768,
+      "confidence": 0.5167261627906977,
+      "day_change": 6.98352381935512,
       "news_score": 0.18742397137745978,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21",
-      "contra": "Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21"
     }
   ],
   "recentHistory": [
@@ -61,7 +61,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal TRGP: Score 0.43, Konfidenz 46%.",
+      "reason": "Kein Trade. Bestes Signal TRGP: Score -1.02, Konfidenz 52%.",
       "score": null
     },
     {
@@ -260,8 +260,8 @@
       "ok_count": 2,
       "fail_count": 1,
       "last_error": "Error: HTTP 400",
-      "latency_ms": 105,
-      "updated_at": "2026-08-18T15:19:05.362Z"
+      "latency_ms": 99,
+      "updated_at": "2026-08-18T15:22:03.685Z"
     },
     {
       "source": "Yahoo FX",
@@ -269,17 +269,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 8,
-      "updated_at": "2026-08-18T15:19:05.362Z"
+      "latency_ms": 115,
+      "updated_at": "2026-08-18T15:22:03.685Z"
     },
     {
       "source": "Yahoo 1m Chart",
       "status": "DEGRADED",
       "ok_count": 1,
       "fail_count": 1,
-      "last_error": "",
-      "latency_ms": 107,
-      "updated_at": "2026-08-18T15:19:05.362Z"
+      "last_error": "Error: Zu wenig Minuten",
+      "latency_ms": 110,
+      "updated_at": "2026-08-18T15:22:03.685Z"
     },
     {
       "source": "Yahoo Events",
@@ -288,7 +288,7 @@
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
       "latency_ms": 103,
-      "updated_at": "2026-08-18T15:19:05.362Z"
+      "updated_at": "2026-08-18T15:22:03.685Z"
     },
     {
       "source": "Yahoo News",
@@ -296,8 +296,8 @@
       "ok_count": 3,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1094,
-      "updated_at": "2026-08-18T15:19:05.362Z"
+      "latency_ms": 569,
+      "updated_at": "2026-08-18T15:22:03.685Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -305,17 +305,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 236,
-      "updated_at": "2026-08-18T15:19:05.362Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 282,
-      "updated_at": "2026-08-18T15:19:05.362Z"
+      "latency_ms": 241,
+      "updated_at": "2026-08-18T15:22:03.685Z"
     },
     {
       "source": "BörsenNews",
@@ -323,8 +314,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 310,
-      "updated_at": "2026-08-18T15:19:05.362Z"
+      "latency_ms": 311,
+      "updated_at": "2026-08-18T15:22:03.685Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 357,
+      "updated_at": "2026-08-18T15:22:03.685Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -332,8 +332,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 494,
-      "updated_at": "2026-08-18T15:19:05.362Z"
+      "latency_ms": 503,
+      "updated_at": "2026-08-18T15:22:03.685Z"
     }
   ],
   "risk": {
@@ -542,7 +542,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T15:20:08.585Z",
+    "nextScanAt": "2026-08-18T15:23:14.158Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -571,26 +571,26 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T15:20:00.956Z",
-    "ageSeconds": 30,
+    "lastSeenAt": "2026-08-18T15:23:01.385Z",
+    "ageSeconds": 15,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T15:20:00.584Z",
+    "prefetchAt": "2026-08-18T15:23:01.000Z",
     "resolvedLeaderCount": 14,
     "leaderHealthy": true,
     "futureCandidates": 0,
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
     "metrics": {
-      "lastSeenAt": "2026-08-18T15:20:00.956Z",
+      "lastSeenAt": "2026-08-18T15:23:01.385Z",
       "version": "2.0.3-csharp-gdelt-backoff",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 688736,
+      "storageBytes": 700799,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
       "ramMb": 51.2,
       "downloadedBytes": 33253992,
-      "uploadedBytes": 652896,
+      "uploadedBytes": 665988,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP",
       "lastLocalCleanupAt": "2026-08-18T14:57:18.2890297Z",
