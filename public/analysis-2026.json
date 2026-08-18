@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-18T10:39:52.505918+00:00",
+  "generatedAt": "2026-08-18T13:35:11.400682+00:00",
   "period": {
     "from": "2026-01-01",
     "to": "2026-08-18"
@@ -7,13 +7,13 @@
   "startCapital": 100.0,
   "baseCurrency": "EUR",
   "universe": {
-    "equities": 8556,
+    "equities": 8553,
     "etfs": 0,
     "leveragedEtfs": 0
   },
   "scannedSymbols": 8653,
-  "usableSymbols": 8556,
-  "failedSymbols": 22,
+  "usableSymbols": 8553,
+  "failedSymbols": 25,
   "assumptions": {
     "assets": "Aktien + normale ETFs; keine Hebel-/Inverse-Produkte",
     "fractionalShares": true,
@@ -26,9 +26,9 @@
   "perfect": {
     "title": "Perfekter Rueckblick",
     "startCapital": 100.0,
-    "endCapital": 1.2325326081108666e+30,
-    "profit": 1.2325326081108666e+30,
-    "returnPct": 1.2325326081108666e+30,
+    "endCapital": 1.2384605625480389e+30,
+    "profit": 1.2384605625480389e+30,
+    "returnPct": 1.2384605625480389e+30,
     "trades": [
       {
         "symbol": "SJVN.NS",
@@ -266,9 +266,9 @@
         "buyFee": 1.0,
         "sellFee": 1.0,
         "capitalBefore": 16530.529130794937,
-        "capitalAfter": 26178.23440492029,
-        "pnl": 9647.705274125354,
-        "returnPct": 58.36295497736075
+        "capitalAfter": 26178.234404920287,
+        "pnl": 9647.70527412535,
+        "returnPct": 58.36295497736073
       },
       {
         "symbol": "TEM1V.HE",
@@ -280,10 +280,10 @@
         "sellPrice": 5.619999885559082,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 26178.23440492029,
-        "capitalAfter": 36704.52904733901,
-        "pnl": 10526.294642418721,
-        "returnPct": 40.210101566056224
+        "capitalBefore": 26178.234404920287,
+        "capitalAfter": 36704.529047339005,
+        "pnl": 10526.294642418718,
+        "returnPct": 40.2101015660562
       },
       {
         "symbol": "0887.HK",
@@ -295,8 +295,8 @@
         "sellPrice": 0.30719998478889465,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 36704.52904733901,
-        "capitalAfter": 49480.630528389636,
+        "capitalBefore": 36704.529047339005,
+        "capitalAfter": 49480.63052838963,
         "pnl": 12776.101481050624,
         "returnPct": 34.80797005887985
       },
@@ -310,9 +310,9 @@
         "sellPrice": 0.47999998927116394,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 49480.630528389636,
-        "capitalAfter": 65143.86877441487,
-        "pnl": 15663.238246025234,
+        "capitalBefore": 49480.63052838963,
+        "capitalAfter": 65143.868774414856,
+        "pnl": 15663.238246025227,
         "returnPct": 31.655292341188755
       },
       {
@@ -325,10 +325,10 @@
         "sellPrice": 6.0169219970703125,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 65143.86877441487,
-        "capitalAfter": 93283.67882333572,
+        "capitalBefore": 65143.868774414856,
+        "capitalAfter": 93283.67882333571,
         "pnl": 28139.810048920852,
-        "returnPct": 43.19640601384225
+        "returnPct": 43.19640601384227
       },
       {
         "symbol": "CVX.PA",
@@ -340,10 +340,10 @@
         "sellPrice": 2.799999952316284,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 93283.67882333572,
+        "capitalBefore": 93283.67882333571,
         "capitalAfter": 132318.60981735925,
-        "pnl": 39034.930994023525,
-        "returnPct": 41.84540263248988
+        "pnl": 39034.93099402354,
+        "returnPct": 41.8454026324899
       },
       {
         "symbol": "SLS.AX",
@@ -581,9 +581,9 @@
         "buyFee": 1.0,
         "sellFee": 1.0,
         "capitalBefore": 37131146.9382036,
-        "capitalAfter": 51989189.22490403,
-        "pnl": 14858042.286700428,
-        "returnPct": 40.01503727161533
+        "capitalAfter": 51989189.22490402,
+        "pnl": 14858042.28670042,
+        "returnPct": 40.015037271615306
       },
       {
         "symbol": "DBG.V",
@@ -595,10 +595,10 @@
         "sellPrice": 2.140000104904175,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 51989189.22490403,
+        "capitalBefore": 51989189.22490402,
         "capitalAfter": 71711576.30093014,
-        "pnl": 19722387.07602611,
-        "returnPct": 37.93555423745409
+        "pnl": 19722387.07602612,
+        "returnPct": 37.93555423745411
       },
       {
         "symbol": "1ACHC.MI",
@@ -686,9 +686,9 @@
         "buyFee": 1.0,
         "sellFee": 1.0,
         "capitalBefore": 592736486.7058271,
-        "capitalAfter": 794439940.5785341,
-        "pnl": 201703453.872707,
-        "returnPct": 34.02919482714613
+        "capitalAfter": 794439940.5785342,
+        "pnl": 201703453.87270713,
+        "returnPct": 34.02919482714615
       },
       {
         "symbol": "2617.HK",
@@ -700,10 +700,10 @@
         "sellPrice": 92.0,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 794439940.5785341,
+        "capitalBefore": 794439940.5785342,
         "capitalAfter": 1140286909.4255073,
-        "pnl": 345846968.8469732,
-        "returnPct": 43.533431689640054
+        "pnl": 345846968.84697306,
+        "returnPct": 43.53343168964003
       },
       {
         "symbol": "6740.T",
@@ -911,9 +911,9 @@
         "buyFee": 1.0,
         "sellFee": 1.0,
         "capitalBefore": 301059841099.10864,
-        "capitalAfter": 397088146111.516,
-        "pnl": 96028305012.40735,
-        "returnPct": 31.896750048703737
+        "capitalAfter": 397088146111.51605,
+        "pnl": 96028305012.40741,
+        "returnPct": 31.89675004870376
       },
       {
         "symbol": "1973.HK",
@@ -925,9 +925,9 @@
         "sellPrice": 2.5799999237060547,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 397088146111.516,
-        "capitalAfter": 640952402083.067,
-        "pnl": 243864255971.55103,
+        "capitalBefore": 397088146111.51605,
+        "capitalAfter": 640952402083.0671,
+        "pnl": 243864255971.5511,
         "returnPct": 61.4131291401143
       },
       {
@@ -940,9 +940,9 @@
         "sellPrice": 429.79998779296875,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 640952402083.067,
-        "capitalAfter": 939518803815.4073,
-        "pnl": 298566401732.34033,
+        "capitalBefore": 640952402083.0671,
+        "capitalAfter": 939518803815.4076,
+        "pnl": 298566401732.34045,
         "returnPct": 46.58168075539037
       },
       {
@@ -955,10 +955,10 @@
         "sellPrice": 29.319984436035156,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 939518803815.4073,
-        "capitalAfter": 1315775481856.2188,
-        "pnl": 376256678040.8114,
-        "returnPct": 40.04780708090401
+        "capitalBefore": 939518803815.4076,
+        "capitalAfter": 1315775481856.2192,
+        "pnl": 376256678040.81165,
+        "returnPct": 40.04780708090403
       },
       {
         "symbol": "MSIN.JK",
@@ -970,9 +970,9 @@
         "sellPrice": 835.0,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 1315775481856.2188,
-        "capitalAfter": 1636533399169.6184,
-        "pnl": 320757917313.39966,
+        "capitalBefore": 1315775481856.2192,
+        "capitalAfter": 1636533399169.6191,
+        "pnl": 320757917313.3999,
         "returnPct": 24.37786094485461
       },
       {
@@ -985,9 +985,9 @@
         "sellPrice": 191100.0,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 1636533399169.6184,
-        "capitalAfter": 2134417729892.9275,
-        "pnl": 497884330723.3091,
+        "capitalBefore": 1636533399169.6191,
+        "capitalAfter": 2134417729892.9285,
+        "pnl": 497884330723.3093,
         "returnPct": 30.4231084422681
       },
       {
@@ -1000,10 +1000,10 @@
         "sellPrice": 7800.0,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 2134417729892.9275,
-        "capitalAfter": 2778864796771.6646,
+        "capitalBefore": 2134417729892.9285,
+        "capitalAfter": 2778864796771.6655,
         "pnl": 644447066878.737,
-        "returnPct": 30.19310877402923
+        "returnPct": 30.19310877402921
       },
       {
         "symbol": "5HV.SI",
@@ -1015,10 +1015,10 @@
         "sellPrice": 0.11873555928468704,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 2778864796771.6646,
-        "capitalAfter": 3471035037527.708,
-        "pnl": 692170240756.0435,
-        "returnPct": 24.90838134910951
+        "capitalBefore": 2778864796771.6655,
+        "capitalAfter": 3471035037527.7095,
+        "pnl": 692170240756.044,
+        "returnPct": 24.908381349109533
       },
       {
         "symbol": "006360.KS",
@@ -1030,9 +1030,9 @@
         "sellPrice": 37400.0,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 3471035037527.708,
-        "capitalAfter": 4467169823238.204,
-        "pnl": 996134785710.4961,
+        "capitalBefore": 3471035037527.7095,
+        "capitalAfter": 4467169823238.206,
+        "pnl": 996134785710.4966,
         "returnPct": 28.698494107394733
       },
       {
@@ -1045,9 +1045,9 @@
         "sellPrice": 5.429999828338623,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 4467169823238.204,
-        "capitalAfter": 6154667108593.665,
-        "pnl": 1687497285355.461,
+        "capitalBefore": 4467169823238.206,
+        "capitalAfter": 6154667108593.668,
+        "pnl": 1687497285355.462,
         "returnPct": 37.77553467023136
       },
       {
@@ -1060,10 +1060,10 @@
         "sellPrice": 0.33000001311302185,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 6154667108593.665,
-        "capitalAfter": 10117347965212.492,
-        "pnl": 3962680856618.827,
-        "returnPct": 64.3849746330845
+        "capitalBefore": 6154667108593.668,
+        "capitalAfter": 10117347965212.494,
+        "pnl": 3962680856618.826,
+        "returnPct": 64.38497463308445
       },
       {
         "symbol": "6090.HK",
@@ -1075,8 +1075,8 @@
         "sellPrice": 49.97999954223633,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 10117347965212.492,
-        "capitalAfter": 14514083325037.621,
+        "capitalBefore": 10117347965212.494,
+        "capitalAfter": 14514083325037.623,
         "pnl": 4396735359825.129,
         "returnPct": 43.4573899696133
       },
@@ -1090,10 +1090,10 @@
         "sellPrice": 49.20000076293945,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 14514083325037.621,
-        "capitalAfter": 23676616032257.75,
-        "pnl": 9162532707220.129,
-        "returnPct": 63.12856624857759
+        "capitalBefore": 14514083325037.623,
+        "capitalAfter": 23676616032257.754,
+        "pnl": 9162532707220.13,
+        "returnPct": 63.12856624857761
       },
       {
         "symbol": "WOLF1.MX",
@@ -1105,10 +1105,10 @@
         "sellPrice": 418.92999267578125,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 23676616032257.75,
+        "capitalBefore": 23676616032257.754,
         "capitalAfter": 38078610461124.39,
-        "pnl": 14401994428866.64,
-        "returnPct": 60.82792578654366
+        "pnl": 14401994428866.637,
+        "returnPct": 60.82792578654364
       },
       {
         "symbol": "9963.HK",
@@ -1166,9 +1166,9 @@
         "buyFee": 1.0,
         "sellFee": 1.0,
         "capitalBefore": 154822518119581.53,
-        "capitalAfter": 212455625826181.62,
-        "pnl": 57633107706600.09,
-        "returnPct": 37.225274725273195
+        "capitalAfter": 212455625826181.66,
+        "pnl": 57633107706600.125,
+        "returnPct": 37.225274725273216
       },
       {
         "symbol": "1626.HK",
@@ -1180,9 +1180,9 @@
         "sellPrice": 7.659999847412109,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 212455625826181.62,
-        "capitalAfter": 289999010891563.56,
-        "pnl": 77543385065381.94,
+        "capitalBefore": 212455625826181.66,
+        "capitalAfter": 289999010891563.6,
+        "pnl": 77543385065381.97,
         "returnPct": 36.49862636672341
       },
       {
@@ -1195,10 +1195,10 @@
         "sellPrice": 0.3799999952316284,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 289999010891563.56,
-        "capitalAfter": 441277189272895.1,
-        "pnl": 151278178381331.56,
-        "returnPct": 52.16506701738286
+        "capitalBefore": 289999010891563.6,
+        "capitalAfter": 441277189272895.25,
+        "pnl": 151278178381331.62,
+        "returnPct": 52.16506701738288
       },
       {
         "symbol": "2655.HK",
@@ -1210,8 +1210,8 @@
         "sellPrice": 34.91999816894531,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 441277189272895.1,
-        "capitalAfter": 590299269199949.9,
+        "capitalBefore": 441277189272895.25,
+        "capitalAfter": 590299269199950.0,
         "pnl": 149022079927054.75,
         "returnPct": 33.77062842804148
       },
@@ -1225,8 +1225,8 @@
         "sellPrice": 0.16099999845027924,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 590299269199949.9,
-        "capitalAfter": 802786017518112.9,
+        "capitalBefore": 590299269199950.0,
+        "capitalAfter": 802786017518113.0,
         "pnl": 212486748318163.0,
         "returnPct": 35.996444414737724
       },
@@ -1240,9 +1240,9 @@
         "sellPrice": 0.41499999165534973,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 802786017518112.9,
-        "capitalAfter": 1173021309421704.0,
-        "pnl": 370235291903591.1,
+        "capitalBefore": 802786017518113.0,
+        "capitalAfter": 1173021309421704.2,
+        "pnl": 370235291903591.25,
         "returnPct": 46.11880175095821
       },
       {
@@ -1255,10 +1255,10 @@
         "sellPrice": 1.4900000095367432,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 1173021309421704.0,
-        "capitalAfter": 2181709138777744.2,
-        "pnl": 1008687829356040.2,
-        "returnPct": 85.99058015862649
+        "capitalBefore": 1173021309421704.2,
+        "capitalAfter": 2181709138777745.0,
+        "pnl": 1008687829356040.8,
+        "returnPct": 85.9905801586265
       },
       {
         "symbol": "1953.HK",
@@ -1270,9 +1270,9 @@
         "sellPrice": 0.9800000190734863,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 2181709138777744.2,
-        "capitalAfter": 2971098747398805.0,
-        "pnl": 789389608621060.8,
+        "capitalBefore": 2181709138777745.0,
+        "capitalAfter": 2971098747398806.0,
+        "pnl": 789389608621061.0,
         "returnPct": 36.182165376237975
       },
       {
@@ -1285,9 +1285,9 @@
         "sellPrice": 3350.0,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 2971098747398805.0,
-        "capitalAfter": 6152260998170530.0,
-        "pnl": 3181162250771725.0,
+        "capitalBefore": 2971098747398806.0,
+        "capitalAfter": 6152260998170532.0,
+        "pnl": 3181162250771726.0,
         "returnPct": 107.07022960973043
       },
       {
@@ -1300,9 +1300,9 @@
         "sellPrice": 7.050000190734863,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 6152260998170530.0,
-        "capitalAfter": 1.518834090290494e+16,
-        "pnl": 9036079904734410.0,
+        "capitalBefore": 6152260998170532.0,
+        "capitalAfter": 1.5188340902904944e+16,
+        "pnl": 9036079904734412.0,
         "returnPct": 146.87413143592946
       },
       {
@@ -1315,10 +1315,10 @@
         "sellPrice": 134.72999572753906,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 1.518834090290494e+16,
-        "capitalAfter": 2.1130968762183136e+16,
-        "pnl": 5942627859278196.0,
-        "returnPct": 39.12624754255813
+        "capitalBefore": 1.5188340902904944e+16,
+        "capitalAfter": 2.1130968762183144e+16,
+        "pnl": 5942627859278200.0,
+        "returnPct": 39.126247542558154
       },
       {
         "symbol": "WOLF1.MX",
@@ -1330,10 +1330,10 @@
         "sellPrice": 732.4500122070312,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 2.1130968762183136e+16,
-        "capitalAfter": 3.694836581026873e+16,
-        "pnl": 1.5817397048085592e+16,
-        "returnPct": 74.8541026495343
+        "capitalBefore": 2.1130968762183144e+16,
+        "capitalAfter": 3.6948365810268744e+16,
+        "pnl": 1.58173970480856e+16,
+        "returnPct": 74.85410264953431
       },
       {
         "symbol": "1INOD.MI",
@@ -1345,9 +1345,9 @@
         "sellPrice": 73.69999694824219,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 3.694836581026873e+16,
-        "capitalAfter": 6.802637415300538e+16,
-        "pnl": 3.107800834273665e+16,
+        "capitalBefore": 3.6948365810268744e+16,
+        "capitalAfter": 6.802637415300541e+16,
+        "pnl": 3.1078008342736664e+16,
         "returnPct": 84.11199700231239
       },
       {
@@ -1360,10 +1360,10 @@
         "sellPrice": 1999.3182373046875,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 6.802637415300538e+16,
-        "capitalAfter": 9.480430159482192e+16,
+        "capitalBefore": 6.802637415300541e+16,
+        "capitalAfter": 9.480430159482195e+16,
         "pnl": 2.6777927441816544e+16,
-        "returnPct": 39.36403751519588
+        "returnPct": 39.36403751519586
       },
       {
         "symbol": "0419.HK",
@@ -1375,9 +1375,9 @@
         "sellPrice": 0.5699999928474426,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 9.480430159482192e+16,
-        "capitalAfter": 1.683324493679082e+17,
-        "pnl": 7.352814777308627e+16,
+        "capitalBefore": 9.480430159482195e+16,
+        "capitalAfter": 1.6833244936790826e+17,
+        "pnl": 7.35281477730863e+16,
         "returnPct": 77.55781809071655
       },
       {
@@ -1390,10 +1390,10 @@
         "sellPrice": 1150.0,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 1.683324493679082e+17,
-        "capitalAfter": 2.3093032523403715e+17,
+        "capitalBefore": 1.6833244936790826e+17,
+        "capitalAfter": 2.3093032523403722e+17,
         "pnl": 6.259787586612896e+16,
-        "returnPct": 37.18705222979008
+        "returnPct": 37.18705222979006
       },
       {
         "symbol": "SPI.L",
@@ -1405,10 +1405,10 @@
         "sellPrice": 224.48475646972656,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 2.3093032523403715e+17,
-        "capitalAfter": 3.444324722996517e+17,
+        "capitalBefore": 2.3093032523403722e+17,
+        "capitalAfter": 3.444324722996518e+17,
         "pnl": 1.1350214706561456e+17,
-        "returnPct": 49.149953324919714
+        "returnPct": 49.14995332491969
       },
       {
         "symbol": "PEB.AX",
@@ -1420,8 +1420,8 @@
         "sellPrice": 0.20999999344348907,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 3.444324722996517e+17,
-        "capitalAfter": 4.974344682079468e+17,
+        "capitalBefore": 3.444324722996518e+17,
+        "capitalAfter": 4.974344682079469e+17,
         "pnl": 1.530019959082951e+17,
         "returnPct": 44.42147829057923
       },
@@ -1435,10 +1435,10 @@
         "sellPrice": 1.850000023841858,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 4.974344682079468e+17,
-        "capitalAfter": 9.224588137222126e+17,
-        "pnl": 4.250243455142658e+17,
-        "returnPct": 85.44328402602555
+        "capitalBefore": 4.974344682079469e+17,
+        "capitalAfter": 9.224588137222127e+17,
+        "pnl": 4.2502434551426586e+17,
+        "returnPct": 85.44328402602557
       },
       {
         "symbol": "6681.HK",
@@ -1450,10 +1450,10 @@
         "sellPrice": 4.099999904632568,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 9.224588137222126e+17,
-        "capitalAfter": 1.2326643666368543e+18,
-        "pnl": 3.1020555291464166e+17,
-        "returnPct": 33.62811957565146
+        "capitalBefore": 9.224588137222127e+17,
+        "capitalAfter": 1.2326643666368545e+18,
+        "pnl": 3.102055529146418e+17,
+        "returnPct": 33.62811957565148
       },
       {
         "symbol": "6990.TWO",
@@ -1465,10 +1465,10 @@
         "sellPrice": 136.3252410888672,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 1.2326643666368543e+18,
-        "capitalAfter": 1.7964846770228815e+18,
-        "pnl": 5.6382031038602726e+17,
-        "returnPct": 45.739969909597455
+        "capitalBefore": 1.2326643666368545e+18,
+        "capitalAfter": 1.7964846770228823e+18,
+        "pnl": 5.638203103860278e+17,
+        "returnPct": 45.7399699095975
       },
       {
         "symbol": "1FEY2.MI",
@@ -1480,9 +1480,9 @@
         "sellPrice": 21.420000076293945,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 1.7964846770228815e+18,
-        "capitalAfter": 2.3604066575946e+18,
-        "pnl": 5.639219805717184e+17,
+        "capitalBefore": 1.7964846770228823e+18,
+        "capitalAfter": 2.360406657594601e+18,
+        "pnl": 5.6392198057171866e+17,
         "returnPct": 31.39030283888895
       },
       {
@@ -1495,10 +1495,10 @@
         "sellPrice": 3.559999942779541,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 2.3604066575946e+18,
-        "capitalAfter": 4.301976362521192e+18,
-        "pnl": 1.941569704926592e+18,
-        "returnPct": 82.25572905751636
+        "capitalBefore": 2.360406657594601e+18,
+        "capitalAfter": 4.3019763625211935e+18,
+        "pnl": 1.9415697049265925e+18,
+        "returnPct": 82.25572905751635
       },
       {
         "symbol": "BBHI.JK",
@@ -1510,9 +1510,9 @@
         "sellPrice": 966.0060424804688,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 4.301976362521192e+18,
-        "capitalAfter": 5.359889850146362e+18,
-        "pnl": 1.0579134876251704e+18,
+        "capitalBefore": 4.3019763625211935e+18,
+        "capitalAfter": 5.359889850146364e+18,
+        "pnl": 1.057913487625171e+18,
         "returnPct": 24.591336596865343
       },
       {
@@ -1525,9 +1525,9 @@
         "sellPrice": 4802.47607421875,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 5.359889850146362e+18,
-        "capitalAfter": 7.241562162464879e+18,
-        "pnl": 1.8816723123185162e+18,
+        "capitalBefore": 5.359889850146364e+18,
+        "capitalAfter": 7.241562162464882e+18,
+        "pnl": 1.8816723123185172e+18,
         "returnPct": 35.10654817406618
       },
       {
@@ -1540,10 +1540,10 @@
         "sellPrice": 6.400000095367432,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 7.241562162464879e+18,
-        "capitalAfter": 1.109194203512549e+19,
-        "pnl": 3.850379872660611e+18,
-        "returnPct": 53.170569916781886
+        "capitalBefore": 7.241562162464882e+18,
+        "capitalAfter": 1.1091942035125492e+19,
+        "pnl": 3.85037987266061e+18,
+        "returnPct": 53.170569916781865
       },
       {
         "symbol": "2723.HK",
@@ -1555,9 +1555,9 @@
         "sellPrice": 350.0,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 1.109194203512549e+19,
-        "capitalAfter": 1.912098790420195e+19,
-        "pnl": 8.02904586907646e+18,
+        "capitalBefore": 1.1091942035125492e+19,
+        "capitalAfter": 1.9120987904201953e+19,
+        "pnl": 8.029045869076462e+18,
         "returnPct": 72.38629487650061
       },
       {
@@ -1570,10 +1570,10 @@
         "sellPrice": 1.7300000190734863,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 1.912098790420195e+19,
-        "capitalAfter": 3.3937892907779092e+19,
+        "capitalBefore": 1.9120987904201953e+19,
+        "capitalAfter": 3.3937892907779097e+19,
         "pnl": 1.4816905003577143e+19,
-        "returnPct": 77.49026921522733
+        "returnPct": 77.4902692152273
       },
       {
         "symbol": "0NC6.IL",
@@ -1585,10 +1585,10 @@
         "sellPrice": 379.79998779296875,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 3.3937892907779092e+19,
+        "capitalBefore": 3.3937892907779097e+19,
         "capitalAfter": 6.793419469942025e+19,
-        "pnl": 3.3996301791641154e+19,
-        "returnPct": 100.1721052159036
+        "pnl": 3.399630179164115e+19,
+        "returnPct": 100.17210521590356
       },
       {
         "symbol": "EWC.AX",
@@ -2396,9 +2396,9 @@
         "buyFee": 1.0,
         "sellFee": 1.0,
         "capitalBefore": 3.0022132109599603e+29,
-        "capitalAfter": 4.306834261228893e+29,
-        "pnl": 1.3046210502689325e+29,
-        "returnPct": 43.45530975302647
+        "capitalAfter": 4.308821233320103e+29,
+        "pnl": 1.3066080223601428e+29,
+        "returnPct": 43.52149332999416
       },
       {
         "symbol": "9963.HK",
@@ -2410,10 +2410,10 @@
         "sellPrice": 10.25,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 4.306834261228893e+29,
-        "capitalAfter": 5.739308827753064e+29,
-        "pnl": 1.4324745665241709e+29,
-        "returnPct": 33.26049900316885
+        "capitalBefore": 4.308821233320103e+29,
+        "capitalAfter": 5.739722448071833e+29,
+        "pnl": 1.4309012147517302e+29,
+        "returnPct": 33.20864657105231
       },
       {
         "symbol": "0NC6.IL",
@@ -2422,13 +2422,13 @@
         "buyAt": "2026-08-17",
         "sellAt": "2026-08-18",
         "buyPrice": 189.27999877929688,
-        "sellPrice": 409.79998779296875,
+        "sellPrice": 411.6499938964844,
         "buyFee": 1.0,
         "sellFee": 1.0,
-        "capitalBefore": 5.739308827753064e+29,
-        "capitalAfter": 1.2325326081108666e+30,
-        "pnl": 6.586017253355602e+29,
-        "returnPct": 114.75279430004161
+        "capitalBefore": 5.739722448071833e+29,
+        "capitalAfter": 1.2384605625480389e+30,
+        "pnl": 6.644883177408555e+29,
+        "returnPct": 115.77011323327655
       }
     ],
     "events": [
@@ -2747,7 +2747,7 @@
         "name": "TPIsoftware",
         "type": "EQUITY",
         "nativePrice": 6.199999809265137,
-        "eurPrice": 0.16772239586315152,
+        "eurPrice": 0.16766659399642947,
         "fee": 1.0,
         "cashBefore": 6114.135611476706
       },
@@ -2758,7 +2758,7 @@
         "name": "TPIsoftware",
         "type": "EQUITY",
         "nativePrice": 16.799999237060547,
-        "eurPrice": 0.4544735821327208,
+        "eurPrice": 0.4543223770767213,
         "fee": 1.0,
         "cashAfter": 16530.529130794937
       },
@@ -2769,7 +2769,7 @@
         "name": "TacBright Optronics Corporation",
         "type": "EQUITY",
         "nativePrice": 4.599999904632568,
-        "eurPrice": 0.12443919817905424,
+        "eurPrice": 0.1243977967936516,
         "fee": 1.0,
         "cashBefore": 16530.529130794937
       },
@@ -2780,9 +2780,9 @@
         "name": "TacBright Optronics Corporation",
         "type": "EQUITY",
         "nativePrice": 7.300000190734863,
-        "eurPrice": 0.19747960636415485,
+        "eurPrice": 0.19741390416250226,
         "fee": 1.0,
-        "cashAfter": 26178.23440492029
+        "cashAfter": 26178.234404920287
       },
       {
         "action": "BUY",
@@ -2793,7 +2793,7 @@
         "nativePrice": 4.0,
         "eurPrice": 4.0,
         "fee": 1.0,
-        "cashBefore": 26178.23440492029
+        "cashBefore": 26178.234404920287
       },
       {
         "action": "SELL",
@@ -2804,7 +2804,7 @@
         "nativePrice": 5.619999885559082,
         "eurPrice": 5.619999885559082,
         "fee": 1.0,
-        "cashAfter": 36704.52904733901
+        "cashAfter": 36704.529047339005
       },
       {
         "action": "BUY",
@@ -2815,7 +2815,7 @@
         "nativePrice": 0.22463999688625336,
         "eurPrice": 0.024257525188858264,
         "fee": 1.0,
-        "cashBefore": 36704.52904733901
+        "cashBefore": 36704.529047339005
       },
       {
         "action": "SELL",
@@ -2826,7 +2826,7 @@
         "nativePrice": 0.30719998478889465,
         "eurPrice": 0.032768099878941914,
         "fee": 1.0,
-        "cashAfter": 49480.630528389636
+        "cashAfter": 49480.63052838963
       },
       {
         "action": "BUY",
@@ -2837,7 +2837,7 @@
         "nativePrice": 0.36500000953674316,
         "eurPrice": 0.03893345494966027,
         "fee": 1.0,
-        "cashBefore": 49480.630528389636
+        "cashBefore": 49480.63052838963
       },
       {
         "action": "SELL",
@@ -2848,7 +2848,7 @@
         "nativePrice": 0.47999998927116394,
         "eurPrice": 0.05136239890689254,
         "fee": 1.0,
-        "cashAfter": 65143.86877441487
+        "cashAfter": 65143.868774414856
       },
       {
         "action": "BUY",
@@ -2859,7 +2859,7 @@
         "nativePrice": 4.211845397949219,
         "eurPrice": 2.5971503025289167,
         "fee": 1.0,
-        "cashBefore": 65143.86877441487
+        "cashBefore": 65143.868774414856
       },
       {
         "action": "SELL",
@@ -2870,7 +2870,7 @@
         "nativePrice": 6.0169219970703125,
         "eurPrice": 3.7265685422198658,
         "fee": 1.0,
-        "cashAfter": 93283.67882333572
+        "cashAfter": 93283.67882333571
       },
       {
         "action": "BUY",
@@ -2881,7 +2881,7 @@
         "nativePrice": 1.9700000286102295,
         "eurPrice": 1.9700000286102295,
         "fee": 1.0,
-        "cashBefore": 93283.67882333572
+        "cashBefore": 93283.67882333571
       },
       {
         "action": "SELL",
@@ -3231,7 +3231,7 @@
         "name": "Gmt Global Inc.",
         "type": "EQUITY",
         "nativePrice": 94.80000305175781,
-        "eurPrice": 2.564529698196793,
+        "eurPrice": 2.5636764696002956,
         "fee": 1.0,
         "cashBefore": 37131146.9382036
       },
@@ -3242,9 +3242,9 @@
         "name": "Gmt Global Inc.",
         "type": "EQUITY",
         "nativePrice": 133.0,
-        "eurPrice": 3.5979160219430923,
+        "eurPrice": 3.596718981862068,
         "fee": 1.0,
-        "cashAfter": 51989189.22490403
+        "cashAfter": 51989189.22490402
       },
       {
         "action": "BUY",
@@ -3255,7 +3255,7 @@
         "nativePrice": 1.5499999523162842,
         "eurPrice": 0.9596514943060868,
         "fee": 1.0,
-        "cashBefore": 51989189.22490403
+        "cashBefore": 51989189.22490402
       },
       {
         "action": "SELL",
@@ -3385,7 +3385,7 @@
         "name": "Acon Optics Communications Inc.",
         "type": "EQUITY",
         "nativePrice": 120.87798309326172,
-        "eurPrice": 3.2699912185820494,
+        "eurPrice": 3.26890328030629,
         "fee": 1.0,
         "cashBefore": 592736486.7058271
       },
@@ -3396,9 +3396,9 @@
         "name": "Acon Optics Communications Inc.",
         "type": "EQUITY",
         "nativePrice": 162.3361358642578,
-        "eurPrice": 4.391517174183036,
+        "eurPrice": 4.390056100038464,
         "fee": 1.0,
-        "cashAfter": 794439940.5785341
+        "cashAfter": 794439940.5785342
       },
       {
         "action": "BUY",
@@ -3409,7 +3409,7 @@
         "nativePrice": 64.0999984741211,
         "eurPrice": 7.047089828435276,
         "fee": 1.0,
-        "cashBefore": 794439940.5785341
+        "cashBefore": 794439940.5785342
       },
       {
         "action": "SELL",
@@ -3715,7 +3715,7 @@
         "name": "Acon Optics Communications Inc.",
         "type": "EQUITY",
         "nativePrice": 198.79933166503906,
-        "eurPrice": 5.377919553001675,
+        "eurPrice": 5.376130299106308,
         "fee": 1.0,
         "cashBefore": 301059841099.10864
       },
@@ -3726,9 +3726,9 @@
         "name": "Acon Optics Communications Inc.",
         "type": "EQUITY",
         "nativePrice": 262.73480224609375,
-        "eurPrice": 7.107501913708802,
+        "eurPrice": 7.105137221310542,
         "fee": 1.0,
-        "cashAfter": 397088146111.516
+        "cashAfter": 397088146111.51605
       },
       {
         "action": "BUY",
@@ -3739,7 +3739,7 @@
         "nativePrice": 1.600000023841858,
         "eurPrice": 0.17720160748364933,
         "fee": 1.0,
-        "cashBefore": 397088146111.516
+        "cashBefore": 397088146111.51605
       },
       {
         "action": "SELL",
@@ -3750,7 +3750,7 @@
         "nativePrice": 2.5799999237060547,
         "eurPrice": 0.2865992854721071,
         "fee": 1.0,
-        "cashAfter": 640952402083.067
+        "cashAfter": 640952402083.0671
       },
       {
         "action": "BUY",
@@ -3761,7 +3761,7 @@
         "nativePrice": 292.20001220703125,
         "eurPrice": 3.364390853051373,
         "fee": 1.0,
-        "cashBefore": 640952402083.067
+        "cashBefore": 640952402083.0671
       },
       {
         "action": "SELL",
@@ -3772,7 +3772,7 @@
         "nativePrice": 429.79998779296875,
         "eurPrice": 4.941453693949807,
         "fee": 1.0,
-        "cashAfter": 939518803815.4073
+        "cashAfter": 939518803815.4076
       },
       {
         "action": "BUY",
@@ -3783,7 +3783,7 @@
         "nativePrice": 20.687705993652344,
         "eurPrice": 18.05209264267478,
         "fee": 1.0,
-        "cashBefore": 939518803815.4073
+        "cashBefore": 939518803815.4076
       },
       {
         "action": "SELL",
@@ -3794,7 +3794,7 @@
         "nativePrice": 29.319984436035156,
         "eurPrice": 25.332173611815506,
         "fee": 1.0,
-        "cashAfter": 1315775481856.2188
+        "cashAfter": 1315775481856.2192
       },
       {
         "action": "BUY",
@@ -3805,7 +3805,7 @@
         "nativePrice": 670.0,
         "eurPrice": 0.0323743988701608,
         "fee": 1.0,
-        "cashBefore": 1315775481856.2188
+        "cashBefore": 1315775481856.2192
       },
       {
         "action": "SELL",
@@ -3816,7 +3816,7 @@
         "nativePrice": 835.0,
         "eurPrice": 0.04034719859191682,
         "fee": 1.0,
-        "cashAfter": 1636533399169.6184
+        "cashAfter": 1636533399169.6191
       },
       {
         "action": "BUY",
@@ -3827,7 +3827,7 @@
         "nativePrice": 147000.0,
         "eurPrice": 83.7899962789379,
         "fee": 1.0,
-        "cashBefore": 1636533399169.6184
+        "cashBefore": 1636533399169.6191
       },
       {
         "action": "SELL",
@@ -3838,7 +3838,7 @@
         "nativePrice": 191100.0,
         "eurPrice": 109.50029952800833,
         "fee": 1.0,
-        "cashAfter": 2134417729892.9275
+        "cashAfter": 2134417729892.9285
       },
       {
         "action": "BUY",
@@ -3849,7 +3849,7 @@
         "nativePrice": 6000.0,
         "eurPrice": 3.437999985180795,
         "fee": 1.0,
-        "cashBefore": 2134417729892.9275
+        "cashBefore": 2134417729892.9285
       },
       {
         "action": "SELL",
@@ -3860,7 +3860,7 @@
         "nativePrice": 7800.0,
         "eurPrice": 4.48500009952113,
         "fee": 1.0,
-        "cashAfter": 2778864796771.6646
+        "cashAfter": 2778864796771.6655
       },
       {
         "action": "BUY",
@@ -3871,7 +3871,7 @@
         "nativePrice": 0.09478888660669327,
         "eurPrice": 0.06395491698314926,
         "fee": 1.0,
-        "cashBefore": 2778864796771.6646
+        "cashBefore": 2778864796771.6655
       },
       {
         "action": "SELL",
@@ -3882,7 +3882,7 @@
         "nativePrice": 0.11873555928468704,
         "eurPrice": 0.08004498163009721,
         "fee": 1.0,
-        "cashAfter": 3471035037527.708
+        "cashAfter": 3471035037527.7095
       },
       {
         "action": "BUY",
@@ -3893,7 +3893,7 @@
         "nativePrice": 28800.0,
         "eurPrice": 16.531200148165226,
         "fee": 1.0,
-        "cashBefore": 3471035037527.708
+        "cashBefore": 3471035037527.7095
       },
       {
         "action": "SELL",
@@ -3904,7 +3904,7 @@
         "nativePrice": 37400.0,
         "eurPrice": 21.3179990532808,
         "fee": 1.0,
-        "cashAfter": 4467169823238.204
+        "cashAfter": 4467169823238.206
       },
       {
         "action": "BUY",
@@ -3915,7 +3915,7 @@
         "nativePrice": 3.940000057220459,
         "eurPrice": 2.4353928931591042,
         "fee": 1.0,
-        "cashBefore": 4467169823238.204
+        "cashBefore": 4467169823238.206
       },
       {
         "action": "SELL",
@@ -3926,7 +3926,7 @@
         "nativePrice": 5.429999828338623,
         "eurPrice": 3.3620930485004408,
         "fee": 1.0,
-        "cashAfter": 6154667108593.665
+        "cashAfter": 6154667108593.668
       },
       {
         "action": "BUY",
@@ -3937,7 +3937,7 @@
         "nativePrice": 0.20000000298023224,
         "eurPrice": 0.13456959924950596,
         "fee": 1.0,
-        "cashBefore": 6154667108593.665
+        "cashBefore": 6154667108593.668
       },
       {
         "action": "SELL",
@@ -3948,7 +3948,7 @@
         "nativePrice": 0.33000001311302185,
         "eurPrice": 0.22165506886065245,
         "fee": 1.0,
-        "cashAfter": 10117347965212.492
+        "cashAfter": 10117347965212.494
       },
       {
         "action": "BUY",
@@ -3959,7 +3959,7 @@
         "nativePrice": 34.81999969482422,
         "eurPrice": 3.8018217622323505,
         "fee": 1.0,
-        "cashBefore": 10117347965212.492
+        "cashBefore": 10117347965212.494
       },
       {
         "action": "SELL",
@@ -3970,7 +3970,7 @@
         "nativePrice": 49.97999954223633,
         "eurPrice": 5.4649131788464445,
         "fee": 1.0,
-        "cashAfter": 14514083325037.621
+        "cashAfter": 14514083325037.623
       },
       {
         "action": "BUY",
@@ -3979,9 +3979,9 @@
         "name": "Advance Materials Corporation",
         "type": "EQUITY",
         "nativePrice": 30.100000381469727,
-        "eurPrice": 0.8142652152855874,
+        "eurPrice": 0.8139943062111854,
         "fee": 1.0,
-        "cashBefore": 14514083325037.621
+        "cashBefore": 14514083325037.623
       },
       {
         "action": "SELL",
@@ -3990,9 +3990,9 @@
         "name": "Advance Materials Corporation",
         "type": "EQUITY",
         "nativePrice": 49.20000076293945,
-        "eurPrice": 1.3309584287563325,
+        "eurPrice": 1.3305156139225005,
         "fee": 1.0,
-        "cashAfter": 23676616032257.75
+        "cashAfter": 23676616032257.754
       },
       {
         "action": "BUY",
@@ -4003,7 +4003,7 @@
         "nativePrice": 260.0,
         "eurPrice": 12.765739560127258,
         "fee": 1.0,
-        "cashBefore": 23676616032257.75
+        "cashBefore": 23676616032257.754
       },
       {
         "action": "SELL",
@@ -4045,7 +4045,7 @@
         "name": "TacBright Optronics Corporation",
         "type": "EQUITY",
         "nativePrice": 13.550000190734863,
-        "eurPrice": 0.3665546073953152,
+        "eurPrice": 0.36643265331015584,
         "fee": 1.0,
         "cashBefore": 50789778049590.21
       },
@@ -4056,7 +4056,7 @@
         "name": "TacBright Optronics Corporation",
         "type": "EQUITY",
         "nativePrice": 20.549999237060547,
-        "eurPrice": 0.555918582751417,
+        "eurPrice": 0.5557336265653134,
         "fee": 1.0,
         "cashAfter": 76874133659116.52
       },
@@ -4089,7 +4089,7 @@
         "name": "Advance Materials Corporation",
         "type": "EQUITY",
         "nativePrice": 120.0,
-        "eurPrice": 3.246240019798279,
+        "eurPrice": 3.2451599836349487,
         "fee": 1.0,
         "cashBefore": 154822518119581.53
       },
@@ -4100,9 +4100,9 @@
         "name": "Advance Materials Corporation",
         "type": "EQUITY",
         "nativePrice": 165.0,
-        "eurPrice": 4.463580027222633,
+        "eurPrice": 4.4620949774980545,
         "fee": 1.0,
-        "cashAfter": 212455625826181.62
+        "cashAfter": 212455625826181.66
       },
       {
         "action": "BUY",
@@ -4113,7 +4113,7 @@
         "nativePrice": 5.619999885559082,
         "eurPrice": 0.60896070193985,
         "fee": 1.0,
-        "cashBefore": 212455625826181.62
+        "cashBefore": 212455625826181.66
       },
       {
         "action": "SELL",
@@ -4124,7 +4124,7 @@
         "nativePrice": 7.659999847412109,
         "eurPrice": 0.8328871033576775,
         "fee": 1.0,
-        "cashAfter": 289999010891563.56
+        "cashAfter": 289999010891563.6
       },
       {
         "action": "BUY",
@@ -4135,7 +4135,7 @@
         "nativePrice": 0.25,
         "eurPrice": 0.02718299999833107,
         "fee": 1.0,
-        "cashBefore": 289999010891563.56
+        "cashBefore": 289999010891563.6
       },
       {
         "action": "SELL",
@@ -4146,7 +4146,7 @@
         "nativePrice": 0.3799999952316284,
         "eurPrice": 0.04144583903399468,
         "fee": 1.0,
-        "cashAfter": 441277189272895.1
+        "cashAfter": 441277189272895.25
       },
       {
         "action": "BUY",
@@ -4157,7 +4157,7 @@
         "nativePrice": 26.100000381469727,
         "eurPrice": 2.8466748109778877,
         "fee": 1.0,
-        "cashBefore": 441277189272895.1
+        "cashBefore": 441277189272895.25
       },
       {
         "action": "SELL",
@@ -4168,7 +4168,7 @@
         "nativePrice": 34.91999816894531,
         "eurPrice": 3.8156384371690137,
         "fee": 1.0,
-        "cashAfter": 590299269199949.9
+        "cashAfter": 590299269199950.0
       },
       {
         "action": "BUY",
@@ -4179,7 +4179,7 @@
         "nativePrice": 0.11800000071525574,
         "eurPrice": 0.07901799226020145,
         "fee": 1.0,
-        "cashBefore": 590299269199949.9
+        "cashBefore": 590299269199950.0
       },
       {
         "action": "SELL",
@@ -4190,7 +4190,7 @@
         "nativePrice": 0.16099999845027924,
         "eurPrice": 0.10767679838008881,
         "fee": 1.0,
-        "cashAfter": 802786017518112.9
+        "cashAfter": 802786017518113.0
       },
       {
         "action": "BUY",
@@ -4201,7 +4201,7 @@
         "nativePrice": 0.2849999964237213,
         "eurPrice": 0.17385000189542765,
         "fee": 1.0,
-        "cashBefore": 802786017518112.9
+        "cashBefore": 802786017518113.0
       },
       {
         "action": "SELL",
@@ -4212,7 +4212,7 @@
         "nativePrice": 0.41499999165534973,
         "eurPrice": 0.2545361032564877,
         "fee": 1.0,
-        "cashAfter": 1173021309421704.0
+        "cashAfter": 1173021309421704.2
       },
       {
         "action": "BUY",
@@ -4223,7 +4223,7 @@
         "nativePrice": 0.800000011920929,
         "eurPrice": 0.08707280288745167,
         "fee": 1.0,
-        "cashBefore": 1173021309421704.0
+        "cashBefore": 1173021309421704.2
       },
       {
         "action": "SELL",
@@ -4234,7 +4234,7 @@
         "nativePrice": 1.4900000095367432,
         "eurPrice": 0.16227142989189147,
         "fee": 1.0,
-        "cashAfter": 2181709138777744.2
+        "cashAfter": 2181709138777745.0
       },
       {
         "action": "BUY",
@@ -4245,7 +4245,7 @@
         "nativePrice": 0.7200000286102295,
         "eurPrice": 0.07841304256173132,
         "fee": 1.0,
-        "cashBefore": 2181709138777744.2
+        "cashBefore": 2181709138777745.0
       },
       {
         "action": "SELL",
@@ -4256,7 +4256,7 @@
         "nativePrice": 0.9800000190734863,
         "eurPrice": 0.10699836223949433,
         "fee": 1.0,
-        "cashAfter": 2971098747398805.0
+        "cashAfter": 2971098747398806.0
       },
       {
         "action": "BUY",
@@ -4267,7 +4267,7 @@
         "nativePrice": 1623.0,
         "eurPrice": 0.9332250207080506,
         "fee": 1.0,
-        "cashBefore": 2971098747398805.0
+        "cashBefore": 2971098747398806.0
       },
       {
         "action": "SELL",
@@ -4278,7 +4278,7 @@
         "nativePrice": 3350.0,
         "eurPrice": 1.9362999242730439,
         "fee": 1.0,
-        "cashAfter": 6152260998170530.0
+        "cashAfter": 6152260998170532.0
       },
       {
         "action": "BUY",
@@ -4289,7 +4289,7 @@
         "nativePrice": 2.8500006198883057,
         "eurPrice": 2.8500006198883057,
         "fee": 1.0,
-        "cashBefore": 6152260998170530.0
+        "cashBefore": 6152260998170532.0
       },
       {
         "action": "SELL",
@@ -4300,7 +4300,7 @@
         "nativePrice": 7.050000190734863,
         "eurPrice": 7.050000190734863,
         "fee": 1.0,
-        "cashAfter": 1.518834090290494e+16
+        "cashAfter": 1.5188340902904944e+16
       },
       {
         "action": "BUY",
@@ -4311,7 +4311,7 @@
         "nativePrice": 96.44999694824219,
         "eurPrice": 82.4927174722643,
         "fee": 1.0,
-        "cashBefore": 1.518834090290494e+16
+        "cashBefore": 1.5188340902904944e+16
       },
       {
         "action": "SELL",
@@ -4322,7 +4322,7 @@
         "nativePrice": 134.72999572753906,
         "eurPrice": 114.99879012748806,
         "fee": 1.0,
-        "cashAfter": 2.1130968762183136e+16
+        "cashAfter": 2.1130968762183144e+16
       },
       {
         "action": "BUY",
@@ -4333,7 +4333,7 @@
         "nativePrice": 418.92999267578125,
         "eurPrice": 20.61973401427099,
         "fee": 1.0,
-        "cashBefore": 2.1130968762183136e+16
+        "cashBefore": 2.1130968762183144e+16
       },
       {
         "action": "SELL",
@@ -4344,7 +4344,7 @@
         "nativePrice": 732.4500122070312,
         "eurPrice": 36.126631962215924,
         "fee": 1.0,
-        "cashAfter": 3.694836581026873e+16
+        "cashAfter": 3.6948365810268744e+16
       },
       {
         "action": "BUY",
@@ -4355,7 +4355,7 @@
         "nativePrice": 39.95000076293945,
         "eurPrice": 39.95000076293945,
         "fee": 1.0,
-        "cashBefore": 3.694836581026873e+16
+        "cashBefore": 3.6948365810268744e+16
       },
       {
         "action": "SELL",
@@ -4366,7 +4366,7 @@
         "nativePrice": 73.69999694824219,
         "eurPrice": 73.69999694824219,
         "fee": 1.0,
-        "cashAfter": 6.802637415300538e+16
+        "cashAfter": 6.802637415300541e+16
       },
       {
         "action": "BUY",
@@ -4377,7 +4377,7 @@
         "nativePrice": 1434.3509521484375,
         "eurPrice": 70.65039145689798,
         "fee": 1.0,
-        "cashBefore": 6.802637415300538e+16
+        "cashBefore": 6.802637415300541e+16
       },
       {
         "action": "SELL",
@@ -4388,7 +4388,7 @@
         "nativePrice": 1999.3182373046875,
         "eurPrice": 98.65835765032898,
         "fee": 1.0,
-        "cashAfter": 9.480430159482192e+16
+        "cashAfter": 9.480430159482195e+16
       },
       {
         "action": "BUY",
@@ -4399,7 +4399,7 @@
         "nativePrice": 0.3199999928474426,
         "eurPrice": 0.03473087948417186,
         "fee": 1.0,
-        "cashBefore": 9.480430159482192e+16
+        "cashBefore": 9.480430159482195e+16
       },
       {
         "action": "SELL",
@@ -4410,7 +4410,7 @@
         "nativePrice": 0.5699999928474426,
         "eurPrice": 0.061790850057685365,
         "fee": 1.0,
-        "cashAfter": 1.683324493679082e+17
+        "cashAfter": 1.6833244936790826e+17
       },
       {
         "action": "BUY",
@@ -4421,7 +4421,7 @@
         "nativePrice": 840.0,
         "eurPrice": 91.06020122766495,
         "fee": 1.0,
-        "cashBefore": 1.683324493679082e+17
+        "cashBefore": 1.6833244936790826e+17
       },
       {
         "action": "SELL",
@@ -4432,7 +4432,7 @@
         "nativePrice": 1150.0,
         "eurPrice": 125.17290152609348,
         "fee": 1.0,
-        "cashAfter": 2.3093032523403715e+17
+        "cashAfter": 2.3093032523403722e+17
       },
       {
         "action": "BUY",
@@ -4443,7 +4443,7 @@
         "nativePrice": 150.38978576660156,
         "eurPrice": 1.7341446403275766,
         "fee": 1.0,
-        "cashBefore": 2.3093032523403715e+17
+        "cashBefore": 2.3093032523403722e+17
       },
       {
         "action": "SELL",
@@ -4454,7 +4454,7 @@
         "nativePrice": 224.48475646972656,
         "eurPrice": 2.5916540516084208,
         "fee": 1.0,
-        "cashAfter": 3.444324722996517e+17
+        "cashAfter": 3.444324722996518e+17
       },
       {
         "action": "BUY",
@@ -4465,7 +4465,7 @@
         "nativePrice": 0.14499999582767487,
         "eurPrice": 0.08976659844305512,
         "fee": 1.0,
-        "cashBefore": 3.444324722996517e+17
+        "cashBefore": 3.444324722996518e+17
       },
       {
         "action": "SELL",
@@ -4476,7 +4476,7 @@
         "nativePrice": 0.20999999344348907,
         "eurPrice": 0.12990179252363454,
         "fee": 1.0,
-        "cashAfter": 4.974344682079468e+17
+        "cashAfter": 4.974344682079469e+17
       },
       {
         "action": "BUY",
@@ -4487,7 +4487,7 @@
         "nativePrice": 1.0,
         "eurPrice": 0.10947299748659134,
         "fee": 1.0,
-        "cashBefore": 4.974344682079468e+17
+        "cashBefore": 4.974344682079469e+17
       },
       {
         "action": "SELL",
@@ -4498,7 +4498,7 @@
         "nativePrice": 1.850000023841858,
         "eurPrice": 0.20341674873125548,
         "fee": 1.0,
-        "cashAfter": 9.224588137222126e+17
+        "cashAfter": 9.224588137222127e+17
       },
       {
         "action": "BUY",
@@ -4509,7 +4509,7 @@
         "nativePrice": 3.049999952316284,
         "eurPrice": 0.33536273834323893,
         "fee": 1.0,
-        "cashBefore": 9.224588137222126e+17
+        "cashBefore": 9.224588137222127e+17
       },
       {
         "action": "SELL",
@@ -4520,7 +4520,7 @@
         "nativePrice": 4.099999904632568,
         "eurPrice": 0.4490360960225104,
         "fee": 1.0,
-        "cashAfter": 1.2326643666368543e+18
+        "cashAfter": 1.2326643666368545e+18
       },
       {
         "action": "BUY",
@@ -4529,9 +4529,9 @@
         "name": "Plum-Monix Industry Co., Ltd.",
         "type": "EQUITY",
         "nativePrice": 93.35315704345703,
-        "eurPrice": 2.5253896197415315,
+        "eurPrice": 2.524549413195132,
         "fee": 1.0,
-        "cashBefore": 1.2326643666368543e+18
+        "cashBefore": 1.2326643666368545e+18
       },
       {
         "action": "SELL",
@@ -4540,9 +4540,9 @@
         "name": "Plum-Monix Industry Co., Ltd.",
         "type": "EQUITY",
         "nativePrice": 136.3252410888672,
-        "eurPrice": 3.6878704444277446,
+        "eurPrice": 3.6866434761748224,
         "fee": 1.0,
-        "cashAfter": 1.7964846770228815e+18
+        "cashAfter": 1.7964846770228823e+18
       },
       {
         "action": "BUY",
@@ -4553,7 +4553,7 @@
         "nativePrice": 16.270000457763672,
         "eurPrice": 16.270000457763672,
         "fee": 1.0,
-        "cashBefore": 1.7964846770228815e+18
+        "cashBefore": 1.7964846770228823e+18
       },
       {
         "action": "SELL",
@@ -4564,7 +4564,7 @@
         "nativePrice": 21.420000076293945,
         "eurPrice": 21.420000076293945,
         "fee": 1.0,
-        "cashAfter": 2.3604066575946e+18
+        "cashAfter": 2.360406657594601e+18
       },
       {
         "action": "BUY",
@@ -4575,7 +4575,7 @@
         "nativePrice": 1.9500000476837158,
         "eurPrice": 0.21417241247687357,
         "fee": 1.0,
-        "cashBefore": 2.3604066575946e+18
+        "cashBefore": 2.360406657594601e+18
       },
       {
         "action": "SELL",
@@ -4586,7 +4586,7 @@
         "nativePrice": 3.559999942779541,
         "eurPrice": 0.39112295624784466,
         "fee": 1.0,
-        "cashAfter": 4.301976362521192e+18
+        "cashAfter": 4.3019763625211935e+18
       },
       {
         "action": "BUY",
@@ -4597,7 +4597,7 @@
         "nativePrice": 773.79052734375,
         "eurPrice": 0.03738955697638602,
         "fee": 1.0,
-        "cashBefore": 4.301976362521192e+18
+        "cashBefore": 4.3019763625211935e+18
       },
       {
         "action": "SELL",
@@ -4608,7 +4608,7 @@
         "nativePrice": 966.0060424804688,
         "eurPrice": 0.046677410343654024,
         "fee": 1.0,
-        "cashAfter": 5.359889850146362e+18
+        "cashAfter": 5.359889850146364e+18
       },
       {
         "action": "BUY",
@@ -4619,7 +4619,7 @@
         "nativePrice": 3547.482177734375,
         "eurPrice": 2.1746066142273435,
         "fee": 1.0,
-        "cashBefore": 5.359889850146362e+18
+        "cashBefore": 5.359889850146364e+18
       },
       {
         "action": "SELL",
@@ -4630,7 +4630,7 @@
         "nativePrice": 4802.47607421875,
         "eurPrice": 2.943917886667009,
         "fee": 1.0,
-        "cashAfter": 7.241562162464879e+18
+        "cashAfter": 7.241562162464882e+18
       },
       {
         "action": "BUY",
@@ -4641,7 +4641,7 @@
         "nativePrice": 4.170000076293945,
         "eurPrice": 4.170000076293945,
         "fee": 1.0,
-        "cashBefore": 7.241562162464879e+18
+        "cashBefore": 7.241562162464882e+18
       },
       {
         "action": "SELL",
@@ -4652,7 +4652,7 @@
         "nativePrice": 6.400000095367432,
         "eurPrice": 6.400000095367432,
         "fee": 1.0,
-        "cashAfter": 1.109194203512549e+19
+        "cashAfter": 1.1091942035125492e+19
       },
       {
         "action": "BUY",
@@ -4663,7 +4663,7 @@
         "nativePrice": 203.0,
         "eurPrice": 22.259355530142784,
         "fee": 1.0,
-        "cashBefore": 1.109194203512549e+19
+        "cashBefore": 1.1091942035125492e+19
       },
       {
         "action": "SELL",
@@ -4674,7 +4674,7 @@
         "nativePrice": 350.0,
         "eurPrice": 38.44889923930168,
         "fee": 1.0,
-        "cashAfter": 1.912098790420195e+19
+        "cashAfter": 1.9120987904201953e+19
       },
       {
         "action": "BUY",
@@ -4685,7 +4685,7 @@
         "nativePrice": 0.9700000286102295,
         "eurPrice": 0.10655838103472703,
         "fee": 1.0,
-        "cashBefore": 1.912098790420195e+19
+        "cashBefore": 1.9120987904201953e+19
       },
       {
         "action": "SELL",
@@ -4696,7 +4696,7 @@
         "nativePrice": 1.7300000190734863,
         "eurPrice": 0.18950939752481943,
         "fee": 1.0,
-        "cashAfter": 3.3937892907779092e+19
+        "cashAfter": 3.3937892907779097e+19
       },
       {
         "action": "BUY",
@@ -4707,7 +4707,7 @@
         "nativePrice": 189.27999877929688,
         "eurPrice": 17.54417382012184,
         "fee": 1.0,
-        "cashBefore": 3.3937892907779092e+19
+        "cashBefore": 3.3937892907779097e+19
       },
       {
         "action": "SELL",
@@ -5904,9 +5904,9 @@
         "name": "Jiangsu Hengrui Medicine",
         "type": "EQUITY",
         "nativePrice": 19.558000564575195,
-        "eurPrice": 16.954831213550392,
+        "eurPrice": 16.962653380457482,
         "fee": 1.0,
-        "cashAfter": 4.306834261228893e+29
+        "cashAfter": 4.308821233320103e+29
       },
       {
         "action": "BUY",
@@ -5915,9 +5915,9 @@
         "name": "Transtech Optelecom Science Holdings Limited",
         "type": "EQUITY",
         "nativePrice": 7.650000095367432,
-        "eurPrice": 0.8451643393496511,
+        "eurPrice": 0.845493325700474,
         "fee": 1.0,
-        "cashBefore": 4.306834261228893e+29
+        "cashBefore": 4.308821233320103e+29
       },
       {
         "action": "SELL",
@@ -5928,7 +5928,7 @@
         "nativePrice": 10.25,
         "eurPrice": 1.128525011241436,
         "fee": 1.0,
-        "cashAfter": 5.739308827753064e+29
+        "cashAfter": 5.739722448071833e+29
       },
       {
         "action": "BUY",
@@ -5939,7 +5939,7 @@
         "nativePrice": 189.27999877929688,
         "eurPrice": 17.174130940542682,
         "fee": 1.0,
-        "cashBefore": 5.739308827753064e+29
+        "cashBefore": 5.739722448071833e+29
       },
       {
         "action": "SELL",
@@ -5947,10 +5947,10 @@
         "symbol": "0NC6.IL",
         "name": "Investor AB (publ)",
         "type": "EQUITY",
-        "nativePrice": 409.79998779296875,
-        "eurPrice": 36.95576378143642,
+        "nativePrice": 411.6499938964844,
+        "eurPrice": 37.13082924826563,
         "fee": 1.0,
-        "cashAfter": 1.2325326081108666e+30
+        "cashAfter": 1.2384605625480389e+30
       }
     ],
     "note": "Vollstaendiges Zukunftswissen. Exakte dynamische Optimierung innerhalb des verwendeten Tages-Schlusskurs-/Fractional-Share-Modells; keine Hebelprodukte, keine Steuern. Gebuehren und 0,10 % Ausfuehrungspuffer je Seite sind enthalten."
@@ -5960,9 +5960,9 @@
       "title": "KI haette damals gemacht",
       "style": "vorsichtig",
       "startCapital": 100.0,
-      "endCapital": 29.89722670778359,
-      "profit": -70.10277329221641,
-      "returnPct": -70.10277329221641,
+      "endCapital": 29.897226707783577,
+      "profit": -70.10277329221643,
+      "returnPct": -70.10277329221643,
       "trades": [
         {
           "symbol": "DGW.VN",
@@ -6068,10 +6068,10 @@
           "type": "EQUITY",
           "buyAt": "2026-03-04",
           "sellAt": "2026-03-06",
-          "capitalBefore": 55.85644186538316,
-          "capitalAfter": 55.290283299233366,
+          "capitalBefore": 55.856441865383154,
+          "capitalAfter": 55.29028329923336,
           "pnl": -0.5661585661497952,
-          "returnPct": -1.0135958311026432,
+          "returnPct": -1.0135958311026434,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -6.56%"
@@ -6194,10 +6194,10 @@
           "type": "EQUITY",
           "buyAt": "2026-04-13",
           "sellAt": "2026-04-15",
-          "capitalBefore": 44.428156447436436,
+          "capitalBefore": 44.42815644743644,
           "capitalAfter": 38.537754797028974,
-          "pnl": -5.890401650407462,
-          "returnPct": -13.258262600602114,
+          "pnl": -5.890401650407469,
+          "returnPct": -13.258262600602128,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -8.17%"
@@ -6208,10 +6208,10 @@
           "type": "EQUITY",
           "buyAt": "2026-04-15",
           "sellAt": "2026-04-17",
-          "capitalBefore": 38.53775479702898,
-          "capitalAfter": 38.754777456556845,
+          "capitalBefore": 38.53775479702897,
+          "capitalAfter": 38.75477745655683,
           "pnl": 0.21702265952786348,
-          "returnPct": 0.5631429767273173,
+          "returnPct": 0.5631429767273174,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Gewinnziel-Signal vom Vortag 8.12%"
@@ -6222,10 +6222,10 @@
           "type": "EQUITY",
           "buyAt": "2026-04-17",
           "sellAt": "2026-04-21",
-          "capitalBefore": 38.754777456556845,
-          "capitalAfter": 36.0288370179689,
+          "capitalBefore": 38.75477745655684,
+          "capitalAfter": 36.02883701796889,
           "pnl": -2.7259404385879478,
-          "returnPct": -7.033817809026669,
+          "returnPct": -7.03381780902667,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Gewinnziel-Signal vom Vortag 4.00%"
@@ -6237,9 +6237,9 @@
           "buyAt": "2026-04-21",
           "sellAt": "2026-04-24",
           "capitalBefore": 36.02883701796889,
-          "capitalAfter": 32.99579725506735,
-          "pnl": -3.033039762901538,
-          "returnPct": -8.418367102409803,
+          "capitalAfter": 32.995797255067345,
+          "pnl": -3.033039762901545,
+          "returnPct": -8.418367102409823,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -2.83%"
@@ -6250,10 +6250,10 @@
           "type": "EQUITY",
           "buyAt": "2026-04-28",
           "sellAt": "2026-04-30",
-          "capitalBefore": 32.99579725506736,
-          "capitalAfter": 29.89722670778359,
+          "capitalBefore": 32.995797255067345,
+          "capitalAfter": 29.897226707783577,
           "pnl": -3.0985705472837672,
-          "returnPct": -9.390803693364013,
+          "returnPct": -9.390803693364019,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -4.44%"
@@ -6416,7 +6416,7 @@
           "fee": 1.0,
           "score": 7.311355836403278,
           "confidence": 0.9,
-          "allocation": 55.85644186538316,
+          "allocation": 55.856441865383154,
           "reason": "Vortagssignal: Score 7.31, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -6603,9 +6603,9 @@
           "name": "Apogee Optocom Co., Ltd.",
           "type": "EQUITY",
           "fee": 1.0,
-          "score": 7.571469136708572,
+          "score": 7.571469136708571,
           "confidence": 0.9,
-          "allocation": 44.428156447436436,
+          "allocation": 44.42815644743644,
           "reason": "Vortagssignal: Score 7.57, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -6626,7 +6626,7 @@
           "fee": 1.0,
           "score": 7.688888409052617,
           "confidence": 0.9,
-          "allocation": 38.53775479702898,
+          "allocation": 38.53775479702897,
           "reason": "Vortagssignal: Score 7.69, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -6647,7 +6647,7 @@
           "fee": 1.0,
           "score": 7.610240772849696,
           "confidence": 0.9,
-          "allocation": 38.754777456556845,
+          "allocation": 38.75477745655684,
           "reason": "Vortagssignal: Score 7.61, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -6689,7 +6689,7 @@
           "fee": 1.0,
           "score": 7.587694682784949,
           "confidence": 0.9,
-          "allocation": 32.99579725506736,
+          "allocation": 32.995797255067345,
           "reason": "Vortagssignal: Score 7.59, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -7465,7 +7465,7 @@
           "name": "Browave Corporation",
           "type": "EQUITY",
           "fee": 1.0,
-          "score": 7.472055635475577,
+          "score": 7.472055635475576,
           "confidence": 0.9,
           "allocation": 37.43596075145518,
           "reason": "Vortagssignal: Score 7.47, Konfidenz 90%, Kostenfilter netto positiv"
@@ -7696,7 +7696,7 @@
           "name": "Horizon Securities Co., Ltd.",
           "type": "EQUITY",
           "fee": 1.0,
-          "score": 7.4683001608997905,
+          "score": 7.468300160899791,
           "confidence": 0.9,
           "allocation": 29.55622209952301,
           "reason": "Vortagssignal: Score 7.47, Konfidenz 90%, Kostenfilter netto positiv"
@@ -7740,9 +7740,9 @@
       "title": "KI haette damals gemacht",
       "style": "offensiv",
       "startCapital": 100.0,
-      "endCapital": 23.05549088339953,
-      "profit": -76.94450911660047,
-      "returnPct": -76.94450911660047,
+      "endCapital": 23.05549618035551,
+      "profit": -76.9445038196445,
+      "returnPct": -76.94450381964448,
       "trades": [
         {
           "symbol": "DGW.VN",
@@ -7793,9 +7793,9 @@
           "buyAt": "2026-03-03",
           "sellAt": "2026-03-06",
           "capitalBefore": 120.01685255334777,
-          "capitalAfter": 129.34507811468836,
-          "pnl": 9.328225561340588,
-          "returnPct": 7.772429757057801,
+          "capitalAfter": 129.34508810261642,
+          "pnl": 9.32823554926864,
+          "returnPct": 7.772438079162439,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Gewinnziel-Signal vom Vortag 7.62%"
@@ -7806,10 +7806,10 @@
           "type": "EQUITY",
           "buyAt": "2026-03-06",
           "sellAt": "2026-03-10",
-          "capitalBefore": 129.34507811468836,
-          "capitalAfter": 123.36403718142664,
-          "pnl": -5.981040933261724,
-          "returnPct": -4.624096270565799,
+          "capitalBefore": 129.34508810261642,
+          "capitalAfter": 123.36404685954653,
+          "pnl": -5.981041243069882,
+          "returnPct": -4.624096153017268,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -5.53%"
@@ -7820,10 +7820,10 @@
           "type": "EQUITY",
           "buyAt": "2026-03-10",
           "sellAt": "2026-03-12",
-          "capitalBefore": 123.36403718142665,
-          "capitalAfter": 112.78891737671846,
-          "pnl": -10.575119804708194,
-          "returnPct": -8.572287391304956,
+          "capitalBefore": 123.36404685954655,
+          "capitalAfter": 112.78892637660773,
+          "pnl": -10.575120482938814,
+          "returnPct": -8.572287268574197,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -5.23%"
@@ -7834,10 +7834,10 @@
           "type": "EQUITY",
           "buyAt": "2026-03-12",
           "sellAt": "2026-03-18",
-          "capitalBefore": 112.78891737671844,
-          "capitalAfter": 137.04488597413183,
-          "pnl": 24.255968597413386,
-          "returnPct": 21.505631192821635,
+          "capitalBefore": 112.78892637660772,
+          "capitalAfter": 137.0448970878336,
+          "pnl": 24.25597071122587,
+          "returnPct": 21.505631350930678,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Gewinnziel-Signal vom Vortag 23.49%"
@@ -7848,10 +7848,10 @@
           "type": "EQUITY",
           "buyAt": "2026-03-18",
           "sellAt": "2026-03-23",
-          "capitalBefore": 137.04488597413183,
-          "capitalAfter": 120.27650247015721,
-          "pnl": -16.76838350397462,
-          "returnPct": -12.235687150806756,
+          "capitalBefore": 137.0448970878336,
+          "capitalAfter": 120.27651237740854,
+          "pnl": -16.768384710425053,
+          "returnPct": -12.23568703888187,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -11.22%"
@@ -7862,10 +7862,10 @@
           "type": "EQUITY",
           "buyAt": "2026-03-23",
           "sellAt": "2026-03-26",
-          "capitalBefore": 120.27650247015721,
-          "capitalAfter": 104.48615353120482,
-          "pnl": -15.790348938952391,
-          "returnPct": -13.128373884059577,
+          "capitalBefore": 120.27651237740854,
+          "capitalAfter": 104.486162293013,
+          "pnl": -15.790350084395541,
+          "returnPct": -13.12837375500874,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -6.93%"
@@ -7876,10 +7876,10 @@
           "type": "EQUITY",
           "buyAt": "2026-03-26",
           "sellAt": "2026-03-30",
-          "capitalBefore": 104.48615353120482,
-          "capitalAfter": 85.35790634165663,
-          "pnl": -19.12824718954819,
-          "returnPct": -18.306968476770976,
+          "capitalBefore": 104.486162293013,
+          "capitalAfter": 85.35791365327643,
+          "pnl": -19.12824863973657,
+          "returnPct": -18.306968329542787,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -5.18%"
@@ -7890,10 +7890,10 @@
           "type": "EQUITY",
           "buyAt": "2026-03-30",
           "sellAt": "2026-04-07",
-          "capitalBefore": 85.35790634165663,
-          "capitalAfter": 83.38719942591158,
-          "pnl": -1.9707069157450547,
-          "returnPct": -2.3087573257209852,
+          "capitalBefore": 85.35791365327643,
+          "capitalAfter": 83.3872067400703,
+          "pnl": -1.9707069132061292,
+          "returnPct": -2.308757124982148,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -4.96%"
@@ -7904,10 +7904,10 @@
           "type": "EQUITY",
           "buyAt": "2026-04-07",
           "sellAt": "2026-04-09",
-          "capitalBefore": 83.38719942591159,
-          "capitalAfter": 94.99191698167013,
-          "pnl": 11.60471755575854,
-          "returnPct": 13.916665430248893,
+          "capitalBefore": 83.38720674007031,
+          "capitalAfter": 94.99192550362648,
+          "pnl": 11.604718763556164,
+          "returnPct": 13.91666565799441,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Gewinnziel-Signal vom Vortag 9.46%"
@@ -7918,10 +7918,10 @@
           "type": "EQUITY",
           "buyAt": "2026-04-09",
           "sellAt": "2026-04-14",
-          "capitalBefore": 94.9919169816701,
-          "capitalAfter": 88.59814171847377,
-          "pnl": -6.393775263196332,
-          "returnPct": -6.7308624421487275,
+          "capitalBefore": 94.99192550362646,
+          "capitalAfter": 88.59814984206012,
+          "pnl": -6.3937756615663375,
+          "returnPct": -6.730862257679202,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -4.63%"
@@ -7932,10 +7932,10 @@
           "type": "EQUITY",
           "buyAt": "2026-04-14",
           "sellAt": "2026-04-23",
-          "capitalBefore": 88.5981417184738,
-          "capitalAfter": 78.59121256608209,
-          "pnl": -10.006929152391706,
-          "returnPct": -11.294739323302466,
+          "capitalBefore": 88.59814984206012,
+          "capitalAfter": 78.59121994713007,
+          "pnl": -10.006929894930053,
+          "returnPct": -11.294739125781915,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -5.13%"
@@ -7946,10 +7946,10 @@
           "type": "EQUITY",
           "buyAt": "2026-04-23",
           "sellAt": "2026-04-27",
-          "capitalBefore": 78.59121256608208,
-          "capitalAfter": 96.49963155712301,
-          "pnl": 17.908418991040932,
-          "returnPct": 22.78679563059667,
+          "capitalBefore": 78.59121994713007,
+          "capitalAfter": 96.49964083200655,
+          "pnl": 17.908420884876477,
+          "returnPct": 22.786795900259392,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Gewinnziel-Signal vom Vortag 7.74%"
@@ -7960,10 +7960,10 @@
           "type": "EQUITY",
           "buyAt": "2026-04-27",
           "sellAt": "2026-05-07",
-          "capitalBefore": 96.499631557123,
-          "capitalAfter": 93.30902373827506,
-          "pnl": -3.190607818847937,
-          "returnPct": -3.306341969771413,
+          "capitalBefore": 96.49964083200653,
+          "capitalAfter": 93.30903289752727,
+          "pnl": -3.19060793447926,
+          "returnPct": -3.3063417718141546,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -4.01%"
@@ -7974,10 +7974,10 @@
           "type": "EQUITY",
           "buyAt": "2026-05-07",
           "sellAt": "2026-05-11",
-          "capitalBefore": 93.30902373827507,
-          "capitalAfter": 100.23537518052689,
-          "pnl": 6.926351442251814,
-          "returnPct": 7.42302423148239,
+          "capitalBefore": 93.30903289752727,
+          "capitalAfter": 100.2353852254856,
+          "pnl": 6.926352327958327,
+          "returnPct": 7.423024452053749,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Gewinnziel-Signal vom Vortag 13.81%"
@@ -7988,10 +7988,10 @@
           "type": "EQUITY",
           "buyAt": "2026-05-11",
           "sellAt": "2026-05-15",
-          "capitalBefore": 100.23537518052687,
-          "capitalAfter": 105.26332252153172,
-          "pnl": 5.027947341004847,
-          "returnPct": 5.016140591033221,
+          "capitalBefore": 100.23538522548562,
+          "capitalAfter": 105.26333327788436,
+          "pnl": 5.027948052398742,
+          "returnPct": 5.016140798070527,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Gewinnziel-Signal vom Vortag 13.35%"
@@ -8002,10 +8002,10 @@
           "type": "EQUITY",
           "buyAt": "2026-05-15",
           "sellAt": "2026-05-19",
-          "capitalBefore": 105.26332252153175,
-          "capitalAfter": 106.91275529010751,
-          "pnl": 1.649432768575764,
-          "returnPct": 1.566958679494817,
+          "capitalBefore": 105.26333327788436,
+          "capitalAfter": 106.91276642295479,
+          "pnl": 1.6494331450704323,
+          "returnPct": 1.5669588770442018,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -5.31%"
@@ -8016,10 +8016,10 @@
           "type": "EQUITY",
           "buyAt": "2026-05-19",
           "sellAt": "2026-05-27",
-          "capitalBefore": 106.9127552901075,
-          "capitalAfter": 96.08516662906712,
-          "pnl": -10.82758866104038,
-          "returnPct": -10.127499409831637,
+          "capitalBefore": 106.9127664229548,
+          "capitalAfter": 96.08517683401678,
+          "pnl": -10.827589588938025,
+          "returnPct": -10.127499223154773,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -4.33%"
@@ -8030,10 +8030,10 @@
           "type": "EQUITY",
           "buyAt": "2026-05-27",
           "sellAt": "2026-06-01",
-          "capitalBefore": 96.0851666290671,
-          "capitalAfter": 74.68776618237445,
-          "pnl": -21.397400446692657,
-          "returnPct": -22.269202622394836,
+          "capitalBefore": 96.08517683401678,
+          "capitalAfter": 74.68777430551154,
+          "pnl": -21.39740252850524,
+          "returnPct": -22.269202423874788,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -4.29%"
@@ -8044,10 +8044,10 @@
           "type": "EQUITY",
           "buyAt": "2026-06-01",
           "sellAt": "2026-06-04",
-          "capitalBefore": 74.68776618237446,
-          "capitalAfter": 58.453980702843594,
-          "pnl": -16.233785479530866,
-          "returnPct": -21.735534893212368,
+          "capitalBefore": 74.68777430551152,
+          "capitalAfter": 58.453987256887224,
+          "pnl": -16.2337870486243,
+          "returnPct": -21.735534630098545,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -13.18%"
@@ -8058,10 +8058,10 @@
           "type": "EQUITY",
           "buyAt": "2026-06-04",
           "sellAt": "2026-06-08",
-          "capitalBefore": 58.45398070284359,
-          "capitalAfter": 47.07788100854384,
-          "pnl": -11.376099694299747,
-          "returnPct": -19.46163384856754,
+          "capitalBefore": 58.45398725688722,
+          "capitalAfter": 47.07788649301204,
+          "pnl": -11.37610076387518,
+          "returnPct": -19.461633496241635,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -7.21%"
@@ -8072,10 +8072,10 @@
           "type": "EQUITY",
           "buyAt": "2026-06-08",
           "sellAt": "2026-06-10",
-          "capitalBefore": 47.07788100854385,
-          "capitalAfter": 60.37489990835058,
-          "pnl": 13.29701889980673,
-          "returnPct": 28.244726854621057,
+          "capitalBefore": 47.077886493012045,
+          "capitalAfter": 60.37490721356252,
+          "pnl": 13.297020720550478,
+          "returnPct": 28.2447274316875,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Gewinnziel-Signal vom Vortag 26.16%"
@@ -8086,10 +8086,10 @@
           "type": "EQUITY",
           "buyAt": "2026-06-10",
           "sellAt": "2026-06-12",
-          "capitalBefore": 60.37489990835057,
-          "capitalAfter": 45.994132699593514,
-          "pnl": -14.380767208757057,
-          "returnPct": -23.819115610273705,
+          "capitalBefore": 60.374907213562516,
+          "capitalAfter": 45.994138481533355,
+          "pnl": -14.38076873202916,
+          "returnPct": -23.819115251242472,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -18.35%"
@@ -8100,10 +8100,10 @@
           "type": "EQUITY",
           "buyAt": "2026-06-12",
           "sellAt": "2026-06-16",
-          "capitalBefore": 45.994132699593514,
-          "capitalAfter": 37.29569156109001,
-          "pnl": -8.698441138503505,
-          "returnPct": -18.912066883218735,
+          "capitalBefore": 45.99413848153337,
+          "capitalAfter": 37.29569648225132,
+          "pnl": -8.698441999282046,
+          "returnPct": -18.91206637727211,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -6.16%"
@@ -8114,10 +8114,10 @@
           "type": "EQUITY",
           "buyAt": "2026-06-16",
           "sellAt": "2026-06-18",
-          "capitalBefore": 37.29569156109002,
-          "capitalAfter": 42.769667008672116,
-          "pnl": 5.473975447582099,
-          "returnPct": 14.677232727045093,
+          "capitalBefore": 37.295696482251316,
+          "capitalAfter": 42.76967294319442,
+          "pnl": 5.473976460943106,
+          "returnPct": 14.677233507485568,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Gewinnziel-Signal vom Vortag 9.89%"
@@ -8128,10 +8128,10 @@
           "type": "EQUITY",
           "buyAt": "2026-06-18",
           "sellAt": "2026-06-22",
-          "capitalBefore": 42.769667008672116,
-          "capitalAfter": 39.203353155812,
-          "pnl": -3.5663138528601124,
-          "returnPct": -8.338418562241776,
+          "capitalBefore": 42.76967294319442,
+          "capitalAfter": 39.20335886779664,
+          "pnl": -3.5663140753977842,
+          "returnPct": -8.338417925557838,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -13.22%"
@@ -8142,10 +8142,10 @@
           "type": "EQUITY",
           "buyAt": "2026-06-22",
           "sellAt": "2026-06-24",
-          "capitalBefore": 39.203353155812,
-          "capitalAfter": 36.0718867700619,
-          "pnl": -3.1314663857501017,
-          "returnPct": -7.9877513877555995,
+          "capitalBefore": 39.20335886779663,
+          "capitalAfter": 36.07189231287503,
+          "pnl": -3.1314665549216016,
+          "returnPct": -7.98775065545194,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -4.34%"
@@ -8156,10 +8156,10 @@
           "type": "EQUITY",
           "buyAt": "2026-06-24",
           "sellAt": "2026-06-29",
-          "capitalBefore": 36.0718867700619,
-          "capitalAfter": 33.06880537746758,
-          "pnl": -3.003081392594325,
-          "returnPct": -8.325268405662529,
+          "capitalBefore": 36.071892312875036,
+          "capitalAfter": 33.06881076175224,
+          "pnl": -3.003081551122797,
+          "returnPct": -8.325267565879587,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -3.58%"
@@ -8170,10 +8170,10 @@
           "type": "EQUITY",
           "buyAt": "2026-06-29",
           "sellAt": "2026-07-01",
-          "capitalBefore": 33.06880537746758,
-          "capitalAfter": 31.39662551920506,
-          "pnl": -1.672179858262517,
-          "returnPct": -5.056668480083369,
+          "capitalBefore": 33.06881076175224,
+          "capitalAfter": 31.396630958530025,
+          "pnl": -1.672179803222214,
+          "returnPct": -5.056667490311675,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Gewinnziel-Signal vom Vortag 9.69%"
@@ -8184,10 +8184,10 @@
           "type": "EQUITY",
           "buyAt": "2026-07-01",
           "sellAt": "2026-07-08",
-          "capitalBefore": 31.396625519205056,
-          "capitalAfter": 27.522333513467967,
-          "pnl": -3.8742920057370895,
-          "returnPct": -12.339835704213552,
+          "capitalBefore": 31.39663095853002,
+          "capitalAfter": 27.522338617397704,
+          "pnl": -3.8742923411323176,
+          "returnPct": -12.339834634644859,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -5.80%"
@@ -8198,10 +8198,10 @@
           "type": "EQUITY",
           "buyAt": "2026-07-08",
           "sellAt": "2026-07-13",
-          "capitalBefore": 27.52233351346797,
-          "capitalAfter": 28.748035041756623,
-          "pnl": 1.2257015282886528,
-          "returnPct": 4.453479672022939,
+          "capitalBefore": 27.522338617397708,
+          "capitalAfter": 28.748040766436944,
+          "pnl": 1.2257021490392361,
+          "returnPct": 4.453481101582089,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Gewinnziel-Signal vom Vortag 14.07%"
@@ -8212,10 +8212,10 @@
           "type": "EQUITY",
           "buyAt": "2026-07-13",
           "sellAt": "2026-07-15",
-          "capitalBefore": 28.748035041756623,
-          "capitalAfter": 30.71049427456575,
-          "pnl": 1.9624592328091275,
-          "returnPct": 6.826411718083161,
+          "capitalBefore": 28.74804076643694,
+          "capitalAfter": 30.710500816738637,
+          "pnl": 1.9624600503016971,
+          "returnPct": 6.826413202366299,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -6.36%"
@@ -8226,10 +8226,10 @@
           "type": "EQUITY",
           "buyAt": "2026-07-15",
           "sellAt": "2026-07-17",
-          "capitalBefore": 30.71049427456575,
-          "capitalAfter": 23.05549088339953,
-          "pnl": -7.655003391166222,
-          "returnPct": -24.926343818262968,
+          "capitalBefore": 30.710500816738637,
+          "capitalAfter": 23.055496180355508,
+          "pnl": -7.655004636383129,
+          "returnPct": -24.926342562967253,
           "buyFee": 1.0,
           "sellFee": 1.0,
           "reason": "Stop-Signal vom Vortag -10.01%"
@@ -8306,7 +8306,7 @@
           "name": "Venture Global, Inc.",
           "type": "EQUITY",
           "fee": 1.0,
-          "score": 7.503758096212944,
+          "score": 7.503757865176016,
           "confidence": 0.9,
           "allocation": 120.01685255334777,
           "reason": "Vortagssignal: Score 7.50, Konfidenz 90%, Kostenfilter netto positiv"
@@ -8329,7 +8329,7 @@
           "fee": 1.0,
           "score": 7.780978148761634,
           "confidence": 0.9,
-          "allocation": 129.34507811468836,
+          "allocation": 129.34508810261642,
           "reason": "Vortagssignal: Score 7.78, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8350,7 +8350,7 @@
           "fee": 1.0,
           "score": 7.377440535204563,
           "confidence": 0.9,
-          "allocation": 123.36403718142665,
+          "allocation": 123.36404685954655,
           "reason": "Vortagssignal: Score 7.38, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8371,7 +8371,7 @@
           "fee": 1.0,
           "score": 7.732602198076088,
           "confidence": 0.9,
-          "allocation": 112.78891737671844,
+          "allocation": 112.78892637660772,
           "reason": "Vortagssignal: Score 7.73, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8392,7 +8392,7 @@
           "fee": 1.0,
           "score": 7.637020884991536,
           "confidence": 0.9,
-          "allocation": 137.04488597413183,
+          "allocation": 137.0448970878336,
           "reason": "Vortagssignal: Score 7.64, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8413,7 +8413,7 @@
           "fee": 1.0,
           "score": 7.782699758478569,
           "confidence": 0.9,
-          "allocation": 120.27650247015721,
+          "allocation": 120.27651237740854,
           "reason": "Vortagssignal: Score 7.78, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8434,7 +8434,7 @@
           "fee": 1.0,
           "score": 7.666386813935176,
           "confidence": 0.9,
-          "allocation": 104.48615353120482,
+          "allocation": 104.486162293013,
           "reason": "Vortagssignal: Score 7.67, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8455,7 +8455,7 @@
           "fee": 1.0,
           "score": 7.543625859224149,
           "confidence": 0.9,
-          "allocation": 85.35790634165663,
+          "allocation": 85.35791365327643,
           "reason": "Vortagssignal: Score 7.54, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8474,9 +8474,9 @@
           "name": "Browave Corporation",
           "type": "EQUITY",
           "fee": 1.0,
-          "score": 7.472055635475577,
+          "score": 7.472055635475576,
           "confidence": 0.9,
-          "allocation": 83.38719942591159,
+          "allocation": 83.38720674007031,
           "reason": "Vortagssignal: Score 7.47, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8497,7 +8497,7 @@
           "fee": 1.0,
           "score": 7.786938988065946,
           "confidence": 0.9,
-          "allocation": 94.9919169816701,
+          "allocation": 94.99192550362646,
           "reason": "Vortagssignal: Score 7.79, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8518,7 +8518,7 @@
           "fee": 1.0,
           "score": 7.727739805802321,
           "confidence": 0.9,
-          "allocation": 88.5981417184738,
+          "allocation": 88.59814984206012,
           "reason": "Vortagssignal: Score 7.73, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8539,7 +8539,7 @@
           "fee": 1.0,
           "score": 7.4038468167573575,
           "confidence": 0.9,
-          "allocation": 78.59121256608208,
+          "allocation": 78.59121994713007,
           "reason": "Vortagssignal: Score 7.40, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8560,7 +8560,7 @@
           "fee": 1.0,
           "score": 7.429849320127597,
           "confidence": 0.9,
-          "allocation": 96.499631557123,
+          "allocation": 96.49964083200653,
           "reason": "Vortagssignal: Score 7.43, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8581,7 +8581,7 @@
           "fee": 1.0,
           "score": 7.604506902686191,
           "confidence": 0.9,
-          "allocation": 93.30902373827507,
+          "allocation": 93.30903289752727,
           "reason": "Vortagssignal: Score 7.60, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8602,7 +8602,7 @@
           "fee": 1.0,
           "score": 7.6580164623087486,
           "confidence": 0.9,
-          "allocation": 100.23537518052687,
+          "allocation": 100.23538522548562,
           "reason": "Vortagssignal: Score 7.66, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8623,7 +8623,7 @@
           "fee": 1.0,
           "score": 7.526287022967911,
           "confidence": 0.9,
-          "allocation": 105.26332252153175,
+          "allocation": 105.26333327788436,
           "reason": "Vortagssignal: Score 7.53, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8644,7 +8644,7 @@
           "fee": 1.0,
           "score": 7.570397541506927,
           "confidence": 0.9,
-          "allocation": 106.9127552901075,
+          "allocation": 106.9127664229548,
           "reason": "Vortagssignal: Score 7.57, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8665,7 +8665,7 @@
           "fee": 1.0,
           "score": 7.629534209851263,
           "confidence": 0.9,
-          "allocation": 96.0851666290671,
+          "allocation": 96.08517683401678,
           "reason": "Vortagssignal: Score 7.63, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8686,7 +8686,7 @@
           "fee": 1.0,
           "score": 7.55136352868163,
           "confidence": 0.9,
-          "allocation": 74.68776618237446,
+          "allocation": 74.68777430551152,
           "reason": "Vortagssignal: Score 7.55, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8707,7 +8707,7 @@
           "fee": 1.0,
           "score": 7.486669368940552,
           "confidence": 0.9,
-          "allocation": 58.45398070284359,
+          "allocation": 58.45398725688722,
           "reason": "Vortagssignal: Score 7.49, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8728,7 +8728,7 @@
           "fee": 1.0,
           "score": 7.548161551713777,
           "confidence": 0.9,
-          "allocation": 47.07788100854385,
+          "allocation": 47.077886493012045,
           "reason": "Vortagssignal: Score 7.55, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8749,7 +8749,7 @@
           "fee": 1.0,
           "score": 7.361544278202621,
           "confidence": 0.9,
-          "allocation": 60.37489990835057,
+          "allocation": 60.374907213562516,
           "reason": "Vortagssignal: Score 7.36, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8770,7 +8770,7 @@
           "fee": 1.0,
           "score": 7.628579394544308,
           "confidence": 0.9,
-          "allocation": 45.994132699593514,
+          "allocation": 45.99413848153337,
           "reason": "Vortagssignal: Score 7.63, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8791,7 +8791,7 @@
           "fee": 1.0,
           "score": 7.739337133302562,
           "confidence": 0.9,
-          "allocation": 37.29569156109002,
+          "allocation": 37.295696482251316,
           "reason": "Vortagssignal: Score 7.74, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8812,7 +8812,7 @@
           "fee": 1.0,
           "score": 7.684476150783385,
           "confidence": 0.9,
-          "allocation": 42.769667008672116,
+          "allocation": 42.76967294319442,
           "reason": "Vortagssignal: Score 7.68, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8833,7 +8833,7 @@
           "fee": 1.0,
           "score": 7.678675185820017,
           "confidence": 0.9,
-          "allocation": 39.203353155812,
+          "allocation": 39.20335886779663,
           "reason": "Vortagssignal: Score 7.68, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8854,7 +8854,7 @@
           "fee": 1.0,
           "score": 7.361909730680828,
           "confidence": 0.9,
-          "allocation": 36.0718867700619,
+          "allocation": 36.071892312875036,
           "reason": "Vortagssignal: Score 7.36, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8875,7 +8875,7 @@
           "fee": 1.0,
           "score": 7.507483368329508,
           "confidence": 0.9,
-          "allocation": 33.06880537746758,
+          "allocation": 33.06881076175224,
           "reason": "Vortagssignal: Score 7.51, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8896,7 +8896,7 @@
           "fee": 1.0,
           "score": 7.3329858912154915,
           "confidence": 0.9,
-          "allocation": 31.396625519205056,
+          "allocation": 31.39663095853002,
           "reason": "Vortagssignal: Score 7.33, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8917,7 +8917,7 @@
           "fee": 1.0,
           "score": 7.479433433096497,
           "confidence": 0.9,
-          "allocation": 27.52233351346797,
+          "allocation": 27.522338617397708,
           "reason": "Vortagssignal: Score 7.48, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8938,7 +8938,7 @@
           "fee": 1.0,
           "score": 7.5744891552289,
           "confidence": 0.9,
-          "allocation": 28.748035041756623,
+          "allocation": 28.74804076643694,
           "reason": "Vortagssignal: Score 7.57, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8959,7 +8959,7 @@
           "fee": 1.0,
           "score": 7.470425048792134,
           "confidence": 0.9,
-          "allocation": 30.71049427456575,
+          "allocation": 30.710500816738637,
           "reason": "Vortagssignal: Score 7.47, Konfidenz 90%, Kostenfilter netto positiv"
         },
         {
@@ -8996,7 +8996,7 @@
       },
       {
         "symbol": "0QFP.IL",
-        "maxFactor": 2.5130369628535707,
+        "maxFactor": 2.5102405354854715,
         "minFactor": 0.9809524130523884,
         "reason": "Tagesfaktor ausserhalb 0.40–2.50; moeglicher Split/Notierungs-/Feeddatenfehler"
       },
@@ -9044,8 +9044,8 @@
       },
       {
         "symbol": "XPML11.SA",
-        "maxFactor": 759.9334303289511,
-        "minFactor": 0.009721962948713081,
+        "maxFactor": 759.933486010696,
+        "minFactor": 0.009721963348098845,
         "reason": "Tagesfaktor ausserhalb 0.40–2.50; moeglicher Split/Notierungs-/Feeddatenfehler"
       },
       {
@@ -9069,7 +9069,7 @@
       {
         "symbol": "OAP3.L",
         "maxFactor": 100.1299554256555,
-        "minFactor": 0.9500056385858971,
+        "minFactor": 0.9504935974249639,
         "reason": "Tagesfaktor ausserhalb 0.40–2.50; moeglicher Split/Notierungs-/Feeddatenfehler"
       },
       {
@@ -9536,7 +9536,7 @@
   "strategyLearning": {
     "available": true,
     "modelVersion": "causal-3day-ridge-v1",
-    "generatedAt": "2026-08-18T10:41:02.259463+00:00",
+    "generatedAt": "2026-08-18T13:36:46.151953+00:00",
     "target": "EUR-Gesamtrendite der folgenden 3 Handelstage, auf ±20% gekappt",
     "features": [
       "emaGapPct",
@@ -9548,53 +9548,53 @@
       "volatility20Pct"
     ],
     "mean": {
-      "emaGapPct": 0.14732600822422504,
-      "priceVsEma21Pct": 0.32505438394335995,
-      "rsi": 49.9345843189879,
-      "mom5Pct": 0.4009441531526546,
-      "mom20Pct": 1.8781265597806924,
-      "dayPct": 0.0933515727570016,
-      "volatility20Pct": 2.8874681125405233
+      "emaGapPct": 0.1481390168311818,
+      "priceVsEma21Pct": 0.3261246778964095,
+      "rsi": 49.93687627977599,
+      "mom5Pct": 0.401108975569935,
+      "mom20Pct": 1.8787337838905431,
+      "dayPct": 0.09335901918650139,
+      "volatility20Pct": 2.8861017179693147
     },
     "std": {
-      "emaGapPct": 3.674514311507425,
-      "priceVsEma21Pct": 7.523688571209386,
-      "rsi": 17.183511109873255,
-      "mom5Pct": 7.97234835467814,
-      "mom20Pct": 17.970023508799567,
-      "dayPct": 3.489050973758165,
-      "volatility20Pct": 1.8885010404349454
+      "emaGapPct": 3.672511096444576,
+      "priceVsEma21Pct": 7.5203971155039,
+      "rsi": 17.184278196547353,
+      "mom5Pct": 7.969689090959322,
+      "mom20Pct": 17.95871067844303,
+      "dayPct": 3.487877009127583,
+      "volatility20Pct": 1.8883822838681006
     },
     "coefficients": {
-      "emaGapPct": 0.20443148999878383,
-      "priceVsEma21Pct": -0.2551668186820333,
-      "rsi": 0.09217152730532023,
-      "mom5Pct": 0.027242094231928377,
-      "mom20Pct": -0.013711862118566228,
-      "dayPct": -0.005243007709632854,
-      "volatility20Pct": 0.03247473470914199
+      "emaGapPct": 0.20754622252178623,
+      "priceVsEma21Pct": -0.2582047330557015,
+      "rsi": 0.09205713862403656,
+      "mom5Pct": 0.02781275566986257,
+      "mom20Pct": -0.014371322522997016,
+      "dayPct": -0.004041265254404465,
+      "volatility20Pct": 0.0330165721855545
     },
-    "interceptPct": 0.17919722536407426,
-    "sampleCount": 1097581,
-    "trainSamples": 863513,
-    "validationSamples": 234068,
+    "interceptPct": 0.17928205007932974,
+    "sampleCount": 1097294,
+    "trainSamples": 862969,
+    "validationSamples": 234325,
     "validation": {
-      "correlation": -0.006059491011780497,
-      "directionAccuracyPct": 50.430644086333885,
-      "overallForward3Pct": 0.3594202011650741,
-      "topPredictedQuintileForward3Pct": 0.39142348733156823,
-      "topPredictedQuintilePositivePct": 50.68996454052207
+      "correlation": -0.006128800461740853,
+      "directionAccuracyPct": 50.43593299903979,
+      "overallForward3Pct": 0.35882192043133726,
+      "topPredictedQuintileForward3Pct": 0.38914213800650577,
+      "topPredictedQuintilePositivePct": 50.66894270777767
     },
     "perfectHindsightPreBuyProfile": {
       "samples": 131,
       "mean": {
-        "emaGapPct": 1.4583075116269844,
-        "priceVsEma21Pct": 4.825510768516813,
-        "rsi": 51.62174402324709,
+        "emaGapPct": 1.4581885970545718,
+        "priceVsEma21Pct": 4.825640499814202,
+        "rsi": 51.62667544855856,
         "mom5Pct": 7.441461416467957,
-        "mom20Pct": 18.123811603392305,
+        "mom20Pct": 18.12856323038743,
         "dayPct": 2.359327983646427,
-        "volatility20Pct": 7.531081692734837
+        "volatility20Pct": 7.530896692814227
       },
       "description": "Nur Merkmale des letzten abgeschlossenen Handelstags VOR einem perfekten BUY; das spätere Zukunftswissen selbst wird nicht an die Live-KI weitergegeben."
     },
