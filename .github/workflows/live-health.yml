@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Allow Cloudflare build to publish
-        run: sleep 45
+        run: sleep 55
 
       - name: Probe live Worker
         run: |
@@ -29,7 +29,9 @@ jobs:
           curl -fsS --retry 3 --retry-delay 2 -o /tmp/status.json "$BASE/api/status"
           curl -fsS --retry 3 --retry-delay 2 -o /tmp/agent.json "$BASE/api/agent/status"
           HOTFIX_CODE=$(curl -sS -o /tmp/ui-hotfix.css -w '%{http_code}' "$BASE/ui-hotfix.css?v=health")
+          CHART_CODE=$(curl -sS -o /tmp/position-chart-ui.js -w '%{http_code}' "$BASE/position-chart-ui.js?v=health")
           echo "$HOTFIX_CODE" >/tmp/ui-hotfix-code.txt
+          echo "$CHART_CODE" >/tmp/chart-code.txt
           grep -q 'KI Markt-Planspiel' /tmp/home.html
           grep -q 'async function load' /tmp/app.js
 
@@ -41,7 +43,9 @@ jobs:
           a=json.load(open('/tmp/agent.json',encoding='utf-8'))
           c=s.get('config') or {}
           hotfix_code=pathlib.Path('/tmp/ui-hotfix-code.txt').read_text().strip()
+          chart_code=pathlib.Path('/tmp/chart-code.txt').read_text().strip()
           hotfix_text=pathlib.Path('/tmp/ui-hotfix.css').read_text(encoding='utf-8',errors='replace') if pathlib.Path('/tmp/ui-hotfix.css').exists() else ''
+          chart_text=pathlib.Path('/tmp/position-chart-ui.js').read_text(encoding='utf-8',errors='replace') if pathlib.Path('/tmp/position-chart-ui.js').exists() else ''
           def cand(x):
               return {k:x.get(k) for k in ['symbol','name','score','liveScore','confidence','liveConfidence','day_change','news_score','event_risk','fastScore','buyScore','sellScore','pro','contra'] if k in x}
           def hist(x):
@@ -54,6 +58,8 @@ jobs:
             'appJsOk': 'async function load' in pathlib.Path('/tmp/app.js').read_text(encoding='utf-8',errors='replace'),
             'uiHotfixHttp': hotfix_code,
             'uiHotfixLive': hotfix_code=='200' and 'Desktop layout hotfix 2026-08-18' in hotfix_text,
+            'positionChartUiHttp': chart_code,
+            'positionChartUiLive': chart_code=='200' and 'Trade-Chart' in chart_text,
             'apiStatusOk': bool(c),
             'running': c.get('running'),
             'scanCount': c.get('scan_count'),
@@ -72,6 +78,14 @@ jobs:
             'recentAiLog': [log(x) for x in (s.get('aiLog') or [])[:12]],
             'sourceHealth': (s.get('sourceHealth') or [])[:20],
             'risk': s.get('risk'),
+            'forwardScan': s.get('forwardScan'),
+            'profitOptimizer': s.get('profitOptimizer'),
+            'futureWatch': {
+              'candidateCount': (s.get('futureWatch') or {}).get('candidateCount'),
+              'monitoredUniverseCount': (s.get('futureWatch') or {}).get('monitoredUniverseCount'),
+              'activeThemes': (s.get('futureWatch') or {}).get('activeThemes'),
+              'scheduledEvents': (s.get('futureWatch') or {}).get('scheduledEvents')
+            },
             'freeTierBudget': s.get('freeTierBudget'),
             'pcAgent': {
               'configured': a.get('configured'),
@@ -90,6 +104,10 @@ jobs:
           print(json.dumps(out,ensure_ascii=False,indent=2))
           if a.get('configured') is not True:
               raise SystemExit('PC_AGENT_TOKEN missing in runtime Worker')
+          if not s.get('profitOptimizer',{}).get('enabled'):
+              raise SystemExit('Profit optimizer not deployed yet')
+          if not s.get('forwardScan',{}).get('enabled'):
+              raise SystemExit('Forward scanner not deployed yet')
           PY
 
       - name: Publish result
