@@ -1,9 +1,8 @@
 export const AI_MODEL = '@cf/zai-org/glm-4.7-flash';
-export const SPARK_BATCH = 40;
-// Hybrid-Free-Profil: bis zu 40 aktuelle + vorausschauende Aktien werden pro Minute
-// grob aktualisiert. Die zwei staerksten Finalisten gehen in die vollstaendige
-// Deep-/Safety-Kette. So bleibt die Tiefenpruefung stabil, waehrend der Forward-Pool
-// trotzdem deutlich mehr moegliche Gewinner frueh in die Konkurrenz bringt.
+export const SPARK_BATCH = 50;
+// Hybrid-Free-Profil: bis zu 50 Aktien koennen pro Minute grob konkurrieren:
+// 25 aktuelle Leader + bis zu 15 Forward-Kandidaten + bis zu 10 Rebound-Verlierer.
+// Die zwei staerksten Finalisten gehen in die vollstaendige Deep-/Safety-Kette.
 export const DEEP_LIMIT = 2;
 export const NEWS_LIMIT = 2;
 export const NEWS_RADAR_BATCH = 2;
