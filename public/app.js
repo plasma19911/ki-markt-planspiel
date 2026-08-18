@@ -8,7 +8,6 @@ const timeOnly=s=>s?new Date(s).toLocaleTimeString('de-DE',{hour:'2-digit',minut
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
-const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
 async function api(path,opts={}){const r=await fetch(path,opts);let j={};try{j=await r.json()}catch{}if(!r.ok)throw new Error(j.error||`HTTP ${r.status}`);return j}
 
 function drawChart(rows){
@@ -40,42 +39,99 @@ function ageText(n){if(n.waiting_for_open)return 'wartet auf Öffnung';const h=n
 function card(label,value,cls=''){return `<div class="mini ${cls}"><span>${esc(label)}</span><b>${esc(value)}</b></div>`}
 function sourceList(v){try{return JSON.parse(v||'[]').join(' + ')||'–'}catch{return Array.isArray(v)?v.join(' + '):String(v||'–')}}
 function typeName(t){return String(t||'EQUITY').toUpperCase()==='ETF'?'ETF':'Aktie'}
-function setTab(which){const history=which==='week';$('livePanel').hidden=history;$('weekPanel').hidden=!history;$('liveTabBtn').classList.toggle('active',!history);$('weekTabBtn').classList.toggle('active',history);window.scrollTo({top:0,behavior:'smooth'})}
-$('liveTabBtn').onclick=()=>setTab('live');$('weekTabBtn').onclick=()=>setTab('week');
 
-function agentIsOnline(agent){
- if(agent?.online===true||agent?.fresh===true)return true;
- const raw=agent?.lastSeenAt||agent?.last_seen_at||agent?.updatedAt;const t=Date.parse(String(raw||''));return Number.isFinite(t)&&Date.now()-t<180000;
+const COMPANY_INFO={
+ 'SAP':'SAP entwickelt Unternehmenssoftware für Finanzen, Personal, Einkauf, Lieferketten und Cloud.',
+ 'CRM':'Salesforce verkauft Cloud-Software für Vertrieb, Kundenservice, Marketing und Datenanalyse.',
+ 'ADBE':'Adobe entwickelt Kreativsoftware wie Photoshop sowie PDF-, Dokument- und Marketingsoftware.',
+ 'INTU':'Intuit bietet Finanz-, Buchhaltungs- und Steuersoftware wie QuickBooks, TurboTax und Credit Karma.',
+ 'NOW':'ServiceNow liefert Cloud-Software, mit der Unternehmen IT- und Geschäftsabläufe automatisieren.',
+ 'NVDA':'Nvidia entwickelt KI- und Grafikchips sowie Rechenzentrumsplattformen.',
+ 'AMD':'AMD entwickelt Prozessoren, Grafikchips und Chips für Rechenzentren und KI.',
+ 'AVGO':'Broadcom entwickelt Halbleiter und Infrastruktur-Software für Netzwerke, Rechenzentren und Unternehmen.',
+ 'MU':'Micron produziert Speicherchips für PCs, Smartphones, Rechenzentren und KI-Systeme.',
+ 'ASML':'ASML baut Lithografie-Maschinen, die für die Herstellung moderner Computerchips benötigt werden.',
+ 'ARM':'Arm entwickelt Prozessor-Architekturen, die in Smartphones, Rechenzentren und vielen Chips stecken.',
+ 'MSFT':'Microsoft verkauft Windows, Office, Azure-Cloud, Unternehmenssoftware und KI-Dienste.',
+ 'AMZN':'Amazon betreibt Onlinehandel und mit AWS einen der größten Cloud-Anbieter der Welt.',
+ 'GOOGL':'Alphabet betreibt Google, YouTube, Werbung, Cloud-Dienste und KI-Produkte.',
+ 'GOOG':'Alphabet betreibt Google, YouTube, Werbung, Cloud-Dienste und KI-Produkte.',
+ 'META':'Meta betreibt Facebook, Instagram und WhatsApp und verdient vor allem mit digitaler Werbung.',
+ 'PLTR':'Palantir entwickelt Daten- und KI-Software für Unternehmen, Behörden und Verteidigung.',
+ 'TSLA':'Tesla baut Elektroautos, Batteriespeicher und Energieprodukte und entwickelt autonome Fahrtechnik.',
+ 'LMT':'Lockheed Martin ist ein großer US-Rüstungskonzern für Kampfjets, Raketen, Raumfahrt und Verteidigung.',
+ 'NOC':'Northrop Grumman entwickelt Militärflugzeuge, Raumfahrt-, Raketen- und Verteidigungssysteme.',
+ 'ESLT':'Elbit Systems entwickelt Militär-Elektronik, Drohnen, Sensoren und andere Verteidigungssysteme.',
+ 'RTX':'RTX produziert Triebwerke, Flugzeugsysteme sowie Raketen- und Luftverteidigungstechnik.',
+ 'GD':'General Dynamics baut Militärfahrzeuge, U-Boote, Geschäftsjets und andere Verteidigungssysteme.',
+ 'LHX':'L3Harris entwickelt Kommunikations-, Sensor-, Weltraum- und Verteidigungstechnik.',
+ 'RHM':'Rheinmetall produziert Munition, Militärfahrzeuge, Luftverteidigung und andere Rüstungstechnik.',
+ 'SMR':'NuScale Power entwickelt kleine modulare Kernreaktoren (SMR).',
+ 'OKLO':'Oklo entwickelt kleine moderne Kernreaktoren und Stromversorgung für energieintensive Kunden.',
+ 'GEV':'GE Vernova baut Energie- und Stromnetztechnik, darunter Gasturbinen, Windkraft und Netzausrüstung.',
+ 'ETN':'Eaton produziert elektrische Systeme und Komponenten für Stromnetze, Industrie und Rechenzentren.',
+ 'VRT':'Vertiv liefert Stromversorgung und Kühlung für Rechenzentren.',
+ 'PANW':'Palo Alto Networks verkauft Cybersicherheitssoftware für Netzwerke, Cloud und Unternehmen.',
+ 'CRWD':'CrowdStrike bietet cloudbasierte Cybersicherheit und Schutz von Computern und Unternehmensnetzen.',
+ 'FTNT':'Fortinet verkauft Netzwerk- und Cybersicherheitslösungen.',
+ 'JPM':'JPMorgan Chase ist eine große US-Bank für Privatkunden, Unternehmen, Handel und Investmentbanking.',
+ 'BAC':'Bank of America ist eine große US-Bank für Privat- und Firmenkunden.',
+ 'GS':'Goldman Sachs ist vor allem im Investmentbanking, Handel und Vermögensmanagement tätig.',
+ 'DBK':'Deutsche Bank bietet Privat-, Firmen- und Investmentbanking.',
+ 'CBK':'Commerzbank betreut Privatkunden sowie kleine und große Unternehmen.',
+ 'XOM':'Exxon Mobil fördert und verarbeitet Öl und Gas und verkauft Energie- und Chemieprodukte.',
+ 'CVX':'Chevron ist ein großer Öl- und Gaskonzern mit Förderung, Raffinerien und Energiegeschäft.',
+ 'COP':'ConocoPhillips ist vor allem in der weltweiten Öl- und Gasförderung tätig.',
+ 'NEM':'Newmont ist einer der größten Goldproduzenten der Welt.'
+};
+const THEME_INFO={
+ DEFENSE_TECH:'Das Unternehmen ist im Bereich Verteidigung und Sicherheit tätig.',
+ RUSSIA_SANCTIONS_DEFENSE:'Das Unternehmen ist im Bereich Verteidigung und Sicherheit tätig.',
+ SEMI_EXPORT_CONTROLS:'Das Unternehmen gehört zur Halbleiter- und Chipindustrie.',
+ AI_POWER_GRID:'Das Unternehmen profitiert oder hängt vom Ausbau von Rechenzentren und Stromnetzen ab.',
+ NUCLEAR_URANIUM:'Das Unternehmen ist im Bereich Kernenergie oder Uran tätig.',
+ CYBER_SECURITY:'Das Unternehmen bietet IT- oder Cybersicherheitslösungen an.',
+ CRITICAL_MINERALS:'Das Unternehmen ist im Rohstoff- oder Bergbausektor tätig.',
+ SHIPPING_DISRUPTION:'Das Unternehmen ist in Schifffahrt, Tankern oder Logistik tätig.',
+ GOLD_GEOPOLITICAL:'Das Unternehmen ist im Gold- oder Edelmetallbereich tätig.',
+ RATES_MACRO:'Die Aktie reagiert stark auf Zinsen, Konjunktur und allgemeine Marktstimmung.'
+};
+function baseSymbol(v){return String(v||'').toUpperCase().split('.')[0]}
+function companySummary(x){
+ const direct=String(x?.business_summary||x?.businessSummary||x?.description||'').trim();if(direct)return direct.slice(0,220);
+ const b=baseSymbol(x?.symbol),name=String(x?.name||'').toLowerCase();if(COMPANY_INFO[b])return COMPANY_INFO[b];
+ if(name.includes('software'))return'Das Unternehmen entwickelt Software und digitale Lösungen für Unternehmen oder Verbraucher.';
+ if(name.includes('bank'))return'Das Unternehmen ist im Bank- und Finanzgeschäft tätig.';
+ if(name.includes('energy')||name.includes('energie'))return'Das Unternehmen ist im Energiegeschäft tätig.';
+ if(name.includes('semiconductor'))return'Das Unternehmen entwickelt oder produziert Halbleiter und Chiptechnik.';
+ if(THEME_INFO[x?.theme])return THEME_INFO[x.theme];
+ return `${x?.name||x?.symbol||'Das Unternehmen'} ist ein börsennotiertes Unternehmen. Der Scanner beobachtet seine Kursbewegung, Nachrichten und Marktlage.`;
 }
-function renderHeader(s,c){
- const marketOpen=c.market_mode!=='NEWS_ONLY';$('marketHeaderStatus').textContent=marketOpen?'Market Open':'News Only';$('marketHeaderStatus').className=marketOpen?'good':'yellow';
- const online=agentIsOnline(s.pcAgent);$('pcHeaderStatus').textContent=online?'Online':'Offline';$('pcHeaderStatus').className=online?'good':'bad';
- $('cloudHeaderStatus').textContent='Synchronisiert';$('cloudHeaderStatus').className='good';$('scanHeaderStatus').textContent=timeOnly(c.last_scan);
+function directNewsFor(x,s){return arr(s?.newsRadar).find(n=>baseSymbol(n.symbol)===baseSymbol(x.symbol))||null}
+function futureFor(x,s){return arr(s?.futureWatch?.candidates).find(n=>baseSymbol(n.symbol)===baseSymbol(x.symbol))||null}
+function candidateInfluence(x,s){
+ const n=directNewsFor(x,s);if(n?.headline){const mood=n.tendency==='BULLISH'?'Positiv':n.tendency==='BEARISH'?'Negativ':'Neutral';return `${mood}: ${String(n.headline).slice(0,190)}`}
+ const headline=arr(x?.headlines)[0];if(headline)return `Aktuelle Meldung: ${String(headline).slice(0,190)}`;
+ const f=futureFor(x,s);if(f)return `${f.theme||'Weltthema'}: ${String(f.catalyst||f.reason||'kann die Aktie beeinflussen').slice(0,170)}`;
+ if(x?.event_text)return `Termin/Ereignis: ${String(x.event_text).slice(0,180)}`;
+ if(num(x?.news_score)>.12)return'Aktuelle Nachrichtenlage ist eher positiv, aber im Radar gibt es gerade keine einzelne dominante Meldung.';
+ if(num(x?.news_score)<-.12)return'Aktuelle Nachrichtenlage ist eher negativ, aber im Radar gibt es gerade keine einzelne dominante Meldung.';
+ return'Keine starke neue Firmenmeldung erkannt. Die Aktie wird derzeit eher von Branche, Gesamtmarkt und normaler Kursbewegung beeinflusst.';
 }
-function renderPositionCards(ps){
- const el=$('positionCards');if(!el)return;const rows=arr(ps);
- el.innerHTML=rows.map(p=>{const invested=num(p.invested),value=invested*(num(p.last_price)/Math.max(.000001,num(p.entry_price)))*(num(p.last_fx,1)/Math.max(.000001,num(p.entry_fx,1))),pl=value-invested-num(p.entry_fee),plPct=invested?pl/invested*100:0;return `<article class="positionCard ${pl<0?'loss':''}"><div class="positionHead"><div><div class="positionSymbol">${esc(p.symbol)}</div><div class="positionName">${esc(p.name||'')}</div></div><div class="positionPnl">${pl>=0?'+':''}${fmt(plPct,2)}%</div></div><div class="positionMetrics"><span>Einsatz<b>${money(invested)}</b></span><span>Aktuell<b>${money(value)}</b></span><span>Ø Kauf<b>${fmt(p.entry_price,2)}</b></span><span>Kurs<b>${fmt(p.last_price,2)}</b></span></div></article>`}).join('')||'<div class="emptyState">Keine offene Position.</div>'
-}
+function simpleRating(v){const n=num(v);return n>=5.2?'Stark':n>=3.5?'Gut':n>=2?'Beobachten':'Schwach'}
 function scoreClass(v){return num(v)>=5?'':num(v)>=3?'mid':'low'}
-function renderCandidates(rows){
- $('candidatesBody').innerHTML=arr(rows).map(x=>`<tr><td><b>${esc(x.symbol)}</b><br><span class="muted">${esc(x.name||'')}</span></td><td><span class="scorePill ${scoreClass(x.score)}">${fmt(x.score,2)}</span></td><td><b>${Math.round(num(x.confidence)*100)}%</b></td><td class="${num(x.day_change)>=0?'good':'bad'}">${pct(x.day_change)}</td><td class="${num(x.news_score)>0?'good':num(x.news_score)<0?'bad':''}">${fmt(x.news_score,2)}</td><td><span class="eventPill ${String(x.event_risk).toUpperCase()==='HIGH'?'high':''}">${esc(x.event_risk||'NONE')}</span><br><span class="muted">${esc(x.event_text||'')}</span></td><td class="good">${esc(x.pro||'–')}</td><td class="bad">${esc(x.contra||'–')}</td></tr>`).join('')||'<tr><td colspan="8">Keine frischen handelbaren Signale.</td></tr>'
+function riskText(x){const e=String(x?.event_risk||'NONE').toUpperCase();if(e==='HIGH')return'Hohes Ereignisrisiko';if(e==='MEDIUM')return'Mittleres Ereignisrisiko';return'Kein besonderes Event-Risiko'}
+
+function agentIsOnline(agent){if(agent?.online===true||agent?.fresh===true)return true;const raw=agent?.lastSeenAt||agent?.last_seen_at||agent?.updatedAt,t=Date.parse(String(raw||''));return Number.isFinite(t)&&Date.now()-t<180000}
+function renderHeader(s,c){const marketOpen=c.market_mode!=='NEWS_ONLY';$('marketHeaderStatus').textContent=marketOpen?'Market Open':'News Only';$('marketHeaderStatus').className=marketOpen?'good':'yellow';const online=agentIsOnline(s.pcAgent);$('pcHeaderStatus').textContent=online?'Online':'Offline';$('pcHeaderStatus').className=online?'good':'bad';$('cloudHeaderStatus').textContent='Synchronisiert';$('cloudHeaderStatus').className='good';$('scanHeaderStatus').textContent=timeOnly(c.last_scan)}
+function renderPositionCards(ps){const el=$('positionCards');if(!el)return;el.innerHTML=arr(ps).map(p=>{const invested=num(p.invested),value=invested*(num(p.last_price)/Math.max(.000001,num(p.entry_price)))*(num(p.last_fx,1)/Math.max(.000001,num(p.entry_fx,1))),pl=value-invested-num(p.entry_fee),plPct=invested?pl/invested*100:0;return `<article class="positionCard ${pl<0?'loss':''}"><div class="positionHead"><div><div class="positionSymbol">${esc(p.symbol)}</div><div class="positionName">${esc(p.name||'')}</div></div><div class="positionPnl">${pl>=0?'+':''}${fmt(plPct,2)}%</div></div><div class="positionMetrics"><span>Einsatz<b>${money(invested)}</b></span><span>Aktuell<b>${money(value)}</b></span><span>Ø Kauf<b>${fmt(p.entry_price,2)}</b></span><span>Kurs<b>${fmt(p.last_price,2)}</b></span></div></article>`}).join('')||'<div class="emptyState">Keine offene Position.</div>'}
+function renderCandidates(rows,s){
+ $('candidatesBody').innerHTML=arr(rows).map(x=>`<tr><td><b>${esc(x.symbol)}</b><br><span class="muted">${esc(x.name||'')}</span></td><td class="plainCell">${esc(companySummary(x))}</td><td class="plainCell influenceCell">${esc(candidateInfluence(x,s))}</td><td><span class="scorePill ${scoreClass(x.score)}">${esc(simpleRating(x.score))}</span><br><span class="muted">Score ${fmt(x.score,2)}</span></td><td><b>${Math.round(num(x.confidence)*100)}%</b></td><td class="${num(x.day_change)>=0?'good':'bad'}"><b>${pct(x.day_change)}</b></td><td><span class="eventPill ${String(x.event_risk).toUpperCase()==='HIGH'?'high':''}">${esc(riskText(x))}</span></td></tr>`).join('')||'<tr><td colspan="7">Keine frischen handelbaren Signale.</td></tr>'
 }
-function renderFutureWatch(s){
- const fw=s.futureWatch||{};const themes=arr(fw.activeThemes).slice(0,7);const candidates=arr(fw.candidates).slice(0,6);
- const chips=$('futureThemeChips');if(chips)chips.innerHTML=themes.length?themes.map(t=>{const id=String(t.id||'');const cls=id.includes('RATE')?'macro':id.includes('DEFENSE')||id.includes('RUSSIA')?'defense':id.includes('CYBER')?'risk':'';return `<span class="themeChip ${cls}">${esc(t.label||t.id||'Thema')} · ${Math.round(num(t.issueStrength))}</span>`}).join(''):'<span class="themeChip">Noch kein starkes Weltthema</span>';
- const list=$('futureCatalystList');if(!list)return;
- list.innerHTML=candidates.length?candidates.map(c=>`<article class="catalystItem"><div class="catalystIcon">↗</div><div><b>${esc(c.symbol)} · ${esc(c.theme||'Katalysator')}</b><p>${esc(c.catalyst||c.reason||'Live-Bestätigung abwarten.')}</p></div><div class="catalystScore">${Math.round(num(c.watchScore))}<br><span>${esc(c.horizon||'')}</span></div></article>`).join(''):'<div class="emptyState">Aktuell kein ausreichend starkes Forward-Signal. News und Termine werden weiter beobachtet.</div>'
-}
-function replayData(s){const raw=s.dayReplayLearning||s.dayReplay||s.replayLearning||{};const report=raw.report||raw;const summary=report.summary||raw.summary||{};return{raw,report,summary,mistakes:summary.mistakes||{},churn:summary.churn||{}}}
-function renderReplay(s){
- const {report,summary,mistakes,churn}=replayData(s);const metric=(name,label,desc)=>`<div class="replayMetric"><span>${label}</span><b>${num(mistakes[name])}</b><small>${desc}</small></div>`;
- $('replaySummary').innerHTML=metric('PEAK_ENTRY','Peak Entry','Zu nah am lokalen Hoch gekauft.')+metric('LATE_EXPENSIVE_ENTRY','Late Entry','Guter Einstieg wurde zu spät genutzt.')+metric('MISSED_SAFE_MOVE','Missed Safe Move','Erkennbares Setup wurde verpasst.')+`<div class="replayMetric"><span>Rotation Churn</span><b>${num(churn.rapidRoundTrips)}</b><small>${num(churn.fees)>0?`${money(churn.fees)} Gebühren in schnellen Wechseln.`:'Schnelle Rotationen werden auf Kosten geprüft.'}</small></div>`;
- const done=String(report.status||'').includes('COMPLETE');const analysed=num(summary.symbolsAnalysed,report.processed);$('replayFocus').textContent=done?`Replay abgeschlossen · ${analysed} Aktien analysiert. Die Learnings fließen konservativ in den nächsten Handelstag ein.`:`Replay sammelt heute Kandidaten und Trades · bisher ${analysed||0} ausgewertet.`
-}
-function renderActivity(history){
- const el=$('activityTimeline');if(!el)return;const rows=arr(history).slice(0,7);
- el.innerHTML=rows.map(h=>{const a=String(h.action||'').toUpperCase(),sell=a==='VERKAUF',hold=a==='HALTEN',cls=sell?'sell':hold?'hold':'',icon=sell?'S':hold?'•':'B',amount=num(h.amount),value=amount?`${amount>0?'+':''}${money(amount)}`:'';return `<div class="activityItem"><span class="activityTime">${timeOnly(h.ts)}</span><span class="activityDot ${cls}">${icon}</span><div class="activityMain"><b>${esc(a||'EVENT')}</b><span>${esc(h.symbol||String(h.reason||'').slice(0,48)||'Scanner')}</span></div><span class="activityValue">${esc(value)}</span></div>`}).join('')||'<div class="emptyState">Noch keine Aktivität.</div>'
-}
+function renderFutureWatch(s){const fw=s.futureWatch||{},themes=arr(fw.activeThemes).slice(0,7),candidates=arr(fw.candidates).slice(0,6),chips=$('futureThemeChips');if(chips)chips.innerHTML=themes.length?themes.map(t=>{const id=String(t.id||''),cls=id.includes('RATE')?'macro':id.includes('DEFENSE')||id.includes('RUSSIA')?'defense':id.includes('CYBER')?'risk':'';return `<span class="themeChip ${cls}">${esc(t.label||t.id||'Thema')} · ${Math.round(num(t.issueStrength))}</span>`}).join(''):'<span class="themeChip">Noch kein starkes Weltthema</span>';const list=$('futureCatalystList');if(!list)return;list.innerHTML=candidates.length?candidates.map(c=>`<article class="catalystItem"><div class="catalystIcon">↗</div><div><b>${esc(c.symbol)} · ${esc(c.theme||'Katalysator')}</b><p>${esc(c.catalyst||c.reason||'Live-Bestätigung abwarten.')}</p></div><div class="catalystScore">${Math.round(num(c.watchScore))}<br><span>${esc(c.horizon||'')}</span></div></article>`).join(''):'<div class="emptyState">Aktuell kein ausreichend starkes Forward-Signal. News und Termine werden weiter beobachtet.</div>'}
+function replayData(s){const raw=s.dayReplayLearning||s.dayReplay||s.replayLearning||{},report=raw.report||raw,summary=report.summary||raw.summary||{};return{report,summary,mistakes:summary.mistakes||{},churn:summary.churn||{}}}
+function renderReplay(s){const {report,summary,mistakes,churn}=replayData(s),metric=(name,label,desc)=>`<div class="replayMetric"><span>${label}</span><b>${num(mistakes[name])}</b><small>${desc}</small></div>`;$('replaySummary').innerHTML=metric('PEAK_ENTRY','Peak Entry','Zu nah am lokalen Hoch gekauft.')+metric('LATE_EXPENSIVE_ENTRY','Late Entry','Guter Einstieg wurde zu spät genutzt.')+metric('MISSED_SAFE_MOVE','Missed Safe Move','Erkennbares Setup wurde verpasst.')+`<div class="replayMetric"><span>Rotation Churn</span><b>${num(churn.rapidRoundTrips)}</b><small>${num(churn.fees)>0?`${money(churn.fees)} Gebühren in schnellen Wechseln.`:'Schnelle Rotationen werden auf Kosten geprüft.'}</small></div>`;const done=String(report.status||'').includes('COMPLETE'),analysed=num(summary.symbolsAnalysed,report.processed);$('replayFocus').textContent=done?`Replay abgeschlossen · ${analysed} Aktien analysiert. Die Learnings fließen konservativ in den nächsten Handelstag ein.`:`Replay sammelt heute Kandidaten und Trades · bisher ${analysed||0} ausgewertet.`}
+function renderActivity(history){const el=$('activityTimeline');if(!el)return;el.innerHTML=arr(history).slice(0,7).map(h=>{const a=String(h.action||'').toUpperCase(),sell=a==='VERKAUF',hold=a==='HALTEN',cls=sell?'sell':hold?'hold':'',icon=sell?'S':hold?'•':'B',amount=num(h.amount),value=amount?`${amount>0?'+':''}${money(amount)}`:'';return `<div class="activityItem"><span class="activityTime">${timeOnly(h.ts)}</span><span class="activityDot ${cls}">${icon}</span><div class="activityMain"><b>${esc(a||'EVENT')}</b><span>${esc(h.symbol||String(h.reason||'').slice(0,48)||'Scanner')}</span></div><span class="activityValue">${esc(value)}</span></div>`}).join('')||'<div class="emptyState">Noch keine Aktivität.</div>'}
 
 async function load(){
  try{
@@ -88,14 +144,11 @@ async function load(){
   $('executionInfo').textContent=`${money(m.feeFixed??1)} je Kauf/Verkauf · Ausführungspuffer ${fmt(m.slippagePercent??.1,2)}% · nur Aktien · Paper Trading.`;
   if(c.last_error){$('errorBox').style.display='block';$('errorBox').textContent=`Letzter Fehler: ${c.last_error}`}else $('errorBox').style.display='none';
   if(!initialized){$('startCapital').value=c.start_capital||100;$('currency').value=c.currency||'EUR';$('riskMode').value=c.risk_mode||'offensiv';$('aiEnabled').checked=Boolean(c.ai_enabled);$('feeFixed').value=num(c.fee_fixed,1).toFixed(2);$('feePercent').value=num(c.fee_percent,0).toFixed(2);initialized=true}
-
   renderPositionCards(s.positions);
   $('positionsBody').innerHTML=arr(s.positions).map(p=>{const value=num(p.invested)*(num(p.last_price)/Math.max(.000001,num(p.entry_price)))*(num(p.last_fx,1)/Math.max(.000001,num(p.entry_fx,1))),pl=value-num(p.invested)-num(p.entry_fee);return `<tr><td><b>${esc(p.symbol)}</b><br><span class="muted">${esc(p.name||'')}</span></td><td>${esc(typeName(p.instrument_type))}</td><td>${money(p.invested)}</td><td>${fmt(p.last_fx||1,5)}</td><td>${fmt(p.last_price,3)}</td><td class="${pl>=0?'good':'bad'}">${pl>=0?'+':''}${money(pl)}</td></tr>`}).join('')||'<tr><td colspan="6">Keine offene Position.</td></tr>';
-  renderCandidates(s.candidates);renderFutureWatch(s);renderReplay(s);renderActivity(s.history);
-
+  renderCandidates(s.candidates,s);renderFutureWatch(s);renderReplay(s);renderActivity(s.history);
   const trend=c.news_tendency_label||'NEUTRAL';$('newsTrendPill').textContent=`${trend} · ${fmt(c.news_tendency_score||0,2)}`;$('newsTrendPill').className=`trend ${trendClass(trend)}`;$('newsTrendSummary').textContent=c.news_tendency_summary||'Noch keine ausreichende Nachrichtenbasis.';$('newsRadarInfo').textContent=c.market_mode==='NEWS_ONLY'?'Börsen geschlossen: News werden weiter gesammelt.':'Offene Märkte: News und aktuelle Kursreaktion werden gemeinsam bewertet.';
   $('newsRadarBody').innerHTML=arr(s.newsRadar).map(n=>`<tr><td><b>${esc(n.symbol)}</b></td><td><span class="trend ${trendClass(n.tendency)}">${esc(n.tendency)}</span></td><td>${Math.round(num(n.confidence)*100)}%</td><td>${ageText(n)}</td><td>${esc(sourceList(n.sources))}<br><span class="muted">${num(n.cluster_count)} Cluster · ${num(n.confirmation_count)} Bestätigungen</span></td><td>${esc(n.headline||'')}<br><span class="muted">${dt(n.news_at)}</span></td></tr>`).join('')||'<tr><td colspan="6">News-Radar sammelt Daten.</td></tr>';
-
   $('statsGrid').innerHTML=[card('Geschlossene Trades',st.closedTrades||0),card('Trefferquote',`${fmt(st.winRate||0,1)}%`),card('Realisiert',money(st.realizedPnl||0),st.realizedPnl>=0?'good':'bad'),card('Unrealisiert',money(st.unrealizedPnl||0),st.unrealizedPnl>=0?'good':'bad'),card('Profit-Faktor',fmt(st.profitFactor||0,2)),card('Max. Drawdown',pct(st.maxDrawdownPct||0),'bad'),card('Ø Gewinn',money(st.avgWin||0),'good'),card('Ø Verlust',money(st.avgLoss||0),'bad')].join('');
   $('riskBox').textContent=`Verfügbares Cash ${money(r.availableCash??c.cash)} · Tages-P/L ${pct(r.dailyPct||0)} · Pullback/Peak-, Kosten- und Venue-Schutz bleiben aktiv.`;
   $('healthGrid').innerHTML=arr(s.sourceHealth).map(h=>`<div class="healthItem ${String(h.status).toLowerCase()==='ok'?'ok':String(h.status).toLowerCase()==='degraded'?'degraded':'down'}"><b>${esc(h.source)}</b><span>${esc(h.status)}</span><small>${h.fail_count?`${num(h.fail_count)} Fehler · ${esc(h.last_error||'')}`:`OK · ${esc(h.latency_ms??'–')} ms`}</small></div>`).join('')||'<div class="muted">Noch keine Quellenmessung.</div>';
