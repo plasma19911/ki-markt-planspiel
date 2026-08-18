@@ -80,6 +80,7 @@ jobs:
             'risk': s.get('risk'),
             'forwardScan': s.get('forwardScan'),
             'profitOptimizer': s.get('profitOptimizer'),
+            'entryTimingLearning': s.get('entryTimingLearning'),
             'futureWatch': {
               'candidateCount': (s.get('futureWatch') or {}).get('candidateCount'),
               'monitoredUniverseCount': (s.get('futureWatch') or {}).get('monitoredUniverseCount'),
@@ -108,6 +109,11 @@ jobs:
               raise SystemExit('Profit optimizer not deployed yet')
           if not s.get('forwardScan',{}).get('enabled'):
               raise SystemExit('Forward scanner not deployed yet')
+          learning=s.get('entryTimingLearning') or {}
+          if learning.get('mode')!='15/30/60-minute-entry-timing-learning':
+              raise SystemExit('15/30/60 entry timing learning not deployed yet')
+          if learning.get('horizonsMinutes') != [15,30,60]:
+              raise SystemExit('Entry timing learning horizons are wrong')
           PY
 
       - name: Publish result
