@@ -50,6 +50,7 @@ jobs:
           runcheck syntax_profit node --check src/profit-optimizer.js
           runcheck syntax_profit_v2 node --check src/profit-optimizer-v2.js
           runcheck syntax_pullback node --check src/pullback-first-ai-guard.js
+          runcheck syntax_research_entry node --check src/research-entry-quality-guard.js
           runcheck syntax_day_replay node --check src/day-replay-learning.js
           runcheck syntax_rotation_replay node --check src/rotation-replay-adjustment.js
           runcheck syntax_rotation_cost node --check src/rotation-cost-guard.js
@@ -74,6 +75,7 @@ jobs:
           runcheck legacy_cash node scripts/smoke-legacy-cash-neutralizer.mjs
           runcheck rebound_guard node scripts/smoke-rebound-guard.mjs
           runcheck early_breakout_guard node scripts/smoke-early-breakout-guard.mjs
+          runcheck research_entry node scripts/smoke-research-entry-quality.mjs
           runcheck target_venue_guard node scripts/smoke-target-venue-guard.mjs
           runcheck entry_learning node scripts/smoke-entry-timing-learning.mjs
           runcheck learning_execution_reconcile node scripts/smoke-learning-execution-reconcile.mjs
