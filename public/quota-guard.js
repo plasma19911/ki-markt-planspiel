@@ -56,3 +56,4 @@ import('./zero-ui.js').catch(e=>console.error('ZERO target UI failed',e));
 import('./order-approval-ui.js').catch(e=>console.error('Order approval UI failed',e));
 import('./accounting-ui.js').catch(e=>console.error('Accounting checksum UI failed',e));
 import('./future-watch-ui.js').catch(e=>console.error('Future watch UI failed',e));
+import('./free-budget-ui.js').catch(e=>console.error('Free budget UI failed',e));
