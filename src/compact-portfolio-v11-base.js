@@ -1,6 +1,6 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v10.js';
 import {MarketPortfolio as V9Portfolio} from './compact-portfolio-v9.js';
-import {ProfitOptimizerAiGuard} from './profit-optimizer.js';
+import {ProfitOptimizerV2AiGuard} from './profit-optimizer-v2.js';
 import {LegacyCashNeutralizerAiGuard} from './legacy-cash-neutralizer.js';
 import {getLiveLearningStatus} from './live-signal-learning.js';
 
@@ -48,7 +48,7 @@ export class MarketPortfolio extends BasePortfolio{
   }
   let ai=this.engine?.env?.AI;
   if(ai?.run&&!ai.__legacyCashNeutralizer){ai=new LegacyCashNeutralizerAiGuard(ai);this.engine.env.AI=ai}
-  if(ai?.run&&!ai.__profitOptimizer){const wrapped=new ProfitOptimizerAiGuard(ai,this.bucketAdapter,ctx?.storage);wrapped.__profitOptimizer=true;this.engine.env.AI=wrapped}
+  if(ai?.run&&!ai.__profitOptimizer){const wrapped=new ProfitOptimizerV2AiGuard(ai,this.bucketAdapter,ctx?.storage);wrapped.__profitOptimizer=true;this.engine.env.AI=wrapped}
  }
 
  async agentPrefetch(payload={}){
@@ -70,10 +70,10 @@ export class MarketPortfolio extends BasePortfolio{
  async status(){
   const s=await super.status(),fw=s?.futureWatch||null,learning=getLiveLearningStatus(this.ctx?.storage);
   s.forwardScan={enabled:true,leaderPoolTarget:25,forwardPoolTarget:FORWARD_SCAN_TARGET,forwardCandidates:num(fw?.candidateCount),monitoredForwardUniverse:num(fw?.monitoredUniverseCount),activeThemes:arr(fw?.activeThemes).length,mode:'25 aktuelle Leader + bis zu 15 vorausschauende, im Broker-Master aufgelöste Ereignis-/Themenwerte',confirmationRequired:true,watchMayBeBroaderThanTradablePool:true};
-  s.profitOptimizer={enabled:true,objective:'maximaler erwarteter Paper-Gewinn nach realistischen Kosten',alwaysInvested:false,maxSinglePositionPct:72,weakSetupsMayStayCash:true,forwardCatalystBoost:true,eventDirectionGuessing:false,profitRotation:true,badQuoteEvidenceBlocked:true,entryTimingLearning:true,entryTimingHorizonsMinutes:[15,30,60],legacyFullCashFailsafe:true,note:'Aggressiver Paper-Modus: Kapital wird in wenige starke, mehrfach bestaetigte Setups konzentriert. 15/30/60-Minuten-Ergebnisse kalibrieren das Einstiegstiming automatisch. Alte FULL-CASH-Fallbacks werden in Produktion neutralisiert. Keine Gewinngarantie; Safety-/Quote-/Kostenpruefungen bleiben aktiv.'};
+  s.profitOptimizer={enabled:true,objective:'maximaler erwarteter Paper-Gewinn nach realistischen Kosten',alwaysInvested:false,maxSinglePositionPct:72,weakSetupsMayStayCash:true,forwardCatalystBoost:true,eventDirectionGuessing:false,profitRotation:true,badQuoteEvidenceBlocked:true,entryTimingLearning:true,entryTimingHorizonsMinutes:[15,30,60],legacyFullCashFailsafe:true,secondChanceCapture:true,secondChanceProbeMaxPct:28,deepFinalists:4,note:'Aggressiver Paper-Modus: Kapital wird in wenige starke, mehrfach bestaetigte Setups konzentriert. Sehr starke Near-High-Kandidaten bekommen eine streng bestaetigte zweite Chance mit kleiner Startposition, ohne Event-, Reversal-, Lern-, gettex- oder Safety-Sperren zu umgehen. 15/30/60-Minuten-Ergebnisse kalibrieren das Einstiegstiming automatisch. Keine Gewinngarantie.'};
   s.entryTimingLearning=learning;
   s.executionModel={...(s.executionModel||{}),fullCashPolicy:false,alwaysInvested:false,cashMayRemain:true,strategicCashReservePct:null,legacyFullCashFailsafe:true};
-  if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,forwardLookingPool:true,forwardPoolTarget:FORWARD_SCAN_TARGET,note:`${s.freeTierBudget.note||''} Zusätzlich werden bis zu ${FORWARD_SCAN_TARGET} vorausschauende Ereignis-/Themenkandidaten aus dem Broker-Master im Minuten-Scan beobachtet; gekauft wird erst nach Live-Bestaetigung. Einstiegstiming wird nach 15/30/60 Minuten lernend bewertet. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben.`};
+  if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,forwardLookingPool:true,forwardPoolTarget:FORWARD_SCAN_TARGET,deepFinalists:4,secondChanceCapture:true,note:`${s.freeTierBudget.note||''} Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben.`};
   return s;
  }
 }
