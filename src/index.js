@@ -75,6 +75,7 @@ export default{
     sessionAuth=await verifyCloudflareAccess(request,env);if(!sessionAuth.ok)return reply({error:sessionAuth.error,approvalAuth:false},sessionAuth.status||403);
    }
    if(u.pathname==='/api/status'&&request.method==='GET')return reply(await p.status());
+   if(u.pathname==='/api/day-replay-report'&&request.method==='GET'){const s=await p.status();return reply({ok:true,dayReplayLearning:s?.dayReplayLearning||null,entryPriceTiming:s?.entryPriceTiming||null,profitOptimizer:s?.profitOptimizer||null})}
    if(u.pathname==='/api/position-chart'&&request.method==='GET'){const data=await positionChartData(p,u);return reply(data,data.status||200)}
    if(u.pathname==='/api/agent/status'&&request.method==='GET')return reply(await p.agentStatus());
    if(agentPath&&request.method==='POST'){
@@ -84,6 +85,7 @@ export default{
     if(u.pathname==='/api/agent/heartbeat')return reply(await p.agentHeartbeat(b));
     if(u.pathname==='/api/agent/prefetch')return reply(await p.agentPrefetch(b));
     if(u.pathname==='/api/agent/scan')return reply(await p.scanFromAgent(b));
+    if(u.pathname==='/api/agent/day-replay')return reply(await p.dailyReplay(Math.max(1,Math.min(10,Number(b?.batchSize)||8))));
    }
    if(u.pathname==='/api/order-approval-status'&&request.method==='GET')return reply(await p.orderApprovalStatus());
    if(u.pathname==='/api/order-approvals'&&request.method==='GET'){
@@ -112,11 +114,11 @@ export default{
  },
  async scheduled(controller,env,ctx){
   const when=new Date(Number(controller?.scheduledTime)||Date.now()),session=gettexSessionState(when);
-  // Der Windows-PC-Agent liefert den normalen Minutenbetrieb. Cloudflare wird nur alle
-  // 5 Minuten geweckt und scannt ausschließlich, wenn der Agent seit >150 s offline ist.
-  if(session.open){ctx.waitUntil((async()=>{const p=portfolio(env),agent=await p.agentStatus();if(agent?.online)return;await p.scan()})().catch(e=>console.error('Compact DO fallback scan failed',e)));return}
-  // 07:25 bleibt als idempotente Sicherheits-Vorbereitung aktiv. Wenn der PC bereits
-  // Voranalyse geliefert hat, nutzt V11 diese Daten; andernfalls greift Cloudflare ein.
+  // Ab 21:55 Europe/Berlin wird der Tages-Replay in kleinen 8er-Batches gerechnet.
+  // Das nutzt keine Workers-AI-Entscheidung und soll den Abendbericht vor dem typischen
+  // PC-Ausschalten fertigstellen. Der PC-Agent kann dieselbe idempotente Route parallel
+  // anstossen; das Durable Object serialisiert die Batches.
+  if(session.open){ctx.waitUntil((async()=>{const p=portfolio(env);if(session.localMinute>=21*60+55)await p.dailyReplay(8);const agent=await p.agentStatus();if(!agent?.online)await p.scan()})().catch(e=>console.error('Compact DO scan/replay failed',e)));return}
   if(session.prepareNow){ctx.waitUntil(portfolio(env).preOpenPrepare().catch(e=>console.error('gettex preopen prepare failed',e)))}
  }
 };
