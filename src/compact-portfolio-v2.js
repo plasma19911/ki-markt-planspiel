@@ -1,7 +1,9 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio.js';
 import {updateNewsLearning,newsLearningContext} from './news-learning-v2.js';
 
-const NEWS_LEARNING_COOLDOWN_MS=10*60*1000;
+// 13 Minuten statt 10: verhindert, dass News-Lernen dauerhaft mit 5-Minuten-
+// Leaderrefresh, Investment-Analyse und Makrorefresh in derselben Scanrunde kollidiert.
+const NEWS_LEARNING_COOLDOWN_MS=13*60*1000;
 
 class NewsLearningAiGuard{
   constructor(base,adapter){this.base=base;this.adapter=adapter}
@@ -25,7 +27,10 @@ export class MarketPortfolio extends BasePortfolio{
 
   async _refreshNewsLearning(force=false){
     const raw=this.bucketAdapter?.peekState?.();
-    const last=Date.parse(raw?.newsLearning?.updatedAt||'');
+    const last=Date.parse(raw?.newsLearning?.updatedAt||''),scanNo=Number(raw?.config?.scan_count||0);
+    // Start entzerren: erster News-Lernlauf erst ab Scan 3. Die normalen Live-News
+    // laufen davon unabhaengig bereits ab Scan 1.
+    if(!force&&!Number.isFinite(last)&&scanNo<3)return null;
     if(!force&&Number.isFinite(last)&&Date.now()-last<NEWS_LEARNING_COOLDOWN_MS)return null;
     if(!this.engine?.store?.update)return null;
     const r=await this.engine.store.update(async s=>{
@@ -64,7 +69,7 @@ export class MarketPortfolio extends BasePortfolio{
       const r=await this.engine.importLegacy(old);
       try{await this._refreshIntelligence(true)}catch{}
       try{await this._refreshNewsLearning(true)}catch{}
-      return{...r,storage:'Durable Object Free · 1 Zeile'};
+      return{...r,storage:'Durable Object Free · kompakter Hauptzustand'};
     });
   }
 }
