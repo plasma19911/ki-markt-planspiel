@@ -1,7 +1,7 @@
 // Production entry: stocks-only paper trading plus prepared human approval workflow.
 // Real broker dispatch remains disabled until an official connector is explicitly added.
 import './yahoo-spark-repair.js';
-import {MarketPortfolio} from './compact-portfolio-v10.js';
+import {MarketPortfolio} from './compact-portfolio-v11.js';
 import {gettexSessionState} from './gettex-session.js';
 import {verifyCloudflareAccess} from './access-auth.js';
 export {MarketPortfolio};
@@ -101,7 +101,7 @@ export default{
   // 5 Minuten geweckt und scannt ausschließlich, wenn der Agent seit >150 s offline ist.
   if(session.open){ctx.waitUntil((async()=>{const p=portfolio(env),agent=await p.agentStatus();if(agent?.online)return;await p.scan()})().catch(e=>console.error('Compact DO fallback scan failed',e)));return}
   // 07:25 bleibt als idempotente Sicherheits-Vorbereitung aktiv. Wenn der PC bereits
-  // Voranalyse geliefert hat, nutzt V10 diese Daten; andernfalls greift Cloudflare ein.
+  // Voranalyse geliefert hat, nutzt V11 diese Daten; andernfalls greift Cloudflare ein.
   if(session.prepareNow){ctx.waitUntil(portfolio(env).preOpenPrepare().catch(e=>console.error('gettex preopen prepare failed',e)))}
  }
 };
