@@ -31,4 +31,11 @@ const noFast={...baseFast,actions:[]};
 const untouched=JSON.parse(enforceFastExecutionGuards(holdOnly,noFast).response);
 assert.equal(untouched.actions.some(x=>x.action==='BUY'),false,'Ohne validierten Fast-BUY darf nichts erfunden werden');
 
-console.log(JSON.stringify({ok:true,best:buys[0].symbol,summary:merged.summary},null,2));
+const missingVolume={...baseFast,volumeConfirmation:{minRatio:1.1,ratios:{}},actions:[baseFast.actions[0]],context:[baseFast.context[0]]};
+const aiBuy={response:JSON.stringify({summary:'KI BUY',actions:[{symbol:'AAA',action:'BUY',confidence:.8,allocation_pct:22,reason:'mehrfach bestätigt'}]})};
+const noVolumeResult=JSON.parse(enforceFastExecutionGuards(aiBuy,missingVolume).response),noVolumeBuy=noVolumeResult.actions.find(x=>x.symbol==='AAA'&&x.action==='BUY');
+assert.ok(noVolumeBuy,'Fehlende Volumenmessung darf einen sonst validen BUY nicht blockieren');
+assert.equal(noVolumeBuy.allocation_pct,22,'Fehlende Volumenmessung darf die Order nicht verkleinern und fixe Kosten verschlechtern');
+assert.ok(noVolumeBuy.confidence<=.64,'Fehlende Volumenmessung reduziert stattdessen die Konfidenz');
+
+console.log(JSON.stringify({ok:true,best:buys[0].symbol,summary:merged.summary,missingVolumeBuy:noVolumeBuy},null,2));
