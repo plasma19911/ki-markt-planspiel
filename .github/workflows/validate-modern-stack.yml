@@ -56,6 +56,7 @@ jobs:
           runcheck legacy_cash node scripts/smoke-legacy-cash-neutralizer.mjs
           runcheck rebound_guard node scripts/smoke-rebound-guard.mjs
           runcheck entry_learning node scripts/smoke-entry-timing-learning.mjs
+          runcheck opportunity_cost node scripts/smoke-opportunity-cost-rotation.mjs
           runcheck yahoo_sanity node scripts/smoke-yahoo-null-sanity.mjs
           runcheck wrangler_dryrun npx wrangler deploy --dry-run
 
