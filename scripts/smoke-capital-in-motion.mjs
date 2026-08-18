@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {evaluateCapitalMotion,buildCapitalMotionAllocations,shouldRotateCapital,CAPITAL_MOTION_MIN_EXPECTED} from '../src/profit-optimizer-v2.js';
+import {evaluateEntryPriceTiming,buildPullbackFirstAllocations} from '../src/pullback-first-ai-guard.js';
 
 const base={symbol:'BEST',score:3.6,confidence:.68,day_change:1.2,news_score:.05,eventRisk:'NONE',momentum5:.06,momentum20:.18,momentumAcceleration5:.02,drawdownFrom20mHighPct:-.4,rsi:61,volumeRatio:1.05,momentumBreakoutScore:.4,momentumState:'BUILDING',momentumSellSignal:'NONE',pro:['EMA9 über EMA21'],contra:[]};
 const alt={...base,symbol:'ALT',score:3.2,confidence:.64,momentum5:.04,momentum20:.12};
@@ -24,4 +25,25 @@ const strong=evaluateCapitalMotion({...base,symbol:'NEW',score:4.2,confidence:.7
 assert.equal(shouldRotateCapital({current:weak,alternative:strong,ageMinutes:20,pnlPct:-.2}),true,'Verlierende schwache Position soll frueh in deutlich besseres Setup rotieren');
 assert.equal(shouldRotateCapital({current:strong,alternative:{...strong,expected:strong.expected+.4},ageMinutes:30,pnlPct:1.8}),false,'Gesunder Gewinner darf nicht wegen Mini-Vorsprung hektisch rotiert werden');
 
-console.log(JSON.stringify({ok:true,capitalFloor:ev,allocation:alloc.map(x=>({symbol:x.symbol,pct:x.allocation_pct,expected:x.expected,tier:x.tier})),rotation:true,hardSafety:true},null,2));
+// Preis-Timing: nicht am Peak kaufen, sondern Ruecksetzer + erneutes Hochdrehen bevorzugen.
+const pullback={...base,symbol:'PULLBACK',score:4.0,confidence:.73,day_change:2.4,drawdownFrom20mHighPct:-.82,momentum5:.09,momentum20:.22,momentumAcceleration5:.06,rsi:59};
+const peak={...base,symbol:'PEAK',score:5.2,confidence:.79,day_change:5.7,drawdownFrom20mHighPct:-.03,momentum5:.34,momentum20:1.35,momentumAcceleration5:-.03,rsi:75};
+const early={...base,symbol:'EARLY',score:4.3,confidence:.75,day_change:2.1,drawdownFrom20mHighPct:-.06,momentum5:.18,momentum20:.46,momentumAcceleration5:.08,rsi:66,momentumState:'BREAKOUT',momentumBreakoutScore:1.3};
+const fallingValley={...pullback,symbol:'FALLING',momentum5:-.18,momentum20:-.22,momentumAcceleration5:-.09};
+
+const pullbackTiming=evaluateEntryPriceTiming(pullback,null),peakTiming=evaluateEntryPriceTiming(peak,null),earlyTiming=evaluateEntryPriceTiming(early,null),fallingTiming=evaluateEntryPriceTiming(fallingValley,null);
+assert.equal(pullbackTiming.buyable,true,'Bestaetigter Ruecksetzer soll kaufbar sein');
+assert.equal(pullbackTiming.pullbackConfirmed,true,'Ruecksetzer muss als PULLBACK_RETEST erkannt werden');
+assert.equal(peakTiming.buyable,false,'Spaeter Peak darf trotz hohem Rohscore nicht gekauft werden');
+assert.equal(peakTiming.peakRisk,true,'Peak-Risiko muss explizit erkannt werden');
+assert.equal(earlyTiming.buyable,true,'Frueher, nicht ueberhitzter Breakout soll weiterhin kaufbar sein');
+assert.equal(earlyTiming.earlyBreakout,true,'Frueher Breakout muss klassifiziert werden');
+assert.equal(fallingTiming.buyable,false,'Ein Tal ohne erneutes Hochdrehen ist ein fallendes Messer und bleibt blockiert');
+
+const pullbackAlloc=buildPullbackFirstAllocations([peak,pullback],null);
+assert.ok(pullbackAlloc.length>=1,'Ruecksetzer muss Kapital erhalten');
+assert.equal(pullbackAlloc[0].symbol,'PULLBACK','Ruecksetzer muss den bereits weit gelaufenen Peak schlagen');
+assert.equal(pullbackAlloc.some(x=>x.symbol==='PEAK'),false,'Peak darf nicht durch 100%-Cash-Zwang wieder hineinkommen');
+assert.ok(Math.abs(pullbackAlloc.reduce((a,x)=>a+x.allocation_pct,0)-100)<.01,'Wenn ein normaler guter Pullback vorhanden ist, darf das verfuegbare Cash weiterhin voll eingesetzt werden');
+
+console.log(JSON.stringify({ok:true,capitalFloor:ev,allocation:alloc.map(x=>({symbol:x.symbol,pct:x.allocation_pct,expected:x.expected,tier:x.tier})),rotation:true,hardSafety:true,pullbackFirst:{pullback:pullbackTiming,peakBlocked:peakTiming.peakRisk,earlyBreakout:earlyTiming.earlyBreakout,fallingKnifeBlocked:!fallingTiming.buyable,allocation:pullbackAlloc.map(x=>({symbol:x.symbol,pct:x.allocation_pct,mode:x.entryMode,score:x.adjustedExpected}))}},null,2));
