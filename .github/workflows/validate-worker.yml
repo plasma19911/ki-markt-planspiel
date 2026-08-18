@@ -64,6 +64,8 @@ jobs:
           node --check src/compact-portfolio-v6.js
           node --check src/compact-portfolio-v7.js
           node --check src/compact-portfolio-v8.js
+          node --check src/compact-portfolio-v9.js
+          node --check src/future-watch.js
           node --check src/zero-accounting.js
           node --check src/trade-safety.js
           node --check src/order-approval.js
@@ -93,6 +95,7 @@ jobs:
           node --check public/news-learning-ui.js
           node --check public/macro-ui.js
           node --check public/exposure-ui.js
+          node --check public/future-watch-ui.js
           node --check public/quota-guard.js
           node --check public/accounting-ui.js
           node --check public/ui-v2.js
