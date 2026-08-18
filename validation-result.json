@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-18T15:21:59.189186+00:00",
-  "commit": "0d7e350a8acc63cfbcf2555e8bf343f72ba68ff4",
+  "checkedAt": "2026-08-18T15:22:15.663533+00:00",
+  "commit": "16b92107b697bb6aba63e2f972a3437865f3e3ec",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 8s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 5s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -124,7 +124,7 @@
     "target_venue_guard": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"ventureBlocked\": true,\n  \"normalPreserved\": true\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"ventureBlocked\": true,\n  \"executionFailsafe\": true,\n  \"normalPreserved\": true\n}\n"
     },
     "entry_learning": {
       "ok": true,
