@@ -54,6 +54,7 @@ jobs:
           runcheck syntax_rotation_replay node --check src/rotation-replay-adjustment.js
           runcheck syntax_rotation_cost node --check src/rotation-cost-guard.js
           runcheck syntax_learning node --check src/live-signal-learning.js
+          runcheck syntax_learning_reconcile node --check src/live-learning-execution-reconcile.js
           runcheck syntax_rebound node --check src/rebound-ai-guard.js
           runcheck syntax_early_breakout node --check src/early-breakout-ai-guard.js
           runcheck syntax_target_venue node --check src/target-venue-ai-guard.js
@@ -66,6 +67,7 @@ jobs:
           runcheck syntax_v15 node --check src/compact-portfolio-v15.js
           runcheck syntax_v16 node --check src/compact-portfolio-v16.js
           runcheck syntax_v17 node --check src/compact-portfolio-v17.js
+          runcheck syntax_v18 node --check src/compact-portfolio-v18.js
           runcheck syntax_chart node --check public/position-chart-ui.js
           runcheck syntax_budget_ui node --check public/free-budget-ui.js
           runcheck cash_aware node scripts/smoke-best-validated-buy.mjs
@@ -74,6 +76,7 @@ jobs:
           runcheck early_breakout_guard node scripts/smoke-early-breakout-guard.mjs
           runcheck target_venue_guard node scripts/smoke-target-venue-guard.mjs
           runcheck entry_learning node scripts/smoke-entry-timing-learning.mjs
+          runcheck learning_execution_reconcile node scripts/smoke-learning-execution-reconcile.mjs
           runcheck opportunity_cost node scripts/smoke-opportunity-cost-rotation.mjs
           runcheck second_chance node scripts/smoke-second-chance.mjs
           runcheck second_chance_watch node scripts/smoke-second-chance-watch.mjs
