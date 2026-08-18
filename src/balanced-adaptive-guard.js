@@ -39,10 +39,13 @@ export function assessBalancedSoftEntry(candidate={},storage=null){
  const volumeOk=!x.volumeKnown||x.vol>=.90;
  const notLate=x.day<=4.0&&x.rsi<75;
  const nearHighOk=!nearHigh||(x.day<=3.5&&x.m5>=.07&&x.m20>=.10&&x.accel>=.01&&x.rsi<73);
- const allow=x.hardSafe&&strongOverall&&baseTape&&volumeOk&&notLate&&nearHighOk&&p.opportunityBoost>=.035;
- const cap=clamp(18+p.opportunityBoost*34+(x.score>=5.7&&x.confidence>=.74?4:0),18,28);
- const reasons=[];if(!x.hardSafe)reasons.push('harte Safety');if(!strongOverall)reasons.push('Gesamtqualität');if(!baseTape)reasons.push('Kursbestätigung');if(!volumeOk)reasons.push('Volumen');if(!notLate)reasons.push('zu spät/überhitzt');if(!nearHighOk)reasons.push('zu nah am Hoch');if(p.opportunityBoost<.035)reasons.push('Replay zeigt noch keinen relevanten Missed-Move-Druck');
- return{allow,allocationCap:+cap.toFixed(1),pressure:p,metrics:x,reasons};
+ // Missed/Late-Chancen lockern nur weiche Grenzen. Peak-Fehler wirken gezielt nur
+ // bei Near-High-Setups entgegen, damit Pullbacks nicht unnoetig strenger werden.
+ const netOpportunity=clamp(p.opportunityBoost-(nearHigh?p.peakPenalty*.60:0),0,.24);
+ const allow=x.hardSafe&&strongOverall&&baseTape&&volumeOk&&notLate&&nearHighOk&&netOpportunity>=.035;
+ const cap=clamp(18+netOpportunity*34+(x.score>=5.7&&x.confidence>=.74?4:0)-(nearHigh?p.peakPenalty*18:0),16,28);
+ const reasons=[];if(!x.hardSafe)reasons.push('harte Safety');if(!strongOverall)reasons.push('Gesamtqualität');if(!baseTape)reasons.push('Kursbestätigung');if(!volumeOk)reasons.push('Volumen');if(!notLate)reasons.push('zu spät/überhitzt');if(!nearHighOk)reasons.push('zu nah am Hoch');if(netOpportunity<.035)reasons.push('Replay-Balance spricht noch nicht für Soft-Override');
+ return{allow,allocationCap:+cap.toFixed(1),pressure:p,netOpportunity:+netOpportunity.toFixed(3),metrics:x,reasons};
 }
 
 function isResearchWait(a={}){return String(a?.action||'').toUpperCase()==='HOLD'&&/RESEARCH-ENTRY-WAIT/i.test(String(a?.reason||''))}
@@ -59,9 +62,22 @@ export function marginalExitDecision({held={},action={},storage=null,now=Date.no
  return{allow:count>=2,count,hard:false,severe:false,reason:count>=2?'zweites aufeinanderfolgendes Momentum-Risikosignal':'erstes leichtes Momentum-Risikosignal – einmal bestätigen'};
 }
 
+function themeFamily(v){
+ const t=String(v||'').toUpperCase();if(!t)return'';
+ if(t.includes('DEFENSE')||t.includes('RUSSIA')||t.includes('MILIT'))return'DEFENSE';
+ if(t.includes('SEMI')||t.includes('CHIP'))return'SEMICONDUCTOR';
+ if(t.includes('AI_POWER')||t.includes('GRID')||t.includes('DATA_CENTER'))return'AI_POWER_GRID';
+ if(t.includes('CYBER'))return'CYBER_SECURITY';
+ if(t.includes('NUCLEAR')||t.includes('URANIUM'))return'NUCLEAR';
+ if(t.includes('ENERGY')||t.includes('OIL')||t.includes('GAS'))return'ENERGY';
+ if(t.includes('GOLD')||t.includes('MINER'))return'MATERIALS';
+ if(t.includes('RATE')||t.includes('MACRO'))return'MACRO_SENSITIVE';
+ return t;
+}
+
 function concentrationFactor(candidate,held=[]){
- const theme=String(candidate?.theme||candidate?.sector||'').toUpperCase();if(!theme)return{factor:1,share:0,theme:null};
- const values=arr(held).map(h=>({theme:String(h?.theme||h?.sector||'').toUpperCase(),value:Math.max(0,num(h?.invested,h?.value))})),total=values.reduce((a,x)=>a+x.value,0);if(!(total>0))return{factor:1,share:0,theme};
+ const theme=themeFamily(candidate?.theme||candidate?.sector);if(!theme)return{factor:1,share:0,theme:null};
+ const values=arr(held).map(h=>({theme:themeFamily(h?.theme||h?.sector),value:Math.max(0,num(h?.invested,h?.value))})),total=values.reduce((a,x)=>a+x.value,0);if(!(total>0))return{factor:1,share:0,theme};
  const same=values.filter(x=>x.theme===theme).reduce((a,x)=>a+x.value,0),share=same/total;if(share<.55)return{factor:1,share,theme};
  const x=metrics(candidate),exceptional=x.score>=6.2&&x.confidence>=.76,factor=exceptional?0.90:0.75;return{factor,share,theme,exceptional};
 }
