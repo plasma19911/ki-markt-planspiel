@@ -2,11 +2,11 @@ export const AI_MODEL = '@cf/zai-org/glm-4.7-flash';
 export const SPARK_BATCH = 50;
 // Hybrid-Free-Profil: Spezial-Pools decken Leader, Forward, Rebound und Early-Breakout ab.
 // Zusaetzlich kann der Windows-PC das gesamte Aktien-Master in grossen Kurs-Batches
-// vorscannen und nur die auffaelligsten Werte hochziehen. Die vollstaendige teure
-// Deep-/Safety-Kette bleibt bewusst auf zwei Finalisten begrenzt; breite Abdeckung
-// entsteht durch den PC-Wide-Sweep statt durch hunderte Einzel-Deep-Requests.
-export const DEEP_LIMIT = 2;
-export const NEWS_LIMIT = 2;
+// vorscannen und nur die auffaelligsten Werte hochziehen. Mit aktivem PC-Radar werden
+// jetzt vier statt zwei Finalisten tief geprueft, damit starke Werte nicht wegen eines
+// knappen Finalisten-Slots verschwinden. News bleiben bewusst kleiner als die Deep-Kette.
+export const DEEP_LIMIT = 4;
+export const NEWS_LIMIT = 3;
 export const NEWS_RADAR_BATCH = 2;
 
 // Das Live-Planspiel handelt ausschließlich Aktien.
