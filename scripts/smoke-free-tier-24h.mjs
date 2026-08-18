@@ -20,7 +20,7 @@ assert.match(v8,/maxScheduledScansPerDay:1440/,'Status muss maximal 1440 geplant
 assert.match(v8,/free-tier-1m-cooldown/,'Zusatzscans muessen innerhalb einer Minute blockiert werden');
 assert.match(v8,/LEADER_TARGET=25/,'Normaler Scanpool muss auf 25 externe Marktleader begrenzt sein');
 assert.match(v8,/LEADER_CACHE_MS=5\*60\*1000/,'Externe Leaderlisten duerfen nur alle 5 Minuten erneuert werden');
-assert.match(v8,/EXTERNAL_FETCH_SOFT_CAP=38/,'Pro Scan muss vor dem Cloudflare-50er-Hardlimit gebremst werden');
+assert.match(v8,/EXTERNAL_FETCH_SOFT_CAP=36/,'Pro Scan muss mit Redirect-Reserve vor dem Cloudflare-50er-Hardlimit gebremst werden');
 assert.match(v8,/free-tier-subrequest-soft-cap/,'Soft-Cap muss reale Zusatzfetches blockieren');
 assert.match(v8,/TradingView DE Most Active/);
 assert.match(v8,/TradingView DE Unusual Volume/);
@@ -47,4 +47,4 @@ assert.equal(leaderPageFetchesPerDayMax,1152);
 const futureRefreshesPerDay=24*60/10;
 assert.equal(futureRefreshesPerDay,144);
 
-console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',scanIntervalMinutes:1,scheduledScansPerDay:scansPerDay,statusCallsPerDayPerOpenTab,dynamicExternalLeaderTarget:25,leaderRefreshMinutes:5,leaderSources:4,maxLeaderPageFetchesPerDay:leaderPageFetchesPerDayMax,deepFinalists:2,externalFetchSoftCapPerScan:38,futureWatchRefreshMinutes:10,futureWatchRefreshesPerDay:futureRefreshesPerDay,heldStocksAlwaysAdded:true},null,2));
+console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',scanIntervalMinutes:1,scheduledScansPerDay:scansPerDay,statusCallsPerDayPerOpenTab,dynamicExternalLeaderTarget:25,leaderRefreshMinutes:5,leaderSources:4,maxLeaderPageFetchesPerDay:leaderPageFetchesPerDayMax,deepFinalists:2,externalFetchSoftCapPerScan:36,futureWatchRefreshMinutes:10,futureWatchRefreshesPerDay:futureRefreshesPerDay,heldStocksAlwaysAdded:true},null,2));
