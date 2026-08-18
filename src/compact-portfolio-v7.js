@@ -32,13 +32,15 @@ function rewriteStockOnlyPlan(text,state){
     return{...x,type:STOCK_TYPE,...(price>0?{price:+price.toFixed(6)}:{})};
   });
   const held=p.held.filter(x=>String(x?.type||STOCK_TYPE).toUpperCase()===STOCK_TYPE);
-  let out=text.slice(0,p.a+p.marker.length)+JSON.stringify(candidates)+p.heldMarker+JSON.stringify(held);
-  out=out
+  let prefix=text.slice(0,p.a)
     .replace(/Aktien und normale ETFs/gi,'ausschließlich Aktien')
     .replace(/Aktien \+ normale ETFs/gi,'ausschließlich Aktien')
     .replace(/Aktien sowie normale europaeische UCITS-ETF-Kandidaten/gi,'Aktien')
     .replace(/Erlaubt sind ausschließlich Aktien und normale ETFs\./gi,'Erlaubt sind ausschließlich Aktien. ETFs sind in diesem Planspiel ausgeschlossen.');
-  return `${out} AKTIEN-ONLY: BUY ist ausschließlich für Kandidaten type=EQUITY erlaubt. ETF und LEVERAGED_ETF niemals kaufen. FULL-CASH-POLICY: Solange handelbare Aktienkandidaten vorhanden sind, soll strategisch kein Cash zurückgehalten werden; finale BUY-Anteile sollen zusammen 100% des verfügbaren Cashs verwenden.`;
+  const policy='AKTIEN-ONLY: BUY ist ausschließlich für Kandidaten type=EQUITY erlaubt. ETF und LEVERAGED_ETF niemals kaufen. FULL-CASH-POLICY: Solange handelbare Aktienkandidaten vorhanden sind, soll strategisch kein Cash zurückgehalten werden; finale BUY-Anteile sollen zusammen 100% des verfügbaren Cashs verwenden. ';
+  // WICHTIG: Nach Gehalten= darf nichts mehr stehen. Mehrere nachgelagerte Parser lesen
+  // das Held-JSON bis zum Nachrichtenende. Die Policy steht deshalb VOR Kandidaten=.
+  return `${prefix}${policy}${p.marker}${JSON.stringify(candidates)}${p.heldMarker}${JSON.stringify(held)}`;
 }
 
 function parsePlan(r){
