@@ -1,6 +1,8 @@
+import {getEntryTimingAdjustment} from './live-signal-learning.js';
+
 // Separate Rebound-/Decliner-Entscheidungsschicht.
 // Beobachtet Tagesverlierer, verhindert fallende Messer und darf nur bei klarer
-// kurzfristiger Umkehr einen kleinen, spaeter weiter lernenden Paper-Einstieg zulassen.
+// kurzfristiger Umkehr einen kleinen, weiter lernenden Paper-Einstieg zulassen.
 
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
@@ -40,10 +42,14 @@ function enrichInput(input,state){
   const candidates=parseBlock(hit.text,'Kandidaten=',' Gehalten=');if(!Array.isArray(candidates))return input;
   const rm=reboundMap(state),enriched=candidates.map(c=>{const r=rm.get(key(c));if(!r)return c;const e=evaluate(c);return{...c,reboundWatch:true,reboundRank:num(r.rank),reboundSource:r.source||null,reboundConfirmed:e.confirmed,reboundQuality:+e.quality.toFixed(2)}});
   const a=hit.text.indexOf('Kandidaten='),b=hit.text.indexOf(' Gehalten=',a),prefix=hit.text.slice(0,a),suffix=hit.text.slice(b);
-  const policy='REBOUND-RADAR: Tagesverlierer sind ein eigener Beobachtungspool. Niemals allein wegen eines Kursverlusts kaufen. reboundWatch=true braucht bestaetigte Umkehr: kurzfristiges Momentum positiv, Abverkauf stabilisiert, kein STRONG-Sell/REVERSAL, kein HIGH-Event-Risiko und keine stark negativen News. Fallende Messer bleiben HOLD. Bestaetigte Rebounds anfangs kleiner gewichten; 15/30/60-Minuten-Lernen entscheidet spaeter, welche Rebound-Muster groesser werden duerfen. ';
+  const policy='REBOUND-RADAR: Tagesverlierer sind ein eigener Beobachtungspool. Niemals allein wegen eines Kursverlusts kaufen. reboundWatch=true braucht bestaetigte Umkehr: kurzfristiges Momentum positiv, Abverkauf stabilisiert, kein STRONG-Sell/REVERSAL, kein HIGH-Event-Risiko und keine stark negativen News. Fallende Messer bleiben HOLD. Bestaetigte Rebounds anfangs kleiner gewichten; 15/30/60-Minuten-Lernen entscheidet separat fuer REBOUND_REVERSAL, welche Muster groesser werden duerfen oder geblockt werden. ';
   const messages=input.messages.slice();messages[hit.i]={...messages[hit.i],content:`${prefix}${policy}Kandidaten=${JSON.stringify(enriched)}${suffix}`};return{...input,messages}
 }
-function postProcess(r,input,state){
+function learnedRebound(storage,c,e){
+  const candidate={...c,reboundWatch:true};const learn=getEntryTimingAdjustment(storage,candidate);
+  return{...learn,quality:e.quality+num(learn.scoreDelta),allowed:e.confirmed&&!learn.block};
+}
+function postProcess(r,input,state,storage){
   const plan=parsePlan(r),hit=findPlanMessage(input);if(!plan||!hit)return r;
   const candidates=parseBlock(hit.text,'Kandidaten=',' Gehalten=');if(!Array.isArray(candidates))return r;
   const held=parseBlock(hit.text,' Gehalten=')||[],heldSet=new Set(arr(held).map(key)),cMap=new Map(candidates.map(c=>[key(c),c])),rm=reboundMap(state);
@@ -51,30 +57,32 @@ function postProcess(r,input,state){
   for(const a of arr(plan.actions)){
     const sym=key(a),rw=rm.get(sym),c=cMap.get(sym);
     if(String(a?.action||'').toUpperCase()==='BUY'&&rw&&c){
-      const e=evaluate(c);
-      if(!e.confirmed){out.push({symbol:sym,action:'HOLD',confidence:clamp(num(a.confidence,.55),.5,.8),allocation_pct:0,reason:`REBOUND-BLOCK: noch keine bestaetigte Umkehr · Qualität ${e.quality.toFixed(2)} · ${e.why.slice(0,4).join(' · ')}`});continue}
-      reboundBuy=true;out.push({...a,allocation_pct:+Math.min(35,Math.max(12,num(a.allocation_pct,20))).toFixed(2),confidence:clamp(num(a.confidence,.6),.55,.9),reason:`${String(a.reason||'').slice(0,190)} · REBOUND bestaetigt ${e.quality.toFixed(2)} · Einstieg auf max. 35% begrenzt`});continue
+      const e=evaluate(c),learn=learnedRebound(storage,c,e);
+      if(!learn.allowed){out.push({symbol:sym,action:'HOLD',confidence:clamp(num(a.confidence,.55),.5,.8),allocation_pct:0,reason:`REBOUND-BLOCK: ${learn.block?learn.reason:'noch keine bestaetigte Umkehr'} · Qualität ${e.quality.toFixed(2)} · ${e.why.slice(0,4).join(' · ')}`});continue}
+      const learnedCap=Math.max(10,35*num(learn.sizeMultiplier,1)),pct=Math.min(learnedCap,Math.max(10,num(a.allocation_pct,20)));
+      reboundBuy=true;out.push({...a,allocation_pct:+pct.toFixed(2),confidence:clamp(num(a.confidence,.6)+num(learn.confidenceDelta),.55,.9),reason:`${String(a.reason||'').slice(0,165)} · REBOUND ${e.quality.toFixed(2)} · Lern-Score ${num(learn.scoreDelta).toFixed(2)} · Einstieg max. ${learnedCap.toFixed(0)}%`});continue
     }
     out.push(a);
   }
   if(!reboundBuy){
-    const ranked=arr(candidates).filter(c=>rm.has(key(c))&&!heldSet.has(key(c))).map(c=>({c,e:evaluate(c)})).filter(x=>x.e.confirmed).sort((a,b)=>b.e.quality-a.e.quality);
+    const ranked=arr(candidates).filter(c=>rm.has(key(c))&&!heldSet.has(key(c))).map(c=>{const e=evaluate(c),learn=learnedRebound(storage,c,e);return{c,e,learn}}).filter(x=>x.learn.allowed).sort((a,b)=>b.learn.quality-a.learn.quality);
     const best=ranked[0];
-    if(best&&best.e.quality>=6.2&&!out.some(a=>String(a?.action||'').toUpperCase()==='BUY')){
-      out.push({symbol:key(best.c),action:'BUY',confidence:clamp(.56+best.e.quality*.035,.6,.84),allocation_pct:best.e.quality>=7.5?30:20,reason:`REBOUND-RADAR: bestaetigte Umkehr nach Tagesverlust · Qualität ${best.e.quality.toFixed(2)} · ${best.e.why.slice(0,5).join(' · ')} · kleine Startposition; normale Safety/Kostenpruefung folgt`});
+    if(best&&best.learn.quality>=6.2&&!out.some(a=>String(a?.action||'').toUpperCase()==='BUY')){
+      const base=best.learn.quality>=7.5?30:20,pct=Math.max(10,Math.min(35,base*num(best.learn.sizeMultiplier,1)));
+      out.push({symbol:key(best.c),action:'BUY',confidence:clamp(.56+best.learn.quality*.035+num(best.learn.confidenceDelta),.6,.84),allocation_pct:+pct.toFixed(2),reason:`REBOUND-RADAR: bestaetigte Umkehr nach Tagesverlust · Qualität ${best.e.quality.toFixed(2)} · Lern-Score ${num(best.learn.scoreDelta).toFixed(2)} · ${best.e.why.slice(0,5).join(' · ')} · kleine lernende Startposition`});
     }
   }
   plan.actions=out;
-  plan.summary=`${String(plan.summary||'').slice(0,210)} · REBOUND-RADAR: ${rm.size} Verlierer beobachtet; fallende Messer blockiert, bestaetigte Umkehr maximal 35% Einstieg.`;
+  plan.summary=`${String(plan.summary||'').slice(0,195)} · REBOUND-RADAR: ${rm.size} Verlierer beobachtet; fallende Messer blockiert; REBOUND_REVERSAL lernt nach 15/30/60m.`;
   return{...r,response:JSON.stringify(plan)}
 }
 
 export class ReboundAiGuard{
-  constructor(base,adapter){this.base=base;this.adapter=adapter}
+  constructor(base,adapter,storage){this.base=base;this.adapter=adapter;this.storage=storage}
   async run(model,input){
     const joined=String(arr(input?.messages).map(x=>x?.content||'').join('\n')),isPlan=joined.includes('Kandidaten=')&&joined.includes('JSON-only');
     if(!isPlan)return this.base.run(model,input);
     const state=this.adapter?.peekState?.()||null,next=enrichInput(input,state),r=await this.base.run(model,next);
-    return postProcess(r,next,state);
+    return postProcess(r,next,state,this.storage);
   }
 }
