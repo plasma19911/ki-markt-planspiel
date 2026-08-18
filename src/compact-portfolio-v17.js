@@ -3,11 +3,10 @@ import {setSecondChanceRuntime,clearSecondChanceRuntime} from './second-chance-r
 import {SECOND_CHANCE_TARGET,buildSecondChanceWatch,isSecondChanceWatchFresh,isBlockedSecondChanceSymbol} from './second-chance-watch-utils.js';
 export {SECOND_CHANCE_TARGET,SECOND_CHANCE_RETENTION_MS,buildSecondChanceWatch,isSecondChanceCandidate} from './second-chance-watch-utils.js';
 
-// V17: Gute Deep-Kandidaten verschwinden nicht mehr sofort, nur weil sie im
-// naechsten Minutenranking knapp aus den Finalisten fallen. Bis zu 8 gute,
-// ungefaehrliche Werte bleiben 12 Minuten im Zweitcheck-Pool. Market-v3 fuehrt
-// fuer bis zu zwei fehlende Kandidaten pro Runde einen frischen 1m-Recheck aus.
-// Die Watchlist ist KEIN Kaufsignal und erzwingt niemals einen Trade.
+// V17: Gute Deep-Kandidaten verschwinden nicht mehr sofort. Zusaetzlich arbeitet
+// der Profit-Optimizer im Capital-in-Motion-Paper-Modus: freies Cash wird auf die
+// besten hart-sicheren Kandidaten verteilt und schwaechere Positionen duerfen
+// frueh in bessere Setups rotieren. Harte Safety-Sperren bleiben bestehen.
 
 const WATCH_KEY='state/second-chance-watch-v1';
 const arr=v=>Array.isArray(v)?v:[];
@@ -59,8 +58,9 @@ export class MarketPortfolio extends BasePortfolio{
  async status(){
   const s=await super.status(),watch=this._readSecondChance(),isFresh=isSecondChanceWatchFresh(watch),count=isFresh?num(watch?.candidateCount):0;
   s.secondChanceWatch={enabled:true,target:SECOND_CHANCE_TARGET,candidateCount:count,updatedAt:watch?.updatedAt||null,fresh:isFresh,retentionMinutes:12,recheckPerScan:2,requiresFreshOneMinuteRecheck:true,forcedBuy:false,mode:'Gute Deep-Kandidaten bleiben bis zu 12 Minuten im Heisspool; fehlen sie im normalen Finalisten-Ranking, erhalten bis zu zwei pro Scan einen frischen 1m-Zweitcheck.'};
-  if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,secondChanceCapture:true,strongCandidateRetentionMinutes:12,secondChanceRecheckPerScan:2,secondChanceProbeMaxPct:28,deepFinalists:4,bestQualifiedEntry:true,bestQualifiedMinExpected:5.35,bestQualifiedProbePct:[16,20,24],secondChanceMinExpected:6.2,looserSoftThresholds:true,hardSafetyStillRequired:true};
-  if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,secondChanceWatch:true,secondChanceRetentionMinutes:12,secondChanceRecheckPerScan:2,bestQualifiedEntry:true,note:`${s.freeTierBudget.note||''} Gute Deep-Kandidaten fallen nicht sofort aus dem Radar. Wenn kein perfekter BUY vorliegt, darf das beste mehrfach bestaetigte sichere Setup bereits ab niedrigerer Soft-Schwelle eine kleine 16-24%-Probeposition bekommen; harte Safety-/Event-/Venue-Sperren bleiben.`};
+  if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,secondChanceCapture:true,strongCandidateRetentionMinutes:12,secondChanceRecheckPerScan:2,deepFinalists:4,bestQualifiedEntry:true,bestQualifiedMinExpected:4.7,secondChanceMinExpected:5.7,capitalInMotion:true,alwaysInvested:true,capitalMotionMinExpected:3.0,capitalMotionTargetCashDeploymentPct:100,rotationMinGap:0.8,lossRotationMinGap:0.45,rotationMinAgeMinutes:8,hardSafetyStillRequired:true,hardSafetyCashException:true,profitRotation:true,weakSetupsMayStayCash:false,note:'Capital-in-Motion Paper-Modus: verfuegbares Cash wird grundsaetzlich zu 100% auf die besten hart-sicheren Aktien verteilt. Schwache/verlierende Positionen duerfen frueh in bessere Setups rotieren. Nur wenn kein Kandidat die harten Safety-/Venue-/Event-/Datenregeln besteht, darf ausnahmsweise Cash liegen bleiben. Keine Gewinngarantie.'};
+  if(s.executionModel)s.executionModel={...s.executionModel,alwaysInvested:true,capitalInMotion:true,cashMayRemain:false,strategicCashReservePct:0,hardSafetyCashException:true,legacyFullCashFailsafe:true,fullCashPolicy:false};
+  if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,secondChanceWatch:true,secondChanceRetentionMinutes:12,secondChanceRecheckPerScan:2,bestQualifiedEntry:true,capitalInMotion:true,alwaysInvested:true,capitalMotionTargetCashDeploymentPct:100,note:`${s.freeTierBudget.note||''} Capital-in-Motion: freies Cash wird auf die besten hart-sicheren Kandidaten verteilt; bei klar besserem Erwartungswert darf eine schwaechere Position bereits nach kurzer Hysterese rotiert werden. Harte Safety-/Venue-/Event-Sperren bleiben.`};
   return s;
  }
 }
