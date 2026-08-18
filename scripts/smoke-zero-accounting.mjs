@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {reconcileZeroFees} from '../src/compact-portfolio-v7.js';
+import {reconcileZeroFees} from '../src/zero-accounting.js';
 
 function makeEngine(state){
   return {store:{
