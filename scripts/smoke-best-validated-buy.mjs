@@ -19,41 +19,46 @@ const baseFast={
 const holdOnly={response:JSON.stringify({summary:'KI bleibt vorsichtig',actions:[{symbol:'HIGH.DE',action:'HOLD',confidence:.6,allocation_pct:0,reason:'abwarten'}]})};
 const merged=JSON.parse(enforceFastExecutionGuards(holdOnly,baseFast).response);
 const buys=merged.actions.filter(x=>x.action==='BUY');
-assert.equal(buys.length,1,'Genau ein bester validierter Fast-BUY soll übernommen werden');
-assert.equal(buys[0].symbol,'HIGH.DE','Scanner-Score 5,5 + stärkerer BUY-Score müssen eine etwas niedrigere nackte Konfidenz überwiegen');
-assert.equal(buys[0].allocation_pct,100,'Wenn nur ein finaler BUY übrig bleibt, muss das gesamte verfügbare Cash zugeordnet werden');
+assert.equal(buys.length,1,'Ein bereits vollständig validierter Fast-BUY darf übernommen werden');
+assert.equal(buys[0].symbol,'HIGH.DE','Der qualitativ beste validierte Fast-BUY soll gewinnen');
+assert.equal(buys[0].allocation_pct,22,'Die validierte Positionsgröße muss erhalten bleiben; Cash darf übrig bleiben');
 assert.match(buys[0].reason,/BEST-VALIDATED-BUY/);
-assert.match(buys[0].reason,/FULL-CASH/);
-assert.match(merged.summary,/100% des verfügbaren Cashs/);
+assert.doesNotMatch(buys[0].reason,/FULL-CASH/);
+assert.doesNotMatch(merged.summary,/100% des verfügbaren Cashs/);
 
 const withSell={response:JSON.stringify({summary:'KI sieht Risiko',actions:[{symbol:'HIGH.DE',action:'SELL',confidence:.8,allocation_pct:0,reason:'Risiko'}]})};
 const mergedSell=JSON.parse(enforceFastExecutionGuards(withSell,baseFast).response);
 assert.equal(mergedSell.actions.some(x=>x.action==='BUY'&&x.symbol==='HIGH.DE'),false,'SELL für denselben Wert darf nicht durch Auto-BUY überschrieben werden');
 const lowAfterSell=mergedSell.actions.find(x=>x.action==='BUY'&&x.symbol==='LOW.DE');
-assert.ok(lowAfterSell,'Nächstbester validierter Aktien-BUY darf gewählt werden');
-assert.equal(lowAfterSell.allocation_pct,100,'Auch der nächstbeste einzelne BUY muss das verfügbare Cash vollständig verwenden');
+assert.ok(lowAfterSell,'Nächstbester bereits validierter Aktien-BUY darf gewählt werden');
+assert.equal(lowAfterSell.allocation_pct,20,'Auch der Ersatz-BUY behält seine validierte Größe');
 
 const noFast={...baseFast,actions:[]};
-const forced=JSON.parse(enforceFastExecutionGuards(holdOnly,noFast).response),forcedBuy=forced.actions.find(x=>x.action==='BUY');
-assert.ok(forcedBuy,'Bei offenem Markt und verfügbarem Cash darf ein vollständig ausführbarer Deep-Kandidat nicht ungenutzt bleiben');
-assert.equal(forcedBuy.symbol,'HIGH.DE','FULL-CASH-Fallback muss den qualitativ besten sicheren Deep-Kandidaten wählen');
-assert.equal(forcedBuy.allocation_pct,100);
-assert.match(forcedBuy.reason,/FULL-CASH-BEST-AVAILABLE/);
+const cashAllowed=JSON.parse(enforceFastExecutionGuards(holdOnly,noFast).response);
+assert.equal(cashAllowed.actions.some(x=>x.action==='BUY'),false,'Ohne bestätigten BUY darf kein HOLD-Kandidat nur wegen freien Cashs gekauft werden');
+assert.match(cashAllowed.summary,/Cash bleibt verfügbar/);
 
 const missingVolume={...baseFast,volumeConfirmation:{minRatio:1.1,ratios:{}},actions:[baseFast.actions[0]],context:[baseFast.context[0]],evidenceDiversity:{diagnostics:{'HIGH.DE':{hardSafe:true}}}};
 const aiBuy={response:JSON.stringify({summary:'KI BUY',actions:[{symbol:'HIGH.DE',action:'BUY',confidence:.8,allocation_pct:22,reason:'mehrfach bestätigt'}]})};
 const noVolumeResult=JSON.parse(enforceFastExecutionGuards(aiBuy,missingVolume).response),noVolumeBuy=noVolumeResult.actions.find(x=>x.symbol==='HIGH.DE'&&x.action==='BUY');
-assert.ok(noVolumeBuy,'Fehlende Volumenmessung darf einen sonst validen Aktien-BUY nicht blockieren');
-assert.equal(noVolumeBuy.allocation_pct,100,'Auch bei reduzierter Konfidenz muss vorhandenes Cash vollständig zugeordnet werden');
-assert.ok(noVolumeBuy.confidence<=.64,'Fehlende Volumenmessung reduziert stattdessen die Konfidenz');
+assert.ok(noVolumeBuy,'Fehlende Volumenmessung darf einen sonst validen Aktien-BUY nicht automatisch blockieren');
+assert.equal(noVolumeBuy.allocation_pct,22,'Fehlende Volumenmessung darf die Positionsgröße nicht auf 100% aufblasen');
+assert.ok(noVolumeBuy.confidence<=.64,'Fehlende Volumenmessung reduziert die Konfidenz');
 
 const twoAiBuys={response:JSON.stringify({summary:'KI zwei BUYs',actions:[
   {symbol:'HIGH.DE',action:'BUY',confidence:.72,allocation_pct:30,reason:'stärker'},
   {symbol:'LOW.DE',action:'BUY',confidence:.78,allocation_pct:20,reason:'gut'}
 ]})};
-const distributed=JSON.parse(enforceFastExecutionGuards(twoAiBuys,baseFast).response),distBuys=distributed.actions.filter(x=>x.action==='BUY');
-assert.equal(distBuys.length,2);
-assert.ok(Math.abs(distBuys.reduce((a,x)=>a+x.allocation_pct,0)-100)<1e-6,'Mehrere finale BUYs müssen zusammen exakt 100% des verfügbaren Cashs erhalten');
-assert.ok(distBuys.find(x=>x.symbol==='HIGH.DE').allocation_pct>distBuys.find(x=>x.symbol==='LOW.DE').allocation_pct,'Bessere Gesamtqualität soll einen größeren Cash-Anteil erhalten');
+const preserved=JSON.parse(enforceFastExecutionGuards(twoAiBuys,baseFast).response),preservedBuys=preserved.actions.filter(x=>x.action==='BUY');
+assert.equal(preservedBuys.length,2);
+assert.equal(preservedBuys.reduce((a,x)=>a+x.allocation_pct,0),50,'50% geplantes Deployment muss 50% bleiben; Rest-Cash ist erlaubt');
 
-console.log(JSON.stringify({ok:true,stocksOnly:true,best:buys[0],forcedBuy,distributed:distBuys,summary:merged.summary},null,2));
+const overAllocated={response:JSON.stringify({summary:'KI zu groß',actions:[
+  {symbol:'HIGH.DE',action:'BUY',confidence:.72,allocation_pct:80,reason:'A'},
+  {symbol:'LOW.DE',action:'BUY',confidence:.78,allocation_pct:60,reason:'B'}
+]})};
+const capped=JSON.parse(enforceFastExecutionGuards(overAllocated,baseFast).response),cappedBuys=capped.actions.filter(x=>x.action==='BUY');
+assert.ok(Math.abs(cappedBuys.reduce((a,x)=>a+x.allocation_pct,0)-100)<1e-6,'Nur Überallokation >100% darf proportional auf 100% gekappt werden');
+assert.match(capped.summary,/maximal 100%/);
+
+console.log(JSON.stringify({ok:true,stocksOnly:true,cashMayRemain:true,best:buys[0],cashAllowed:cashAllowed.summary,preserved:preservedBuys,capped:cappedBuys},null,2));
