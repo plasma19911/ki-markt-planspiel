@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T16:45:56.239000+00:00",
+  "checkedAt": "2026-08-18T16:46:31.492159+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -31,8 +31,8 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 184,
-  "lastScan": "2026-08-18T16:45:07.427Z",
+  "scanCount": 185,
+  "lastScan": "2026-08-18T16:46:05.726Z",
   "lastError": null,
   "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 4 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 2 aktive Gap-Lagen aus 4/12 möglichen Checks. Aktive Depotentscheidung: CRM BUY 2 · REBOUND-RADA · EARLY-BREAKO · TARGET-VENUE: 0 nicht sauber auf gettex aufgeloeste BUY(s) blockiert.",
   "cash": 989.7426404533917,
@@ -46,23 +46,23 @@
     {
       "symbol": "AXON",
       "name": "Axon Enterprise",
-      "score": 3.9415361344537816,
-      "confidence": 0.7596,
-      "day_change": 2.57810835551735,
+      "score": 2.9415361344537816,
+      "confidence": 0.7037536134453781,
+      "day_change": 2.5764519870991265,
       "news_score": 0.05768907563025211,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 67 konstruktiv",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
       "contra": ""
     },
     {
       "symbol": "CRM",
       "name": "Salesforce",
-      "score": 3.7185282776349613,
-      "confidence": 0.7695,
-      "day_change": 3.8356800381972533,
-      "news_score": 0.015424164524421595,
+      "score": 2.917160714285714,
+      "confidence": 0.7112160714285714,
+      "day_change": 3.7990292210900334,
+      "news_score": 0.014285714285714287,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.22%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
       "contra": ""
     },
     {
@@ -70,22 +70,22 @@
       "name": "Northrop Grumman",
       "score": 1.2225290322580646,
       "confidence": 0.5318529032258065,
-      "day_change": 3.6671317698285577,
+      "day_change": 3.6846758983963834,
       "news_score": 0.03129032258064516,
       "event_risk": "NONE",
-      "pro": "Kurs über EMA21 · RSI 51 konstruktiv",
+      "pro": "Kurs über EMA21 · RSI 53 konstruktiv",
       "contra": "EMA-Trend schwach"
     },
     {
       "symbol": "PLTR",
       "name": "Palantir Technologies",
-      "score": 1,
-      "confidence": 0.38,
-      "day_change": 0.04346566212691805,
+      "score": -0.25,
+      "confidence": 0.30500000000000005,
+      "day_change": 0.014486785419975945,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "EMA9 über EMA21 · Kurs über EMA21",
-      "contra": "RSI 87 überhitzt"
+      "contra": "RSI 87 überhitzt · Momentum erschöpft (2.5): nach starkem Lauf Reversal-Risiko erhöht"
     }
   ],
   "recentHistory": [
@@ -96,7 +96,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal AXON: Score 3.94, Konfidenz 76%.",
+      "reason": "Kein Trade. Bestes Signal AXON: Score 2.94, Konfidenz 70%.",
       "score": null
     },
     {
@@ -295,8 +295,8 @@
       "ok_count": 3,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 7,
-      "updated_at": "2026-08-18T16:45:06.641Z"
+      "latency_ms": 6,
+      "updated_at": "2026-08-18T16:46:05.261Z"
     },
     {
       "source": "Yahoo FX",
@@ -304,8 +304,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 127,
-      "updated_at": "2026-08-18T16:45:06.641Z"
+      "latency_ms": 115,
+      "updated_at": "2026-08-18T16:46:05.261Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -313,8 +313,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 282,
-      "updated_at": "2026-08-18T16:45:06.641Z"
+      "latency_ms": 113,
+      "updated_at": "2026-08-18T16:46:05.261Z"
     },
     {
       "source": "Yahoo Events",
@@ -322,17 +322,35 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 101,
-      "updated_at": "2026-08-18T16:45:06.641Z"
+      "latency_ms": 99,
+      "updated_at": "2026-08-18T16:46:05.261Z"
     },
     {
       "source": "Yahoo News",
-      "status": "DEGRADED",
-      "ok_count": 4,
-      "fail_count": 1,
-      "last_error": "Error: HTTP 500",
-      "latency_ms": 1321,
-      "updated_at": "2026-08-18T16:45:06.641Z"
+      "status": "OK",
+      "ok_count": 5,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 612,
+      "updated_at": "2026-08-18T16:46:05.261Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 247,
+      "updated_at": "2026-08-18T16:46:05.261Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 248,
+      "updated_at": "2026-08-18T16:46:05.261Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -341,7 +359,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": 260,
-      "updated_at": "2026-08-18T16:45:06.641Z"
+      "updated_at": "2026-08-18T16:46:05.261Z"
     },
     {
       "source": "BörsenNews",
@@ -349,26 +367,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 521,
-      "updated_at": "2026-08-18T16:45:06.641Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 949,
-      "updated_at": "2026-08-18T16:45:06.641Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 958,
-      "updated_at": "2026-08-18T16:45:06.641Z"
+      "latency_ms": 325,
+      "updated_at": "2026-08-18T16:46:05.261Z"
     }
   ],
   "risk": {
@@ -459,7 +459,7 @@
     "enabled": true,
     "target": 16,
     "candidateCount": 0,
-    "updatedAt": "2026-08-18T16:45:02.593Z",
+    "updatedAt": "2026-08-18T16:46:03.080Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8527,
@@ -618,7 +618,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T16:46:07.427Z",
+    "nextScanAt": "2026-08-18T16:47:05.726Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -651,8 +651,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T16:45:02.593Z",
-    "ageSeconds": 53,
+    "lastSeenAt": "2026-08-18T16:46:03.080Z",
+    "ageSeconds": 28,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-18T16:43:06.061Z",
     "resolvedLeaderCount": 15,
@@ -665,16 +665,16 @@
     "wideSweepMasterCount": 8527,
     "wideSweepScannedCount": 320,
     "metrics": {
-      "lastSeenAt": "2026-08-18T16:45:02.593Z",
+      "lastSeenAt": "2026-08-18T16:46:03.080Z",
       "version": "2.0.7-csharp-dynamic-market-wi",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 5031770,
+      "storageBytes": 5032682,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 87,
-      "downloadedBytes": 17584969,
-      "uploadedBytes": 65706,
+      "ramMb": 87.1,
+      "downloadedBytes": 17627204,
+      "uploadedBytes": 66476,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_DYNAMIC_MARKET_WIDE",
       "lastLocalCleanupAt": "2026-08-18T16:20:15.1807589Z",
