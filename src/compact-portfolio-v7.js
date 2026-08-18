@@ -49,7 +49,7 @@ function filterPlanResponseToStocks(r,allowed){
 class StocksOnlyAiGuard{
   constructor(base,adapter){this.base=base;this.adapter=adapter}
   async run(model,input){
-    const isPlan=String(input?.messages?.map(x=>x?.content||'').join('\n')||'').includes('JSON-only')&&String(input?.messages?.map(x=>x?.content||'').join('\n')||'').includes('Kandidaten=');
+    const joined=String(input?.messages?.map(x=>x?.content||'').join('\n')||''),isPlan=joined.includes('JSON-only')&&joined.includes('Kandidaten=');
     if(!isPlan)return this.base.run(model,input);
     const state=this.adapter?.peekState?.();
     const messages=(input.messages||[]).map(m=>String(m?.content||'').includes('Kandidaten=')?{...m,content:rewriteStockOnlyPlan(String(m.content||''),state)}:m);
@@ -71,17 +71,13 @@ async function ensureStocksOnlyState(engine){
   if(!needs)return null;
   return engine.store.update(state=>{
     state.config.include_etfs=0;state.config.include_leverage=0;state.candidates=(state.candidates||[]).filter(isStock);state.newsRadar=(state.newsRadar||[]).filter(isStock);
-    const remove=(state.positions||[]).filter(p=>!isStock(p));
+    const allPositions=Array.isArray(state.positions)?state.positions:[],remove=allPositions.filter(p=>!isStock(p)),keep=allPositions.filter(isStock);
     if(remove.length){
-      let cash=num(state.config.cash),nextId=Math.max(0,...(state.history||[]).map(x=>num(x?.id,0)));
-      for(const p of remove){
-        const value=Math.max(0,positionMarketValue(p)),before=cash,tradePnl=value-num(p.invested)-num(p.entry_fee);cash+=value;
-        const remaining=(state.positions||[]).filter(x=>x!==p&&!remove.includes(x));
-        const eq=cash+remaining.reduce((a,x)=>a+positionMarketValue(x),0);
-        state.history.push({id:++nextId,ts:new Date().toISOString(),end_ts:null,event_count:1,start_scan:num(state.config.scan_count),end_scan:num(state.config.scan_count),action:'VERKAUF',symbol:p.symbol,name:p.name,instrument_type:p.instrument_type,amount:value,fee:0,trade_pnl:tradePnl,cash_before:before,cash_after:cash,equity:eq,total_pnl:eq-num(state.config.start_capital),score:p.score??null,reason:'AKTIEN-ONLY-MIGRATION: Nicht-Aktien-Position zum letzten bekannten Paper-Marktwert glattgestellt; keine neue ETF-Position mehr erlaubt.'});
-      }
-      state.positions=(state.positions||[]).filter(isStock);state.config.cash=cash;
-      const id=num(state.aiLog?.at(-1)?.id,0)+1;state.aiLog.push({id,ts:new Date().toISOString(),kind:'SYSTEM',symbol:'',title:'Aktien-only aktiviert',message:`${remove.length} Nicht-Aktien-Position(en) wurden im Paper-Depot zum letzten bekannten Marktwert glattgestellt.`,confidence:null,meta:{stocksOnly:true}});if(state.aiLog.length>300)state.aiLog=state.aiLog.slice(-300);
+      const initialCash=num(state.config.cash),removed=remove.map(p=>({p,value:Math.max(0,positionMarketValue(p))})),finalCash=initialCash+removed.reduce((a,x)=>a+x.value,0),finalEquity=finalCash+keep.reduce((a,p)=>a+positionMarketValue(p),0),finalPnl=finalEquity-num(state.config.start_capital);
+      state.history=Array.isArray(state.history)?state.history:[];let cash=initialCash,nextId=Math.max(0,...state.history.map(x=>num(x?.id,0)));
+      for(const {p,value} of removed){const before=cash,tradePnl=value-num(p.invested)-num(p.entry_fee);cash+=value;state.history.push({id:++nextId,ts:new Date().toISOString(),end_ts:null,event_count:1,start_scan:num(state.config.scan_count),end_scan:num(state.config.scan_count),action:'VERKAUF',symbol:p.symbol,name:p.name,instrument_type:p.instrument_type,amount:value,fee:0,trade_pnl:tradePnl,cash_before:before,cash_after:cash,equity:finalEquity,total_pnl:finalPnl,score:p.score??null,reason:'AKTIEN-ONLY-MIGRATION: Nicht-Aktien-Position zum letzten bekannten Paper-Marktwert glattgestellt; keine neue ETF-Position mehr erlaubt.'})}
+      state.positions=keep;state.config.cash=finalCash;
+      state.aiLog=Array.isArray(state.aiLog)?state.aiLog:[];const id=num(state.aiLog.at(-1)?.id,0)+1;state.aiLog.push({id,ts:new Date().toISOString(),kind:'SYSTEM',symbol:'',title:'Aktien-only aktiviert',message:`${remove.length} Nicht-Aktien-Position(en) wurden im Paper-Depot zum letzten bekannten Marktwert glattgestellt.`,confidence:null,meta:{stocksOnly:true}});if(state.aiLog.length>300)state.aiLog=state.aiLog.slice(-300);
     }
     return{removedNonStocks:remove.length};
   });
