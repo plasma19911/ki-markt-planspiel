@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T19:19:34.088305+00:00",
+  "checkedAt": "2026-08-18T19:39:30.790144+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -9,7 +9,7 @@
     "positionChart": "200"
   },
   "checks": {
-    "homepage": true,
+    "homepage": false,
     "appJs": true,
     "apiStatus": true,
     "agentEndpoint": true,
@@ -31,18 +31,20 @@
     "uiHotfix": true,
     "positionChart": true
   },
-  "allRequiredChecksPassed": true,
-  "failedChecks": [],
+  "allRequiredChecksPassed": false,
+  "failedChecks": [
+    "homepage"
+  ],
   "running": 1,
-  "scanCount": 295,
-  "lastScan": "2026-08-18T19:19:08.784Z",
+  "scanCount": 308,
+  "lastScan": "2026-08-18T19:39:08.727Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 6 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks. Beste HOLD · PULLBACK-FIRST: kein preislich guter Neueinstieg; 0 Peak/zu-teuer BUY(s) blockiert. Lieber auf Ruecksetzer warten als oben hinterherkaufen.",
-  "cash": 207.008662661517,
-  "equity": 960.2953524922834,
-  "pnl": -39.70464750771657,
-  "universeCount": 170,
-  "positions": 2,
+  "aiLastSummary": "KI-Free-Limit/Fehler: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/confi ·  · PULLBACK-FIRST: kein preislich guter Neueinstieg; 0 Peak/zu-teuer BUY(s) blockiert. Lieber auf Ruecksetzer warten als oben hinterherkaufen.",
+  "cash": 373.1779442062093,
+  "equity": 959.1507080058512,
+  "pnl": -40.84929199414876,
+  "universeCount": 169,
+  "positions": 1,
   "positionRows": [
     {
       "symbol": "ESLT",
@@ -53,112 +55,99 @@
       "invested": 585.696171,
       "entry_fee": 1,
       "entry_price": 791.2354523315429,
-      "last_price": 790.5800170898438,
+      "last_price": 791.79248046875,
       "entry_fx": 0.8636,
-      "last_fx": 0.8636,
+      "last_fx": 0.8634,
       "currency": "USD",
       "opened_at": "2026-08-18T17:34:07.358Z",
-      "score": 3.541004255319149,
-      "signal_confidence": 0.7596,
+      "score": 4.727806326086957,
+      "signal_confidence": 0.75276,
       "zero_quantity": 0.8571444406520216,
       "zero_whole_shares": 0,
       "zero_fractional_shares": 0.8571444406520216,
       "zero_uses_fractional": true,
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
-    },
-    {
-      "symbol": "SAP",
-      "name": "SAP SE",
-      "instrument_type": "EQUITY",
-      "theme": null,
-      "company_key": "SAP",
-      "invested": 168.370724,
-      "entry_fee": 1,
-      "entry_price": 212.91770683288573,
-      "last_price": 212.52000427246094,
-      "entry_fx": 0.8635,
-      "last_fx": 0.8636,
-      "currency": "USD",
-      "opened_at": "2026-08-18T18:24:08.488Z",
-      "score": 3.932104839055794,
-      "signal_confidence": 0.7479,
-      "zero_quantity": 0.9157827471279444,
-      "zero_whole_shares": 0,
-      "zero_fractional_shares": 0.9157827471279444,
-      "zero_uses_fractional": true,
-      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     }
   ],
-  "candidates": 6,
+  "candidates": 5,
   "topCandidates": [
-    {
-      "symbol": "AXON",
-      "name": "Axon Enterprise",
-      "score": 3.952600196463654,
-      "confidence": 0.765,
-      "day_change": 3.1671998233810283,
-      "news_score": 0.053948919449901774,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 52 konstruktiv",
-      "contra": ""
-    },
-    {
-      "symbol": "SAP",
-      "name": "SAP SE",
-      "score": 3.932104839055794,
-      "confidence": 0.7479,
-      "day_change": 2.25173415726565,
-      "news_score": 0.14004291845493563,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 59 konstruktiv",
-      "contra": ""
-    },
     {
       "symbol": "ESLT",
       "name": "Elbit Systems Ltd.",
-      "score": 3.541004255319149,
-      "confidence": 0.7596,
-      "day_change": 0.9887099649792619,
-      "news_score": 0.05695035460992907,
+      "score": 4.727806326086957,
+      "confidence": 0.75276,
+      "day_change": 1.1435900654986897,
+      "news_score": 0.06576086956521737,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 65 konstruktiv · 5m +0.23%",
       "contra": ""
-    },
-    {
-      "symbol": "ADBE",
-      "name": "Adobe",
-      "score": 1.2000000000000002,
-      "confidence": 0.4,
-      "day_change": 4.583922830496667,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "Kurs über EMA21 · RSI 53 konstruktiv",
-      "contra": "EMA-Trend schwach"
-    },
-    {
-      "symbol": "CRM",
-      "name": "Salesforce",
-      "score": -1.4500000000000002,
-      "confidence": 0.42500000000000004,
-      "day_change": 3.8121170864533704,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "RSI 52 konstruktiv",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     },
     {
       "symbol": "NOC",
       "name": "Northrop Grumman",
-      "score": -2.45,
-      "confidence": 0.525,
-      "day_change": 3.7127315182720944,
-      "news_score": 0,
+      "score": -2.4231490536277605,
+      "confidence": 0.657314905362776,
+      "day_change": 3.5354062993247837,
+      "news_score": 0.02753943217665615,
       "event_risk": "NONE",
       "pro": "",
       "contra": "EMA-Trend schwach · Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+    },
+    {
+      "symbol": "INTU",
+      "name": "Intuit",
+      "score": -3.180732698961938,
+      "confidence": 0.7555732698961938,
+      "day_change": 4.8480319181130715,
+      "news_score": 0.05107266435986158,
+      "event_risk": "NONE",
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 29 sehr schwach · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+    },
+    {
+      "symbol": "ADBE",
+      "name": "Adobe",
+      "score": -3.2500000000000004,
+      "confidence": 0.6050000000000001,
+      "day_change": 4.265076365926634,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 31 sehr schwach · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+    },
+    {
+      "symbol": "CRM",
+      "name": "Salesforce",
+      "score": -5,
+      "confidence": 0.6759235684350563,
+      "day_change": 3.4455689646320398,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 27 sehr schwach · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
+    {
+      "ts": "2026-08-18T19:39:08.727Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal ESLT: Score 4.73, Konfidenz 75%.",
+      "score": null
+    },
+    {
+      "ts": "2026-08-18T19:37:10.044Z",
+      "action": "VERKAUF",
+      "symbol": "SAP",
+      "amount": 166.1692815446923,
+      "fee": 1,
+      "trade_pnl": -3.201442455307699,
+      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.28%, Rücklauf vom 20m-Hoch -0.45%· Trade P/L netto -2.20 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": -5.867895160944206
+    },
     {
       "ts": "2026-08-18T18:25:42.689Z",
       "action": "HALTEN",
@@ -166,7 +155,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal AXON: Score 3.95, Konfidenz 77%.",
+      "reason": "Kein Trade. Bestes Signal HWM: Score 2.28, Konfidenz 64%.",
       "score": null
     },
     {
@@ -258,29 +247,25 @@
       "trade_pnl": -2.275018362772812,
       "reason": "KI SELL 68%: CAPITAL-MOTION-ROTATION: CRM Erwartungswert 5.80 ist besser als NOC 4.59 · Differenz 1.21 · P/L -0.08% · Kapital aktiv zum staerkeren Setup verschieben· Trade P/L netto -1.28 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
       "score": 2.9225290322580646
-    },
-    {
-      "ts": "2026-08-18T17:36:07.087Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal ESLT: Score 4.30, Konfidenz 63%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-18T17:35:06.543Z",
-      "action": "KAUF",
-      "symbol": "NOC",
-      "amount": -151.984062,
-      "fee": 1,
-      "trade_pnl": null,
-      "reason": "KI BUY 75%: CAPITAL-IN-MOTION QUALIFIED: bestes aktuell hart-sicheres Setup · Erwartungswert 5.59 · verfuegbares Cash aktiv eingesetzt · Zielanteil 100.0% · Order 151.98 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 3.9
     }
   ],
   "recentAiLog": [
+    {
+      "ts": "2026-08-18T19:37:10.044Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "SAP",
+      "message": "SAP: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.28%, Rücklauf vom 20m-Hoch -0.45%",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-18T19:27:26.965Z",
+      "kind": "IDEA",
+      "title": "Beobachtungskandidat",
+      "symbol": "ESLT",
+      "message": "ESLT: Kein Trade. Bestes Signal ESLT: Score 3.94, Konfidenz 76%.",
+      "confidence": 0.7596
+    },
     {
       "ts": "2026-08-18T19:11:11.729Z",
       "kind": "IDEA",
@@ -360,33 +345,17 @@
       "symbol": "NOC",
       "message": "NOC: KI BUY 75%: CAPITAL-IN-MOTION CAPITAL_FLOOR: bestes aktuell hart-sicheres Setup · Erwartungswert 5.55 · verfuegbares Cash aktiv eingesetzt · Zielanteil 100.0%",
       "confidence": 0.7596
-    },
-    {
-      "ts": "2026-08-18T17:41:06.580Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "CRM",
-      "message": "CRM: KI SELL 88%: CAPITAL-MOTION-ROTATION: NOC Erwartungswert 5.55 ist besser als CRM 1.62 · Differenz 3.93 · P/L -0.17% · Kapital aktiv zum staerkeren Setup verschieben",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-18T17:41:06.580Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "ADBE",
-      "message": "ADBE: Momentum-Risk-Exit: starker Lauf kippt (3.5), 5m -0.09%, Rücklauf vom 20m-Hoch -0.15%",
-      "confidence": null
     }
   ],
   "sourceHealth": [
     {
       "source": "Yahoo Spark",
       "status": "OK",
-      "ok_count": 3,
+      "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 106,
-      "updated_at": "2026-08-18T19:19:08.456Z"
+      "latency_ms": 313,
+      "updated_at": "2026-08-18T19:39:08.226Z"
     },
     {
       "source": "Yahoo FX",
@@ -394,17 +363,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 113,
-      "updated_at": "2026-08-18T19:19:08.456Z"
+      "latency_ms": 114,
+      "updated_at": "2026-08-18T19:39:08.226Z"
     },
     {
       "source": "Yahoo 1m Chart",
       "status": "OK",
-      "ok_count": 6,
+      "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
       "latency_ms": 109,
-      "updated_at": "2026-08-18T19:19:08.456Z"
+      "updated_at": "2026-08-18T19:39:08.226Z"
     },
     {
       "source": "Yahoo Events",
@@ -412,8 +381,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 98,
-      "updated_at": "2026-08-18T19:19:08.456Z"
+      "latency_ms": 99,
+      "updated_at": "2026-08-18T19:39:08.226Z"
     },
     {
       "source": "Yahoo News",
@@ -421,8 +390,8 @@
       "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 822,
-      "updated_at": "2026-08-18T19:19:08.456Z"
+      "latency_ms": 617,
+      "updated_at": "2026-08-18T19:39:08.226Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -430,17 +399,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 964,
-      "updated_at": "2026-08-18T19:19:08.456Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 965,
-      "updated_at": "2026-08-18T19:19:08.456Z"
+      "latency_ms": 235,
+      "updated_at": "2026-08-18T19:39:08.226Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -448,8 +408,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1023,
-      "updated_at": "2026-08-18T19:19:08.456Z"
+      "latency_ms": 260,
+      "updated_at": "2026-08-18T19:39:08.226Z"
     },
     {
       "source": "BörsenNews",
@@ -457,14 +417,32 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1239,
-      "updated_at": "2026-08-18T19:19:08.456Z"
+      "latency_ms": 301,
+      "updated_at": "2026-08-18T19:39:08.226Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 526,
+      "updated_at": "2026-08-18T19:39:08.226Z"
+    },
+    {
+      "source": "Second-Chance 1m",
+      "status": "DEGRADED",
+      "ok_count": 0,
+      "fail_count": 1,
+      "last_error": "Zweitcheck verworfen: Score -3.20, Konfidenz 66%",
+      "latency_ms": null,
+      "updated_at": "2026-08-18T19:39:08.226Z"
     }
   ],
   "risk": {
-    "equity": 960.2953524922834,
-    "dailyPct": -3.9704647507716517,
-    "availableCash": 207.008662661517,
+    "equity": 959.1507080058512,
+    "dailyPct": -4.084929199414877,
+    "availableCash": 373.1779442062093,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -518,7 +496,7 @@
     "enabled": true,
     "target": 10,
     "candidateCount": 7,
-    "updatedAt": "2026-08-18T19:14:07.517Z",
+    "updatedAt": "2026-08-18T19:35:09.084Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -535,7 +513,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 3,
-    "updatedAt": "2026-08-18T19:14:07.517Z",
+    "updatedAt": "2026-08-18T19:35:09.084Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -554,21 +532,21 @@
   "pcWideSweep": {
     "enabled": true,
     "target": 16,
-    "candidateCount": 1,
-    "updatedAt": "2026-08-18T19:19:04.652Z",
+    "candidateCount": 0,
+    "updatedAt": "2026-08-18T19:39:05.773Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8527,
-    "scannedCount": 321,
+    "scannedCount": 519,
     "cycleMinutes": 9,
-    "batchCount": 7,
+    "batchCount": 11,
     "coreCount": 1800,
     "coreCycleMinutes": 9,
     "tailCount": 6727,
-    "tailCycleMinutes": 68,
-    "fullMasterCycleMinutes": 68,
-    "maxCoverageMinutesTarget": 0,
-    "tailBatchesPerMinute": 0,
+    "tailCycleMinutes": 23,
+    "fullMasterCycleMinutes": 23,
+    "maxCoverageMinutesTarget": 24,
+    "tailBatchesPerMinute": 6,
     "hotEveryMinutes": 1,
     "warmEveryMinutes": 1,
     "quietCoreEveryMinutes": 9,
@@ -582,8 +560,8 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 8,
-    "candidateCount": 0,
-    "updatedAt": "2026-08-18T19:19:08.784Z",
+    "candidateCount": 2,
+    "updatedAt": "2026-08-18T19:39:08.727Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 2,
@@ -663,10 +641,10 @@
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 2,
+    "activePositions": 1,
     "pendingEntries": 0,
-    "completedTradeOutcomes": 19,
-    "timedCheckpoints": 8,
+    "completedTradeOutcomes": 20,
+    "timedCheckpoints": 9,
     "horizonsMinutes": [
       15,
       30,
@@ -690,8 +668,8 @@
       {
         "bucket": "CHASE_NEAR_HIGH",
         "samples15": 3,
-        "totalCheckpoints": 5,
-        "qualityPct": -0.126,
+        "totalCheckpoints": 6,
+        "qualityPct": -0.135,
         "winRatePct": 0,
         "block": false,
         "scoreDelta": 0
@@ -707,6 +685,15 @@
       }
     ],
     "recentTiming": [
+      {
+        "at": 1787081170419,
+        "symbol": "SAP",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 60,
+        "pnlPct": -0.17,
+        "maePct": -0.38,
+        "mfePct": -0.06
+      },
       {
         "at": 1787079370345,
         "symbol": "SAP",
@@ -804,7 +791,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T19:20:08.784Z",
+    "nextScanAt": "2026-08-18T19:40:08.727Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -813,8 +800,8 @@
     "externalFetchSoftCap": 36,
     "lastFetchBudget": {
       "actual": 36,
-      "cacheHits": 1,
-      "blocked": 9,
+      "cacheHits": 0,
+      "blocked": 12,
       "cap": 36
     },
     "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Rebound-Radar beobachtet bis zu 10 Tagesverlierer; fallende Messer bleiben gesperrt, bis eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. HOT/WARM werden minuetlich priorisiert; der liquide Kern rotiert schneller und der lange Rest wird als beschleunigter Backstop vollstaendig durchlaufen. Nur die bis zu 16 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen; dadurch steigt die Abdeckung ohne mehr Deep-Checks zu erzwingen. Tages-Replay kann auf dem PC lokal laufen und spaeter synchronisiert werden; morgens werden die aktuellen News-/Forward-Signale neu geladen.",
@@ -855,34 +842,34 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T19:19:04.652Z",
-    "ageSeconds": 29,
+    "lastSeenAt": "2026-08-18T19:39:05.773Z",
+    "ageSeconds": 25,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T19:14:07.517Z",
+    "prefetchAt": "2026-08-18T19:35:09.084Z",
     "resolvedLeaderCount": 15,
     "leaderHealthy": true,
     "futureCandidates": 0,
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
-    "wideSweepCandidates": 1,
+    "wideSweepCandidates": 0,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8527,
-    "wideSweepScannedCount": 321,
+    "wideSweepScannedCount": 519,
     "metrics": {
-      "lastSeenAt": "2026-08-18T19:19:04.652Z",
-      "version": "2.0.11-csharp-official-news-au",
+      "lastSeenAt": "2026-08-18T19:39:05.773Z",
+      "version": "2.0.12-csharp-full-master-24mi",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 5612147,
+      "storageBytes": 5685488,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 91.4,
-      "downloadedBytes": 18558974,
-      "uploadedBytes": 96584,
+      "ramMb": 81.4,
+      "downloadedBytes": 12507771,
+      "uploadedBytes": 57137,
       "localPhase": "OPEN",
-      "agentMode": "WINDOWS_CSHARP_OFFICIAL_NEWS",
-      "lastLocalCleanupAt": "2026-08-18T18:51:09.8336461Z",
-      "lastError": null
+      "agentMode": "WINDOWS_CSHARP_FULL_MASTER_24MIN",
+      "lastLocalCleanupAt": "2026-08-18T19:38:33.0023231Z",
+      "lastError": "Der Remoteserver hat einen Fehler zurückgegeben: (500) Interner Serverfehler."
     }
   }
 }
