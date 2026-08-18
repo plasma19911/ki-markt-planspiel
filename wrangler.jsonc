@@ -2,7 +2,7 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "ki-markt-planspiel",
   "main": "src/index.js",
-  "compatibility_date": "2026-08-16",
+  "compatibility_date": "2026-08-18",
   "compatibility_flags": ["nodejs_compat"],
 
   "assets": {
@@ -32,7 +32,7 @@
   },
 
   "triggers": {
-    "crons": ["* 5-22 * * 1-5"]
+    "crons": ["*/5 5-22 * * 1-5"]
   },
 
   "observability": {
