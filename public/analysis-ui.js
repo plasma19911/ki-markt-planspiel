@@ -3,6 +3,7 @@ import './investment-ui.js';
 import './news-learning-ui.js';
 import './macro-ui.js';
 import './exposure-ui.js';
+import './focus-ui.js';
 
 function addCss(href,key){
  if(document.querySelector(`link[data-ui-${key}]`))return;
