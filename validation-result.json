@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-18T15:12:28.389852+00:00",
-  "commit": "f2911b1e6338ac731d632daf4b41e7046bfccd56",
+  "checkedAt": "2026-08-18T15:18:37.095821+00:00",
+  "commit": "621fa9d70a8491e2c133db434b9059803afc5037",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 6s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 7s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -46,6 +46,11 @@
       "exitCode": 0,
       "tail": ""
     },
+    "syntax_early_breakout": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
     "syntax_v10": {
       "ok": true,
       "exitCode": 0,
@@ -62,6 +67,16 @@
       "tail": ""
     },
     "syntax_v12": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_v13": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_v14": {
       "ok": true,
       "exitCode": 0,
       "tail": ""
@@ -91,6 +106,11 @@
       "exitCode": 0,
       "tail": "{\n  \"ok\": true,\n  \"fallingKnifeBlocked\": true,\n  \"confirmedReboundValidated\": true,\n  \"noForcedReboundBuy\": true,\n  \"eventRiskBlocked\": true,\n  \"buy\": {\n    \"symbol\": \"TEST.DE\",\n    \"action\": \"BUY\",\n    \"confidence\": 0.74,\n    \"allocation_pct\": 25,\n    \"reason\": \"AI möchte kaufen · REBOUND bestätigt 8.70 · Lern-Score 0.00 · Einstieg max. 35%\"\n  }\n}\n"
     },
+    "early_breakout_guard": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"earlyConfirmed\": true,\n  \"lateChaseBlocked\": true,\n  \"noForcedBuy\": true,\n  \"earlyBuy\": {\n    \"symbol\": \"EARLY.DE\",\n    \"action\": \"BUY\",\n    \"confidence\": 0.79,\n    \"allocation_pct\": 45,\n    \"reason\": \"starkes Setup · EARLY-BREAKOUT bestätigt 7.60 · Tag +2.2% noch im Early-Fenster · 5m +0.31% · 20m +0.74% · Beschleunigung +0.09 · max. 45%\"\n  }\n}\n"
+    },
     "entry_learning": {
       "ok": true,
       "exitCode": 0,
@@ -109,7 +129,7 @@
     "wrangler_dryrun": {
       "ok": true,
       "exitCode": 0,
-      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 24 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 476.94 KiB / gzip: 125.06 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
+      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 24 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 489.96 KiB / gzip: 128.15 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
     }
   },
   "failedChecks": [],
