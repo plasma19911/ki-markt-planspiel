@@ -1,6 +1,8 @@
 import {FAST_CALIBRATION} from './generated-fast-calibration.js';
 
 const HEADERS={'accept':'application/json','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/FastDecision)'};
+const MIN_TECH_HISTORY_BARS=18;
+const MIN_CURRENT_SESSION_BARS=3;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,Number(v)||0));
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0;
@@ -38,19 +40,30 @@ function chooseBenchmark(symbol){
   return'SPY';
 }
 
+function sessionDayKey(ts,tz){
+  try{return new Intl.DateTimeFormat('en-CA',{timeZone:tz||'UTC',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(num(ts)*1000))}catch{return new Date(num(ts)*1000).toISOString().slice(0,10)}
+}
+
 async function chart(symbol){
   try{
     const u=new URL(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}`);
-    u.searchParams.set('range','1d');u.searchParams.set('interval','5m');u.searchParams.set('includePrePost','false');
+    // Mehrere Handelstage liefern genug Historie fuer ATR/ADX direkt nach der Oeffnung.
+    // Pre-/Postmarket bleibt aus: nur regulaere Kurse duerfen den Live-BUY bestaetigen.
+    u.searchParams.set('range','5d');u.searchParams.set('interval','5m');u.searchParams.set('includePrePost','false');
     const r=await fetch(u,{headers:HEADERS});if(!r.ok)return null;
     const res=(await r.json())?.chart?.result?.[0];if(!res)return null;
-    const q=res?.indicators?.quote?.[0]||{},ts=res.timestamp||[],rows=[];
+    const q=res?.indicators?.quote?.[0]||{},ts=res.timestamp||[],rows=[],tz=res.meta?.exchangeTimezoneName||'UTC';
     for(let i=0;i<ts.length;i++){
       const high=num(q.high?.[i],NaN),low=num(q.low?.[i],NaN),close=num(q.close?.[i],NaN),volume=Math.max(0,num(q.volume?.[i]));
-      if(Number.isFinite(high)&&Number.isFinite(low)&&Number.isFinite(close))rows.push({t:ts[i],high,low,close,volume});
+      if(Number.isFinite(high)&&Number.isFinite(low)&&Number.isFinite(close))rows.push({t:ts[i],high,low,close,volume,dayKey:sessionDayKey(ts[i],tz)});
     }
-    if(rows.length<18)return null;
-    return{rows,previousClose:num(res.meta?.previousClose,rows[0].close),lastTs:rows.at(-1).t||num(res.meta?.regularMarketTime)};
+    if(rows.length<MIN_TECH_HISTORY_BARS)return null;
+    const regular=res.meta?.currentTradingPeriod?.regular||{},start=num(regular.start,0),end=num(regular.end,0);
+    let sessionRows=start>0?rows.filter(x=>x.t>=start&&(!end||x.t<=end+300)):[];
+    // Manche Yahoo-Antworten enthalten currentTradingPeriod nicht. Dann nur den letzten
+    // Kalendertag verwenden; die Freshness-Pruefung verhindert alte Schlusskurse als Live-Signal.
+    if(!sessionRows.length){const latestDay=rows.at(-1)?.dayKey;sessionRows=latestDay?rows.filter(x=>x.dayKey===latestDay):[]}
+    return{rows,sessionRows,previousClose:num(res.meta?.previousClose,rows[0].close),lastTs:sessionRows.at(-1)?.t||rows.at(-1).t||num(res.meta?.regularMarketTime),exchangeTimezoneName:tz};
   }catch{return null}
 }
 
@@ -90,10 +103,14 @@ function wilderAdx(rows,p=14){
   if(rows.length<p+3)return{atr:0,adx:0,plusDI:0,minusDI:0};
   const tr=[],plus=[],minus=[];
   for(let i=1;i<rows.length;i++){
-    const c=rows[i],pr=rows[i-1],up=c.high-pr.high,down=pr.low-c.low;
+    const c=rows[i],pr=rows[i-1];
+    // Overnight-Gaps zwischen zwei Handelstagen duerfen den Intraday-ADX/ATR nicht aufblasen.
+    if(c.dayKey&&pr.dayKey&&c.dayKey!==pr.dayKey)continue;
+    const up=c.high-pr.high,down=pr.low-c.low;
     tr.push(Math.max(c.high-c.low,Math.abs(c.high-pr.close),Math.abs(c.low-pr.close)));
     plus.push(up>down&&up>0?up:0);minus.push(down>up&&down>0?down:0);
   }
+  if(tr.length<p)return{atr:0,adx:0,plusDI:0,minusDI:0};
   let trS=tr.slice(0,p).reduce((a,b)=>a+b,0),pS=plus.slice(0,p).reduce((a,b)=>a+b,0),mS=minus.slice(0,p).reduce((a,b)=>a+b,0),dx=[];
   const pushDx=()=>{const pdi=trS?100*pS/trS:0,mdi=trS?100*mS/trS:0;dx.push(pdi+mdi?100*Math.abs(pdi-mdi)/(pdi+mdi):0);return[pdi,mdi]};
   let [plusDI,minusDI]=pushDx();
@@ -123,12 +140,17 @@ function swingLevels(rows,atr,price){
 
 function technical(c){
   if(!c?.rows?.length)return null;
-  const rows=c.rows,close=rows.at(-1).close,prevClose=num(c.previousClose,rows[0].close),w=wilderAdx(rows),levels=swingLevels(rows,w.atr,close);
-  let pv=0,volSum=0;for(const r of rows){const tp=(r.high+r.low+r.close)/3,wv=Math.max(0,r.volume);pv+=tp*wv;volSum+=wv}
-  const vwap=volSum?pv/volSum:avg(rows.map(r=>r.close)),back20=rows[Math.max(0,rows.length-5)]?.close||rows[0].close,mom20=(close/back20-1)*100,day=prevClose?(close/prevClose-1)*100:0;
+  const rows=c.rows,sessionRows=c.sessionRows||[];
+  // Fuer einen Live-Einstieg reichen drei aktuelle 5m-Bars (~15 Min.); ADX/ATR nutzen
+  // historische reguläre Intraday-Bars, VWAP dagegen ausschliesslich die heutige Sitzung.
+  if(sessionRows.length<MIN_CURRENT_SESSION_BARS)return null;
+  const close=sessionRows.at(-1).close,prevClose=num(c.previousClose,rows[0].close),w=wilderAdx(rows),levels=swingLevels(rows,w.atr,close);
+  if(!(w.adx>0&&w.atr>0))return null;
+  let pv=0,volSum=0;for(const r of sessionRows){const tp=(r.high+r.low+r.close)/3,wv=Math.max(0,r.volume);pv+=tp*wv;volSum+=wv}
+  const vwap=volSum?pv/volSum:avg(sessionRows.map(r=>r.close)),back20=sessionRows[Math.max(0,sessionRows.length-5)]?.close||sessionRows[0].close,mom20=(close/back20-1)*100,day=prevClose?(close/prevClose-1)*100:0;
   return{price:close,vwap,vwapDistancePct:vwap?(close/vwap-1)*100:0,atr:w.atr,atrPct:close?w.atr/close*100:0,adx:w.adx,plusDI:w.plusDI,minusDI:w.minusDI,
     support:levels.support,resistance:levels.resistance,supportStrength:levels.supportStrength,resistanceStrength:levels.resistanceStrength,breakoutPct:levels.breakoutPct,breakdownPct:levels.breakdownPct,
-    priceVsSupportPct:levels.support?(close/levels.support-1)*100:0,priceVsResistancePct:levels.resistance?(close/levels.resistance-1)*100:0,mom20,day,fresh:Date.now()/1000-num(c.lastTs,0)<35*60};
+    priceVsSupportPct:levels.support?(close/levels.support-1)*100:0,priceVsResistancePct:levels.resistance?(close/levels.resistance-1)*100:0,mom20,day,sessionBars:sessionRows.length,historyBars:rows.length,fresh:Date.now()/1000-num(c.lastTs,0)<35*60};
 }
 
 function tfSummary(record,barsBack){
@@ -201,7 +223,7 @@ function decisionFor(c,t,heldRec,marketTech,sectorStrength,style,mtf,regime,liq,
 export async function buildFastDecisionLayer(prompt,assets){
   const state=planState(prompt),heldMap=new Map(state.held.map(x=>[String(x.symbol).toUpperCase(),x])),meta=await universeMeta(assets),sectorStrength=sectorPeerStrength(state.candidates,meta),selected=[];
   for(const c of state.candidates)if(heldMap.has(String(c.symbol).toUpperCase())&&!selected.some(x=>x.symbol===c.symbol)&&selected.length<4)selected.push(c);
-  for(const c of state.candidates){if(selected.length>=4)break;if(!selected.some(x=>x.symbol===c.symbol))selected.push(c)}if(!selected.length)return{summary:'Fast-Decision: keine Kandidaten.',actions:[],context:[]};
+  for(const c of state.candidates){if(selected.length>=4)break;if(!selected.some(y=>y.symbol===c.symbol))selected.push(c)}if(!selected.length)return{summary:'Fast-Decision: keine Kandidaten.',actions:[],context:[]};
   const benchmarks=[...new Set(selected.map(x=>chooseBenchmark(x.symbol)))].slice(0,2),allSymbols=[...new Set([...selected.map(x=>x.symbol),...state.held.map(x=>x.symbol),...benchmarks].filter(Boolean).map(x=>String(x).toUpperCase()))],maps={};
   const [charts,m5,m15,h1,d1,quotes]=await Promise.all([
     Promise.all(selected.map(async c=>[String(c.symbol).toUpperCase(),technical(await chart(c.symbol))])),sparkCloses(allSymbols,'1d','5m'),sparkCloses(allSymbols,'5d','15m'),sparkCloses(allSymbols,'1mo','60m'),sparkCloses(allSymbols,'6mo','1d'),quoteBatch(selected.map(x=>x.symbol))
@@ -212,11 +234,11 @@ export async function buildFastDecisionLayer(prompt,assets){
     const key=String(c.symbol).toUpperCase(),t=techMap.get(key),benchmark=chooseBenchmark(c.symbol),marketMtf=mtfFor(benchmark,maps),regime=marketRegime(marketMtf),mtf=mtfFor(key,maps),sec=sectorStrength.get(key),daily=maps.d1.get(key)?.closes||[];
     let maxCorr=null;for(const h of state.held){const hk=String(h.symbol).toUpperCase();if(hk===key)continue;const corr=correlation(daily,maps.d1.get(hk)?.closes||[]);if(corr!=null&&(maxCorr==null||corr>maxCorr))maxCorr=corr}
     const d=decisionFor(c,t,heldMap.get(key)||null,marketMtf,sec,state.style,mtf,regime,quotes.get(key),maxCorr,heldSectors.get(meta.get(key)?.sector)||0),q=quotes.get(key);
-    context.push({symbol:c.symbol,held:heldMap.has(key),sector:meta.get(key)?.sector||null,benchmark,regime:regime.label,multiTimeframe:{longVotes:mtf.longVotes,shortVotes:mtf.shortVotes,alignment:mtf.alignment,m5:+num(mtf.m5?.momentumPct).toFixed(2),m15:+num(mtf.m15?.momentumPct).toFixed(2),h1:+num(mtf.h1?.momentumPct).toFixed(2),d1:+num(mtf.d1?.momentumPct).toFixed(2)},technical:t?{vwapDistancePct:+t.vwapDistancePct.toFixed(2),atrPct:+t.atrPct.toFixed(2),adx:+t.adx.toFixed(1),plusDI:+t.plusDI.toFixed(1),minusDI:+t.minusDI.toFixed(1),priceVsSupportPct:+t.priceVsSupportPct.toFixed(2),priceVsResistancePct:+t.priceVsResistancePct.toFixed(2),supportStrength:t.supportStrength,resistanceStrength:t.resistanceStrength,fresh:t.fresh}:null,liquidity:q?{spreadPct:q.spreadPct==null?null:+q.spreadPct.toFixed(3),avgVolume:q.avgVolume,volume:q.volume}:null,maxPortfolioCorrelation:maxCorr==null?null:+maxCorr.toFixed(2),marketRelative20m:d.marketRelative20m==null?null:+d.marketRelative20m.toFixed(2),sectorRelativeDay:d.sectorRelativeDay==null?null:+d.sectorRelativeDay.toFixed(2),fastAction:d.action,fastScore:d.fastScore,reason:d.reason});
+    context.push({symbol:c.symbol,held:heldMap.has(key),sector:meta.get(key)?.sector||null,benchmark,regime:regime.label,multiTimeframe:{longVotes:mtf.longVotes,shortVotes:mtf.shortVotes,alignment:mtf.alignment,m5:+num(mtf.m5?.momentumPct).toFixed(2),m15:+num(mtf.m15?.momentumPct).toFixed(2),h1:+num(mtf.h1?.momentumPct).toFixed(2),d1:+num(mtf.d1?.momentumPct).toFixed(2)},technical:t?{vwapDistancePct:+t.vwapDistancePct.toFixed(2),atrPct:+t.atrPct.toFixed(2),adx:+t.adx.toFixed(1),plusDI:+t.plusDI.toFixed(1),minusDI:+t.minusDI.toFixed(1),priceVsSupportPct:+t.priceVsSupportPct.toFixed(2),priceVsResistancePct:+t.priceVsResistancePct.toFixed(2),supportStrength:t.supportStrength,resistanceStrength:t.resistanceStrength,sessionBars:t.sessionBars,historyBars:t.historyBars,fresh:t.fresh}:null,liquidity:q?{spreadPct:q.spreadPct==null?null:+q.spreadPct.toFixed(3),avgVolume:q.avgVolume,volume:q.volume}:null,maxPortfolioCorrelation:maxCorr==null?null:+maxCorr.toFixed(2),marketRelative20m:d.marketRelative20m==null?null:+d.marketRelative20m.toFixed(2),sectorRelativeDay:d.sectorRelativeDay==null?null:+d.sectorRelativeDay.toFixed(2),fastAction:d.action,fastScore:d.fastScore,reason:d.reason});
     if(d.action!=='HOLD')actions.push({symbol:d.symbol,action:d.action,confidence:d.confidence,allocation_pct:d.allocation_pct,reason:d.reason});
   }
   const sells=actions.filter(x=>x.action==='SELL').length,buys=actions.filter(x=>x.action==='BUY').length;
-  return{summary:`Fast-Decision: ${sells} SELL / ${buys} BUY aus ${context.length} Tiefenchecks. Multi-Timeframe, Wilder-ADX, VWAP/ATR, Swing-Level, Marktregime, Spread/Liquidität, Relativstärke und Depotkorrelation kombiniert.`,actions,context,calibration:{version:FAST_CALIBRATION.version,validated:Boolean(FAST_CALIBRATION.validated),sampleCount:num(FAST_CALIBRATION.sampleCount)}};
+  return{summary:`Fast-Decision: ${sells} SELL / ${buys} BUY aus ${context.length} Tiefenchecks. Historischer 5m-ADX/ATR + heutiger Sitzungs-VWAP, Multi-Timeframe, Swing-Level, Marktregime, Spread/Liquidität, Relativstärke und Depotkorrelation kombiniert.`,actions,context,calibration:{version:FAST_CALIBRATION.version,validated:Boolean(FAST_CALIBRATION.validated),sampleCount:num(FAST_CALIBRATION.sampleCount)}};
 }
 
 export function mergeFastRiskActions(aiResponse,fast){
