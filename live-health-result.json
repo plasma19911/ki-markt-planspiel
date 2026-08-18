@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T21:01:40.226392+00:00",
+  "checkedAt": "2026-08-18T21:05:46.629311+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -474,7 +474,7 @@
     "target": 16,
     "candidateCount": 0,
     "updatedAt": "2026-08-18T20:59:10.105Z",
-    "fresh": true,
+    "fresh": false,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8527,
     "scannedCount": 519,
@@ -752,7 +752,7 @@
     "pcAgentPreferred": true,
     "cloudflareFallbackIntervalMinutes": 5,
     "cloudflareFallbackOnlyWhenPcOffline": true,
-    "pcAgentOnline": true,
+    "pcAgentOnline": false,
     "pcAgentPrefetchFresh": true,
     "forwardLookingPool": true,
     "forwardPoolTarget": 15,
@@ -780,9 +780,9 @@
   },
   "pcAgent": {
     "configured": true,
-    "online": true,
+    "online": false,
     "lastSeenAt": "2026-08-18T20:59:10.105Z",
-    "ageSeconds": 150,
+    "ageSeconds": 396,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-18T20:59:09.393Z",
     "resolvedLeaderCount": 15,
@@ -791,7 +791,7 @@
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
     "wideSweepCandidates": 0,
-    "wideSweepFresh": true,
+    "wideSweepFresh": false,
     "wideSweepMasterCount": 8527,
     "wideSweepScannedCount": 519,
     "metrics": {
