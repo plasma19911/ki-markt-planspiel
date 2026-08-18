@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T18:43:07.993158+00:00",
+  "checkedAt": "2026-08-18T18:43:36.636413+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -34,13 +34,13 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 267,
-  "lastScan": "2026-08-18T18:42:07.770Z",
+  "scanCount": 268,
+  "lastScan": "2026-08-18T18:43:11.525Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 6 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks. Beste HOLD · PULLBACK-FIRST: kein preislich guter Neueinstieg; 0 Peak/zu-teuer BUY(s) blockiert, 1 Rotation(en) zurueckgenommen. Lieber auf Ruecksetzer warten als oben hinterherkaufen.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 6 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks. Beste HOLD · PULLBACK-FIRST: kein preislich guter Neueinstieg; 1 Peak/zu-teuer BUY(s) blockiert, 1 Rotation(en) zurueckgenommen. Lieber auf Ruecksetzer warten als oben hinterherkaufen.",
   "cash": 207.008662661517,
-  "equity": 960.0609677730974,
-  "pnl": -39.939032226902555,
+  "equity": 960.1652652253974,
+  "pnl": -39.834734774602566,
   "universeCount": 169,
   "positions": 2,
   "positionRows": [
@@ -53,7 +53,7 @@
       "invested": 585.696171,
       "entry_fee": 1,
       "entry_price": 791.2354523315429,
-      "last_price": 790.4450073242188,
+      "last_price": 790.6500244140625,
       "entry_fx": 0.8636,
       "last_fx": 0.8636,
       "currency": "USD",
@@ -75,13 +75,13 @@
       "invested": 168.370724,
       "entry_fee": 1,
       "entry_price": 212.91770683288573,
-      "last_price": 212.35000610351562,
+      "last_price": 212.2899932861328,
       "entry_fx": 0.8635,
       "last_fx": 0.8636,
       "currency": "USD",
       "opened_at": "2026-08-18T18:24:08.488Z",
-      "score": -3.2500000000000004,
-      "signal_confidence": 0.6050000000000001,
+      "score": -3.186137371739131,
+      "signal_confidence": 0.7213737371739131,
       "zero_quantity": 0.9157827471279444,
       "zero_whole_shares": 0,
       "zero_fractional_shares": 0.9157827471279444,
@@ -96,7 +96,7 @@
       "name": "Elbit Systems Ltd.",
       "score": 3.541004255319149,
       "confidence": 0.7596,
-      "day_change": 0.9714638143450305,
+      "day_change": 0.9976527022204307,
       "news_score": 0.05695035460992907,
       "event_risk": "NONE",
       "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv",
@@ -105,57 +105,57 @@
     {
       "symbol": "NOC",
       "name": "Northrop Grumman",
-      "score": 2.9,
-      "confidence": 0.5700000000000001,
-      "day_change": 4.0968077093289645,
-      "news_score": 0,
+      "score": 2.9260696784073508,
+      "confidence": 0.7076069678407351,
+      "day_change": 4.10908538807655,
+      "news_score": 0.02673813169984686,
       "event_risk": "NONE",
       "pro": "EMA9 über EMA21 · Kurs über EMA21",
       "contra": ""
+    },
+    {
+      "symbol": "SAP",
+      "name": "SAP SE",
+      "score": -3.186137371739131,
+      "confidence": 0.7213737371739131,
+      "day_change": 2.141066823581994,
+      "news_score": 0.1510326086956522,
+      "event_risk": "NONE",
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 7 sehr schwach · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     },
     {
       "symbol": "INTU",
       "name": "Intuit",
       "score": -3.1970269938650313,
       "confidence": 0.7347026993865031,
-      "day_change": 5.554228317751786,
+      "day_change": 5.482744801172323,
       "news_score": 0.05433128834355828,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 23 sehr schwach · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 21 sehr schwach · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     },
     {
       "symbol": "ADBE",
       "name": "Adobe",
-      "score": -3.2500000000000004,
-      "confidence": 0.6050000000000001,
-      "day_change": 4.707920012596434,
+      "score": -4.450000000000001,
+      "confidence": 0.63,
+      "day_change": 4.601641862040684,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 9 sehr schwach · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 5 sehr schwach · 20m -0.55% · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     },
     {
       "symbol": "CRM",
       "name": "Salesforce",
-      "score": -3.2500000000000004,
-      "confidence": 0.6050000000000001,
-      "day_change": 3.927319066190038,
+      "score": -4.450000000000001,
+      "confidence": 0.63,
+      "day_change": 3.833059269064676,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 11 sehr schwach · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
-    },
-    {
-      "symbol": "SAP",
-      "name": "SAP SE",
-      "score": -3.2500000000000004,
-      "confidence": 0.6050000000000001,
-      "day_change": 2.169941350806215,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 13 sehr schwach · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 10 sehr schwach · 20m -0.53% · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     }
   ],
   "recentHistory": [
@@ -385,8 +385,8 @@
       "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 417,
-      "updated_at": "2026-08-18T18:42:07.574Z"
+      "latency_ms": 424,
+      "updated_at": "2026-08-18T18:43:11.173Z"
     },
     {
       "source": "Yahoo FX",
@@ -394,8 +394,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 7,
-      "updated_at": "2026-08-18T18:42:07.574Z"
+      "latency_ms": 8,
+      "updated_at": "2026-08-18T18:43:11.173Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -403,8 +403,8 @@
       "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 111,
-      "updated_at": "2026-08-18T18:42:07.574Z"
+      "latency_ms": 116,
+      "updated_at": "2026-08-18T18:43:11.173Z"
     },
     {
       "source": "Yahoo Events",
@@ -412,44 +412,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 98,
-      "updated_at": "2026-08-18T18:42:07.574Z"
+      "latency_ms": 104,
+      "updated_at": "2026-08-18T18:43:11.173Z"
     },
     {
       "source": "Yahoo News",
-      "status": "DEGRADED",
-      "ok_count": 3,
-      "fail_count": 3,
-      "last_error": "Error: HTTP 500",
-      "latency_ms": 1179,
-      "updated_at": "2026-08-18T18:42:07.574Z"
-    },
-    {
-      "source": "FinanzNachrichten",
       "status": "OK",
-      "ok_count": 1,
+      "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 244,
-      "updated_at": "2026-08-18T18:42:07.574Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 253,
-      "updated_at": "2026-08-18T18:42:07.574Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 295,
-      "updated_at": "2026-08-18T18:42:07.574Z"
+      "latency_ms": 785,
+      "updated_at": "2026-08-18T18:43:11.173Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -457,8 +430,35 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 475,
-      "updated_at": "2026-08-18T18:42:07.574Z"
+      "latency_ms": 247,
+      "updated_at": "2026-08-18T18:43:11.173Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 249,
+      "updated_at": "2026-08-18T18:43:11.173Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1027,
+      "updated_at": "2026-08-18T18:43:11.173Z"
+    },
+    {
+      "source": "BörsenNews",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1088,
+      "updated_at": "2026-08-18T18:43:11.173Z"
     },
     {
       "source": "Second-Chance 1m",
@@ -467,12 +467,12 @@
       "fail_count": 1,
       "last_error": "Zweitcheck verworfen: Score 1.00, Konfidenz 58%",
       "latency_ms": null,
-      "updated_at": "2026-08-18T18:42:07.574Z"
+      "updated_at": "2026-08-18T18:43:11.173Z"
     }
   ],
   "risk": {
-    "equity": 960.0609677730974,
-    "dailyPct": -3.9939032226902538,
+    "equity": 960.1652652253974,
+    "dailyPct": -3.983473477460253,
     "availableCash": 207.008662661517,
     "hardLimits": false,
     "budgetOnly": true,
@@ -564,7 +564,7 @@
     "enabled": true,
     "target": 16,
     "candidateCount": 0,
-    "updatedAt": "2026-08-18T18:42:04.306Z",
+    "updatedAt": "2026-08-18T18:43:07.808Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8527,
@@ -589,7 +589,7 @@
     "enabled": true,
     "target": 8,
     "candidateCount": 2,
-    "updatedAt": "2026-08-18T18:42:07.823Z",
+    "updatedAt": "2026-08-18T18:43:11.525Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 2,
@@ -823,7 +823,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T18:43:07.770Z",
+    "nextScanAt": "2026-08-18T18:44:11.525Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -869,8 +869,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T18:43:07.249Z",
-    "ageSeconds": 0,
+    "lastSeenAt": "2026-08-18T18:43:07.808Z",
+    "ageSeconds": 28,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-18T18:43:07.270Z",
     "resolvedLeaderCount": 15,
@@ -883,13 +883,13 @@
     "wideSweepMasterCount": 8527,
     "wideSweepScannedCount": 320,
     "metrics": {
-      "lastSeenAt": "2026-08-18T18:43:07.249Z",
+      "lastSeenAt": "2026-08-18T18:43:07.808Z",
       "version": "2.0.9-csharp-local-replay",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
       "storageBytes": 5494986,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0,
+      "cpuPct": 0.01,
       "ramMb": 87.4,
       "downloadedBytes": 15094768,
       "uploadedBytes": 53887,
