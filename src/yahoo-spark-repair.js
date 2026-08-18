@@ -2,17 +2,20 @@
 // one symbol is problematic. Keep the Free-tier scanner useful by retrying only that
 // endpoint via query2 and recursively splitting the batch. The same fetch shim also
 // sanitizes Yahoo chart/spark null prices so Number(null) can never become a fake 0
-// and later create Infinity/NaN momentum.
-const INSTALL_KEY='__kiYahooSparkRepairInstalledV2';
-const STATS_KEY='__kiYahooSparkRepairStatsV2';
+// and later create Infinity/NaN momentum. Yahoo v7 quote gets one query2 fallback so
+// event/liquidity metadata is not lost immediately on a query1 401/403/429.
+const INSTALL_KEY='__kiYahooMarketRepairInstalledV3';
+const STATS_KEY='__kiYahooMarketRepairStatsV3';
 const WINDOW_MS=55*1000;
 const MAX_EXTRA_REQUESTS=10;
 const RETRY_STATUSES=new Set([400,404,422]);
+const QUOTE_RETRY_STATUSES=new Set([401,403,429,500,502,503,504]);
 const MISSING='__KI_MISSING_PRICE__';
 
 const textUrl=input=>{try{return typeof input==='string'||input instanceof URL?String(input):String(input?.url||'')}catch{return''}};
 const isYahoo=u=>u.hostname.endsWith('finance.yahoo.com');
 const isSpark=u=>isYahoo(u)&&u.pathname==='/v7/finance/spark';
+const isQuote=u=>isYahoo(u)&&u.pathname==='/v7/finance/quote';
 const isChart=u=>isYahoo(u)&&u.pathname.startsWith('/v8/finance/chart/');
 const validPrice=v=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v))&&Number(v)>0;
 
@@ -45,7 +48,7 @@ async function sanitizedResponse(r,extraHeaders={}){
 if(!globalThis[INSTALL_KEY]){
   globalThis[INSTALL_KEY]=true;
   const nativeFetch=globalThis.fetch.bind(globalThis);
-  const stats=globalThis[STATS_KEY]={windowStartedAt:Date.now(),extraRequests:0,initial400s:0,repairedBatches:0,recoveredRows:0,sanitizedPriceFields:0,badSymbols:[],lastRepairAt:null,lastError:null};
+  const stats=globalThis[STATS_KEY]={windowStartedAt:Date.now(),extraRequests:0,initial400s:0,repairedBatches:0,recoveredRows:0,sanitizedPriceFields:0,quoteFallbackAttempts:0,quoteFallbackRecovered:0,badSymbols:[],lastRepairAt:null,lastError:null};
   const resetWindow=()=>{if(Date.now()-stats.windowStartedAt>=WINDOW_MS){stats.windowStartedAt=Date.now();stats.extraRequests=0;stats.badSymbols=[]}};
   const reserve=()=>{resetWindow();if(stats.extraRequests>=MAX_EXTRA_REQUESTS)return false;stats.extraRequests++;return true};
 
@@ -62,9 +65,24 @@ if(!globalThis[INSTALL_KEY]){
     return [...a,...b];
   }
 
+  async function quoteFallback(input,init,u){
+    const first=await nativeFetch(input,init);
+    if(first.ok||!QUOTE_RETRY_STATUSES.has(first.status)||!reserve())return first;
+    stats.quoteFallbackAttempts++;
+    try{
+      const retryUrl=new URL(u);retryUrl.hostname='query2.finance.yahoo.com';
+      const retry=await nativeFetch(retryUrl,init);
+      if(retry.ok){stats.quoteFallbackRecovered++;stats.lastRepairAt=new Date().toISOString();stats.lastError=null;const h=new Headers(retry.headers);h.set('x-ki-yahoo-quote-fallback','query2');return new Response(retry.body,{status:retry.status,statusText:retry.statusText,headers:h})}
+      stats.lastError=`Yahoo quote fallback HTTP ${retry.status}`;
+    }catch(e){stats.lastError=`Yahoo quote fallback: ${String(e?.message||e).slice(0,130)}`}
+    return first;
+  }
+
   globalThis.fetch=async function yahooMarketRepairFetch(input,init){
     const raw=textUrl(input);let u;try{u=new URL(raw)}catch{return nativeFetch(input,init)}
-    if(!isSpark(u)&&!isChart(u))return nativeFetch(input,init);
+    if(!isSpark(u)&&!isChart(u)&&!isQuote(u))return nativeFetch(input,init);
+
+    if(isQuote(u))return quoteFallback(input,init,u);
 
     if(isChart(u)){
       const r=await nativeFetch(input,init);
