@@ -15,8 +15,8 @@ function timeKey(ts,tz){
 async function volumeRatio(symbol){
   try{
     const u=new URL(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}`);
-    // 5 Tage erlauben schon direkt nach der Oeffnung einen sinnvollen Vergleich mit
-    // derselben 5m-Zeitposition vergangener Handelstage statt 5 heutige Bars abzuwarten.
+    // Historischer Vergleich derselben 5m-Zeitposition. Dadurch ist Volumen schon kurz
+    // nach der Oeffnung ein brauchbares Zusatzsignal und kein kuenstlicher Warte-Timer.
     u.searchParams.set('range','5d');u.searchParams.set('interval','5m');u.searchParams.set('includePrePost','false');
     const r=await fetch(u,{headers:HEADERS});if(!r.ok)return null;
     const res=(await r.json())?.chart?.result?.[0];if(!res)return null;
@@ -31,8 +31,6 @@ async function volumeRatio(symbol){
     if(!current.length)return null;
     const last=current.at(-1),historical=rows.filter(x=>x.day!==last.day&&x.clock===last.clock&&x.volume>0).slice(-4),histAvg=avg(historical.map(x=>x.volume));
     if(historical.length>=2&&histAvg>0)return last.volume/histAvg;
-    // Fallback fuer duenne Historien: nach drei abgeschlossenen Bars gegen die bisherigen
-    // heutigen Bars vergleichen. Das ist nur die Ersatzlogik, nicht der bevorzugte Massstab.
     if(current.length>=3){const base=current.slice(Math.max(0,current.length-13),-1),baseAvg=avg(base.map(x=>x.volume));if(baseAvg>0)return last.volume/baseAvg}
     return null;
   }catch{return null}
@@ -47,12 +45,19 @@ export async function applyVolumeConfirmation(fast){
   for(const a of fast.actions||[]){
     if(a.action!=='BUY'){actions.push(a);continue}
     const ratio=ratios.get(String(a.symbol).toUpperCase());
+    // Volumen ist eine unabhaengige Signalsaeule, aber nicht mehr alleiniger Tuersteher.
+    // Fehlendes/unterdurchschnittliches Volumen senkt nur die Sicherheit. Die spaetere
+    // Evidence-Pruefung verlangt weiterhin mehrere voneinander unabhaengige Bestaetigungen.
     if(ratio==null){
-      actions.push({...a,confidence:Math.min(num(a.confidence,.5),.68),allocation_pct:+(num(a.allocation_pct)*.72).toFixed(1),reason:`${a.reason} · Volumenbestätigung nicht verfügbar: Positionsgröße reduziert`});
+      actions.push({...a,confidence:Math.min(num(a.confidence,.5),.66),reason:`${a.reason} · Volumenbestätigung nicht verfügbar: Konfidenz reduziert`});
       continue;
     }
-    if(ratio<min)continue;
+    if(ratio<min){
+      const cap=ratio<.55?.60:.66;
+      actions.push({...a,confidence:Math.min(num(a.confidence,.5),cap),reason:`${a.reason} · 5m-Volumen x${ratio.toFixed(2)} unter Bestätigungsniveau x${min.toFixed(2)}`});
+      continue;
+    }
     actions.push({...a,reason:`${a.reason} · 5m-Volumen x${ratio.toFixed(2)} bestätigt`});
   }
-  return{...fast,actions,volumeConfirmation:{requiredForFastBuy:true,minRatio:min,maxSymbols:MAX_VOLUME_SYMBOLS,method:'same-time 5d historical baseline; current-session fallback',ratios:Object.fromEntries([...ratios].map(([k,v])=>[k,v==null?null:+v.toFixed(2)]))}};
+  return{...fast,actions,volumeConfirmation:{requiredForFastBuy:false,usedAsIndependentPillar:true,minRatio:min,maxSymbols:MAX_VOLUME_SYMBOLS,method:'same-time 5d historical baseline; current-session fallback',ratios:Object.fromEntries([...ratios].map(([k,v])=>[k,v==null?null:+v.toFixed(2)]))}};
 }
