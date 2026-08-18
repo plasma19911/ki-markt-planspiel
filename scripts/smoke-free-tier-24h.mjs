@@ -15,26 +15,23 @@ assert.ok(index.includes(".replace(/includeEtfs:true/g,'includeEtfs:false')"),'U
 assert.match(v8,/FREE_SCAN_INTERVAL_MS=5\*60\*1000/,'Serverseitiger Scan-Cooldown muss 5 Minuten sein');
 assert.match(v8,/maxScheduledScansPerDay:288/,'Status muss maximal 288 geplante Scans pro Tag melden');
 assert.match(v8,/free-tier-5m-cooldown/,'Manuelle Zusatzscans muessen innerhalb des Intervalls blockiert werden');
-assert.match(v8,/CORE_EQUITIES=80/);
-assert.match(v8,/ROTATING_EQUITIES=160/);
-
-function coveredRotating(totalEquities,startSlot=0,scans=288){
-  const core=80,count=160,pool=Math.max(0,totalEquities-core),seen=new Set();
-  if(!pool)return 0;
-  for(let k=0;k<scans;k++){
-    const slot=startSlot+k,start=(slot*Math.min(count,pool))%pool;
-    for(let i=0;i<Math.min(count,pool);i++)seen.add((start+i)%pool);
-  }
-  return seen.size;
-}
-for(const total of [8200,8600]){
-  const pool=total-80;
-  for(const phase of [0,1,17,137,9999])assert.equal(coveredRotating(total,phase),pool,`${total} Aktien muessen unabhaengig von der Startphase innerhalb 24h komplett rotieren`);
-}
+assert.match(v8,/LEADER_TARGET=50/,'Normaler Scanpool muss auf 50 externe Marktleader begrenzt sein');
+assert.match(v8,/TradingView DE Most Active/);
+assert.match(v8,/TradingView DE Unusual Volume/);
+assert.match(v8,/TradingView DE Top Gainers/);
+assert.match(v8,/Yahoo Most Active/);
+assert.match(v8,/Yahoo Trending/);
+assert.match(v8,/Yahoo Top Gainers/);
+assert.match(v8,/EXTERNAL_TOP_50/,'Externe Listen muessen der Normalmodus sein');
+assert.match(v8,/MASTER-FALLBACK/,'Bei Ausfall externer Listen muss ein kleiner statischer Fallback existieren');
+assert.match(v8,/held_symbols_added/,'Gehaltene Aktien muessen unabhaengig von Toplisten zusaetzlich ueberwacht werden');
+assert.doesNotMatch(v8,/ROTATING_EQUITIES=160/,'Die alte 8.000er Dauerrotation darf im Free-Top-50-Profil nicht mehr aktiv sein');
 
 const scansPerDay=24*60/5;
 assert.equal(scansPerDay,288);
 const statusCallsPerDay=24*60;
 assert.equal(statusCallsPerDay,1440);
+const leaderPageFetchesMax=scansPerDay*6;
+assert.equal(leaderPageFetchesMax,1728);
 
-console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',scanIntervalMinutes:5,scheduledScansPerDay:scansPerDay,statusCallsPerDayPerOpenTab:statusCallsPerDay,fullCoverage8200:true,fullCoverage8600:true},null,2));
+console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',scanIntervalMinutes:5,scheduledScansPerDay:scansPerDay,statusCallsPerDayPerOpenTab:statusCallsPerDay,dynamicExternalLeaderTarget:50,leaderSources:6,maxLeaderPageFetchesPerDayWithoutCache:leaderPageFetchesMax,heldStocksAlwaysAdded:true},null,2));
