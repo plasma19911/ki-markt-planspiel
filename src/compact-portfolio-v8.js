@@ -9,7 +9,7 @@ const MIN_EXTERNAL_LEADERS=10;
 const SOURCE_LIMIT=35;
 // Cloudflare Free erlaubt 50 externe Subrequests je Worker-Aufruf. Wir stoppen reale
 // fetch()-Aufrufe bewusst frueher, damit Redirects und spaetere optionale Layer Reserve haben.
-const EXTERNAL_FETCH_SOFT_CAP=38;
+const EXTERNAL_FETCH_SOFT_CAP=36;
 const HEADERS={'accept':'text/html,application/xhtml+xml','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/8.1; +https://github.com/plasma19911/ki-markt-planspiel)'};
 
 const LEADER_SOURCES=[
