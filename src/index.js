@@ -1,5 +1,6 @@
 // Production entry: stocks-only paper trading plus prepared human approval workflow.
 // Real broker dispatch remains disabled until an official connector is explicitly added.
+import './yahoo-spark-repair.js';
 import {MarketPortfolio} from './compact-portfolio-v10.js';
 import {gettexSessionState} from './gettex-session.js';
 import {verifyCloudflareAccess} from './access-auth.js';
