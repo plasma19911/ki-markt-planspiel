@@ -4,7 +4,8 @@
   body.uiV2 #livePanel main.grid{display:grid!important;grid-template-columns:repeat(12,minmax(0,1fr))!important;gap:12px!important;align-items:start!important}
   body.uiV2 #livePanel .chartCard{grid-column:span 8!important}
   body.uiV2 #livePanel .allocation{grid-column:span 4!important}
-  body.uiV2 #livePanel .positions{grid-column:1/-1!important}
+  body.uiV2 #livePanel .positions{grid-column:span 5!important}
+  body.uiV2 #livePanel #positionTradeChart{grid-column:span 7!important}
   body.uiV2 #livePanel .candidates{grid-column:span 7!important}
   body.uiV2 #livePanel .stats{grid-column:span 5!important}
   body.uiV2 #livePanel .health{grid-column:span 6!important}
@@ -16,6 +17,7 @@
   body.uiV2 #livePanel .history,
   body.uiV2 #livePanel .settings,
   body.uiV2 #livePanel #freeBudgetPanel,
+  body.uiV2 #livePanel #futureWatch,
   body.uiV2 #livePanel .performanceDiagnostics{grid-column:1/-1!important}
   body.uiV2 .desktopQuickNav{display:flex!important}
 }
@@ -27,4 +29,15 @@
   body.uiV2 .uiStatusItem:first-child{grid-column:auto!important}
   body.uiV2 .diagnosticGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
   body.uiV2 .recentTrades{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  body.uiV2 #livePanel .positions,
+  body.uiV2 #livePanel #positionTradeChart{grid-column:1/-1!important}
 }
+
+/* Per-position trade chart. */
+.positionTradeChart{min-height:430px;background:linear-gradient(145deg,#0d1a29,#09121d)!important}
+.tradeChartSymbols{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px;scrollbar-width:none}.tradeChartSymbols::-webkit-scrollbar{display:none}
+.tradeSymbol{flex:0 0 auto!important;display:grid!important;gap:1px!important;min-height:0!important;padding:7px 10px!important;background:#101d2c!important;color:#d9e6f6!important;border:1px solid #263b56!important;border-radius:10px!important}.tradeSymbol b{font-size:11px}.tradeSymbol span{font-size:7px;color:#8499b2}.tradeSymbol.active{border-color:#78d6ff!important;background:#14283c!important}
+.tradeChartToolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:3px 0 8px}.tradeChartRanges{display:flex;gap:5px}.tradeChartRanges button{min-height:0!important;padding:6px 9px!important;font-size:9px!important;background:#132238!important;color:#bfd0e3!important;border:1px solid #29435f!important}.tradeChartRanges button.active{background:#78d6ff!important;color:#06111f!important}.tradeChartLegend{display:flex;gap:12px;color:#8fa3bd;font-size:9px}.tradeChartLegend span{display:flex;align-items:center;gap:5px}.tradeChartLegend i{display:block;width:8px;height:8px;border-radius:50%}.buyDot{background:#46d69a}.sellDot{background:#ff7080}
+.tradeCanvasWrap{position:relative;min-height:300px;border:1px solid #1d3048;border-radius:13px;background:#07111c;overflow:hidden}.tradeCanvasWrap canvas{width:100%!important;height:300px!important;background:transparent!important}.tradeChartEmpty{position:absolute;inset:0;display:grid;place-items:center;padding:24px;color:#8296ae;text-align:center;font-size:11px}.tradeChartInfo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:8px}.tradeChartInfo>div{border:1px solid #1e3149;background:#09131f;border-radius:10px;padding:8px}.tradeChartInfo span{display:block;color:#8296ae;font-size:8px;text-transform:uppercase}.tradeChartInfo b{display:block;margin-top:3px;font-size:12px}
+@media(max-width:900px){.positionTradeChart{min-height:0}.tradeCanvasWrap,.tradeCanvasWrap canvas{min-height:260px;height:260px!important}.tradeChartInfo{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:450px){.tradeChartToolbar{align-items:flex-start}.tradeChartLegend{width:100%}.tradeCanvasWrap,.tradeCanvasWrap canvas{min-height:230px;height:230px!important}}
