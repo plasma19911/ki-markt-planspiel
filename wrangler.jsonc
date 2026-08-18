@@ -4,6 +4,10 @@
   "main": "src/index.js",
   "compatibility_date": "2026-08-18",
   "compatibility_flags": ["nodejs_compat"],
+  "keep_vars": true,
+  "secrets": {
+    "required": ["PC_AGENT_TOKEN"]
+  },
 
   "assets": {
     "directory": "./public",
