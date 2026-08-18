@@ -1,19 +1,24 @@
 {
-  "checkedAt": "2026-08-18T20:07:30.758879+00:00",
+  "checkedAt": "2026-08-18T20:09:45.864435+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
     "status": "200",
     "agent": "200",
-    "uiHotfix": "200",
-    "positionChart": "200"
+    "stableUi": "200",
+    "layoutFix": "200",
+    "analysisUi": "200",
+    "quotaGuard": "200"
   },
   "checks": {
-    "homepage": false,
+    "homepage": true,
     "appJs": true,
     "apiStatus": true,
     "agentEndpoint": true,
     "pcSecretConfigured": true,
+    "stableUi": true,
+    "cleanLayout": true,
+    "legacyUiDisabled": true,
     "profitOptimizer": true,
     "opportunityCapture": true,
     "capitalInMotion": true,
@@ -27,17 +32,13 @@
     "pcWideSweep": true,
     "targetVenueSanity": true,
     "entryTimingLearning": true,
-    "legacyFullCashFailsafe": true,
-    "uiHotfix": true,
-    "positionChart": true
+    "legacyFullCashFailsafe": true
   },
-  "allRequiredChecksPassed": false,
-  "failedChecks": [
-    "homepage"
-  ],
+  "allRequiredChecksPassed": true,
+  "failedChecks": [],
   "running": 1,
-  "scanCount": 326,
-  "lastScan": "2026-08-18T20:07:09.936Z",
+  "scanCount": 328,
+  "lastScan": "2026-08-18T20:09:08.603Z",
   "lastError": null,
   "aiLastSummary": "Keine frischen handelbaren Kurse – keine Orderentscheidung.",
   "cash": 242.5656642062093,
@@ -320,8 +321,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 404",
-      "latency_ms": 250,
-      "updated_at": "2026-08-18T20:07:09.829Z"
+      "latency_ms": 242,
+      "updated_at": "2026-08-18T20:09:08.596Z"
     },
     {
       "source": "Yahoo Events",
@@ -329,8 +330,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 215,
-      "updated_at": "2026-08-18T20:07:09.829Z"
+      "latency_ms": 209,
+      "updated_at": "2026-08-18T20:09:08.596Z"
     },
     {
       "source": "Yahoo News",
@@ -338,8 +339,8 @@
       "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1190,
-      "updated_at": "2026-08-18T20:07:09.829Z"
+      "latency_ms": 668,
+      "updated_at": "2026-08-18T20:09:08.596Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -347,26 +348,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 695,
-      "updated_at": "2026-08-18T20:07:09.829Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1008,
-      "updated_at": "2026-08-18T20:07:09.829Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1024,
-      "updated_at": "2026-08-18T20:07:09.829Z"
+      "latency_ms": 239,
+      "updated_at": "2026-08-18T20:09:08.596Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -374,8 +357,26 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1031,
-      "updated_at": "2026-08-18T20:07:09.829Z"
+      "latency_ms": 273,
+      "updated_at": "2026-08-18T20:09:08.596Z"
+    },
+    {
+      "source": "BörsenNews",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 305,
+      "updated_at": "2026-08-18T20:09:08.596Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 515,
+      "updated_at": "2026-08-18T20:09:08.596Z"
     },
     {
       "source": "Second-Chance 1m",
@@ -384,7 +385,7 @@
       "fail_count": 2,
       "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-18T20:07:09.829Z"
+      "updated_at": "2026-08-18T20:09:08.596Z"
     }
   ],
   "risk": {
@@ -481,11 +482,11 @@
     "enabled": true,
     "target": 16,
     "candidateCount": 0,
-    "updatedAt": "2026-08-18T20:07:06.999Z",
+    "updatedAt": "2026-08-18T20:09:06.630Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8527,
-    "scannedCount": 521,
+    "scannedCount": 520,
     "cycleMinutes": 9,
     "batchCount": 11,
     "coreCount": 1800,
@@ -508,8 +509,8 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 8,
-    "candidateCount": 2,
-    "updatedAt": "2026-08-18T20:07:09.936Z",
+    "candidateCount": 1,
+    "updatedAt": "2026-08-18T20:09:08.603Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 2,
@@ -739,19 +740,14 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T20:08:09.936Z",
+    "nextScanAt": "2026-08-18T20:10:08.603Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
     "persistentLeaderCache": true,
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
-    "lastFetchBudget": {
-      "actual": 11,
-      "cacheHits": 0,
-      "blocked": 0,
-      "cap": 36
-    },
+    "lastFetchBudget": null,
     "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Rebound-Radar beobachtet bis zu 10 Tagesverlierer; fallende Messer bleiben gesperrt, bis eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. HOT/WARM werden minuetlich priorisiert; der liquide Kern rotiert schneller und der lange Rest wird als beschleunigter Backstop vollstaendig durchlaufen. Nur die bis zu 16 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen; dadurch steigt die Abdeckung ohne mehr Deep-Checks zu erzwingen. Tages-Replay kann auf dem PC lokal laufen und spaeter synchronisiert werden; morgens werden die aktuellen News-/Forward-Signale neu geladen.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
@@ -790,8 +786,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T20:07:06.999Z",
-    "ageSeconds": 23,
+    "lastSeenAt": "2026-08-18T20:09:06.630Z",
+    "ageSeconds": 38,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-18T20:07:06.577Z",
     "resolvedLeaderCount": 15,
@@ -802,18 +798,18 @@
     "wideSweepCandidates": 0,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8527,
-    "wideSweepScannedCount": 521,
+    "wideSweepScannedCount": 520,
     "metrics": {
-      "lastSeenAt": "2026-08-18T20:07:06.999Z",
+      "lastSeenAt": "2026-08-18T20:09:06.630Z",
       "version": "2.0.12-csharp-full-master-24mi",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 5889021,
+      "storageBytes": 5900393,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.01,
-      "ramMb": 82.5,
-      "downloadedBytes": 26919216,
-      "uploadedBytes": 211660,
+      "cpuPct": 0,
+      "ramMb": 82.7,
+      "downloadedBytes": 26967179,
+      "uploadedBytes": 222982,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_FULL_MASTER_24MIN",
       "lastLocalCleanupAt": "2026-08-18T20:01:20.1147685Z",
