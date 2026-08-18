@@ -1,7 +1,7 @@
 // Coalesce repeated dashboard status reads so the Cloudflare Free quota is not wasted.
 // All dashboard modules can keep their own timers, but only one real GET /api/status
 // is sent per active browser tab inside the TTL. Hidden tabs reuse the last response.
-const STATUS_TTL_MS=30000;
+const STATUS_TTL_MS=55000;
 const nativeFetch=window.fetch.bind(window);
 let cachedResponse=null;
 let cachedAt=0;
@@ -55,3 +55,4 @@ import('./ui-v2.js').catch(e=>console.error('UI V2 failed',e));
 import('./zero-ui.js').catch(e=>console.error('ZERO target UI failed',e));
 import('./order-approval-ui.js').catch(e=>console.error('Order approval UI failed',e));
 import('./accounting-ui.js').catch(e=>console.error('Accounting checksum UI failed',e));
+import('./future-watch-ui.js').catch(e=>console.error('Future watch UI failed',e));
