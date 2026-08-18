@@ -7,7 +7,6 @@ const REPORT_KEY='state/day-replay-report-v1';
 const IMPORT_KEY='state/pc-day-replay-import-v1';
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
-const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
 const read=(storage,k,d)=>{try{return storage?.kv?.get(k)||d}catch{return d}};
 const write=(storage,k,v)=>{try{storage?.kv?.put(k,v)}catch{}};
 const safeBucket=v=>['PULLBACK_RETEST','EARLY_BREAKOUT','NORMAL_ENTRY'].includes(String(v||'').toUpperCase())?String(v).toUpperCase():null;
@@ -24,6 +23,11 @@ export function importPcDayReplay(storage,payload={}){
  const date=String(payload?.date||'').slice(0,10),results=arr(payload?.results);if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!results.length)return{ok:false,status:400,error:'PC-Replay enthaelt kein gueltiges Datum oder keine Ergebnisse.'};
  const imports=read(storage,IMPORT_KEY,{dates:{}}),signature=String(payload?.signature||`${date}:${results.length}:${payload?.completedAt||''}`).slice(0,180);imports.dates=imports.dates||{};
  if(imports.dates[date]===signature)return{ok:true,duplicate:true,date,importedSamples:0};
+ const existing=read(storage,REPORT_KEY,null);
+ if(existing?.date===date&&existing?.status==='COMPLETE'&&existing?.source!=='PC_LOCAL_REPLAY'){
+  imports.dates[date]=signature;imports.updatedAt=new Date().toISOString();write(storage,IMPORT_KEY,imports);
+  return{ok:true,duplicate:true,date,importedSamples:0,reason:'Cloudflare-Fallback-Replay fuer diesen Tag war bereits komplett; PC-Ergebnis wird nicht doppelt gelernt.'};
+ }
  const learn={...learnDefaults(),...read(storage,LEARN_KEY,learnDefaults())};let added=0;for(const r of results)if(aggregateResult(learn,date,r))added++;
  if(Object.keys(learn.seen||{}).length>900){const ks=Object.keys(learn.seen).slice(-650);learn.seen=Object.fromEntries(ks.map(k=>[k,1]))}
  if(learn.lastDate!==date){learn.completedDays=num(learn.completedDays)+1;learn.lastDate=date}learn.updatedAt=new Date().toISOString();write(storage,LEARN_KEY,learn);
@@ -32,4 +36,4 @@ export function importPcDayReplay(storage,payload={}){
  return{ok:true,date,source:'PC_LOCAL_REPLAY',importedSamples:added,totalResults:results.length,learningBuckets:Object.entries(learn.samples||{}).map(([bucket,s])=>({bucket,count:num(s?.count),avg30:s?.count?+(num(s.sum30)/s.count).toFixed(3):0,avg60:s?.count?+(num(s.sum60)/s.count).toFixed(3):0})).slice(0,8)};
 }
 
-export function getPcReplayImportStatus(storage){const x=read(storage,IMPORT_KEY,{dates:{}});return{enabled:true,importedDates:Object.keys(x?.dates||{}).slice(-8),lastImportAt:x?.updatedAt||null,offlineNightSync:true,nextMorningSync:true}}
+export function getPcReplayImportStatus(storage){const x=read(storage,IMPORT_KEY,{dates:{}});return{enabled:true,importedDates:Object.keys(x?.dates||{}).slice(-8),lastImportAt:x?.updatedAt||null,offlineNightSync:true,nextMorningSync:true,duplicateDayLearningBlocked:true}}
