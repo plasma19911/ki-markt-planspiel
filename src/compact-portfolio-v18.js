@@ -1,11 +1,17 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v17.js';
 import {reconcileLearningWithExecutedPositions,getLearningExecutionReconcileStatus} from './live-learning-execution-reconcile.js';
+import {ResearchEntryQualityGuard} from './research-entry-quality-guard.js';
 
 // V18 closes a learning-only gap: the fast layer may propose BUY before Pullback,
 // venue, cost and execution guards run. Only positions that really exist afterwards
-// are allowed to keep a pending entry-timing sample.
+// are allowed to keep a pending entry-timing sample. A final research-quality guard
+// also requires a credible immediate move/participation for Early-Breakout entries.
 export class MarketPortfolio extends BasePortfolio{
-  constructor(ctx,env){super(ctx,env);this.ctx=ctx;this.env=env}
+  constructor(ctx,env){
+    super(ctx,env);this.ctx=ctx;this.env=env;
+    const ai=this.engine?.env?.AI;
+    if(ai?.run&&!ai.__researchEntryQualityGuard){const wrapped=new ResearchEntryQualityGuard(ai);wrapped.__researchEntryQualityGuard=true;this.engine.env.AI=wrapped}
+  }
   _actualPositions(){try{return this.bucketAdapter?.peekState?.()?.positions||[]}catch{return[]}}
   async scan(){
     // Clear proposals left by earlier scans before they can be mistaken for a later trade.
@@ -27,11 +33,16 @@ export class MarketPortfolio extends BasePortfolio{
       priority:['PULLBACK_RETEST','EARLY_BREAKOUT','NORMAL_ENTRY'],
       avoid:['PEAK_CHASE','OVEREXTENDED_MOMENTUM','FALLING_KNIFE'],
       requireBounceAfterPullback:true,
+      earlyBreakoutMin5mPct:.10,
+      earlyBreakoutMin20mPct:.12,
+      earlyBreakoutMinAccelerationPct:.02,
+      earlyBreakoutMinVolumeRatioWhenKnown:1.05,
+      earlyBreakoutInitialCapPct:35,
       newsVolumeConfirmationPreferred:true,
       openingPriceDiscoveryNeedsExtraConfirmation:true,
       orderPriceDiscipline:true,
       replayAdaptive:true,
-      note:'Kein Versuch, das exakte Tief zu erraten: bevorzugt wird ein Ruecksetzer mit Stabilisierung und erneut positivem Tape. Fruehe, volumenbestaetigte Breakouts bleiben erlaubt; spaete Uebertreibung wird blockiert. Tages-Replay kalibriert diese Regeln aus den eigenen Paper-Daten.'
+      note:'Kein Versuch, das exakte Tief zu erraten: bevorzugt wird ein Ruecksetzer mit Stabilisierung und erneut positivem Tape. Fruehe Breakouts brauchen einen glaubwuerdigen unmittelbaren Impuls und bei bekannten Volumendaten mindestens normale Beteiligung; spaete Uebertreibung wird blockiert. Tages-Replay kalibriert diese Regeln aus den eigenen Paper-Daten.'
     };
     s.newsSourcePolicy={
       primary:['Issuer Investor Relations','SEC/EDGAR fuer US-Filings','Deutsche Boerse/EQS fuer DE/EU-Meldungen','Federal Reserve','ECB','BLS'],
@@ -41,7 +52,7 @@ export class MarketPortfolio extends BasePortfolio{
       rule:'Primaerquelle/Emittent fuer harte Unternehmens- und Makrofakten bevorzugen; Aggregatoren nur zur Entdeckung, danach bestaetigen.'
     };
     if(s.entryTimingLearning)s.entryTimingLearning={...s.entryTimingLearning,pendingOnlyForExecutedPositions:true,pendingExecutionTtlMinutes:8,proposalContaminationFixed:true};
-    if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,learningOnlyFromExecutedEntries:true,researchBackedEntryPolicy:true};
+    if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,learningOnlyFromExecutedEntries:true,researchBackedEntryPolicy:true,earlyBreakoutQualityGuard:true,earlyBreakoutInitialCapPct:35};
     return s;
   }
 }
