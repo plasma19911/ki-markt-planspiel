@@ -1,3 +1,3 @@
-// Production compatibility entry. V14 keeps the complete V11/V12/V13 stack and adds
-// guarded Early-Breakout discovery without introducing forced buys.
-export {MarketPortfolio} from './compact-portfolio-v14.js';
+// Production compatibility entry. V15 keeps the complete modern stack, guarded
+// Early-Breakout discovery, and final gettex target-venue sanity.
+export {MarketPortfolio} from './compact-portfolio-v15.js';
