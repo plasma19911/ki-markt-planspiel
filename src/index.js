@@ -8,9 +8,23 @@ const reply=(x,s=200)=>Response.json(x,{status:s,headers:{'cache-control':'no-st
 const portfolio=env=>env.PORTFOLIO.getByName('default-paper-portfolio');
 const approvalMode=env=>String(env?.ORDER_APPROVAL_MODE||'disabled').toLowerCase()==='enabled';
 
+async function freeTierAppJs(request,env){
+ const r=await env.ASSETS.fetch(request);if(!r.ok)return r;
+ let text=await r.text();
+ text=text
+  .replace(/LÄUFT · 60 SEKUNDEN/g,'LÄUFT · 5-MIN-SCAN')
+  .replace(/Aktien und normale ETFs/g,'nur Aktien')
+  .replace(/Aktien \+ normale ETFs/g,'nur Aktien')
+  .replace(/includeEtfs:true/g,'includeEtfs:false')
+  .replace(/setInterval\(load,5000\)/g,'setInterval(load,60000)');
+ const h=new Headers(r.headers);h.set('content-type','text/javascript; charset=utf-8');h.set('cache-control','public, max-age=300');
+ return new Response(text,{status:r.status,headers:h});
+}
+
 export default{
  async fetch(request,env){
   const u=new URL(request.url);
+  if(u.pathname==='/app.js'&&request.method==='GET')return freeTierAppJs(request,env);
   if(!u.pathname.startsWith('/api/'))return env.ASSETS.fetch(request);
   try{
    const p=portfolio(env);let sessionAuth=null;
