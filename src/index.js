@@ -1,6 +1,7 @@
 // Production entry: stocks-only paper trading plus prepared human approval workflow.
 // Real broker dispatch remains disabled until an official connector is explicitly added.
 import {MarketPortfolio} from './compact-portfolio-v9.js';
+import {gettexSessionState} from './gettex-session.js';
 import {verifyCloudflareAccess} from './access-auth.js';
 export {MarketPortfolio};
 
@@ -47,7 +48,7 @@ export default{
     const b=await request.json().catch(()=>({}));
     const started=await p.start({...b,includeEtfs:false,includeLeverage:false});
     const firstScan=await p.scan();
-    return reply({...started,firstScan,storage:'Durable Object Free · 1 compact row',assetClass:'nur Aktien',targetBroker:'finanzen.net ZERO · gettex',freeTier:'Top 25 jede Minute · Leaderlisten alle 5 Minuten · max. 1.440 geplante Scans/Tag'});
+    return reply({...started,firstScan,storage:'Durable Object Free · kompakter Hauptzustand',assetClass:'nur Aktien',targetBroker:'finanzen.net ZERO · gettex',freeTier:'07:25 Vorbereitung · 07:30-23:00 Top-25-Minutenbetrieb · nachts/Feiertage Schlafmodus'});
    }
    if(u.pathname==='/api/stop'&&request.method==='POST')return reply(await p.stop());
    if(u.pathname==='/api/reset'&&request.method==='POST')return reply(await p.reset());
@@ -57,5 +58,11 @@ export default{
    return reply({error:'Not found'},404);
   }catch(e){return reply({error:String(e?.message||e)},500)}
  },
- async scheduled(controller,env,ctx){ctx.waitUntil(portfolio(env).scan().catch(e=>console.error('Compact DO scan failed',e)))}
+ async scheduled(controller,env,ctx){
+  const when=new Date(Number(controller?.scheduledTime)||Date.now()),session=gettexSessionState(when);
+  // Ausserhalb des gettex-Fensters wird das Durable Object gar nicht erst aufgerufen:
+  // keine Markt-/News-/Makro-Abfragen und keine Storage-Arbeit durch den Scanner.
+  if(session.open){ctx.waitUntil(portfolio(env).scan().catch(e=>console.error('Compact DO scan failed',e)));return}
+  if(session.prepareNow){ctx.waitUntil(portfolio(env).preOpenPrepare().catch(e=>console.error('gettex preopen prepare failed',e)))}
+ }
 };
