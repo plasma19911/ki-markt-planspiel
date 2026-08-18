@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T20:00:31.250776+00:00",
+  "checkedAt": "2026-08-18T20:02:18.122669+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -554,12 +554,12 @@
   "pcWideSweep": {
     "enabled": true,
     "target": 16,
-    "candidateCount": 3,
-    "updatedAt": "2026-08-18T20:00:07.757Z",
+    "candidateCount": 1,
+    "updatedAt": "2026-08-18T20:02:06.464Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8527,
-    "scannedCount": 520,
+    "scannedCount": 521,
     "cycleMinutes": 9,
     "batchCount": 11,
     "coreCount": 1800,
@@ -820,7 +820,12 @@
     "persistentLeaderCache": true,
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
-    "lastFetchBudget": null,
+    "lastFetchBudget": {
+      "actual": 21,
+      "cacheHits": 0,
+      "blocked": 0,
+      "cap": 36
+    },
     "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Rebound-Radar beobachtet bis zu 10 Tagesverlierer; fallende Messer bleiben gesperrt, bis eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. HOT/WARM werden minuetlich priorisiert; der liquide Kern rotiert schneller und der lange Rest wird als beschleunigter Backstop vollstaendig durchlaufen. Nur die bis zu 16 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen; dadurch steigt die Abdeckung ohne mehr Deep-Checks zu erzwingen. Tages-Replay kann auf dem PC lokal laufen und spaeter synchronisiert werden; morgens werden die aktuellen News-/Forward-Signale neu geladen.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
@@ -859,8 +864,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T20:00:07.757Z",
-    "ageSeconds": 23,
+    "lastSeenAt": "2026-08-18T20:02:06.464Z",
+    "ageSeconds": 11,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-18T19:59:09.437Z",
     "resolvedLeaderCount": 15,
@@ -868,25 +873,25 @@
     "futureCandidates": 0,
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
-    "wideSweepCandidates": 3,
+    "wideSweepCandidates": 1,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8527,
-    "wideSweepScannedCount": 520,
+    "wideSweepScannedCount": 521,
     "metrics": {
-      "lastSeenAt": "2026-08-18T20:00:07.757Z",
+      "lastSeenAt": "2026-08-18T20:02:06.464Z",
       "version": "2.0.12-csharp-full-master-24mi",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 5862076,
+      "storageBytes": 5865529,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.01,
+      "cpuPct": 0,
       "ramMb": 101.4,
-      "downloadedBytes": 24009271,
-      "uploadedBytes": 139984,
+      "downloadedBytes": 24010046,
+      "uploadedBytes": 144092,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_FULL_MASTER_24MIN",
-      "lastLocalCleanupAt": "2026-08-18T19:38:33.0023231Z",
-      "lastError": null
+      "lastLocalCleanupAt": "2026-08-18T20:01:20.1147685Z",
+      "lastError": "Der Remoteserver hat einen Fehler zurückgegeben: (500) Interner Serverfehler."
     }
   }
 }
