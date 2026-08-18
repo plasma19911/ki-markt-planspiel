@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-18T17:42:57.265392+00:00",
-  "commit": "6ee8fc6cea2e9d8b8dda3a6f4b4fa4c8029da904",
+  "checkedAt": "2026-08-18T17:43:23.403408+00:00",
+  "commit": "ae05499626cdba19298949da4028b95590d160af",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 7s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 6s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -179,12 +179,12 @@
     "capital_in_motion": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"capitalFloor\": {\n    \"confirmed\": true,\n    \"expected\": 5.335,\n    \"liveScore\": 3.6,\n    \"confidence\": 0.68,\n    \"nearHigh\": false,\n    \"m5\": 0.06,\n    \"m20\": 0.18,\n    \"acceleration\": 0.02,\n    \"day\": 1.2,\n    \"rsi\": 61,\n    \"volumeRatio\": 1.05,\n    \"breakoutScore\": 0.4,\n    \"state\": \"BUILDING\",\n    \"sell\": \"NONE\",\n    \"hardSafe\": true,\n    \"blockers\": []\n  },\n  \"allocation\": [\n    {\n      \"symbol\": \"BEST\",\n      \"pct\": 100,\n      \"expected\": 5.335,\n      \"tier\": \"QUALIFIED\"\n    }\n  ],\n  \"rotation\": true,\n  \"hardSafety\": true\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"capitalFloor\": {\n    \"confirmed\": true,\n    \"expected\": 5.335,\n    \"liveScore\": 3.6,\n    \"confidence\": 0.68,\n    \"nearHigh\": false,\n    \"m5\": 0.06,\n    \"m20\": 0.18,\n    \"acceleration\": 0.02,\n    \"day\": 1.2,\n    \"rsi\": 61,\n    \"volumeRatio\": 1.05,\n    \"breakoutScore\": 0.4,\n    \"state\": \"BUILDING\",\n    \"sell\": \"NONE\",\n    \"hardSafe\": true,\n    \"blockers\": []\n  },\n  \"allocation\": [\n    {\n      \"symbol\": \"BEST\",\n      \"pct\": 100,\n      \"expected\": 5.335,\n      \"tier\": \"QUALIFIED\"\n    }\n  ],\n  \"rotation\": true,\n  \"hardSafety\": true,\n  \"pullbackFirst\": {\n    \"pullback\": {\n      \"confirmed\": true,\n      \"expected\": 5.882,\n      \"liveScore\": 4,\n      \"confidence\": 0.73,\n      \"nearHigh\": false,\n      \"m5\": 0.09,\n      \"m20\": 0.22,\n      \"acceleration\": 0.06,\n      \"day\": 2.4,\n      \"rsi\": 59,\n      \"volumeRatio\": 1.05,\n      \"breakoutScore\": 0.4,\n      \"state\": \"BUILDING\",\n      \"sell\": \"NONE\",\n      \"hardSafe\": true,\n      \"blockers\": [],\n      \"buyable\": true,\n      \"mode\": \"PULLBACK_RETEST\",\n      \"pullbackConfirmed\": true,\n      \"earlyBreakout\": false,\n      \"normalEntry\": true,\n      \"peakRisk\": false,\n      \"hardPeak\": false,\n      \"overextended\": false,\n      \"drawKnown\": true,\n      \"drawdownFrom20mHighPct\": -0.82,\n      \"adjustedExpected\": 7.232,\n      \"reason\": \"Ruecksetzer -0.82% vom 20m-Hoch, 1m/5m drehen wieder hoch\"\n    },\n    \"peakBlocked\": true,\n    \"earlyBreakout\": true,\n    \"fallingKnifeBlocked\": true,\n    \"allocation\": [\n      {\n        \"symbol\": \"PULLBACK\",\n        \"pct\": 100,\n        \"mode\": \"PULLBACK_RETEST\",\n        \"score\": 7.232\n      }\n    ]\n  }\n}\n"
     },
     "pc_wide_sweep": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"target\": 16,\n  \"selected\": 16,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-18T17:42:34.765Z\",\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\"\n  },\n  \"forcedBuy\": false\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"target\": 16,\n  \"selected\": 16,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-18T17:43:01.312Z\",\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\"\n  },\n  \"forcedBuy\": false\n}\n"
     },
     "yahoo_sanity": {
       "ok": true,
