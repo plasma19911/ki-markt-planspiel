@@ -12,6 +12,7 @@ on:
       - "scripts/smoke-zero-fees.mjs"
       - "scripts/smoke-zero-universe.mjs"
       - "scripts/smoke-zero-accounting.mjs"
+      - "scripts/smoke-trade-safety.mjs"
       - "scripts/refresh_universe.py"
       - "scripts/refresh_etfs.py"
       - "scripts/calibrate_fast_signals.py"
@@ -55,6 +56,7 @@ jobs:
           node --check src/compact-portfolio-v6.js
           node --check src/compact-portfolio-v7.js
           node --check src/zero-accounting.js
+          node --check src/trade-safety.js
           node --check src/order-approval.js
           node --check src/access-auth.js
           node --check src/zero-fee-model.js
@@ -90,6 +92,7 @@ jobs:
           node --check scripts/smoke-zero-fees.mjs
           node --check scripts/smoke-zero-universe.mjs
           node --check scripts/smoke-zero-accounting.mjs
+          node --check scripts/smoke-trade-safety.mjs
       - name: Python syntax
         run: python3 -m py_compile scripts/calibrate_fast_signals.py scripts/refresh_universe.py scripts/refresh_etfs.py
       - name: Fast decision smoke test
@@ -102,5 +105,7 @@ jobs:
         run: node scripts/smoke-zero-universe.mjs
       - name: ZERO accounting smoke test
         run: node scripts/smoke-zero-accounting.mjs
+      - name: Trade safety smoke test
+        run: node scripts/smoke-trade-safety.mjs
       - name: Wrangler dry run
         run: npx wrangler deploy --dry-run
