@@ -1,0 +1,68 @@
+name: Validate Modern Trading Stack
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "src/decision-guard.js"
+      - "src/legacy-cash-neutralizer.js"
+      - "src/profit-optimizer.js"
+      - "src/live-signal-learning.js"
+      - "src/rebound-ai-guard.js"
+      - "src/compact-portfolio-v10.js"
+      - "src/compact-portfolio-v11-base.js"
+      - "src/compact-portfolio-v11.js"
+      - "src/compact-portfolio-v12.js"
+      - "src/index.js"
+      - "src/constants.js"
+      - "public/position-chart-ui.js"
+      - "public/free-budget-ui.js"
+      - "public/ui-hotfix.css"
+      - "scripts/smoke-best-validated-buy.mjs"
+      - "scripts/smoke-legacy-cash-neutralizer.mjs"
+      - "scripts/smoke-rebound-guard.mjs"
+      - "scripts/smoke-entry-timing-learning.mjs"
+      - ".github/workflows/validate-modern-stack.yml"
+      - "package.json"
+      - "wrangler.jsonc"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-modern-stack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install dependencies
+        run: npm install
+      - name: Check production JavaScript
+        run: |
+          node --check src/index.js
+          node --check src/constants.js
+          node --check src/decision-guard.js
+          node --check src/legacy-cash-neutralizer.js
+          node --check src/profit-optimizer.js
+          node --check src/live-signal-learning.js
+          node --check src/rebound-ai-guard.js
+          node --check src/compact-portfolio-v10.js
+          node --check src/compact-portfolio-v11-base.js
+          node --check src/compact-portfolio-v11.js
+          node --check src/compact-portfolio-v12.js
+          node --check public/position-chart-ui.js
+          node --check public/free-budget-ui.js
+      - name: Cash-aware execution regression
+        run: node scripts/smoke-best-validated-buy.mjs
+      - name: Legacy full-cash failsafe regression
+        run: node scripts/smoke-legacy-cash-neutralizer.mjs
+      - name: Rebound falling-knife regression
+        run: node scripts/smoke-rebound-guard.mjs
+      - name: Entry timing learning regression
+        run: node scripts/smoke-entry-timing-learning.mjs
+      - name: Wrangler production dry run
+        run: npx wrangler deploy --dry-run
