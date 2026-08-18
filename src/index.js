@@ -1,6 +1,6 @@
 // Production entry: stocks-only paper trading plus prepared human approval workflow.
 // Real broker dispatch remains disabled until an official connector is explicitly added.
-import {MarketPortfolio} from './compact-portfolio-v8.js';
+import {MarketPortfolio} from './compact-portfolio-v9.js';
 import {verifyCloudflareAccess} from './access-auth.js';
 export {MarketPortfolio};
 
@@ -12,7 +12,7 @@ async function freeTierAppJs(request,env){
  const r=await env.ASSETS.fetch(request);if(!r.ok)return r;
  let text=await r.text();
  text=text
-  .replace(/LÄUFT · 60 SEKUNDEN/g,'LÄUFT · 5-MIN-SCAN')
+  .replace(/LÄUFT · 60 SEKUNDEN/g,'LÄUFT · 1-MIN-SCAN')
   .replace(/Aktien und normale ETFs/g,'nur Aktien')
   .replace(/Aktien \+ normale ETFs/g,'nur Aktien')
   .replace(/includeEtfs:true/g,'includeEtfs:false')
@@ -28,8 +28,6 @@ export default{
   if(!u.pathname.startsWith('/api/'))return env.ASSETS.fetch(request);
   try{
    const p=portfolio(env);let sessionAuth=null;
-   // Sobald der spaetere Echtgeld-/Freigabemodus aktiviert wird, sind alle Depot-/Steuer-APIs
-   // ausser der harmlosen Konfigurationsanzeige nur noch mit gueltigem Cloudflare-Access-JWT erreichbar.
    if(approvalMode(env)&&u.pathname!=='/api/order-approval-status'){
     sessionAuth=await verifyCloudflareAccess(request,env);if(!sessionAuth.ok)return reply({error:sessionAuth.error,approvalAuth:false},sessionAuth.status||403);
    }
@@ -49,7 +47,7 @@ export default{
     const b=await request.json().catch(()=>({}));
     const started=await p.start({...b,includeEtfs:false,includeLeverage:false});
     const firstScan=await p.scan();
-    return reply({...started,firstScan,storage:'Durable Object Free · 1 compact row',assetClass:'nur Aktien',targetBroker:'finanzen.net ZERO · gettex',freeTier:'5-Minuten-Scan · max. 288 geplante Scans/Tag'});
+    return reply({...started,firstScan,storage:'Durable Object Free · 1 compact row',assetClass:'nur Aktien',targetBroker:'finanzen.net ZERO · gettex',freeTier:'Top 25 jede Minute · Leaderlisten alle 5 Minuten · max. 1.440 geplante Scans/Tag'});
    }
    if(u.pathname==='/api/stop'&&request.method==='POST')return reply(await p.stop());
    if(u.pathname==='/api/reset'&&request.method==='POST')return reply(await p.reset());
@@ -59,7 +57,5 @@ export default{
    return reply({error:'Not found'},404);
   }catch(e){return reply({error:String(e?.message||e)},500)}
  },
- async scheduled(controller,env,ctx){
-  ctx.waitUntil(portfolio(env).scan().catch(e=>console.error('Compact DO scan failed',e)));
- }
+ async scheduled(controller,env,ctx){ctx.waitUntil(portfolio(env).scan().catch(e=>console.error('Compact DO scan failed',e)))}
 };
