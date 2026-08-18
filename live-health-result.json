@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T15:19:28.664774+00:00",
+  "checkedAt": "2026-08-18T15:19:44.615180+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -368,7 +368,9 @@
     "sameScanReentryBlocked": true,
     "alwaysInvested": false,
     "cashMayRemain": true,
-    "legacyFullCashFailsafe": true
+    "legacyFullCashFailsafe": true,
+    "targetVenueSanity": true,
+    "unverifiedVentureOtcAutoBuyBlocked": true
   },
   "forwardScan": {
     "enabled": true,
@@ -456,7 +458,8 @@
     "earlyBreakoutDiscovery": true,
     "earlyBreakoutTarget": 12,
     "earlyBreakoutNeverForcesBuy": true,
-    "earlyBreakoutGuard": true
+    "earlyBreakoutGuard": true,
+    "targetVenueSanity": true
   },
   "entryTimingLearning": {
     "version": 3,
@@ -546,12 +549,7 @@
     "persistentLeaderCache": true,
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
-    "lastFetchBudget": {
-      "actual": 23,
-      "cacheHits": 1,
-      "blocked": 0,
-      "cap": 36
-    },
+    "lastFetchBudget": null,
     "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Zusätzlich werden bis zu 15 vorausschauende Ereignis-/Themenkandidaten aus dem Broker-Master im Minuten-Scan beobachtet; gekauft wird erst nach Live-Bestaetigung. Einstiegstiming wird nach 15/30/60 Minuten lernend bewertet. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Rebound-Radar beobachtet bis zu 10 Tagesverlierer; fallende Messer bleiben gesperrt, bis eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
@@ -574,7 +572,7 @@
     "configured": true,
     "online": true,
     "lastSeenAt": "2026-08-18T15:19:02.513Z",
-    "ageSeconds": 26,
+    "ageSeconds": 42,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-18T15:19:02.116Z",
     "resolvedLeaderCount": 14,
