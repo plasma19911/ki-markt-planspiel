@@ -21,8 +21,27 @@ export class MarketPortfolio extends BasePortfolio{
     let s=await super.status();
     reconcileLearningWithExecutedPositions(this.ctx?.storage,s?.positions||this._actualPositions());
     s.learningExecutionReconcile=getLearningExecutionReconcileStatus(this.ctx?.storage);
+    s.entryResearchPolicy={
+      enabled:true,
+      noUniversalBestClockTime:true,
+      priority:['PULLBACK_RETEST','EARLY_BREAKOUT','NORMAL_ENTRY'],
+      avoid:['PEAK_CHASE','OVEREXTENDED_MOMENTUM','FALLING_KNIFE'],
+      requireBounceAfterPullback:true,
+      newsVolumeConfirmationPreferred:true,
+      openingPriceDiscoveryNeedsExtraConfirmation:true,
+      orderPriceDiscipline:true,
+      replayAdaptive:true,
+      note:'Kein Versuch, das exakte Tief zu erraten: bevorzugt wird ein Ruecksetzer mit Stabilisierung und erneut positivem Tape. Fruehe, volumenbestaetigte Breakouts bleiben erlaubt; spaete Uebertreibung wird blockiert. Tages-Replay kalibriert diese Regeln aus den eigenen Paper-Daten.'
+    };
+    s.newsSourcePolicy={
+      primary:['Issuer Investor Relations','SEC/EDGAR fuer US-Filings','Deutsche Boerse/EQS fuer DE/EU-Meldungen','Federal Reserve','ECB','BLS'],
+      highQualityNews:['Reuters'],
+      discovery:['GDELT'],
+      priceTechnical:['Yahoo Chart/Spark'],
+      rule:'Primaerquelle/Emittent fuer harte Unternehmens- und Makrofakten bevorzugen; Aggregatoren nur zur Entdeckung, danach bestaetigen.'
+    };
     if(s.entryTimingLearning)s.entryTimingLearning={...s.entryTimingLearning,pendingOnlyForExecutedPositions:true,pendingExecutionTtlMinutes:8,proposalContaminationFixed:true};
-    if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,learningOnlyFromExecutedEntries:true};
+    if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,learningOnlyFromExecutedEntries:true,researchBackedEntryPolicy:true};
     return s;
   }
 }
