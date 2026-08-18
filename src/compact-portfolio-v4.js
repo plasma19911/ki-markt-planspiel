@@ -25,6 +25,9 @@ export class MarketPortfolio extends BasePortfolio{
 
   async _refreshExposure(force=false){
     const raw=this.bucketAdapter?.peekState?.();
+    // Ohne Makro-Daten wuerde ein leerer Exposure-Stand gespeichert und danach zehn
+    // Minuten gecacht. Deshalb erst aufbauen, sobald der Makro-Radar einmal existiert.
+    if(!force&&!raw?.macroRadar?.updatedAt)return null;
     const last=Date.parse(raw?.exposureNetwork?.updatedAt||'');
     if(!force&&Number.isFinite(last)&&Date.now()-last<EXPOSURE_COOLDOWN_MS)return null;
     if(!this.engine?.store?.update)return null;
