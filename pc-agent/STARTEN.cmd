@@ -1,6 +1,6 @@
 @echo off
 chcp 65001 >nul
-schtasks /Run /TN "KI-Markt-Agent"
+title KI-Markt-Agent starten
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "E:\KI-Markt-Agent\start-agent.ps1"
 echo.
-echo KI-Markt-Agent wurde gestartet.
 pause
