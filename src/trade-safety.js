@@ -1,9 +1,16 @@
 import {num,positionMarketValue} from './zero-accounting.js';
 
 const text=v=>String(v||'');
+const UNVERIFIED_VENTURE_OTC=/\.(?:V|CN|NE|PK|OB)$/i;
+
+export function hardTargetVenueIssue(symbol){
+  const s=String(symbol||'').toUpperCase().trim();
+  return UNVERIFIED_VENTURE_OTC.test(s)?`nicht verifizierter Venture/OTC-Primärticker ${s} für Zielbörse gettex`:null;
+}
 
 function unsafeReason(h,soldThisScan){
-  const symbol=String(h?.symbol||'').toUpperCase(),reason=text(h?.reason);
+  const symbol=String(h?.symbol||'').toUpperCase(),reason=text(h?.reason),venueIssue=hardTargetVenueIssue(symbol);
+  if(venueIssue)return venueIssue;
   if(reason.includes('stärkstes verfügbares Fallback-Signal'))return'KI-Fallback darf keine Ersatzorder eröffnen';
   if(soldThisScan.has(symbol))return'kein Verkauf und Wiederkauf desselben Titels im selben Scan';
   return null;
