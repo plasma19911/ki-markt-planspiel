@@ -55,6 +55,7 @@ jobs:
           runcheck syntax_v13 node --check src/compact-portfolio-v13.js
           runcheck syntax_v14 node --check src/compact-portfolio-v14.js
           runcheck syntax_v15 node --check src/compact-portfolio-v15.js
+          runcheck syntax_v16 node --check src/compact-portfolio-v16.js
           runcheck syntax_chart node --check public/position-chart-ui.js
           runcheck syntax_budget_ui node --check public/free-budget-ui.js
           runcheck cash_aware node scripts/smoke-best-validated-buy.mjs
@@ -64,6 +65,7 @@ jobs:
           runcheck target_venue_guard node scripts/smoke-target-venue-guard.mjs
           runcheck entry_learning node scripts/smoke-entry-timing-learning.mjs
           runcheck opportunity_cost node scripts/smoke-opportunity-cost-rotation.mjs
+          runcheck pc_wide_sweep node scripts/smoke-pc-wide-sweep.mjs
           runcheck yahoo_sanity node scripts/smoke-yahoo-null-sanity.mjs
           runcheck wrangler_dryrun npx wrangler deploy --dry-run
 
