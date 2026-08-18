@@ -11,7 +11,10 @@ export const ZERO_ETF_MASTER = [];
 export const ZERO_ETF_MASTER_COUNT = 0;
 export const ZERO_ETF_ALWAYS_COUNT = 0;
 export const ZERO_ETF_ROTATING_PER_MINUTE = 0;
-export const CORE_ETFS = [];
+// Die leere [].map-Form bleibt absichtlich erhalten, weil der historische
+// 2026-Generator diesen Block textuell liest. Inhaltlich entstehen 0 ETFs.
+export const CORE_ETFS = [
+].map(([symbol,name,theme])=>({symbol,name,theme,type:'ETF',leverage:1}));
 export const LEVERAGED_ETFS = [];
 
 export const POS_WORDS=['beat','beats','surge','surges','record','upgrade','upgraded','growth','profit','strong','approval','approved','rally','rebound','outperform','buyback','raises','raised','gain','gains'];
