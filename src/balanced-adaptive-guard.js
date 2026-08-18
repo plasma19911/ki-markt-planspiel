@@ -54,7 +54,7 @@ export function marginalExitDecision({held={},action={},storage=null,now=Date.no
  if(hardExit(held,action))return{allow:true,hard:true,reason:'harter Reversal-Exit'};
  const m5=num(held?.momentum5,held?.intraday5m),m20=num(held?.momentum20,held?.intraday20m),pnl=heldPnlPct(held),severe=(m5<=-.42&&m20<=-.50)||pnl<=-1.25;
  if(severe)return{allow:true,severe:true,reason:'deutlich bestätigter Abwärtsdruck'};
- const state=read(storage,EXIT_KEY,{rows:{}}),rows=state.rows||{},s=key(held||action),old=rows[s],fresh=old&&now-num(old.at)<8*60*1000,count=fresh?num(old.count)+1:1;
+ const state=read(storage,EXIT_KEY,{rows:{}}),rows=state.rows||{},s=key(held?.symbol?held:action),old=rows[s],fresh=old&&now-num(old.at)<8*60*1000,count=fresh?num(old.count)+1:1;
  rows[s]={at:now,count};for(const [k,v] of Object.entries(rows))if(now-num(v?.at)>15*60*1000)delete rows[k];write(storage,EXIT_KEY,{updatedAt:new Date(now).toISOString(),rows});
  return{allow:count>=2,count,hard:false,severe:false,reason:count>=2?'zweites aufeinanderfolgendes Momentum-Risikosignal':'erstes leichtes Momentum-Risikosignal – einmal bestätigen'};
 }
@@ -63,7 +63,7 @@ function concentrationFactor(candidate,held=[]){
  const theme=String(candidate?.theme||candidate?.sector||'').toUpperCase();if(!theme)return{factor:1,share:0,theme:null};
  const values=arr(held).map(h=>({theme:String(h?.theme||h?.sector||'').toUpperCase(),value:Math.max(0,num(h?.invested,h?.value))})),total=values.reduce((a,x)=>a+x.value,0);if(!(total>0))return{factor:1,share:0,theme};
  const same=values.filter(x=>x.theme===theme).reduce((a,x)=>a+x.value,0),share=same/total;if(share<.55)return{factor:1,share,theme};
- const x=metrics(candidate),exceptional=x.score>=6.2&&x.confidence>=.76;return{factor:exceptional?.90:.75,share,theme,exceptional};
+ const x=metrics(candidate),exceptional=x.score>=6.2&&x.confidence>=.76,factor=exceptional?0.90:0.75;return{factor,share,theme,exceptional};
 }
 
 function postProcess(r,input,storage){
