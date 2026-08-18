@@ -1,9 +1,10 @@
 import {evaluateCapitalMotion} from './profit-optimizer-v2.js';
+import {getReplayTimingAdjustment} from './day-replay-learning.js';
 
 // Letzte Einstiegspreis-Schicht vor der Ausfuehrung:
 // Pullback/Re-Test zuerst, frueher Breakout zweitens, normaler Einstieg drittens.
-// Bereits weit gelaufene/ueberhitzte Near-High-Kandidaten werden nicht nur deshalb
-// gekauft, weil Capital-in-Motion Cash investieren moechte.
+// Tages-Replay darf diese Prioritaet nach mehreren realen Samples nur begrenzt
+// kalibrieren. Peak-/Ueberhitzungsschutz bleibt hart.
 
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
@@ -31,15 +32,16 @@ export function evaluateEntryPriceTiming(c={},storage=null){
  const peakRisk=!pullbackConfirmed&&(hardPeak||unknownLocationRisk||(nearHigh&&(day>=2.8||rsi>=70||m20>=0.9)&&(accel<=0.03||rsi>=73||day>=4.5||m5>=0.40)));
  const overextended=!pullbackConfirmed&&(day>=8.5||m20>=3.2||rsi>=79);
  const normalEntry=base.confirmed&&!nearHigh&&!overextended&&m5>=-0.05&&m20>=-0.10;
- const buyable=base.confirmed&&!peakRisk&&!overextended&&(pullbackConfirmed||earlyBreakout||normalEntry);
  const mode=pullbackConfirmed?'PULLBACK_RETEST':earlyBreakout?'EARLY_BREAKOUT':peakRisk||overextended?'PEAK_BLOCK':normalEntry?'NORMAL':'WAIT_FOR_PULLBACK';
- let adjustedExpected=num(base.expected);if(pullbackConfirmed)adjustedExpected+=1.35;else if(earlyBreakout)adjustedExpected+=.45;else if(normalEntry)adjustedExpected+=.10;if(peakRisk)adjustedExpected-=2.25;if(overextended)adjustedExpected-=2.75;
- const reason=pullbackConfirmed?`Ruecksetzer ${draw.toFixed(2)}% vom 20m-Hoch, 1m/5m drehen wieder hoch`:earlyBreakout?`frueher Breakout: Tag ${day>=0?'+':''}${day.toFixed(2)}%, 5m +${m5.toFixed(2)}%, noch nicht ueberhitzt`:peakRisk||overextended?`Peak-Chase blockiert: Tag ${day>=0?'+':''}${day.toFixed(2)}%, RSI ${rsi.toFixed(0)}, 20m ${m20>=0?'+':''}${m20.toFixed(2)}%, Abstand 20m-Hoch ${drawKnown?draw.toFixed(2)+'%':'unbekannt'}`:`neutraler Einstieg abseits des lokalen Hochs`;
- return{...base,buyable,mode,pullbackConfirmed,earlyBreakout,normalEntry,peakRisk,hardPeak,overextended,nearHigh,drawKnown,drawdownFrom20mHighPct:drawKnown?+draw.toFixed(3):null,adjustedExpected:+adjustedExpected.toFixed(3),reason};
+ const replayBucket=mode==='PEAK_BLOCK'?'PEAK_CHASE':mode,replay=getReplayTimingAdjustment(storage,replayBucket);
+ let adjustedExpected=num(base.expected);if(pullbackConfirmed)adjustedExpected+=1.35;else if(earlyBreakout)adjustedExpected+=.45;else if(normalEntry)adjustedExpected+=.10;if(peakRisk)adjustedExpected-=2.25;if(overextended)adjustedExpected-=2.75;adjustedExpected+=num(replay?.scoreDelta);
+ const buyable=base.confirmed&&!peakRisk&&!overextended&&!replay?.block&&(pullbackConfirmed||earlyBreakout||normalEntry);
+ const baseReason=pullbackConfirmed?`Ruecksetzer ${draw.toFixed(2)}% vom 20m-Hoch, 1m/5m drehen wieder hoch`:earlyBreakout?`frueher Breakout: Tag ${day>=0?'+':''}${day.toFixed(2)}%, 5m +${m5.toFixed(2)}%, noch nicht ueberhitzt`:peakRisk||overextended?`Peak-Chase blockiert: Tag ${day>=0?'+':''}${day.toFixed(2)}%, RSI ${rsi.toFixed(0)}, 20m ${m20>=0?'+':''}${m20.toFixed(2)}%, Abstand 20m-Hoch ${drawKnown?draw.toFixed(2)+'%':'unbekannt'}`:`neutraler Einstieg abseits des lokalen Hochs`,reason=replay?.reason?`${baseReason} · ${replay.reason}`:baseReason;
+ return{...base,buyable,mode,pullbackConfirmed,earlyBreakout,normalEntry,peakRisk,hardPeak,overextended,nearHigh,drawKnown,drawdownFrom20mHighPct:drawKnown?+draw.toFixed(3):null,adjustedExpected:+adjustedExpected.toFixed(3),replayAdjustment:replay,reason};
 }
 
 function candidateCap(c,p){if(c?.reboundWatch||c?.reboundRadar)return 35;if(c?.earlyBreakoutWatch||p.earlyBreakout)return 45;if(p.nearHigh)return 50;return 100}
-function timingWeight(p){if(p.pullbackConfirmed)return 1.35;if(p.earlyBreakout)return 1.08;if(p.normalEntry)return 1;return .5}
+function timingWeight(p){const learned=num(p?.replayAdjustment?.sizeMultiplier,1);if(p.pullbackConfirmed)return 1.35*learned;if(p.earlyBreakout)return 1.08*learned;if(p.normalEntry)return learned;return .5*learned}
 
 export function buildPullbackFirstAllocations(candidates=[],storage=null,{originalBuySymbols=[],heldSymbols=[]}={}){
  const original=new Set(arr(originalBuySymbols).map(key)),held=new Set(arr(heldSymbols).map(key));
@@ -64,7 +66,7 @@ function postProcess(r,input,storage){
  const deployContext=cash>2||originalBuys.length>0||sells.length>0;if(!deployContext)return r;
  const alloc=buildPullbackFirstAllocations(candidates,storage,{originalBuySymbols:originalBuys.map(key),heldSymbols:held.map(key)});
  if(!alloc.length){
-  const keptSells=sells.filter(s=>!isRotationSell(s)),cancelled=sells.length-keptSells.length,blocked=originalBuys.map(b=>{const c=candidates.find(x=>key(x)===key(b));return c?evaluateEntryPriceTiming(c,storage):null}).filter(Boolean).filter(x=>x.peakRisk||x.overextended);
+  const keptSells=sells.filter(s=>!isRotationSell(s)),cancelled=sells.length-keptSells.length,blocked=originalBuys.map(b=>{const c=candidates.find(x=>key(x)===key(b));return c?evaluateEntryPriceTiming(c,storage):null}).filter(Boolean).filter(x=>x.peakRisk||x.overextended||x.replayAdjustment?.block);
   plan.actions=[...keptSells,...holds.filter(h=>!keptSells.some(s=>key(s)===key(h)))];
   plan.summary=`${String(plan.summary||'').slice(0,165)} · PULLBACK-FIRST: kein preislich guter Neueinstieg; ${blocked.length} Peak/zu-teuer BUY(s) blockiert${cancelled?`, ${cancelled} Rotation(en) zurueckgenommen`:''}. Lieber auf Ruecksetzer warten als oben hinterherkaufen.`;
   return{...r,response:JSON.stringify(plan)};
