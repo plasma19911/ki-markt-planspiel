@@ -13,9 +13,10 @@ on:
       - "scripts/smoke-zero-universe.mjs"
       - "scripts/smoke-zero-accounting.mjs"
       - "scripts/smoke-trade-safety.mjs"
+      - "scripts/smoke-zero-cost-sizing.mjs"
       - "scripts/refresh_universe.py"
       - "scripts/refresh_etfs.py"
-      - "scripts/calibrate_fast_signals.py"
+      - "scripts/calibrate_fast-signals.py"
       - "package.json"
       - "wrangler.jsonc"
       - ".github/workflows/validate-worker.yml"
@@ -94,6 +95,7 @@ jobs:
           node --check scripts/smoke-zero-universe.mjs
           node --check scripts/smoke-zero-accounting.mjs
           node --check scripts/smoke-trade-safety.mjs
+          node --check scripts/smoke-zero-cost-sizing.mjs
       - name: Python syntax
         run: python3 -m py_compile scripts/calibrate_fast_signals.py scripts/refresh_universe.py scripts/refresh_etfs.py
       - name: Fast decision smoke test
@@ -108,5 +110,7 @@ jobs:
         run: node scripts/smoke-zero-accounting.mjs
       - name: Trade safety smoke test
         run: node scripts/smoke-trade-safety.mjs
+      - name: ZERO 1000 EUR cost sizing smoke test
+        run: node scripts/smoke-zero-cost-sizing.mjs
       - name: Wrangler dry run
         run: npx wrangler deploy --dry-run
