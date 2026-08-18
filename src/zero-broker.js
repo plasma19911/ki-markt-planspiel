@@ -9,17 +9,17 @@ export const ZERO_BROKER={
   weekdayHours:'07:30–23:00',
   saturdayHours:'14:00–19:00 (ausgewählte Wertpapiere)',
   advertisedStocks:8500,
-  advertisedEtfs:2000,
   gettexStocksApprox:8600,
+  assetClass:'EQUITY_ONLY',
+  stocksOnly:true,
   smallOrderThresholdEur:ZERO_FEE_MODEL.smallOrderThresholdEur,
   smallOrderSurchargeEur:ZERO_FEE_MODEL.smallOrderSurchargeEur,
   fractionalOrderSurchargeEur:ZERO_FEE_MODEL.fractionalSurchargeEur,
   productListStocks:'https://mein.finanzen-zero.net/handelbare-produkte?type=A',
-  productListEtfs:'https://mein.finanzen-zero.net/handelbare-produkte?type=E-C',
   targetOnly:true,
   exactCatalogSynced:false,
-  catalogMode:'BROKER_SIZED_MASTER_POOL_PLUS_PRE_ORDER_VERIFICATION',
-  catalogNote:'Der Master-Pool wird auf die Größenordnung des aktuellen ZERO/gettex-Angebots erweitert. Die öffentliche ZERO-Produktliste ist JavaScript-dynamisch und derzeit nicht als stabile öffentliche API dokumentiert; deshalb muss die konkrete Broker-Verfügbarkeit vor jeder späteren echten Order erneut verifiziert werden.'
+  catalogMode:'BROKER_SIZED_STOCK_MASTER_POOL_PLUS_PRE_ORDER_VERIFICATION',
+  catalogNote:'Das Planspiel handelt ausschließlich Aktien. Der Aktien-Masterpool orientiert sich an der Größenordnung des ZERO/gettex-Angebots; die konkrete Broker-Verfügbarkeit muss vor jeder späteren echten Order erneut verifiziert werden.'
 };
 
 export function zeroEquityQuality(x){
@@ -30,15 +30,14 @@ export function zeroEquityQuality(x){
   return true;
 }
 
-export function zeroTradeLabel(x){
-  if(x?.type==='ETF')return 'ZERO/gettex · ETF-Masterpool';
+export function zeroTradeLabel(){
   return 'ZERO/gettex · Aktien-Masterpool';
 }
 
-export function zeroExecutionNote(orderEur=0,{fractional=false,priceEur=0,quantity=null,instrumentType='EQUITY'}={}){
+export function zeroExecutionNote(orderEur=0,{fractional=false,priceEur=0,quantity=null}={}){
   const n=Math.max(0,num(orderEur));
-  if(priceEur>0){const f=zeroOrderFee({notionalEur:n,priceEur,quantity,instrumentType,fractionalAllowed:fractional||instrumentType!=='ETF'});return`ZERO-Modell: Brokergebühr ${f.total.toFixed(2)} €${f.usesFractional?' inkl. Bruchstück-Zuschlag':''}; marktüblicher Spread/Ausführung kommt separat hinzu.`}
-  if(fractional)return 'ZERO-Modell: Bruchstückauftrag 1 €; kein zusätzlicher Mindermengenzuschlag auf den Bruchstückauftrag. Ein eventueller Ganzstückauftrag wird separat nach 500-€-Schwelle berechnet.';
-  if(n>0&&n<ZERO_BROKER.smallOrderThresholdEur)return 'ZERO-Modell: normale Ganzstückorder unter 500 € = 1 € Mindermengenzuschlag; Spread/Ausführung separat.';
-  return 'ZERO-Modell: normale Ganzstückorder ab 500 € = 0 € Brokergebühr; Spread/Ausführung separat.';
+  if(priceEur>0){const f=zeroOrderFee({notionalEur:n,priceEur,quantity,instrumentType:'EQUITY',fractionalAllowed:true});return`ZERO-Modell Aktien: Brokergebühr ${f.total.toFixed(2)} €${f.usesFractional?' inkl. Bruchstück-Zuschlag':''}; marktüblicher Spread/Ausführung kommt separat hinzu.`}
+  if(fractional)return 'ZERO-Modell Aktien: Bruchstückauftrag 1 €; ein eventueller Ganzstückauftrag wird separat nach der 500-€-Schwelle berechnet.';
+  if(n>0&&n<ZERO_BROKER.smallOrderThresholdEur)return 'ZERO-Modell Aktien: Ganzstückorder unter 500 € = 1 € Mindermengenzuschlag; Spread/Ausführung separat.';
+  return 'ZERO-Modell Aktien: Ganzstückorder ab 500 € = 0 € Brokergebühr; Spread/Ausführung separat.';
 }
