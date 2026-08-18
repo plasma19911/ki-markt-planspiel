@@ -1,11 +1,22 @@
 // Coalesce repeated dashboard status reads so the Cloudflare Free quota is not wasted.
-// All dashboard modules can keep their own timers, but only one real GET /api/status
-// is sent per active browser tab inside the TTL. Hidden tabs reuse the last response.
-const STATUS_TTL_MS=55000;
+// During gettex trading hours the UI stays minute-current; outside that window one
+// open browser tab performs at most one real status request every 10 minutes.
+const ACTIVE_STATUS_TTL_MS=55_000;
+const SLEEP_STATUS_TTL_MS=10*60*1000;
+const CLOSED_2026=new Set(['2026-01-01','2026-04-03','2026-04-06','2026-05-01','2026-12-24','2026-12-25','2026-12-31']);
 const nativeFetch=window.fetch.bind(window);
 let cachedResponse=null;
 let cachedAt=0;
 let inFlight=null;
+
+function berlinClock(){
+ try{
+  const p=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Berlin',year:'numeric',month:'2-digit',day:'2-digit',weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date()),o={};for(const x of p)o[x.type]=x.value;
+  return{ymd:`${o.year}-${o.month}-${o.day}`,weekday:o.weekday,minute:Number(o.hour)*60+Number(o.minute)};
+ }catch{return null}
+}
+function gettexUiActive(){const p=berlinClock();if(!p)return true;if(['Sat','Sun'].includes(p.weekday)||CLOSED_2026.has(p.ymd))return false;return p.minute>=7*60+25&&p.minute<23*60}
+function statusTtl(){return gettexUiActive()?ACTIVE_STATUS_TTL_MS:SLEEP_STATUS_TTL_MS}
 
 function requestInfo(input,init){
   try{
@@ -31,8 +42,8 @@ window.fetch=async function quotaAwareFetch(input,init){
     return r;
   }
 
-  const now=Date.now();
-  if(cachedResponse&&(document.hidden||now-cachedAt<STATUS_TTL_MS))return cachedResponse.clone();
+  const now=Date.now(),ttl=statusTtl();
+  if(cachedResponse&&(document.hidden||now-cachedAt<ttl))return cachedResponse.clone();
   if(inFlight){const r=await inFlight;return r.clone()}
 
   inFlight=(async()=>{
@@ -44,13 +55,10 @@ window.fetch=async function quotaAwareFetch(input,init){
 };
 
 window.addEventListener('portfolio-status-invalidate',invalidate);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)cachedAt=0});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&gettexUiActive())cachedAt=0});
 
-// UI V2 CSS is loaded here so no extra HTML wiring is needed.
 if(!document.querySelector('link[data-ui-v2]')){const l=document.createElement('link');l.rel='stylesheet';l.href='/ui-v2.css';l.dataset.uiV2='1';document.head.appendChild(l)}
 
-// Erst nach Installation des Fetch-Guards laden, damit auch diese Anzeigen den gemeinsamen
-// Statuscache nutzen und keine unnötigen Cloudflare-Reads erzeugen.
 import('./ui-v2.js').catch(e=>console.error('UI V2 failed',e));
 import('./zero-ui.js').catch(e=>console.error('ZERO target UI failed',e));
 import('./order-approval-ui.js').catch(e=>console.error('Order approval UI failed',e));
