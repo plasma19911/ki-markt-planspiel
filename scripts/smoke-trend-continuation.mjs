@@ -27,15 +27,16 @@ assert.equal(weakChecked.actions.some(x=>x.action==='BUY'),false,'Schwacher ADX 
 
 const opportunityFast={
   actions:[],
-  context:[{...baseContext,fastScore:3.5,reason:'FAST-HOLD: BUY 3.8 / SELL 0.5 · RANGE',technical:{...baseContext.technical,adx:20,vwapDistancePct:.18},multiTimeframe:{longVotes:2,shortVotes:0},regionalBenchmark:{relative20m:.24,blockBuy:false}}],
+  context:[{...baseContext,fastScore:2.8,reason:'FAST-HOLD: BUY 3.0 / SELL 0.5 · RANGE',technical:{...baseContext.technical,adx:20,vwapDistancePct:.18},multiTimeframe:{longVotes:2,shortVotes:0},regionalBenchmark:{relative20m:.24,blockBuy:false}}],
   gapContext:[{symbol:'TREND.DE',state:'NORMAL',blockBuy:false}],
   volumeConfirmation:{minRatio:1.10,ratios:{'TREND.DE':.72}}
 };
 const opportunity=applyEvidenceDiversity(opportunityFast,prompt),opBuy=opportunity.actions.find(x=>x.action==='BUY');
-assert.ok(opBuy,'Leeres 1000-EUR-Depot soll das beste solide Setup knapp unter der normalen Schwelle nicht endlos auf HOLD lassen');
+assert.ok(opBuy,'Leeres 1000-EUR-Depot soll ein solides Setup um BUY-Score 3 nicht endlos auf HOLD lassen');
 assert.match(opBuy.reason,/QUALIFIED-OPPORTUNITY/);
 assert.equal(opBuy.allocation_pct,24,'Offensives 1000-EUR-Depot nutzt eine kostenökonomische Erstposition');
 assert.equal(opportunity.evidenceDiversity.results['TREND.DE'].count,2,'Qualifizierte Chance darf mit zwei starken unabhaengigen Saeulen starten');
+assert.ok(opportunity.evidenceDiversity.qualifiedOpportunityBuyFloor<=3.0,'Ersteinstiegsschwelle muss fuer leeres Depot knapp unter 3 liegen');
 
 const costChecked=applyExecutionCostDiscipline(opportunity,prompt),costBuy=costChecked.actions.find(x=>x.action==='BUY');
 assert.ok(costBuy,'Qualifizierter 24%-Ersteinstieg muss die ZERO-Kostenstufe überleben');
