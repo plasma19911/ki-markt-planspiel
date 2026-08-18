@@ -20,7 +20,7 @@ function rewriteStockOnlyPlan(text,state){
   const current=new Map((state?.candidates||[]).filter(isStock).map(x=>[String(x.symbol||'').toUpperCase(),x]));
   const candidates=p.candidates.filter(isStock).map(x=>{
     const live=current.get(String(x.symbol||'').toUpperCase()),price=num(live?.price||x.price,0);
-    return{...x,type:STOCK_TYPE,...(price>0?{price:+price.toFixed(6)}:{})};
+    return{...x,type:STOCK_TYPE,...(price>0?{price:+price.toFixed(6)}:{}),fresh:live?Boolean(num(live.fresh)):x.fresh};
   });
   const held=p.held.filter(x=>String(x?.type||STOCK_TYPE).toUpperCase()===STOCK_TYPE);
   let out=text.slice(0,p.a+p.marker.length)+JSON.stringify(candidates)+p.heldMarker+JSON.stringify(held);
@@ -29,7 +29,7 @@ function rewriteStockOnlyPlan(text,state){
     .replace(/Aktien \+ normale ETFs/gi,'ausschließlich Aktien')
     .replace(/Aktien sowie normale europaeische UCITS-ETF-Kandidaten/gi,'Aktien')
     .replace(/Erlaubt sind ausschließlich Aktien und normale ETFs\./gi,'Erlaubt sind ausschließlich Aktien. ETFs sind in diesem Planspiel ausgeschlossen.');
-  return `${out} AKTIEN-ONLY: BUY ist ausschließlich für Kandidaten type=EQUITY erlaubt. ETF und LEVERAGED_ETF niemals kaufen.`;
+  return `${out} AKTIEN-ONLY: BUY ist ausschließlich für Kandidaten type=EQUITY erlaubt. ETF und LEVERAGED_ETF niemals kaufen. FULL-CASH-POLICY: Solange handelbare frische Aktien vorhanden sind, soll strategisch kein Cash zurückgehalten werden; finale BUY-Anteile sollen zusammen 100% des verfügbaren Cashs verwenden.`;
 }
 
 function allowedStockSymbolsFromInput(input){
@@ -37,14 +37,18 @@ function allowedStockSymbolsFromInput(input){
   return new Set();
 }
 
-function filterPlanResponseToStocks(r,allowed){
-  const raw=responseText(r),a=raw.indexOf('{'),b=raw.lastIndexOf('}');if(a<0||b<=a)return r;
-  try{
-    const j=JSON.parse(raw.slice(a,b+1));if(!Array.isArray(j.actions))return r;
-    j.actions=j.actions.filter(x=>String(x?.action||'').toUpperCase()!=='BUY'||allowed.has(String(x?.symbol||'').toUpperCase()));
-    return{...r,response:JSON.stringify(j)};
-  }catch{return r}
+function parsePlan(r){
+  const raw=responseText(r),a=raw.indexOf('{'),b=raw.lastIndexOf('}');if(a<0||b<=a)return null;
+  try{const j=JSON.parse(raw.slice(a,b+1));return Array.isArray(j.actions)?j:null}catch{return null}
 }
+
+function filterPlanResponseToStocks(r,allowed){
+  const j=parsePlan(r);if(!j)return null;
+  j.actions=j.actions.filter(x=>String(x?.action||'').toUpperCase()!=='BUY'||allowed.has(String(x?.symbol||'').toUpperCase()));
+  return{...r,response:JSON.stringify(j)};
+}
+
+function deterministicAiOutagePlan(state,error=''){const cash=num(state?.config?.cash,0);if(!(cash>0.01))return{response:JSON.stringify({summary:`Workers-AI nicht verfügbar; kein freies Cash. ${String(error||'').slice(0,100)}`,actions:[]})};const held=new Set((state?.positions||[]).map(x=>String(x.symbol||'').toUpperCase())),rows=(state?.candidates||[]).filter(isStock).filter(x=>num(x.fresh)>0&&num(x.price)>0&&!held.has(String(x.symbol||'').toUpperCase())).filter(x=>String(x.momentum_sell_signal||'NONE').toUpperCase()!=='STRONG'&&String(x.event_risk||'NONE').toUpperCase()!=='HIGH').sort((a,b)=>(num(b.score)+num(b.confidence)*.7+num(b.news_score)*.12)-(num(a.score)+num(a.confidence)*.7+num(a.news_score)*.12));const best=rows[0];if(!best)return{response:JSON.stringify({summary:`Workers-AI nicht verfügbar; aktuell kein frischer ausführbarer Aktienkandidat. ${String(error||'').slice(0,100)}`,actions:[]})};return{response:JSON.stringify({summary:`AI-AUSFALL-FULL-CASH: deterministischer Aktien-Fallback auf ${best.symbol}; strategisch 100% des verfügbaren Cashs eingesetzt.`,actions:[{symbol:String(best.symbol).toUpperCase(),action:'BUY',confidence:Math.max(.5,Math.min(.72,num(best.confidence,.5))),allocation_pct:100,reason:`AI-AUSFALL-FULL-CASH: bester frischer Aktienkandidat aus dem aktuellen Markt-Deep-Scan · Score ${num(best.score).toFixed(2)} · keine starke Momentum-/Event-Sperre`}]})}}
 
 class StocksOnlyAiGuard{
   constructor(base,adapter){this.base=base;this.adapter=adapter}
@@ -53,8 +57,11 @@ class StocksOnlyAiGuard{
     if(!isPlan)return this.base.run(model,input);
     const state=this.adapter?.peekState?.();
     const messages=(input.messages||[]).map(m=>String(m?.content||'').includes('Kandidaten=')?{...m,content:rewriteStockOnlyPlan(String(m.content||''),state)}:m);
-    const next={...input,messages},allowed=allowedStockSymbolsFromInput(next),r=await this.base.run(model,next);
-    return filterPlanResponseToStocks(r,allowed);
+    const next={...input,messages},allowed=allowedStockSymbolsFromInput(next);
+    try{
+      const r=await this.base.run(model,next),filtered=filterPlanResponseToStocks(r,allowed);
+      return filtered||deterministicAiOutagePlan(state,'ungültige KI-Planantwort');
+    }catch(e){return deterministicAiOutagePlan(state,String(e?.message||e))}
   }
 }
 
@@ -118,8 +125,8 @@ export class MarketPortfolio extends BasePortfolio{
     if(s.risk)s.risk={...s.risk,equity:a.equity,availableCash:a.cash};
     if(s.snapshots?.length){const x=s.snapshots.at(-1);x.cash=a.cash;x.equity=a.equity}
     if(s.history?.length){const x=s.history[0];x.cash_after=a.cash;x.equity=a.equity;x.total_pnl=a.pnl}
-    s.executionModel={...(s.executionModel||{}),feeFixed:0,feePercent:0,brokerFeeModel:ZERO_FEE_MODEL.version,smallOrderThresholdEur:ZERO_FEE_MODEL.smallOrderThresholdEur,smallOrderSurchargeEur:ZERO_FEE_MODEL.smallOrderSurchargeEur,fractionalSurchargeEur:ZERO_FEE_MODEL.fractionalSurchargeEur,fractionalMinEur:ZERO_FEE_MODEL.fractionalMinEur,spreadIsSeparate:true,stocksOnly:true,unsafeFallbackBuysBlocked:true,sameScanReentryBlocked:true};
-    if(s.brokerTarget){const {fullEtfMasterPool,etfCoreEveryMinute,etfRotatingPerMinute,estimatedEtfRotationMinutes,...b}=s.brokerTarget;s.brokerTarget={...b,assetClass:'EQUITY_ONLY',stocksOnly:true,feeModel:ZERO_FEE_MODEL,feesMatchedToZeroRules:true,spreadStillMarketDependent:true,brokerCatalogVerificationRequired:true,exactBrokerCatalog:false}}
+    s.executionModel={...(s.executionModel||{}),feeFixed:0,feePercent:0,brokerFeeModel:ZERO_FEE_MODEL.version,smallOrderThresholdEur:ZERO_FEE_MODEL.smallOrderThresholdEur,smallOrderSurchargeEur:ZERO_FEE_MODEL.smallOrderSurchargeEur,fractionalSurchargeEur:ZERO_FEE_MODEL.fractionalSurchargeEur,fractionalMinEur:ZERO_FEE_MODEL.fractionalMinEur,spreadIsSeparate:true,stocksOnly:true,fullCashPolicy:true,strategicCashReservePct:0,unsafeFallbackBuysBlocked:true,sameScanReentryBlocked:true};
+    if(s.brokerTarget){const {fullEtfMasterPool,etfCoreEveryMinute,etfRotatingPerMinute,estimatedEtfRotationMinutes,...b}=s.brokerTarget;s.brokerTarget={...b,assetClass:'EQUITY_ONLY',stocksOnly:true,fullCashPolicy:true,strategicCashReservePct:0,feeModel:ZERO_FEE_MODEL,feesMatchedToZeroRules:true,spreadStillMarketDependent:true,brokerCatalogVerificationRequired:true,exactBrokerCatalog:false}}
     return s;
   }
 }
