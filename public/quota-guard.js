@@ -19,57 +19,30 @@ function gettexUiActive(){const p=berlinClock();if(!p)return true;if(['Sat','Sun
 function statusTtl(){return gettexUiActive()?ACTIVE_STATUS_TTL_MS:SLEEP_STATUS_TTL_MS}
 
 function requestInfo(input,init){
-  try{
-    const method=String(init?.method||(input instanceof Request?input.method:'GET')||'GET').toUpperCase();
-    const raw=typeof input==='string'||input instanceof URL?String(input):input?.url;
-    if(!raw)return null;
-    const u=new URL(raw,location.href);
-    return{method,u};
-  }catch{return null}
+ try{
+  const method=String(init?.method||(input instanceof Request?input.method:'GET')||'GET').toUpperCase();
+  const raw=typeof input==='string'||input instanceof URL?String(input):input?.url;if(!raw)return null;
+  return{method,u:new URL(raw,location.href)};
+ }catch{return null}
 }
 function invalidate(){cachedAt=0;cachedResponse=null}
 
 window.fetch=async function quotaAwareFetch(input,init){
-  const info=requestInfo(input,init);
-  if(!info||info.u.origin!==location.origin)return nativeFetch(input,init);
-
-  const isStatus=info.method==='GET'&&info.u.pathname==='/api/status';
-  const isMutation=info.method!=='GET'&&['/api/start','/api/stop','/api/reset','/api/scan','/api/migrate-from-old-sql'].includes(info.u.pathname);
-
-  if(!isStatus){
-    const r=await nativeFetch(input,init);
-    if(isMutation&&r.ok)invalidate();
-    return r;
-  }
-
-  const now=Date.now(),ttl=statusTtl();
-  if(cachedResponse&&(document.hidden||now-cachedAt<ttl))return cachedResponse.clone();
-  if(inFlight){const r=await inFlight;return r.clone()}
-
-  inFlight=(async()=>{
-    const r=await nativeFetch(input,init);
-    if(r.ok){cachedResponse=r.clone();cachedAt=Date.now()}
-    return r;
-  })();
-  try{return(await inFlight).clone()}finally{inFlight=null}
+ const info=requestInfo(input,init);if(!info||info.u.origin!==location.origin)return nativeFetch(input,init);
+ const isStatus=info.method==='GET'&&info.u.pathname==='/api/status';
+ const isMutation=info.method!=='GET'&&['/api/start','/api/stop','/api/reset','/api/scan','/api/migrate-from-old-sql'].includes(info.u.pathname);
+ if(!isStatus){const r=await nativeFetch(input,init);if(isMutation&&r.ok)invalidate();return r}
+ const now=Date.now(),ttl=statusTtl();
+ if(cachedResponse&&(document.hidden||now-cachedAt<ttl))return cachedResponse.clone();
+ if(inFlight){const r=await inFlight;return r.clone()}
+ inFlight=(async()=>{const r=await nativeFetch(input,init);if(r.ok){cachedResponse=r.clone();cachedAt=Date.now()}return r})();
+ try{return(await inFlight).clone()}finally{inFlight=null}
 };
 
 window.addEventListener('portfolio-status-invalidate',invalidate);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&gettexUiActive())cachedAt=0});
 
-// Alte 24/7-Texte sind nach Aktivierung des Free-Schlafmodus nicht mehr korrekt.
-queueMicrotask(()=>{
- const eyebrow=document.querySelector('header .eyebrow');if(eyebrow)eyebrow.textContent='GETTEX PAPER TRADING · 07:25 PRE-OPEN · 07:30–23:00';
- const newsTitle=document.querySelector('#news h2');if(newsTitle)newsTitle.textContent='News-Tendenz · nur Handelsfenster';
-});
-
-if(!document.querySelector('link[data-ui-v2]')){const l=document.createElement('link');l.rel='stylesheet';l.href='/ui-v2.css';l.dataset.uiV2='1';document.head.appendChild(l)}
-if(!document.querySelector('link[data-ui-hotfix]')){const l=document.createElement('link');l.rel='stylesheet';l.href='/ui-hotfix.css?v=20260818-2';l.dataset.uiHotfix='1';document.head.appendChild(l)}
-
-import('./ui-v2.js').catch(e=>console.error('UI V2 failed',e));
-import('./zero-ui.js').catch(e=>console.error('ZERO target UI failed',e));
-import('./order-approval-ui.js').catch(e=>console.error('Order approval UI failed',e));
-import('./accounting-ui.js').catch(e=>console.error('Accounting checksum UI failed',e));
-import('./future-watch-ui.js').catch(e=>console.error('Future watch UI failed',e));
-import('./free-budget-ui.js').catch(e=>console.error('Free budget UI failed',e));
-import('./position-chart-ui.js').catch(e=>console.error('Position trade chart UI failed',e));
+// WICHTIG: Dieser Guard ist ab jetzt nur noch ein Request-/Quota-Guard.
+// Alte UI-V2-, Hotfix-, Trade-Chart- und Zusatzpanel-Module werden absichtlich
+// NICHT mehr dynamisch geladen. Sie hatten mehrere konkurrierende Grid-/Chart-
+// Regeln und haben die neue kompakte Oberfläche nach dem Laden wieder zerstört.
