@@ -54,6 +54,7 @@ jobs:
           node --check src/compact-portfolio-v5.js
           node --check src/compact-portfolio-v6.js
           node --check src/compact-portfolio-v7.js
+          node --check src/zero-accounting.js
           node --check src/order-approval.js
           node --check src/access-auth.js
           node --check src/zero-fee-model.js
