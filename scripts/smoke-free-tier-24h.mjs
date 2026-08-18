@@ -10,8 +10,8 @@ assert.match(wrangler,/"crons"\s*:\s*\["\*\/5 \* \* \* \*"\]/,'Cron muss exakt a
 assert.match(wrangler,/"run_worker_first"\s*:\s*\["\/api\/\*",\s*"\/app\.js"\]/,'app.js muss durch den Free-UI-Throttle laufen');
 assert.match(wrangler,/"head_sampling_rate"\s*:\s*0\.1/,'Observability-Sampling muss fuer Free reduziert sein');
 assert.match(index,/compact-portfolio-v8\.js/,'Produktionsentry muss V8-Free-Guard nutzen');
-assert.match(index,/setInterval\\\(load,5000\\\).*setInterval\(load,60000\)/s,'UI-Transform muss 5s auf 60s drosseln');
-assert.match(index,/includeEtfs:true.*includeEtfs:false/s,'UI-Transform muss ETFs clientseitig deaktivieren');
+assert.ok(index.includes(".replace(/setInterval\\(load,5000\\)/g,'setInterval(load,60000)')"),'UI-Transform muss 5s auf 60s drosseln');
+assert.ok(index.includes(".replace(/includeEtfs:true/g,'includeEtfs:false')"),'UI-Transform muss ETFs clientseitig deaktivieren');
 assert.match(v8,/FREE_SCAN_INTERVAL_MS=5\*60\*1000/,'Serverseitiger Scan-Cooldown muss 5 Minuten sein');
 assert.match(v8,/maxScheduledScansPerDay:288/,'Status muss maximal 288 geplante Scans pro Tag melden');
 assert.match(v8,/free-tier-5m-cooldown/,'Manuelle Zusatzscans muessen innerhalb des Intervalls blockiert werden');
