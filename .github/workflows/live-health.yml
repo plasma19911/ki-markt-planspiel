@@ -49,7 +49,7 @@ jobs:
           def cand(x): return {k:x.get(k) for k in ['symbol','name','score','liveScore','confidence','liveConfidence','day_change','news_score','event_risk','fastScore','buyScore','sellScore','earlyBreakoutWatch','earlyBreakoutRank','pcWideSweep','pcWideScore','pro','contra'] if k in x}
           def hist(x): return {k:x.get(k) for k in ['ts','action','symbol','amount','fee','trade_pnl','reason','score'] if k in x}
           def log(x): return {k:x.get(k) for k in ['ts','kind','title','symbol','message','confidence'] if k in x}
-          execution=s.get('executionModel') or {}; profit=s.get('profitOptimizer') or {}; forward=s.get('forwardScan') or {}; rebound=s.get('reboundScan') or {}; breakout=s.get('earlyBreakoutScan') or {}; wide=s.get('pcWideSweep') or {}; learning=s.get('entryTimingLearning') or {}; venue=s.get('targetVenueSanity') or {}
+          execution=s.get('executionModel') or {}; profit=s.get('profitOptimizer') or {}; forward=s.get('forwardScan') or {}; rebound=s.get('reboundScan') or {}; breakout=s.get('earlyBreakoutScan') or {}; wide=s.get('pcWideSweep') or {}; second=s.get('secondChanceWatch') or {}; learning=s.get('entryTimingLearning') or {}; venue=s.get('targetVenueSanity') or {}
           checks={
             'homepage': code('/tmp/home-code.txt')=='200' and 'KI Markt-Planspiel' in home,
             'appJs': code('/tmp/app-code.txt')=='200' and 'async function load' in app,
@@ -57,6 +57,8 @@ jobs:
             'agentEndpoint': code('/tmp/agent-code.txt')=='200',
             'pcSecretConfigured': a.get('configured') is True,
             'profitOptimizer': profit.get('enabled') is True,
+            'opportunityCapture': profit.get('secondChanceCapture') is True and profit.get('deepFinalists')==4 and profit.get('strongCandidateRetentionMinutes')==12 and profit.get('secondChanceRecheckPerScan')==2,
+            'secondChanceWatch': second.get('enabled') is True and second.get('target')==8 and second.get('retentionMinutes')==12 and second.get('recheckPerScan')==2 and second.get('requiresFreshOneMinuteRecheck') is True and second.get('forcedBuy') is False,
             'forwardScanner': forward.get('enabled') is True,
             'reboundScanner': rebound.get('enabled') is True and rebound.get('target')==10,
             'fallingKnifeProtection': rebound.get('fallingKnifeBuysBlocked') is True,
@@ -77,7 +79,7 @@ jobs:
             'running':c.get('running'),'scanCount':c.get('scan_count'),'lastScan':c.get('last_scan'),'lastError':c.get('last_error'),'aiLastSummary':c.get('ai_last_summary'),
             'cash':c.get('cash'),'equity':s.get('equity'),'pnl':s.get('pnl'),'universeCount':c.get('universe_count'),'positions':len(s.get('positions') or []),'positionRows':(s.get('positions') or [])[:8],
             'candidates':len(s.get('candidates') or []),'topCandidates':[cand(x) for x in (s.get('candidates') or [])[:8]],'recentHistory':[hist(x) for x in (s.get('history') or [])[:12]],'recentAiLog':[log(x) for x in (s.get('aiLog') or [])[:12]],
-            'sourceHealth':(s.get('sourceHealth') or [])[:20],'risk':s.get('risk'),'executionModel':execution,'forwardScan':forward,'reboundScan':rebound,'earlyBreakoutScan':breakout,'pcWideSweep':wide,'targetVenueSanity':venue,'profitOptimizer':profit,'entryTimingLearning':learning,
+            'sourceHealth':(s.get('sourceHealth') or [])[:20],'risk':s.get('risk'),'executionModel':execution,'forwardScan':forward,'reboundScan':rebound,'earlyBreakoutScan':breakout,'pcWideSweep':wide,'secondChanceWatch':second,'targetVenueSanity':venue,'profitOptimizer':profit,'entryTimingLearning':learning,
             'futureWatch':{'candidateCount':(s.get('futureWatch') or {}).get('candidateCount'),'monitoredUniverseCount':(s.get('futureWatch') or {}).get('monitoredUniverseCount'),'activeThemes':(s.get('futureWatch') or {}).get('activeThemes'),'scheduledEvents':(s.get('futureWatch') or {}).get('scheduledEvents')},
             'freeTierBudget':s.get('freeTierBudget'),
             'pcAgent':{'configured':a.get('configured'),'online':a.get('online'),'lastSeenAt':a.get('lastSeenAt'),'ageSeconds':a.get('ageSeconds'),'prefetchFresh':a.get('prefetchFresh'),'prefetchAt':a.get('prefetchAt'),'resolvedLeaderCount':a.get('resolvedLeaderCount'),'leaderHealthy':a.get('leaderHealthy'),'futureCandidates':a.get('futureCandidates'),'reboundCandidates':a.get('reboundCandidates'),'earlyBreakoutCandidates':a.get('earlyBreakoutCandidates'),'wideSweepCandidates':wide.get('candidateCount'),'wideSweepFresh':wide.get('fresh'),'wideSweepMasterCount':wide.get('masterCount'),'wideSweepScannedCount':wide.get('scannedCount'),'metrics':a.get('metrics')}
