@@ -11,7 +11,7 @@ const SOURCE_LIMIT=35;
 // Cloudflare Free erlaubt 50 externe Subrequests je Worker-Aufruf. Wir stoppen reale
 // fetch()-Aufrufe bewusst frueher, damit Redirects und spaetere optionale Layer Reserve haben.
 const EXTERNAL_FETCH_SOFT_CAP=36;
-const HEADERS={'accept':'text/html,application/xhtml+xml','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/8.2; +https://github.com/plasma19911/ki-markt-planspiel)'};
+const HEADERS={'accept':'text/html,application/xhtml+xml','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/8.3; +https://github.com/plasma19911/ki-markt-planspiel)'};
 
 const LEADER_SOURCES=[
   {name:'TradingView DE Most Active',kind:'tv-de',weight:5.0,url:'https://www.tradingview.com/markets/stocks-germany/market-movers-active/'},
@@ -66,12 +66,17 @@ class FreeTierUniverseAssets{
     if(!r.ok)throw new Error(`FREE-Universum HTTP ${r.status}`);
     const data=await r.json();this.cache=data&&typeof data==='object'?data:{equities:[]};this.cacheAt=Date.now();return this.cache;
   }
+  _storedLeaderRow(){try{return this.kv?.get(LEADER_CACHE_KV_KEY)||null}catch{return null}}
   _persistentLeaders(){
     try{
-      const row=this.kv?.get(LEADER_CACHE_KV_KEY),at=Number(row?.at||0),leaders=Array.isArray(row?.leaders)?row.leaders:[];
+      const row=this._storedLeaderRow(),at=Number(row?.at||0),leaders=Array.isArray(row?.leaders)?row.leaders:[];
       if(!at||Date.now()-at>=LEADER_CACHE_MS||!leaders.length)return null;
       this.leaderCache=leaders.slice(0,LEADER_TARGET);this.leaderCacheAt=at;this.lastLeaderMeta=row?.meta||null;return this.leaderCache;
     }catch{return null}
+  }
+  _hydrateStoredMeta(){
+    if(this.lastLeaderMeta)return;
+    try{const row=this._storedLeaderRow();if(row?.meta)this.lastLeaderMeta=row.meta;if(Array.isArray(row?.leaders)&&row.leaders.length&&!this.leaderCache){this.leaderCache=row.leaders.slice(0,LEADER_TARGET);this.leaderCacheAt=Number(row?.at||0)}}catch{}
   }
   _savePersistentLeaders(leaders){try{this.kv?.put(LEADER_CACHE_KV_KEY,{at:this.leaderCacheAt,leaders:leaders.slice(0,LEADER_TARGET),meta:this.lastLeaderMeta})}catch{}}
   async _externalLeaders(rows){
@@ -101,6 +106,10 @@ class FreeTierUniverseAssets{
     this.lastLeaderMeta={updatedAt:new Date().toISOString(),target:LEADER_TARGET,externalResolved:externalCount,externalHealthy:externalCount>=MIN_EXTERNAL_LEADERS,sourceStats,selected:leaders.length,mode:externalCount>=MIN_EXTERNAL_LEADERS?'EXTERNAL_TOP_25':'EXTERNAL_PLUS_MASTER_FALLBACK'};
     this.leaderCache=leaders;this.leaderCacheAt=Date.now();this._savePersistentLeaders(leaders);return leaders;
   }
+  async refreshExternalLeaders(){
+    const data=await this._load(),rows=Array.isArray(data?.equities)?data.equities.filter(x=>x?.symbol):[],supported=rows.filter(x=>!isPenceListing(x));
+    this.leaderCache=null;this.leaderCacheAt=0;return this._externalLeaders(supported);
+  }
   _heldRows(rows){try{const state=this.heldGetter?.(),held=new Set((state?.positions||[]).map(p=>key(p?.symbol)));return rows.filter(x=>held.has(key(x.symbol)))}catch{return[]}}
   async fetch(request,init){
     let u;try{u=new URL(typeof request==='string'?request:request.url)}catch{return this.base.fetch(request,init)}
@@ -110,7 +119,9 @@ class FreeTierUniverseAssets{
     return Response.json({...data,equities,full_liquid_equity_count:rawAll.length,scanner_slice_equity_count:equities.length,external_leader_target:LEADER_TARGET,external_leader_count:leaders.length,held_symbols_added:Math.max(0,equities.length-leaders.length),scan_interval_minutes:1,leader_refresh_minutes:5,persistent_leader_cache:true,scanner_mode:this.lastLeaderMeta?.mode||'EXTERNAL_TOP_25'},{headers:{'cache-control':'no-store'}});
   }
   async info(){
-    try{const data=await this._load(),rows=Array.isArray(data?.equities)?data.equities:[],supported=rows.filter(x=>!isPenceListing(x));if(!this.lastLeaderMeta)await this._externalLeaders(supported);return{fullLiquidEquityUniverse:rows.length,externalLeaderTarget:LEADER_TARGET,externalLeaderSelected:this.lastLeaderMeta?.selected||0,externalLeaderResolved:this.lastLeaderMeta?.externalResolved||0,externalLeaderHealthy:Boolean(this.lastLeaderMeta?.externalHealthy),externalLeaderSources:this.lastLeaderMeta?.sourceStats||[],externalLeaderUpdatedAt:this.lastLeaderMeta?.updatedAt||null,scanIntervalMinutes:1,leaderRefreshMinutes:5,persistentLeaderCache:true,universeGeneratedAt:data?.generated_at||null,exactBrokerCatalog:Boolean(data?.exact_broker_catalog),penceListingsExcluded:rows.length-supported.length,scannerMode:this.lastLeaderMeta?.mode||'EXTERNAL_TOP_25'}
+    // WICHTIG: Status darf niemals externe Ranglisten nachladen. Er liest nur den
+    // statischen Master + bereits persistierte Leader-Metadaten aus dem Durable Object.
+    try{const data=await this._load(),rows=Array.isArray(data?.equities)?data.equities:[],supported=rows.filter(x=>!isPenceListing(x));this._hydrateStoredMeta();const meta=this.lastLeaderMeta||{},selected=Number(meta.selected||this.leaderCache?.length||0);return{fullLiquidEquityUniverse:rows.length,externalLeaderTarget:LEADER_TARGET,externalLeaderSelected:selected,externalLeaderResolved:Number(meta.externalResolved||0),externalLeaderHealthy:Boolean(meta.externalHealthy),externalLeaderSources:meta.sourceStats||[],externalLeaderUpdatedAt:meta.updatedAt||null,scanIntervalMinutes:1,leaderRefreshMinutes:5,persistentLeaderCache:true,statusNetworkFetches:0,universeGeneratedAt:data?.generated_at||null,exactBrokerCatalog:Boolean(data?.exact_broker_catalog),penceListingsExcluded:rows.length-supported.length,scannerMode:meta.mode||'EXTERNAL_TOP_25_PENDING'}
     }catch{return null}
   }
 }
@@ -146,7 +157,7 @@ export class MarketPortfolio extends BasePortfolio{
   async status(){
     const now=Date.now();if(this.__freeStatusCache&&now-this.__freeStatusCacheAt<STATUS_CACHE_MS)return clone(this.__freeStatusCache);
     const s=await super.status(),last=Date.parse(s?.config?.last_scan||''),next=Number.isFinite(last)?last+FREE_SCAN_INTERVAL_MS:null,coverage=s?.brokerTarget||{};
-    s.freeTierBudget={enabled:true,cloudflarePlan:'FREE',scanIntervalMinutes:1,maxScheduledScansPerDay:1440,browserStatusRefreshSeconds:60,extraScansWithinIntervalBlocked:true,nextScanAt:next?new Date(next).toISOString():null,externalTopPoolSize:Number(coverage.externalLeaderSelected||0)||LEADER_TARGET,externalTopPoolHealthy:Boolean(coverage.externalLeaderHealthy),externalLeaderRefreshMinutes:5,persistentLeaderCache:true,externalFetchSoftCap:EXTERNAL_FETCH_SOFT_CAP,lastFetchBudget:this.__lastFetchBudget,note:'24h-Free-Profil: Top 25 jede Minute billig neu bewerten; externe Leaderlisten alle 5 Minuten persistent gecacht; teure Deep-Checks nur fuer Finalisten; gehaltene Aktien bleiben zusaetzlich im Monitoring.'};
+    s.freeTierBudget={enabled:true,cloudflarePlan:'FREE',scanIntervalMinutes:1,maxScheduledScansPerDay:1440,browserStatusRefreshSeconds:60,extraScansWithinIntervalBlocked:true,nextScanAt:next?new Date(next).toISOString():null,externalTopPoolSize:Number(coverage.externalLeaderSelected||0)||LEADER_TARGET,externalTopPoolHealthy:Boolean(coverage.externalLeaderHealthy),externalLeaderRefreshMinutes:5,persistentLeaderCache:true,statusNetworkFetches:Number(coverage.statusNetworkFetches||0),externalFetchSoftCap:EXTERNAL_FETCH_SOFT_CAP,lastFetchBudget:this.__lastFetchBudget,note:'Free-Profil: Top 25 jede Minute waehrend aktiver Session; Leaderlisten 5 Minuten persistent gecacht; Status liest keine externen Ranglisten.'};
     this.__freeStatusCache=clone(s);this.__freeStatusCacheAt=now;return s;
   }
 }
