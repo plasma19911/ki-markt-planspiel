@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T15:15:57.733325+00:00",
+  "checkedAt": "2026-08-18T15:16:34.547566+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -18,6 +18,8 @@
     "forwardScanner": true,
     "reboundScanner": true,
     "fallingKnifeProtection": true,
+    "earlyBreakoutScanner": true,
+    "earlyBreakoutGuard": true,
     "entryTimingLearning": true,
     "cashMayRemain": true,
     "legacyFullCashFailsafe": true,
@@ -27,53 +29,41 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 121,
-  "lastScan": "2026-08-18T15:13:07.303Z",
+  "scanCount": 122,
+  "lastScan": "2026-08-18T15:16:04.049Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 1 SELL / 0 BUY aus 3 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 2 aktive Gap-Lagen aus 3/12 möglichen Checks. Aktive Depotentscheidung: LMT BUY 2 · REBOUND-RADAR: 10 Verlierer beobachtet; 0 BUY validiert, 0 fallende/ungeklärte Rebounds blockiert; kein Zwangskauf.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 1 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 1 aktive Gap-Lagen aus 1/12 möglichen Checks. Beste HOLDs: TRGP: BUY 3.7 / SELL 4 · REBOUND-RADA · EARLY-BREAKOUT: 12 entdeckt, 0 BUY validiert, 0 spaete/unbestaetigte BUYs blockiert; kein Zwangskauf.",
   "cash": 989.7426404533917,
   "equity": 989.7426404533917,
   "pnl": -10.257359546608313,
-  "universeCount": 173,
+  "universeCount": 182,
   "positions": 0,
   "positionRows": [],
-  "candidates": 3,
+  "candidates": 1,
   "topCandidates": [
     {
-      "symbol": "LMT",
-      "name": "Lockheed Martin",
-      "score": 3.9099642857142856,
-      "confidence": 0.765,
-      "day_change": 2.526356693902221,
-      "news_score": 0.010219780219780223,
+      "symbol": "TRGP",
+      "name": "Targa Resources Corp.",
+      "score": -1.2172616279069766,
+      "confidence": 0.5367261627906976,
+      "day_change": 7.030298260893764,
+      "news_score": 0.18742397137745978,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 60 konstruktiv",
-      "contra": ""
-    },
-    {
-      "symbol": "NOC",
-      "name": "Northrop Grumman",
-      "score": 2.65,
-      "confidence": 0.545,
-      "day_change": 3.13486710049653,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 51 konstruktiv",
-      "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
-    },
-    {
-      "symbol": "BIG.V",
-      "name": "Hercules Metals Corp.",
-      "score": 0.2999999999999998,
-      "confidence": 0.31,
-      "day_change": -3.956831787987569,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 58 konstruktiv · 20m +1.14%",
-      "contra": "5m -0.37% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "pro": "EMA9 über EMA21 · RSI 54 konstruktiv",
+      "contra": "Kurs unter EMA21 · 5m -0.27% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
+    {
+      "ts": "2026-08-18T15:16:04.049Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal TRGP: Score -1.22, Konfidenz 54%.",
+      "score": null
+    },
     {
       "ts": "2026-08-18T15:13:07.303Z",
       "action": "VERKAUF",
@@ -271,7 +261,7 @@
       "fail_count": 1,
       "last_error": "Error: HTTP 400",
       "latency_ms": 102,
-      "updated_at": "2026-08-18T15:13:06.330Z"
+      "updated_at": "2026-08-18T15:16:03.655Z"
     },
     {
       "source": "Yahoo FX",
@@ -279,17 +269,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 110,
-      "updated_at": "2026-08-18T15:13:06.330Z"
+      "latency_ms": 7,
+      "updated_at": "2026-08-18T15:16:03.655Z"
     },
     {
       "source": "Yahoo 1m Chart",
-      "status": "OK",
-      "ok_count": 3,
-      "fail_count": 0,
+      "status": "DEGRADED",
+      "ok_count": 1,
+      "fail_count": 1,
       "last_error": "",
-      "latency_ms": 112,
-      "updated_at": "2026-08-18T15:13:06.330Z"
+      "latency_ms": 271,
+      "updated_at": "2026-08-18T15:16:03.655Z"
     },
     {
       "source": "Yahoo Events",
@@ -297,17 +287,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 102,
-      "updated_at": "2026-08-18T15:13:06.330Z"
+      "latency_ms": 107,
+      "updated_at": "2026-08-18T15:16:03.655Z"
     },
     {
       "source": "Yahoo News",
-      "status": "DEGRADED",
-      "ok_count": 2,
-      "fail_count": 3,
-      "last_error": "Error: HTTP 500",
-      "latency_ms": 1143,
-      "updated_at": "2026-08-18T15:13:06.330Z"
+      "status": "OK",
+      "ok_count": 3,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 920,
+      "updated_at": "2026-08-18T15:16:03.655Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -315,8 +305,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 251,
-      "updated_at": "2026-08-18T15:13:06.330Z"
+      "latency_ms": 249,
+      "updated_at": "2026-08-18T15:16:03.655Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -324,8 +314,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 264,
-      "updated_at": "2026-08-18T15:13:06.330Z"
+      "latency_ms": 303,
+      "updated_at": "2026-08-18T15:16:03.655Z"
     },
     {
       "source": "BörsenNews",
@@ -333,8 +323,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 292,
-      "updated_at": "2026-08-18T15:13:06.330Z"
+      "latency_ms": 311,
+      "updated_at": "2026-08-18T15:16:03.655Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -342,8 +332,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 469,
-      "updated_at": "2026-08-18T15:13:06.330Z"
+      "latency_ms": 497,
+      "updated_at": "2026-08-18T15:16:03.655Z"
     }
   ],
   "risk": {
@@ -414,6 +404,33 @@
     "confirmationRequired": true,
     "fallingKnifeBuysBlocked": true,
     "mode": "bis zu 10 Tagesverlierer separat beobachten; BUY nur nach bestaetigter Umkehr"
+  },
+  "earlyBreakoutScan": {
+    "enabled": true,
+    "target": 12,
+    "candidateCount": 12,
+    "updatedAt": "2026-08-18T15:15:01.473Z",
+    "source": "CLOUDFLARE_FALLBACK",
+    "sourceStats": [
+      {
+        "name": "TradingView DE Top Gainers",
+        "found": 40,
+        "error": null,
+        "matched": 5
+      },
+      {
+        "name": "Yahoo Day Gainers",
+        "found": 36,
+        "error": null,
+        "matched": 12
+      }
+    ],
+    "confirmationRequired": true,
+    "antiChaseRequired": true,
+    "mode": "bis zu 12 fruehe Tagesstaerke-/Beschleunigungswerte separat entdecken; BUY erst nach 1m/5m/20m-Live-Bestaetigung",
+    "guardActive": true,
+    "lateChaseBlocked": true,
+    "forcedBuys": false
   },
   "profitOptimizer": {
     "enabled": true,
@@ -522,7 +539,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T15:14:07.303Z",
+    "nextScanAt": "2026-08-18T15:17:04.049Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -551,25 +568,26 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T15:15:00.883Z",
-    "ageSeconds": 57,
+    "lastSeenAt": "2026-08-18T15:16:00.621Z",
+    "ageSeconds": 34,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T15:15:00.509Z",
+    "prefetchAt": "2026-08-18T15:16:00.236Z",
     "resolvedLeaderCount": 14,
     "leaderHealthy": true,
     "futureCandidates": 0,
     "reboundCandidates": null,
+    "earlyBreakoutCandidates": null,
     "metrics": {
-      "lastSeenAt": "2026-08-18T15:15:00.883Z",
+      "lastSeenAt": "2026-08-18T15:16:00.621Z",
       "version": "2.0.3-csharp-gdelt-backoff",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 668627,
+      "storageBytes": 672649,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
       "ramMb": 50.4,
       "downloadedBytes": 31974858,
-      "uploadedBytes": 631072,
+      "uploadedBytes": 635437,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP",
       "lastLocalCleanupAt": "2026-08-18T14:57:18.2890297Z",
