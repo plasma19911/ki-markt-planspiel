@@ -2,12 +2,13 @@ import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v16.js';
 import {setSecondChanceRuntime,clearSecondChanceRuntime} from './second-chance-runtime.js';
 import {SECOND_CHANCE_TARGET,buildSecondChanceWatch,isSecondChanceWatchFresh,isBlockedSecondChanceSymbol} from './second-chance-watch-utils.js';
 import {PullbackFirstAiGuard} from './pullback-first-ai-guard.js';
+import {captureDayReplay,runDayReplayBatch,getDayReplayStatus} from './day-replay-learning.js';
 export {SECOND_CHANCE_TARGET,SECOND_CHANCE_RETENTION_MS,buildSecondChanceWatch,isSecondChanceCandidate} from './second-chance-watch-utils.js';
 
 // V17: Gute Deep-Kandidaten verschwinden nicht mehr sofort. Zusaetzlich arbeitet
-// der Profit-Optimizer im Capital-in-Motion-Paper-Modus. Die aeusserste
-// Pullback-First-Schicht bevorzugt bestaetigte Ruecksetzer und fruehe Breakouts
-// und blockiert Peak-Chase/ueberhitzte Neueinstiege vor der Ausfuehrung.
+// der Profit-Optimizer im Capital-in-Motion-Paper-Modus. Pullback-First blockiert
+// Peak-Chase. Der Tages-Replay-Lerner speichert beobachtete Setups und vergleicht
+// nach Handelsschluss echte Einstiege mit realistisch erkennbaren Alternativen.
 
 const WATCH_KEY='state/second-chance-watch-v1';
 const arr=v=>Array.isArray(v)?v:[];
@@ -50,21 +51,24 @@ export class MarketPortfolio extends BasePortfolio{
  }
  _readSecondChance(){try{return this.ctx?.storage?.kv?.get(WATCH_KEY)||null}catch{return null}}
  _storeSecondChance(watch){try{this.ctx?.storage?.kv?.put(WATCH_KEY,watch)}catch{}return watch}
+ _replayExtras(second=null){return{wide:this._readWideSweep?.()||null,breakout:this._readEarlyBreakoutWatch?.()||null,second:second||this._readSecondChance()}}
  async scan(){
   const before=this._readSecondChance(),active=isSecondChanceWatchFresh(before)?arr(before?.candidates):[];setSecondChanceRuntime(active);
   try{
    const r=await super.scan();
-   if(!r?.skipped&&!r?.aborted){const state=this.bucketAdapter?.peekState?.(),next=buildSecondChanceWatch(before,state?.candidates||[]);this._storeSecondChance(next);setSecondChanceRuntime(next.candidates)}
+   if(!r?.skipped&&!r?.aborted){const state=this.bucketAdapter?.peekState?.(),next=buildSecondChanceWatch(before,state?.candidates||[]);this._storeSecondChance(next);setSecondChanceRuntime(next.candidates);captureDayReplay(this.ctx?.storage,{state,wide:this._readWideSweep?.()||null,breakout:this._readEarlyBreakoutWatch?.()||null,second:next})}
    return r;
   }finally{if(!this._readSecondChance()?.candidateCount)clearSecondChanceRuntime()}
  }
+ async dailyReplay(batchSize=8){const state=this.bucketAdapter?.peekState?.()||{};return runDayReplayBatch(this.ctx?.storage,state,this._replayExtras(),Math.max(1,Math.min(10,num(batchSize,8))))}
  async status(){
   const s=await super.status(),watch=this._readSecondChance(),isFresh=isSecondChanceWatchFresh(watch),count=isFresh?num(watch?.candidateCount):0;
   s.secondChanceWatch={enabled:true,target:SECOND_CHANCE_TARGET,candidateCount:count,updatedAt:watch?.updatedAt||null,fresh:isFresh,retentionMinutes:12,recheckPerScan:2,requiresFreshOneMinuteRecheck:true,forcedBuy:false,mode:'Gute Deep-Kandidaten bleiben bis zu 12 Minuten im Heisspool; fehlen sie im normalen Finalisten-Ranking, erhalten bis zu zwei pro Scan einen frischen 1m-Zweitcheck.'};
   s.entryPriceTiming={enabled:true,mode:'PULLBACK_FIRST',priority:['PULLBACK_RETEST','EARLY_BREAKOUT','NORMAL'],peakChaseBlocked:true,overextendedEntryBlocked:true,pullbackRangePct:[-2.2,-0.22],bounceConfirmationRequired:true,peakProtectionCashException:true,note:'Neueinstieg bevorzugt einen Ruecksetzer vom lokalen 20m-Hoch mit wieder positiv drehendem 1m/5m-Tape. Fruehe Breakouts bleiben erlaubt; spaete/ueberhitzte Near-High-Kaeufe werden vor Ausfuehrung blockiert.'};
-  if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,secondChanceCapture:true,strongCandidateRetentionMinutes:12,secondChanceRecheckPerScan:2,deepFinalists:4,bestQualifiedEntry:true,bestQualifiedMinExpected:4.7,secondChanceMinExpected:5.7,capitalInMotion:true,alwaysInvested:true,capitalMotionMinExpected:3.0,capitalMotionTargetCashDeploymentPct:100,rotationMinGap:0.8,lossRotationMinGap:0.45,rotationMinAgeMinutes:8,hardSafetyStillRequired:true,hardSafetyCashException:true,peakProtectionCashException:true,pullbackFirst:true,peakChaseBlocked:true,overextendedEntryBlocked:true,profitRotation:true,weakSetupsMayStayCash:false,note:'Capital-in-Motion Paper-Modus mit Pullback-First: Kapital bleibt grundsaetzlich in Bewegung, aber ein neuer Kauf am lokalen Peak bzw. in ueberhitzter Lage wird nicht erzwungen. Bestaetigte Ruecksetzer/Re-Tests haben Vorrang, fruehe Breakouts bleiben erlaubt. Nur Safety- oder Peak-Schutz darf ausnahmsweise Cash zulassen. Keine Gewinngarantie.'};
+  s.dayReplayLearning=getDayReplayStatus(this.ctx?.storage);
+  if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,secondChanceCapture:true,strongCandidateRetentionMinutes:12,secondChanceRecheckPerScan:2,deepFinalists:4,bestQualifiedEntry:true,bestQualifiedMinExpected:4.7,secondChanceMinExpected:5.7,capitalInMotion:true,alwaysInvested:true,capitalMotionMinExpected:3.0,capitalMotionTargetCashDeploymentPct:100,rotationMinGap:0.8,lossRotationMinGap:0.45,rotationMinAgeMinutes:8,hardSafetyStillRequired:true,hardSafetyCashException:true,peakProtectionCashException:true,pullbackFirst:true,peakChaseBlocked:true,overextendedEntryBlocked:true,dayReplayLearning:true,dayReplayUsesRealisticSignals:true,dayReplayAutoAdjustmentMinSamples:8,profitRotation:true,weakSetupsMayStayCash:false,note:'Capital-in-Motion Paper-Modus mit Pullback-First und Tages-Replay-Lernen. Der Replay sucht nach Handelsschluss keine perfekten Tiefpunkte, sondern damals technisch erkennbare Pullback-/Breakout-Einstiege und kalibriert erst nach mehreren Samples begrenzt nach. Keine Gewinngarantie.'};
   if(s.executionModel)s.executionModel={...s.executionModel,alwaysInvested:true,capitalInMotion:true,cashMayRemain:false,strategicCashReservePct:0,hardSafetyCashException:true,peakProtectionCashException:true,pullbackFirst:true,peakChaseBlocked:true,legacyFullCashFailsafe:true,fullCashPolicy:false};
-  if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,secondChanceWatch:true,secondChanceRetentionMinutes:12,secondChanceRecheckPerScan:2,bestQualifiedEntry:true,capitalInMotion:true,alwaysInvested:true,capitalMotionTargetCashDeploymentPct:100,pullbackFirst:true,peakChaseBlocked:true,note:`${s.freeTierBudget.note||''} Pullback-First: bestaetigte Ruecksetzer werden vor fruehen Breakouts und neutralen Einstiegen priorisiert. Peak-/Ueberhitzungs-Kaeufe duerfen den 100%-Cash-Grundsatz ausnahmsweise ueberstimmen.`};
+  if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,secondChanceWatch:true,secondChanceRetentionMinutes:12,secondChanceRecheckPerScan:2,bestQualifiedEntry:true,capitalInMotion:true,alwaysInvested:true,capitalMotionTargetCashDeploymentPct:100,pullbackFirst:true,peakChaseBlocked:true,dayReplayLearning:true,note:`${s.freeTierBudget.note||''} Tages-Replay verarbeitet nach Handelsschluss nur eine begrenzte beobachtete Symbolmenge in kleinen Batches, um Free-Tier-Subrequests zu schonen.`};
   return s;
  }
 }
