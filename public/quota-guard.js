@@ -50,3 +50,4 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden)cachedAt=0
 // Statuscache nutzen und keine unnötigen Cloudflare-Reads erzeugen.
 import('./zero-ui.js').catch(e=>console.error('ZERO target UI failed',e));
 import('./order-approval-ui.js').catch(e=>console.error('Order approval UI failed',e));
+import('./accounting-ui.js').catch(e=>console.error('Accounting checksum UI failed',e));
