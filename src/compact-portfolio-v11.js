@@ -1,5 +1,5 @@
-// Production compatibility entry. V17 keeps the complete modern stack and adds
-// strong-candidate retention + fresh 1m second-chance rechecks. Nothing in this
-// layer forces a trade; Rebound, Early-Breakout, target-venue, learning, costs
-// and execution safety remain downstream requirements.
-export {MarketPortfolio} from './compact-portfolio-v17.js';
+// Production compatibility entry. V18 keeps the complete modern stack and adds
+// execution-reconciled entry learning: only BUYs that really became Paper positions
+// may remain as pending timing samples. Pullback, Rebound, Early-Breakout, venue,
+// costs, replay learning and execution safety remain active.
+export {MarketPortfolio} from './compact-portfolio-v18.js';
