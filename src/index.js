@@ -19,6 +19,20 @@ async function verifyPcAgent(request,env){
  return{ok:true};
 }
 
+async function agentUniverseData(env,requestUrl){
+ const assetUrl=new URL('/universe.json',requestUrl),r=await env.ASSETS.fetch(new Request(assetUrl.toString()));
+ if(!r.ok)return{error:`Aktien-Master nicht verfügbar (HTTP ${r.status}).`,status:502};
+ const j=await r.json().catch(()=>null);if(!j||!Array.isArray(j.equities))return{error:'Aktien-Master enthält keine Equity-Liste.',status:502};
+ const blocked=s=>/\.(?:V|NE|PK|OB)$/i.test(String(s||'').toUpperCase());
+ const equities=[];
+ for(const x of j.equities){
+  const symbol=String(x?.symbol||'').trim().toUpperCase();if(!symbol||symbol.length>32||blocked(symbol))continue;
+  const cap=Number(x?.marketCapUSD??x?.marketCap??0);if(Number.isFinite(cap)&&cap>0&&cap<150_000_000)continue;
+  equities.push({symbol,name:String(x?.name||symbol).slice(0,120),currency:x?.currency||null,marketCapUSD:Number.isFinite(cap)&&cap>0?cap:null});
+ }
+ return{ok:true,updatedAt:new Date().toISOString(),generatedAt:j.generated_at||null,exactBrokerCatalog:Boolean(j.exact_broker_catalog),count:equities.length,equities};
+}
+
 async function freeTierAppJs(request,env){
  const r=await env.ASSETS.fetch(request);if(!r.ok)return r;
  let text=await r.text();
@@ -65,6 +79,7 @@ export default{
    if(u.pathname==='/api/agent/status'&&request.method==='GET')return reply(await p.agentStatus());
    if(agentPath&&request.method==='POST'){
     const auth=await verifyPcAgent(request,env);if(!auth.ok)return reply({error:auth.error,pcAgentAuth:false},auth.status);
+    if(u.pathname==='/api/agent/universe'){const data=await agentUniverseData(env,request.url);return reply(data,data.status||200)}
     const b=await request.json().catch(()=>({}));
     if(u.pathname==='/api/agent/heartbeat')return reply(await p.agentHeartbeat(b));
     if(u.pathname==='/api/agent/prefetch')return reply(await p.agentPrefetch(b));
