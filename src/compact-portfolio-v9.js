@@ -6,7 +6,10 @@ const FUTURE_WATCH_COOLDOWN_MS=10*60*1000;
 export class MarketPortfolio extends BasePortfolio{
   async _refreshFutureWatch(force=false){
     const raw=this.bucketAdapter?.peekState?.();
-    const last=Date.parse(raw?.futureWatch?.updatedAt||'');
+    const last=Date.parse(raw?.futureWatch?.updatedAt||''),scanNo=Number(raw?.config?.scan_count||0);
+    // Der erste Scan bleibt fuer Kurs/Leader/Fast reserviert. Ab Scan 2 startet der
+    // Zukunftsradar und bleibt danach bei maximal einem externen Refresh je 10 Minuten.
+    if(!force&&!Number.isFinite(last)&&scanNo<2)return null;
     if(!force&&Number.isFinite(last)&&Date.now()-last<FUTURE_WATCH_COOLDOWN_MS)return raw?.futureWatch||null;
     if(!this.engine?.store?.update)return null;
     const r=await this.engine.store.update(async s=>{s.futureWatch=await buildFutureWatch(this.env,s);return true});
