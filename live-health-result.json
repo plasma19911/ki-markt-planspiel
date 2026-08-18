@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T17:09:08.654102+00:00",
+  "checkedAt": "2026-08-18T17:09:21.043767+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -492,7 +492,7 @@
     "recheckPerScan": 2,
     "requiresFreshOneMinuteRecheck": true,
     "forcedBuy": false,
-    "mode": "Starke Deep-Kandidaten bleiben bis zu 12 Minuten im Heisspool; fehlen sie im normalen Finalisten-Ranking, erhalten bis zu zwei pro Scan einen frischen 1m-Zweitcheck."
+    "mode": "Gute Deep-Kandidaten bleiben bis zu 12 Minuten im Heisspool; fehlen sie im normalen Finalisten-Ranking, erhalten bis zu zwei pro Scan einen frischen 1m-Zweitcheck."
   },
   "targetVenueSanity": {
     "enabled": true,
@@ -533,7 +533,17 @@
     "pcWideUniverseSweep": true,
     "wideSweepNeverForcesBuy": true,
     "strongCandidateRetentionMinutes": 12,
-    "secondChanceRecheckPerScan": 2
+    "secondChanceRecheckPerScan": 2,
+    "bestQualifiedEntry": true,
+    "bestQualifiedMinExpected": 5.35,
+    "bestQualifiedProbePct": [
+      16,
+      20,
+      24
+    ],
+    "secondChanceMinExpected": 6.2,
+    "looserSoftThresholds": true,
+    "hardSafetyStillRequired": true
   },
   "entryTimingLearning": {
     "version": 3,
@@ -641,13 +651,8 @@
     "persistentLeaderCache": true,
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
-    "lastFetchBudget": {
-      "actual": 33,
-      "cacheHits": 0,
-      "blocked": 0,
-      "cap": 36
-    },
-    "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Rebound-Radar beobachtet bis zu 10 Tagesverlierer; fallende Messer bleiben gesperrt, bis eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. HOT/WARM werden minuetlich priorisiert; der liquide Kern rotiert schneller als der lange Rest. Nur die bis zu 16 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen; dadurch steigt die Abdeckung ohne mehr Deep-Checks zu erzwingen. Starke Deep-Kandidaten fallen nicht sofort aus dem Radar: bis zu 8 werden 12 Minuten gehalten; pro Scan werden maximal 2 fehlende Werte mit einem frischen 1m-Chart nachgeprueft.",
+    "lastFetchBudget": null,
+    "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Rebound-Radar beobachtet bis zu 10 Tagesverlierer; fallende Messer bleiben gesperrt, bis eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. HOT/WARM werden minuetlich priorisiert; der liquide Kern rotiert schneller als der lange Rest. Nur die bis zu 16 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen; dadurch steigt die Abdeckung ohne mehr Deep-Checks zu erzwingen. Gute Deep-Kandidaten fallen nicht sofort aus dem Radar. Wenn kein perfekter BUY vorliegt, darf das beste mehrfach bestaetigte sichere Setup bereits ab niedrigerer Soft-Schwelle eine kleine 16-24%-Probeposition bekommen; harte Safety-/Event-/Venue-Sperren bleiben.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
     "newsAtNight": false,
@@ -670,13 +675,14 @@
     "pcWideSweepTarget": 16,
     "secondChanceWatch": true,
     "secondChanceRetentionMinutes": 12,
-    "secondChanceRecheckPerScan": 2
+    "secondChanceRecheckPerScan": 2,
+    "bestQualifiedEntry": true
   },
   "pcAgent": {
     "configured": true,
     "online": true,
     "lastSeenAt": "2026-08-18T17:09:02.456Z",
-    "ageSeconds": 5,
+    "ageSeconds": 18,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-18T17:07:05.914Z",
     "resolvedLeaderCount": 15,
