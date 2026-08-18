@@ -2,6 +2,7 @@ import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v6.js';
 import {ZERO_FEE_MODEL} from './zero-fee-model.js';
 import {accountingFromStatus,lastId,num,positionMarketValue,positionSnapshot,reconcileZeroFees} from './zero-accounting.js';
 import {blockUnsafeFreshBuys} from './trade-safety.js';
+import {repairQuoteAnomaliesState,sanitizeHeldPromptPositions} from './quote-sanity.js';
 
 const STOCK_TYPE='EQUITY';
 const isStock=x=>String(x?.type||x?.instrument_type||STOCK_TYPE).toUpperCase()===STOCK_TYPE;
@@ -25,21 +26,16 @@ function rewriteStockOnlyPlan(text,state){
   const p=planParts(text);if(!p)return text;
   const previous=new Map((state?.candidates||[]).filter(isStock).map(x=>[key(x),x]));
   const candidates=p.candidates.filter(isStock).map(x=>{
-    // Preis dient nur der Vorab-Kostenschätzung. Falls derselbe Titel bereits im letzten
-    // gespeicherten Scan vorkam, ist dieser Preis besser als gar kein Preis; die echte
-    // Paper-Ausführung nutzt anschließend den aktuellen cand.price des laufenden Scans.
     const old=previous.get(key(x)),price=num(x.price||old?.price,0);
     return{...x,type:STOCK_TYPE,...(price>0?{price:+price.toFixed(6)}:{})};
   });
-  const held=p.held.filter(x=>String(x?.type||STOCK_TYPE).toUpperCase()===STOCK_TYPE);
+  const held=sanitizeHeldPromptPositions(p.held.filter(x=>String(x?.type||STOCK_TYPE).toUpperCase()===STOCK_TYPE),state);
   let prefix=text.slice(0,p.a)
     .replace(/Aktien und normale ETFs/gi,'ausschließlich Aktien')
     .replace(/Aktien \+ normale ETFs/gi,'ausschließlich Aktien')
     .replace(/Aktien sowie normale europaeische UCITS-ETF-Kandidaten/gi,'Aktien')
     .replace(/Erlaubt sind ausschließlich Aktien und normale ETFs\./gi,'Erlaubt sind ausschließlich Aktien. ETFs sind in diesem Planspiel ausgeschlossen.');
   const policy='AKTIEN-ONLY: BUY ist ausschließlich für Kandidaten type=EQUITY erlaubt. ETF und LEVERAGED_ETF niemals kaufen. FULL-CASH-POLICY: Solange handelbare Aktienkandidaten vorhanden sind, soll strategisch kein Cash zurückgehalten werden; finale BUY-Anteile sollen zusammen 100% des verfügbaren Cashs verwenden. ';
-  // WICHTIG: Nach Gehalten= darf nichts mehr stehen. Mehrere nachgelagerte Parser lesen
-  // das Held-JSON bis zum Nachrichtenende. Die Policy steht deshalb VOR Kandidaten=.
   return `${prefix}${policy}${p.marker}${JSON.stringify(candidates)}${p.heldMarker}${JSON.stringify(held)}`;
 }
 
@@ -96,20 +92,31 @@ async function ensureStocksOnlyState(engine){
   });
 }
 
+async function repairStoredQuoteAnomalies(engine){
+  if(!engine?.store?.update)return null;
+  const loaded=await engine.store.load(true),state=loaded?.state;
+  if(!state?.positions?.length)return null;
+  const preview=structuredClone(state),check=repairQuoteAnomaliesState(preview);
+  if(!check.changed)return check;
+  const saved=await engine.store.update(s=>repairQuoteAnomaliesState(s));
+  return saved?.result||check;
+}
+
 function installZeroExecution(engine){
   if(!engine||engine.__zeroFeeInstalled)return;engine.__zeroFeeInstalled=true;
   const baseStart=engine.start.bind(engine),baseScan=engine.scan.bind(engine);
   engine.start=async options=>baseStart({...options,includeEtfs:false,includeLeverage:false,feeFixed:0,feePercent:0});
   engine.scan=async()=>{
-    await ensureZeroConfig(engine);await ensureStocksOnlyState(engine);
+    await ensureZeroConfig(engine);await ensureStocksOnlyState(engine);await repairStoredQuoteAnomalies(engine);
     const loaded=await engine.store.load(true),before={historyId:lastId(loaded.state?.history),snapshotId:lastId(loaded.state?.snapshots),positions:positionSnapshot(loaded.state)};
     const result=await baseScan();
     if(!result?.aborted&&!result?.skipped){
+      const quoteSanity=await repairStoredQuoteAnomalies(engine);if(quoteSanity?.changed)result.quoteSanity=quoteSanity;
       const safety=await blockUnsafeFreshBuys(engine,before),sr=safety?.result||null;
       if(sr?.blocked){result.tradeSafety=sr;result.actions=Math.max(0,num(result.actions)-sr.blocked)}
       const rec=await reconcileZeroFees(engine,before),r=rec?.result||null;
       if(r){result.zeroExecution=r;result.equity=r.finalEquity;result.pnl=r.finalPnl;if(r.blockedBuys)result.actions=Math.max(0,num(result.actions)-r.blockedBuys)}
-      await ensureStocksOnlyState(engine);
+      await ensureStocksOnlyState(engine);await repairStoredQuoteAnomalies(engine);
     }
     return result;
   };
@@ -120,10 +127,10 @@ export class MarketPortfolio extends BasePortfolio{
     super(ctx,env);installZeroExecution(this.engine);
     const guarded=this.engine?.env?.AI;if(guarded?.run)this.engine.env.AI=new StocksOnlyAiGuard(guarded,this.bucketAdapter);
   }
-  async start(options={}){const r=await super.start({...options,includeEtfs:false,includeLeverage:false});await ensureStocksOnlyState(this.engine);return r}
+  async start(options={}){const r=await super.start({...options,includeEtfs:false,includeLeverage:false});await ensureStocksOnlyState(this.engine);await repairStoredQuoteAnomalies(this.engine);return r}
   async reset(){const r=await super.reset();await ensureZeroConfig(this.engine);await ensureStocksOnlyState(this.engine);return r}
   async status(){
-    await ensureStocksOnlyState(this.engine);
+    await ensureStocksOnlyState(this.engine);await repairStoredQuoteAnomalies(this.engine);
     const s=await super.status(),a=accountingFromStatus(s);
     s.config.include_etfs=0;s.config.include_leverage=0;s.positions=(s.positions||[]).filter(isStock);s.candidates=(s.candidates||[]).filter(isStock);s.newsRadar=(s.newsRadar||[]).filter(isStock);
     s.equity=a.equity;s.pnl=a.pnl;s.pnl_pct=a.pnlPct;s.accounting=a;
@@ -131,8 +138,8 @@ export class MarketPortfolio extends BasePortfolio{
     if(s.risk)s.risk={...s.risk,equity:a.equity,availableCash:a.cash};
     if(s.snapshots?.length){const x=s.snapshots.at(-1);x.cash=a.cash;x.equity=a.equity}
     if(s.history?.length){const x=s.history[0];x.cash_after=a.cash;x.equity=a.equity;x.total_pnl=a.pnl}
-    s.executionModel={...(s.executionModel||{}),feeFixed:0,feePercent:0,brokerFeeModel:ZERO_FEE_MODEL.version,smallOrderThresholdEur:ZERO_FEE_MODEL.smallOrderThresholdEur,smallOrderSurchargeEur:ZERO_FEE_MODEL.smallOrderSurchargeEur,fractionalSurchargeEur:ZERO_FEE_MODEL.fractionalSurchargeEur,fractionalMinEur:ZERO_FEE_MODEL.fractionalMinEur,spreadIsSeparate:true,stocksOnly:true,fullCashPolicy:true,strategicCashReservePct:0,unsafeFallbackBuysBlocked:true,sameScanReentryBlocked:true};
-    if(s.brokerTarget){const {fullEtfMasterPool,etfCoreEveryMinute,etfRotatingPerMinute,estimatedEtfRotationMinutes,...b}=s.brokerTarget;s.brokerTarget={...b,assetClass:'EQUITY_ONLY',stocksOnly:true,fullCashPolicy:true,strategicCashReservePct:0,feeModel:ZERO_FEE_MODEL,feesMatchedToZeroRules:true,spreadStillMarketDependent:true,brokerCatalogVerificationRequired:true,exactBrokerCatalog:false}}
+    s.executionModel={...(s.executionModel||{}),feeFixed:0,feePercent:0,brokerFeeModel:ZERO_FEE_MODEL.version,smallOrderThresholdEur:ZERO_FEE_MODEL.smallOrderThresholdEur,smallOrderSurchargeEur:ZERO_FEE_MODEL.smallOrderSurchargeEur,fractionalSurchargeEur:ZERO_FEE_MODEL.fractionalSurchargeEur,fractionalMinEur:ZERO_FEE_MODEL.fractionalMinEur,spreadIsSeparate:true,stocksOnly:true,fullCashPolicy:true,strategicCashReservePct:0,quoteSanity:true,unsafeFallbackBuysBlocked:true,sameScanReentryBlocked:true};
+    if(s.brokerTarget){const {fullEtfMasterPool,etfCoreEveryMinute,etfRotatingPerMinute,estimatedEtfRotationMinutes,...b}=s.brokerTarget;s.brokerTarget={...b,assetClass:'EQUITY_ONLY',stocksOnly:true,fullCashPolicy:true,strategicCashReservePct:0,quoteSanity:true,feeModel:ZERO_FEE_MODEL,feesMatchedToZeroRules:true,spreadStillMarketDependent:true,brokerCatalogVerificationRequired:true,exactBrokerCatalog:false}}
     return s;
   }
 }
