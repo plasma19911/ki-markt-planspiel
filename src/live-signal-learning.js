@@ -14,13 +14,20 @@ export function applyLiveOutcomeLearning(fast,prompt,storage){
   for(const [symbol,h] of heldMap){const pending=state.pending[symbol],currentCtx=ctx.get(symbol),o=state.open[symbol]||{signature:pending?.signature||currentCtx?.signature||'UNKNOWN',openedAt:now,peakPnlPct:num(h.peakPnlPct,h.pnlPct)};o.lastPnlPct=num(h.pnlPct);o.peakPnlPct=Math.max(num(o.peakPnlPct),num(h.peakPnlPct,h.pnlPct));o.updatedAt=now;state.open[symbol]=o;delete state.pending[symbol]}
   for(const [symbol,p] of Object.entries(state.pending))if(now-num(p.at)>24*3600*1000)delete state.pending[symbol];
 
-  const actions=[];for(const a of fast.actions||[]){const symbol=String(a.symbol).toUpperCase(),c=ctx.get(symbol),sig=c?.signature||'UNKNOWN';if(a.action==='BUY')state.pending[symbol]={signature:sig,at:now};const st=state.stats[sig],count=num(st?.count),winRate=count?num(st.wins)/count:null,avgPnl=count?num(st.sumPnl)/count:null;let next={...a};
+  const actions=[];for(const a of fast.actions||[]){const symbol=String(a.symbol).toUpperCase(),c=ctx.get(symbol),sig=c?.signature||'UNKNOWN';const st=state.stats[sig],count=num(st?.count),winRate=count?num(st.wins)/count:null,avgPnl=count?num(st.sumPnl)/count:null;let next={...a};
     if(a.action==='BUY'&&count>=12){
-      if(avgPnl<-.2||winRate<.42){next.confidence=clamp(num(a.confidence)-.07,.5,.95);next.allocation_pct=+Math.max(0,num(a.allocation_pct)*.72).toFixed(1);next.reason=`${a.reason} · Live-Lernen bremst Setup (${count} Fälle, Ø ${avgPnl.toFixed(2)}%)`;if(count>=25&&avgPnl<-.45&&winRate<.4)continue}
-      else if(avgPnl>.25&&winRate>.54){next.confidence=clamp(num(a.confidence)+.035,.5,.95);next.allocation_pct=+Math.min(30,num(a.allocation_pct)*1.08).toFixed(1);next.reason=`${a.reason} · Live-Lernen bestätigt Setup (${count} Fälle, Treffer ${(winRate*100).toFixed(0)}%)`}
+      if(avgPnl<-.2||winRate<.42){
+        next.confidence=clamp(num(a.confidence)-.07,.5,.95);
+        next.reason=`${a.reason} · Live-Lernen bremst Setup (${count} Fälle, Ø ${avgPnl.toFixed(2)}%); Positionsgröße bleibt wegen fixer Gebühren unverändert`;
+        if(count>=25&&avgPnl<-.45&&winRate<.4)continue;
+      }else if(avgPnl>.25&&winRate>.54){
+        next.confidence=clamp(num(a.confidence)+.035,.5,.95);
+        next.reason=`${a.reason} · Live-Lernen bestätigt Setup (${count} Fälle, Treffer ${(winRate*100).toFixed(0)}%)`;
+      }
     }
+    if(next.action==='BUY')state.pending[symbol]={signature:sig,at:now};
     actions.push(next)
   }
   state.updatedAt=now;write(storage,state);const learned=Object.entries(state.stats).filter(([,v])=>num(v.count)>=12).length;
-  return{...fast,actions,liveLearning:{completedOutcomes:num(state.completed),matureSetupBuckets:learned,minOutcomesPerBucket:12,mode:'conservative-paper-outcome-learning'}};
+  return{...fast,actions,liveLearning:{completedOutcomes:num(state.completed),matureSetupBuckets:learned,minOutcomesPerBucket:12,mode:'confidence-only-paper-outcome-learning'}};
 }
