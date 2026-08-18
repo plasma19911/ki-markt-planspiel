@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-18T15:41:08.253832+00:00",
+  "checkedAt": "2026-08-18T15:41:47.854301+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -20,6 +20,8 @@
     "fallingKnifeProtection": true,
     "earlyBreakoutScanner": true,
     "earlyBreakoutGuard": true,
+    "pcWideSweep": true,
+    "targetVenueSanity": true,
     "entryTimingLearning": true,
     "cashMayRemain": true,
     "legacyFullCashFailsafe": true,
@@ -431,6 +433,28 @@
     "lateChaseBlocked": true,
     "forcedBuys": false
   },
+  "pcWideSweep": {
+    "enabled": true,
+    "target": 16,
+    "candidateCount": 0,
+    "updatedAt": null,
+    "fresh": false,
+    "source": "WAITING_FOR_PC_AGENT",
+    "masterCount": 0,
+    "scannedCount": 0,
+    "cycleMinutes": 0,
+    "batchCount": 0,
+    "confirmationRequired": true,
+    "forcedBuy": false,
+    "mode": "Windows-PC scannt das gesamte handelbare Aktien-Master in Batches; nur auffaellige Werte werden fuer Cloudflare-Deep/Safety hochgezogen"
+  },
+  "targetVenueSanity": {
+    "enabled": true,
+    "targetBroker": "finanzen.net ZERO",
+    "venue": "gettex",
+    "unverifiedVentureOtcAutoBuyBlocked": true,
+    "analysisStillBroad": true
+  },
   "profitOptimizer": {
     "enabled": true,
     "objective": "maximaler erwarteter Paper-Gewinn nach realistischen Kosten",
@@ -578,7 +602,7 @@
     "configured": true,
     "online": true,
     "lastSeenAt": "2026-08-18T15:41:00.730Z",
-    "ageSeconds": 7,
+    "ageSeconds": 47,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-18T15:38:03.803Z",
     "resolvedLeaderCount": 14,
@@ -586,6 +610,10 @@
     "futureCandidates": 0,
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
+    "wideSweepCandidates": 0,
+    "wideSweepFresh": false,
+    "wideSweepMasterCount": 0,
+    "wideSweepScannedCount": 0,
     "metrics": {
       "lastSeenAt": "2026-08-18T15:41:00.730Z",
       "version": "2.0.6-csharp-early-breakout",
