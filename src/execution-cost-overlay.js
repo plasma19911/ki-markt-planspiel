@@ -30,7 +30,9 @@ export function applyExecutionCostDiscipline(fast,prompt){
     const symbol=String(a.symbol||'').toUpperCase(),type=cfg.types[symbol]||'EQUITY',price=num(cfg.prices[symbol]),e=estimate(cfg,a.allocation_pct,type,price);
     bySymbol[symbol]={allocationPct:num(a.allocation_pct),instrumentType:type,referencePrice:price||null,notional:+e.notional.toFixed(2),estimatedBrokerFees:+e.estimatedBrokerFees.toFixed(2),estimatedExecutionCost:+e.estimatedExecutionCost.toFixed(2),estimatedRoundTripCost:+e.estimatedCost.toFixed(2),estimatedRoundTripCostPct:Number.isFinite(e.costPct)?+e.costPct.toFixed(2):null,blockBuy:!Number.isFinite(e.costPct)||e.costPct>cfg.maxRoundTripCostPct,feeEstimate:e.feeEstimate};
     if(!Number.isFinite(e.costPct)||e.costPct>cfg.maxRoundTripCostPct)continue;
-    actions.push(e.costPct>cfg.warnRoundTripCostPct?{...a,confidence:Math.min(num(a.confidence,.5),.75),allocation_pct:+(num(a.allocation_pct)*.80).toFixed(1),reason:`${a.reason} · ZERO-Roundtrip-Kosten ca. ${e.costPct.toFixed(1)}%: Einsatz reduziert`}:a)
+    // Bei Fixgebühren würde eine kleinere Order die Kostenquote sogar verschlechtern.
+    // Im Warnbereich deshalb Positionsgröße beibehalten und nur die Konfidenz deckeln.
+    actions.push(e.costPct>cfg.warnRoundTripCostPct?{...a,confidence:Math.min(num(a.confidence,.5),.75),reason:`${a.reason} · ZERO-Roundtrip-Kosten ca. ${e.costPct.toFixed(1)}%: Kostenwarnung, Positionsgröße beibehalten`}:a)
   }
   return{...fast,actions,executionCost:{...cfg,bySymbol}};
 }
