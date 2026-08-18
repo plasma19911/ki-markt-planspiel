@@ -57,6 +57,12 @@ window.fetch=async function quotaAwareFetch(input,init){
 window.addEventListener('portfolio-status-invalidate',invalidate);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&gettexUiActive())cachedAt=0});
 
+// Alte 24/7-Texte sind nach Aktivierung des Free-Schlafmodus nicht mehr korrekt.
+queueMicrotask(()=>{
+ const eyebrow=document.querySelector('header .eyebrow');if(eyebrow)eyebrow.textContent='GETTEX PAPER TRADING · 07:25 PRE-OPEN · 07:30–23:00';
+ const newsTitle=document.querySelector('#news h2');if(newsTitle)newsTitle.textContent='News-Tendenz · nur Handelsfenster';
+});
+
 if(!document.querySelector('link[data-ui-v2]')){const l=document.createElement('link');l.rel='stylesheet';l.href='/ui-v2.css';l.dataset.uiV2='1';document.head.appendChild(l)}
 
 import('./ui-v2.js').catch(e=>console.error('UI V2 failed',e));
