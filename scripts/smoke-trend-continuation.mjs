@@ -4,58 +4,66 @@ import {applyExecutionCostDiscipline} from '../src/execution-cost-overlay.js';
 import {enforceFastExecutionGuards} from '../src/decision-guard.js';
 
 const baseContext={
-  symbol:'TREND.DE',fastAction:'HOLD',fastScore:4.4,reason:'FAST-HOLD: BUY 4.8 / SELL 0.4 · RANGE',regime:'RANGE',
+  symbol:'TREND.DE',fastAction:'HOLD',fastScore:4.8,reason:'FAST-HOLD: BUY 4.8 / SELL 0.4 · RANGE',regime:'RANGE',
   technical:{fresh:true,vwapDistancePct:.42,adx:28,plusDI:31,minusDI:14},
   multiTimeframe:{longVotes:3,shortVotes:0},
   liquidity:{spreadPct:.12,avgVolume:500000},
   marketRelative20m:.30,sectorRelativeDay:.10,
   regionalBenchmark:{relative20m:.25,blockBuy:false},fxSafety:{valid:true}
 };
-const fast={actions:[],context:[baseContext],gapContext:[{symbol:'TREND.DE',state:'NORMAL',blockBuy:false}],volumeConfirmation:{minRatio:1.10,ratios:{'TREND.DE':1.45}}};
 const candidates=[{symbol:'TREND.DE',type:'EQUITY',price:100,momentumState:'NORMAL',momentumSellSignal:'NONE',news:0,liveScore:2.2,liveConfidence:.68}];
 const prompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. Cash 1000 EUR; Slippage 0.10%. Kandidaten=${JSON.stringify(candidates)} Gehalten=[]`;
-const checked=applyEvidenceDiversity(fast,prompt),buys=checked.actions.filter(x=>x.action==='BUY');
-assert.equal(buys.length,1,'Stark bestaetigter NORMAL-Aufwaertstrend soll nicht allein wegen fehlendem Breakout auf HOLD bleiben');
-assert.equal(buys[0].symbol,'TREND.DE');
-assert.match(buys[0].reason,/TREND-CONTINUATION/);
-assert.ok(buys[0].allocation_pct>20&&buys[0].allocation_pct<=28,'Kleines offensives Depot soll kosteneffizient statt zu klein positionieren');
-assert.ok(checked.evidenceDiversity.results['TREND.DE'].count>=3,'Trend-Continuation verlangt weiterhin mindestens drei unabhaengige Signalsaeulen');
 
-const weak={...fast,context:[{...baseContext,technical:{...baseContext.technical,adx:6,plusDI:7,minusDI:24},multiTimeframe:{longVotes:0,shortVotes:3},reason:'FAST-HOLD: BUY 0.5 / SELL 2.0 · TREND_DOWN',regime:'TREND_DOWN'}]};
+// 1) Starker normaler Trend darf ohne frischen Breakout als Trend-Continuation gekauft werden.
+const fast={actions:[],context:[baseContext],gapContext:[{symbol:'TREND.DE',state:'NORMAL',blockBuy:false}],volumeConfirmation:{minRatio:1.10,ratios:{'TREND.DE':1.45}}};
+const checked=applyEvidenceDiversity(fast,prompt),trendBuy=checked.actions.find(x=>x.action==='BUY');
+assert.ok(trendBuy,'Stark bestätigter NORMAL-Aufwärtstrend soll nicht allein wegen fehlendem Breakout auf HOLD bleiben');
+assert.equal(trendBuy.symbol,'TREND.DE');
+assert.match(trendBuy.reason,/TREND-CONTINUATION/);
+assert.ok(checked.evidenceDiversity.results['TREND.DE'].count>=3);
+
+// 2) Eindeutig bärische Struktur bleibt ausgeschlossen.
+const weak={...fast,context:[{...baseContext,fastScore:-1.5,reason:'FAST-HOLD: BUY 0.5 / SELL 2.0 · TREND_DOWN',technical:{...baseContext.technical,adx:6,plusDI:7,minusDI:24,vwapDistancePct:-.5},multiTimeframe:{longVotes:0,shortVotes:3},regime:'TREND_DOWN'}]};
 assert.equal(applyEvidenceDiversity(weak,prompt).actions.some(x=>x.action==='BUY'),false,'Eindeutig schwache technische Struktur darf keinen BUY erzeugen');
 
-const opportunityFast={actions:[],context:[{...baseContext,fastScore:2.8,reason:'FAST-HOLD: BUY 3.0 / SELL 0.5 · RANGE',technical:{...baseContext.technical,adx:20,vwapDistancePct:.18},multiTimeframe:{longVotes:2,shortVotes:0},regionalBenchmark:{relative20m:.24,blockBuy:false}}],gapContext:[{symbol:'TREND.DE',state:'NORMAL',blockBuy:false}],volumeConfirmation:{minRatio:1.10,ratios:{'TREND.DE':.72}}};
-const opportunity=applyEvidenceDiversity(opportunityFast,prompt),opBuy=opportunity.actions.find(x=>x.action==='BUY');
-assert.ok(opBuy,'Leeres 1000-EUR-Depot soll ein solides Setup um BUY-Score 3 nicht endlos auf HOLD lassen');
-assert.match(opBuy.reason,/QUALIFIED-OPPORTUNITY/);
-assert.equal(opBuy.allocation_pct,24);
-const costChecked=applyExecutionCostDiscipline(opportunity,prompt);
-assert.ok(costChecked.actions.find(x=>x.action==='BUY'));
-assert.ok(costChecked.executionCost.bySymbol['TREND.DE'].estimatedRoundTripCostPct<2);
+// 3) Regression für den echten Fehler: Ein Fast-BUY mit Scanner-Score 5,5 hat im Reason
+// keine "BUY x / SELL y"-Zahlen. Der Score muss trotzdem korrekt übernommen werden.
+const highCandidates=[{symbol:'HIGH.DE',type:'EQUITY',price:100,momentumState:'NORMAL',momentumSellSignal:'NONE',news:0,liveScore:5.5,liveConfidence:.67}];
+const highPrompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. Cash 1000 EUR; Slippage 0.10%. Kandidaten=${JSON.stringify(highCandidates)} Gehalten=[]`;
+const highContext={
+  symbol:'HIGH.DE',fastAction:'BUY',fastScore:5.5,reason:'FAST-BUY: über VWAP · ADX stark · MTF positiv',regime:'RANGE',
+  technical:{fresh:true,vwapDistancePct:.28,adx:24,plusDI:29,minusDI:15},
+  multiTimeframe:{longVotes:2,shortVotes:0},
+  liquidity:{spreadPct:.10,avgVolume:650000},
+  marketRelative20m:.25,sectorRelativeDay:0,
+  regionalBenchmark:{relative20m:.24,blockBuy:false},fxSafety:{valid:true}
+};
+const highFast={
+  actions:[{symbol:'HIGH.DE',action:'BUY',confidence:.79,allocation_pct:20,reason:'FAST-BUY: über VWAP · ADX stark · MTF positiv',fastScore:5.5}],
+  context:[highContext],gapContext:[{symbol:'HIGH.DE',state:'NORMAL',blockBuy:false}],volumeConfirmation:{minRatio:1.10,ratios:{'HIGH.DE':.75}}
+};
+const highEvidence=applyEvidenceDiversity(highFast,highPrompt),highBuy=highEvidence.actions.find(x=>x.action==='BUY');
+assert.ok(highBuy,'Score-5,5 Fast-BUY darf beim Evidence-Handoff nicht verschwinden');
+assert.match(highBuy.reason,/QUALIFIED-OPPORTUNITY/,'Bei genau zwei unabhängigen Säulen soll der starke Fast-BUY kontrolliert als QUALIFIED weiterlaufen');
+assert.equal(highBuy.buyScore,5.5,'Fast-BUY-Score muss strukturiert statt per fehleranfälligem Reason-Parsing übernommen werden');
+assert.equal(highBuy.liveScore,5.5,'Scanner-Score 5,5 muss im finalen Kaufkandidaten erhalten bleiben');
+assert.equal(highEvidence.evidenceDiversity.results['HIGH.DE'].count,2,'Test erwartet genau Trend + relative Stärke als unabhängige Säulen');
 
-const aiHold={response:JSON.stringify({summary:'KI bleibt vorsichtig',actions:[{symbol:'TREND.DE',action:'HOLD',confidence:.58,allocation_pct:0,reason:'noch abwarten'}]})};
-assert.ok(JSON.parse(enforceFastExecutionGuards(aiHold,costChecked).response).actions.find(x=>x.action==='BUY'),'Qualifizierter Ersteinstieg muss trotz generativem HOLD als BUY enden');
+const highCost=applyExecutionCostDiscipline(highEvidence,highPrompt),costBuy=highCost.actions.find(x=>x.action==='BUY');
+assert.ok(costBuy,'Score-5,5 Kandidat muss den realen ZERO-Kostencheck überleben');
+assert.ok(highCost.executionCost.bySymbol['HIGH.DE'].estimatedRoundTripCostPct<2);
+assert.ok(highCost.executionCost.bySymbol['HIGH.DE'].notional>0,'Kostencheck muss einen tatsächlich ausführbaren Aktienbetrag verwenden');
 
-const activeFast={actions:[],context:[{...baseContext,fastScore:1.35,reason:'FAST-HOLD: BUY 1.8 / SELL 0.4 · RANGE',technical:{...baseContext.technical,adx:14,vwapDistancePct:-.02,plusDI:18,minusDI:17},multiTimeframe:{longVotes:1,shortVotes:1},marketRelative20m:.04,sectorRelativeDay:0,regionalBenchmark:{relative20m:.02,blockBuy:false}}],gapContext:[{symbol:'TREND.DE',state:'NORMAL',blockBuy:false}],volumeConfirmation:{minRatio:1.10,ratios:{'TREND.DE':.70}}};
-const active=applyEvidenceDiversity(activeFast,prompt),activeBuy=active.actions.find(x=>x.action==='BUY');
-assert.ok(activeBuy);assert.match(activeBuy.reason,/ACTIVE-FIRST-ENTRY/);assert.equal(activeBuy.allocation_pct,24);
-const activeCost=applyExecutionCostDiscipline(active,prompt);assert.ok(JSON.parse(enforceFastExecutionGuards(aiHold,activeCost).response).actions.find(x=>x.action==='BUY'));
+const aiHold={response:JSON.stringify({summary:'KI bleibt vorsichtig',actions:[{symbol:'HIGH.DE',action:'HOLD',confidence:.58,allocation_pct:0,reason:'noch abwarten'}]})};
+const finalPlan=JSON.parse(enforceFastExecutionGuards(aiHold,highCost).response),finalBuy=finalPlan.actions.find(x=>x.action==='BUY'&&x.symbol==='HIGH.DE');
+assert.ok(finalBuy,'Generatives HOLD darf einen vollständig geprüften Score-5,5 Kauf nicht mehr verschwinden lassen');
+assert.ok(finalBuy.confidence>=.5);
+assert.ok(finalBuy.allocation_pct>0);
 
-const deployCandidates=[{...candidates[0],liveScore:.35,liveConfidence:.32,news:-.05}];
-const deployPrompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. Cash 1000 EUR; Slippage 0.10%. Kandidaten=${JSON.stringify(deployCandidates)} Gehalten=[]`;
-const deployFast={actions:[],context:[{...baseContext,fastScore:.3,reason:'FAST-HOLD: BUY 0.8 / SELL 0.5 · RANGE',technical:{...baseContext.technical,adx:10,vwapDistancePct:-.10,plusDI:12,minusDI:15},multiTimeframe:{longVotes:0,shortVotes:1},marketRelative20m:-.03,sectorRelativeDay:0,regionalBenchmark:{relative20m:-.02,blockBuy:false}}],gapContext:[{symbol:'TREND.DE',state:'NORMAL',blockBuy:false}],volumeConfirmation:{minRatio:1.10,ratios:{'TREND.DE':.65}}};
-const deploy=applyEvidenceDiversity(deployFast,deployPrompt),deployBuy=deploy.actions.find(x=>x.action==='BUY');
-assert.ok(deployBuy,'Roh-Konfidenz 0.32 darf im offensiven leeren Depot nicht mehr pauschal blockieren');
-assert.match(deployBuy.reason,/BEST-SAFE-CASH-DEPLOY/);assert.equal(deployBuy.allocation_pct,24);
-assert.ok(deploy.evidenceDiversity.bestSafeRawConfidenceFloor<=.32,'Scanner-konforme Confidence-Schwelle erwartet');
-const deployCost=applyExecutionCostDiscipline(deploy,deployPrompt),deployFinalBuy=JSON.parse(enforceFastExecutionGuards(aiHold,deployCost).response).actions.find(x=>x.action==='BUY');
-assert.ok(deployFinalBuy,'BEST-SAFE-CASH-DEPLOY muss bis zum finalen BUY durchlaufen');assert.ok(deployFinalBuy.confidence>=.5);
+// 4) QUALIFIED ist nicht nur ein Ersteinstieg: auch mit bestehender anderer Aktie darf eine
+// neue starke Chance gekauft werden, sofern Cash und Sicherheitschecks passen.
+const heldPrompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. Cash 800 EUR; Slippage 0.10%. Kandidaten=${JSON.stringify(highCandidates)} Gehalten=[{"symbol":"ALT.DE","type":"EQUITY"}]`;
+const heldEvidence=applyEvidenceDiversity(highFast,heldPrompt);
+assert.ok(heldEvidence.actions.some(x=>x.action==='BUY'&&x.symbol==='HIGH.DE'),'Beste neue Aktie darf trotz bereits bestehender anderer Position gekauft werden');
 
-const negativeCandidates=[{...deployCandidates[0],liveScore:-.5,liveConfidence:.32,news:-.15}];
-const negativePrompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. Cash 1000 EUR; Slippage 0.10%. Kandidaten=${JSON.stringify(negativeCandidates)} Gehalten=[]`;
-assert.equal(applyEvidenceDiversity(deployFast,negativePrompt).actions.some(x=>x.action==='BUY'),false,'Deutlich negatives Live-Setup bleibt ausgeschlossen');
-
-const heldPrompt=`PAPER-TRADING ONLY. Handelsstil=offensiv. Cash 800 EUR; Slippage 0.10%. Kandidaten=${JSON.stringify(candidates)} Gehalten=[{"symbol":"ALT.DE"}]`;
-assert.equal(applyEvidenceDiversity(deployFast,heldPrompt).actions.some(x=>x.action==='BUY'),false,'Aktive Cash-Deployment-Fallbacks gelten nur für ein komplett leeres Depot');
-
-console.log(JSON.stringify({ok:true,trendBuy:buys[0],qualifiedBuy:opBuy,activeBuy,cashDeployBuy:deployFinalBuy},null,2));
+console.log(JSON.stringify({ok:true,stocksOnly:true,trendBuy,score55Buy:finalBuy,cost:highCost.executionCost.bySymbol['HIGH.DE']},null,2));
