@@ -1,11 +1,11 @@
 {
-  "checkedAt": "2026-08-18T12:35:21.468436+00:00",
+  "checkedAt": "2026-08-18T12:38:54.195912+00:00",
   "homepageOk": true,
   "appJsOk": true,
   "apiStatusOk": true,
   "running": 1,
-  "scanCount": 10,
-  "lastScan": "2026-08-18T12:34:03.943Z",
+  "scanCount": 14,
+  "lastScan": "2026-08-18T12:38:04.022Z",
   "lastError": null,
   "aiLastSummary": "Keine frischen handelbaren Kurse – keine Orderentscheidung.",
   "cash": 1000,
@@ -46,17 +46,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 400",
-      "latency_ms": 104,
-      "updated_at": "2026-08-18T12:34:03.943Z"
+      "latency_ms": 105,
+      "updated_at": "2026-08-18T12:38:04.022Z"
     },
     {
       "source": "Yahoo News",
-      "status": "DEGRADED",
-      "ok_count": 1,
-      "fail_count": 1,
-      "last_error": "Error: HTTP 500",
-      "latency_ms": 1149,
-      "updated_at": "2026-08-18T12:34:03.943Z"
+      "status": "OK",
+      "ok_count": 2,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 611,
+      "updated_at": "2026-08-18T12:38:04.022Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -64,8 +64,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 238,
-      "updated_at": "2026-08-18T12:34:03.943Z"
+      "latency_ms": 243,
+      "updated_at": "2026-08-18T12:38:04.022Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -73,8 +73,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 287,
-      "updated_at": "2026-08-18T12:34:03.943Z"
+      "latency_ms": 280,
+      "updated_at": "2026-08-18T12:38:04.022Z"
     },
     {
       "source": "BörsenNews",
@@ -82,8 +82,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 310,
-      "updated_at": "2026-08-18T12:34:03.943Z"
+      "latency_ms": 298,
+      "updated_at": "2026-08-18T12:38:04.022Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -91,8 +91,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 582,
-      "updated_at": "2026-08-18T12:34:03.943Z"
+      "latency_ms": 579,
+      "updated_at": "2026-08-18T12:38:04.022Z"
     }
   ],
   "risk": {
@@ -111,7 +111,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-18T12:35:03.943Z",
+    "nextScanAt": "2026-08-18T12:39:04.022Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -139,24 +139,24 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-18T12:35:04.495Z",
-    "ageSeconds": 17,
+    "lastSeenAt": "2026-08-18T12:38:02.707Z",
+    "ageSeconds": 51,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-18T12:35:04.138Z",
+    "prefetchAt": "2026-08-18T12:38:02.352Z",
     "resolvedLeaderCount": 14,
     "leaderHealthy": true,
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-08-18T12:35:04.495Z",
+      "lastSeenAt": "2026-08-18T12:38:02.707Z",
       "version": "2.0.2-csharp-tls",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 29421,
+      "storageBytes": 40845,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 42.5,
+      "ramMb": 43.2,
       "downloadedBytes": 2557733,
-      "uploadedBytes": 20626,
+      "uploadedBytes": 33040,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP",
       "lastLocalCleanupAt": "2026-08-18T12:30:12.8331424Z",
