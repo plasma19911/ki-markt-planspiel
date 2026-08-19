@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T19:27:55.490762+00:00",
+  "checkedAt": "2026-08-19T19:29:14.225776+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,16 +28,16 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 353,
-  "lastScan": "2026-08-19T19:27:15.213Z",
+  "scanCount": 354,
+  "lastScan": "2026-08-19T19:28:24.009Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster 3m; Fast-Decision: 0 SELL / 0 BUY aus 7 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen · EARLY-D · CANDLE-FLOW V2.1: CASY wartet auf bessere Bodenbildung. Keine Minutenregel fuer SELL.",
+  "aiLastSummary": "KI-Wartefenster 10m; Fast-Decision: 0 SELL / 0 BUY aus 6 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap · Multi-T · TAGES-REVIEW V2: ACO-X.TO BUY gestoppt.",
   "cash": 8412.067513123307,
   "equity": 9714.50417200594,
   "pnl": -285.49582799406016,
   "marketValue": 1302.4366588826322,
   "accountingDelta": 0.0,
-  "universeCount": 235,
+  "universeCount": 240,
   "positions": 2,
   "positionRows": [
     {
@@ -99,84 +99,73 @@
       "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
     }
   ],
-  "candidates": 7,
+  "candidates": 6,
   "topCandidates": [
     {
-      "symbol": "CASY",
-      "name": "Casey's General Stores, Inc.",
-      "score": 5.85,
-      "confidence": 0.78,
-      "day_change": -2.233915273209064,
+      "symbol": "ACO-X.TO",
+      "name": "ATCO Ltd.",
+      "score": 3,
+      "confidence": 0.5800000000000001,
+      "day_change": -1.9903781216461303,
       "news_score": 0,
-      "event_risk": "MEDIUM",
-      "pro": "Ruecksetzer -0.24% unter 20m-Hoch · Verkaufsdruck bremst deutlich +0.12% · 5m stabilisiert +0.02% · RSI 38 nicht ueberhitzt",
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 57 konstruktiv",
       "contra": ""
+    },
+    {
+      "symbol": "MSTR",
+      "name": "Strategy Inc",
+      "score": 1.2728955848544987,
+      "confidence": 0.5422895584854499,
+      "day_change": 11.86727547717723,
+      "news_score": 0.07476470241487042,
+      "event_risk": "NONE",
+      "pro": "Kurs über EMA21 · RSI 64 konstruktiv",
+      "contra": "EMA-Trend schwach"
     },
     {
       "symbol": "MRNA",
       "name": "Moderna, Inc.",
-      "score": 5.509012537764351,
-      "confidence": 0.7731,
-      "day_change": 153.5736878914936,
+      "score": 1.159012537764351,
+      "confidence": 0.5390012537764352,
+      "day_change": 151.6041989550657,
       "news_score": 0.042416918429003005,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +1.04% · 20m +3.72% · Momentum baut sich auf · Beschleunigung +0.07%",
-      "contra": ""
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +1.31%",
+      "contra": "MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     },
     {
       "symbol": "MRK",
       "name": "Merck & Co., Inc.",
-      "score": 3.9957507352941177,
-      "confidence": 0.7731,
-      "day_change": 13.209287487226739,
-      "news_score": 0.06882352941176469,
+      "score": -1.4028201492537313,
+      "confidence": 0.5633820149253732,
+      "day_change": 13.039134548306075,
+      "news_score": 0.0698507462686567,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 50 konstruktiv",
-      "contra": ""
+      "pro": "EMA9 über EMA21",
+      "contra": "Kurs unter EMA21 · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     },
     {
-      "symbol": "CMI",
-      "name": "Cummins Inc.",
-      "score": 3.8,
-      "confidence": 0.63,
-      "day_change": -2.011886515323724,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 64 konstruktiv · 5m +0.22%",
-      "contra": ""
-    },
-    {
-      "symbol": "MELI",
-      "name": "MercadoLibre",
-      "score": 1.25,
-      "confidence": 0.405,
-      "day_change": 7.096688535700535,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 50 konstruktiv",
-      "contra": "Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
-    },
-    {
-      "symbol": "AGF-B.TO",
-      "name": "AGF Management Limited",
+      "symbol": "LMT",
+      "name": "Lockheed Martin",
       "score": -2.1,
       "confidence": 0.49000000000000005,
-      "day_change": -2.1748596297600398,
+      "day_change": -2.223593664433965,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
       "contra": "EMA-Trend schwach · Kurs unter EMA21"
     },
     {
-      "symbol": "MSTR",
-      "name": "Strategy Inc",
-      "score": -4.127104415145501,
-      "confidence": 0.765,
-      "day_change": 11.543446766366404,
-      "news_score": 0.07476470241487042,
+      "symbol": "COIN",
+      "name": "Coinbase Global, Inc.",
+      "score": -3.65,
+      "confidence": 0.63,
+      "day_change": 8.076313537668621,
+      "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 20m -1.29% · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     }
   ],
   "recentHistory": [
@@ -187,7 +176,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal CASY: Score 5.85, Konfidenz 78%.",
+      "reason": "Kein Trade. Bestes Signal ACO-X.TO: Score 3.00, Konfidenz 58%.",
       "score": null
     },
     {
@@ -865,22 +854,22 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T19:27:10.831Z",
-    "ageSeconds": 44,
+    "lastSeenAt": "2026-08-19T19:29:10.775Z",
+    "ageSeconds": 3,
     "metrics": {
-      "lastSeenAt": "2026-08-19T19:27:10.831Z",
+      "lastSeenAt": "2026-08-19T19:29:10.775Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 19295288,
+      "storageBytes": 19341055,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.12,
-      "ramMb": 62,
-      "downloadedBytes": 9040345307,
-      "uploadedBytes": 15859175,
+      "cpuPct": 0.16,
+      "ramMb": 62.5,
+      "downloadedBytes": 9088750965,
+      "uploadedBytes": 15964185,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
-      "lastLocalCleanupAt": "2026-08-19T18:57:16.2690039Z",
+      "lastLocalCleanupAt": "2026-08-19T19:27:19.9191206Z",
       "lastError": null
     },
     "singleScannerProfileDetected": true
@@ -907,8 +896,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 7,
-      "updated_at": "2026-08-19T19:27:15.103Z"
+      "latency_ms": 229,
+      "updated_at": "2026-08-19T19:28:23.818Z"
     },
     {
       "source": "Yahoo FX",
@@ -917,7 +906,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": 7,
-      "updated_at": "2026-08-19T19:27:15.103Z"
+      "updated_at": "2026-08-19T19:28:23.818Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -925,8 +914,8 @@
       "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 252,
-      "updated_at": "2026-08-19T19:27:15.103Z"
+      "latency_ms": 258,
+      "updated_at": "2026-08-19T19:28:23.818Z"
     },
     {
       "source": "Yahoo News",
@@ -934,17 +923,8 @@
       "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 748,
-      "updated_at": "2026-08-19T19:27:15.103Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 921,
-      "updated_at": "2026-08-19T19:27:15.103Z"
+      "latency_ms": 327,
+      "updated_at": "2026-08-19T19:28:23.818Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -952,8 +932,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1006,
-      "updated_at": "2026-08-19T19:27:15.103Z"
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T19:28:23.818Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T19:28:23.818Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -961,8 +950,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1075,
-      "updated_at": "2026-08-19T19:27:15.103Z"
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T19:28:23.818Z"
     },
     {
       "source": "Unternehmenstermine (Nasdaq-Fallback)",
@@ -971,7 +960,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:27:15.103Z"
+      "updated_at": "2026-08-19T19:28:23.818Z"
     },
     {
       "source": "finanzen.net News (Fallback)",
@@ -979,8 +968,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 722,
-      "updated_at": "2026-08-19T19:27:15.103Z"
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T19:28:23.818Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -989,16 +978,16 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:27:15.103Z"
+      "updated_at": "2026-08-19T19:28:23.818Z"
     },
     {
       "source": "Second-Chance 1m",
-      "status": "DOWN",
-      "ok_count": 0,
-      "fail_count": 2,
-      "last_error": "Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/configuration/#limits",
+      "status": "DEGRADED",
+      "ok_count": 2,
+      "fail_count": 1,
+      "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:27:15.103Z"
+      "updated_at": "2026-08-19T19:28:23.818Z"
     }
   ]
 }
