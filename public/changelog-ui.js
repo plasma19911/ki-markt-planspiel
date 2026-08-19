@@ -1,5 +1,15 @@
 const CHANGELOG=[
   {
+    at:'19.08.2026 · 12:34',
+    title:'Fast-Radar PowerShell-5.1-Typfehler behoben',
+    items:[
+      'Live-Worker erkannte den Turbo bereits mit 40 Batches/Minute und 8 parallelen Requests, der erste Kurslauf brach aber mit „Die Argumenttypen stimmen nicht überein“ ab.',
+      'Problematische Generic-List-/Task-Array-Konstruktion durch Windows-PowerShell-5.1-sichere ArrayList-Verarbeitung ersetzt.',
+      'Parallel gestartete HTTP-Anfragen werden jetzt ohne fehleranfälligen Task[]-Cast eingesammelt.',
+      'Fehlerlogs enthalten zusätzlich die genaue PowerShell-Position, falls ein weiterer lokaler Laufzeitfehler auftritt.'
+    ]
+  },
+  {
     at:'19.08.2026 · 12:28',
     title:'Fast-Radar meldet Start und Fehler jetzt sofort',
     items:[
