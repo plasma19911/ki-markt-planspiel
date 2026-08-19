@@ -3,6 +3,7 @@ setlocal EnableExtensions
 set "ROOT=E:\KI-Markt-Agent"
 set "TMP=%TEMP%\KI-Markt-Fast-Radar-Setup"
 set "BASE=https://raw.githubusercontent.com/plasma19911/ki-markt-planspiel/main/pc-agent"
+set "CACHE=%RANDOM%%RANDOM%%RANDOM%"
 
 echo.
 echo =============================================
@@ -29,7 +30,7 @@ if errorlevel 1 (
 )
 
 echo Lade die aktuelle Fast-Radar-Version direkt aus GitHub ...
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -UseBasicParsing -Uri '%BASE%/install-fast-radar.ps1' -OutFile '%TMP%\install-fast-radar.ps1' -TimeoutSec 30; Invoke-WebRequest -UseBasicParsing -Uri '%BASE%/fast-wide-radar.ps1' -OutFile '%TMP%\fast-wide-radar.ps1' -TimeoutSec 30"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -UseBasicParsing -Uri '%BASE%/install-fast-radar.ps1?c=%CACHE%' -OutFile '%TMP%\install-fast-radar.ps1' -TimeoutSec 30; Invoke-WebRequest -UseBasicParsing -Uri '%BASE%/fast-wide-radar.ps1?c=%CACHE%' -OutFile '%TMP%\fast-wide-radar.ps1' -TimeoutSec 30"
 if errorlevel 1 (
   echo.
   echo FEHLER: Die Fast-Radar-Dateien konnten nicht aus GitHub geladen werden.
@@ -56,7 +57,7 @@ echo =============================================
 echo Haupt-Agent: bleibt unveraendert aktiv
 echo Fast-Radar:  laeuft jetzt parallel
 echo Windowsstart: automatisch nach Anmeldung
-echo Statusdatei: %ROOT%\FAST-RADAR-STATUS.cmd
+echo Log: %ROOT%\data\logs\fast-wide-radar.log
 echo.
 pause
 exit /b 0
