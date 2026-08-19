@@ -1,12 +1,12 @@
 name: One-shot Recover 2026-08-19 Depot
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
       - 'src/recovery-20260819.js'
       - '.github/workflows/one-shot-recover-20260819.yml'
-  workflow_dispatch:
 
 permissions:
   contents: write
@@ -18,21 +18,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Allow production deploy
-        run: sleep 60
+        run: sleep 75
       - name: Call recovery endpoint
-        id: call
-        continue-on-error: true
         run: |
           BASE='https://ki-markt-planspiel.orkimperium.workers.dev'
-          code=$(curl -sS -o /tmp/recover-body.txt -w '%{http_code}' -X POST -H 'x-recovery-key: 20260819-health-snapshot' "$BASE/api/recover-20260819-health-snapshot" || true)
-          printf '{"http":"%s","body":%s}\n' "$code" "$(python3 - <<'PY'
-import json, pathlib
-print(json.dumps(pathlib.Path('/tmp/recover-body.txt').read_text(encoding='utf-8',errors='replace') if pathlib.Path('/tmp/recover-body.txt').exists() else ''))
-PY
-)" > /tmp/recovery-20260819-result.json
+          code=$(curl -sS --retry 2 --retry-delay 2 -o /tmp/recover-body.txt -w '%{http_code}' -X POST -H 'x-recovery-key: 20260819-health-snapshot' "$BASE/api/recover-20260819-health-snapshot" || true)
+          echo "$code" > /tmp/recover-code.txt
+          python3 -c "import json,pathlib; code=pathlib.Path('/tmp/recover-code.txt').read_text().strip(); body=pathlib.Path('/tmp/recover-body.txt').read_text(encoding='utf-8',errors='replace') if pathlib.Path('/tmp/recover-body.txt').exists() else ''; pathlib.Path('/tmp/recovery-20260819-result.json').write_text(json.dumps({'http':code,'body':body},ensure_ascii=False,indent=2)+'\\n',encoding='utf-8')"
           cat /tmp/recovery-20260819-result.json
-      - name: Publish recovery diagnostic/proof
-        if: always()
+      - name: Verify restore
+        run: |
+          python3 -c "import json; w=json.load(open('/tmp/recovery-20260819-result.json')); assert w.get('http')=='200',w; x=json.loads(w.get('body') or '{}'); a=x.get('after') or {}; assert x.get('ok') is True,x; assert a.get('positions')==2,a; assert abs(float(a.get('cash'))-8398.448297401768)<0.02,a; assert abs(float(a.get('equity'))-9700.8849562844)<0.10,a; print('Recovery verified',a)"
+      - name: Publish recovery proof
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -42,23 +39,8 @@ PY
             cp /tmp/recovery-20260819-result.json recovery-20260819-result.json
             git add recovery-20260819-result.json
             if git diff --cached --quiet; then exit 0; fi
-            git commit -m 'Record depot recovery response [skip ci]'
+            git commit -m 'Record successful depot recovery [skip ci]'
             if git push origin HEAD:main; then exit 0; fi
             sleep 2
           done
           exit 1
-      - name: Enforce successful restore
-        if: always()
-        run: |
-          python3 - <<'PY'
-          import json
-          wrap=json.load(open('/tmp/recovery-20260819-result.json'))
-          assert wrap.get('http')=='200', wrap
-          x=json.loads(wrap.get('body') or '{}')
-          a=x.get('after') or {}
-          assert x.get('ok') is True, x
-          assert a.get('positions')==2, a
-          assert abs(float(a.get('cash'))-8398.448297401768)<0.02, a
-          assert abs(float(a.get('equity'))-9700.8849562844)<0.10, a
-          print('Recovery verified:',a)
-          PY
