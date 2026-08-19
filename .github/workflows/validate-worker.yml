@@ -22,6 +22,7 @@ on:
       - "scripts/smoke-stocks-only.mjs"
       - "scripts/smoke-quote-sanity.mjs"
       - "scripts/smoke-free-tier-24h.mjs"
+      - "scripts/smoke-trade-day-lessons.mjs"
       - "scripts/refresh_universe.py"
       - "scripts/calibrate_fast-signals.py"
       - "package.json"
@@ -66,6 +67,7 @@ jobs:
           node --check src/compact-portfolio-v7.js
           node --check src/compact-portfolio-v8.js
           node --check src/compact-portfolio-v9.js
+          node --check src/trade-day-lessons-guard.js
           node --check src/future-watch.js
           node --check src/zero-accounting.js
           node --check src/trade-safety.js
@@ -118,6 +120,7 @@ jobs:
           node --check scripts/smoke-stocks-only.mjs
           node --check scripts/smoke-quote-sanity.mjs
           node --check scripts/smoke-free-tier-24h.mjs
+          node --check scripts/smoke-trade-day-lessons.mjs
       - name: Python syntax
         run: python3 -m py_compile scripts/calibrate_fast_signals.py scripts/refresh_universe.py
       - name: Fast decision smoke test
@@ -138,6 +141,8 @@ jobs:
         run: node scripts/smoke-quote-sanity.mjs
       - name: Cloudflare Free 24h budget smoke test
         run: node scripts/smoke-free-tier-24h.mjs
+      - name: Trade-day entry guard regression smoke test
+        run: node scripts/smoke-trade-day-lessons.mjs
       - name: Order approval smoke test
         run: node scripts/smoke-order-approval.mjs
       - name: ZERO fee model smoke test
