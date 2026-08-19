@@ -1,6 +1,5 @@
 import './public-feed-resilience.js';
 import base,{MarketPortfolio} from './index.js';
-import './yahoo-chart-serial.js';
 import './intelligence-request-cache.js';
 import {gettexSessionState} from './gettex-session.js';
 import {positionChartHistoryData} from './position-chart-history.js';
@@ -25,6 +24,10 @@ const json=(x,status=200)=>Response.json(x,{status,headers:{'cache-control':'no-
 // Production wrapper: API/scan behavior stays in index.js. The trade-chart endpoint
 // is intercepted here so closed positions keep a full historical buy/sell window.
 // HTML is never cached so phone/PWA browsers cannot keep an obsolete UI.
+// Yahoo chart pacing is deliberately NOT implemented through a module-global async
+// queue: Cloudflare isolates can serve multiple requests and request-owned Promises
+// must never be handed to another request. Bounded scanner fan-out plus the snapshot
+// cache below keeps network pressure controlled without cross-request I/O state.
 export default{
  async fetch(request,env,ctx){
   const url=new URL(request.url);
