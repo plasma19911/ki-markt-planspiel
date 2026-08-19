@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-19T18:42:14.795101+00:00",
-  "commit": "1790474a0af5cd464b35ea561e674e782f1ff220",
+  "checkedAt": "2026-08-19T18:45:05.717067+00:00",
+  "commit": "7fe471265c004e8c3002c06a748ba19f00da39e1",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 7s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 6s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -237,9 +237,9 @@
       "tail": "{\n  \"ok\": true,\n  \"capitalFloor\": {\n    \"confirmed\": true,\n    \"expected\": 5.335,\n    \"liveScore\": 3.6,\n    \"confidence\": 0.68,\n    \"nearHigh\": false,\n    \"m5\": 0.06,\n    \"m20\": 0.18,\n    \"acceleration\": 0.02,\n    \"day\": 1.2,\n    \"rsi\": 61,\n    \"volumeRatio\": 1.05,\n    \"breakoutScore\": 0.4,\n    \"state\": \"BUILDING\",\n    \"sell\": \"NONE\",\n    \"hardSafe\": true,\n    \"blockers\": []\n  },\n  \"allocation\": [\n    {\n      \"symbol\": \"BEST\",\n      \"pct\": 100,\n      \"expected\": 5.335,\n      \"tier\": \"QUALIFIED\"\n    }\n  ],\n  \"rotation\": true,\n  \"hardSafety\": true,\n  \"pullbackFirst\": {\n    \"pullback\": {\n      \"confirmed\": true,\n      \"expected\": 5.882,\n      \"liveScore\": 4,\n      \"confidence\": 0.73,\n      \"nearHigh\": false,\n      \"m5\": 0.09,\n      \"m20\": 0.22,\n      \"acceleration\": 0.06,\n      \"day\": 2.4,\n      \"rsi\": 59,\n      \"volumeRatio\": 1.05,\n      \"breakoutScore\": 0.4,\n      \"state\": \"BUILDING\",\n      \"sell\": \"NONE\",\n      \"hardSafe\": true,\n      \"blockers\": [],\n      \"buyable\": true,\n      \"mode\": \"PULLBACK_RETEST\",\n      \"pullbackConfirmed\": true,\n      \"earlyBreakout\": false,\n      \"normalEntry\": true,\n      \"peakRisk\": false,\n      \"hardPeak\": false,\n      \"overextended\": false,\n      \"drawKnown\": true,\n      \"drawdownFrom20mHighPct\": -0.82,\n      \"adjustedExpected\": 7.232,\n      \"replayAdjustment\": {\n        \"bucket\": \"PULLBACK_RETEST\",\n        \"count\": 0,\n        \"scoreDelta\": 0,\n        \"sizeMultiplier\": 1,\n        \"block\": false,\n        \"avg30\": 0,\n        \"avg60\": 0,\n        \"win30\": null,\n        \"win60\": null,\n        \"reason\": \"\"\n      },\n      \"reason\": \"Ruecksetzer -0.82% vom 20m-Hoch, 1m/5m drehen wieder hoch\"\n    },\n    \"peakBlocked\": true,\n    \"earlyBreakout\": true,\n    \"fallingKnifeBlocked\": true,\n    \"allocation\": [\n      {\n        \"symbol\": \"PULLBACK\",\n        \"pct\": 100,\n        \"mode\": \"PULLBACK_RETEST\",\n        \"score\": 7.232\n      }\n    ]\n  }\n}\n"
     },
     "rotation_cost": {
-      "ok": false,
-      "exitCode": 1,
-      "tail": "node:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Groessere Position darf nach Hysterese bei ausreichendem Vorteil rotieren\n\nfalse !== true\n\n    at file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/scripts/smoke-rotation-cost-guard.mjs:9:8\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"base\": {\n    \"minAge\": 10,\n    \"smallOrderPenalty\": true\n  },\n  \"replay\": {\n    \"samples\": 5,\n    \"minAgeBonusMinutes\": 3,\n    \"gapBonus\": 0.293,\n    \"reason\": \"Tages-Replay bremst Kosten-Churn moderat: 5 schnelle Roundtrips, P/L -8.40 EUR, Gebuehren 7.00 EUR\"\n  },\n  \"hardReversalImmediate\": true\n}\n"
     },
     "pc_wide_sweep": {
       "ok": false,
@@ -259,11 +259,10 @@
     "wrangler_dryrun": {
       "ok": true,
       "exitCode": 0,
-      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 45 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 811.08 KiB / gzip: 207.30 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
+      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 45 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 811.50 KiB / gzip: 207.44 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
     }
   },
   "failedChecks": [
-    "rotation_cost",
     "pc_wide_sweep"
   ],
   "allCodeAndRegressionChecksPassed": false,
