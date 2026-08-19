@@ -24,20 +24,37 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Apply migration
-        run: python3 scripts/apply-yahoo-request-local.py
-      - name: Validate
+      - name: Apply and validate with diagnostic capture
+        id: validate
+        continue-on-error: true
         run: |
-          npm install
-          node --check src/request-fetch-budget.js
-          node --check src/yahoo-spark-repair.js
-          node scripts/smoke-yahoo-null-sanity.mjs
-          node scripts/smoke-yahoo-request-isolation.mjs
-          node scripts/smoke-free-tier-24h.mjs
-          node scripts/smoke-replay-depot-ui.mjs
-          node scripts/smoke-hard-exit-classifier.mjs
-          npx wrangler deploy --dry-run
-      - name: Publish only after green checks
+          set +e
+          {
+            echo '=== APPLY ==='
+            python3 scripts/apply-yahoo-request-local.py; a=$?; echo "apply_rc=$a"
+            echo '=== NPM ==='
+            npm install; b=$?; echo "npm_rc=$b"
+            echo '=== SYNTAX ==='
+            node --check src/request-fetch-budget.js; c1=$?
+            node --check src/yahoo-spark-repair.js; c2=$?
+            echo "syntax_rc=$c1,$c2"
+            echo '=== YAHOO NULL ==='
+            node scripts/smoke-yahoo-null-sanity.mjs; d=$?; echo "yahoo_null_rc=$d"
+            echo '=== YAHOO ISOLATION ==='
+            node scripts/smoke-yahoo-request-isolation.mjs; e=$?; echo "yahoo_isolation_rc=$e"
+            echo '=== FREE TIER ==='
+            node scripts/smoke-free-tier-24h.mjs; f=$?; echo "free_tier_rc=$f"
+            echo '=== REPLAY DEPOT ==='
+            node scripts/smoke-replay-depot-ui.mjs; g=$?; echo "replay_depot_rc=$g"
+            echo '=== HARD EXIT ==='
+            node scripts/smoke-hard-exit-classifier.mjs; h=$?; echo "hard_exit_rc=$h"
+            echo '=== WRANGLER ==='
+            npx wrangler deploy --dry-run; i=$?; echo "wrangler_rc=$i"
+            rc=$((a||b||c1||c2||d||e||f||g||h||i)); echo "overall_rc=$rc"
+          } 2>&1 | tee /tmp/yahoo-request-local-diagnostic.txt
+          grep -q 'overall_rc=0' /tmp/yahoo-request-local-diagnostic.txt
+      - name: Publish runtime only after green checks
+        if: steps.validate.outcome == 'success'
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -45,3 +62,22 @@ jobs:
           if git diff --cached --quiet; then exit 0; fi
           git commit -m 'Keep Yahoo in-flight work request-local'
           git push origin HEAD:main
+      - name: Publish diagnostic
+        if: always()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/yahoo-request-local-diagnostic.txt yahoo-request-local-diagnostic.txt 2>/dev/null || echo 'diagnostic unavailable' > yahoo-request-local-diagnostic.txt
+            git add yahoo-request-local-diagnostic.txt
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Update Yahoo request-local diagnostic [skip ci]'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep 2
+          done
+          exit 1
+      - name: Enforce validation
+        if: always()
+        run: grep -q 'overall_rc=0' /tmp/yahoo-request-local-diagnostic.txt
