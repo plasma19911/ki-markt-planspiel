@@ -1,5 +1,18 @@
 const CHANGELOG=[
   {
+    at:'19.08.2026 · 12:57',
+    title:'Ein einziger Superscanner statt zwei Prozesse',
+    items:[
+      'Separater PowerShell-Fast-Radar wird abgeschafft; künftig übernimmt der sichtbare C#-Hauptagent allein Markt-Scan, News, Replay und Server-Sync.',
+      'Breitscan auf 100 Aktien pro Batch und bis zu 16 parallele Kursabfragen umgestellt; das komplette Broker-Master mit rund 8.500 Aktien wird pro Minutenlauf angefragt.',
+      'Der alte 17–18-Minuten-Core/Tail-Zyklus entfällt. Ziel ist ein kompletter Durchlauf deutlich unter einer Minute, abhängig von Antwortzeit und Drosselung der Kursquelle.',
+      'Bei Drosselung reduziert derselbe Scanner automatisch die Parallelität; harte Yahoo-Backoffs wurden von 30 Minuten auf einen kurzen 45-Sekunden-Schutz verkürzt.',
+      'Dip-First-Erkennung läuft direkt im Hauptscanner: kontrolliert fallende Werte mit nachlassendem Verkaufsdruck können früher als HOT/WARM erkannt werden.',
+      'Die Webseite zeigt einen eigenen Live-Scannerbalken mit Aktienzahl, Batches, Parallelität, Fehlern und Laufzeit.',
+      'Handy-UI überarbeitet: kompakter Sticky-Header, feste untere Navigation, besser gestapelte Karten, lesbarere Statusfelder und mobil scrollbare Tabellen.'
+    ]
+  },
+  {
     at:'19.08.2026 · 12:45',
     title:'Fast-Radar PowerShell-Host-Kollision behoben',
     items:[
@@ -142,3 +155,10 @@ function open(){const root=render();root.hidden=false;document.body.classList.ad
 function close(){const root=document.getElementById('changelogOverlay');if(root)root.hidden=true;document.body.classList.remove('changelogOpen');document.getElementById('changelogToggle')?.focus()}
 
 document.getElementById('changelogToggle')?.addEventListener('click',open);
+
+// Neue UI-Layer werden bewusst von hier nachgeladen, damit ältere Browser-Caches
+// der Hauptseite die aktuelle Handy- und Ein-Scanner-Anzeige trotzdem bekommen.
+if(!document.querySelector('link[data-mobile-ui-v3]')){
+  const l=document.createElement('link');l.rel='stylesheet';l.href='/mobile-ui-v3.css?v=20260819-1257';l.dataset.mobileUiV3='1';document.head.appendChild(l);
+}
+import('/single-scanner-ui.js?v=20260819-1257').catch(()=>{});
