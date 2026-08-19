@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T19:30:36.110387+00:00",
+  "checkedAt": "2026-08-19T19:32:36.889790+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,16 +28,16 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 355,
-  "lastScan": "2026-08-19T19:30:17.141Z",
+  "scanCount": 356,
+  "lastScan": "2026-08-19T19:31:23.205Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster 10m; Fast-Decision: 0 SELL / 0 BUY aus 6 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 · CANDLE-FLOW V2.1: QH wartet auf bessere Bodenbildung. Keine Minutenregel fuer SELL.",
+  "aiLastSummary": "KI-Free-Limit/Fehler: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers. · Multi-T · TAGES-REVIEW V2: BHC.TO BUY gestoppt.",
   "cash": 8412.067513123307,
   "equity": 9714.50417200594,
   "pnl": -285.49582799406016,
   "marketValue": 1302.4366588826322,
   "accountingDelta": 0.0,
-  "universeCount": 233,
+  "universeCount": 232,
   "positions": 2,
   "positionRows": [
     {
@@ -99,73 +99,95 @@
       "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
     }
   ],
-  "candidates": 6,
+  "candidates": 8,
   "topCandidates": [
     {
       "symbol": "QH",
       "name": "Quhuo Limited",
       "score": 6.45,
-      "confidence": 0.63,
+      "confidence": 0.69,
       "day_change": 1.363637230613013,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 56 konstruktiv · 5m +4.21% · 20m +4.21% · Momentum baut sich auf · Beschleunigung +4.20%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 56 konstruktiv · 5m +4.21% · 20m +4.21% · Momentum baut sich auf +4.20%",
       "contra": ""
+    },
+    {
+      "symbol": "BHC.TO",
+      "name": "Bausch Health Companies Inc.",
+      "score": 5.85,
+      "confidence": 0.78,
+      "day_change": -1.9170968643741904,
+      "news_score": 0,
+      "event_risk": "MEDIUM",
+      "pro": "Ruecksetzer -0.47% unter 20m-Hoch · Verkaufsdruck bremst deutlich +0.37% · 5m stabilisiert -0.05% · RSI 41 nicht ueberhitzt",
+      "contra": ""
+    },
+    {
+      "symbol": "AMZN",
+      "name": "Amazon.com, Inc.",
+      "score": 4.0069735714285715,
+      "confidence": 0.7695,
+      "day_change": 2.5920168791554232,
+      "news_score": 0.04742857142857141,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.61% · 20m +0.68% · Momentum baut sich auf · Beschleunigung +0.64%",
+      "contra": "RSI 86 überhitzt"
+    },
+    {
+      "symbol": "PSN",
+      "name": "Parsons",
+      "score": 3.6999999999999997,
+      "confidence": 0.63,
+      "day_change": 1.5931079154122285,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.36%",
+      "contra": ""
+    },
+    {
+      "symbol": "NTES",
+      "name": "NetEase ADR",
+      "score": 3.6,
+      "confidence": 0.7371,
+      "day_change": 1.5791592951527988,
+      "news_score": 0,
+      "event_risk": "HIGH",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv · 5m +0.44%",
+      "contra": "Quartalszahlen in ca. 16.5h · Nasdaq Earnings Calendar"
     },
     {
       "symbol": "MRNA",
       "name": "Moderna, Inc.",
-      "score": 0.059012537764350434,
-      "confidence": 0.42900125377643505,
-      "day_change": 150.5878269142238,
+      "score": 2.909012537764351,
+      "confidence": 0.7140012537764351,
+      "day_change": 154.3996158973083,
       "news_score": 0.042416918429003005,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv",
-      "contra": "5m -0.94% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +2.65%",
+      "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     },
     {
       "symbol": "BWXT",
       "name": "BWX Technologies",
-      "score": -2.1,
-      "confidence": 0.49000000000000005,
-      "day_change": -2.1059307544334382,
+      "score": 0.10000000000000009,
+      "confidence": 0.29000000000000004,
+      "day_change": -2.0180639501961917,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21"
+      "pro": "Kurs über EMA21 · 5m +0.22%",
+      "contra": "EMA-Trend schwach"
     },
     {
       "symbol": "LMT",
       "name": "Lockheed Martin",
-      "score": -2.1,
-      "confidence": 0.49000000000000005,
-      "day_change": -2.2596616751434873,
+      "score": -1.1,
+      "confidence": 0.39,
+      "day_change": -2.264587351076508,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "",
+      "pro": "RSI 53 konstruktiv",
       "contra": "EMA-Trend schwach · Kurs unter EMA21"
-    },
-    {
-      "symbol": "MRK",
-      "name": "Merck & Co., Inc.",
-      "score": -2.3528201492537315,
-      "confidence": 0.6583820149253732,
-      "day_change": 13.087223947881622,
-      "news_score": 0.0698507462686567,
-      "event_risk": "NONE",
-      "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
-    },
-    {
-      "symbol": "MSTR",
-      "name": "Strategy Inc",
-      "score": -2.5771044151455014,
-      "confidence": 0.6727104415145502,
-      "day_change": 11.710985037757894,
-      "news_score": 0.07476470241487042,
-      "event_risk": "NONE",
-      "pro": "RSI 63 konstruktiv",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 20m -0.70% · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     }
   ],
   "recentHistory": [
@@ -176,7 +198,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal QH: Score 6.45, Konfidenz 63%.",
+      "reason": "Kein Trade. Bestes Signal QH: Score 6.45, Konfidenz 69%.",
       "score": null
     },
     {
@@ -854,19 +876,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T19:30:11.103Z",
+    "lastSeenAt": "2026-08-19T19:32:11.513Z",
     "ageSeconds": 25,
     "metrics": {
-      "lastSeenAt": "2026-08-19T19:30:11.103Z",
+      "lastSeenAt": "2026-08-19T19:32:11.513Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 19341055,
+      "storageBytes": 19387253,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.11,
-      "ramMb": 63.3,
-      "downloadedBytes": 9108051059,
-      "uploadedBytes": 15996467,
+      "cpuPct": 0.16,
+      "ramMb": 66.6,
+      "downloadedBytes": 9156077817,
+      "uploadedBytes": 16111803,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T19:27:19.9191206Z",
@@ -896,8 +918,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 96,
-      "updated_at": "2026-08-19T19:30:17.076Z"
+      "latency_ms": 97,
+      "updated_at": "2026-08-19T19:31:23.126Z"
     },
     {
       "source": "Yahoo FX",
@@ -905,8 +927,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 130,
-      "updated_at": "2026-08-19T19:30:17.076Z"
+      "latency_ms": 109,
+      "updated_at": "2026-08-19T19:31:23.126Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -914,8 +936,8 @@
       "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 261,
-      "updated_at": "2026-08-19T19:30:17.076Z"
+      "latency_ms": 256,
+      "updated_at": "2026-08-19T19:31:23.126Z"
     },
     {
       "source": "Yahoo News",
@@ -923,26 +945,8 @@
       "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1139,
-      "updated_at": "2026-08-19T19:30:17.076Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 922,
-      "updated_at": "2026-08-19T19:30:17.076Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1082,
-      "updated_at": "2026-08-19T19:30:17.076Z"
+      "latency_ms": 398,
+      "updated_at": "2026-08-19T19:31:23.126Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -950,8 +954,26 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 2049,
-      "updated_at": "2026-08-19T19:30:17.076Z"
+      "latency_ms": 260,
+      "updated_at": "2026-08-19T19:31:23.126Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 540,
+      "updated_at": "2026-08-19T19:31:23.126Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1002,
+      "updated_at": "2026-08-19T19:31:23.126Z"
     },
     {
       "source": "Unternehmenstermine (Nasdaq-Fallback)",
@@ -960,7 +982,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:30:17.076Z"
+      "updated_at": "2026-08-19T19:31:23.126Z"
     },
     {
       "source": "finanzen.net News (Fallback)",
@@ -968,8 +990,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 805,
-      "updated_at": "2026-08-19T19:30:17.076Z"
+      "latency_ms": 294,
+      "updated_at": "2026-08-19T19:31:23.126Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -978,16 +1000,16 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:30:17.076Z"
+      "updated_at": "2026-08-19T19:31:23.126Z"
     },
     {
       "source": "Second-Chance 1m",
       "status": "OK",
-      "ok_count": 1,
+      "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:30:17.076Z"
+      "updated_at": "2026-08-19T19:31:23.126Z"
     }
   ]
 }
