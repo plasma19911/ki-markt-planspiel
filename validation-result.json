@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-19T15:43:24.921112+00:00",
-  "commit": "a2410feb75d3cfad6f5af4919e4f1a12c927b61e",
+  "checkedAt": "2026-08-19T15:44:56.469147+00:00",
+  "commit": "8fbaa13c82a800ab9e844853148d52ca2fc0716d",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 9s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 5s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -192,9 +192,9 @@
       "tail": "{\n  \"ok\": true,\n  \"earlyConfirmed\": true,\n  \"lateChaseBlocked\": true,\n  \"noForcedBuy\": true,\n  \"earlyBuy\": {\n    \"symbol\": \"EARLY.DE\",\n    \"action\": \"BUY\",\n    \"confidence\": 0.79,\n    \"allocation_pct\": 45,\n    \"reason\": \"starkes Setup · EARLY-BREAKOUT bestätigt 7.60 · Tag +2.2% noch im Early-Fenster · 5m +0.31% · 20m +0.74% · Beschleunigung +0.09 · max. 45%\"\n  }\n}\n"
     },
     "research_entry": {
-      "ok": false,
-      "exitCode": 1,
-      "tail": "{\n  \"ok\": true,\n  \"weakBlocked\": true,\n  \"strongAllowed\": true,\n  \"strongCap\": 35,\n  \"nearMissStarter\": 22\n}\nnode:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Aussergewoehnlich klar bessere Alternative darf trotz Replay-Churn frueher rotieren\n\nfalse !== true\n\n    at file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/scripts/smoke-balanced-adaptive.mjs:40:8\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/scripts/smoke-research-entry-quality.mjs:32:1 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"weakBlocked\": true,\n  \"strongAllowed\": true,\n  \"strongCap\": 35,\n  \"nearMissStarter\": 22\n}\n{\n  \"ok\": true,\n  \"pressure\": {\n    \"total\": 60,\n    \"completedDays\": 1,\n    \"windowDays\": 0,\n    \"missed\": 12,\n    \"late\": 5,\n    \"peak\": 3,\n    \"missedRate\": 0.2,\n    \"lateRate\": 0.083,\n    \"peakRate\": 0.05,\n    \"evidence\": 0.527,\n    \"opportunityBoost\": 0.098,\n    \"peakPenalty\": 0.022,\n    \"active\": true\n  },\n  \"softStarterPct\": 21.4,\n  \"firstMarginalExitHeld\": true,\n  \"secondMarginalExitAllowed\": true,\n  \"hardSafetyPreserved\": true,\n  \"lossOpportunityRotationBlocked\": true\n}\n"
     },
     "target_venue_guard": {
       "ok": true,
@@ -253,7 +253,6 @@
     }
   },
   "failedChecks": [
-    "research_entry",
     "rotation_cost",
     "pc_wide_sweep"
   ],
