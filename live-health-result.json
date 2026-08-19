@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T10:15:22.904426+00:00",
+  "checkedAt": "2026-08-19T10:16:47.887615+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -26,7 +26,7 @@
     "secondChanceWatch": true,
     "fastInfoProfile": true,
     "forwardScanner": true,
-    "reboundScanner": true,
+    "reboundScanner": false,
     "fallingKnifeProtection": true,
     "earlyBreakoutScanner": true,
     "earlyBreakoutGuard": true,
@@ -37,6 +37,7 @@
   },
   "allRequiredChecksPassed": false,
   "failedChecks": [
+    "reboundScanner",
     "pcWideSweep"
   ],
   "running": 1,
@@ -363,9 +364,9 @@
   },
   "reboundScan": {
     "enabled": true,
-    "target": 16,
+    "target": 24,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T10:13:18.340Z",
+    "updatedAt": "2026-08-19T10:16:16.193Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -382,13 +383,13 @@
     "confirmationRequired": true,
     "fallingKnifeBuysBlocked": true,
     "refreshMinutes": 2,
-    "mode": "bis zu 16 Tagesverlierer separat und frischer beobachten; BUY nur bei gebremstem Fall/Stabilisierung"
+    "mode": "bis zu 24 Tagesverlierer separat und frischer beobachten; Early-Dip-Pfad prueft vor der sichtbaren Umkehr mit 1m-Daten"
   },
   "earlyBreakoutScan": {
     "enabled": true,
     "target": 12,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T10:13:18.340Z",
+    "updatedAt": "2026-08-19T10:16:16.193Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -413,7 +414,7 @@
     "enabled": true,
     "target": 64,
     "candidateCount": 0,
-    "updatedAt": "2026-08-19T10:15:08.347Z",
+    "updatedAt": "2026-08-19T10:16:16.559Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "profile": "STANDARD_WIDE_SWEEP",
@@ -735,7 +736,7 @@
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
     "lastFetchBudget": null,
-    "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Dip/Rebound-Radar beobachtet bis zu 16 Tagesverlierer; fallende Messer bleiben gesperrt, bis der Verkaufsdruck nachlaesst bzw. eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. Der Haupt-C#-Agent bleibt aktiv; ein Fast-Radar kann parallel weitere frische Dips/HOT-Werte zuliefern, ohne einen zweiten Trade-Scan auszulösen. Nur die bis zu 64 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen. Tages-Replay kann auf dem PC lokal laufen und spaeter synchronisiert werden; morgens werden die aktuellen News-/Forward-Signale neu geladen.",
+    "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Dip/Rebound-Radar beobachtet bis zu 24 Tagesverlierer; der neue Early-Dip-Pfad darf gebremste Ruecksetzer schon vor dem offensichtlichen Rebound in die Tiefenpruefung heben. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. Der Haupt-C#-Agent bleibt aktiv; ein Fast-Radar kann parallel weitere frische Dips/HOT-Werte zuliefern, ohne einen zweiten Trade-Scan auszulösen. Nur die bis zu 64 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen. Tages-Replay kann auf dem PC lokal laufen und spaeter synchronisiert werden; morgens werden die aktuellen News-/Forward-Signale neu geladen.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
     "newsAtNight": false,
@@ -750,7 +751,7 @@
     "forwardPoolTarget": 15,
     "deepFinalists": 6,
     "secondChanceCapture": true,
-    "reboundPoolTarget": 16,
+    "reboundPoolTarget": 24,
     "reboundPoolCandidates": 6,
     "earlyBreakoutPoolTarget": 12,
     "earlyBreakoutPoolCandidates": 6,
@@ -782,10 +783,10 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T10:15:08.347Z",
-    "ageSeconds": 14,
+    "lastSeenAt": "2026-08-19T10:16:16.559Z",
+    "ageSeconds": 31,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-19T10:13:18.340Z",
+    "prefetchAt": "2026-08-19T10:16:16.193Z",
     "resolvedLeaderCount": 6,
     "leaderHealthy": false,
     "futureCandidates": 0,
@@ -796,16 +797,16 @@
     "wideSweepMasterCount": 8530,
     "wideSweepScannedCount": 656,
     "metrics": {
-      "lastSeenAt": "2026-08-19T10:15:08.347Z",
+      "lastSeenAt": "2026-08-19T10:16:16.559Z",
       "version": "2.0.13-csharp-keyless-multisou",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 10672444,
+      "storageBytes": 10674493,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0,
-      "ramMb": 53.8,
-      "downloadedBytes": 70643077,
-      "uploadedBytes": 356849,
+      "cpuPct": 0.01,
+      "ramMb": 56,
+      "downloadedBytes": 80070315,
+      "uploadedBytes": 358874,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_KEYLESS_MULTISOURCE_LOW_L",
       "lastLocalCleanupAt": "2026-08-19T09:56:07.7975280Z",
