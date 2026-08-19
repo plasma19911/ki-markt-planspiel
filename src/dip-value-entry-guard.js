@@ -5,6 +5,9 @@ import {targetVenueIssue} from './target-venue-ai-guard.js';
 // kontrollierte Ruecksetzer. Ein noch leicht fallender Kurs ist als kleine
 // Starterposition erlaubt, wenn der Abwaertsdruck sichtbar nachlaesst. Groesser
 // wird erst beim bestaetigten Rebound gekauft. Near-High/Breakout bleibt Ausnahme.
+// Neu: Ein komplett leeres Depot darf nicht durch widerspruechliche Soft-Regeln
+// dauerhaft in 100% Cash festhaengen. Dann ist eine kleine, harte-Safety-gepruefte
+// Starterposition erlaubt, auch wenn der perfekte Dip noch fehlt.
 
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
@@ -62,6 +65,19 @@ export function assessDipValueEntry(c={}){
  return{allow,mode,cap,valueScore:+valueScore.toFixed(3),...x,falling,fallSlowing,inDip,deepDip,rebound,dipStarter,unknownValue,exceptionalBreakout,blockers:[...new Set(blockers)]};
 }
 
+function assessEmptyDepotStarter(q={}){
+ // Recovery nur fuer ein wirklich leeres Depot. Das ist KEIN Ersatz fuer die
+ // normalen Dip-Regeln und darf niemals Hard-Safety, Venue oder Reversal umgehen.
+ const baseQuality=(q.score>=3.40&&q.confidence>=.60)||(q.score>=3.05&&q.confidence>=.70)||(q.score>=2.90&&q.confidence>=.62&&q.news>=.30);
+ const tapeOk=q.day>=-6&&q.day<=3&&q.m5>=-.35&&q.m20>=-1.35;
+ const temperatureOk=q.rsi>=28&&q.rsi<=69;
+ const priceOk=!q.drawKnown||q.draw<=-.08||q.day<=.90;
+ const allow=q.hardSafe&&baseQuality&&tapeOk&&temperatureOk&&priceOk;
+ const cap=q.day>1.8?8:q.day>.8?10:12;
+ const score=q.valueScore+q.confidence*1.2-Math.max(0,q.day)*.18+(q.m5>0?.25:0)+(q.accel>0?.20:0)+(q.wideDipDiscovery?.35:0);
+ return{allow,cap,score:+score.toFixed(3)};
+}
+
 function reasonFor(q){
  const src=q.wideDipDiscovery?'Breitscan-Dip · ':'';
  if(q.mode==='DIP_REBOUND')return `${src}Ruecksetzer ${q.draw?.toFixed(2)}% vom 20m-Hoch stabilisiert sich; 5m ${q.m5>=0?'+':''}${q.m5.toFixed(2)}%, Beschl. ${q.accel>=0?'+':''}${q.accel.toFixed(2)}`;
@@ -73,7 +89,7 @@ function reasonFor(q){
 
 function postProcess(r,input){
  const plan=parsePlan(r),prompt=findPrompt(input);if(!plan||!prompt)return r;
- const candidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]),held=arr(parseBlock(prompt,' Gehalten=')||[]),cash=promptCash(prompt);
+ const candidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]),held=arr(parseBlock(prompt,' Gehalten=')||[]),cash=promptCash(prompt),emptyDepot=held.length===0;
  if(!candidates.length)return r;
  const cMap=new Map(candidates.map(c=>[key(c),c])),heldSet=new Set(held.map(key)),out=[],blocked=[];
 
@@ -96,11 +112,25 @@ function postProcess(r,input){
   }
  }
 
+ // Deadlock-Schutz: Ist das Depot komplett leer und wurde ein vom inneren System
+ // gewollter Kauf nur wegen einer weichen Preisregel blockiert, darf der beste
+ // harte-Safety-gepruefte Kandidat eine kleine Starterposition bekommen.
+ if(!hasBuy&&cash>2&&emptyDepot){
+  const best=candidates.filter(c=>!heldSet.has(key(c))).map(c=>{const q=assessDipValueEntry(c),starter=assessEmptyDepotStarter(q);return{c,q,starter}}).filter(x=>x.starter.allow).sort((a,b)=>b.starter.score-a.starter.score)[0];
+  if(best){
+   const symbol=key(best.c);
+   for(let i=out.length-1;i>=0;i--)if(key(out[i])===symbol&&String(out[i]?.action||'').toUpperCase()==='HOLD'&&String(out[i]?.reason||'').startsWith('DIP-FIRST-WAIT'))out.splice(i,1);
+   out.push({symbol,action:'BUY',confidence:clamp(best.q.confidence,.58,.79),allocation_pct:best.starter.cap,reason:`EMPTY-DEPOT-STARTER: Depot war 100% Cash. ${best.q.wideDipDiscovery?'Gebremster Breitscan-Dip':'bester ausreichend starker Safety-Kandidat'} · Score ${best.q.score.toFixed(2)} · Konfidenz ${(best.q.confidence*100).toFixed(0)}% · nur ${best.starter.cap}% Startposition, Rest-Cash bleibt fuer besseren Dip/Rebound.`});
+   hasBuy=true;
+  }
+ }
+
  // Rotation nur zum Zweck eines anschliessend blockierten teuren Kaufs vermeiden.
  const finalActions=hasBuy?out:out.filter(a=>!isRotationSell(a));
  if(blocked.length||hasBuy){
-  const dipBuys=finalActions.filter(a=>String(a?.action||'').toUpperCase()==='BUY');
-  plan.summary=`${String(plan.summary||'').slice(0,145)} · DIP-FIRST: ${blocked.length} zu teure/unbestaetigte Kaufidee(n) gestoppt; ${dipBuys.length?`${dipBuys.length} guenstiger Dip-/Value-Einstieg`: 'kein Kauf – Cash wartet auf besseren Preis'}.`;
+  const entryBuys=finalActions.filter(a=>String(a?.action||'').toUpperCase()==='BUY');
+  const emptyStarter=entryBuys.some(a=>String(a?.reason||'').startsWith('EMPTY-DEPOT-STARTER'));
+  plan.summary=`${String(plan.summary||'').slice(0,135)} · DIP-FIRST: ${blocked.length} zu teure/unbestaetigte Kaufidee(n) gestoppt; ${entryBuys.length?(emptyStarter?'leeres Depot mit kleiner Safety-Starterposition aktiviert':`${entryBuys.length} guenstiger Dip-/Value-Einstieg`):'kein Kauf – Cash wartet auf besseren Preis'}.`;
  }
  plan.actions=finalActions;
  return{...r,response:JSON.stringify(plan)};
