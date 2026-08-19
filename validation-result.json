@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-19T18:37:44.424805+00:00",
-  "commit": "cdb443e02af69488f90942458a80eb2d5cce5c1d",
+  "checkedAt": "2026-08-19T18:37:59.154403+00:00",
+  "commit": "919467199c21ad12d2db8bbef2a2a9ca493d6ab8",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 7s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 8s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -254,12 +254,12 @@
     "core_trade_paths": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"directMomentumSellBypass\": false,\n  \"aiFailureScoreSellBypass\": false,\n  \"aiFailureForcedBuy\": false,\n  \"hardEventExit\": true,\n  \"shockNewsPriority\": true,\n  \"legalNameNewsQuery\": true\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"directMomentumSellBypass\": false,\n  \"aiFailureScoreSellBypass\": false,\n  \"aiFailureForcedBuy\": false,\n  \"hardEventExit\": true,\n  \"requestGlobalFetchMutation\": false,\n  \"requestLocalGoogleNewsDisable\": true,\n  \"shockNewsPriority\": true,\n  \"legalNameNewsQuery\": true\n}\n"
     },
     "wrangler_dryrun": {
       "ok": false,
       "exitCode": 1,
-      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n\n\u001b[31m✘ \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mBuild failed with 1 error:\u001b[0m\n\n  \u001b[31m✘ \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mExpected \";\" but found \"const\"\u001b[0m\n  \n      src/r2-portfolio.js:75:648:\n  \u001b[37m      75 │ ...s.positions.map(p=>p.symbol))\u001b[32mconst\u001b[37m candidates=dedupe(m.candidat...\n           │                                 \u001b[32m~~~~~\u001b[37m\n           ╵                                 \u001b[32m;\u001b[0m\n  \n  \n\n\n🪵  Logs were written to \"/home/runner/.config/.wrangler/logs/wrangler-2026-08-19_18-37-43_550.log\"\n"
+      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n\n\u001b[31m✘ \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mBuild failed with 1 error:\u001b[0m\n\n  \u001b[31m✘ \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mExpected \";\" but found \"const\"\u001b[0m\n  \n      src/r2-portfolio.js:75:648:\n  \u001b[37m      75 │ ...s.positions.map(p=>p.symbol))\u001b[32mconst\u001b[37m candidates=dedupe(m.candidat...\n           │                                 \u001b[32m~~~~~\u001b[37m\n           ╵                                 \u001b[32m;\u001b[0m\n  \n  \n\n\n🪵  Logs were written to \"/home/runner/.config/.wrangler/logs/wrangler-2026-08-19_18-37-58_314.log\"\n"
     }
   },
   "failedChecks": [
