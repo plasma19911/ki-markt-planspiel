@@ -3,8 +3,8 @@ const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
 const key=x=>String(x?.symbol||x||'').toUpperCase().trim();
 const responseText=r=>String(r?.response||r?.result?.response||'');
-const HEADERS={'accept':'application/json','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/MultiTimeframeV1.1)'};
-const MAX_CONTEXT_SYMBOLS=3;
+const HEADERS={'accept':'application/json','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/MultiTimeframeV1.2)'};
+const MAX_CONTEXT_SYMBOLS=1;
 
 function parsePlan(r){const raw=responseText(r),a=raw.indexOf('{'),b=raw.lastIndexOf('}');if(a<0||b<=a)return null;try{const j=JSON.parse(raw.slice(a,b+1));return Array.isArray(j.actions)?j:null}catch{return null}}
 function findPrompt(input){for(const m of arr(input?.messages)){const t=String(m?.content||'');if(t.includes('Kandidaten=')&&t.includes(' Gehalten='))return t}return''}
@@ -12,23 +12,14 @@ function parseBlock(text,start,end=null){const a=text.indexOf(start);if(a<0)retu
 function ema(a,p){if(a.length<p)return null;const k=2/(p+1);let e=a.slice(0,p).reduce((x,y)=>x+y,0)/p;for(const v of a.slice(p))e=v*k+e*(1-k);return e}
 
 async function oneChart(symbol,range,interval){
- let error='';
- for(const host of ['query1.finance.yahoo.com','query2.finance.yahoo.com']){
-  try{
-   const u=new URL(`https://${host}/v8/finance/chart/${encodeURIComponent(symbol)}`);u.searchParams.set('range',range);u.searchParams.set('interval',interval);u.searchParams.set('includePrePost','false');
-   const r=await fetch(u,{headers:HEADERS});if(!r.ok){error=`${host} ${range}/${interval} HTTP ${r.status}`;continue}
-   const j=await r.json(),res=j?.chart?.result?.[0],q=res?.indicators?.quote?.[0]||{},ts=res?.timestamp||[],rows=[];
-   for(let i=0;i<ts.length;i++){const c=Number(q.close?.[i]);if(!Number.isFinite(c)||c<=0)continue;const o=Number(q.open?.[i]),h=Number(q.high?.[i]),l=Number(q.low?.[i]);rows.push({ts:num(ts[i]),o:Number.isFinite(o)&&o>0?o:c,h:Number.isFinite(h)&&h>0?h:c,l:Number.isFinite(l)&&l>0?l:c,c,v:Math.max(0,num(q.volume?.[i]))})}
-   if(rows.length<24){error=`${range}/${interval}: nur ${rows.length} Balken`;continue}
-   return{rows,error:null,source:`${host} ${range}/${interval}`};
-  }catch(e){error=String(e?.message||e)}
- }
- return{rows:[],error:error||'Chart nicht verfügbar',source:null};
-}
-async function timeframeChart(symbol,kind){
- const configs=kind==='daily'?[['6mo','1d'],['1y','1d']]:[['2y','1wk'],['5y','1wk'],['1y','1wk']];let last={rows:[],error:'keine Daten',source:null};
- for(const [range,interval] of configs){last=await oneChart(symbol,range,interval);if(last.rows.length>=24)return last}
- return last;
+ try{
+  const u=new URL(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}`);u.searchParams.set('range',range);u.searchParams.set('interval',interval);u.searchParams.set('includePrePost','false');
+  const r=await fetch(u,{headers:HEADERS});if(!r.ok)return{rows:[],error:`query1 ${range}/${interval} HTTP ${r.status}`,source:null};
+  const j=await r.json(),res=j?.chart?.result?.[0],q=res?.indicators?.quote?.[0]||{},ts=res?.timestamp||[],rows=[];
+  for(let i=0;i<ts.length;i++){const c=Number(q.close?.[i]);if(!Number.isFinite(c)||c<=0)continue;const o=Number(q.open?.[i]),h=Number(q.high?.[i]),l=Number(q.low?.[i]);rows.push({ts:num(ts[i]),o:Number.isFinite(o)&&o>0?o:c,h:Number.isFinite(h)&&h>0?h:c,l:Number.isFinite(l)&&l>0?l:c,c,v:Math.max(0,num(q.volume?.[i]))})}
+  if(rows.length<24)return{rows:[],error:`${range}/${interval}: nur ${rows.length} Balken`,source:null};
+  return{rows,error:null,source:`query1 ${range}/${interval}`};
+ }catch(e){return{rows:[],error:String(e?.message||e),source:null}}
 }
 
 function structure(rows=[]){
@@ -39,35 +30,31 @@ function structure(rows=[]){
  return{trend,rangePos:+rangePos.toFixed(3),supportZone,resistanceZone,base,top,higherLows,lowerLows,higherHighs,lowerHighs,risingCloses,fallingCloses,slope:+slope.toFixed(5),last:+last.toFixed(6)};
 }
 function headlineText(h){if(typeof h==='string')return h;return String(h?.title||h?.headline||h?.text||'')}
-function newsContext(c={}){const event=String(c?.eventRisk||c?.event_risk||'NONE').toUpperCase(),heads=arr(c?.headlines).map(headlineText).filter(Boolean).slice(0,4),text=heads.join(' | ').toLowerCase(),score=num(c?.news,c?.newsScore),severeNegative=/(profit warning|gewinnwarnung|cuts? guidance|guidance lowered|prognose gesenkt|bankrupt|insolven|default|fraud|betrug|investigation|ermittlung|recall|rückruf|cyberattack|data breach|capital increase|kapitalerhöhung|rights issue|dilution|misses estimates|verfehlt erwartungen)/i.test(text),positive=/(raises? guidance|guidance raised|prognose angehoben|beats? estimates|übertrifft erwartungen|record orders|rekordauftrag|contract award|auftrag|approval granted|buyback|dividend increase)/i.test(text);return{event,score,heads,severeNegative,positive,hardNegative:event==='HIGH'||severeNegative}}
+function newsContext(c={}){const event=String(c?.eventRisk||c?.event_risk||'NONE').toUpperCase(),heads=arr(c?.headlines).map(headlineText).filter(Boolean).slice(0,4),text=heads.join(' | ').toLowerCase(),score=num(c?.news,c?.newsScore),severeNegative=/(profit warning|gewinnwarnung|cuts? guidance|guidance lowered|prognose gesenkt|bankrupt|insolven|default|fraud|betrug|investigation|ermittlung|recall|rückruf|cyberattack|data breach|capital increase|kapitalerhöhung|rights issue|dilution|misses estimates|verfehlt erwartungen)/i.test(text),positive=/(raises? guidance|guidance raised|prognose angehoben|beats? estimates|übertrifft erwartungen|record orders|rekordauftrag|contract award|auftrag|approval granted|buyback|dividend increase|phase 3|clinical trial|primary endpoint)/i.test(text);return{event,score,heads,severeNegative,positive,hardNegative:event==='HIGH'||severeNegative}}
 function contextReason(d,w,n){const pct=x=>x?`${Math.round(x.rangePos*100)}% der jüngsten Spanne`:'keine Daten';return`Tageschart ${d?.trend||'?'}, ${pct(d)}${d?.supportZone?' · nahe Unterstützung':''}${d?.resistanceZone?' · nahe Widerstand':''}; Wochenchart ${w?.trend||'?'}, ${pct(w)}${w?.supportZone?' · nahe Unterstützung':''}${w?.resistanceZone?' · nahe Widerstand':''}; News ${n.hardNegative?'negatives Warnsignal':n.positive?'positiver Katalysator':n.heads.length?'geprüft/neutral':'ohne neue harte Meldung'}`}
-function hardTradeReason(a={}){return /(?:HARD|EVENT[- ]?RISK|NOTAUSSTIEG|STOP[- ]?LOSS|STRONG\s+SELL)/i.test(String(a?.reason||''))}
 
 async function postProcess(r,input){
- const plan=parsePlan(r),prompt=findPrompt(input);if(!plan||!prompt)return r;const candidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]),held=arr(parseBlock(prompt,' Gehalten=')||[]),map=new Map([...candidates,...held].map(x=>[key(x),x]));
- const symbols=[...new Set(arr(plan.actions).filter(a=>['BUY','SELL'].includes(String(a?.action||'').toUpperCase())).map(key).filter(Boolean))].slice(0,MAX_CONTEXT_SYMBOLS),checks=new Map();
- await Promise.all(symbols.map(async s=>{const [d,w]=await Promise.all([timeframeChart(s,'daily'),timeframeChart(s,'weekly')]);checks.set(s,{daily:structure(d.rows),weekly:structure(w.rows),dailySource:d.source,weeklySource:w.source,errors:[d.error,w.error].filter(Boolean)})}));
+ const plan=parsePlan(r),prompt=findPrompt(input);if(!plan||!prompt)return r;
+ const candidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]),map=new Map(candidates.map(x=>[key(x),x]));
+ // Zusätzliche Tages-/Wochen-Netzrequests nur für EINEN tatsächlich geplanten neuen BUY.
+ // SELL bleibt bei Candle-Flow/Hard-Risk, damit der Free-Worker nicht wieder am Subrequest-Limit scheitert.
+ const buySymbol=arr(plan.actions).find(a=>String(a?.action||'').toUpperCase()==='BUY'&&key(a));
+ const symbols=buySymbol?[key(buySymbol)].slice(0,MAX_CONTEXT_SYMBOLS):[],checks=new Map();
+ await Promise.all(symbols.map(async s=>{const [d,w]=await Promise.all([oneChart(s,'6mo','1d'),oneChart(s,'2y','1wk')]);checks.set(s,{daily:structure(d.rows),weekly:structure(w.rows),dailySource:d.source,weeklySource:w.source,errors:[d.error,w.error].filter(Boolean)})}));
  const out=[],notes=[];
  for(const a of arr(plan.actions)){
-  const act=String(a?.action||'').toUpperCase(),s=key(a);if(!['BUY','SELL'].includes(act)||!checks.has(s)){out.push(a);continue}const c=map.get(s)||{},x=checks.get(s),d=x.daily,w=x.weekly,n=newsContext(c),ctx=contextReason(d,w,n),hard=hardTradeReason(a)||n.event==='HIGH';
-  if(act==='BUY'){
-   if(!d||!w){out.push({symbol:s,action:'HOLD',confidence:.73,allocation_pct:0,reason:`MULTI-TIMEFRAME DATA-WAIT: neuer Kauf wird nicht ausgeführt, weil Tages- oder Wochenchart nicht vollständig geladen wurde (${x.errors.join(' · ')||'keine Struktur'}). Minutenchart allein reicht nicht.`});notes.push(`${s} wartet auf Tages-/Wochenchart`);continue}
-   if(n.hardNegative){out.push({symbol:s,action:'HOLD',confidence:.74,allocation_pct:0,reason:`MULTI-TIMEFRAME WAIT: optischer Dip wird wegen aktueller Unternehmens-/Event-News nicht gekauft. ${ctx}.`});notes.push(`${s} News-Risiko blockiert Dip`);continue}
-   if(d.trend==='DOWN'&&w.trend==='DOWN'&&!d.base){out.push({symbol:s,action:'HOLD',confidence:.72,allocation_pct:0,reason:`MULTI-TIMEFRAME WAIT: Minutenboden reicht nicht, weil Tages- und Wochenstruktur weiter abwärts zeigen. ${ctx}. Erst echte übergeordnete Stabilisierung statt fallendes Messer.`});notes.push(`${s} Abwärtstrend statt sauberem Dip`);continue}
-   const dipLike=/DIP|BODEN|PULLBACK|RUECKSETZER|RÜCKSETZER/i.test(String(a?.reason||'')),highContext=Boolean(d.resistanceZone&&w.resistanceZone&&!dipLike),weakContext=Boolean((d.trend==='DOWN'&&w.trend!=='UP')||d.top);
-   if(highContext){out.push({symbol:s,action:'HOLD',confidence:.70,allocation_pct:0,reason:`MULTI-TIMEFRAME WAIT: Einstieg liegt strukturell zu hoch an Tages- und Wochenwiderstand. ${ctx}. Nicht hinterherkaufen.`});notes.push(`${s} zu hoch für neuen Einstieg`);continue}
-   let mult=1;if(weakContext)mult*=.55;if(d.supportZone)mult*=1.08;if(w.trend==='UP')mult*=1.05;if(n.positive)mult*=1.05;const allocation=clamp(num(a?.allocation_pct)*mult,0,35);
-   out.push({...a,allocation_pct:+allocation.toFixed(2),reason:`${String(a?.reason||'').slice(0,170)} · MULTI-TIMEFRAME V1.1: ${ctx}. Tagesquelle ${x.dailySource}; Wochenquelle ${x.weeklySource}. Positionsgröße an übergeordneten Kontext angepasst.`});continue
-  }
-  if(act==='SELL'){
-   if(hard){out.push({...a,reason:`${String(a?.reason||'').slice(0,205)} · MULTI-TIMEFRAME: harter Risikoexit bleibt vorrangig. ${ctx}.`});continue}
-   if(!d||!w){out.push({symbol:s,action:'HOLD',confidence:.70,allocation_pct:0,reason:`MULTI-TIMEFRAME DATA-HOLD: normaler Verkauf wartet auf Tages- und Wochenkontext (${x.errors.join(' · ')||'keine Struktur'}). Harter Risikoexit wäre weiterhin erlaubt.`});notes.push(`${s} SELL wartet auf Mehr-Zeitebenen-Daten`);continue}
-   const sellingLow=Boolean(d.supportZone&&w.trend==='UP'&&!d.top&&!n.hardNegative),sellingHigh=Boolean(d.resistanceZone||w.resistanceZone||d.top);
-   if(sellingLow){out.push({symbol:s,action:'HOLD',confidence:clamp(num(a?.confidence,.7),.60,.82),allocation_pct:0,reason:`MULTI-TIMEFRAME HOLD: kurzfristiger Verkäuferdruck liegt noch in einer übergeordneten Unterstützungs-/Aufwärtsstruktur. ${ctx}. Nicht tief verkaufen; erneute Verkäuferbestätigung abwarten.`});notes.push(`${s} nicht an Unterstützung verkauft`);continue}
-   out.push({...a,confidence:sellingHigh?clamp(Math.max(num(a?.confidence,.7),.76),.6,.92):a.confidence,reason:`${String(a?.reason||'').slice(0,185)} · MULTI-TIMEFRAME V1.1: ${ctx}${sellingHigh?' · Ausstieg liegt strukturell eher hoch/nahe Widerstand.':''}.`});
-  }
+  const act=String(a?.action||'').toUpperCase(),s=key(a);
+  if(act!=='BUY'||!checks.has(s)){out.push(a);continue}
+  const c=map.get(s)||{},x=checks.get(s),d=x.daily,w=x.weekly,n=newsContext(c),ctx=contextReason(d,w,n);
+  if(!d||!w){out.push({symbol:s,action:'HOLD',confidence:.73,allocation_pct:0,reason:`MULTI-TIMEFRAME DATA-WAIT: neuer Kauf wird nicht ausgeführt, weil Tages- oder Wochenchart nicht vollständig geladen wurde (${x.errors.join(' · ')||'keine Struktur'}). Minutenchart allein reicht nicht.`});notes.push(`${s} wartet auf Tages-/Wochenchart`);continue}
+  if(n.hardNegative){out.push({symbol:s,action:'HOLD',confidence:.74,allocation_pct:0,reason:`MULTI-TIMEFRAME WAIT: optischer Dip wird wegen aktueller Unternehmens-/Event-News nicht gekauft. ${ctx}.`});notes.push(`${s} News-Risiko blockiert Dip`);continue}
+  if(d.trend==='DOWN'&&w.trend==='DOWN'&&!d.base){out.push({symbol:s,action:'HOLD',confidence:.72,allocation_pct:0,reason:`MULTI-TIMEFRAME WAIT: Minutenboden reicht nicht, weil Tages- und Wochenstruktur weiter abwärts zeigen. ${ctx}. Erst echte übergeordnete Stabilisierung statt fallendes Messer.`});notes.push(`${s} Abwärtstrend statt sauberem Dip`);continue}
+  const dipLike=/DIP|BODEN|PULLBACK|RUECKSETZER|RÜCKSETZER|NEWS-SHOCK/i.test(String(a?.reason||'')),highContext=Boolean(d.resistanceZone&&w.resistanceZone&&!dipLike),weakContext=Boolean((d.trend==='DOWN'&&w.trend!=='UP')||d.top);
+  if(highContext){out.push({symbol:s,action:'HOLD',confidence:.70,allocation_pct:0,reason:`MULTI-TIMEFRAME WAIT: Einstieg liegt strukturell zu hoch an Tages- und Wochenwiderstand. ${ctx}. Nicht hinterherkaufen.`});notes.push(`${s} zu hoch für neuen Einstieg`);continue}
+  let mult=1;if(weakContext)mult*=.55;if(d.supportZone)mult*=1.08;if(w.trend==='UP')mult*=1.05;if(n.positive)mult*=1.05;const allocation=clamp(num(a?.allocation_pct)*mult,0,35);
+  out.push({...a,allocation_pct:+allocation.toFixed(2),reason:`${String(a?.reason||'').slice(0,170)} · MULTI-TIMEFRAME V1.2: ${ctx}. Tagesquelle ${x.dailySource}; Wochenquelle ${x.weeklySource}. Positionsgröße an übergeordneten Kontext angepasst.`});
  }
- plan.actions=out;if(notes.length)plan.summary=`${String(plan.summary||'').slice(0,125)} · Tages-/Wochenchart+News: ${notes.slice(0,3).join(' · ')}.`;return{...r,response:JSON.stringify(plan)};
+ plan.actions=out;if(notes.length)plan.summary=`${String(plan.summary||'').slice(0,125)} · Tages-/Wochenchart: ${notes.slice(0,2).join(' · ')}.`;return{...r,response:JSON.stringify(plan)};
 }
 
 export class MultiTimeframeTradeAiGuard{constructor(base){this.base=base}async run(model,input){const r=await this.base.run(model,input);return postProcess(r,input)}}
