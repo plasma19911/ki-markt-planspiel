@@ -19,10 +19,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Allow production deploy
         run: sleep 75
-      - name: Call recovery endpoint
+      - name: Call self-guarding recovery endpoint
         run: |
           BASE='https://ki-markt-planspiel.orkimperium.workers.dev'
-          code=$(curl -sS --retry 2 --retry-delay 2 -o /tmp/recover-body.txt -w '%{http_code}' -X POST -H 'x-recovery-key: 20260819-health-snapshot' "$BASE/api/recover-20260819-health-snapshot" || true)
+          code=$(curl -sS --retry 3 --retry-delay 3 -o /tmp/recover-body.txt -w '%{http_code}' "$BASE/api/recover-20260819-health-snapshot" || true)
           echo "$code" > /tmp/recover-code.txt
           python3 -c "import json,pathlib; code=pathlib.Path('/tmp/recover-code.txt').read_text().strip(); body=pathlib.Path('/tmp/recover-body.txt').read_text(encoding='utf-8',errors='replace') if pathlib.Path('/tmp/recover-body.txt').exists() else ''; pathlib.Path('/tmp/recovery-20260819-result.json').write_text(json.dumps({'http':code,'body':body},ensure_ascii=False,indent=2)+'\\n',encoding='utf-8')"
           cat /tmp/recovery-20260819-result.json
