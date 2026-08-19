@@ -23,9 +23,6 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Apply balanced deep selector
-        run: python3 scripts/apply-balanced-deep-selection.py
-
       - name: Install dependencies
         id: install
         continue-on-error: true
@@ -125,7 +122,7 @@ jobs:
             'checks':result,
             'failedChecks':failed,
             'allCodeAndRegressionChecksPassed':install_ok and not failed,
-            'note':'Temporary source application for the verified balanced-deep selector; revert workflow to validation-only after source commit lands.'
+            'note':'Validation-only workflow. It never rewrites trading source code.'
           }
           raw=json.dumps(out,ensure_ascii=False,indent=2)+'\n'
           pathlib.Path('/tmp/validation-result.json').write_text(raw,encoding='utf-8')
@@ -134,7 +131,7 @@ jobs:
         env:
           INSTALL_OUTCOME: ${{ steps.install.outcome }}
 
-      - name: Publish verified selector and validation report
+      - name: Publish validation report only
         if: always()
         run: |
           git config user.name 'github-actions[bot]'
@@ -142,16 +139,15 @@ jobs:
           for attempt in 1 2 3 4; do
             git fetch origin main
             git reset --hard origin/main
-            python3 scripts/apply-balanced-deep-selection.py
             cp /tmp/validation-result.json validation-result.json
-            git add src/market-v3-base.js validation-result.json
+            git add validation-result.json
             if git diff --cached --quiet; then
-              echo 'Selector and validation result unchanged'
+              echo 'Validation result unchanged'
               exit 0
             fi
-            git commit -m 'Balance deep scan between pullbacks and momentum [skip ci]'
+            git commit -m 'Update validation result [skip ci]'
             if git push origin HEAD:main; then
-              echo 'Balanced deep selector published'
+              echo 'Validation result published'
               exit 0
             fi
             sleep 3
