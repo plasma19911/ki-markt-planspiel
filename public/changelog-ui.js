@@ -1,5 +1,16 @@
 const CHANGELOG=[
   {
+    at:'19.08.2026 · 12:40',
+    title:'Fast-Radar leere HOT-Liste repariert',
+    items:[
+      'Live-Worker erkannte FAST_RADAR_TURBO_V3 mit 40 Batches/Minute und 8 parallelen Requests, aber der Scan blieb bei 0 Aktien stehen.',
+      'Ursache war eine leere PowerShell-ArrayList, die beim Funktions-Rückgabewert automatisch zu NULL entpackt wurde.',
+      'New-ObjList gibt leere Listen jetzt explizit als Objekt zurück; damit kann der erste Lauf auch ohne vorhandene HOT-Kandidaten starten.',
+      'Radar-Version auf 1.1.2 / FAST_RADAR_TURBO_V4 angehoben.',
+      'Installer zählt seinen eigenen Prüfprozess nicht mehr als zweiten Radar-PID.'
+    ]
+  },
+  {
     at:'19.08.2026 · 12:34',
     title:'Fast-Radar PowerShell-5.1-Typfehler behoben',
     items:[
