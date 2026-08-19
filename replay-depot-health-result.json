@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-19T20:34:54.555432+00:00",
-  "berlinNow": "2026-08-19T22:34:54.555306+02:00",
+  "checkedAt": "2026-08-19T20:35:28.493140+00:00",
+  "berlinNow": "2026-08-19T22:35:28.493030+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 105405,
-    "dashboard": 30999
+    "full": 103719,
+    "dashboard": 29313
   },
   "checks": {
     "fullStatus200": true,
@@ -30,7 +30,7 @@
     "capture": {
       "date": "2026-08-19",
       "symbolCount": 120,
-      "updatedAt": "2026-08-19T20:32:55.768Z"
+      "updatedAt": "2026-08-19T20:35:18.254Z"
     },
     "summary": {
       "symbolsAnalysed": 60,
@@ -42,151 +42,10 @@
         "MISSED_SAFE_MOVE": 9
       },
       "churn": {
-        "rapidRoundTrips": 32,
-        "totalRapidTradePnl": -183.622,
-        "fees": 109,
-        "rows": [
-          {
-            "symbol": "MRNA",
-            "minutes": 4.8,
-            "tradePnl": -6.783916119774915,
-            "buyFee": 2,
-            "sellFee": 2
-          },
-          {
-            "symbol": "EL",
-            "minutes": 1.9,
-            "tradePnl": -4.7597600065381584,
-            "buyFee": 2,
-            "sellFee": 2
-          },
-          {
-            "symbol": "MRVL",
-            "minutes": 6,
-            "tradePnl": -4.198480964717135,
-            "buyFee": 2,
-            "sellFee": 2
-          },
-          {
-            "symbol": "TSLA",
-            "minutes": 3,
-            "tradePnl": -2.472168764801239,
-            "buyFee": 1,
-            "sellFee": 1
-          },
-          {
-            "symbol": "MRNA",
-            "minutes": 6,
-            "tradePnl": -4.120338002346614,
-            "buyFee": 2,
-            "sellFee": 2
-          },
-          {
-            "symbol": "SKHY",
-            "minutes": 6,
-            "tradePnl": -6.546457943173323,
-            "buyFee": 2,
-            "sellFee": 2
-          },
-          {
-            "symbol": "BAH",
-            "minutes": 7.9,
-            "tradePnl": -4.401597149460258,
-            "buyFee": 2,
-            "sellFee": 2
-          },
-          {
-            "symbol": "MRNA",
-            "minutes": 4.8,
-            "tradePnl": -5.31159280781128,
-            "buyFee": 2,
-            "sellFee": 2
-          },
-          {
-            "symbol": "TGT",
-            "minutes": 4.9,
-            "tradePnl": -6.640948205320001,
-            "buyFee": 2,
-            "sellFee": 2
-          },
-          {
-            "symbol": "KEEL.TO",
-            "minutes": 3,
-            "tradePnl": -8.522196940725053,
-            "buyFee": 2,
-            "sellFee": 2
-          },
-          {
-            "symbol": "MRVL",
-            "minutes": 3,
-            "tradePnl": -5.855113580506213,
-            "buyFee": 2,
-            "sellFee": 2
-          },
-          {
-            "symbol": "COIN",
-            "minutes": 1.2,
-            "tradePnl": -4.841279217500869,
-            "buyFee": 2,
-            "sellFee": 2
-          },
-          {
-            "symbol": "MRK",
-            "minutes": 9,
-            "tradePnl": -3.9238109809230934,
-            "buyFee": 2,
-            "sellFee": 2
-          },
-          {
-            "symbol": "BAH",
-            "minutes": 12.1,
-            "tradePnl": -3.497601675476119,
-            "buyFee": 2,
-            "sellFee": 2
-          },
-          {
-            "symbol": "COIN",
-            "minutes": 10.2,
-            "tradePnl": -4.0193602058130296,
-            "buyFee": 2,
-            "sellFee": 2
-          },
-          {
-            "symbol": "MSTR",
-            "minutes": 4.2,
-            "tradePnl": -5.346143606539016,
-            "buyFee": 2,
-            "sellFee": 2
-          },
-          {
-            "symbol": "TSEM",
-            "minutes": 7.2,
-            "tradePnl": -5.705725875754837,
-            "buyFee": 2,
-            "sellFee": 2
-          },
-          {
-            "symbol": "CM",
-            "minutes": 3,
-            "tradePnl": -4.572516774411412,
-            "buyFee": 2,
-            "sellFee": 2
-          },
-          {
-            "symbol": "WDC",
-            "minutes": 12,
-            "tradePnl": -2.797709668630006,
-            "buyFee": 1,
-            "sellFee": 1
-          },
-          {
-            "symbol": "QH",
-            "minutes": 4,
-            "tradePnl": -13.61921572153966,
-            "buyFee": 2,
-            "sellFee": 2
-          }
-        ]
+        "rapidRoundTrips": 0,
+        "totalRapidTradePnl": 0,
+        "fees": 0,
+        "rows": []
       },
       "bestMissed": [
         {
@@ -1305,5 +1164,5 @@
     "displayAccountingDelta": 0.0,
     "positions": []
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: wed, 19 aug 2026 20:34:54 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=mm1dakxt8zu2qgxaw7rr5wbdmyesghjdcwg0cmbssuv%2fibs174mbs%2bzqqquqdwqghssb0dhlz2y6tjn94bhxoxyu3%2fnqynawf6nhfsq4dwoyobejkazlfm8ecc3p6a6ooqtevjm2greiannzqov3tadlz19jitj5xbwayau%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2dbf112187ec277-lax\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: wed, 19 aug 2026 20:35:28 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=r5dy9ikuy0cjkwx0yk2z7u3rhs4jrhh7ho9n6smqj%2fsrrqzlcoy1ntybmibf92lasdf1tx30bf18n50vmvwmgdea6najke23cfwr%2fz6megrxn5aubc6mxgkkxgimnqwgrmezwldfspl0gur9b%2fyndec6njmndg61gsps9pg%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2dbf1e41f39eb5a-ord\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
