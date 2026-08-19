@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-19T18:59:35.496317+00:00",
-  "commit": "1a7fc8e50fe366bbf1f853991eebf2c40559caeb",
+  "checkedAt": "2026-08-19T19:00:37.463248+00:00",
+  "commit": "2cca1579f38ee9bb513ebf830346a68f156c7834",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 6s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 7s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -27,9 +27,9 @@
       "tail": ""
     },
     "syntax_market_base": {
-      "ok": false,
-      "exitCode": 1,
-      "tail": "/home/runner/work/ki-markt-planspiel/ki-markt-planspiel/src/market-v3-base.js:128\n const tradable=coarse.filter(x=>!x.benchmark),freshTradable=tradable.filter(x=>x.fresh),selected=selectBalancedDeepCandidates(freshTradable,DEEP_LIMIT,MOMENTUM_BREAKOUT_RESERVE)for(const sym of heldSymbols){const inf=allScan.find(x=>x.symbol===sym);if(inf&&marketOpen(inf,now,calendar).open&&!selected.some(x=>x.symbol===sym)&&selected.length<DEEP_LIMIT+18){const x=tradable.find(v=>v.symbol===sym)||inf;if(x)selected.push({...x,fxRate:fx[inferCurrency(x)]||1})}}\n                                                                                                                                                                                  ^^^\n\nSyntaxError: Unexpected token 'for'\n    at checkSyntax (node:internal/main/check_syntax:74:5)\n\nNode.js v22.23.2\n"
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
     },
     "syntax_deep_selection": {
       "ok": true,
@@ -264,7 +264,7 @@
     "pc_wide_sweep": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"target\": 64,\n  \"dipReserve\": 44,\n  \"selected\": 64,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-19T18:59:13.248Z\",\n    \"ageSeconds\": 20,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"freshMerge\": {\n    \"symbol\": \"FRESH.DE\",\n    \"wideScore\": 29.8,\n    \"m5Pct\": 0.02,\n    \"m20Pct\": 0.1,\n    \"accelerationPct\": 0.02,\n    \"sessionPct\": 0.2,\n    \"last\": 10.1,\n    \"observedAt\": \"2026-08-19T18:59:23.248Z\",\n    \"ageSeconds\": 10,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"liveWave\": {\n    \"priority\": \"DIPBEST.DE\",\n    \"rotating\": [\n      \"ROTATE.DE\",\n      \"HIGH.DE\"\n    ]\n  },\n  \"forcedBuy\": false\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"target\": 64,\n  \"dipReserve\": 44,\n  \"selected\": 64,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-19T19:00:14.975Z\",\n    \"ageSeconds\": 20,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"freshMerge\": {\n    \"symbol\": \"FRESH.DE\",\n    \"wideScore\": 29.8,\n    \"m5Pct\": 0.02,\n    \"m20Pct\": 0.1,\n    \"accelerationPct\": 0.02,\n    \"sessionPct\": 0.2,\n    \"last\": 10.1,\n    \"observedAt\": \"2026-08-19T19:00:24.975Z\",\n    \"ageSeconds\": 10,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"liveWave\": {\n    \"priority\": \"DIPBEST.DE\",\n    \"rotating\": [\n      \"ROTATE.DE\",\n      \"HIGH.DE\"\n    ]\n  },\n  \"forcedBuy\": false\n}\n"
     },
     "yahoo_sanity": {
       "ok": true,
@@ -282,15 +282,12 @@
       "tail": "trade-day-lessons V2.1 smoke: OK\n"
     },
     "wrangler_dryrun": {
-      "ok": false,
-      "exitCode": 1,
-      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n\n\u001b[31m✘ \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mBuild failed with 1 error:\u001b[0m\n\n  \u001b[31m✘ \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mExpected \";\" but found \"for\"\u001b[0m\n  \n      src/market-v3-base.js:128:178:\n  \u001b[37m      128 │ ...MIT,MOMENTUM_BREAKOUT_RESERVE)\u001b[32mfor\u001b[37m(const sym of heldSymbols){co...\n            │                                  \u001b[32m~~~\u001b[37m\n            ╵                                  \u001b[32m;\u001b[0m\n  \n  \n\n\n🪵  Logs were written to \"/home/runner/.config/.wrangler/logs/wrangler-2026-08-19_18-59-34_420.log\"\n"
+      "ok": true,
+      "exitCode": 0,
+      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 45 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 816.24 KiB / gzip: 208.81 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
     }
   },
-  "failedChecks": [
-    "syntax_market_base",
-    "wrangler_dryrun"
-  ],
-  "allCodeAndRegressionChecksPassed": false,
+  "failedChecks": [],
+  "allCodeAndRegressionChecksPassed": true,
   "note": "Temporary source application for the verified balanced-deep selector; revert workflow to validation-only after source commit lands."
 }
