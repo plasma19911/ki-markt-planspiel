@@ -1,7 +1,8 @@
 from pathlib import Path
 import re
 
-# One-shot integrator. Removed again after R2/ZERO source commit passes all regression checks.
+# One-shot integrator. Diagnostic run trigger after the workflow gained failure reporting.
+# Removed again after R2/ZERO source commit passes all regression checks.
 # --- R2 execution: allow an already-held, revalidated symbol to receive a bounded new tranche.
 p=Path('src/r2-portfolio.js')
 t=p.read_text(encoding='utf-8')
