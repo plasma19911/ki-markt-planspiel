@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T10:42:42.078399+00:00",
+  "checkedAt": "2026-08-19T10:43:14.219390+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -788,7 +788,7 @@
     "pcAgentPreferred": true,
     "cloudflareFallbackIntervalMinutes": 5,
     "cloudflareFallbackOnlyWhenPcOffline": true,
-    "pcAgentOnline": true,
+    "pcAgentOnline": false,
     "pcAgentPrefetchFresh": true,
     "forwardLookingPool": true,
     "forwardPoolTarget": 15,
@@ -827,9 +827,9 @@
   },
   "pcAgent": {
     "configured": true,
-    "online": true,
+    "online": false,
     "lastSeenAt": "2026-08-19T10:40:17.677Z",
-    "ageSeconds": 144,
+    "ageSeconds": 176,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-19T10:40:17.313Z",
     "resolvedLeaderCount": 6,
