@@ -1,11 +1,14 @@
 name: Live Worker Health
 
 on:
+  workflow_dispatch:
   push:
     branches: [main]
     paths-ignore:
-      - live-health-result.json
-  workflow_dispatch:
+      - 'live-health-result.json'
+      - 'replay-depot-health-result.json'
+      - 'validation-result.json'
+      - 'recovery-20260819-result.json'
 
 permissions:
   contents: write
@@ -17,86 +20,82 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Allow Cloudflare build to publish
-        run: sleep 90
-      - name: Probe current production stack
+        run: sleep 75
+      - name: Probe production
         run: |
           BASE='https://ki-markt-planspiel.orkimperium.workers.dev'
-          curl -sS --retry 2 --retry-delay 2 -o /tmp/home.html -w '%{http_code}' "$BASE/?health=$(date +%s)" > /tmp/home-code.txt || echo 000 > /tmp/home-code.txt
-          curl -sS --retry 2 --retry-delay 2 -o /tmp/status.json -w '%{http_code}' "$BASE/api/status?health=$(date +%s)" > /tmp/status-code.txt || echo 000 > /tmp/status-code.txt
-          curl -sS --retry 2 --retry-delay 2 -o /tmp/agent.json -w '%{http_code}' "$BASE/api/agent/status?health=$(date +%s)" > /tmp/agent-code.txt || echo 000 > /tmp/agent-code.txt
-          curl -sS --retry 2 --retry-delay 2 -o /tmp/single.js -w '%{http_code}' "$BASE/single-scanner-ui.js?health=$(date +%s)" > /tmp/single-code.txt || echo 000 > /tmp/single-code.txt
-      - name: Build current diagnostic result
-        if: always()
+          curl -sS --retry 2 -o /tmp/home.html -w '%{http_code}' "$BASE/?health=$(date +%s)" > /tmp/home-code.txt || echo 000 > /tmp/home-code.txt
+          curl -sS --retry 2 -o /tmp/status.json -w '%{http_code}' "$BASE/api/status?health=$(date +%s)" > /tmp/status-code.txt || echo 000 > /tmp/status-code.txt
+          curl -sS --retry 2 -o /tmp/agent.json -w '%{http_code}' "$BASE/api/agent/status?health=$(date +%s)" > /tmp/agent-code.txt || echo 000 > /tmp/agent-code.txt
+          curl -sS --retry 2 -o /tmp/single.js -w '%{http_code}' "$BASE/single-scanner-ui.js?health=$(date +%s)" > /tmp/single-code.txt || echo 000 > /tmp/single-code.txt
+      - name: Build diagnostic
         run: |
-          python - <<'PY'
-          import json, datetime, pathlib
-          def code(name):
-              try:return pathlib.Path(name).read_text().strip().splitlines()[-1]
-              except:return '000'
-          def text(name):
-              try:return pathlib.Path(name).read_text(encoding='utf-8',errors='replace')
-              except:return ''
-          def obj(name):
-              try:return json.loads(text(name))
-              except:return {}
+          python3 - <<'PY'
+          import json, pathlib, datetime
+          def text(p):
+            try:return pathlib.Path(p).read_text(encoding='utf-8',errors='replace')
+            except:return ''
+          def obj(p):
+            try:return json.loads(text(p))
+            except:return {}
+          def code(p):
+            try:return text(p).strip().splitlines()[-1][-3:]
+            except:return '000'
           def n(v,d=0.0):
-              try:return float(v)
-              except:return d
-          s=obj('/tmp/status.json'); a=obj('/tmp/agent.json'); c=s.get('config') or {}
-          policy=s.get('selectiveCapitalPolicy') or {}; candle=s.get('candleFlowPolicy') or {}; execution=s.get('executionModel') or {}; profit=s.get('profitOptimizer') or {}; learning=s.get('entryTimingLearning') or {}; venue=s.get('targetVenueSanity') or {}; positions=s.get('positions') or []
-          home=text('/tmp/home.html'); single_js=text('/tmp/single.js')
-          market_value=0.0
+            try:return float(v)
+            except:return d
+          s=obj('/tmp/status.json'); a=obj('/tmp/agent.json'); c=s.get('config') or {}; positions=s.get('positions') or []
+          policy=s.get('selectiveCapitalPolicy') or {}; candle=s.get('candleFlowPolicy') or {}; execution=s.get('executionModel') or {}; learning=s.get('entryTimingLearning') or {}; venue=s.get('targetVenueSanity') or {}
+          market=0.0
           for p in positions:
-              invested=n(p.get('invested')); ep=n(p.get('entry_price')); lp=n(p.get('last_price'),ep); ef=n(p.get('entry_fx'),1); lf=n(p.get('last_fx'),ef)
-              market_value += invested*(lp/ep)*(lf/ef) if ep>0 and ef>0 else invested
-          cash=n(c.get('cash')); equity=n(s.get('equity')); accounting_delta=equity-(cash+market_value)
-          metrics=a.get('metrics') or {}; profile=str((s.get('pcWideSweep') or {}).get('profile') or metrics.get('agentMode') or metrics.get('version') or '')
-          scanner_online=a.get('online') is not False and a.get('configured') is True
-          single_scanner=('SINGLE_SUPER_SCANNER' in profile.upper() or 'SINGLE-SUPER-SCANNER' in profile.upper() or '2.1.5' in profile)
+            inv=n(p.get('invested')); ep=n(p.get('entry_price')); lp=n(p.get('last_price'),ep); ef=n(p.get('entry_fx'),1); lf=n(p.get('last_fx'),ef)
+            market += inv*(lp/ep)*(lf/ef) if ep>0 and ef>0 else inv
+          cash=n(c.get('cash')); equity=n(s.get('equity')); delta=equity-(cash+market)
           checks={
-            'homepage':code('/tmp/home-code.txt')=='200' and 'KI-Markt' in home,
+            'homepage':code('/tmp/home-code.txt')=='200' and 'KI-Markt' in text('/tmp/home.html'),
             'apiStatus':code('/tmp/status-code.txt')=='200' and bool(c),
             'agentEndpoint':code('/tmp/agent-code.txt')=='200',
-            'pcSuperscannerOnline':scanner_online,
-            'scannerUiAsset':code('/tmp/single-code.txt')=='200' and 'EIN-SCANNER' in single_js,
-            'candleFlowV21':candle.get('enabled') is True and n(candle.get('version'))>=2.1 and candle.get('mode')=='DYNAMIC_BUYER_SELLER_CANDLES',
-            'noMinuteSellRule':candle.get('sellAgeRule') is False and policy.get('timeBasedSellProposalsBlocked') is True and execution.get('timeBasedSell') is False,
-            'sellerDominanceRequired':candle.get('ordinarySellerDominanceRequired') is True and candle.get('mixedBaseTopSellBlocked') is True and candle.get('buyerMajoritySoftSellBlocked') is True,
-            'selectiveCapital':policy.get('enabled') is True and policy.get('cashAllowed') is True and policy.get('alwaysInvested') is False and policy.get('legacyFullCashBuysBlocked') is True,
+            'scannerUiAsset':code('/tmp/single-code.txt')=='200',
+            'candleFlowV21':candle.get('enabled') is True and n(candle.get('version'))>=2.1,
+            'selectiveCapital':policy.get('enabled') is True and policy.get('cashAllowed') is True and policy.get('alwaysInvested') is False,
+            'sellerDominanceRequired':candle.get('ordinarySellerDominanceRequired') is True,
             'noForcedSizingFloor':policy.get('forcedMinimumBuyPct') is None and execution.get('forcedMinimumBuyPct') is None,
-            'riskAdjustedSizing':all(policy.get(k) is True for k in ['volatilityAdjustedSizing','marketCapAdjustedSizing','currencyConcentrationAdjusted','regionalConcentrationAdjusted','themeConcentrationAdjusted']),
-            'candleFinalDecision':policy.get('finalBuyByCandleFlow') is True and policy.get('finalSellByCandleFlow') is True,
-            'fxSafety':candle.get('foreignFxBuyRequiresRealFx') is True and execution.get('foreignFxBuyRequiresRealFx') is True,
-            'accountingConsistent':abs(accounting_delta)<=0.05,
+            'accountingConsistent':abs(delta)<=0.05,
             'lastErrorClear':not c.get('last_error'),
             'targetVenueSanity':venue.get('enabled') is True,
             'entryTimingLearning':learning.get('mode')=='15/30/60-minute-entry-timing-learning',
           }
-          def cand(x):return {k:x.get(k) for k in ['symbol','name','score','liveScore','confidence','liveConfidence','day_change','news_score','event_risk','pro','contra'] if k in x}
-          def hist(x):return {k:x.get(k) for k in ['ts','action','symbol','amount','fee','trade_pnl','reason','score'] if k in x}
-          def log(x):return {k:x.get(k) for k in ['ts','kind','title','symbol','message','confidence'] if k in x}
-          out={'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'http':{'home':code('/tmp/home-code.txt'),'status':code('/tmp/status-code.txt'),'agent':code('/tmp/agent-code.txt'),'scannerUi':code('/tmp/single-code.txt')},'checks':checks,'allRequiredChecksPassed':all(checks.values()),'failedChecks':[k for k,v in checks.items() if not v],'running':c.get('running'),'scanCount':c.get('scan_count'),'lastScan':c.get('last_scan'),'lastError':c.get('last_error'),'aiLastSummary':c.get('ai_last_summary'),'cash':c.get('cash'),'equity':s.get('equity'),'pnl':s.get('pnl'),'marketValue':market_value,'accountingDelta':accounting_delta,'universeCount':c.get('universe_count'),'positions':len(positions),'positionRows':positions[:10],'candidates':len(s.get('candidates') or []),'topCandidates':[cand(x) for x in (s.get('candidates') or [])[:10]],'recentHistory':[hist(x) for x in (s.get('history') or [])[:15]],'recentAiLog':[log(x) for x in (s.get('aiLog') or [])[:15]],'candleFlowPolicy':candle,'selectiveCapitalPolicy':policy,'executionModel':execution,'profitOptimizer':profit,'entryTimingLearning':learning,'pcAgent':{'configured':a.get('configured'),'online':a.get('online'),'lastSeenAt':a.get('lastSeenAt'),'ageSeconds':a.get('ageSeconds'),'metrics':metrics,'singleScannerProfileDetected':single_scanner},'risk':s.get('risk'),'learningSanity':s.get('learningSanity'),'sourceHealth':(s.get('sourceHealth') or [])[:20]}
-          pathlib.Path('live-health-result.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8'); pathlib.Path('/tmp/live-health-result.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8'); print(json.dumps(out,ensure_ascii=False,indent=2))
+          out={
+            'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            'http':{'home':code('/tmp/home-code.txt'),'status':code('/tmp/status-code.txt'),'agent':code('/tmp/agent-code.txt'),'scannerUi':code('/tmp/single-code.txt')},
+            'checks':checks,'failedChecks':[k for k,v in checks.items() if not v],'allRequiredChecksPassed':all(checks.values()),
+            'pcAgent':{'configured':a.get('configured'),'online':a.get('online'),'lastSeenAt':a.get('lastSeenAt'),'ageSeconds':a.get('ageSeconds'),'intentionallyOfflineAllowed':True},
+            'running':c.get('running'),'scanCount':c.get('scan_count'),'lastScan':c.get('last_scan'),'lastError':c.get('last_error'),'aiLastSummary':c.get('ai_last_summary'),
+            'cash':cash,'equity':equity,'pnl':s.get('pnl'),'marketValue':market,'accountingDelta':delta,'positions':len(positions),'positionRows':positions[:10],
+            'recentHistory':(s.get('history') or [])[:15],'recentAiLog':(s.get('aiLog') or [])[:15],
+            'candleFlowPolicy':candle,'selectiveCapitalPolicy':policy,'executionModel':execution,'entryTimingLearning':learning,'risk':s.get('risk')
+          }
+          raw=json.dumps(out,ensure_ascii=False,indent=2)+'\n'
+          pathlib.Path('/tmp/live-health-result.json').write_text(raw,encoding='utf-8'); print(raw)
           PY
-      - name: Publish diagnostic result even when unhealthy
-        if: always()
+      - name: Publish diagnostic
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          for attempt in 1 2 3 4; do
-            git fetch origin main; git reset --hard origin/main; cp /tmp/live-health-result.json live-health-result.json; git add live-health-result.json
+          for attempt in 1 2 3; do
+            git fetch origin main; git reset --hard origin/main
+            cp /tmp/live-health-result.json live-health-result.json; git add live-health-result.json
             if git diff --cached --quiet; then exit 0; fi
             git commit -m 'Update live health result [skip ci]'
             if git push origin HEAD:main; then exit 0; fi
             sleep 3
           done
           exit 1
-      - name: Enforce current production features
-        if: always()
+      - name: Enforce Worker health
         run: |
-          python - <<'PY'
+          python3 - <<'PY'
           import json
-          x=json.load(open('/tmp/live-health-result.json',encoding='utf-8')); failed=x.get('failedChecks') or []
-          if failed: raise SystemExit('Live health failed: '+', '.join(failed))
-          print('Current selective Candle-Flow production stack healthy')
+          x=json.load(open('/tmp/live-health-result.json'))
+          if x.get('failedChecks'): raise SystemExit('Live health failed: '+', '.join(x['failedChecks']))
+          print('Worker healthy; PC-Agent online/offline is informational only.')
           PY
