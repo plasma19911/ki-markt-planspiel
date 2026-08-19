@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T15:51:43.488937+00:00",
+  "checkedAt": "2026-08-19T15:57:09.790799+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,16 +28,16 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 225,
-  "lastScan": "2026-08-19T15:51:16.135Z",
+  "scanCount": 228,
+  "lastScan": "2026-08-19T15:55:24.748Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 1 SELL / 0 BUY aus 11 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 mö · CANDLE-FLOW V2.1: AXON wartet auf bessere Bodenbildung. Keine Minutenregel fuer SELL.",
-  "cash": 7278.784136829449,
-  "equity": 9822.294354835161,
-  "pnl": -177.70564516483864,
-  "marketValue": 2543.5102180057124,
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 9 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 mög · CANDLE-FLOW V2.1: AXON wartet auf bessere Bodenbildung. Keine Minutenregel fuer SELL.",
+  "cash": 7490.262538685792,
+  "equity": 9810.917281812744,
+  "pnl": -189.08271818725552,
+  "marketValue": 2320.6547431269537,
   "accountingDelta": 0.0,
-  "universeCount": 228,
+  "universeCount": 222,
   "positions": 5,
   "positionRows": [
     {
@@ -99,30 +99,6 @@
       "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
     },
     {
-      "symbol": "KEEL.TO",
-      "name": "Keel Infrastructure Corp.",
-      "instrument_type": "EQUITY",
-      "theme": null,
-      "company_key": "KEEL INFRASTRU",
-      "invested": 320.599298,
-      "entry_fee": 2,
-      "entry_price": 4.534530210018158,
-      "last_price": 4.630000114440918,
-      "entry_fx": 0.6202,
-      "last_fx": 0.62,
-      "currency": "CAD",
-      "opened_at": "2026-08-19T15:09:19.092Z",
-      "score": 4.9,
-      "signal_confidence": 0.7300800000000001,
-      "zero_quantity": 113.99833419407568,
-      "zero_whole_shares": 113,
-      "zero_fractional_shares": 0.9983341940756816,
-      "zero_uses_fractional": true,
-      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash",
-      "quote_sanity_last_price": 4.550000190734863,
-      "quote_sanity_last_fx": 0.6202
-    },
-    {
       "symbol": "PANW",
       "name": "Palo Alto Networks, Inc.",
       "instrument_type": "EQUITY",
@@ -131,13 +107,13 @@
       "invested": 572.615233,
       "entry_fee": 2,
       "entry_price": 359.6192697753906,
-      "last_price": 360.0899963378906,
+      "last_price": 360.19500732421875,
       "entry_fx": 0.857,
-      "last_fx": 0.8569,
+      "last_fx": 0.8572,
       "currency": "USD",
       "opened_at": "2026-08-19T15:34:23.660Z",
-      "score": 3.7518672379032254,
-      "signal_confidence": 0.7731,
+      "score": 2.965460162337662,
+      "signal_confidence": 0.7160460162337662,
       "zero_quantity": 1.8579718100059381,
       "zero_whole_shares": 1,
       "zero_fractional_shares": 0.8579718100059381,
@@ -152,61 +128,61 @@
       "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
     },
     {
-      "symbol": "BAH",
-      "name": "Booz Allen Hamilton",
+      "symbol": "MRNA",
+      "name": "Moderna, Inc.",
       "instrument_type": "EQUITY",
-      "theme": "DEFENSE_TECH",
-      "company_key": "BOOZ ALLEN HAMILTON",
-      "invested": 340.250714,
+      "theme": null,
+      "company_key": "MODERNA",
+      "invested": 293.518636,
       "entry_fee": 2,
-      "entry_price": 79.41433408355712,
-      "last_price": 79.4800033569336,
+      "entry_price": 141.79175080871582,
+      "last_price": 141.39990234375,
       "entry_fx": 0.8569,
-      "last_fx": 0.8569,
+      "last_fx": 0.8572,
       "currency": "USD",
-      "opened_at": "2026-08-19T15:46:26.596Z",
-      "score": 2.904365671641791,
-      "signal_confidence": 0.7054365671641791,
-      "zero_quantity": 4.9999999985304955,
-      "zero_whole_shares": 4,
-      "zero_fractional_shares": 0.9999999985304955,
+      "opened_at": "2026-08-19T15:52:26.761Z",
+      "score": 5.312772274709303,
+      "signal_confidence": 0.7731,
+      "zero_quantity": 2.415764375392652,
+      "zero_whole_shares": 2,
+      "zero_fractional_shares": 0.4157643753926519,
+      "zero_uses_fractional": true,
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
+    },
+    {
+      "symbol": "MELI",
+      "name": "MercadoLibre, Inc.",
+      "instrument_type": "EQUITY",
+      "theme": null,
+      "company_key": "MERCADOLI",
+      "invested": 151.944133,
+      "entry_fee": 1,
+      "entry_price": 1885.5736313476561,
+      "last_price": 1882.4100341796875,
+      "entry_fx": 0.8569,
+      "last_fx": 0.8572,
+      "currency": "USD",
+      "opened_at": "2026-08-19T15:54:17.796Z",
+      "score": 3.993790005479452,
+      "signal_confidence": 0.75276,
+      "zero_quantity": 0.09403949701932506,
+      "zero_whole_shares": 0,
+      "zero_fractional_shares": 0.09403949701932506,
       "zero_uses_fractional": true,
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     }
   ],
-  "candidates": 11,
+  "candidates": 9,
   "topCandidates": [
     {
-      "symbol": "MELI",
-      "name": "MercadoLibre, Inc.",
-      "score": 7.243790005479453,
-      "confidence": 0.87276,
-      "day_change": 5.137315729088199,
-      "news_score": 0.10356164383561643,
+      "symbol": "MRNA",
+      "name": "Moderna, Inc.",
+      "score": 5.312772274709303,
+      "confidence": 0.7731,
+      "day_change": 124.58688428168676,
+      "news_score": 0.1529360465116279,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.25% · 20m +0.78% · Volumen x1.9 · MOMENTUM-BREAKOUT 2.0 · Beschleunigung +0.13%",
-      "contra": ""
-    },
-    {
-      "symbol": "KEEL.TO",
-      "name": "Keel Infrastructure Corp.",
-      "score": 4.9,
-      "confidence": 0.7300800000000001,
-      "day_change": 4.7511338108805035,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.54% · 20m +1.98%",
-      "contra": ""
-    },
-    {
-      "symbol": "AXON",
-      "name": "Axon Enterprise",
-      "score": 4.719825210084034,
-      "confidence": 0.7596,
-      "day_change": 3.0031502549759947,
-      "news_score": 0.027535014005602234,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 53 konstruktiv · 5m +0.37%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 60 konstruktiv · 20m +1.22%",
       "contra": ""
     },
     {
@@ -221,73 +197,134 @@
       "contra": ""
     },
     {
+      "symbol": "MELI",
+      "name": "MercadoLibre, Inc.",
+      "score": 3.993790005479452,
+      "confidence": 0.75276,
+      "day_change": 5.804491730818673,
+      "news_score": 0.10356164383561643,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.63% · 20m +1.26% · Momentum baut sich auf · Beschleunigung +0.38%",
+      "contra": "RSI 81 überhitzt"
+    },
+    {
       "symbol": "PANW",
       "name": "Palo Alto Networks, Inc.",
-      "score": 3.7518672379032254,
-      "confidence": 0.7731,
-      "day_change": -3.755279751459173,
-      "news_score": -0.03459677419354839,
+      "score": 2.965460162337662,
+      "confidence": 0.7160460162337662,
+      "day_change": -3.7272124541030682,
+      "news_score": -0.02875324675324675,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 55 konstruktiv · 5m +0.28%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 65 konstruktiv",
       "contra": ""
     },
     {
-      "symbol": "MRNA",
-      "name": "Moderna, Inc.",
-      "score": 3.6999999999999997,
-      "confidence": 0.63,
-      "day_change": 125.19854457132999,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.47%",
-      "contra": ""
-    },
-    {
-      "symbol": "BAH",
-      "name": "Booz Allen Hamilton",
-      "score": 2.904365671641791,
-      "confidence": 0.7054365671641791,
-      "day_change": 4.910247303238635,
-      "news_score": 0.004477611940298508,
+      "symbol": "AXON",
+      "name": "Axon Enterprise, Inc.",
+      "score": 2.9198252100840336,
+      "confidence": 0.7015825210084035,
+      "day_change": 3.168506934641435,
+      "news_score": 0.027535014005602234,
       "event_risk": "NONE",
       "pro": "EMA9 über EMA21 · Kurs über EMA21",
       "contra": ""
     },
     {
+      "symbol": "BAH",
+      "name": "Booz Allen Hamilton",
+      "score": 2.6,
+      "confidence": 0.54,
+      "day_change": 4.9498444248026185,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.51%",
+      "contra": "RSI 85 überhitzt"
+    },
+    {
       "symbol": "MRK",
       "name": "Merck & Co., Inc.",
-      "score": 0.03252323051019751,
-      "confidence": 0.4263523230510198,
-      "day_change": 10.764223733597046,
-      "news_score": 0.16713260054641335,
+      "score": -2.45,
+      "confidence": 0.525,
+      "day_change": 10.756829706197536,
+      "news_score": 0,
       "event_risk": "NONE",
-      "pro": "RSI 54 konstruktiv",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21"
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+    },
+    {
+      "symbol": "MRVL",
+      "name": "Marvell Technology, Inc.",
+      "score": -3.2,
+      "confidence": 0.6000000000000001,
+      "day_change": 7.495371500651049,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "RSI 48 konstruktiv",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     },
     {
       "symbol": "TGT",
       "name": "Target Corporation",
-      "score": -1.2000000000000002,
-      "confidence": 0.4,
-      "day_change": 4.771901277780288,
+      "score": -5.4,
+      "confidence": 0.63,
+      "day_change": 4.682578119876379,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21"
-    },
-    {
-      "symbol": "SKHY",
-      "name": "SK hynix Inc.",
-      "score": -4.5068950604907805,
-      "confidence": 0.7695,
-      "day_change": 2.306905740821996,
-      "news_score": 0.49373980396188905,
-      "event_risk": "NONE",
-      "pro": "News +0.5 · 11 Ereigniscluster",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 5m -0.44% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 20m -0.65% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
+    {
+      "ts": "2026-08-19T15:55:24.748Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal MRNA: Score 5.31, Konfidenz 77%.",
+      "score": null
+    },
+    {
+      "ts": "2026-08-19T15:54:17.796Z",
+      "action": "KAUF",
+      "symbol": "MELI",
+      "amount": -152.944133,
+      "fee": 1,
+      "trade_pnl": null,
+      "reason": "KI BUY 89%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 9.4; Continuation/Breakout). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Set · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 2.0%-Starter laufen; spaeter nachladen/ausbauen. · Order 152.94 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 3.993790005479452
+    },
+    {
+      "ts": "2026-08-19T15:54:17.796Z",
+      "action": "VERKAUF",
+      "symbol": "BAH",
+      "amount": 337.84911685053976,
+      "fee": 2,
+      "trade_pnl": -4.401597149460258,
+      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.5), 5m -0.09%, Rücklauf vom 20m-Hoch -0.14%· Trade P/L netto -2.40 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": -0.09563432835820905
+    },
+    {
+      "ts": "2026-08-19T15:54:17.796Z",
+      "action": "VERKAUF",
+      "symbol": "KEEL.TO",
+      "amount": 322.0920540058027,
+      "fee": 2,
+      "trade_pnl": -0.5072439941972675,
+      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.22%, Rücklauf vom 20m-Hoch -0.86%· Trade P/L netto +1.49 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 2.1000000000000005
+    },
+    {
+      "ts": "2026-08-19T15:52:26.761Z",
+      "action": "KAUF",
+      "symbol": "MRNA",
+      "amount": -295.518636,
+      "fee": 2,
+      "trade_pnl": null,
+      "reason": "KI BUY 82%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 12.8; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 4.1%-Starter laufen; spaeter nachladen/ausbauen. · Order 295.52 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 3.6999999999999997
+    },
     {
       "ts": "2026-08-19T15:51:16.135Z",
       "action": "VERKAUF",
@@ -387,59 +424,41 @@
       "trade_pnl": null,
       "reason": "KI BUY 78%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.47% vom 20m-Hoch stabilisiert sich; 5m +0.11%, Beschl. +0.45 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · OPPORTUNITY V3: guter relativer Dip; Rang 13. · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 7.0%-Starter laufen; spaeter nachladen/ausbauen. · Order 574.62 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
       "score": 6.199999999999999
-    },
-    {
-      "ts": "2026-08-19T15:31:23.393Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal MRNA: Score 6.49, Konfidenz 81%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T15:30:15.490Z",
-      "action": "VERKAUF",
-      "symbol": "MRVL",
-      "amount": 368.1791430352829,
-      "fee": 2,
-      "trade_pnl": -4.198480964717135,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.25%, Rücklauf vom 20m-Hoch -0.25%· Trade P/L netto -2.20 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 2.0797195140943785
-    },
-    {
-      "ts": "2026-08-19T15:28:24.698Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal MRVL: Score 5.88, Konfidenz 77%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T15:27:15.157Z",
-      "action": "VERKAUF",
-      "symbol": "EL",
-      "amount": 216.24635999346185,
-      "fee": 2,
-      "trade_pnl": -4.7597600065381584,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.28%, Rücklauf vom 20m-Hoch -0.28%· Trade P/L netto -2.76 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 1.6441959145931406
-    },
-    {
-      "ts": "2026-08-19T15:27:15.157Z",
-      "action": "VERKAUF",
-      "symbol": "MRNA",
-      "amount": 282.6729828802251,
-      "fee": 2,
-      "trade_pnl": -6.783916119774915,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -1.56%, Rücklauf vom 20m-Hoch -1.56%· Trade P/L netto -4.78 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": -3.849369476546567
     }
   ],
   "recentAiLog": [
+    {
+      "ts": "2026-08-19T15:54:17.796Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "MELI",
+      "message": "MELI: KI BUY 89%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 9.4; Continuation/Breakout). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Set · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 2.0%-Starter laufen; spaeter nachladen/ausbauen.",
+      "confidence": 0.75276
+    },
+    {
+      "ts": "2026-08-19T15:54:17.796Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "BAH",
+      "message": "BAH: Momentum-Risk-Exit: starker Lauf kippt (3.5), 5m -0.09%, Rücklauf vom 20m-Hoch -0.14%",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T15:54:17.796Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "KEEL.TO",
+      "message": "KEEL.TO: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.22%, Rücklauf vom 20m-Hoch -0.86%",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T15:52:26.761Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "MRNA",
+      "message": "MRNA: KI BUY 82%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 12.8; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 4.1%-Starter laufen; spaeter nachladen/ausbauen.",
+      "confidence": 0.63
+    },
     {
       "ts": "2026-08-19T15:51:16.135Z",
       "kind": "TRADE",
@@ -527,38 +546,6 @@
       "symbol": "MRVL",
       "message": "MRVL: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.25%, Rücklauf vom 20m-Hoch -0.25%",
       "confidence": null
-    },
-    {
-      "ts": "2026-08-19T15:27:15.157Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "EL",
-      "message": "EL: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.28%, Rücklauf vom 20m-Hoch -0.28%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T15:27:15.157Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "MRNA",
-      "message": "MRNA: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -1.56%, Rücklauf vom 20m-Hoch -1.56%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T15:27:15.157Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "TGT",
-      "message": "TGT: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.07%, Rücklauf vom 20m-Hoch -0.25%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T15:25:24.145Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "EL",
-      "message": "EL: KI BUY 87%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 10.3; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 3.1%-Starter laufen; spaeter nachladen/ausbauen.",
-      "confidence": 0.7695
     }
   ],
   "candleFlowPolicy": {
@@ -762,9 +749,9 @@
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 6,
+    "activePositions": 5,
     "pendingEntries": 0,
-    "completedTradeOutcomes": 69,
+    "completedTradeOutcomes": 72,
     "timedCheckpoints": 49,
     "horizonsMinutes": [
       15,
@@ -949,19 +936,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T15:51:11.445Z",
-    "ageSeconds": 32,
+    "lastSeenAt": "2026-08-19T15:56:11.257Z",
+    "ageSeconds": 58,
     "metrics": {
-      "lastSeenAt": "2026-08-19T15:51:11.445Z",
+      "lastSeenAt": "2026-08-19T15:56:11.257Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 15888919,
+      "storageBytes": 15994235,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.15,
-      "ramMb": 61.8,
-      "downloadedBytes": 4184291475,
-      "uploadedBytes": 6258716,
+      "cpuPct": 0.1,
+      "ramMb": 59.1,
+      "downloadedBytes": 4299725749,
+      "uploadedBytes": 6458355,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T15:43:17.9395786Z",
@@ -970,9 +957,9 @@
     "singleScannerProfileDetected": true
   },
   "risk": {
-    "equity": 9822.294354835161,
-    "dailyPct": -1.7770564516483844,
-    "availableCash": 7278.784136829449,
+    "equity": 9810.917281812744,
+    "dailyPct": -1.8908271818725564,
+    "availableCash": 7490.262538685792,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -991,8 +978,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 100,
-      "updated_at": "2026-08-19T15:51:16.107Z"
+      "latency_ms": 88,
+      "updated_at": "2026-08-19T15:55:24.734Z"
     },
     {
       "source": "Yahoo FX",
@@ -1000,17 +987,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 8,
-      "updated_at": "2026-08-19T15:51:16.107Z"
+      "latency_ms": 107,
+      "updated_at": "2026-08-19T15:55:24.734Z"
     },
     {
       "source": "Yahoo 1m Chart",
       "status": "OK",
-      "ok_count": 11,
+      "ok_count": 9,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 221,
-      "updated_at": "2026-08-19T15:51:16.107Z"
+      "latency_ms": 1075,
+      "updated_at": "2026-08-19T15:55:24.734Z"
     },
     {
       "source": "Yahoo Events",
@@ -1018,17 +1005,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 87,
-      "updated_at": "2026-08-19T15:51:16.107Z"
+      "latency_ms": 85,
+      "updated_at": "2026-08-19T15:55:24.734Z"
     },
     {
       "source": "Yahoo News",
       "status": "OK",
-      "ok_count": 10,
+      "ok_count": 8,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 715,
-      "updated_at": "2026-08-19T15:51:16.107Z"
+      "latency_ms": 324,
+      "updated_at": "2026-08-19T15:55:24.734Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -1037,25 +1024,7 @@
       "fail_count": 1,
       "last_error": "Error: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/configuration/#limits",
       "latency_ms": 0,
-      "updated_at": "2026-08-19T15:51:16.107Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "DOWN",
-      "ok_count": 0,
-      "fail_count": 1,
-      "last_error": "Error: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/configuration/#limits",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T15:51:16.107Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 911,
-      "updated_at": "2026-08-19T15:51:16.107Z"
+      "updated_at": "2026-08-19T15:55:24.734Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -1063,8 +1032,26 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 949,
-      "updated_at": "2026-08-19T15:51:16.107Z"
+      "latency_ms": 286,
+      "updated_at": "2026-08-19T15:55:24.734Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 692,
+      "updated_at": "2026-08-19T15:55:24.734Z"
+    },
+    {
+      "source": "finanzen.net News (Fallback)",
+      "status": "DOWN",
+      "ok_count": 0,
+      "fail_count": 1,
+      "last_error": "Error: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/configuration/#limits",
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T15:55:24.734Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -1073,16 +1060,16 @@
       "fail_count": 8,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T15:51:16.107Z"
+      "updated_at": "2026-08-19T15:55:24.734Z"
     },
     {
       "source": "Second-Chance 1m",
       "status": "DOWN",
       "ok_count": 0,
-      "fail_count": 1,
+      "fail_count": 2,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T15:51:16.107Z"
+      "updated_at": "2026-08-19T15:55:24.734Z"
     }
   ]
 }
