@@ -23,9 +23,6 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Apply reproducible core trade fixes
-        run: python3 scripts/apply-core-trade-fixes.py
-
       - name: Install dependencies
         id: install
         continue-on-error: true
@@ -60,6 +57,7 @@ jobs:
           runcheck syntax_day_replay node --check src/day-replay-learning.js
           runcheck syntax_rotation_replay node --check src/rotation-replay-adjustment.js
           runcheck syntax_rotation_cost node --check src/rotation-cost-guard.js
+          runcheck syntax_wide_sweep node --check src/wide-sweep-utils.js
           runcheck syntax_learning node --check src/live-signal-learning.js
           runcheck syntax_learning_reconcile node --check src/live-learning-execution-reconcile.js
           runcheck syntax_rebound node --check src/rebound-ai-guard.js
@@ -75,6 +73,7 @@ jobs:
           runcheck syntax_v16 node --check src/compact-portfolio-v16.js
           runcheck syntax_v17 node --check src/compact-portfolio-v17.js
           runcheck syntax_v18 node --check src/compact-portfolio-v18.js
+          runcheck syntax_v21 node --check src/compact-portfolio-v21-source-budget.js
           runcheck syntax_chart node --check public/position-chart-ui.js
           runcheck syntax_budget_ui node --check public/free-budget-ui.js
           runcheck cash_aware node scripts/smoke-best-validated-buy.mjs
@@ -93,6 +92,7 @@ jobs:
           runcheck pc_wide_sweep node scripts/smoke-pc-wide-sweep.mjs
           runcheck yahoo_sanity node scripts/smoke-yahoo-null-sanity.mjs
           runcheck core_trade_paths node scripts/smoke-core-trade-paths.mjs
+          runcheck trade_day_lessons node scripts/smoke-trade-day-lessons.mjs
           runcheck wrangler_dryrun npx wrangler deploy --dry-run
 
       - name: Build validation report
@@ -120,17 +120,16 @@ jobs:
             'checks':result,
             'failedChecks':failed,
             'allCodeAndRegressionChecksPassed':install_ok and not failed,
-            'note':'Wrangler dry-run may report required runtime-secret/auth limitations in CI; syntax and smoke regressions are listed separately.'
+            'note':'Validation-only workflow. It never rewrites trading source code.'
           }
           raw=json.dumps(out,ensure_ascii=False,indent=2)+'\n'
-          pathlib.Path('validation-result.json').write_text(raw,encoding='utf-8')
           pathlib.Path('/tmp/validation-result.json').write_text(raw,encoding='utf-8')
           print(raw)
           PY
         env:
           INSTALL_OUTCOME: ${{ steps.install.outcome }}
 
-      - name: Publish core fixes and validation report
+      - name: Publish validation report only
         if: always()
         run: |
           git config user.name 'github-actions[bot]'
@@ -138,22 +137,20 @@ jobs:
           for attempt in 1 2 3 4; do
             git fetch origin main
             git reset --hard origin/main
-            python3 scripts/apply-core-trade-fixes.py
             cp /tmp/validation-result.json validation-result.json
-            git add src/r2-portfolio.js src/market-v3-base.js scripts/smoke-core-trade-paths.mjs validation-result.json
+            git add validation-result.json
             if git diff --cached --quiet; then
-              echo 'Core sources and validation result unchanged'
+              echo 'Validation result unchanged'
               exit 0
             fi
-            git commit -m 'Apply core trade fixes and update validation [skip ci]'
+            git commit -m 'Update validation result [skip ci]'
             if git push origin HEAD:main; then
-              echo 'Core trade fixes and validation result published'
+              echo 'Validation result published'
               exit 0
             fi
             echo "Concurrent main update detected; retry $attempt"
             sleep 3
           done
-          echo 'Could not publish core trade fixes after retries'
           exit 1
 
       - name: Enforce syntax and regression checks
@@ -162,8 +159,8 @@ jobs:
           python - <<'PY'
           import json
           x=json.load(open('/tmp/validation-result.json',encoding='utf-8'))
-          critical=[k for k,v in (x.get('checks') or {}).items() if k!='wrangler_dryrun' and not v.get('ok')]
+          critical=[k for k,v in (x.get('checks') or {}).items() if not v.get('ok')]
           if not x.get('install',{}).get('ok'): critical.insert(0,'npm_install')
           if critical: raise SystemExit('Critical validation failed: '+', '.join(critical))
-          print('All critical code/regression checks passed')
+          print('All code/regression checks passed')
           PY
