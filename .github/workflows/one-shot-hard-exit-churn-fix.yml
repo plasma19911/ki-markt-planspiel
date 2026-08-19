@@ -1,0 +1,47 @@
+name: One-shot Hard Exit Churn Fix
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/apply-hard-exit-churn-fix.py'
+      - 'src/hard-exit-classifier.js'
+      - 'scripts/smoke-hard-exit-classifier.mjs'
+      - '.github/workflows/one-shot-hard-exit-churn-fix.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Apply migration
+        run: python3 scripts/apply-hard-exit-churn-fix.py
+      - name: Validate
+        run: |
+          npm install
+          node --check src/hard-exit-classifier.js
+          node --check src/fresh-position-churn-guard.js
+          node --check src/candle-flow-ai-guard.js
+          node scripts/smoke-hard-exit-classifier.mjs
+          node scripts/smoke-trade-day-lessons.mjs
+          node scripts/smoke-core-trade-paths.mjs
+          node scripts/smoke-replay-depot-ui.mjs
+          npx wrangler deploy --dry-run
+      - name: Publish only after green checks
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/fresh-position-churn-guard.js src/candle-flow-ai-guard.js
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Require evidence before hard momentum exits'
+          git push origin HEAD:main
