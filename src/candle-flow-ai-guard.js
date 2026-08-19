@@ -1,3 +1,4 @@
+import {classifyHardExit} from './hard-exit-classifier.js';
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
@@ -9,8 +10,6 @@ const MAX_CHECKS=5;
 function parsePlan(r){const raw=responseText(r),a=raw.indexOf('{'),b=raw.lastIndexOf('}');if(a<0||b<=a)return null;try{const j=JSON.parse(raw.slice(a,b+1));return Array.isArray(j.actions)?j:null}catch{return null}}
 function findPrompt(input){for(const m of arr(input?.messages)){const t=String(m?.content||'');if(t.includes('Kandidaten=')&&t.includes(' Gehalten='))return t}return''}
 function parseBlock(text,start,end=null){const a=text.indexOf(start);if(a<0)return null;const from=a+start.length,b=end?text.indexOf(end,from):-1;try{return JSON.parse(text.slice(from,b>=0?b:text.length).trim())}catch{return null}}
-function hardReason(a={}){return /(?:HARD[- ]?EXIT|EVENT[- ]?RISK|NOTAUSSTIEG|STOP[- ]?LOSS|REVERSAL\s+stark|STRONG\s+SELL)/i.test(String(a?.reason||''))}
-function hardCandidate(c={}){const e=String(c?.eventRisk||c?.event_risk||'NONE').toUpperCase(),s=String(c?.momentumState||c?.momentum_state||'NORMAL').toUpperCase(),x=String(c?.momentumSellSignal||c?.momentum_sell_signal||'NONE').toUpperCase();return e==='HIGH'||s==='REVERSAL'||x==='STRONG'}
 function avg(a=[]){return a.length?a.reduce((s,x)=>s+x,0)/a.length:0}
 
 async function candleChart(symbol){
@@ -84,7 +83,7 @@ async function postProcess(r,input){
  const out=[],notes=[],actionSymbols=new Set();
  for(const a of arr(plan.actions)){
   const act=String(a?.action||'').toUpperCase(),s=key(a);actionSymbols.add(s);if(!['BUY','SELL'].includes(act)||!checks.has(s)){out.push(a);continue}
-  const c={...(cMap.get(s)||{}),...(hMap.get(s)||{})},check=checks.get(s),f=check?.flow,hard=hardReason(a)||hardCandidate(c);
+  const c={...(cMap.get(s)||{}),...(hMap.get(s)||{})},check=checks.get(s),f=check?.flow,hard=classifyHardExit(c,a).hard;
   if(act==='SELL'){
    if(hard){out.push({...a,reason:`${String(a?.reason||'').slice(0,270)} · CANDLE-FLOW V2.1: harter Risikoexit; keine Minutenregel.`});continue}
    if(!f){out.push({symbol:s,action:'HOLD',confidence:clamp(num(a?.confidence,.65),.56,.82),allocation_pct:0,reason:`CANDLE-FLOW HOLD: Verkauf ohne frische Käufer-/Verkäuferkerzen wird nicht ausgeführt (${check?.error||'keine Daten'}).`});notes.push(`${s} SELL ohne Kerzendaten gestoppt`);continue}
@@ -102,8 +101,8 @@ async function postProcess(r,input){
  }
  for(const s of riskHeld){
   if(actionSymbols.has(s))continue;const h=hMap.get(s)||{},f=checks.get(s)?.flow,x=tape(h);if(!f)continue;
-  const hard=hardCandidate(h),confirmed=sellerConfirmed(f,x,{proactive:true});
-  if(hard||confirmed){out.push({symbol:s,action:'SELL',confidence:hard?.88:clamp(.72+Math.max(0,f.sellerShare-f.buyerShare)*.35,.72,.91),allocation_pct:0,reason:hard?`CANDLE-FLOW PROACTIVE HARD-SELL: harter Risiko-/Reversalzustand; Haltedauer irrelevant.`:`CANDLE-FLOW PROACTIVE SELL V2.1: eindeutige Verkäuferdominanz unabhängig von der Haltedauer · Exit-Qualität ${f.exitQuality.toFixed(1)} · ${flowReason(f)}.`});notes.push(`${s} proaktiv wegen eindeutiger Verkäuferdominanz zum SELL`)}
+  const hard=classifyHardExit(h,{}).hard,confirmed=sellerConfirmed(f,x,{proactive:true});
+  if(hard||confirmed){out.push({symbol:s,action:'SELL',confidence:hard?.88:clamp(.72+Math.max(0,f.sellerShare-f.buyerShare)*.35,.72,.91),allocation_pct:0,reason:hard?`CANDLE-FLOW PROACTIVE HARD-SELL: echter harter Event-/Kursbruch; Haltedauer irrelevant.`:`CANDLE-FLOW PROACTIVE SELL V2.1: eindeutige Verkäuferdominanz unabhängig von der Haltedauer · Exit-Qualität ${f.exitQuality.toFixed(1)} · ${flowReason(f)}.`});notes.push(`${s} proaktiv wegen eindeutiger Verkäuferdominanz zum SELL`)}
  }
  plan.actions=out;
  if(notes.length)plan.summary=`${String(plan.summary||'').slice(0,140)} · CANDLE-FLOW V2.1: ${notes.slice(0,3).join(' · ')}. Keine Minutenregel fuer SELL.`;

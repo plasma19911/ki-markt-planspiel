@@ -1,3 +1,4 @@
+import {classifyHardExit} from './hard-exit-classifier.js';
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
@@ -16,7 +17,6 @@ function findPrompt(input){for(const m of arr(input?.messages)){const t=String(m
 function parseBlock(text,start,end=null){const a=text.indexOf(start);if(a<0)return null;const from=a+start.length,b=end?text.indexOf(end,from):-1;try{return JSON.parse(text.slice(from,b>=0?b:text.length).trim())}catch{return null}}
 function ageMinutes(p={},now=Date.now()){const t=Date.parse(String(p?.opened_at||p?.openedAt||''));return Number.isFinite(t)?Math.max(0,(now-t)/60000):null}
 function pnlPct(p={}){for(const v of [p?.pnlPct,p?.pnl_pct,p?.pnl])if(Number.isFinite(Number(v)))return Number(v);const invested=num(p?.invested),entry=num(p?.entry_price),last=num(p?.last_price),efx=num(p?.entry_fx,1),lfx=num(p?.last_fx,1);return invested>0&&entry>0&&last>0?(last/entry*lfx/efx-1)*100:0}
-function explicitHardReason(a={}){return/(?:HARD[- ]?EXIT|EVENT[- ]?RISK|NOTAUSSTIEG|STOP[- ]?LOSS|REVERSAL\s+stark|STRONG\s+SELL)/i.test(String(a?.reason||''))}
 function timeOnlySell(a={}){return/(?:TIME\/THESIS-EXIT|DEAD[- ]?MONEY|TIME[- ]?EXIT|ZEIT[- ]?EXIT)/i.test(String(a?.reason||''))}
 function forcedCashBuy(a={}){return/(?:FULL-CASH-BEST|OUTER-FULL-CASH|FULL-CASH)/i.test(String(a?.reason||''))}
 function capitalMotionBuy(a={}){return/(?:CAPITAL-IN-MOTION|CAPITAL-MOTION)/i.test(String(a?.reason||''))}
@@ -29,7 +29,7 @@ function metrics(c={}){
  const rawDraw=c?.drawdownFrom20mHighPct??c?.drawdown_from_20m_high_pct,drawKnown=Number.isFinite(Number(rawDraw)),draw=drawKnown?Number(rawDraw):0;
  return{event:String(c?.eventRisk||c?.event_risk||'NONE').toUpperCase(),state:String(c?.momentumState||c?.momentum_state||'NORMAL').toUpperCase(),sell:String(c?.momentumSellSignal||c?.momentum_sell_signal||'NONE').toUpperCase(),m5:num(c?.intraday5m,c?.momentum5),m20:num(c?.intraday20m,c?.momentum20),accel:num(c?.momentumAcceleration5,c?.momentum_acceleration5),day:num(c?.day,c?.day_change),draw,drawKnown,rsi:num(c?.intradayRsi,c?.rsi||50),score:num(c?.liveScore,c?.score),confidence:num(c?.liveConfidence,c?.confidence),marketCap:num(c?.marketCapUSD,c?.marketCap)}
 }
-function hardExit(c={},a={}){const x=metrics(c);return x.event==='HIGH'||x.state==='REVERSAL'||x.sell==='STRONG'||explicitHardReason(a)}
+function hardExit(c={},a={}){return classifyHardExit(c,a).hard}
 function safeQuality(c={}){const x=metrics(c),safe=x.event!=='HIGH'&&x.sell!=='STRONG'&&!['REVERSAL','EXHAUSTION'].includes(x.state);return safe&&((x.score>=2.8&&x.confidence>=.54)||(x.score>=4&&x.confidence>=.48))}
 function dipLike(c={},a={}){const x=metrics(c),r=String(a?.reason||c?.entryTimingBucket||c?.reason||'');return(x.drawKnown&&x.draw<0)||x.day<0||x.m20<0||/DIP|PULLBACK|REBOUND/i.test(r)}
 function highLike(c={},a={}){const x=metrics(c);return!dipLike(c,a)&&((x.drawKnown&&x.draw>=0)||x.day>.8||x.m20>.8||x.rsi>=70)}
