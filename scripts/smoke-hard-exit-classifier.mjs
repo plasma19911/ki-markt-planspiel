@@ -14,9 +14,11 @@ assert.equal(classifyHardExit({eventRisk:'HIGH'},{reason:'news'}).hard,true,'HIG
 assert.equal(classifyHardExit({},{reason:'STOP-LOSS: harte Verlustgrenze'}).hard,true,'Expliziter Stop-Loss bleibt harter Exit');
 
 const read=p=>fs.readFileSync(new URL(`../${p}`,import.meta.url),'utf8');
-const fresh=read('src/fresh-position-churn-guard.js'),candle=read('src/candle-flow-ai-guard.js');
+const fresh=read('src/fresh-position-churn-guard.js'),candle=read('src/candle-flow-ai-guard.js'),balanced=read('src/balanced-adaptive-guard.js');
 assert.match(fresh,/classifyHardExit/,'Fresh-position guard muss den gemeinsamen Hard-Exit-Klassifizierer verwenden');
 assert.match(candle,/classifyHardExit/,'Candle-Flow muss denselben Hard-Exit-Klassifizierer verwenden');
+assert.match(balanced,/classifyHardExit/,'Balanced-Exit muss denselben Hard-Exit-Klassifizierer verwenden');
 assert.doesNotMatch(candle,/e==='HIGH'\|\|s==='REVERSAL'\|\|x==='STRONG'/,'REVERSAL/STRONG darf nicht mehr pauschal Candle-Flow umgehen');
+assert.doesNotMatch(balanced,/return\s+state==='REVERSAL'\|\|sell==='STRONG'/,'REVERSAL/STRONG darf auch Balanced-Exit nicht wieder pauschal zum Hard-Exit machen');
 
-console.log(JSON.stringify({ok:true,microReversalNeedsCandles:!micro.hard,severeBreakImmediate:severe.hard,eventImmediate:true,stopLossImmediate:true},null,2));
+console.log(JSON.stringify({ok:true,microReversalNeedsCandles:!micro.hard,severeBreakImmediate:severe.hard,eventImmediate:true,stopLossImmediate:true,balancedUsesSharedClassifier:true},null,2));
