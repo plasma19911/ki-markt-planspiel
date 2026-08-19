@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T20:32:36.901455+00:00",
+  "checkedAt": "2026-08-19T20:33:26.959841+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,82 +28,23 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 387,
-  "lastScan": "2026-08-19T20:31:15.641Z",
+  "scanCount": 1,
+  "lastScan": "2026-08-19T20:32:55.768Z",
   "lastError": null,
   "aiLastSummary": "Keine frischen handelbaren Kurse – keine Orderentscheidung.",
-  "cash": 8398.448297401768,
-  "equity": 9700.8849562844,
-  "pnl": -299.1150437155993,
-  "marketValue": 1302.4366588826322,
+  "cash": 10000,
+  "equity": 10000,
+  "pnl": 0,
+  "marketValue": 0.0,
   "accountingDelta": 0.0,
-  "universeCount": 173,
-  "positions": 2,
-  "positionRows": [
-    {
-      "symbol": "SCHO.CO",
-      "name": "Aktieselskabet Schouw & Co.",
-      "instrument_type": "EQUITY",
-      "theme": null,
-      "company_key": "AKTIESELS SCHOUW",
-      "invested": 763.822576,
-      "entry_fee": 1,
-      "entry_price": 720.7199999999999,
-      "last_price": 717,
-      "entry_fx": 0.1336,
-      "last_fx": 0.1336,
-      "currency": "DKK",
-      "opened_at": "2026-08-19T12:17:24.694Z",
-      "score": 3.0024648905981177,
-      "signal_confidence": 0.7030064890598118,
-      "quote_sanity_last_price": 717,
-      "quote_sanity_last_fx": 0.1336,
-      "zero_quantity": 7.932671287461709,
-      "zero_whole_shares": 7,
-      "zero_fractional_shares": 0.9326712874617087,
-      "zero_uses_fractional": true,
-      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash",
-      "fx_basis_repaired_at": "2026-08-19T12:19:16.739Z",
-      "fx_basis_repair_reason": "FOREIGN_NATIVE_ENTRY_PRICE_WITH_ENTRY_FX_1",
-      "fx_basis_original_entry_fx": 1,
-      "quote_sanity_repaired_at": "2026-08-19T12:19:16.739Z",
-      "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
-    },
-    {
-      "symbol": "LOGI-B.ST",
-      "name": "Logistea AB (publ)",
-      "instrument_type": "EQUITY",
-      "theme": null,
-      "company_key": "LOGISTEA AB PUBL",
-      "invested": 534.375803,
-      "entry_fee": 1,
-      "entry_price": 13.17315984725952,
-      "last_price": 13.359999656677246,
-      "entry_fx": 0.0901,
-      "last_fx": 0.0902,
-      "currency": "SEK",
-      "opened_at": "2026-08-19T12:23:25.923Z",
-      "score": 4.7,
-      "signal_confidence": 0.63,
-      "zero_quantity": 450.22751420134756,
-      "zero_whole_shares": 450,
-      "zero_fractional_shares": 0.22751420134756017,
-      "zero_uses_fractional": true,
-      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash",
-      "fx_basis_repaired_at": "2026-08-19T12:25:16.509Z",
-      "fx_basis_repair_reason": "FOREIGN_NATIVE_ENTRY_PRICE_WITH_ENTRY_FX_1",
-      "fx_basis_original_entry_fx": 1,
-      "quote_sanity_last_price": 13.359999656677246,
-      "quote_sanity_last_fx": 0.0902,
-      "quote_sanity_repaired_at": "2026-08-19T12:25:16.509Z",
-      "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
-    }
-  ],
+  "universeCount": 171,
+  "positions": 0,
+  "positionRows": [],
   "candidates": 0,
   "topCandidates": [],
   "recentHistory": [
     {
-      "ts": "2026-08-19T19:51:10.000Z",
+      "ts": "2026-08-19T20:32:55.768Z",
       "action": "HALTEN",
       "symbol": "",
       "amount": 0,
@@ -113,268 +54,17 @@
       "score": null
     },
     {
-      "ts": "2026-08-19T19:49:19.733Z",
-      "action": "VERKAUF",
-      "symbol": "QH",
-      "amount": 383.4303712784603,
-      "fee": 2,
-      "trade_pnl": -13.61921572153966,
-      "reason": "KI SELL 84%: FAST-SELL: Momentum-Reversal STRONG · Reversal-Zustand · Rücklauf vom 20m-Hoch · CANDLE-FLOW V2.1: harter Risikoexit; keine Minutenregel.· Trade P/L netto -11.62 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": -2.1
-    },
-    {
-      "ts": "2026-08-19T19:46:24.857Z",
-      "action": "HALTEN",
+      "ts": "2026-08-19T20:32:53.932Z",
+      "action": "START",
       "symbol": "",
-      "amount": 0,
+      "amount": 10000,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal QH: Score 6.05, Konfidenz 63%.",
+      "reason": "R2-Planspiel gestartet: 10000.00 EUR, 7 days, Stil offensiv. Aktien + normale ETFs.",
       "score": null
-    },
-    {
-      "ts": "2026-08-19T19:45:18.092Z",
-      "action": "KAUF",
-      "symbol": "QH",
-      "amount": -397.049587,
-      "fee": 2,
-      "trade_pnl": null,
-      "reason": "KI BUY 78%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 26.6; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 4.7%-Starter laufen; spaeter nachladen/ausbauen. · Order 397.05 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 6.05
-    },
-    {
-      "ts": "2026-08-19T18:34:24.766Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal QH: Score 6.05, Konfidenz 69%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T18:33:14.525Z",
-      "action": "VERKAUF",
-      "symbol": "DOO.TO",
-      "amount": 243.23655740608825,
-      "fee": 2,
-      "trade_pnl": -2.11839259391175,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.04%, Rücklauf vom 20m-Hoch -0.28%· Trade P/L netto -0.12 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 1.2000000000000002
-    },
-    {
-      "ts": "2026-08-19T18:09:22.010Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal DOO.TO: Score 6.80, Konfidenz 75%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T18:07:27.104Z",
-      "action": "VERKAUF",
-      "symbol": "KEYS",
-      "amount": 234.39786202546188,
-      "fee": 1,
-      "trade_pnl": -3.5964399745381286,
-      "reason": "KI SELL 83%: CANDLE-FLOW PROACTIVE SELL V2.1: eindeutige Verkäuferdominanz unabhängig von der Haltedauer · Exit-Qualität 8.9 · Käufer 34% / Verkäufer 66% · letzte 3 0 grün/2 rot · 1 höhere Tiefs/5 tiefere Hochs · Topbildung · rotes Volumen führt.· Trade P/L netto -2.60 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": -2.7741349693251536
-    },
-    {
-      "ts": "2026-08-19T18:07:27.104Z",
-      "action": "VERKAUF",
-      "symbol": "BHC.TO",
-      "amount": 246.65423142413457,
-      "fee": 2,
-      "trade_pnl": 0.14581142413456405,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.42%, Rücklauf vom 20m-Hoch -0.53%· Trade P/L netto +2.15 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 0.2999999999999998
-    },
-    {
-      "ts": "2026-08-19T17:57:20.364Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal EME: Score 5.40, Konfidenz 78%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T17:51:21.008Z",
-      "action": "VERKAUF",
-      "symbol": "WDC",
-      "amount": 227.91958733137,
-      "fee": 1,
-      "trade_pnl": -2.797709668630006,
-      "reason": "KI SELL 79%: CANDLE-FLOW PROACTIVE SELL V2.1: eindeutige Verkäuferdominanz unabhängig von der Haltedauer · Exit-Qualität 7.8 · Käufer 40% / Verkäufer 60% · letzte 3 0 grün/2 rot · 3 höhere Tiefs/4 tiefere Hochs · Topbildung · rotes Volumen führt.· Trade P/L netto -1.80 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": -3
-    },
-    {
-      "ts": "2026-08-19T17:40:28.755Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal MRK: Score 4.79, Konfidenz 77%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T17:39:22.089Z",
-      "action": "KAUF",
-      "symbol": "WDC",
-      "amount": -230.717297,
-      "fee": 1,
-      "trade_pnl": null,
-      "reason": "KI BUY 78%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.47% vom 20m-Hoch stabilisiert sich; 5m +0.11%, Beschl. +0.27 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · OPPORTUNITY V3: guter relativer Dip; Rang 12. · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvoll · TAGES-REVIEW SIZING: Start auf max. 3.0% begrenzt; tiefere echte Dips erhalten mehr Kapital als Mikro-Rücksetzer/High-Chases. · Order 230.72 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 5.199999999999999
-    },
-    {
-      "ts": "2026-08-19T17:37:28.076Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal MRNA: Score 3.80, Konfidenz 81%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T17:36:19.484Z",
-      "action": "VERKAUF",
-      "symbol": "CM",
-      "amount": 226.2819562255886,
-      "fee": 2,
-      "trade_pnl": -4.572516774411412,
-      "reason": "KI SELL 85%: CANDLE-FLOW PROACTIVE SELL V2.1: eindeutige Verkäuferdominanz unabhängig von der Haltedauer · Exit-Qualität 7.2 · Käufer 31% / Verkäufer 69% · letzte 3 0 grün/1 rot · 1 höhere Tiefs/5 tiefere Hochs · Topbildung · rotes Volumen führt.· Trade P/L netto -2.57 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": -2.034394366197183
     }
   ],
-  "recentAiLog": [
-    {
-      "ts": "2026-08-19T20:12:22.162Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "MARA.MX",
-      "message": "MARA.MX: Kein Trade. Bestes Signal MARA.MX: Score -1.66, Konfidenz 58%.",
-      "confidence": 0.5758296995708154
-    },
-    {
-      "ts": "2026-08-19T19:57:12.135Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "COIN",
-      "message": "COIN: Kein Trade. Bestes Signal COIN: Score 6.49, Konfidenz 77%.",
-      "confidence": 0.7695
-    },
-    {
-      "ts": "2026-08-19T19:49:19.733Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "QH",
-      "message": "QH: KI SELL 84%: FAST-SELL: Momentum-Reversal STRONG · Reversal-Zustand · Rücklauf vom 20m-Hoch · CANDLE-FLOW V2.1: harter Risikoexit; keine Minutenregel.",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T19:45:18.092Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "QH",
-      "message": "QH: KI BUY 78%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 26.6; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 4.7%-Starter laufen; spaeter nachladen/ausbauen.",
-      "confidence": 0.7152000000000001
-    },
-    {
-      "ts": "2026-08-19T19:37:22.170Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "QH",
-      "message": "QH: Kein Trade. Bestes Signal QH: Score 6.45, Konfidenz 63%.",
-      "confidence": 0.63
-    },
-    {
-      "ts": "2026-08-19T19:22:26.056Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "MRNA",
-      "message": "MRNA: Kein Trade. Bestes Signal MRNA: Score 6.50, Konfidenz 77%.",
-      "confidence": 0.7695
-    },
-    {
-      "ts": "2026-08-19T19:07:23.599Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "AI",
-      "message": "AI: Kein Trade. Bestes Signal AI: Score 5.45, Konfidenz 63%.",
-      "confidence": 0.63
-    },
-    {
-      "ts": "2026-08-19T18:51:28.102Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "MSTR",
-      "message": "MSTR: Kein Trade. Bestes Signal MSTR: Score 3.97, Konfidenz 77%.",
-      "confidence": 0.765
-    },
-    {
-      "ts": "2026-08-19T18:34:24.766Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "MRNA",
-      "message": "MRNA: Kein Trade. Bestes Signal MRNA: Score 6.53, Konfidenz 80%.",
-      "confidence": 0.8019000000000001
-    },
-    {
-      "ts": "2026-08-19T18:33:14.525Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "DOO.TO",
-      "message": "DOO.TO: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.04%, Rücklauf vom 20m-Hoch -0.28%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T18:16:36.585Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "MRK",
-      "message": "MRK: Kein Trade. Bestes Signal MRK: Score 6.56, Konfidenz 77%.",
-      "confidence": 0.7731
-    },
-    {
-      "ts": "2026-08-19T18:07:27.104Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "KEYS",
-      "message": "KEYS: KI SELL 83%: CANDLE-FLOW PROACTIVE SELL V2.1: eindeutige Verkäuferdominanz unabhängig von der Haltedauer · Exit-Qualität 8.9 · Käufer 34% / Verkäufer 66% · letzte 3 0 grün/2 rot · 1 höhere Tiefs/5 tiefere Hochs · Topbildung · rotes Volumen führt.",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T18:07:27.104Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "BHC.TO",
-      "message": "BHC.TO: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.42%, Rücklauf vom 20m-Hoch -0.53%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T18:00:37.918Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "COIN",
-      "message": "COIN: Kein Trade. Bestes Signal COIN: Score 4.03, Konfidenz 77%.",
-      "confidence": 0.7695
-    },
-    {
-      "ts": "2026-08-19T17:51:21.008Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "WDC",
-      "message": "WDC: KI SELL 79%: CANDLE-FLOW PROACTIVE SELL V2.1: eindeutige Verkäuferdominanz unabhängig von der Haltedauer · Exit-Qualität 7.8 · Käufer 40% / Verkäufer 60% · letzte 3 0 grün/2 rot · 3 höhere Tiefs/4 tiefere Hochs · Topbildung · rotes Volumen führt.",
-      "confidence": null
-    }
-  ],
+  "recentAiLog": [],
   "candleFlowPolicy": {
     "enabled": true,
     "version": 2.1,
@@ -787,19 +477,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T20:32:04.276Z",
-    "ageSeconds": 32,
+    "lastSeenAt": "2026-08-19T20:33:04.956Z",
+    "ageSeconds": 22,
     "metrics": {
-      "lastSeenAt": "2026-08-19T20:32:04.276Z",
+      "lastSeenAt": "2026-08-19T20:33:04.956Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
       "storageBytes": 20449463,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0.12,
-      "ramMb": 63.7,
-      "downloadedBytes": 10508927072,
-      "uploadedBytes": 18215588,
+      "ramMb": 63.8,
+      "downloadedBytes": 10527706516,
+      "uploadedBytes": 18218267,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T20:28:26.8592343Z",
@@ -808,9 +498,9 @@
     "singleScannerProfileDetected": true
   },
   "risk": {
-    "equity": 9700.8849562844,
-    "dailyPct": -2.9911504371559983,
-    "availableCash": 8398.448297401768,
+    "equity": 10000,
+    "dailyPct": 0,
+    "availableCash": 10000,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -829,8 +519,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 14,
-      "updated_at": "2026-08-19T20:31:15.634Z"
+      "latency_ms": 21,
+      "updated_at": "2026-08-19T20:32:55.768Z"
     },
     {
       "source": "Yahoo FX",
@@ -838,26 +528,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 111,
-      "updated_at": "2026-08-19T20:31:15.634Z"
-    },
-    {
-      "source": "Yahoo 1m Chart",
-      "status": "DOWN",
-      "ok_count": 0,
-      "fail_count": 1,
-      "last_error": "Error: Zu wenig Minuten",
-      "latency_ms": 105,
-      "updated_at": "2026-08-19T20:31:15.634Z"
-    },
-    {
-      "source": "Yahoo Events",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 621,
-      "updated_at": "2026-08-19T20:31:15.634Z"
+      "latency_ms": 7,
+      "updated_at": "2026-08-19T20:32:55.768Z"
     },
     {
       "source": "Yahoo News",
@@ -865,26 +537,8 @@
       "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 324,
-      "updated_at": "2026-08-19T20:31:15.634Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 528,
-      "updated_at": "2026-08-19T20:31:15.634Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 962,
-      "updated_at": "2026-08-19T20:31:15.634Z"
+      "latency_ms": 334,
+      "updated_at": "2026-08-19T20:32:55.768Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -892,8 +546,26 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1062,
-      "updated_at": "2026-08-19T20:31:15.634Z"
+      "latency_ms": 279,
+      "updated_at": "2026-08-19T20:32:55.768Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 953,
+      "updated_at": "2026-08-19T20:32:55.768Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1030,
+      "updated_at": "2026-08-19T20:32:55.768Z"
     },
     {
       "source": "finanzen.net News (Fallback)",
@@ -901,8 +573,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 950,
-      "updated_at": "2026-08-19T20:31:15.634Z"
+      "latency_ms": 734,
+      "updated_at": "2026-08-19T20:32:55.768Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -911,7 +583,7 @@
       "fail_count": 2,
       "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-19T20:31:15.634Z"
+      "updated_at": "2026-08-19T20:32:55.768Z"
     },
     {
       "source": "Second-Chance 1m",
@@ -920,7 +592,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T20:31:15.634Z"
+      "updated_at": "2026-08-19T20:32:55.768Z"
     }
   ]
 }
