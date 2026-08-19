@@ -4,10 +4,21 @@ const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const fmt=(v,d=2)=>Number(v||0).toLocaleString('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d});
 let state=null,selected=null,range='1d',chartData=null,loading=false;
 
+function forceVisible(card){
+ if(!card)return card;
+ card.style.setProperty('display','block','important');
+ card.style.setProperty('grid-column','1 / -1','important');
+ card.style.setProperty('order','11','important');
+ card.style.setProperty('width','100%','important');
+ card.style.setProperty('max-width','980px','important');
+ card.style.setProperty('justify-self','start','important');
+ return card;
+}
+
 function installCompactStyle(){
  if(document.getElementById('compact-trade-chart-style'))return;
  const s=document.createElement('style');s.id='compact-trade-chart-style';s.textContent=`
- #positionTradeChart.positionTradeChart{display:block!important;order:10!important;grid-column:1/-1!important;width:100%!important;max-width:980px!important;justify-self:start!important;padding:14px!important;min-height:0!important}
+ #positionTradeChart.positionTradeChart{display:block!important;order:11!important;grid-column:1/-1!important;width:100%!important;max-width:980px!important;justify-self:start!important;padding:14px!important;min-height:0!important}
  #positionTradeChart .cardTitle{margin-bottom:8px!important}
  #positionTradeChart .cardTitle h2{font-size:17px!important}
  #positionTradeChart .tradeChartSymbols{display:flex!important;flex-wrap:wrap!important;gap:6px!important;margin:0 0 8px!important}
@@ -17,21 +28,21 @@ function installCompactStyle(){
  #positionTradeChart .tradeChartToolbar{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;margin:0 0 7px!important}
  #positionTradeChart .tradeChartRanges{display:flex!important;gap:5px!important}.tradeChartRanges button{border:1px solid #29445d!important;background:#0b1824!important;color:#9fb5c9!important;border-radius:8px!important;padding:5px 8px!important;font-size:10px!important;cursor:pointer!important}.tradeChartRanges button.active{color:#e8f5ff!important;border-color:#3d7ca2!important;background:#10283a!important}
  #positionTradeChart .tradeChartLegend{display:flex!important;gap:10px!important;font-size:10px!important;color:#9eb2c4!important}.tradeChartLegend span{display:flex!important;align-items:center!important;gap:4px!important}.tradeChartLegend i{display:inline-block!important;width:8px!important;height:8px!important;border-radius:50%!important}.tradeChartLegend .buyDot{background:#46d69a!important}.tradeChartLegend .sellDot{background:#ff7080!important}
- #positionTradeChart .tradeCanvasWrap{position:relative!important;width:100%!important;height:220px!important;min-height:220px!important;max-height:220px!important;overflow:hidden!important;border:1px solid rgba(74,108,137,.28)!important;border-radius:10px!important;background:#081521!important}
- #positionTradeChart #tradeChartCanvas{display:block!important;width:100%!important;height:220px!important;min-height:220px!important;max-height:220px!important}
+ #positionTradeChart .tradeCanvasWrap{position:relative!important;width:100%!important;height:210px!important;min-height:210px!important;max-height:210px!important;overflow:hidden!important;border:1px solid rgba(74,108,137,.28)!important;border-radius:10px!important;background:#081521!important}
+ #positionTradeChart #tradeChartCanvas{display:block!important;width:100%!important;height:210px!important;min-height:210px!important;max-height:210px!important}
  #positionTradeChart .tradeChartEmpty{position:absolute!important;inset:0!important;display:grid!important;place-items:center!important;padding:16px!important;color:#8196aa!important;font-size:12px!important;text-align:center!important}.tradeChartEmpty[hidden]{display:none!important}
  #positionTradeChart .tradeChartInfo{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important;margin-top:8px!important}.tradeChartInfo>div{padding:7px 9px!important;border:1px solid rgba(67,94,118,.28)!important;border-radius:9px!important;background:#0a1824!important}.tradeChartInfo span{display:block!important;font-size:9px!important;color:#8499ad!important}.tradeChartInfo b{display:block!important;margin-top:2px!important;font-size:12px!important}
- @media(max-width:900px){#positionTradeChart.positionTradeChart{max-width:none!important}#positionTradeChart .tradeCanvasWrap,#positionTradeChart #tradeChartCanvas{height:200px!important;min-height:200px!important;max-height:200px!important}}
- @media(max-width:520px){#positionTradeChart.positionTradeChart{padding:10px!important}#positionTradeChart .tradeChartToolbar{align-items:flex-start!important;flex-direction:column!important}#positionTradeChart .tradeCanvasWrap,#positionTradeChart #tradeChartCanvas{height:180px!important;min-height:180px!important;max-height:180px!important}#positionTradeChart .tradeChartInfo{grid-template-columns:1fr 1fr!important}.tradeChartLegend{font-size:9px!important}}
+ @media(max-width:900px){#positionTradeChart.positionTradeChart{max-width:none!important}#positionTradeChart .tradeCanvasWrap,#positionTradeChart #tradeChartCanvas{height:190px!important;min-height:190px!important;max-height:190px!important}}
+ @media(max-width:520px){#positionTradeChart.positionTradeChart{padding:10px!important}#positionTradeChart .tradeChartToolbar{align-items:flex-start!important;flex-direction:column!important}#positionTradeChart .tradeCanvasWrap,#positionTradeChart #tradeChartCanvas{height:175px!important;min-height:175px!important;max-height:175px!important}#positionTradeChart .tradeChartInfo{grid-template-columns:1fr 1fr!important}.tradeChartLegend{font-size:9px!important}}
  `;document.head.appendChild(s)
 }
 
 function ensure(){
- let card=$('positionTradeChart');if(card)return card;
+ let card=$('positionTradeChart');if(card)return forceVisible(card);
  const pos=$('positions');if(!pos)return null;
  card=document.createElement('section');card.id='positionTradeChart';card.className='card positionTradeChart';
  card.innerHTML=`<div class="cardTitle"><div><span class="sectionEyebrow">TRADES</span><h2>Aktien-Chart mit Kauf &amp; Verkauf</h2><div id="tradeChartSubtitle" class="muted">Kauf- und Verkaufspunkte direkt im Kursverlauf</div></div><span id="tradeChartPill" class="tag">–</span></div><div id="tradeChartSymbols" class="tradeChartSymbols"></div><div class="tradeChartToolbar"><div class="tradeChartRanges"><button type="button" data-range="1d" class="active">1 Tag</button><button type="button" data-range="5d">5 Tage</button><button type="button" data-range="1mo">1 Monat</button></div><div class="tradeChartLegend"><span><i class="buyDot"></i>Kauf</span><span><i class="sellDot"></i>Verkauf</span></div></div><div class="tradeCanvasWrap"><canvas id="tradeChartCanvas"></canvas><div id="tradeChartEmpty" class="tradeChartEmpty">Noch keine gehandelte Aktie.</div></div><div id="tradeChartInfo" class="tradeChartInfo"></div>`;
- pos.insertAdjacentElement('afterend',card);
+ pos.insertAdjacentElement('afterend',card);forceVisible(card);
  card.querySelectorAll('[data-range]').forEach(b=>b.onclick=()=>{range=b.dataset.range;card.querySelectorAll('[data-range]').forEach(x=>x.classList.toggle('active',x===b));loadChart(true)});
  return card;
 }
@@ -53,12 +64,7 @@ function renderSymbols(){
 
 function showEmpty(text){const e=$('tradeChartEmpty'),c=$('tradeChartCanvas');if(e){e.textContent=text;e.hidden=false}if(c)c.style.visibility='hidden';if($('tradeChartInfo'))$('tradeChartInfo').innerHTML=''}
 function showCanvas(){const e=$('tradeChartEmpty'),c=$('tradeChartCanvas');if(e)e.hidden=true;if(c)c.style.visibility='visible'}
-
-function setupCanvas(canvas){
- const rect=canvas.getBoundingClientRect(),dpr=Math.min(2,window.devicePixelRatio||1),w=Math.max(300,Math.round(rect.width||700)),h=Math.max(180,Math.round(rect.height||220));
- canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);const x=canvas.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);return{x,w,h};
-}
-
+function setupCanvas(canvas){const rect=canvas.getBoundingClientRect(),dpr=Math.min(2,window.devicePixelRatio||1),w=Math.max(300,Math.round(rect.width||700)),h=Math.max(175,Math.round(rect.height||210));canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);const x=canvas.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);return{x,w,h}}
 function nearestBar(bars,ts){let best=null,dist=Infinity;for(const b of bars){const d=Math.abs(Number(b.ts)-Number(ts));if(d<dist){dist=d;best=b}}return best}
 function draw(){
  const canvas=$('tradeChartCanvas');if(!canvas||!chartData?.bars?.length)return showEmpty('Keine Kursdaten für diesen Zeitraum verfügbar.');showCanvas();
@@ -77,16 +83,7 @@ function draw(){
  const pnl=p.entryPrice>0&&last>0?(last/p.entryPrice-1)*100:null;
  if($('tradeChartInfo'))$('tradeChartInfo').innerHTML=`<div><span>Letzter Kurs</span><b>${fmt(last,last<10?3:2)}</b></div><div><span>Einstieg</span><b>${p.entryPrice?fmt(p.entryPrice,p.entryPrice<10?3:2):'–'}</b></div><div><span>Seit Einstieg</span><b class="${pnl==null?'':pnl>=0?'good':'bad'}">${pnl==null?'–':`${pnl>=0?'+':''}${fmt(pnl)}%`}</b></div><div><span>Kauf/Verkauf-Punkte</span><b>${(chartData.events||[]).length}</b></div>`;
 }
-
-async function loadChart(force=false){
- if(!selected||loading)return;loading=true;try{
-  const r=await fetch(`/api/position-chart?symbol=${encodeURIComponent(selected)}&range=${encodeURIComponent(range)}${force?`&t=${Date.now()}`:''}`,{cache:'no-store'});if(!r.ok){let e={};try{e=await r.json()}catch{}throw new Error(e.error||`HTTP ${r.status}`)}chartData=await r.json();draw();
- }catch(e){showEmpty(`Chart konnte nicht geladen werden: ${e.message}`)}finally{loading=false}
-}
-
-async function refresh(){
- const card=ensure();if(!card||document.hidden)return;try{const r=await fetch('/api/status',{cache:'no-store'});if(!r.ok)return;state=await r.json();renderSymbols();if(selected)await loadChart(false)}catch{}
-}
-
-function install(){installCompactStyle();ensure();refresh();setInterval(refresh,60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});window.addEventListener('resize',()=>{if(chartData)draw()})}
+async function loadChart(force=false){if(!selected||loading)return;loading=true;try{const r=await fetch(`/api/position-chart?symbol=${encodeURIComponent(selected)}&range=${encodeURIComponent(range)}${force?`&t=${Date.now()}`:''}`,{cache:'no-store'});if(!r.ok){let e={};try{e=await r.json()}catch{}throw new Error(e.error||`HTTP ${r.status}`)}chartData=await r.json();draw()}catch(e){showEmpty(`Chart konnte nicht geladen werden: ${e.message}`)}finally{loading=false}}
+async function refresh(){const card=forceVisible(ensure());if(!card||document.hidden)return;try{const r=await fetch('/api/status',{cache:'no-store'});if(!r.ok)return;state=await r.json();renderSymbols();if(selected)await loadChart(false)}catch{}}
+function install(){installCompactStyle();forceVisible(ensure());refresh();setInterval(refresh,60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});window.addEventListener('resize',()=>{if(chartData)draw()})}
 install();
