@@ -1,4 +1,5 @@
 import {ZERO_FEE_MODEL,zeroAffordableBuy,zeroOrderFee} from './zero-fee-model.js';
+import {mergePositionTranche} from './position-scale-up.js';
 
 export const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 
@@ -50,30 +51,28 @@ export async function reconcileZeroFees(engine,before){
   if(!fresh.some(h=>h.action==='KAUF'||h.action==='VERKAUF'))return null;
   return engine.store.update(s=>{
     const rows=(s.history||[]).filter(h=>num(h.id)>before.historyId).sort((a,b)=>num(a.id)-num(b.id));
-    let cashCorrection=0,equityCorrection=0,feeCorrection=0,blockedBuys=0,reconciledBuys=0,reconciledSells=0;
+    let cashCorrection=0,equityCorrection=0,feeCorrection=0,blockedBuys=0,reconciledBuys=0,reconciledSells=0,blockedScaleUps=0,reconciledScaleUps=0;
     const currentBySymbol=new Map((s.positions||[]).map(p=>[String(p.symbol||'').toUpperCase(),p]));
     for(const h of rows){
       if(h.action==='KAUF'){
-        const symbol=String(h.symbol||'').toUpperCase(),p=currentBySymbol.get(symbol),oldFee=num(h.fee),baseNotional=Math.max(0,Math.abs(num(h.amount))-oldFee),baseOutflow=baseNotional+oldFee;
-        const priceBase=p?num(p.entry_price)*effectiveEntryFx(p,p.last_price,p.last_fx,'EUR'):0;
+        const symbol=String(h.symbol||'').toUpperCase(),p=currentBySymbol.get(symbol),beforePos=before?.positions?.get?.(symbol)||null,isScaleUp=Boolean(beforePos&&p),oldFee=num(h.fee),baseNotional=Math.max(0,Math.abs(num(h.amount))-oldFee),baseOutflow=baseNotional+oldFee;
+        const trancheEntryPrice=isScaleUp?num(p?.last_add_entry_price):num(p?.entry_price),trancheFx=isScaleUp?num(p?.last_add_fx,1):effectiveEntryFx(p,p?.last_price,p?.last_fx,'EUR'),priceBase=trancheEntryPrice*trancheFx;
         if(p&&baseNotional>0&&priceBase>0){
           const oldPositionValue=positionMarketValue(p),type=String(p.instrument_type||'EQUITY').toUpperCase(),fractionalAllowed=type!=='ETF';
           const fill=zeroAffordableBuy({budgetEur:baseOutflow,priceEur:priceBase,instrumentType:type,fractionalAllowed});
           if(!fill.ok){
-            const i=s.positions.indexOf(p);if(i>=0)s.positions.splice(i,1);currentBySymbol.delete(symbol);
-            const deltaCash=baseOutflow,deltaEquity=deltaCash-oldPositionValue,detail=zeroBlockExplanation(fill,baseOutflow,priceBase,type);
-            cashCorrection+=deltaCash;equityCorrection+=deltaEquity;feeCorrection-=oldFee;blockedBuys++;
-            h.action='KAUF_BLOCKIERT_ZERO';h.amount=0;h.fee=0;h.trade_pnl=null;h.zero_fee_model_version=ZERO_FEE_MODEL.version;
-            h.zero_block_details={code:String(fill?.reason||'UNKNOWN'),budgetEur:+baseOutflow.toFixed(6),priceEur:+priceBase.toFixed(6),instrumentType:type,fractionalAllowed};
-            h.reason=`${String(h.reason||'').replace(/ · Gebühr [^·]+/,'')} · ZERO: ${detail}; Kauf rückgängig gemacht.`;
-            const id=num(s.aiLog?.at(-1)?.id,0)+1;s.aiLog.push({id,ts:new Date().toISOString(),kind:'SYSTEM',symbol,title:'ZERO-Ausführung blockiert',message:`${symbol}: ${detail}.`,confidence:null,meta:{feeModel:ZERO_FEE_MODEL.version,code:String(fill?.reason||'UNKNOWN'),budgetEur:+baseOutflow.toFixed(6),priceEur:+priceBase.toFixed(6),instrumentType:type,fractionalAllowed}});if(s.aiLog.length>300)s.aiLog=s.aiLog.slice(-300);
+            const deltaCash=baseOutflow;let deltaEquity=0;
+            if(isScaleUp){const live={last_price:p.last_price,last_fx:p.last_fx,score:p.score,signal_confidence:p.signal_confidence};Object.assign(p,structuredClone(beforePos),live);const restoredValue=positionMarketValue(p);deltaEquity=deltaCash+restoredValue-oldPositionValue;blockedScaleUps++;h.action='KAUF_BLOCKIERT_ZERO_AUFSTOCKUNG'}else{const i=s.positions.indexOf(p);if(i>=0)s.positions.splice(i,1);currentBySymbol.delete(symbol);deltaEquity=deltaCash-oldPositionValue;h.action='KAUF_BLOCKIERT_ZERO'}
+            const detail=zeroBlockExplanation(fill,baseOutflow,priceBase,type);cashCorrection+=deltaCash;equityCorrection+=deltaEquity;feeCorrection-=oldFee;blockedBuys++;
+            h.amount=0;h.fee=0;h.trade_pnl=null;h.zero_fee_model_version=ZERO_FEE_MODEL.version;h.zero_block_details={code:String(fill?.reason||'UNKNOWN'),budgetEur:+baseOutflow.toFixed(6),priceEur:+priceBase.toFixed(6),instrumentType:type,fractionalAllowed,scaleUp:isScaleUp};
+            h.reason=`${String(h.reason||'').replace(/ · Gebühr [^·]+/,'')} · ZERO: ${detail}; ${isScaleUp?'Aufstockung':'Kauf'} rückgängig gemacht.`;
+            const id=num(s.aiLog?.at(-1)?.id,0)+1;s.aiLog.push({id,ts:new Date().toISOString(),kind:'SYSTEM',symbol,title:'ZERO-Ausführung blockiert',message:`${symbol}: ${detail}.`,confidence:null,meta:{feeModel:ZERO_FEE_MODEL.version,code:String(fill?.reason||'UNKNOWN'),budgetEur:+baseOutflow.toFixed(6),priceEur:+priceBase.toFixed(6),instrumentType:type,fractionalAllowed,scaleUp:isScaleUp}});if(s.aiLog.length>300)s.aiLog=s.aiLog.slice(-300);
           }else{
-            const fee=fill.fee,actualOut=fill.notional+fee,deltaCash=baseOutflow-actualOut;
-            p.invested=fill.notional;p.entry_fee=fee;p.zero_quantity=fill.quantity;p.zero_whole_shares=fill.feeInfo?.wholeQuantity||0;p.zero_fractional_shares=fill.feeInfo?.fractionalQuantity||0;p.zero_uses_fractional=Boolean(fill.usesFractional);p.zero_fee_model_version=ZERO_FEE_MODEL.version;
-            const newPositionValue=positionMarketValue(p),deltaEquity=deltaCash+newPositionValue-oldPositionValue;
-            cashCorrection+=deltaCash;equityCorrection+=deltaEquity;feeCorrection+=fee-oldFee;reconciledBuys++;
-            h.amount=-actualOut;h.fee=fee;h.zero_fee_model_version=ZERO_FEE_MODEL.version;h.zero_fee_details=fill.feeInfo;
-            h.reason=`${String(h.reason||'').replace(/ · Gebühr [^·]+/,'')} · ZERO Brokergebühr ${fee.toFixed(2)} €${fill.usesFractional?' inkl. Bruchstück-Zuschlag':''}; Spread/Ausführung separat.`;
+            const fee=fill.fee,actualOut=fill.notional+fee,deltaCash=baseOutflow-actualOut;let newPositionValue=oldPositionValue;
+            if(isScaleUp){const marks={lastPrice:p.last_price,lastFx:p.last_fx,score:p.score,confidence:p.signal_confidence,addedAt:p.last_added_at||new Date().toISOString()},merged=mergePositionTranche(beforePos,{notional:fill.notional,entryPrice:trancheEntryPrice,fx:trancheFx,fee,quantity:fill.quantity},marks);Object.assign(p,merged);const qty=num(p.zero_quantity),whole=Math.floor(qty+1e-10);p.zero_whole_shares=whole;p.zero_fractional_shares=Math.max(0,qty-whole);p.zero_uses_fractional=p.zero_fractional_shares>1e-8;p.zero_fee_model_version=ZERO_FEE_MODEL.version;reconciledScaleUps++;newPositionValue=positionMarketValue(p)}else{p.invested=fill.notional;p.entry_fee=fee;p.zero_quantity=fill.quantity;p.zero_whole_shares=fill.feeInfo?.wholeQuantity||0;p.zero_fractional_shares=fill.feeInfo?.fractionalQuantity||0;p.zero_uses_fractional=Boolean(fill.usesFractional);p.zero_fee_model_version=ZERO_FEE_MODEL.version;newPositionValue=positionMarketValue(p)}
+            const deltaEquity=deltaCash+newPositionValue-oldPositionValue;cashCorrection+=deltaCash;equityCorrection+=deltaEquity;feeCorrection+=fee-oldFee;reconciledBuys++;
+            h.amount=-actualOut;h.fee=fee;h.zero_fee_model_version=ZERO_FEE_MODEL.version;h.zero_fee_details={...fill.feeInfo,scaleUp:isScaleUp};
+            h.reason=`${String(h.reason||'').replace(/ · Gebühr [^·]+/,'')} · ZERO Brokergebühr ${fee.toFixed(2)} €${fill.usesFractional?' inkl. Bruchstück-Zuschlag':''}${isScaleUp?' · Tranche zum bestehenden Einstand addiert':''}; Spread/Ausführung separat.`;
           }
         }
       }else if(h.action==='VERKAUF'){
@@ -95,6 +94,6 @@ export async function reconcileZeroFees(engine,before){
     const finalEquity=num(s.config.cash)+(s.positions||[]).reduce((a,p)=>a+positionMarketValue(p),0),finalPnl=finalEquity-num(s.config.start_capital);
     const lastHistory=s.history?.at(-1);if(lastHistory&&num(lastHistory.id)>before.historyId){lastHistory.cash_after=num(s.config.cash);lastHistory.equity=finalEquity;lastHistory.total_pnl=finalPnl}
     const lastSnapshot=s.snapshots?.at(-1);if(lastSnapshot&&num(lastSnapshot.id)>before.snapshotId){lastSnapshot.cash=num(s.config.cash);lastSnapshot.equity=finalEquity}
-    return{cashCorrection,equityCorrection,feeCorrection,blockedBuys,reconciledBuys,reconciledSells,finalEquity,finalPnl};
+    return{cashCorrection,equityCorrection,feeCorrection,blockedBuys,reconciledBuys,reconciledSells,blockedScaleUps,reconciledScaleUps,finalEquity,finalPnl};
   });
 }
