@@ -1,7 +1,3 @@
-// Production compatibility entry. V18 keeps the complete modern stack and adds
-// execution-reconciled entry learning plus the balanced-adaptive layer.
-// The normal Yahoo Spark repair is installed by index.js first; this bounded chart
-// fallback is the final rescue only when Spark still fails. It is deliberately small
-// so the Windows PC agent remains the broad market scanner.
+// Production compatibility entry. V19 adds Profit-First exits, stricter Dip-First V2 priority and learning-data cleanup.
 import './yahoo-spark-chart-fallback.js';
-export {MarketPortfolio} from './compact-portfolio-v18.js';
+export {MarketPortfolio} from './compact-portfolio-v19.js';
