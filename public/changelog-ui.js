@@ -1,5 +1,24 @@
 const CHANGELOG=[
   {
+    at:'19.08.2026 · 12:24',
+    title:'Fast-Radar auf Turbo-Profil umgestellt',
+    items:[
+      'Turbo-Profil auf 40 Kurs-Batches pro Minute, 8 parallele Requests und 48 Aktien pro Batch gesetzt.',
+      'Ziel für den zusätzlichen Volluniversum-Scan auf ungefähr 4–6 Minuten reduziert statt rund 17 Minuten im bisherigen C#-Vollzyklus.',
+      'Installer benötigt keine install-fast-radar.ps1 mehr; Download, Syntaxprüfung, Autostart und Start erfolgen direkt in einer Datei.',
+      'Bei Yahoo-Drosselung bleibt die automatische Rückstufung aktiv, damit der Scanner nicht dauerhaft in Rate-Limits läuft.'
+    ]
+  },
+  {
+    at:'19.08.2026 · 12:22',
+    title:'Breitscan-Funde bleiben bis zur frischen Bestätigung erhalten',
+    items:[
+      'Discovery-Fenster des Wide-Sweeps von 90 Sekunden auf bis zu 18 Minuten erweitert, passend zum bisherigen Vollzyklus des PC-Scanners.',
+      'Ältere Breitscan-Funde dürfen nur als Hinweis weiterleben; vor einem Einstieg werden sie weiterhin mit frischen 1-Minuten-Daten neu geprüft.',
+      'Neuere Treffer werden bevorzugt, gute Tail-Funde verschwinden aber nicht mehr nach 90 Sekunden aus dem Kandidatenpool.'
+    ]
+  },
+  {
     at:'19.08.2026 · 12:13',
     title:'Early-Dip-Scanner deutlich erweitert',
     items:[
