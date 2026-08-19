@@ -1,13 +1,11 @@
 // Coalesce repeated dashboard status reads so the Cloudflare Free quota is not wasted.
 // During gettex trading hours the UI stays minute-current; outside that window one
 // open browser tab performs at most one real status request every 10 minutes.
-// This module also attaches CONTROL_TOKEN to state-changing UI requests and lets the
-// archive load older history only on demand instead of on every dashboard poll.
+// The archive loads older history only on demand instead of on every dashboard poll.
 const ACTIVE_STATUS_TTL_MS=55_000;
 const SLEEP_STATUS_TTL_MS=10*60*1000;
 const CLOSED_2026=new Set(['2026-01-01','2026-04-03','2026-04-06','2026-05-01','2026-12-24','2026-12-25','2026-12-31']);
-const CONTROL_PATHS=new Set(['/api/start','/api/stop','/api/reset','/api/scan','/api/migrate-from-old-sql']);
-const CONTROL_TOKEN_KEY='planspiel.controlToken';
+const MUTATION_PATHS=new Set(['/api/start','/api/stop','/api/reset','/api/scan','/api/migrate-from-old-sql']);
 const nativeFetch=window.fetch.bind(window);
 let cachedResponse=null;
 let cachedAt=0;
@@ -34,34 +32,12 @@ function requestInfo(input,init){
  }catch{return null}
 }
 function invalidate(){cachedAt=0;cachedResponse=null}
-function readControlToken(){try{return localStorage.getItem(CONTROL_TOKEN_KEY)||''}catch{return''}}
-function writeControlToken(v){try{v?localStorage.setItem(CONTROL_TOKEN_KEY,v):localStorage.removeItem(CONTROL_TOKEN_KEY)}catch{}}
-
-function withControlToken(input,init){
- const token=readControlToken();if(!token)return init;
- const headers=new Headers(init?.headers||(input instanceof Request?input.headers:undefined));
- headers.set('x-control-token',token);
- return{...(init||{}),headers};
-}
-
-async function controlFetch(input,init,info,retried=false){
- const isControl=info.method==='POST'&&CONTROL_PATHS.has(info.u.pathname);
- const effective=isControl?withControlToken(input,init):init;
- const r=await nativeFetch(input,effective);
- if(!isControl||retried||r.status!==401)return r;
- let j=null;try{j=await r.clone().json()}catch{}
- if(!j?.controlTokenRequired)return r;
- const entered=window.prompt('Steuer-Token (Cloudflare-Secret CONTROL_TOKEN):','');
- if(!entered?.trim()){writeControlToken('');return r}
- writeControlToken(entered.trim());
- return controlFetch(input,init,info,true);
-}
 
 window.fetch=async function quotaAwareFetch(input,init){
  const info=requestInfo(input,init);if(!info||info.u.origin!==location.origin)return nativeFetch(input,init);
  const isStatus=info.method==='GET'&&info.u.pathname==='/api/status';
- const isMutation=info.method!=='GET'&&CONTROL_PATHS.has(info.u.pathname);
- if(!isStatus){const r=await controlFetch(input,init,info);if(isMutation&&r.ok)invalidate();return r}
+ const isMutation=info.method!=='GET'&&MUTATION_PATHS.has(info.u.pathname);
+ if(!isStatus){const r=await nativeFetch(input,init);if(isMutation&&r.ok)invalidate();return r}
  const now=Date.now(),ttl=statusTtl();
  if(cachedResponse&&(document.hidden||now-cachedAt<ttl))return cachedResponse.clone();
  if(inFlight){const r=await inFlight;return r.clone()}
