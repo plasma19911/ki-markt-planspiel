@@ -12,6 +12,7 @@ const v3=read('src/compact-portfolio-v3.js');
 const v4=read('src/compact-portfolio-v4.js');
 const v8=read('src/compact-portfolio-v8.js');
 const v9=read('src/compact-portfolio-v9.js');
+const requestBudget=read('src/request-fetch-budget.js');
 const v10=read('src/compact-portfolio-v10.js');
 const v11=read('src/compact-portfolio-v11.js');
 const v21=read('src/compact-portfolio-v21-source-budget.js');
@@ -50,6 +51,10 @@ assert.match(v8,/LEADER_CACHE_KV_KEY/,'Leadercache muss Durable-Object-Neustarts
 assert.match(v8,/persistentLeaderCache:true/,'Status muss persistenten Leadercache bestaetigen');
 assert.match(v8,/EXTERNAL_FETCH_SOFT_CAP=36/,'Pro Scan muss mit Redirect-Reserve vor dem Cloudflare-50er-Hardlimit gebremst werden');
 assert.match(v8,/free-tier-subrequest-soft-cap/,'Soft-Cap muss reale Zusatzfetches blockieren');
+assert.match(v8,/withRequestFetchBudget/,'Normaler Scan muss den request-lokalen Budget-Adapter verwenden');
+assert.doesNotMatch(v8,/globalThis\.fetch\s*=/,'V8 darf globalThis.fetch nicht mehr pro Scan austauschen');
+assert.match(requestBudget,/AsyncLocalStorage/,'Request-Budget muss AsyncLocalStorage fuer isolierte Scan-Kontexte verwenden');
+assert.match(requestBudget,/crossRequestPromiseSharing:false/,'Request-Budget darf keine Request-Promises ueber Isolates teilen');
 assert.match(v8,/held_symbols_added/,'Gehaltene Aktien muessen unabhaengig von Toplisten zusaetzlich ueberwacht werden');
 assert.match(constants,/DEEP_LIMIT = 6/,'Sechs Finalisten duerfen pro Minutenrunde tief geprueft werden; V21 verteilt diese Slots ohne zusaetzliche Requests auf Pullbacks, Breakouts und regulaere Kandidaten');
 assert.match(constants,/NEWS_RADAR_BATCH = 2/,'News-Radar muss im Minutenprofil klein bleiben');
@@ -60,6 +65,8 @@ assert.match(v21,/earlyDipPrioritySlots:1/,'V21 muss nur einen festen Qualitaets
 
 assert.match(v9,/gettex-closed-sleep/,'Ausserhalb gettex muss der komplette Scanner schlafen');
 assert.match(v9,/PREOPEN_FETCH_SOFT_CAP=24/,'Pre-Open muss einen eigenen Subrequest-Softcap besitzen');
+assert.match(v9,/withRequestFetchBudget/,'Pre-Open muss den request-lokalen Budget-Adapter verwenden');
+assert.doesNotMatch(v9,/globalThis\.fetch\s*=/,'V9 darf globalThis.fetch nicht mehr pro Pre-Open austauschen');
 assert.match(v9,/noNews:true/,'Schlafmodus muss News explizit deaktivieren');
 assert.match(v9,/preOpenPrepare/,'07:25 muss Overnight-Vorbereitung ohne Trades besitzen');
 assert.match(v9,/noTrades:true/,'Pre-Open darf keine Trades ausfuehren');

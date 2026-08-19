@@ -1,4 +1,5 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v7.js';
+import {withRequestFetchBudget} from './request-fetch-budget.js';
 
 const FREE_SCAN_INTERVAL_MS=60*1000;
 const STATUS_CACHE_MS=55*1000;
@@ -127,17 +128,7 @@ class FreeTierUniverseAssets{
 }
 
 async function runWithFetchBudget(fn){
-  const nativeFetch=globalThis.fetch,cache=new Map(),stats={actual:0,cacheHits:0,blocked:0,cap:EXTERNAL_FETCH_SOFT_CAP};
-  globalThis.fetch=async(input,init)=>{
-    const method=String(init?.method||input?.method||'GET').toUpperCase();let url='';try{url=typeof input==='string'||input instanceof URL?String(input):String(input?.url||'')}catch{}
-    const cacheable=method==='GET'&&url;
-    if(cacheable&&cache.has(url)){stats.cacheHits++;const r=await cache.get(url);return r.clone()}
-    if(stats.actual>=EXTERNAL_FETCH_SOFT_CAP){stats.blocked++;return new Response(JSON.stringify({error:'free-tier-subrequest-soft-cap'}),{status:429,headers:{'content-type':'application/json'}})}
-    stats.actual++;
-    const p=Promise.resolve(nativeFetch(input,init)).then(r=>r.clone());if(cacheable)cache.set(url,p);
-    const r=await p;return r.clone();
-  };
-  try{return{value:await fn(),stats}}finally{globalThis.fetch=nativeFetch}
+  return withRequestFetchBudget(fn,{cap:EXTERNAL_FETCH_SOFT_CAP,blockedError:'free-tier-subrequest-soft-cap',label:'market-scan'});
 }
 
 export class MarketPortfolio extends BasePortfolio{

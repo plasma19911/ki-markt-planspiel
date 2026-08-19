@@ -1,4 +1,5 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v8.js';
+import {withRequestFetchBudget} from './request-fetch-budget.js';
 import {buildFutureWatch} from './future-watch.js';
 import {gettexSessionState} from './gettex-session.js';
 
@@ -7,14 +8,7 @@ const PREOPEN_KEY='state/gettex-preopen-v1';
 const PREOPEN_FETCH_SOFT_CAP=24;
 
 async function withPreopenFetchBudget(fn){
-  const nativeFetch=globalThis.fetch,cache=new Map(),stats={actual:0,cacheHits:0,blocked:0,cap:PREOPEN_FETCH_SOFT_CAP};
-  globalThis.fetch=async(input,init)=>{
-    const method=String(init?.method||input?.method||'GET').toUpperCase();let url='';try{url=typeof input==='string'||input instanceof URL?String(input):String(input?.url||'')}catch{}
-    if(method==='GET'&&url&&cache.has(url)){stats.cacheHits++;const r=await cache.get(url);return r.clone()}
-    if(stats.actual>=PREOPEN_FETCH_SOFT_CAP){stats.blocked++;return new Response(JSON.stringify({error:'preopen-free-tier-soft-cap'}),{status:429,headers:{'content-type':'application/json'}})}
-    stats.actual++;const p=Promise.resolve(nativeFetch(input,init)).then(r=>r.clone());if(method==='GET'&&url)cache.set(url,p);const r=await p;return r.clone();
-  };
-  try{return{value:await fn(),stats}}finally{globalThis.fetch=nativeFetch}
+  return withRequestFetchBudget(fn,{cap:PREOPEN_FETCH_SOFT_CAP,blockedError:'preopen-free-tier-soft-cap',label:'preopen'});
 }
 
 export class MarketPortfolio extends BasePortfolio{
