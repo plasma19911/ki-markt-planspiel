@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T09:39:57.581142+00:00",
+  "checkedAt": "2026-08-19T09:45:51.490326+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -324,19 +324,21 @@
   "reboundScan": {
     "enabled": true,
     "target": 16,
-    "candidateCount": 6,
-    "updatedAt": "2026-08-19T09:32:17.792Z",
-    "source": "WINDOWS_PC_AGENT",
+    "candidateCount": 16,
+    "updatedAt": "2026-08-19T09:40:28.862Z",
+    "source": "CLOUDFLARE_FALLBACK",
     "sourceStats": [
       {
         "name": "TradingView DE Biggest Losers",
-        "found": 45,
-        "matched": 7
+        "found": 50,
+        "error": null,
+        "matched": 16
       },
       {
-        "name": "TradingView AU Biggest Losers",
-        "found": 44,
-        "matched": 6
+        "name": "Yahoo Day Losers",
+        "found": 35,
+        "error": null,
+        "matched": 9
       }
     ],
     "confirmationRequired": true,
@@ -347,19 +349,21 @@
   "earlyBreakoutScan": {
     "enabled": true,
     "target": 12,
-    "candidateCount": 6,
-    "updatedAt": "2026-08-19T09:32:17.792Z",
-    "source": "WINDOWS_PC_AGENT",
+    "candidateCount": 12,
+    "updatedAt": "2026-08-19T09:45:28.395Z",
+    "source": "CLOUDFLARE_FALLBACK",
     "sourceStats": [
       {
         "name": "TradingView DE Top Gainers",
-        "found": 45,
+        "found": 40,
+        "error": null,
         "matched": 7
       },
       {
-        "name": "TradingView AU Top Gainers",
-        "found": 44,
-        "matched": 6
+        "name": "Yahoo Day Gainers",
+        "found": 34,
+        "error": null,
+        "matched": 11
       }
     ],
     "confirmationRequired": true,
@@ -406,9 +410,9 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 16,
-    "candidateCount": 3,
+    "candidateCount": 0,
     "updatedAt": "2026-08-19T09:32:21.044Z",
-    "fresh": true,
+    "fresh": false,
     "retentionMinutes": 12,
     "recheckPerScan": 4,
     "requiresFreshOneMinuteRecheck": true,
@@ -705,15 +709,15 @@
     "cloudflareFallbackIntervalMinutes": 5,
     "cloudflareFallbackOnlyWhenPcOffline": true,
     "pcAgentOnline": false,
-    "pcAgentPrefetchFresh": true,
+    "pcAgentPrefetchFresh": false,
     "forwardLookingPool": true,
     "forwardPoolTarget": 15,
     "deepFinalists": 6,
     "secondChanceCapture": true,
     "reboundPoolTarget": 16,
-    "reboundPoolCandidates": 6,
+    "reboundPoolCandidates": 16,
     "earlyBreakoutPoolTarget": 12,
-    "earlyBreakoutPoolCandidates": 6,
+    "earlyBreakoutPoolCandidates": 12,
     "pcWideSweep": true,
     "pcWideSweepTarget": 32,
     "secondChanceWatch": true,
@@ -743,8 +747,8 @@
     "configured": true,
     "online": false,
     "lastSeenAt": "2026-08-19T09:33:07.936Z",
-    "ageSeconds": 409,
-    "prefetchFresh": true,
+    "ageSeconds": 763,
+    "prefetchFresh": false,
     "prefetchAt": "2026-08-19T09:32:17.792Z",
     "resolvedLeaderCount": 6,
     "leaderHealthy": false,
