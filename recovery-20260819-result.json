@@ -1,4 +1,4 @@
 {
   "http": "500",
-  "body": "{\"ok\":false,\"recoveryError\":\"The RPC receiver does not implement the method \\\"importLegacy\\\".\",\"name\":\"TypeError\",\"stack\":\"TypeError: The RPC receiver does not implement the method \\\"importLegacy\\\".\\n    at async Object.fetch (index-v18.js:14050:24)\"}"
+  "body": "{\"ok\":false,\"recoveryError\":\"(intermediate value).importLegacy is not a function\",\"name\":\"TypeError\",\"stack\":\"TypeError: (intermediate value).importLegacy is not a function\\n    at async Object.fetch (index-v18.js:14048:24)\"}"
 }
