@@ -1,4 +1,5 @@
 import {targetVenueIssue} from './target-venue-ai-guard.js';
+import {classifyHardExit} from './hard-exit-classifier.js';
 
 const REPORT_KEY='state/day-replay-report-v1';
 const LEARN_KEY='state/day-replay-learning-v1';
@@ -31,8 +32,6 @@ export function replayBalancePressure(storage=null){
  let den=0,missedN=0,lateN=0,peakN=0;recent.forEach((d,i)=>{const w=.65+i*.10,sy=Math.max(1,num(d.symbols));den+=sy*w;missedN+=num(d.missed)*w;lateN+=num(d.late)*w;peakN+=num(d.peak)*w});
  const currentTotal=Math.max(1,num(currentSummary?.symbolsAnalysed,report?.processed||0)),total=den||currentTotal,missedRate=den?missedN/den:num(currentMistakes?.MISSED_SAFE_MOVE)/currentTotal,lateRate=den?lateN/den:num(currentMistakes?.LATE_EXPENSIVE_ENTRY)/currentTotal,peakRate=den?peakN/den:num(currentMistakes?.PEAK_ENTRY)/currentTotal;
  const days=Math.max(arr(history.days).length,num(learn?.completedDays)),evidence=clamp(.38+Math.min(8,days)*.055+Math.min(260,total)/650,.38,.90);
- // Der Einfluss bleibt bewusst begrenzt: mehrere Tage machen das Signal verlaesslicher,
- // aber nie so stark, dass Replay allein einen Kauf erzwingt oder einen Pullback blockiert.
  const opportunityBoost=clamp((missedRate*.72+lateRate*.50)*evidence,0,.22),peakPenalty=clamp(peakRate*.82*evidence,0,.16);
  return{total:+total.toFixed(1),completedDays:days,windowDays:recent.length,missed:num(currentMistakes?.MISSED_SAFE_MOVE),late:num(currentMistakes?.LATE_EXPENSIVE_ENTRY),peak:num(currentMistakes?.PEAK_ENTRY),missedRate:+missedRate.toFixed(3),lateRate:+lateRate.toFixed(3),peakRate:+peakRate.toFixed(3),evidence:+evidence.toFixed(3),opportunityBoost:+opportunityBoost.toFixed(3),peakPenalty:+peakPenalty.toFixed(3),active:recent.length>0||Boolean(report?.status==='COMPLETE')};
 }
@@ -55,10 +54,10 @@ export function assessBalancedSoftEntry(candidate={},storage=null){
 
 function isResearchWait(a={}){return String(a?.action||'').toUpperCase()==='HOLD'&&/RESEARCH-ENTRY-WAIT/i.test(String(a?.reason||''))}
 function marginalMomentumExit(a={}){return String(a?.action||'').toUpperCase()==='SELL'&&/Momentum-Risk-Exit/i.test(String(a?.reason||''))}
-function hardExit(h={},a={}){const state=String(h?.momentumState||h?.momentum_state||'').toUpperCase(),sell=String(h?.momentumSellSignal||h?.momentum_sell_signal||'').toUpperCase(),reason=String(a?.reason||'');return state==='REVERSAL'||sell==='STRONG'||/REVERSAL\s+stark|hard(?:er)?\s+Exit/i.test(reason)}
+function hardExit(h={},a={}){return classifyHardExit(h,a).hard}
 
 export function marginalExitDecision({held={},action={},storage=null,now=Date.now()}={}){
- if(!marginalMomentumExit(action))return{allow:true,reason:'not-marginal-momentum-exit'};if(hardExit(held,action))return{allow:true,hard:true,reason:'harter Reversal-Exit'};
+ if(!marginalMomentumExit(action))return{allow:true,reason:'not-marginal-momentum-exit'};if(hardExit(held,action))return{allow:true,hard:true,reason:'echter harter Event-/Kursbruch'};
  const m5=num(held?.momentum5,held?.intraday5m),m20=num(held?.momentum20,held?.intraday20m),pnl=heldPnlPct(held),severe=(m5<=-.42&&m20<=-.50)||pnl<=-1.25;if(severe)return{allow:true,severe:true,reason:'deutlich bestätigter Abwärtsdruck'};
  const state=read(storage,EXIT_KEY,{rows:{}}),rows=state.rows||{},s=key(held?.symbol?held:action),old=rows[s],fresh=old&&now-num(old.at)<8*60*1000,count=fresh?num(old.count)+1:1;rows[s]={at:now,count};for(const [k,v] of Object.entries(rows))if(now-num(v?.at)>15*60*1000)delete rows[k];write(storage,EXIT_KEY,{updatedAt:new Date(now).toISOString(),rows});
  return{allow:count>=2,count,hard:false,severe:false,reason:count>=2?'zweites aufeinanderfolgendes Momentum-Risikosignal':'erstes leichtes Momentum-Risikosignal – einmal bestätigen'};
