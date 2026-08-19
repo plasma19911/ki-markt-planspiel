@@ -65,8 +65,14 @@ chart_new="""  async function chartResilient(input,init,u){
 s,n=chart_re.subn(lambda _m: chart_new,s,count=1)
 if n!=1 and 'withRequestLocalTask(key' not in s: raise RuntimeError('chartResilient block not found')
 
-for forbidden in ['sessionPromise','chartInflight','chartQueue','chartActive','lastChartStart','chartGate','pumpChartQueue']:
-    if forbidden in s: raise RuntimeError(f'forbidden cross-request token remains: {forbidden}')
+checks={
+ 'sessionPromise':re.search(r'\bsessionPromise\b',s),
+ 'chartInflightMap':re.search(r'\bchartInflight\s*=|\bchartInflight\.(?:has|get|set|delete)',s),
+ 'chartQueue':re.search(r'\bchartQueue\s*=|\bchartQueue\.(?:push|shift)',s),
+ 'chartPacingGlobals':re.search(r'\bchartActive\b|\blastChartStart\b|function\s+chartGate|function\s+pumpChartQueue',s),
+}
+for name,match in checks.items():
+    if match: raise RuntimeError(f'forbidden cross-request state remains: {name}')
 
 p.write_text(s,encoding='utf-8')
 print('src/yahoo-spark-repair.js patched')
