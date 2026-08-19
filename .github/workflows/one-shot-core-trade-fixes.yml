@@ -29,18 +29,12 @@ jobs:
                   raise SystemExit(f'{path}: expected exactly one match, got {count}')
               p.write_text(text.replace(old, new), encoding='utf-8')
 
-          # 1) STRONG short-term momentum is evidence, not an unconditional execution path.
-          # Only a genuine HIGH event may force an immediate core exit; normal/reversal SELLs
-          # must arrive through the AI plan after the outer Candle-Flow/day-review guards.
           replace_once(
               'src/r2-portfolio.js',
               "const a=am.get(p.symbol);let why=null;if(q.momentumSellSignal==='STRONG'&&num(q.momentumExhaustionScore)>=3&&num(q.momentum5)<0)why=`Momentum-Risk-Exit: starker Lauf kippt (${num(q.momentumExhaustionScore).toFixed(1)}), 5m ${num(q.momentum5).toFixed(2)}%, Rücklauf vom 20m-Hoch ${num(q.drawdownFrom20mHighPct).toFixed(2)}%`;else if(a?.action==='SELL'&&a.confidence>=.5)why=`KI SELL ${Math.round(a.confidence*100)}%: ${a.reason}`;else if(fallback&&num(q.score)<=-1.5)why=`Signal-Fallback wegen nicht verfügbarer KI: Score ${num(q.score).toFixed(2)}`;if(why&&closePosition",
               "const a=am.get(p.symbol);let why=null;const hardEvent=String(q.eventRisk||q.event_risk||'NONE').toUpperCase()==='HIGH';if(hardEvent)why=`HARD-EVENT-EXIT: ${q.eventText||q.event_text||'Event-Risiko HIGH'}`;else if(a?.action==='SELL'&&a.confidence>=.5)why=`KI SELL ${Math.round(a.confidence*100)}%: ${a.reason}`;if(why&&closePosition"
           )
 
-          # 2) Keep the same news-request count, but spend the scarce symbol slots on
-          # unexplained price shocks first. A post-spike weak technical score must not
-          # prevent the causal news from being researched.
           radar = "function rotatingRadar(items){const minute=Math.floor(Date.now()/60000),priority=items.filter(x=>x.priority),regular=items.filter(x=>!x.priority),a=Math.min(Math.ceil(NEWS_RADAR_BATCH/2),priority.length),b=NEWS_RADAR_BATCH-a;return[...rotate(priority,a,minute),...rotate(regular,b,minute+17)]}"
           helper = radar + "\nfunction newsPriorityTargets(items,limit){const shock=[...items].filter(x=>Math.abs(num(x?.dayChange))>=4||Math.abs(num(x?.momentum20))>=2).sort((a,b)=>Math.abs(num(b?.dayChange))-Math.abs(num(a?.dayChange))||Math.abs(num(b?.momentum20))-Math.abs(num(a?.momentum20))),out=[];for(const c of [...shock,...items]){if(c&&!out.some(x=>x.symbol===c.symbol)){out.push(c);if(out.length>=limit)break}}return out}\nfunction newsSearchName(c){const words=companyWords(c),full=String(c?.name||c?.symbol||'').replace(/\"/g,'').trim(),core=words.slice(0,3).join(' ');return core.length>=5?core:full}"
           replace_once('src/market-v3-base.js', radar, helper)
@@ -68,12 +62,11 @@ console.log(JSON.stringify({ok:true,directMomentumSellBypass:false,aiFailureScor
           node --check src/market-v3-base.js
           node --check scripts/smoke-core-trade-paths.mjs
           node scripts/smoke-core-trade-paths.mjs
-      - name: Commit fixes and remove one-shot workflow
+      - name: Commit source fixes
         run: |
-          rm .github/workflows/one-shot-core-trade-fixes.yml
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add src/r2-portfolio.js src/market-v3-base.js scripts/smoke-core-trade-paths.mjs .github/workflows/one-shot-core-trade-fixes.yml
+          git add src/r2-portfolio.js src/market-v3-base.js scripts/smoke-core-trade-paths.mjs
           git commit -m 'Fix core sell gating and shock news targeting'
           for attempt in 1 2 3 4 5; do
             git fetch origin main
