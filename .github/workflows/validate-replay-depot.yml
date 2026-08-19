@@ -1,4 +1,4 @@
-name: Validate Replay and Depot UI
+name: Validate Replay Depot and Churn
 
 on:
   workflow_dispatch:
@@ -10,8 +10,12 @@ on:
       - 'src/pc-day-replay-import.js'
       - 'src/compact-portfolio-v18.js'
       - 'src/index-v18.js'
+      - 'src/hard-exit-classifier.js'
+      - 'src/fresh-position-churn-guard.js'
+      - 'src/candle-flow-ai-guard.js'
       - 'public/quota-guard.js'
       - 'scripts/smoke-replay-depot-ui.mjs'
+      - 'scripts/smoke-hard-exit-classifier.mjs'
       - '.github/workflows/validate-replay-depot.yml'
 
 permissions:
@@ -33,6 +37,11 @@ jobs:
           node --check src/pc-day-replay-import.js
           node --check src/compact-portfolio-v18.js
           node --check src/index-v18.js
+          node --check src/hard-exit-classifier.js
+          node --check src/fresh-position-churn-guard.js
+          node --check src/candle-flow-ai-guard.js
           node --check public/quota-guard.js
-      - name: Replay and depot regression
-        run: node scripts/smoke-replay-depot-ui.mjs
+      - name: Replay depot and churn regressions
+        run: |
+          node scripts/smoke-replay-depot-ui.mjs
+          node scripts/smoke-hard-exit-classifier.mjs
