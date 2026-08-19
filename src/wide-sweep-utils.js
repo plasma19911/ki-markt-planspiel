@@ -1,5 +1,5 @@
-export const WIDE_SWEEP_TARGET=24;
-export const WIDE_SWEEP_DIP_RESERVE=14;
+export const WIDE_SWEEP_TARGET=32;
+export const WIDE_SWEEP_DIP_RESERVE=20;
 export const WIDE_SWEEP_TTL_MS=90*1000;
 
 const arr=v=>Array.isArray(v)?v:[];
@@ -29,7 +29,9 @@ function dipDiscovery(row){
 
 export function normalizeWideSweepEntries(input,now=Date.now()){
  const bySymbol=new Map();
- for(const x of arr(input).slice(0,320)){
+ // Der PC darf jetzt einen groesseren vorverdichteten Ausschnitt senden. Das ist
+ // weiterhin billig: Cloudflare bekommt nur Kennzahlen, nicht fuer jeden Wert einen Deep-Request.
+ for(const x of arr(input).slice(0,480)){
   const symbol=key(x?.symbol);if(!symbol||symbol.length>28||isBlockedWideSweepSymbol(symbol))continue;
   const observed=Date.parse(String(x?.observedAt||x?.ts||''));if(!Number.isFinite(observed)||observed>now+60_000||now-observed>WIDE_SWEEP_TTL_MS)continue;
   const score=num(x?.wideScore,NaN),last=num(x?.last,NaN);if(!Number.isFinite(score)||!Number.isFinite(last)||last<=0)continue;
@@ -42,7 +44,7 @@ export function normalizeWideSweepEntries(input,now=Date.now()){
  const momentum=all.slice().sort((a,b)=>b.wideScore-a.wideScore||b.accelerationPct-a.accelerationPct||b.m5Pct-a.m5Pct);
  const selected=[],used=new Set();
  const take=(rows,n)=>{for(const x of rows){if(n<=0)break;if(used.has(x.symbol))continue;used.add(x.symbol);selected.push(x);n--}};
- // 14 von 24 Plaetzen sind primaer fuer gebremste Ruecksetzer reserviert.
+ // 20 von 32 Plaetzen sind primaer fuer gebremste Ruecksetzer reserviert.
  // Momentum/Highs bekommen nur den Rest und koennen einen guten Dip nicht verdraengen.
  take(dips,WIDE_SWEEP_DIP_RESERVE);
  take(momentum,WIDE_SWEEP_TARGET-selected.length);
