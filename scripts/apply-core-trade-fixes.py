@@ -25,6 +25,11 @@ def patch_r2() -> bool:
         "if(!buys.length&&fallback){const top=candidates.filter(x=>x.fresh&&x.confidence>=.55&&x.momentumSellSignal!=='STRONG'&&!existingKeys.has(entityKey(x))).sort((a,b)=>(num(b.score)+num(b.confidence))-(num(a.score)+num(a.confidence)))[0];if(top)buys.push({cand:top,a:{allocation_pct:100,confidence:top.confidence,reason:`stärkstes verfügbares Fallback-Signal ${top.score.toFixed(2)}`},k:top.score+top.confidence})}",
         "if(!buys.length&&fallback){/* KI-/Validierungsfehler: kein unvalidierter Ersatzkauf; Cash bleibt frei. */}",
     )
+    changed |= replace_once(
+        "src/r2-portfolio.js",
+        "const nativeFetch=globalThis.fetch;let m;globalThis.fetch=async(input,init)=>{try{const raw=typeof input==='string'||input instanceof URL?String(input):input?.url;if(raw&&new URL(raw).hostname==='news.google.com')return new Response(EMPTY_RSS,{status:200,headers:{'content-type':'application/rss+xml;charset=utf-8'}})}catch{}return nativeFetch(input,init)};try{m=await scanMarket(this.env,{...cfg,include_etfs:1,include_leverage:0},s.positions.map(p=>p.symbol))}finally{globalThis.fetch=nativeFetch}",
+        "const m=await scanMarket(this.env,{...cfg,include_etfs:1,include_leverage:0,disable_google_news:1},s.positions.map(p=>p.symbol))",
+    )
     return changed
 
 
@@ -42,10 +47,11 @@ def patch_market() -> bool:
         "const deepNewsTargets=deep.slice(0,NEWS_LIMIT);",
         "const deepNewsTargets=newsPriorityTargets(deep,NEWS_LIMIT);",
     )
-    text = text.replace(
-        "const enhanced=[];for(const c of (newsOnly?radarTargets.slice(0,4):[...deep.slice(0,2),...radarTargets.filter(x=>x.priority).slice(0,2)]))",
-        "const enhanced=[];for(const c of (newsOnly?radarTargets.slice(0,4):[...newsPriorityTargets(deep,2),...radarTargets.filter(x=>x.priority).slice(0,2)]))",
-    )
+    old_enhanced = "const enhanced=[];for(const c of (newsOnly?radarTargets.slice(0,4):[...deep.slice(0,2),...radarTargets.filter(x=>x.priority).slice(0,2)]))"
+    prioritized_enhanced = "const enhanced=[];for(const c of (newsOnly?radarTargets.slice(0,4):[...newsPriorityTargets(deep,2),...radarTargets.filter(x=>x.priority).slice(0,2)]))"
+    disabled_enhanced = "const enhanced=[];for(const c of (cfg?.disable_google_news?[]:(newsOnly?radarTargets.slice(0,4):[...newsPriorityTargets(deep,2),...radarTargets.filter(x=>x.priority).slice(0,2)])))"
+    text = text.replace(old_enhanced, prioritized_enhanced)
+    text = text.replace(prioritized_enhanced, disabled_enhanced)
     text = text.replace(
         "u.searchParams.set('q',`\"${String(c.name||c.symbol).replace(/\"/g,'')}\" when:2d`);",
         "u.searchParams.set('q',`\"${newsSearchName(c)}\" when:2d`);",
@@ -54,6 +60,7 @@ def patch_market() -> bool:
         "newsPriorityTargets(deep,NEWS_LIMIT)",
         "newsPriorityTargets(deep,2)",
         "newsSearchName(c)",
+        "cfg?.disable_google_news?[]",
     )
     if not all(x in text for x in required):
         raise RuntimeError("src/market-v3-base.js: news patch incomplete")
