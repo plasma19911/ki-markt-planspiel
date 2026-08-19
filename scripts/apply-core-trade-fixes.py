@@ -25,16 +25,25 @@ def patch_r2() -> bool:
         "if(!buys.length&&fallback){const top=candidates.filter(x=>x.fresh&&x.confidence>=.55&&x.momentumSellSignal!=='STRONG'&&!existingKeys.has(entityKey(x))).sort((a,b)=>(num(b.score)+num(b.confidence))-(num(a.score)+num(a.confidence)))[0];if(top)buys.push({cand:top,a:{allocation_pct:100,confidence:top.confidence,reason:`stärkstes verfügbares Fallback-Signal ${top.score.toFixed(2)}`},k:top.score+top.confidence})}",
         "if(!buys.length&&fallback){/* KI-/Validierungsfehler: kein unvalidierter Ersatzkauf; Cash bleibt frei. */}",
     )
-    changed |= replace_once(
-        "src/r2-portfolio.js",
-        "const nativeFetch=globalThis.fetch;let m;globalThis.fetch=async(input,init)=>{try{const raw=typeof input==='string'||input instanceof URL?String(input):input?.url;if(raw&&new URL(raw).hostname==='news.google.com')return new Response(EMPTY_RSS,{status:200,headers:{'content-type':'application/rss+xml;charset=utf-8'}})}catch{}return nativeFetch(input,init)};try{m=await scanMarket(this.env,{...cfg,include_etfs:1,include_leverage:0},s.positions.map(p=>p.symbol))}finally{globalThis.fetch=nativeFetch}",
-        "const m=await scanMarket(this.env,{...cfg,include_etfs:1,include_leverage:0,disable_google_news:1},s.positions.map(p=>p.symbol));",
-    )
-    changed |= replace_once(
-        "src/r2-portfolio.js",
-        "const m=await scanMarket(this.env,{...cfg,include_etfs:1,include_leverage:0,disable_google_news:1},s.positions.map(p=>p.symbol))const candidates=",
-        "const m=await scanMarket(this.env,{...cfg,include_etfs:1,include_leverage:0,disable_google_news:1},s.positions.map(p=>p.symbol));const candidates=",
-    )
+
+    p = Path("src/r2-portfolio.js")
+    text = p.read_text(encoding="utf-8")
+    old_global = "const nativeFetch=globalThis.fetch;let m;globalThis.fetch=async(input,init)=>{try{const raw=typeof input==='string'||input instanceof URL?String(input):input?.url;if(raw&&new URL(raw).hostname==='news.google.com')return new Response(EMPTY_RSS,{status:200,headers:{'content-type':'application/rss+xml;charset=utf-8'}})}catch{}return nativeFetch(input,init)};try{m=await scanMarket(this.env,{...cfg,include_etfs:1,include_leverage:0},s.positions.map(p=>p.symbol))}finally{globalThis.fetch=nativeFetch}"
+    bad_partial = "const m=await scanMarket(this.env,{...cfg,include_etfs:1,include_leverage:0,disable_google_news:1},s.positions.map(p=>p.symbol))const candidates="
+    good_prefix = "const m=await scanMarket(this.env,{...cfg,include_etfs:1,include_leverage:0,disable_google_news:1},s.positions.map(p=>p.symbol));const candidates="
+    if bad_partial in text:
+        text = text.replace(bad_partial, good_prefix)
+        p.write_text(text, encoding="utf-8")
+        changed = True
+    elif good_prefix not in text:
+        if text.count(old_global) != 1:
+            raise RuntimeError("src/r2-portfolio.js: scanMarket/global-fetch patch state unresolved")
+        text = text.replace(
+            old_global,
+            "const m=await scanMarket(this.env,{...cfg,include_etfs:1,include_leverage:0,disable_google_news:1},s.positions.map(p=>p.symbol));",
+        )
+        p.write_text(text, encoding="utf-8")
+        changed = True
     return changed
 
 
