@@ -5,15 +5,8 @@ import {BalancedAdaptiveAiGuard,replayBalancePressure} from './balanced-adaptive
 import {DipValueEntryAiGuard} from './dip-value-entry-guard.js';
 import {FreshPositionChurnAiGuard} from './fresh-position-churn-guard.js';
 
-// V18 closes a learning-only gap: the fast layer may propose BUY before Pullback,
-// venue, cost and execution guards run. Only positions that really exist afterwards
-// are allowed to keep a pending entry-timing sample. Research-quality remains active,
-// but the outer BALANCED-ADAPTIVE layer prevents soft thresholds from becoming too rigid:
-// hard risks stay hard; very strong candidates may use a small starter position when
-// only a soft threshold is narrowly missed. DIP-FIRST is the final entry-price policy:
-// falling but decelerating quality stocks may get a small starter, rebound gets more,
-// expensive near-high entries are blocked and cash may wait for a better price.
-// The final live-state guard still sees the real paper positions before execution.
+// V18: EARLY-DIP-FIRST. Der breite PC-/Rebound-Radar darf kontrollierte Ruecksetzer
+// frueh in einen separaten 1m-Foresight-Check heben. Harte Safety bleibt unveraendert.
 export class MarketPortfolio extends BasePortfolio{
   constructor(ctx,env){
     super(ctx,env);this.ctx=ctx;this.env=env;
@@ -40,13 +33,17 @@ export class MarketPortfolio extends BasePortfolio{
     s.entryResearchPolicy={
       enabled:true,
       noUniversalBestClockTime:true,
-      priority:['DIP_STARTER','DIP_REBOUND','PULLBACK_RETEST','VALUE_STARTER','EXCEPTIONAL_BREAKOUT'],
+      priority:['EARLY_DIP','DIP_STARTER','DIP_REBOUND','PULLBACK_RETEST','VALUE_STARTER','EXCEPTIONAL_BREAKOUT'],
       avoid:['PEAK_CHASE','OVEREXTENDED_MOMENTUM','UNBRAKED_FALLING_KNIFE'],
+      earlyDipForesight:true,
+      earlyDipRechecksPerScan:8,
       fallingDipStarterAllowed:true,
       fallingDipRequiresDeceleration:true,
-      dipStarterMaxPct:18,
-      deepDipStarterMaxPct:14,
+      dipStarterMaxPct:20,
+      deepDipStarterMaxPct:16,
       dipReboundMaxPct:30,
+      foresightStarterMaxPct:12,
+      foresightReboundMaxPct:18,
       exceptionalBreakoutMaxPct:5,
       cashMayWaitForValue:true,
       requireBounceAfterPullback:false,
@@ -63,11 +60,11 @@ export class MarketPortfolio extends BasePortfolio{
       balancedSoftOverride:true,
       balancedSoftStarterMaxPct:16,
       hardRisksNeverOverridden:true,
-      note:'Dip-First: Gute Aktien duerfen schon waehrend eines kontrollierten Ruecksetzers klein gekauft werden, wenn der Abwaertsdruck nachlaesst. Beim bestaetigten Rebound darf die Position groesser werden. Near-High/Breakout-Kaeufe sind selten und klein. Fehlt ein guter Preis, bleibt Cash frei.'
+      note:'Early-Dip-First: Breitscan- und Rebound-Werte bekommen schon vor dem offensichtlichen Rebound einen eigenen frischen 1m-Check. Bremst der Abverkauf sauber, darf klein gestartet werden. Erst nach voller Bestaetigung wird groesser; Peak-Chase bleibt klein/selten.'
     };
     s.balancedAdaptive={
       enabled:true,
-      mode:'DIP_FIRST_SOFT_RULES_HARD_SAFETY',
+      mode:'EARLY_DIP_FIRST_SOFT_RULES_HARD_SAFETY',
       replayPressure:balance,
       marginalExitNeedsConfirmation:true,
       hardReversalImmediate:true,
@@ -84,8 +81,9 @@ export class MarketPortfolio extends BasePortfolio{
       zeroCashBuySuppression:true,
       stateThemeDiversification:true,
       dipFirst:true,
+      earlyDipForesight:true,
       cashMayWaitForBetterEntry:true,
-      objective:'guenstigere Einstiege in kontrollierte Ruecksetzer, weniger Peak-Chase und weniger Kauf-Verkauf-Churn; harte Exit-Safety bleibt bestehen'
+      objective:'mehr gute Ruecksetzer vor der offensichtlichen Umkehr sehen, dabei harte Safety und Anti-Chase beibehalten'
     };
     s.newsSourcePolicy={
       primary:['Issuer Investor Relations','SEC/EDGAR fuer US-Filings','Deutsche Boerse/EQS fuer DE/EU-Meldungen','Federal Reserve','ECB','BLS'],
@@ -93,28 +91,29 @@ export class MarketPortfolio extends BasePortfolio{
       discovery:['Google News RSS keyless','oeffentliche TradingView-Mover-Seiten'],
       priceTechnical:['PC-Agent Keyless Multi-Source','Yahoo Chart/Spark keyless fallback'],
       apiKeysRequiredForPcMarketData:false,
-      rule:'Primaerquelle/Emittent fuer harte Fakten bevorzugen. Oeffentliche Webseiten/RSS dienen der Discovery. Intraday-Daten muessen frisch sein; Wide-Sweep-Daten ueber 90 Sekunden werden verworfen.'
+      rule:'Primaerquelle/Emittent fuer harte Fakten bevorzugen. Intraday-Daten muessen frisch sein; Early-Dip/Foresight startet kleiner, solange News/Event noch nicht komplett im regulaeren Deep-Pass bestaetigt sind.'
     };
     s.fastInfoProfile={
       enabled:true,
-      mode:'PARALLEL_EVIDENCE_FIRST',
-      deepFinalists:6,
+      mode:'EARLY_DIP_PARALLEL_EVIDENCE',
+      deepFinalists:8,
       deepChecksParallel:6,
-      newsFinalists:4,
-      newsRadarPerScan:2,
-      newsRequestsFitSingleParallelWave:true,
-      secondChancePoolTarget:16,
-      secondChanceRecheckPerScan:4,
-      pcWideSweepTarget:32,
-      pcWideDipReserve:20,
-      reboundRadarTarget:16,
-      objective:'mehr frische Kurs-, Volumen-, Dip- und News-Evidenz je Scan bei moeglichst wenigen zusaetzlichen seriellen Wartezeiten'
+      newsFinalists:5,
+      newsRadarPerScan:3,
+      newsRequestsFitSingleParallelWave:false,
+      foresightDipRechecksPerScan:8,
+      secondChancePoolTarget:24,
+      secondChanceRecheckPerScan:6,
+      pcWideSweepTarget:64,
+      pcWideDipReserve:44,
+      reboundRadarTarget:24,
+      objective:'breitere Discovery plus eigener 1m-Early-Dip-Pfad: Chancen sollen vor dem offensichtlichen Rebound sichtbar werden, nicht erst nachdem sie hochgelaufen sind'
     };
-    if(s.secondChanceWatch)s.secondChanceWatch={...s.secondChanceWatch,target:16,recheckPerScan:4,mode:'Bis zu 16 starke Deep-Kandidaten bleiben im Heisspool; bis zu vier koennen pro Scan parallel einen frischen 1m-Zweitcheck erhalten. Kein Kandidat erzwingt einen Kauf.'};
+    if(s.secondChanceWatch)s.secondChanceWatch={...s.secondChanceWatch,target:24,retentionMinutes:15,recheckPerScan:6,mode:'Bis zu 24 fast passende Kandidaten bleiben 15 Minuten im Heisspool; bis zu sechs erhalten pro Scan parallel einen frischen 1m-Zweitcheck.'};
     if(s.entryTimingLearning)s.entryTimingLearning={...s.entryTimingLearning,pendingOnlyForExecutedPositions:true,pendingExecutionTtlMinutes:8,proposalContaminationFixed:true};
-    if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,learningOnlyFromExecutedEntries:true,researchBackedEntryPolicy:true,earlyBreakoutQualityGuard:true,earlyBreakoutInitialCapPct:8,finalHighEntryCapPct:5,balancedSoftOverride:true,balancedSoftStarterMaxPct:16,marginalExitConfirmation:true,exceptionalRotationEscape:true,freshPositionChurnShield:true,normalRotationMinAgeMinutes:30,zeroCashBuySuppression:true,deepFinalists:6,deepNewsFinalists:4,secondChancePoolTarget:16,secondChanceRecheckPerScan:4,pcWideSweepTarget:32,pcWideDipReserve:20,pcWideSweepMaxAgeSeconds:90,reboundRadarTarget:16,keylessMultiSource:true,fastInfoProfile:true,dipFirst:true,fallingDipStarterAllowed:true,dipStarterMaxPct:18,deepDipStarterMaxPct:14,dipReboundMaxPct:30,cashMayRemainForBetterEntry:true,alwaysInvested:false,capitalMotionTargetCashDeploymentPct:null};
-    if(s.executionModel)s.executionModel={...s.executionModel,alwaysInvested:false,capitalInMotion:false,cashMayRemain:true,strategicCashReservePct:null,dipFirst:true,fallingDipStarterAllowed:true,nearHighBuyCapPct:5,fastInfoProfile:true};
-    if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,secondChanceWatch:true,secondChanceRetentionMinutes:12,secondChancePoolTarget:16,secondChanceRecheckPerScan:4,pcWideSweepTarget:32,pcWideDipReserve:20,pcWideSweepMaxAgeSeconds:90,reboundRadarTarget:16,deepFinalists:6,deepNewsFinalists:4,keylessMultiSource:true,fastInfoProfile:true,dipFirst:true,cashMayRemainForBetterEntry:true};
+    if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,learningOnlyFromExecutedEntries:true,researchBackedEntryPolicy:true,earlyBreakoutQualityGuard:true,earlyBreakoutInitialCapPct:8,finalHighEntryCapPct:5,balancedSoftOverride:true,balancedSoftStarterMaxPct:16,marginalExitConfirmation:true,exceptionalRotationEscape:true,freshPositionChurnShield:true,normalRotationMinAgeMinutes:30,zeroCashBuySuppression:true,deepFinalists:8,deepNewsFinalists:5,foresightDipRechecksPerScan:8,secondChancePoolTarget:24,secondChanceRecheckPerScan:6,pcWideSweepTarget:64,pcWideDipReserve:44,pcWideSweepMaxAgeSeconds:90,reboundRadarTarget:24,keylessMultiSource:true,fastInfoProfile:true,dipFirst:true,earlyDipForesight:true,fallingDipStarterAllowed:true,dipStarterMaxPct:20,deepDipStarterMaxPct:16,dipReboundMaxPct:30,foresightStarterMaxPct:12,foresightReboundMaxPct:18,cashMayRemainForBetterEntry:true,alwaysInvested:false,capitalMotionTargetCashDeploymentPct:null};
+    if(s.executionModel)s.executionModel={...s.executionModel,alwaysInvested:false,capitalInMotion:false,cashMayRemain:true,strategicCashReservePct:null,dipFirst:true,earlyDipForesight:true,fallingDipStarterAllowed:true,nearHighBuyCapPct:5,fastInfoProfile:true};
+    if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,secondChanceWatch:true,secondChanceRetentionMinutes:15,secondChancePoolTarget:24,secondChanceRecheckPerScan:6,pcWideSweepTarget:64,pcWideDipReserve:44,pcWideSweepMaxAgeSeconds:90,reboundRadarTarget:24,deepFinalists:8,deepNewsFinalists:5,foresightDipRechecksPerScan:8,keylessMultiSource:true,fastInfoProfile:true,dipFirst:true,earlyDipForesight:true,cashMayRemainForBetterEntry:true};
     return s;
   }
 }
