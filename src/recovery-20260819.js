@@ -1,5 +1,5 @@
 // One-time recovery source from the last verified production health snapshot before
-// the accidental 2026-08-19 22:32 Berlin restart. Diagnostic recovery run triggered.
+// the accidental 2026-08-19 22:32 Berlin restart. Fixed recovery workflow triggered.
 // Removed after successful restore.
 export const RECOVERY_20260819={
  config:{
