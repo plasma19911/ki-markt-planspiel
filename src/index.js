@@ -33,17 +33,40 @@ async function agentUniverseData(env,requestUrl){
  return{ok:true,updatedAt:new Date().toISOString(),generatedAt:j.generated_at||null,exactBrokerCatalog:Boolean(j.exact_broker_catalog),count:equities.length,equities};
 }
 
-async function freeTierAppJs(request,env){
- const r=await env.ASSETS.fetch(request);if(!r.ok)return r;
- let text=await r.text();
- text=text
-  .replace(/LÄUFT · 60 SEKUNDEN/g,'LÄUFT · 1-MIN-SCAN')
-  .replace(/Aktien und normale ETFs/g,'nur Aktien')
-  .replace(/Aktien \+ normale ETFs/g,'nur Aktien')
-  .replace(/includeEtfs:true/g,'includeEtfs:false')
-  .replace(/setInterval\(load,5000\)/g,'setInterval(load,60000)');
- const h=new Headers(r.headers);h.set('content-type','text/javascript; charset=utf-8');h.set('cache-control','public, max-age=300');
- return new Response(text,{status:r.status,headers:h});
+// /api/status ist der mit Abstand teuerste Endpunkt: ~90 KB, alle 60 s pro Tab.
+// Zwei Massnahmen: (1) ETag + 304, damit unveraenderte Antworten nichts kosten,
+// (2) optionale schlanke Dashboard-Sicht ohne die grossen Lernblobs.
+// Frueher wurde hier zusaetzlich /app.js per Regex umgeschrieben. Das ist entfernt:
+// der Quelltext in public/app.js ist jetzt das, was auch ausgeliefert wird.
+
+const DASHBOARD_FIELDS=['config','equity','pnl','pnl_pct','positions','history','snapshots','candidates','newsRadar','sourceHealth','aiLog','statistics','risk','executionModel','futureWatch','marketRegime','investmentDossiers','intelligenceUpdatedAt','intelligenceModel','analysisNotice','pcAgent','gettexSession','orderApproval','accounting'];
+
+function dashboardView(status){
+ const out={};
+ for(const k of DASHBOARD_FIELDS)if(status&&k in status)out[k]=status[k];
+ const raw=status?.dayReplayLearning;
+ if(raw){
+  const report=raw.report||raw;
+  out.dayReplayLearning={report:{status:report?.status??null,processed:report?.processed??null,summary:report?.summary??raw?.summary??null}};
+ }
+ return out;
+}
+
+async function statusEtag(payload){
+ // pcAgent.ageSeconds zaehlt bei jedem Request hoch und wuerde jeden ETag entwerten.
+ const stable=payload?.pcAgent?{...payload,pcAgent:{...payload.pcAgent,ageSeconds:null}}:payload;
+ const digest=await crypto.subtle.digest('SHA-1',enc.encode(JSON.stringify(stable)));
+ return `"${[...new Uint8Array(digest)].map(b=>b.toString(16).padStart(2,'0')).join('')}"`;
+}
+
+async function statusResponse(request,p,u){
+ const full=await p.status();
+ const payload=u.searchParams.get('view')==='dashboard'?dashboardView(full):full;
+ const etag=await statusEtag(payload);
+ const headers={'cache-control':'private, no-cache','etag':etag,'vary':'accept-encoding'};
+ if(request.headers.get('if-none-match')===etag)return new Response(null,{status:304,headers});
+ if(request.method==='HEAD')return new Response(null,{status:200,headers:{...headers,'content-type':'application/json'}});
+ return Response.json(payload,{headers});
 }
 
 async function positionChartData(p,u){
@@ -67,14 +90,13 @@ async function positionChartData(p,u){
 export default{
  async fetch(request,env){
   const u=new URL(request.url);
-  if(u.pathname==='/app.js'&&request.method==='GET')return freeTierAppJs(request,env);
   if(!u.pathname.startsWith('/api/'))return env.ASSETS.fetch(request);
   try{
    const p=portfolio(env);let sessionAuth=null;const agentPath=u.pathname.startsWith('/api/agent/');
    if(approvalMode(env)&&u.pathname!=='/api/order-approval-status'&&!agentPath){
     sessionAuth=await verifyCloudflareAccess(request,env);if(!sessionAuth.ok)return reply({error:sessionAuth.error,approvalAuth:false},sessionAuth.status||403);
    }
-   if(u.pathname==='/api/status'&&request.method==='GET')return reply(await p.status());
+   if(u.pathname==='/api/status'&&(request.method==='GET'||request.method==='HEAD'))return statusResponse(request,p,u);
    if(u.pathname==='/api/day-replay-report'&&request.method==='GET'){const s=await p.status();return reply({ok:true,dayReplayLearning:s?.dayReplayLearning||null,pcDayReplayImport:s?.pcDayReplayImport||null,entryPriceTiming:s?.entryPriceTiming||null,profitOptimizer:s?.profitOptimizer||null})}
    if(u.pathname==='/api/position-chart'&&request.method==='GET'){const data=await positionChartData(p,u);return reply(data,data.status||200)}
    if(u.pathname==='/api/agent/status'&&request.method==='GET')return reply(await p.agentStatus());
