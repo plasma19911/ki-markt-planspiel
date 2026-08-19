@@ -1,6 +1,9 @@
 export const WIDE_SWEEP_TARGET=64;
 export const WIDE_SWEEP_DIP_RESERVE=44;
-export const WIDE_SWEEP_TTL_MS=90*1000;
+// Discovery darf so lange leben, bis der langsame Vollzyklus einmal herum ist.
+// Das ist KEIN Kaufalter: jeder echte Einstieg wird danach nochmals mit frischen
+// 1m-Daten bestaetigt. Dadurch verschwinden gute Tail-Funde nicht nach 90 Sekunden.
+export const WIDE_SWEEP_TTL_MS=18*60*1000;
 
 const arr=v=>Array.isArray(v)?v:[];
 const key=v=>String(v||'').toUpperCase().trim();
@@ -11,8 +14,6 @@ export const isFreshWideSweep=(ts,now=Date.now(),ttl=WIDE_SWEEP_TTL_MS)=>{const 
 
 function dipDiscovery(row){
  const day=num(row?.sessionPct),m5=num(row?.m5Pct),m20=num(row?.m20Pct),accel=num(row?.accelerationPct);
- // EARLY-DIP Discovery: Ein Ruecksetzer muss noch nicht positiv drehen. Wichtig ist,
- // dass die kurzfristige Abwaertsdynamik bereits erkennbar nachlaesst.
  const declining=day<=-.35&&day>=-10;
  const controlled20=m20<=.28&&m20>=-3.5;
  const notCrashing5=m5<=.18&&m5>=-.95;
@@ -29,8 +30,6 @@ function dipDiscovery(row){
 
 export function normalizeWideSweepEntries(input,now=Date.now()){
  const bySymbol=new Map();
- // Groesserer Vorfilter: PC/Fast-Radar duerfen mehr Rohkandidaten schicken; Cloudflare
- // behaelt davon nur 64. Das verbreitert die Suche, ohne 8.000 Deep-Requests zu erzeugen.
  for(const x of arr(input).slice(0,800)){
   const symbol=key(x?.symbol);if(!symbol||symbol.length>28||isBlockedWideSweepSymbol(symbol))continue;
   const observed=Date.parse(String(x?.observedAt||x?.ts||''));if(!Number.isFinite(observed)||observed>now+60_000||now-observed>WIDE_SWEEP_TTL_MS)continue;
@@ -44,12 +43,14 @@ export function normalizeWideSweepEntries(input,now=Date.now()){
   if(clearlyNewer||betterSameTime)bySymbol.set(symbol,row);
  }
  const all=[...bySymbol.values()];
- const dips=all.filter(x=>x.dipDiscovery).sort((a,b)=>b.dipDiscoveryScore-a.dipDiscoveryScore||b.accelerationPct-a.accelerationPct||b.wideScore-a.wideScore);
- const momentum=all.slice().sort((a,b)=>b.wideScore-a.wideScore||b.accelerationPct-a.accelerationPct||b.m5Pct-a.m5Pct);
+ // Alter ist nur Discovery-Penalty. Ein 12-Minuten-alter starker Tail-Fund darf
+ // weiterhin zur frischen 1m-Pruefung antreten, wird aber gegen neue Funde abgestuft.
+ const dipRank=x=>x.dipDiscoveryScore-Math.min(3,x.ageSeconds/240);
+ const momRank=x=>x.wideScore-Math.min(4,x.ageSeconds/300);
+ const dips=all.filter(x=>x.dipDiscovery).sort((a,b)=>dipRank(b)-dipRank(a)||b.accelerationPct-a.accelerationPct||b.wideScore-a.wideScore);
+ const momentum=all.slice().sort((a,b)=>momRank(b)-momRank(a)||b.accelerationPct-a.accelerationPct||b.m5Pct-a.m5Pct);
  const selected=[],used=new Set();
  const take=(rows,n)=>{for(const x of rows){if(n<=0)break;if(used.has(x.symbol))continue;used.add(x.symbol);selected.push(x);n--}};
- // 44/64 Plaetze bleiben fuer kontrollierte oder gerade abbremsende Ruecksetzer frei.
- // So werden Chancen sichtbar, bevor sie wieder zu offensichtlichen Gewinnern werden.
  take(dips,WIDE_SWEEP_DIP_RESERVE);
  take(momentum,WIDE_SWEEP_TARGET-selected.length);
  return selected.slice(0,WIDE_SWEEP_TARGET);
