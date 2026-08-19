@@ -8,7 +8,7 @@
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <title>KI-Markt-Planspiel</title>
   <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/rescue-ui.css?v=20260819-0900">
+  <link rel="stylesheet" href="/rescue-ui.css?v=20260819-1200">
 </head>
 <body>
 <div class="appShell">
@@ -43,7 +43,7 @@
         <div class="statusChip"><span>Cloudflare</span><b id="cloudHeaderStatus">–</b></div>
         <div class="statusChip"><span>Letzter Scan</span><b id="scanHeaderStatus">–</b></div>
       </div>
-      <div id="statusPill" class="pill">Lade …</div>
+      <div id="statusPill" class="pill" role="status" aria-live="polite">Lade …</div>
     </header>
 
     <div class="mobileNav" aria-label="Mobile Navigation">
@@ -113,9 +113,9 @@
     <footer>KI-Markt-Planspiel · Paper Trading · Aktien · PC-Agent + Cloudflare</footer>
   </div>
 </div>
-<script src="/app.js?v=20260818-2224" type="module"></script>
-<script src="/position-chart-ui.js?v=20260819-0908" type="module"></script>
-<script src="/candidate-fallback-ui.js?v=20260819-0922" type="module"></script>
-<script src="/analysis-ui.js?v=20260818-2224" type="module"></script>
+<script src="/quota-guard.js?v=20260819-1200" type="module"></script>
+<script src="/app.js?v=20260819-1200" type="module"></script>
+<script src="/position-chart-ui.js?v=20260819-1200" type="module"></script>
+<script src="/analysis-ui.js?v=20260819-1200" type="module"></script>
 </body>
 </html>

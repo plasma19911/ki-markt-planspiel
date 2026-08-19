@@ -104,3 +104,42 @@ body{font-size:15px}
  .dashboardChart #chart{height:165px!important;min-height:165px!important;max-height:165px!important}.dashboardAllocation{max-width:none!important}.dashboardAllocation canvas{width:195px!important;height:150px!important;min-width:195px!important;max-width:195px!important;min-height:150px!important;max-height:150px!important}
  #signals .candidatesWrap tr{grid-template-columns:1fr 1fr!important}.candidateHelp{font-size:13px!important}#signals .candidatesWrap td,#signals .plainCell{font-size:13px!important}
 }
+
+/* ================================================================
+   2.4 · Politur (additiv, überschreibt nichts aus 2.3)
+   ================================================================ */
+
+/* Altlast: styles.css bringt unter 760px noch Mobil-Labels der alten
+   8-Spalten-Kandidatentabelle mit ("Wert / Score / Konf. / Tag / News …").
+   Spalte 2–7 werden oben schon korrekt gesetzt, Spalte 1 nicht. */
+#signals .candidatesWrap td:nth-child(1)::before{content:none}
+
+/* Zahlen springen beim Aktualisieren nicht mehr in der Breite. */
+table,.kpiCard strong,.kpiCard small b,.replayMetric b,.positionMetrics b,.positionPnl,
+.mini b,.sideAccount b,.statusChip b,.legendItem b,.dossierScore{font-variant-numeric:tabular-nums}
+
+/* Tastaturbedienung war komplett unsichtbar – jetzt nicht mehr. */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,
+summary:focus-visible,[tabindex]:focus-visible{outline:2px solid #61a8ff;outline-offset:2px;border-radius:8px}
+
+/* Status-Pille: dritter Zustand, wenn der letzte Scan zu lange her ist. */
+.pill.stale{color:#ffc75d;border-color:#5f512a;background:#241f10}
+
+/* Wartezustand der Buttons. */
+.buttons button[disabled]{opacity:.55;cursor:progress}
+
+/* Der Fehlerkasten kann auch eine ruhige Meldung tragen. */
+.error.notice-ok{color:#78dca8;border-color:#1c4939;background:#0d241c}
+
+/* Vor dem ersten Statusabruf: Platzhalter zurückhaltend statt harte Striche. */
+body:not(.dataReady) .kpiCard strong,
+body:not(.dataReady) .sideAccount b,
+body:not(.dataReady) .statusChip b{opacity:.4}
+
+/* Sticky-Kopfzeilen bekommen den Kartenhintergrund, damit nichts durchscheint. */
+.tableWrap thead th{background:#0d1b29}
+
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
+}
