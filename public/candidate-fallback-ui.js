@@ -23,57 +23,86 @@ const COMPANIES={
  PLTR:'Palantir entwickelt Daten- und KI-Software für Unternehmen, Behörden und Verteidigung.',
  GEV:'GE Vernova baut Energie- und Stromnetztechnik für Kraftwerke, Netze und Rechenzentren.',
  VRT:'Vertiv liefert Stromversorgung und Kühlung für Rechenzentren.',
- PANW:'Palo Alto Networks verkauft Cybersicherheitssoftware für Netzwerke, Cloud und Unternehmen.'
+ PANW:'Palo Alto Networks verkauft Cybersicherheitssoftware für Netzwerke, Cloud und Unternehmen.',
+ '079550':'LIG Nex1 entwickelt Lenkflugkörper, Radar-, Sensor-, Kommunikations- und weitere Verteidigungssysteme.',
+ EOS:'Electro Optic Systems entwickelt ferngesteuerte Verteidigungssysteme, Sensorik und Weltraumtechnik.',
+ '3690':'Meituan betreibt digitale Plattformen für Essenslieferung, lokale Dienstleistungen sowie Hotel- und Reisebuchungen.',
+ '012450':'Hanwha Aerospace produziert Flugzeugtriebwerke, Artillerie-, Raumfahrt- und weitere Verteidigungstechnik.'
 };
 const THEME={
  DEFENSE:'Das Unternehmen arbeitet im Bereich Luftfahrt, Verteidigung oder Sicherheit.',
  DEFENSE_TECH:'Das Unternehmen arbeitet im Bereich Verteidigung und Sicherheit.',
+ RUSSIA_SANCTIONS_DEFENSE:'Das Unternehmen arbeitet im Bereich Verteidigung und Sicherheit.',
  AI_POWER_GRID:'Das Unternehmen hängt vom Ausbau von Rechenzentren und Stromnetzen ab.',
  CYBER_SECURITY:'Das Unternehmen bietet IT- oder Cybersicherheitslösungen an.',
+ SEMI_EXPORT_CONTROLS:'Das Unternehmen gehört zur Halbleiter- und Chipindustrie.',
+ NUCLEAR_URANIUM:'Das Unternehmen arbeitet im Bereich Kernenergie oder Uran.',
  RATES_MACRO:'Die Aktie reagiert stark auf Zinsen, Konjunktur und Marktstimmung.'
 };
+const THEME_MOVE={
+ DEFENSE:'Defense-/Aerospace-Sektor im Fokus',DEFENSE_TECH:'Defense-/Aerospace-Sektor im Fokus',RUSSIA_SANCTIONS_DEFENSE:'Geopolitik und Defense-Sektor im Fokus',
+ AI_POWER_GRID:'KI-Rechenzentren und Stromnetzausbau im Fokus',CYBER_SECURITY:'Cybersecurity-Sektor im Fokus',SEMI_EXPORT_CONTROLS:'Chipsektor und Exportregeln im Fokus',
+ NUCLEAR_URANIUM:'Kernenergie-/Uran-Thema im Fokus',RATES_MACRO:'Zinsen und Konjunktur bewegen den Wert'
+};
 
-function company(x){return COMPANIES[base(x.symbol)]||THEME[String(x.theme||'').toUpperCase()]||`${x.name||x.symbol||'Das Unternehmen'} ist ein börsennotiertes Unternehmen, das vom Scanner weiter beobachtet wird.`}
+function company(x){
+ const direct=String(x?.business_summary||x?.businessSummary||x?.description||'').trim();if(direct)return direct.slice(0,190);
+ const b=base(x.symbol);if(COMPANIES[b])return COMPANIES[b];
+ const name=String(x.name||'').toLowerCase();
+ if(name.includes('aerospace')||name.includes('defense')||name.includes('defence'))return'Das Unternehmen ist in Luftfahrt, Verteidigung oder Sicherheit tätig.';
+ if(name.includes('optic'))return'Das Unternehmen entwickelt optische, sensorbasierte oder sicherheitsrelevante Technik.';
+ if(name.includes('semiconductor')||name.includes('chip'))return'Das Unternehmen entwickelt oder produziert Halbleiter- und Chiptechnik.';
+ return THEME[String(x.theme||'').toUpperCase()]||`${x.name||x.symbol||'Das Unternehmen'} wird als börsennotiertes Unternehmen vom Scanner weiter beobachtet.`;
+}
 function scoreFromMessage(m){const x=String(m||'').match(/Score\s+(-?\d+(?:[.,]\d+)?)/i);return x?Number(x[1].replace(',','.')):null}
 function confFromMessage(m){const x=String(m||'').match(/Konfidenz\s+(\d+)%/i);return x?Number(x[1])/100:null}
 function currentNews(symbol,s){const b=base(symbol);const n=arr(s.newsRadar).find(x=>base(x.symbol)===b);if(n?.headline)return String(n.headline);const f=arr(s.futureWatch?.candidates).find(x=>base(x.symbol)===b);if(f?.catalyst||f?.reason)return String(f.catalyst||f.reason);return''}
-function movement(x,s){const n=currentNews(x.symbol,s);if(n)return n.slice(0,190);if(x.kind==='IM DEPOT')return'Die Position ist bereits im Depot. Kurs, News und ein möglicher besserer Wechsel werden laufend neu geprüft.';if(x.kind==='NEWS-WATCH')return'Aktuelles Weltthema oder Unternehmensereignis macht die Aktie interessant. Für einen Kauf fehlt noch die Kursbestätigung.';return'Zuletzt ein stärkerer Beobachtungskandidat. Ein neuer Einstieg wartet auf frische Kursdaten, einen Rücksetzer oder eine neue Bestätigung.'}
+function movement(x,s){
+ const n=currentNews(x.symbol,s);if(n)return n.slice(0,145);
+ const theme=THEME_MOVE[String(x.theme||'').toUpperCase()];
+ if(x.kind==='IM DEPOT')return theme?`${theme} · Position im Depot wird weiter geprüft.`:'Im Depot · Kurs und News werden laufend neu geprüft.';
+ if(x.kind==='NEWS-WATCH')return theme?`${theme} · Kauf wartet noch auf Kursbestätigung.`:'News-/Weltthema auffällig · Kauf wartet noch auf Kursbestätigung.';
+ if(theme)return`${theme} · aktuell keine neue starke Firmenmeldung.`;
+ return'Beobachtung · wartet auf frische Bestätigung oder einen besseren Rücksetzer.';
+}
 function rating(x){if(x.kind==='IM DEPOT')return['Im Depot','hold'];const sc=num(x.score,-99);if(sc>=5)return['Sehr interessant','strong'];if(sc>=3.5)return['Interessant','good'];return['Beobachten','watch']}
-function risk(x){const e=String(x.event_risk||'').toUpperCase();if(e==='HIGH')return['Hohes Event-Risiko','high'];if(e==='MEDIUM')return['Mittleres Event-Risiko','mid'];return['Wird laufend geprüft',''];}
+function risk(x){const e=String(x.event_risk||'').toUpperCase();if(e==='HIGH')return['Event hoch','high'];if(e==='MEDIUM')return['Event mittel','mid'];return['Normal',''];}
 
-function installCandidateFitStyle(){
- if(document.getElementById('candidate-fit-style'))return;
- const style=document.createElement('style');style.id='candidate-fit-style';
- style.textContent=`
- #signals .candidatesWrap{overflow-x:hidden!important;overflow-y:auto!important;max-width:100%!important}
- #signals .candidatesWrap table{width:100%!important;min-width:0!important;max-width:100%!important;table-layout:fixed!important}
- #signals .candidatesWrap th,#signals .candidatesWrap td{white-space:normal!important;overflow-wrap:anywhere!important;word-break:normal!important;min-width:0!important;max-width:none!important;vertical-align:top!important}
- #signals .candidatesWrap th:nth-child(1),#signals .candidatesWrap td:nth-child(1){width:13%!important}
- #signals .candidatesWrap th:nth-child(2),#signals .candidatesWrap td:nth-child(2){width:25%!important}
- #signals .candidatesWrap th:nth-child(3),#signals .candidatesWrap td:nth-child(3){width:29%!important}
- #signals .candidatesWrap th:nth-child(4),#signals .candidatesWrap td:nth-child(4){width:9%!important}
- #signals .candidatesWrap th:nth-child(5),#signals .candidatesWrap td:nth-child(5){width:7%!important;text-align:center!important}
- #signals .candidatesWrap th:nth-child(6),#signals .candidatesWrap td:nth-child(6){width:7%!important;text-align:center!important}
- #signals .candidatesWrap th:nth-child(7),#signals .candidatesWrap td:nth-child(7){width:10%!important}
- #signals .candidatesWrap .plainCell{white-space:normal!important;overflow-wrap:anywhere!important;line-height:1.45!important}
- #signals .candidatesWrap .eventPill,#signals .candidatesWrap .fallbackRating{white-space:normal!important;max-width:100%!important;text-align:center!important;line-height:1.25!important}
- #signals .candidatesWrap::-webkit-scrollbar:horizontal{height:0!important}
- @media(max-width:850px){
-   #signals .candidatesWrap{overflow:visible!important;max-height:none!important;border:0!important}
-   #signals .candidatesWrap table,#signals .candidatesWrap tbody{display:block!important;width:100%!important}
-   #signals .candidatesWrap thead{display:none!important}
-   #signals .candidatesWrap tr{display:grid!important;grid-template-columns:1fr 1fr!important;gap:0 12px!important;margin:0 0 10px!important;padding:10px!important;border:1px solid #1d3349!important;border-radius:11px!important;background:#0a1723!important}
-   #signals .candidatesWrap td{display:block!important;width:auto!important;padding:7px 0!important;border:0!important;text-align:left!important}
-   #signals .candidatesWrap td:nth-child(1),#signals .candidatesWrap td:nth-child(2),#signals .candidatesWrap td:nth-child(3){grid-column:1/-1!important}
-   #signals .candidatesWrap td:nth-child(2)::before{content:'Was macht die Firma?';display:block;margin-bottom:4px;color:#6f879e;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.05em}
-   #signals .candidatesWrap td:nth-child(3)::before{content:'Was bewegt die Aktie gerade?';display:block;margin-bottom:4px;color:#6f879e;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.05em}
-   #signals .candidatesWrap td:nth-child(4)::before{content:'Bewertung';display:block;margin-bottom:4px;color:#6f879e;font-size:9px;font-weight:900;text-transform:uppercase}
-   #signals .candidatesWrap td:nth-child(5)::before{content:'Sicherheit';display:block;margin-bottom:4px;color:#6f879e;font-size:9px;font-weight:900;text-transform:uppercase}
-   #signals .candidatesWrap td:nth-child(6)::before{content:'Heute';display:block;margin-bottom:4px;color:#6f879e;font-size:9px;font-weight:900;text-transform:uppercase}
-   #signals .candidatesWrap td:nth-child(7)::before{content:'Risiko';display:block;margin-bottom:4px;color:#6f879e;font-size:9px;font-weight:900;text-transform:uppercase}
+function configureHeader(){
+ const labels=['Aktie','Bewertung','Heute','Sicherheit','Risiko','Was macht die Firma?','Was bewegt sie gerade?'];
+ const th=[...document.querySelectorAll('#signals .candidatesWrap thead th')];
+ th.forEach((x,i)=>{if(labels[i])x.textContent=labels[i]});
+}
+function normalizeIdentity(cell){
+ if(!cell||cell.dataset.identityReady==='1')return;
+ const symbol=String(cell.querySelector('b')?.textContent||'').trim();
+ const oldName=String(cell.querySelector('.muted')?.textContent||'').trim();
+ if(!symbol)return;
+ const name=oldName&&oldName.toUpperCase()!==symbol.toUpperCase()?oldName:symbol;
+ cell.classList.add('candidateIdentity');
+ cell.innerHTML=`<b class="candidateName">${esc(name)}</b><span class="candidateSymbol">${esc(symbol)}</span>`;
+ cell.dataset.identityReady='1';
+}
+function normalizeRows(){
+ const body=$('candidatesBody');if(!body)return;
+ for(const row of body.querySelectorAll('tr')){
+   if(row.dataset.candidateOrder==='compact')continue;
+   const cells=[...row.children];if(cells.length!==7)continue;
+   normalizeIdentity(cells[0]);
+   for(const i of [0,3,5,4,6,1,2])row.appendChild(cells[i]);
+   row.dataset.candidateOrder='compact';
  }
- `;
- document.head.appendChild(style);
+}
+function updateModeCopy(){
+ const body=$('candidatesBody'),help=document.querySelector('.candidateHelp'),tag=document.querySelector('#signals .cardTitle .tag');if(!body)return;
+ const fallback=Boolean(body.querySelector('.fallbackCandidate'));
+ if(fallback){
+   if(help)help.innerHTML='<b>Gerade kein neuer BUY durch alle Filter.</b> Deshalb siehst du Depot und Watchlist. Neue echte Kaufkandidaten ersetzen diese Liste automatisch.';
+   if(tag)tag.textContent='Depot + Watchlist';
+ }else if(!isEmptyState(body)){
+   if(help)help.innerHTML='<b>Aktuelle Scanner-Kandidaten.</b> Bewertung, Tagesbewegung, Sicherheit und Risiko stehen zuerst; Firma und Auslöser werden rechts verständlich erklärt.';
+   if(tag)tag.textContent='Live-Kandidaten';
+ }
 }
 
 function buildRows(s){
@@ -90,22 +119,23 @@ function buildRows(s){
  for(const l of logs){
    if(String(l.kind||'').toUpperCase()!=='IDEA'||!l.symbol)continue;
    const k=base(l.symbol);if(!k||map.has(k))continue;
-   const sc=scoreFromMessage(l.message);const cf=num(l.confidence,confFromMessage(l.message)||0);
+   const sc=scoreFromMessage(l.message),cf=num(l.confidence,confFromMessage(l.message)||0);
    map.set(k,{symbol:l.symbol,name:l.name||'',kind:'BEOBACHTEN',priority:60+num(sc)+cf*10,confidence:cf,score:sc??0,message:l.message});
  }
  return [...map.values()].sort((a,b)=>num(b.priority)-num(a.priority)).slice(0,8);
 }
 
 function isEmptyState(body){if(!body)return false;const rows=[...body.querySelectorAll('tr')];return rows.length===1&&/keine frischen handelbaren signale/i.test(rows[0].textContent||'')}
+function identityHtml(x){const symbol=String(x.symbol||''),name=String(x.name||symbol),state=x.kind==='IM DEPOT'?'IM DEPOT':x.kind==='NEWS-WATCH'?'NEWS-WATCH':'BEOBACHTEN',stateClass=String(x.kind||'').toLowerCase().replace(/\s+/g,'-');return `<td class="candidateIdentity"><b class="candidateName">${esc(name||symbol)}</b><span class="candidateSymbol">${esc(symbol)}</span><span class="candidateState ${esc(stateClass)}">${esc(state)}</span></td>`}
 function renderFallback(s){
  const body=$('candidatesBody');if(!isEmptyState(body))return;
  const rows=buildRows(s);if(!rows.length){body.innerHTML='<tr><td colspan="7"><div class="candidateFallbackEmpty"><b>Gerade kein neuer Kaufkandidat.</b><span>Der Scanner läuft weiter. Sobald ein Wert die Mindestqualität erreicht oder ein sauberer Rücksetzer entsteht, erscheint er hier.</span></div></td></tr>';return}
- body.innerHTML=rows.map(x=>{const [label,cls]=rating(x),[rt,rcls]=risk(x);const conf=num(x.confidence);const day=Number(x.day_change);return `<tr class="fallbackCandidate"><td><b>${esc(x.symbol)}</b><br><span class="candidateState ${esc(x.kind.toLowerCase().replace(/\s+/g,'-'))}">${esc(x.kind==='IM DEPOT'?'IM DEPOT':x.kind==='NEWS-WATCH'?'NEWS-WATCH':'BEOBACHTEN')}</span><br><span class="muted">${esc(x.name||'')}</span></td><td class="plainCell">${esc(company(x))}</td><td class="plainCell influenceCell">${esc(movement(x,s))}</td><td><span class="fallbackRating ${cls}">${esc(label)}</span>${Number.isFinite(Number(x.score))?`<br><span class="muted">Score ${fmt(x.score,2)}</span>`:''}</td><td><b>${conf>0?`${Math.round(conf*100)}%`:'–'}</b></td><td class="${Number.isFinite(day)?(day>=0?'good':'bad'):''}"><b>${Number.isFinite(day)?`${day>=0?'+':''}${fmt(day,2)}%`:'–'}</b></td><td><span class="eventPill ${rcls}">${esc(rt)}</span></td></tr>`}).join('');
- const help=document.querySelector('.candidateHelp');if(help)help.innerHTML='<b>Gerade kein neuer BUY durch alle Filter.</b> Deshalb siehst du hier trotzdem die wichtigsten offenen Positionen und zuletzt interessanten Beobachtungen. Neue echte Kaufkandidaten ersetzen diese Liste automatisch.';
- const tag=document.querySelector('#signals .cardTitle .tag');if(tag)tag.textContent='Depot + Watchlist';
+ body.innerHTML=rows.map(x=>{const [label,cls]=rating(x),[rt,rcls]=risk(x),conf=num(x.confidence),day=Number(x.day_change);return `<tr class="fallbackCandidate" data-candidate-order="compact">${identityHtml(x)}<td><span class="fallbackRating ${cls}">${esc(label)}</span>${Number.isFinite(Number(x.score))?`<span class="candidateScore">Score ${fmt(x.score,2)}</span>`:''}</td><td class="${Number.isFinite(day)?(day>=0?'good':'bad'):''}"><b>${Number.isFinite(day)?`${day>=0?'+':''}${fmt(day,2)}%`:'–'}</b></td><td><b>${conf>0?`${Math.round(conf*100)}%`:'–'}</b></td><td><span class="eventPill ${rcls}">${esc(rt)}</span></td><td class="plainCell">${esc(company(x))}</td><td class="plainCell influenceCell">${esc(movement(x,s))}</td></tr>`}).join('');
+ configureHeader();updateModeCopy();
 }
 
-let loading=false;
+let loading=false,normalizing=false;
 async function refresh(){const body=$('candidatesBody');if(!isEmptyState(body)||loading)return;loading=true;try{const r=await fetch('/api/status',{cache:'no-store'});if(r.ok)renderFallback(await r.json())}catch{}finally{loading=false}}
-function install(){installCandidateFitStyle();const body=$('candidatesBody');if(!body)return;new MutationObserver(()=>{if(isEmptyState(body))queueMicrotask(refresh)}).observe(body,{childList:true,subtree:true});refresh()}
+function syncTable(){if(normalizing)return;normalizing=true;try{configureHeader();const body=$('candidatesBody');if(!body)return;if(isEmptyState(body))queueMicrotask(refresh);else{normalizeRows();updateModeCopy()}}finally{normalizing=false}}
+function install(){const body=$('candidatesBody');if(!body)return;configureHeader();new MutationObserver(()=>queueMicrotask(syncTable)).observe(body,{childList:true,subtree:true});syncTable();refresh()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
