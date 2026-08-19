@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T13:39:44.581316+00:00",
+  "checkedAt": "2026-08-19T13:44:11.754160+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -45,14 +45,14 @@
     "pcWideSweep"
   ],
   "running": 1,
-  "scanCount": 145,
-  "lastScan": "2026-08-19T13:39:17.396Z",
+  "scanCount": 147,
+  "lastScan": "2026-08-19T13:42:16.464Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 5 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks. Beste HOLD · PU · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 6 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks. Beste HOLD · PU · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
   "cash": 6565.255566226713,
-  "equity": 9903.157794898802,
-  "pnl": -96.84220510119849,
-  "universeCount": 218,
+  "equity": 9902.979311615758,
+  "pnl": -97.02068838424202,
+  "universeCount": 221,
   "positions": 5,
   "positionRows": [
     {
@@ -93,7 +93,7 @@
       "invested": 763.822576,
       "entry_fee": 1,
       "entry_price": 720.7199999999999,
-      "last_price": 718,
+      "last_price": 717,
       "entry_fx": 0.1336,
       "last_fx": 0.1336,
       "currency": "DKK",
@@ -175,12 +175,12 @@
       "invested": 571.315106,
       "entry_fee": 1,
       "entry_price": 38.93890152740478,
-      "last_price": 39,
+      "last_price": 39.060001373291016,
       "entry_fx": 0.0902,
       "last_fx": 0.0903,
       "currency": "SEK",
       "opened_at": "2026-08-19T13:15:17.353Z",
-      "score": 4.7,
+      "score": 5.5,
       "signal_confidence": 0.63,
       "zero_quantity": 162.66176245547206,
       "zero_whole_shares": 162,
@@ -191,7 +191,7 @@
       "quote_sanity_last_fx": 0.0902
     }
   ],
-  "candidates": 5,
+  "candidates": 6,
   "topCandidates": [
     {
       "symbol": "LOGI-B.ST",
@@ -207,12 +207,12 @@
     {
       "symbol": "OVZON.ST",
       "name": "Ovzon AB (publ)",
-      "score": 4.7,
+      "score": 5.5,
       "confidence": 0.63,
-      "day_change": -0.7633587786259444,
+      "day_change": -0.6106835285215828,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 63 konstruktiv · 20m +1.77%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 62 konstruktiv · 5m +0.46% · 20m +1.93%",
       "contra": ""
     },
     {
@@ -238,11 +238,22 @@
       "contra": "Kurs unter EMA21 · 5m -1.37%"
     },
     {
+      "symbol": "ENR.DE",
+      "name": "Siemens Energy AG",
+      "score": -2.0000000000000004,
+      "confidence": 0.4800000000000001,
+      "day_change": 1.3222759425840946,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 17 sehr schwach"
+    },
+    {
       "symbol": "SCHO.CO",
       "name": "Aktieselskabet Schouw & Co.",
       "score": -2.0975351094018824,
       "confidence": 0.6125135109401882,
-      "day_change": -1.3736263736263687,
+      "day_change": -1.5109890109890056,
       "news_score": 0.005829369497014477,
       "event_risk": "NONE",
       "pro": "",
@@ -476,8 +487,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 200,
-      "updated_at": "2026-08-19T13:39:17.372Z"
+      "latency_ms": 187,
+      "updated_at": "2026-08-19T13:42:16.449Z"
     },
     {
       "source": "Yahoo FX",
@@ -485,17 +496,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 97,
-      "updated_at": "2026-08-19T13:39:17.372Z"
+      "latency_ms": 7,
+      "updated_at": "2026-08-19T13:42:16.449Z"
     },
     {
       "source": "Yahoo 1m Chart",
       "status": "DEGRADED",
-      "ok_count": 5,
-      "fail_count": 8,
-      "last_error": "Error: Zu wenig Minuten",
-      "latency_ms": 222,
-      "updated_at": "2026-08-19T13:39:17.372Z"
+      "ok_count": 6,
+      "fail_count": 7,
+      "last_error": "",
+      "latency_ms": 105,
+      "updated_at": "2026-08-19T13:42:16.449Z"
     },
     {
       "source": "Yahoo Events",
@@ -503,35 +514,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 234,
-      "updated_at": "2026-08-19T13:39:17.372Z"
+      "latency_ms": 93,
+      "updated_at": "2026-08-19T13:42:16.449Z"
     },
     {
       "source": "Yahoo News",
-      "status": "DEGRADED",
-      "ok_count": 7,
-      "fail_count": 1,
+      "status": "OK",
+      "ok_count": 9,
+      "fail_count": 0,
       "last_error": "",
-      "latency_ms": 405,
-      "updated_at": "2026-08-19T13:39:17.372Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "DOWN",
-      "ok_count": 0,
-      "fail_count": 1,
-      "last_error": "Error: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/configuration/#limits",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T13:39:17.372Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "DOWN",
-      "ok_count": 0,
-      "fail_count": 1,
-      "last_error": "Error: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/configuration/#limits",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T13:39:17.372Z"
+      "latency_ms": 1162,
+      "updated_at": "2026-08-19T13:42:16.449Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -540,7 +533,7 @@
       "fail_count": 1,
       "last_error": "Error: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/configuration/#limits",
       "latency_ms": 0,
-      "updated_at": "2026-08-19T13:39:17.372Z"
+      "updated_at": "2026-08-19T13:42:16.449Z"
     },
     {
       "source": "BörsenNews",
@@ -549,7 +542,25 @@
       "fail_count": 1,
       "last_error": "Error: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/configuration/#limits",
       "latency_ms": 0,
-      "updated_at": "2026-08-19T13:39:17.372Z"
+      "updated_at": "2026-08-19T13:42:16.449Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 948,
+      "updated_at": "2026-08-19T13:42:16.449Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1122,
+      "updated_at": "2026-08-19T13:42:16.449Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -558,21 +569,21 @@
       "fail_count": 8,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T13:39:17.372Z"
+      "updated_at": "2026-08-19T13:42:16.449Z"
     },
     {
       "source": "Second-Chance 1m",
-      "status": "DEGRADED",
+      "status": "OK",
       "ok_count": 0,
-      "fail_count": 4,
-      "last_error": "HTTP 429",
+      "fail_count": 0,
+      "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T13:39:17.372Z"
+      "updated_at": "2026-08-19T13:42:16.449Z"
     }
   ],
   "risk": {
-    "equity": 9903.157794898802,
-    "dailyPct": -0.9684220510119856,
+    "equity": 9902.979311615758,
+    "dailyPct": -0.9702068838424172,
     "availableCash": 6565.255566226713,
     "hardLimits": false,
     "budgetOnly": true,
@@ -657,7 +668,7 @@
     "enabled": true,
     "target": 24,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T13:37:19.780Z",
+    "updatedAt": "2026-08-19T13:43:20.176Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -680,7 +691,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T13:37:19.780Z",
+    "updatedAt": "2026-08-19T13:43:20.176Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -705,7 +716,7 @@
     "enabled": true,
     "target": 64,
     "candidateCount": 64,
-    "updatedAt": "2026-08-19T13:39:12.981Z",
+    "updatedAt": "2026-08-19T13:43:20.606Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "profile": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER_2_STAGE",
@@ -738,8 +749,8 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 24,
-    "candidateCount": 4,
-    "updatedAt": "2026-08-19T13:39:17.396Z",
+    "candidateCount": 3,
+    "updatedAt": "2026-08-19T13:42:16.464Z",
     "fresh": true,
     "retentionMinutes": 15,
     "recheckPerScan": 6,
@@ -1056,7 +1067,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T13:40:17.396Z",
+    "nextScanAt": "2026-08-19T13:43:16.464Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -1113,10 +1124,10 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T13:39:12.981Z",
-    "ageSeconds": 31,
+    "lastSeenAt": "2026-08-19T13:43:20.606Z",
+    "ageSeconds": 51,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-19T13:37:19.780Z",
+    "prefetchAt": "2026-08-19T13:43:20.176Z",
     "resolvedLeaderCount": 6,
     "leaderHealthy": false,
     "futureCandidates": 0,
@@ -1127,16 +1138,16 @@
     "wideSweepMasterCount": 8530,
     "wideSweepScannedCount": 8530,
     "metrics": {
-      "lastSeenAt": "2026-08-19T13:39:12.981Z",
+      "lastSeenAt": "2026-08-19T13:43:20.606Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 13813542,
+      "storageBytes": 13866431,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.12,
-      "ramMb": 60.1,
-      "downloadedBytes": 1214969513,
-      "uploadedBytes": 1291911,
+      "cpuPct": 0.14,
+      "ramMb": 60.7,
+      "downloadedBytes": 1308991189,
+      "uploadedBytes": 1429966,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T13:33:16.0323653Z",
