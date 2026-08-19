@@ -62,9 +62,19 @@ export default{
  },
  async scheduled(controller,env,ctx){
   await base.scheduled?.(controller,env,ctx);
-  const when=new Date(Number(controller?.scheduledTime)||Date.now()),session=gettexSessionState(when);
+  const when=new Date(Number(controller?.scheduledTime)||Date.now()),session=gettexSessionState(when),p=portfolio(env);
+  // Ab 22:05 ist die regulaere US-Session beendet. Wenn der PC-Agent online ist,
+  // laeuft ohnehin kein Cloudflare-Markt-Fallback; diese freien Cron-Slots bauen
+  // bereits einen heutigen vorlaeufigen Replay auf. So ist die Tagesauswertung am
+  // selben Abend sichtbar statt erst eine Stunde spaeter.
+  if(session.isTradingDay&&session.localMinute>=22*60+5&&session.localMinute<=22*60+55){
+   ctx.waitUntil((async()=>{const agent=await p.agentStatus();if(agent?.online)await p.dailyReplay(8)})().catch(e=>console.error('Preliminary day replay batch failed',e)));
+  }
+  // Nach Ende des gettex-Fensters wird der Report einmal aus dem finalen Capture
+  // neu aufgebaut. Spaete Trades/Kandidaten zwischen 22:05 und 23:00 gehen dadurch
+  // nicht verloren; weitere 5-Minuten-Crons arbeiten denselben finalen Report ab.
   if(session.isTradingDay&&session.localMinute>=23*60+5&&session.localMinute<=23*60+55){
-   ctx.waitUntil(portfolio(env).dailyReplay(8).catch(e=>console.error('Day replay batch failed',e)));
+   ctx.waitUntil(p.finalDayReplay(8).catch(e=>console.error('Final day replay batch failed',e)));
   }
  }
 };
