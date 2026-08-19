@@ -1,0 +1,42 @@
+/* Mobile UI 3.0 · Ein-Scanner Status + kompakte Handy-Navigation */
+.scannerLiveBar{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;margin:10px 0 12px;padding:10px 12px;border:1px solid #1f3850;border-radius:12px;background:linear-gradient(180deg,rgba(12,29,44,.94),rgba(8,21,33,.94));box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.scannerLiveBadge{display:inline-flex;align-items:center;gap:7px;padding:5px 8px;border:1px solid #24506e;border-radius:999px;background:#0c2437;color:#8edcff;font-size:10px;font-weight:900;letter-spacing:.05em;white-space:nowrap}
+.scannerLiveBadge::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 0 4px rgba(142,220,255,.10)}
+.scannerLiveMain{min-width:0}.scannerLiveMain b{display:block;font-size:13px;line-height:1.3}.scannerLiveMain small{display:block;margin-top:2px;color:#8fa8be;font-size:11px;line-height:1.35;white-space:normal}
+.scannerLiveSpeed{text-align:right}.scannerLiveSpeed b{display:block;font-size:15px;font-variant-numeric:tabular-nums}.scannerLiveSpeed small{display:block;color:#8fa8be;font-size:10px}
+.scannerLiveBar.ok .scannerLiveBadge{color:#76dda6;border-color:#286048;background:#0d251b}.scannerLiveBar.warn .scannerLiveBadge{color:#ffd16a;border-color:#64542a;background:#241f10}.scannerLiveBar.bad .scannerLiveBadge{color:#ff9a9a;border-color:#6a3434;background:#2a1515}
+
+@media(max-width:900px){
+ body{padding-bottom:72px!important}
+ .mainArea{padding-top:0!important}
+ .topbar{position:sticky!important;top:0!important;z-index:40!important;display:grid!important;grid-template-columns:1fr auto!important;gap:8px!important;min-height:0!important;padding:8px 8px 7px!important;margin:0 -2px 8px!important;background:rgba(5,15,25,.94)!important;backdrop-filter:blur(14px);border-bottom:1px solid #1b3044!important}
+ .mobileBrand{grid-column:1/2!important;min-width:0!important;gap:7px!important}.mobileBrand img{width:25px!important;height:25px!important}.mobileBrand b{font-size:13px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+ #statusPill{grid-column:2/3!important;grid-row:1!important;align-self:center!important;justify-self:end!important;white-space:nowrap!important}
+ .statusStrip{grid-column:1/-1!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important;width:100%!important;overflow:visible!important;padding:0!important}
+ .statusChip{min-width:0!important;flex:none!important;padding:6px 7px!important;border-radius:9px!important}.statusChip span{font-size:8px!important}.statusChip b{display:block!important;max-width:100%!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;font-size:10px!important}
+ .mobileNav{position:fixed!important;left:0!important;right:0!important;bottom:0!important;z-index:60!important;display:grid!important;grid-template-columns:repeat(6,1fr)!important;gap:2px!important;margin:0!important;padding:6px max(5px,env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(5px,env(safe-area-inset-left))!important;background:rgba(5,15,25,.96)!important;backdrop-filter:blur(16px);border-top:1px solid #1d3348!important;box-shadow:0 -8px 28px rgba(0,0,0,.24)!important;overflow:visible!important}
+ .mobileNav a{display:flex!important;align-items:center!important;justify-content:center!important;min-width:0!important;min-height:43px!important;padding:5px 2px!important;border-radius:8px!important;font-size:9.5px!important;line-height:1.15!important;text-align:center!important;white-space:normal!important}
+ .scannerLiveBar{grid-template-columns:1fr auto!important;gap:7px!important;margin:7px 0 10px!important;padding:9px 10px!important}.scannerLiveBadge{grid-column:1/2!important;justify-self:start!important}.scannerLiveMain{grid-column:1/-1!important;grid-row:2!important}.scannerLiveMain b{font-size:12px!important}.scannerLiveMain small{font-size:10px!important}.scannerLiveSpeed{grid-column:2/3!important;grid-row:1!important}.scannerLiveSpeed b{font-size:14px!important}
+ .heroKpis{margin-top:7px!important}.heroKpis .kpiCard{min-width:0!important}.kpiCard strong{overflow-wrap:anywhere!important}
+ .cardTitle{align-items:flex-start!important;gap:7px!important;flex-wrap:wrap!important}.cardTitle>div{min-width:0!important}.cardTitle h2{line-height:1.18!important}.cardTitle .tag{margin-left:0!important}
+ .candidateHelp{padding:9px 10px!important;border-radius:9px!important}
+ .positionCard,.dossierCard,.replayMetric,.healthItem,.mini{min-width:0!important;overflow:hidden!important}
+ .newsWrap,.historyWrap,.compactTable{max-width:100%!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:thin!important}
+ .newsWrap table{min-width:680px!important}.historyWrap table{min-width:860px!important}.compactTable table{min-width:620px!important}
+ .buttons{display:grid!important;grid-template-columns:1fr 1fr!important;gap:7px!important}.buttons button{width:100%!important;margin:0!important}
+ .aiChat .chat{max-height:380px!important}
+ .dossierBlock,.companyPlain,.newsPlain,.trendSummary,.replayFocus{overflow-wrap:anywhere!important}
+}
+
+@media(max-width:520px){
+ body{padding-bottom:69px!important}
+ .mainArea{padding-left:6px!important;padding-right:6px!important}
+ .topbar{padding:7px 6px!important}.statusStrip{grid-template-columns:repeat(2,minmax(0,1fr))!important}.statusChip{padding:5px 7px!important}.statusChip:nth-child(3),.statusChip:nth-child(4){display:block!important}
+ .mobileNav{grid-template-columns:repeat(6,1fr)!important}.mobileNav a{font-size:9px!important;min-height:41px!important}
+ .scannerLiveBar{border-radius:10px!important}.scannerLiveBadge{font-size:9px!important}.scannerLiveMain b{font-size:11.5px!important}.scannerLiveSpeed b{font-size:13px!important}
+ .heroKpis{grid-template-columns:1fr 1fr!important}.heroKpis .kpiCard:first-child{grid-column:1/-1!important}.kpiCard span{font-size:10px!important}.kpiCard small{line-height:1.25!important}
+ .card{border-radius:11px!important}.cardTitle h2{font-size:15px!important}.sectionEyebrow{font-size:8px!important}
+ #signals .candidatesWrap tr{padding:9px!important;margin-bottom:8px!important}.candidateName{font-size:13px!important}.candidateSymbol{font-size:10px!important}
+ .replayGrid{gap:6px!important}.replayMetric{padding:8px!important}.replayMetric b{font-size:18px!important}
+ .buttons{grid-template-columns:1fr!important}
+}
