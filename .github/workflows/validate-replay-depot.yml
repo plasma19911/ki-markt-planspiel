@@ -1,0 +1,38 @@
+name: Validate Replay and Depot UI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/day-replay-learning.js'
+      - 'src/day-replay-runtime.js'
+      - 'src/pc-day-replay-import.js'
+      - 'src/compact-portfolio-v18.js'
+      - 'src/index-v18.js'
+      - 'public/quota-guard.js'
+      - 'scripts/smoke-replay-depot-ui.mjs'
+      - '.github/workflows/validate-replay-depot.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  replay-depot-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax checks
+        run: |
+          node --check src/day-replay-learning.js
+          node --check src/day-replay-runtime.js
+          node --check src/pc-day-replay-import.js
+          node --check src/compact-portfolio-v18.js
+          node --check src/index-v18.js
+          node --check public/quota-guard.js
+      - name: Replay and depot regression
+        run: node scripts/smoke-replay-depot-ui.mjs
