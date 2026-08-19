@@ -5,6 +5,7 @@ import {BalancedAdaptiveAiGuard,replayBalancePressure} from './balanced-adaptive
 import {DipValueEntryAiGuard} from './dip-value-entry-guard.js';
 import {FreshPositionChurnAiGuard} from './fresh-position-churn-guard.js';
 import {augmentDayReplayStatus,prepareFinalDayReplay} from './day-replay-runtime.js';
+import {RECOVERY_20260819} from './recovery-20260819.js';
 
 // V18: EARLY-DIP-FIRST. Der breite PC-/Rebound-Radar darf kontrollierte Ruecksetzer
 // frueh in einen separaten 1m-Foresight-Check heben. Harte Safety bleibt unveraendert.
@@ -30,6 +31,13 @@ export class MarketPortfolio extends BasePortfolio{
     const prepared=prepareFinalDayReplay(this.ctx?.storage);
     const result=await super.dailyReplay(batchSize);
     return{...result,finalReplay:true,finalPreparation:prepared};
+  }
+  async recover20260819(){
+    const before=await super.status(),c=before?.config||{},h=before?.history||[],positions=before?.positions||[];
+    const accidental=positions.length===0&&Math.abs(Number(c.cash||0)-10000)<0.02&&Number(c.scan_count||0)<=20&&h.some(x=>String(x?.action||'').toUpperCase()==='START'&&String(x?.ts||'').startsWith('2026-08-19T20:32:53'));
+    if(!accidental)return{ok:false,skipped:true,reason:'Aktueller Zustand entspricht nicht dem versehentlichen Neustart.',before:{cash:c.cash,equity:before?.equity,positions:positions.length,scanCount:c.scan_count}};
+    const result=await super.importLegacy(RECOVERY_20260819),after=await super.status();
+    return{ok:true,result,before:{cash:c.cash,equity:before?.equity,positions:positions.length,scanCount:c.scan_count},after:{cash:after?.config?.cash,equity:after?.equity,positions:after?.positions?.length,scanCount:after?.config?.scan_count}};
   }
   async status(){
     let s=await super.status();
