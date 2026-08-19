@@ -28,7 +28,12 @@ def patch_r2() -> bool:
     changed |= replace_once(
         "src/r2-portfolio.js",
         "const nativeFetch=globalThis.fetch;let m;globalThis.fetch=async(input,init)=>{try{const raw=typeof input==='string'||input instanceof URL?String(input):input?.url;if(raw&&new URL(raw).hostname==='news.google.com')return new Response(EMPTY_RSS,{status:200,headers:{'content-type':'application/rss+xml;charset=utf-8'}})}catch{}return nativeFetch(input,init)};try{m=await scanMarket(this.env,{...cfg,include_etfs:1,include_leverage:0},s.positions.map(p=>p.symbol))}finally{globalThis.fetch=nativeFetch}",
-        "const m=await scanMarket(this.env,{...cfg,include_etfs:1,include_leverage:0,disable_google_news:1},s.positions.map(p=>p.symbol))",
+        "const m=await scanMarket(this.env,{...cfg,include_etfs:1,include_leverage:0,disable_google_news:1},s.positions.map(p=>p.symbol));",
+    )
+    changed |= replace_once(
+        "src/r2-portfolio.js",
+        "const m=await scanMarket(this.env,{...cfg,include_etfs:1,include_leverage:0,disable_google_news:1},s.positions.map(p=>p.symbol))const candidates=",
+        "const m=await scanMarket(this.env,{...cfg,include_etfs:1,include_leverage:0,disable_google_news:1},s.positions.map(p=>p.symbol));const candidates=",
     )
     return changed
 
