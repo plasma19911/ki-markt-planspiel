@@ -13,41 +13,38 @@ function firstNum(...xs){for(const x of xs)if(Number.isFinite(Number(x)))return 
 function metrics(c={}){
  const score=firstNum(c?.liveScore,c?.score),confidence=firstNum(c?.liveConfidence,c?.confidence),day=firstNum(c?.day,c?.day_change,c?.dayChange,c?.pcWideSessionPct),m5=firstNum(c?.intraday5m,c?.momentum5,c?.pcWideM5Pct),m20=firstNum(c?.intraday20m,c?.momentum20,c?.pcWideM20Pct),accel=firstNum(c?.momentumAcceleration5,c?.momentum_acceleration5,c?.pcWideAccelerationPct),rsi=firstNum(c?.intradayRsi,c?.rsi,50),rawDraw=c?.drawdownFrom20mHighPct??c?.drawdown_from_20m_high_pct,drawKnown=Number.isFinite(Number(rawDraw)),draw=drawKnown?Number(rawDraw):null,event=String(c?.eventRisk||c?.event_risk||'NONE').toUpperCase(),state=String(c?.momentumState||c?.momentum_state||'NORMAL').toUpperCase(),sell=String(c?.momentumSellSignal||c?.momentum_sell_signal||'NONE').toUpperCase();
  const safe=event!=='HIGH'&&sell!=='STRONG'&&!['REVERSAL','EXHAUSTION'].includes(state);
- const quality=(score>=2.90&&confidence>=.58)||(score>=2.55&&confidence>=.66)||(score>=3.80&&confidence>=.54);
- const realDip=safe&&quality&&drawKnown&&draw<=-.35&&draw>=-5.75&&day<=.45&&day>=-9&&m5>=-.38&&m5<=.28&&m20>=-1.80&&m20<=.45&&accel>=.008&&rsi>=28&&rsi<=68;
- const deepDip=realDip&&draw<=-1.20;
- const highLike=(drawKnown&&draw>-.30)||day>.85||m20>.85||rsi>72;
- const dipScore=score*1.05+confidence*2.1+(realDip?2.0:0)+(deepDip?1.0:0)+(drawKnown&&draw<0?Math.min(4,Math.abs(draw))*.72:0)+(day<0?Math.min(4,Math.abs(day))*.28:0)+Math.max(0,Math.min(.5,accel))*2.2-Math.max(0,day)*.85-(highLike?2.5:0);
- return{score,confidence,day,m5,m20,accel,rsi,drawKnown,draw,event,state,sell,safe,quality,realDip,deepDip,highLike,dipScore};
+ const quality=(score>=2.9&&confidence>=.58)||(score>=2.55&&confidence>=.66)||(score>=3.8&&confidence>=.54);
+ const dipLike=safe&&quality&&((drawKnown&&draw<0)||day<0||m20<0||/DIP|PULLBACK|REBOUND/i.test(String(c?.entryTimingBucket||c?.reason||'')));
+ const sellerCooling=accel>0||(m5>m20&&m5<=0)||state==='EARLY_DIP'||Boolean(c?.foresightDip);
+ const buyerReady=sellerCooling||m5>=0||['BUILDING','BREAKOUT'].includes(state);
+ const realDip=dipLike&&buyerReady&&rsi<72;
+ const highLike=!dipLike&&((drawKnown&&draw>=0)||(day>0&&m20>0))&&rsi>=66;
+ const dipDepth=(drawKnown&&draw<0?Math.abs(draw):0)+Math.max(0,-day)*.35+Math.max(0,-m20)*.45;
+ const dipScore=score*1.05+confidence*2.1+(realDip?2:0)+dipDepth*.65+Math.max(0,accel)*2.1+Math.max(0,-m5)*.12-Math.max(0,day)*.35-(highLike?1.8:0);
+ return{score,confidence,day,m5,m20,accel,rsi,drawKnown,draw,event,state,sell,safe,quality,dipLike,sellerCooling,buyerReady,realDip,highLike,dipDepth,dipScore};
 }
-function dipCap(q){return q.deepDip?16:12}
+function dynamicCap(q){return clamp(10+Math.min(12,q.dipDepth*4)+Math.max(0,q.accel)*8,8,28)}
 
 function postProcess(r,input){
  const plan=parsePlan(r),prompt=findPrompt(input);if(!plan||!prompt)return r;
  const candidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]),held=arr(parseBlock(prompt,' Gehalten=')||[]),cash=promptCash(prompt);if(!candidates.length)return r;
  const heldSet=new Set(held.map(key)),cMap=new Map(candidates.map(c=>[key(c),c]));
- const dips=candidates.filter(c=>!heldSet.has(key(c))).map(c=>({c,q:metrics(c)})).filter(x=>x.q.realDip).sort((a,b)=>b.q.dipScore-a.q.dipScore);
- const bestDip=dips[0]||null,blockedHigh=[],out=[];
+ const dips=candidates.filter(c=>!heldSet.has(key(c))).map(c=>({c,q:metrics(c)})).filter(x=>x.q.realDip).sort((a,b)=>b.q.dipScore-a.q.dipScore),bestDip=dips[0]||null,blocked=[],out=[];
  for(const a of arr(plan.actions)){
   if(String(a?.action||'').toUpperCase()!=='BUY'){out.push(a);continue}
   const c=cMap.get(key(a)),q=c?metrics(c):null;
   if(bestDip&&!q?.realDip&&key(bestDip.c)!==key(a)){
-   blockedHigh.push(key(a));out.push({symbol:key(a),action:'HOLD',confidence:.66,allocation_pct:0,reason:`DIP-FIRST V2: ${key(bestDip.c)} bietet aktuell den besseren echten Ruecksetzer; Kauf ${key(a)} wird zugunsten des günstigeren Einstiegs zurückgestellt.`});continue;
+   blocked.push(key(a));out.push({symbol:key(a),action:'HOLD',confidence:.66,allocation_pct:0,reason:`DIP-FIRST DYNAMIC: ${key(bestDip.c)} hat aktuell den besseren relativen Rücksetzer; kein starres Prozentlimit, sondern Preis-/Momentum-Rangfolge.`});continue;
   }
-  if(q?.realDip){out.push({...a,allocation_pct:Math.min(Math.max(1,num(a?.allocation_pct)),dipCap(q)),confidence:clamp(num(a?.confidence,q.confidence),.56,.82),reason:`${String(a?.reason||'').slice(0,300)} · DIP-FIRST V2: echter Ruecksetzer ${q.draw.toFixed(2)}% unter 20m-Hoch; Einstieg auf ${dipCap(q)}% begrenzt.`});continue}
-  // Bei bekanntem 20m-Hoch muss ein normaler neuer Kauf mindestens 0,35% darunter liegen.
-  // Grenzfälle wie -0,20 bis -0,32% waren bisher zu nah am Hoch und werden nun bewusst abgewartet.
-  if(q?.drawKnown&&q.draw>-.35){blockedHigh.push(key(a));out.push({symbol:key(a),action:'HOLD',confidence:.65,allocation_pct:0,reason:`DIP-FIRST V2 WAIT: Ruecksetzer erst ${q.draw.toFixed(2)}%; normaler Einstieg wartet auf mindestens -0,35% unter dem 20m-Hoch.`});continue}
-  if(q?.highLike){out.push({...a,allocation_pct:Math.min(3,Math.max(1,num(a?.allocation_pct))),reason:`${String(a?.reason||'').slice(0,300)} · DIP-FIRST V2: kein guter Dip; High-Kauf nur als max. 3%-Mini-Starter.`});continue}
+  if(q?.dipLike&&!q?.buyerReady){blocked.push(key(a));out.push({symbol:key(a),action:'HOLD',confidence:.65,allocation_pct:0,reason:'DIP-FIRST DYNAMIC WAIT: Rücksetzer vorhanden, aber Verkaufsdruck dreht noch nicht. Auf Käuferübernahme warten.'});continue}
+  if(q?.realDip){const cap=dynamicCap(q);out.push({...a,allocation_pct:+Math.min(Math.max(1,num(a?.allocation_pct)),cap).toFixed(2),confidence:clamp(num(a?.confidence,q.confidence),.56,.82),reason:`${String(a?.reason||'').slice(0,285)} · DIP-FIRST DYNAMIC: relativer Rücksetzer priorisiert; Tiefe ${q.dipDepth.toFixed(2)} / Beschleunigung ${q.accel>=0?'+':''}${q.accel.toFixed(2)} · finale Freigabe durch Käufer-/Verkäuferkerzen.`});continue}
+  if(q?.highLike){out.push({...a,allocation_pct:Math.min(5,Math.max(1,num(a?.allocation_pct))),reason:`${String(a?.reason||'').slice(0,290)} · DIP-FIRST DYNAMIC: kein Rücksetzer; nur kleiner Vorstarter, finale Freigabe nur bei klarer Käuferdominanz.`});continue}
   out.push(a);
  }
  let buys=out.filter(a=>String(a?.action||'').toUpperCase()==='BUY');
- if(!buys.length&&bestDip&&cash>2){out.push({symbol:key(bestDip.c),action:'BUY',confidence:clamp(bestDip.q.confidence,.58,.80),allocation_pct:dipCap(bestDip.q),reason:`DIP-FIRST V2 AUTO: echter Ruecksetzer ${bestDip.q.draw.toFixed(2)}% unter 20m-Hoch, Tag ${bestDip.q.day>=0?'+':''}${bestDip.q.day.toFixed(2)}%, 5m ${bestDip.q.m5>=0?'+':''}${bestDip.q.m5.toFixed(2)}%, Beschl. ${bestDip.q.accel>=0?'+':''}${bestDip.q.accel.toFixed(2)} · ${dipCap(bestDip.q)}% Starter.`});buys=out.filter(a=>String(a?.action||'').toUpperCase()==='BUY')}
- if(blockedHigh.length||bestDip){plan.summary=`${String(plan.summary||'').slice(0,155)} · DIP-FIRST V2: ${bestDip?`bester echter Dip ${key(bestDip.c)} (${bestDip.q.draw.toFixed(2)}%)`:'kein echter Dip'}${blockedHigh.length?` · ${blockedHigh.length} High-Kauf/-kaeufe zurueckgestellt`:''}.`}
+ if(!buys.length&&bestDip&&cash>2){const cap=dynamicCap(bestDip.q);out.push({symbol:key(bestDip.c),action:'BUY',confidence:clamp(bestDip.q.confidence,.58,.80),allocation_pct:+cap.toFixed(2),reason:`DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt.`});buys=out.filter(a=>String(a?.action||'').toUpperCase()==='BUY')}
+ if(blocked.length||bestDip)plan.summary=`${String(plan.summary||'').slice(0,155)} · DIP-FIRST DYNAMIC: ${bestDip?`bester Rücksetzer ${key(bestDip.c)}`:'kein bestätigter Dip'}${blocked.length?` · ${blocked.length} schlechter getimter Kauf zurückgestellt`:''}.`;
  plan.actions=out;return{...r,response:JSON.stringify(plan)};
 }
 
-export class DipPriorityV2AiGuard{
- constructor(base){this.base=base}
- async run(model,input){const r=await this.base.run(model,input);return postProcess(r,input)}
-}
+export class DipPriorityV2AiGuard{constructor(base){this.base=base}async run(model,input){const r=await this.base.run(model,input);return postProcess(r,input)}}
