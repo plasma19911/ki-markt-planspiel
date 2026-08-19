@@ -1,0 +1,1326 @@
+{
+  "checkedAt": "2026-08-19T20:25:35.970467+00:00",
+  "berlinNow": "2026-08-19T22:25:35.970311+02:00",
+  "http": {
+    "full": "200",
+    "dashboard": "200",
+    "replay": "200"
+  },
+  "payloadBytes": {
+    "full": 375013,
+    "dashboard": 161674
+  },
+  "checks": {
+    "fullStatus200": true,
+    "dashboardStatus200": true,
+    "replayEndpoint200": true,
+    "replayTodayOnSchedule": true,
+    "depotDisplayAccountingConsistent": true,
+    "criticalUiNoStore": true
+  },
+  "failedChecks": [],
+  "allChecksPassed": true,
+  "replay": {
+    "date": "2026-08-19",
+    "status": "PRELIMINARY_COMPLETE",
+    "processed": 60,
+    "total": 60,
+    "provisional": true,
+    "completedAt": null,
+    "capture": {
+      "date": "2026-08-19",
+      "symbolCount": 120,
+      "updatedAt": "2026-08-19T20:25:18.197Z"
+    },
+    "summary": {
+      "symbolsAnalysed": 60,
+      "errors": 0,
+      "mistakes": {
+        "PEAK_ENTRY": 10,
+        "LATE_EXPENSIVE_ENTRY": 14,
+        "LATE_DISCOVERY": 11,
+        "MISSED_SAFE_MOVE": 9
+      },
+      "churn": {
+        "rapidRoundTrips": 32,
+        "totalRapidTradePnl": -183.622,
+        "fees": 109,
+        "rows": [
+          {
+            "symbol": "MRNA",
+            "minutes": 4.8,
+            "tradePnl": -6.783916119774915,
+            "buyFee": 2,
+            "sellFee": 2
+          },
+          {
+            "symbol": "EL",
+            "minutes": 1.9,
+            "tradePnl": -4.7597600065381584,
+            "buyFee": 2,
+            "sellFee": 2
+          },
+          {
+            "symbol": "MRVL",
+            "minutes": 6,
+            "tradePnl": -4.198480964717135,
+            "buyFee": 2,
+            "sellFee": 2
+          },
+          {
+            "symbol": "TSLA",
+            "minutes": 3,
+            "tradePnl": -2.472168764801239,
+            "buyFee": 1,
+            "sellFee": 1
+          },
+          {
+            "symbol": "MRNA",
+            "minutes": 6,
+            "tradePnl": -4.120338002346614,
+            "buyFee": 2,
+            "sellFee": 2
+          },
+          {
+            "symbol": "SKHY",
+            "minutes": 6,
+            "tradePnl": -6.546457943173323,
+            "buyFee": 2,
+            "sellFee": 2
+          },
+          {
+            "symbol": "BAH",
+            "minutes": 7.9,
+            "tradePnl": -4.401597149460258,
+            "buyFee": 2,
+            "sellFee": 2
+          },
+          {
+            "symbol": "MRNA",
+            "minutes": 4.8,
+            "tradePnl": -5.31159280781128,
+            "buyFee": 2,
+            "sellFee": 2
+          },
+          {
+            "symbol": "TGT",
+            "minutes": 4.9,
+            "tradePnl": -6.640948205320001,
+            "buyFee": 2,
+            "sellFee": 2
+          },
+          {
+            "symbol": "KEEL.TO",
+            "minutes": 3,
+            "tradePnl": -8.522196940725053,
+            "buyFee": 2,
+            "sellFee": 2
+          },
+          {
+            "symbol": "MRVL",
+            "minutes": 3,
+            "tradePnl": -5.855113580506213,
+            "buyFee": 2,
+            "sellFee": 2
+          },
+          {
+            "symbol": "COIN",
+            "minutes": 1.2,
+            "tradePnl": -4.841279217500869,
+            "buyFee": 2,
+            "sellFee": 2
+          },
+          {
+            "symbol": "MRK",
+            "minutes": 9,
+            "tradePnl": -3.9238109809230934,
+            "buyFee": 2,
+            "sellFee": 2
+          },
+          {
+            "symbol": "BAH",
+            "minutes": 12.1,
+            "tradePnl": -3.497601675476119,
+            "buyFee": 2,
+            "sellFee": 2
+          },
+          {
+            "symbol": "COIN",
+            "minutes": 10.2,
+            "tradePnl": -4.0193602058130296,
+            "buyFee": 2,
+            "sellFee": 2
+          },
+          {
+            "symbol": "MSTR",
+            "minutes": 4.2,
+            "tradePnl": -5.346143606539016,
+            "buyFee": 2,
+            "sellFee": 2
+          },
+          {
+            "symbol": "TSEM",
+            "minutes": 7.2,
+            "tradePnl": -5.705725875754837,
+            "buyFee": 2,
+            "sellFee": 2
+          },
+          {
+            "symbol": "CM",
+            "minutes": 3,
+            "tradePnl": -4.572516774411412,
+            "buyFee": 2,
+            "sellFee": 2
+          },
+          {
+            "symbol": "WDC",
+            "minutes": 12,
+            "tradePnl": -2.797709668630006,
+            "buyFee": 1,
+            "sellFee": 1
+          },
+          {
+            "symbol": "QH",
+            "minutes": 4,
+            "tradePnl": -13.61921572153966,
+            "buyFee": 2,
+            "sellFee": 2
+          }
+        ]
+      },
+      "bestMissed": [
+        {
+          "symbol": "OTKAR.IS",
+          "name": "Otokar",
+          "firstSeenAt": "2026-08-19T07:53:21.0730000Z",
+          "sources": [
+            "DEEP",
+            "TRADED",
+            "HELD"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787124600000,
+            "price": 322,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "price": 322,
+              "m5": 0.39,
+              "m20": 0.468,
+              "accel": 0.468,
+              "draw": 0,
+              "day": 0.312,
+              "rsi": 62.5
+            },
+            "forward": {
+              "f15": 0.932,
+              "f30": 0.932,
+              "f60": 0.932,
+              "f120": 1.475,
+              "mfe120": 2.329,
+              "mae120": 0
+            },
+            "quality": 2.073
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787126700000,
+            "price": 326,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "price": 326,
+              "m5": 0.308,
+              "m20": 0.308,
+              "accel": 0.154,
+              "draw": 0,
+              "day": 1.558,
+              "rsi": 67.241
+            },
+            "forward": {
+              "f15": -0.307,
+              "f30": -0.383,
+              "f60": 0.383,
+              "f120": -0.153,
+              "mfe120": 1.074,
+              "mae120": -1.074
+            },
+            "quality": 0.034
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "FSL.NS",
+          "name": "Firstsource Solutions Limited",
+          "firstSeenAt": "2026-08-19T06:13:08.6090000Z",
+          "sources": [
+            "PC_WIDE",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787116500000,
+            "price": 267.70001221,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "price": 267.7,
+              "m5": 0.337,
+              "m20": 0.829,
+              "accel": 0.337,
+              "draw": 0,
+              "day": 1.459,
+              "rsi": 65.493
+            },
+            "forward": {
+              "f15": 1.233,
+              "f30": 1.457,
+              "f60": 2.017,
+              "f120": 1.942,
+              "mfe120": 2.297,
+              "mae120": 0
+            },
+            "quality": 3.331
+          },
+          "firstSafeAfterSeen": null,
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "AXON",
+          "name": "Axon Enterprise, Inc.",
+          "firstSeenAt": "2026-08-18T18:16:42.2060000Z",
+          "sources": [
+            "DEEP",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787164200000,
+            "price": 637.44000244,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "price": 637.44,
+              "m5": 0.112,
+              "m20": 0.212,
+              "accel": 0.058,
+              "draw": 0,
+              "day": 2.838,
+              "rsi": 68.856
+            },
+            "forward": {
+              "f15": 0.003,
+              "f30": 0.217,
+              "f60": 2.117,
+              "f120": null,
+              "mfe120": 2.117,
+              "mae120": -0.08
+            },
+            "quality": 2.89
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787150700000,
+            "price": 638.07501221,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "price": 638.075,
+              "m5": 0.271,
+              "m20": 0.459,
+              "accel": 0.4,
+              "draw": 0,
+              "day": 2.94,
+              "rsi": 51.176
+            },
+            "forward": {
+              "f15": 0.295,
+              "f30": 0.228,
+              "f60": 0.06,
+              "f120": -0.38,
+              "mfe120": 0.629,
+              "mae120": -0.404
+            },
+            "quality": 0.138
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE"
+          ]
+        },
+        {
+          "symbol": "3690.HK",
+          "name": "Meituan",
+          "firstSeenAt": "2026-08-19T05:30:18.4790000Z",
+          "sources": [
+            "DEEP",
+            "HELD",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787104800000,
+            "price": 86.84999847,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "price": 86.85,
+              "m5": 0.231,
+              "m20": 0.289,
+              "accel": 0.057,
+              "draw": 0,
+              "day": 1.52,
+              "rsi": 64.286
+            },
+            "forward": {
+              "f15": -0.345,
+              "f30": 0.461,
+              "f60": 0.633,
+              "f120": 1.324,
+              "mfe120": 1.554,
+              "mae120": -0.345
+            },
+            "quality": 1.148
+          },
+          "firstSafeAfterSeen": null,
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "ASELS.IS",
+          "name": "ASELSAN Elektronik Sanayi ve Ticaret Anonim Sirketi",
+          "firstSeenAt": "2026-08-19T07:53:21.0730000Z",
+          "sources": [
+            "DEEP",
+            "HELD",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787148000000,
+            "price": 398.75,
+            "mode": "NORMAL_ENTRY",
+            "metrics": {
+              "price": 398.75,
+              "m5": 0,
+              "m20": 0.314,
+              "accel": 0.188,
+              "draw": -0.188,
+              "day": 4.59,
+              "rsi": 48.571
+            },
+            "forward": {
+              "f15": 0.063,
+              "f30": 0.627,
+              "f60": 1.066,
+              "f120": null,
+              "mfe120": 1.442,
+              "mae120": 0
+            },
+            "quality": 1.79
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787133300000,
+            "price": 391.5,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "price": 391.5,
+              "m5": 0.064,
+              "m20": 0.128,
+              "accel": 0.064,
+              "draw": 0,
+              "day": 2.689,
+              "rsi": 48.276
+            },
+            "forward": {
+              "f15": 0.383,
+              "f30": 0.639,
+              "f60": -0.064,
+              "f120": 0.575,
+              "mfe120": 0.639,
+              "mae120": -0.064
+            },
+            "quality": 0.348
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE"
+          ]
+        },
+        {
+          "symbol": "DATAPATTNS.NS",
+          "name": "Data Patterns India",
+          "firstSeenAt": "2026-08-19T05:41:16.1650000Z",
+          "sources": [
+            "DEEP",
+            "HELD",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787127900000,
+            "price": 4729.70019531,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "price": 4729.7,
+              "m5": 0.163,
+              "m20": 0.269,
+              "accel": 0.199,
+              "draw": 0,
+              "day": -0.158,
+              "rsi": 41.206
+            },
+            "forward": {
+              "f15": 0.049,
+              "f30": 0.057,
+              "f60": 1.169,
+              "f120": null,
+              "mfe120": 1.169,
+              "mae120": 0
+            },
+            "quality": 1.598
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787122200000,
+            "price": 4738,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "price": 4738,
+              "m5": 0.169,
+              "m20": 0.347,
+              "accel": 0.148,
+              "draw": 0,
+              "day": 0.017,
+              "rsi": 37.043
+            },
+            "forward": {
+              "f15": 0.042,
+              "f30": 0.004,
+              "f60": -0.207,
+              "f120": -0.156,
+              "mfe120": 0.152,
+              "mae120": -0.443
+            },
+            "quality": -0.396
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE"
+          ]
+        },
+        {
+          "symbol": "DTE.DE",
+          "name": "Deutsche Telekom AG",
+          "firstSeenAt": "2026-08-18T18:16:42.2060000Z",
+          "sources": [
+            "TRADED",
+            "DEEP"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787144700000,
+            "price": 28.87000084,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "price": 28.87,
+              "m5": 0.104,
+              "m20": 0.139,
+              "accel": 0.069,
+              "draw": 0,
+              "day": 0.035,
+              "rsi": 35
+            },
+            "forward": {
+              "f15": -0.069,
+              "f30": 0.693,
+              "f60": 0.935,
+              "f120": 1.143,
+              "mfe120": 1.143,
+              "mae120": -0.104
+            },
+            "quality": 1.52
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787132100000,
+            "price": 28.84000015,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "price": 28.84,
+              "m5": 0.069,
+              "m20": 0.139,
+              "accel": 0.139,
+              "draw": 0,
+              "day": -0.069,
+              "rsi": 38.096
+            },
+            "forward": {
+              "f15": 0.104,
+              "f30": 0.277,
+              "f60": 0.139,
+              "f120": 0.243,
+              "mfe120": 0.277,
+              "mae120": 0
+            },
+            "quality": 0.333
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE"
+          ]
+        },
+        {
+          "symbol": "DYVOX.ST",
+          "name": "Dynavox Group AB (publ)",
+          "firstSeenAt": "2026-08-19T08:05:14.8700000Z",
+          "sources": [
+            "PC_WIDE",
+            "DEEP",
+            "HELD",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787128200000,
+            "price": 74.15000153,
+            "mode": "NORMAL_ENTRY",
+            "metrics": {
+              "price": 74.15,
+              "m5": 0.067,
+              "m20": 0,
+              "accel": 0.337,
+              "draw": -0.202,
+              "day": 0.816,
+              "rsi": 71.739
+            },
+            "forward": {
+              "f15": 0.405,
+              "f30": 0.674,
+              "f60": 0.607,
+              "f120": 0.337,
+              "mfe120": 0.944,
+              "mae120": 0
+            },
+            "quality": 1.173
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787128200000,
+            "price": 74.15000153,
+            "mode": "NORMAL_ENTRY",
+            "metrics": {
+              "price": 74.15,
+              "m5": 0.067,
+              "m20": 0,
+              "accel": 0.337,
+              "draw": -0.202,
+              "day": 0.816,
+              "rsi": 71.739
+            },
+            "forward": {
+              "f15": 0.405,
+              "f30": 0.674,
+              "f60": 0.607,
+              "f120": 0.337,
+              "mfe120": 0.944,
+              "mae120": 0
+            },
+            "quality": 1.173
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE"
+          ]
+        }
+      ],
+      "worstEntries": [
+        {
+          "symbol": "KEEL.TO",
+          "name": "Keel Infrastructure Corp.",
+          "firstSeenAt": "2026-08-19T13:37:18.6667690Z",
+          "sources": [
+            "PC_WIDE",
+            "DEEP",
+            "HELD",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787147700000,
+            "price": 4.23000002,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "price": 4.23,
+              "m5": 1.439,
+              "m20": 1.196,
+              "accel": 2.389,
+              "draw": -0.704,
+              "day": -4.299,
+              "rsi": 41.791
+            },
+            "forward": {
+              "f15": -2.6,
+              "f30": 0.473,
+              "f60": 5.674,
+              "f120": 10.402,
+              "mfe120": 10.402,
+              "mae120": -2.6
+            },
+            "quality": 8.05
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787147700000,
+            "price": 4.23000002,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "price": 4.23,
+              "m5": 1.439,
+              "m20": 1.196,
+              "accel": 2.389,
+              "draw": -0.704,
+              "day": -4.299,
+              "rsi": 41.791
+            },
+            "forward": {
+              "f15": -2.6,
+              "f30": 0.473,
+              "f60": 5.674,
+              "f120": 10.402,
+              "mfe120": 10.402,
+              "mae120": -2.6
+            },
+            "quality": 8.05
+          },
+          "actualBuys": [
+            {
+              "ts": "2026-08-19T16:10:28.583Z",
+              "chartTs": 1787155800000,
+              "price": 4.68499994,
+              "mode": "WAIT",
+              "reason": "KI BUY 89%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 14.1; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 6.0%-Starter laufen; spaeter nachladen/ausbauen. · Order 433.77 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+              "forward": {
+                "f15": -1.174,
+                "f30": -0.961,
+                "f60": -3.308,
+                "f120": -4.162,
+                "mfe120": 0,
+                "mae120": -4.162
+              },
+              "draw": -0.742,
+              "day": 5.995,
+              "rsi": 67.2
+            },
+            {
+              "ts": "2026-08-19T15:09:19.092Z",
+              "chartTs": 1787152200000,
+              "price": 4.57000017,
+              "mode": "PEAK_CHASE",
+              "reason": "KI BUY 89%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 15.4; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 3.8%-Starter laufen; spaeter nachladen/ausbauen. · Order 322.60 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+              "forward": {
+                "f15": -0.438,
+                "f30": 1.313,
+                "f60": 2.516,
+                "f120": -0.875,
+                "mfe120": 3.282,
+                "mae120": -2.188
+              },
+              "draw": 0,
+              "day": 3.394,
+              "rsi": 84.2
+            }
+          ],
+          "entryRegretPct": 10.756,
+          "mistakes": [
+            "PEAK_ENTRY",
+            "LATE_EXPENSIVE_ENTRY"
+          ]
+        },
+        {
+          "symbol": "AVAV",
+          "name": "AeroVironment",
+          "firstSeenAt": "2026-08-19T16:18:22.2974189Z",
+          "sources": [
+            "DEEP",
+            "HELD",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787148300000,
+            "price": 168.44999695,
+            "mode": "NORMAL_ENTRY",
+            "metrics": {
+              "price": 168.45,
+              "m5": 0.25,
+              "m20": 0.217,
+              "accel": 1.182,
+              "draw": -0.684,
+              "day": -3.267,
+              "rsi": 29.815
+            },
+            "forward": {
+              "f15": 0.968,
+              "f30": 2.072,
+              "f60": 2.36,
+              "f120": 3.479,
+              "mfe120": 3.479,
+              "mae120": -0.347
+            },
+            "quality": 4.112
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787160300000,
+            "price": 173.83999634,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "price": 173.84,
+              "m5": 0.179,
+              "m20": 1.032,
+              "accel": 0.153,
+              "draw": 0,
+              "day": -0.172,
+              "rsi": 42.756
+            },
+            "forward": {
+              "f15": 0.155,
+              "f30": 0.118,
+              "f60": -0.167,
+              "f120": -0.23,
+              "mfe120": 0.259,
+              "mae120": -0.725
+            },
+            "quality": -0.434
+          },
+          "actualBuys": [
+            {
+              "ts": "2026-08-19T16:09:21.932Z",
+              "chartTs": 1787155800000,
+              "price": 174.07499695,
+              "mode": "WAIT",
+              "reason": "KI BUY 89%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 12.9; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 7.0%-Starter laufen; spaeter nachladen/ausbauen. · Order 544.31 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+              "forward": {
+                "f15": -0.221,
+                "f30": -0.462,
+                "f60": -0.934,
+                "f120": -0.434,
+                "mfe120": 0.279,
+                "mae120": -1.155
+              },
+              "draw": -0.135,
+              "day": -0.037,
+              "rsi": 60.3
+            }
+          ],
+          "entryRegretPct": 3.339,
+          "mistakes": [
+            "LATE_DISCOVERY",
+            "LATE_EXPENSIVE_ENTRY"
+          ]
+        },
+        {
+          "symbol": "MSTR",
+          "name": "Strategy Inc",
+          "firstSeenAt": "2026-08-19T16:28:32.6431840Z",
+          "sources": [
+            "DEEP",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787166900000,
+            "price": 103.63500214,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "price": 103.635,
+              "m5": 0.704,
+              "m20": 0.227,
+              "accel": 1.734,
+              "draw": -0.332,
+              "day": 12.014,
+              "rsi": 53.283
+            },
+            "forward": {
+              "f15": -0.381,
+              "f30": 0.188,
+              "f60": null,
+              "f120": null,
+              "mfe120": 0.671,
+              "mae120": -0.381
+            },
+            "quality": 0.279
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787163900000,
+            "price": 103.58499908,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "price": 103.585,
+              "m5": 0.121,
+              "m20": 0.232,
+              "accel": 0.367,
+              "draw": -0.282,
+              "day": 11.96,
+              "rsi": 52.525
+            },
+            "forward": {
+              "f15": 0.179,
+              "f30": -0.179,
+              "f60": -0.208,
+              "f120": null,
+              "mfe120": 0.719,
+              "mae120": -0.652
+            },
+            "quality": -0.378
+          },
+          "actualBuys": [
+            {
+              "ts": "2026-08-19T16:30:20.753Z",
+              "chartTs": 1787157000000,
+              "price": 106.30989838,
+              "mode": "PEAK_CHASE",
+              "reason": "KI BUY 89%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 14.5; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 3.3%-Starter laufen; spaeter nachladen/ausbauen. · Order 235.14 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+              "forward": {
+                "f15": -0.423,
+                "f30": -1.546,
+                "f60": -3.283,
+                "f120": -2.542,
+                "mfe120": 0,
+                "mae120": -3.283
+              },
+              "draw": -0.492,
+              "day": 14.905,
+              "rsi": 73.5
+            }
+          ],
+          "entryRegretPct": 2.581,
+          "mistakes": [
+            "PEAK_ENTRY"
+          ]
+        },
+        {
+          "symbol": "TER",
+          "name": "Teradyne, Inc.",
+          "firstSeenAt": "2026-08-19T13:37:18.6667690Z",
+          "sources": [
+            "PC_WIDE",
+            "DEEP",
+            "HELD",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787163900000,
+            "price": 376.80999756,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "price": 376.81,
+              "m5": 0.235,
+              "m20": 0.215,
+              "accel": 0.346,
+              "draw": 0,
+              "day": -6.797,
+              "rsi": 30.542
+            },
+            "forward": {
+              "f15": 0.673,
+              "f30": 0.5,
+              "f60": 1.036,
+              "f120": null,
+              "mfe120": 1.101,
+              "mae120": 0
+            },
+            "quality": 1.596
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787151900000,
+            "price": 382.1000061,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "price": 382.1,
+              "m5": 0.173,
+              "m20": 0.113,
+              "accel": 0.878,
+              "draw": -0.534,
+              "day": -5.489,
+              "rsi": 45.303
+            },
+            "forward": {
+              "f15": 0.395,
+              "f30": -0.075,
+              "f60": 1.039,
+              "f120": -0.754,
+              "mfe120": 1.039,
+              "mae120": -0.754
+            },
+            "quality": 0.962
+          },
+          "actualBuys": [
+            {
+              "ts": "2026-08-19T16:27:21.435Z",
+              "chartTs": 1787156700000,
+              "price": 383.4750061,
+              "mode": "WAIT",
+              "reason": "KI BUY 78%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.45% vom 20m-Hoch stabilisiert sich; 5m +0.07%, Beschl. +0.08 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · OPPORTUNITY V3: guter relativer Dip; Rang 13. · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 7.0%-Starter laufen; spaeter nachladen/ausbauen. · Order 537.96 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+              "forward": {
+                "f15": 0.203,
+                "f30": -0.778,
+                "f60": -0.797,
+                "f120": -1.738,
+                "mfe120": 0.381,
+                "mae120": -1.97
+              },
+              "draw": -0.672,
+              "day": -5.149,
+              "rsi": 50.4
+            }
+          ],
+          "entryRegretPct": 1.769,
+          "mistakes": []
+        },
+        {
+          "symbol": "PANW",
+          "name": "PANW",
+          "firstSeenAt": "2026-08-19T13:37:18.6667690Z",
+          "sources": [
+            "PC_WIDE",
+            "DEEP",
+            "HELD",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787150100000,
+            "price": 353.20001221,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "price": 353.2,
+              "m5": 0.074,
+              "m20": 0.223,
+              "accel": 0.296,
+              "draw": -0.148,
+              "day": -5.597,
+              "rsi": 7.523
+            },
+            "forward": {
+              "f15": 0.57,
+              "f30": 1.519,
+              "f60": 1.655,
+              "f120": 1.546,
+              "mfe120": 2.2,
+              "mae120": 0
+            },
+            "quality": 2.957
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787150100000,
+            "price": 353.20001221,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "price": 353.2,
+              "m5": 0.074,
+              "m20": 0.223,
+              "accel": 0.296,
+              "draw": -0.148,
+              "day": -5.597,
+              "rsi": 7.523
+            },
+            "forward": {
+              "f15": 0.57,
+              "f30": 1.519,
+              "f60": 1.655,
+              "f120": 1.546,
+              "mfe120": 2.2,
+              "mae120": 0
+            },
+            "quality": 2.957
+          },
+          "actualBuys": [
+            {
+              "ts": "2026-08-19T15:34:23.660Z",
+              "chartTs": 1787153700000,
+              "price": 359.04501343,
+              "mode": "WAIT",
+              "reason": "KI BUY 78%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.47% vom 20m-Hoch stabilisiert sich; 5m +0.11%, Beschl. +0.45 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · OPPORTUNITY V3: guter relativer Dip; Rang 13. · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 7.0%-Starter laufen; spaeter nachladen/ausbauen. · Order 574.62 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+              "forward": {
+                "f15": 0.32,
+                "f30": 0.024,
+                "f60": -0.107,
+                "f120": -0.329,
+                "mfe120": 0.326,
+                "mae120": -0.529
+              },
+              "draw": -0.533,
+              "day": -4.035,
+              "rsi": 73.3
+            }
+          ],
+          "entryRegretPct": 1.655,
+          "mistakes": [
+            "LATE_EXPENSIVE_ENTRY"
+          ]
+        },
+        {
+          "symbol": "KREATE.HE",
+          "name": "Kreate Group Oyj",
+          "firstSeenAt": "2026-08-19T12:00:10.6590000Z",
+          "sources": [
+            "PC_WIDE",
+            "DEEP",
+            "HELD",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787140500000,
+            "price": 28.70000076,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "price": 28.7,
+              "m5": 0.702,
+              "m20": 0.702,
+              "accel": 0.702,
+              "draw": -0.347,
+              "day": -3.367,
+              "rsi": 45.833
+            },
+            "forward": {
+              "f15": 0.348,
+              "f30": 1.394,
+              "f60": 0,
+              "f120": null,
+              "mfe120": 1.394,
+              "mae120": -1.045
+            },
+            "quality": 0.401
+          },
+          "firstSafeAfterSeen": null,
+          "actualBuys": [
+            {
+              "ts": "2026-08-19T12:44:26.101Z",
+              "chartTs": 1787143500000,
+              "price": 29.10000038,
+              "mode": "WAIT",
+              "reason": "KI BUY 83%: DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt. · CANDLE-FLOW BUY: Dip mit Käuferübernahme · Käufer 83% / Verkäufer 17% · letzte 3 1 grün/0 rot · 4 höhere Tiefs/1 tiefere Hochs · Verkäuferdruck lässt nach. · Order 367.64 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+              "forward": {
+                "f15": -0.344,
+                "f30": -1.375,
+                "f60": -2.062,
+                "f120": null,
+                "mfe120": 0,
+                "mae120": -2.406
+              },
+              "draw": 0,
+              "day": -2.02,
+              "rsi": 58.3
+            }
+          ],
+          "entryRegretPct": 1.394,
+          "mistakes": [
+            "LATE_EXPENSIVE_ENTRY"
+          ]
+        },
+        {
+          "symbol": "COIN",
+          "name": "Coinbase Global, Inc.",
+          "firstSeenAt": "2026-08-19T16:28:32.6431840Z",
+          "sources": [
+            "DEEP",
+            "HELD",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787154900000,
+            "price": 163.44500732,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "price": 163.445,
+              "m5": 0.961,
+              "m20": 0.175,
+              "accel": 1.596,
+              "draw": -0.484,
+              "day": 11.773,
+              "rsi": 69.275
+            },
+            "forward": {
+              "f15": 0.597,
+              "f30": 1.37,
+              "f60": 0.829,
+              "f120": -1.367,
+              "mfe120": 1.37,
+              "mae120": -2.23
+            },
+            "quality": 0.561
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787157600000,
+            "price": 165,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "price": 165,
+              "m5": 0.134,
+              "m20": 0.158,
+              "accel": 0.412,
+              "draw": -0.413,
+              "day": 12.836,
+              "rsi": 62.736
+            },
+            "forward": {
+              "f15": -0.121,
+              "f30": -1.303,
+              "f60": -2.8,
+              "f120": -3.006,
+              "mfe120": 0.006,
+              "mae120": -3.479
+            },
+            "quality": -5.167
+          },
+          "actualBuys": [
+            {
+              "ts": "2026-08-19T16:24:19.786Z",
+              "chartTs": 1787156700000,
+              "price": 165.68499756,
+              "mode": "PEAK_CHASE",
+              "reason": "KI BUY 82%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 13.5; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 3.2%-Starter laufen; spaeter nachladen/ausbauen. · Order 236.79 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+              "forward": {
+                "f15": -0.413,
+                "f30": -0.534,
+                "f60": -2.547,
+                "f120": -3.154,
+                "mfe120": 0,
+                "mae120": -3.552
+              },
+              "draw": 0,
+              "day": 13.304,
+              "rsi": 78.8
+            },
+            {
+              "ts": "2026-08-19T16:21:19.895Z",
+              "chartTs": 1787156400000,
+              "price": 164.74000549,
+              "mode": "PEAK_CHASE",
+              "reason": "KI BUY 85%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 8.7; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor 0 · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 3.0%-Starter laufen; spaeter nachladen/ausbauen. · Order 220.63 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+              "forward": {
+                "f15": 0.024,
+                "f30": -0.049,
+                "f60": -1.991,
+                "f120": -2.817,
+                "mfe120": 0.574,
+                "mae120": -2.999
+              },
+              "draw": 0,
+              "day": 12.658,
+              "rsi": 68.7
+            }
+          ],
+          "entryRegretPct": 1.37,
+          "mistakes": [
+            "PEAK_ENTRY",
+            "LATE_DISCOVERY",
+            "LATE_EXPENSIVE_ENTRY"
+          ]
+        },
+        {
+          "symbol": "MILDEF.ST",
+          "name": "MilDef Group AB (publ)",
+          "firstSeenAt": "2026-08-19T12:00:10.6590000Z",
+          "sources": [
+            "PC_WIDE",
+            "DEEP",
+            "HELD",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787148900000,
+            "price": 212,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "price": 212,
+              "m5": 0.284,
+              "m20": 0.142,
+              "accel": 0.473,
+              "draw": 0,
+              "day": -3.285,
+              "rsi": 35.385
+            },
+            "forward": {
+              "f15": 0.094,
+              "f30": 0.613,
+              "f60": 0.755,
+              "f120": null,
+              "mfe120": 0.943,
+              "mae120": 0
+            },
+            "quality": 1.3
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787141100000,
+            "price": 214.69999695,
+            "mode": "NORMAL_ENTRY",
+            "metrics": {
+              "price": 214.7,
+              "m5": -0.047,
+              "m20": -0.047,
+              "accel": 0.139,
+              "draw": -0.325,
+              "day": -2.053,
+              "rsi": 51.515
+            },
+            "forward": {
+              "f15": -0.233,
+              "f30": -0.233,
+              "f60": -0.373,
+              "f120": -1.351,
+              "mfe120": 0,
+              "mae120": -1.77
+            },
+            "quality": -1.428
+          },
+          "actualBuys": [
+            {
+              "ts": "2026-08-19T12:07:15.210Z",
+              "chartTs": 1787141100000,
+              "price": 214.69999695,
+              "mode": "NORMAL_ENTRY",
+              "reason": "KI BUY 78%: EARLY-DIP AUTO DIP_STARTER: Kurs noch im Ruecksetzer (-0.32% vom 20m-Hoch), aber Fall bremst: 5m -0.09%, Beschl. +0.09 · 20% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · Order 881.46 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+              "forward": {
+                "f15": -0.233,
+                "f30": -0.233,
+                "f60": -0.373,
+                "f120": -1.351,
+                "mfe120": 0,
+                "mae120": -1.77
+              },
+              "draw": -0.325,
+              "day": -2.053,
+              "rsi": 51.5
+            }
+          ],
+          "entryRegretPct": 1.274,
+          "mistakes": []
+        }
+      ],
+      "provisional": true
+    }
+  },
+  "depot": {
+    "cash": 8398.448297401768,
+    "equity": 9700.8849562844,
+    "displayMarketValue": 1302.4366588826322,
+    "displayAccountingDelta": 0.0,
+    "positions": [
+      {
+        "symbol": "SCHO.CO",
+        "invested": 763.822576,
+        "ratioValue": 759.880101831502,
+        "quantityValue": 759.880101831502,
+        "displayValue": 759.880101831502,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "LOGI-B.ST",
+        "invested": 534.375803,
+        "ratioValue": 542.5565570511302,
+        "quantityValue": 542.5565570511302,
+        "displayValue": 542.5565570511302,
+        "quantityUsed": true
+      }
+    ]
+  },
+  "quotaGuardHeaders": "http/2 200 \ndate: wed, 19 aug 2026 20:25:35 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=unrhvwbkfv38uqbkgb%2bf%2brqe6ta1%2bdyww2zq%2f%2bqqdl3bsqtuzwwhcoyvusc78%2fc1cy3pbiojda1dcmcjac4uiggelo6uan%2fwgf9oddm0mtepl47oe%2bz9ts9jku2w71ewyyfem2vbec6mjvb6gjfrzdeb3mhaacqnhler2jo%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2dbe36e4fa43980-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
+}
