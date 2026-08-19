@@ -23,16 +23,21 @@ export class MarketPortfolio extends BasePortfolio{
   upsertHealth(h){
     // Health ist eine Momentaufnahme. Entfernte/ersetzte Quellen duerfen nicht als
     // alte rote Karten fuer immer in SQLite stehen bleiben.
+    const current={...(h||{})};
+    if(current['finanzen.net News (Fallback)']){
+      current['tagesschau Wirtschaft (Fallback)']=current['finanzen.net News (Fallback)'];
+      delete current['finanzen.net News (Fallback)'];
+    }
     try{this.ctx?.storage?.sql?.exec('DELETE FROM source_health')}catch{}
-    return super.upsertHealth(h);
+    return super.upsertHealth(current);
   }
   async status(){
     const s=await super.status();
     s.paperOpportunityPolicy={
       enabled:true,
-      version:20.2,
+      version:20.3,
       paperTradingOnly:true,
-      mode:'RANK_STAGE_CONFIRM_ANTI_CHURN_AND_CURRENT_HEALTH',
+      mode:'RANK_STAGE_CONFIRM_ANTI_CHURN_CURRENT_HEALTH_RESILIENT_SOURCES',
       dipDoesNotVetoAllOtherBuys:true,
       continuationBreakoutStarter:true,
       newsGlobalVeto:false,
@@ -42,7 +47,9 @@ export class MarketPortfolio extends BasePortfolio{
       hardRiskCanExitImmediately:true,
       fixedMinimumHoldMinutes:null,
       sourceHealthCurrentScanOnly:true,
-      rule:'Gute Dips und bestaetigte Continuation-Chancen duerfen gestaffelt gekauft werden. Eine Position im Minus wird nicht mehr nur wegen einer attraktiveren anderen Aktie rotiert. Widerspruechliche 1m-SELL-Strukturen werden im Minus gehalten; echte Hard-Risk/Reversal/STRONG-SELL-Signale duerfen weiterhin sofort aussteigen. Health zeigt nur aktuelle Quellen. Keine Minutenregel.'
+      resilientSourceFallbacks:true,
+      slowIntelligenceCached:true,
+      rule:'Gute Dips und bestaetigte Continuation-Chancen duerfen gestaffelt gekauft werden. Eine Position im Minus wird nicht mehr nur wegen einer attraktiveren anderen Aktie rotiert. Widerspruechliche 1m-SELL-Strukturen werden im Minus gehalten; echte Hard-Risk/Reversal/STRONG-SELL-Signale duerfen weiterhin sofort aussteigen. Langsamere News/Event/MTF-Daten werden gecacht, Health zeigt nur aktuelle Quellen. Keine Minutenregel.'
     };
     return s;
   }
