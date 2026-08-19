@@ -1,5 +1,6 @@
 // One-time recovery source from the last verified production health snapshot before
-// the accidental 2026-08-19 22:32 Berlin restart. Removed after successful restore.
+// the accidental 2026-08-19 22:32 Berlin restart. Recovery workflow is now armed.
+// Removed after successful restore.
 export const RECOVERY_20260819={
  config:{
   running:1,start_capital:10000,cash:8398.448297401768,currency:'EUR',risk_mode:'offensiv',
