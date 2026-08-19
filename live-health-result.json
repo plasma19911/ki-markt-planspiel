@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T16:09:21.894522+00:00",
+  "checkedAt": "2026-08-19T16:38:07.316938+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,17 +28,17 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 234,
-  "lastScan": "2026-08-19T16:04:30.032Z",
+  "scanCount": 253,
+  "lastScan": "2026-08-19T16:37:28.824Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 8 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lag · Multi-Timeframe V1.3: TGT kleiner Starter trotz fehlendem Langfristchart.",
-  "cash": 7424.90212187798,
-  "equity": 9805.106986731946,
-  "pnl": -194.89301326805435,
-  "marketValue": 2380.2048648539667,
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 8 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 mög · CA · FINAL LOSS-CHURN: ASX widersprüchlicher Verlust-SELL gestoppt.",
+  "cash": 7356.323343354145,
+  "equity": 9745.492507673513,
+  "pnl": -254.5074923264874,
+  "marketValue": 2389.169164319367,
   "accountingDelta": 0.0,
-  "universeCount": 235,
-  "positions": 5,
+  "universeCount": 228,
+  "positions": 4,
   "positionRows": [
     {
       "symbol": "SCHO.CO",
@@ -99,442 +99,427 @@
       "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
     },
     {
-      "symbol": "PANW",
-      "name": "Palo Alto Networks, Inc.",
+      "symbol": "TER",
+      "name": "Teradyne, Inc.",
       "instrument_type": "EQUITY",
       "theme": null,
-      "company_key": "PALO ALTO NETWORKS",
-      "invested": 572.615233,
+      "company_key": "TERADYNE",
+      "invested": 535.960935,
       "entry_fee": 2,
-      "entry_price": 359.6192697753906,
-      "last_price": 359.6099853515625,
-      "entry_fx": 0.857,
-      "last_fx": 0.857,
+      "entry_price": 384.7043273315429,
+      "last_price": 383.8900146484375,
+      "entry_fx": 0.8566,
+      "last_fx": 0.8567,
       "currency": "USD",
-      "opened_at": "2026-08-19T15:34:23.660Z",
-      "score": 0.5654601623376624,
-      "signal_confidence": 0.4760460162337663,
-      "zero_quantity": 1.8579718100059381,
+      "opened_at": "2026-08-19T16:27:21.435Z",
+      "score": 0.5702226935312832,
+      "signal_confidence": 0.47202226935312835,
+      "zero_quantity": 1.6264023552543556,
       "zero_whole_shares": 1,
-      "zero_fractional_shares": 0.8579718100059381,
+      "zero_fractional_shares": 0.6264023552543556,
       "zero_uses_fractional": true,
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash",
-      "fx_basis_repaired_at": "2026-08-19T15:36:15.410Z",
+      "fx_basis_repaired_at": "2026-08-19T16:28:30.352Z",
       "fx_basis_repair_reason": "FOREIGN_NATIVE_ENTRY_PRICE_WITH_ENTRY_FX_1",
       "fx_basis_original_entry_fx": 1,
-      "quote_sanity_last_price": 359.3599853515625,
-      "quote_sanity_last_fx": 0.857,
-      "quote_sanity_repaired_at": "2026-08-19T15:36:15.410Z",
+      "quote_sanity_last_price": 383.8900146484375,
+      "quote_sanity_last_fx": 0.8567,
+      "quote_sanity_repaired_at": "2026-08-19T16:28:30.352Z",
       "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
     },
     {
-      "symbol": "MELI",
-      "name": "MercadoLibre, Inc.",
+      "symbol": "ASX",
+      "name": "ASE Technology Holding Co., Ltd.",
       "instrument_type": "EQUITY",
       "theme": null,
-      "company_key": "MERCADOLI",
-      "invested": 151.944133,
+      "company_key": "ASE TECHNOLOG",
+      "invested": 552.701757,
       "entry_fee": 1,
-      "entry_price": 1885.5736313476561,
-      "last_price": 1885.469970703125,
-      "entry_fx": 0.8569,
-      "last_fx": 0.857,
+      "entry_price": 36.126090152740474,
+      "last_price": 36.06999969482422,
+      "entry_fx": 0.8567,
+      "last_fx": 0.8567,
       "currency": "USD",
-      "opened_at": "2026-08-19T15:54:17.796Z",
-      "score": 3.993790005479452,
-      "signal_confidence": 0.75276,
-      "zero_quantity": 0.09403949701932506,
-      "zero_whole_shares": 0,
-      "zero_fractional_shares": 0.09403949701932506,
+      "opened_at": "2026-08-19T16:36:22.594Z",
+      "score": -1.5795726162790698,
+      "signal_confidence": 0.566657261627907,
+      "zero_quantity": 17.858341224553257,
+      "zero_whole_shares": 17,
+      "zero_fractional_shares": 0.8583412245532571,
       "zero_uses_fractional": true,
-      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
-    },
-    {
-      "symbol": "TGT",
-      "name": "Target Corporation",
-      "instrument_type": "EQUITY",
-      "theme": null,
-      "company_key": "TARGET",
-      "invested": 353.56746,
-      "entry_fee": 2,
-      "entry_price": 160.67551438903806,
-      "last_price": 160.51499938964844,
-      "entry_fx": 0.857,
-      "last_fx": 0.857,
-      "currency": "USD",
-      "opened_at": "2026-08-19T16:04:30.032Z",
-      "score": 5.436755938416423,
-      "signal_confidence": 0.7731,
-      "zero_quantity": 2.567685139400234,
-      "zero_whole_shares": 2,
-      "zero_fractional_shares": 0.567685139400234,
-      "zero_uses_fractional": true,
-      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash",
+      "fx_basis_repaired_at": "2026-08-19T16:37:28.824Z",
+      "fx_basis_repair_reason": "FOREIGN_NATIVE_ENTRY_PRICE_WITH_ENTRY_FX_1",
+      "fx_basis_original_entry_fx": 1,
+      "quote_sanity_last_price": 36.06999969482422,
+      "quote_sanity_last_fx": 0.8567,
+      "quote_sanity_repaired_at": "2026-08-19T16:37:28.824Z",
+      "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
     }
   ],
   "candidates": 8,
   "topCandidates": [
     {
-      "symbol": "TGT",
-      "name": "Target Corporation",
-      "score": 5.436755938416423,
-      "confidence": 0.7731,
-      "day_change": 5.269543146411637,
-      "news_score": 0.2420527859237536,
+      "symbol": "MRK",
+      "name": "Merck & Co., Inc.",
+      "score": 1.2208328293010753,
+      "confidence": 0.5631832829301076,
+      "day_change": 10.98616873008873,
+      "news_score": 0.14099462365591395,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 66 konstruktiv · 20m +0.60%",
-      "contra": ""
+      "pro": "Kurs über EMA21 · 5m +0.19%",
+      "contra": "EMA-Trend schwach"
     },
     {
-      "symbol": "MRNA",
-      "name": "Moderna, Inc.",
-      "score": 5.077562674581006,
-      "confidence": 0.7875,
-      "day_change": 131.19440527095577,
-      "news_score": 0.13092178770949714,
+      "symbol": "COIN",
+      "name": "Coinbase Global, Inc.",
+      "score": 0.9584030035335688,
+      "confidence": 0.5189403003533569,
+      "day_change": 12.883818179729722,
+      "news_score": 0.04197879858657244,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.82% · 20m +3.92%",
-      "contra": ""
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 57 konstruktiv",
+      "contra": "MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+    },
+    {
+      "symbol": "TER",
+      "name": "Teradyne, Inc.",
+      "score": 0.5702226935312832,
+      "confidence": 0.47202226935312835,
+      "day_change": -5.045879282584909,
+      "news_score": -0.030540827147401913,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21",
+      "contra": "Kurs unter EMA21"
+    },
+    {
+      "symbol": "MELI",
+      "name": "MercadoLibre",
+      "score": 0.25,
+      "confidence": 0.30500000000000005,
+      "day_change": 6.097046338926382,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21",
+      "contra": "Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+    },
+    {
+      "symbol": "MSTR",
+      "name": "Strategy Inc",
+      "score": 0,
+      "confidence": 0.28,
+      "day_change": 14.883269472035622,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 54 konstruktiv",
+      "contra": "5m -0.27% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+    },
+    {
+      "symbol": "ASX",
+      "name": "ASE Technology Holding Co., Ltd.",
+      "score": -1.5795726162790698,
+      "confidence": 0.566657261627907,
+      "day_change": -0.9338102311886254,
+      "news_score": 0.02197674418604651,
+      "event_risk": "NONE",
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21"
     },
     {
       "symbol": "KEEL.TO",
       "name": "Keel Infrastructure Corp.",
-      "score": 4.9,
-      "confidence": 0.7300800000000001,
-      "day_change": 6.1085985796484055,
+      "score": -2.25,
+      "confidence": 0.505,
+      "day_change": 5.203622067136471,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.43% · 20m +1.30%",
-      "contra": ""
+      "pro": "Kurs über EMA21",
+      "contra": "EMA-Trend schwach · 20m -0.75% · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     },
     {
-      "symbol": "MELI",
-      "name": "MercadoLibre, Inc.",
-      "score": 3.993790005479452,
-      "confidence": 0.75276,
-      "day_change": 5.976481373198572,
-      "news_score": 0.10356164383561643,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.20% · 20m +1.15% · Momentum baut sich auf · Beschleunigung +0.26%",
-      "contra": "RSI 82 überhitzt"
-    },
-    {
-      "symbol": "MRVL",
-      "name": "Marvell Technology, Inc.",
-      "score": 3.95,
+      "symbol": "MRNA",
+      "name": "Moderna, Inc.",
+      "score": -3.65,
       "confidence": 0.63,
-      "day_change": 9.189860026041675,
+      "day_change": 127.5412873361435,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.99% · 20m +0.95% · Momentum baut sich auf · Beschleunigung +0.35%",
-      "contra": "RSI 80 überhitzt"
-    },
-    {
-      "symbol": "APP",
-      "name": "AppLovin",
-      "score": 3.95,
-      "confidence": 0.63,
-      "day_change": 2.6183013330017824,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.48% · 20m +1.00% · Momentum baut sich auf · Beschleunigung +0.22%",
-      "contra": "RSI 78 überhitzt"
-    },
-    {
-      "symbol": "AI",
-      "name": "C3.ai",
-      "score": 3.8500000000000005,
-      "confidence": 0.63,
-      "day_change": 3.698071496223365,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 58 konstruktiv · 20m +0.54%",
-      "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
-    },
-    {
-      "symbol": "PANW",
-      "name": "Palo Alto Networks, Inc.",
-      "score": 0.5654601623376624,
-      "confidence": 0.4760460162337663,
-      "day_change": -3.8835769092953165,
-      "news_score": -0.02875324675324675,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21",
-      "contra": "Kurs unter EMA21"
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 20m -1.72% · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     }
   ],
   "recentHistory": [
     {
-      "ts": "2026-08-19T16:04:30.032Z",
-      "action": "KAUF",
-      "symbol": "TGT",
-      "amount": -355.56746,
-      "fee": 2,
-      "trade_pnl": null,
-      "reason": "KI BUY 89%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 10.6; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 4.6%-Starter laufen; spaeter nachladen/ausbauen. · Order 355.57 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 5.436755938416423
-    },
-    {
-      "ts": "2026-08-19T15:58:27.873Z",
+      "ts": "2026-08-19T16:37:28.824Z",
       "action": "HALTEN",
       "symbol": "",
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal MRNA: Score 6.63, Konfidenz 79%.",
+      "reason": "Kein Trade. Bestes Signal MRK: Score 1.22, Konfidenz 56%.",
       "score": null
     },
     {
-      "ts": "2026-08-19T15:57:17.577Z",
-      "action": "VERKAUF",
-      "symbol": "MRNA",
-      "amount": 290.20704319218873,
-      "fee": 2,
-      "trade_pnl": -5.31159280781128,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.58%, Rücklauf vom 20m-Hoch -0.58%· Trade P/L netto -3.31 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 1.4038685626702998
-    },
-    {
-      "ts": "2026-08-19T15:55:24.748Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal MRNA: Score 5.31, Konfidenz 77%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T15:54:17.796Z",
+      "ts": "2026-08-19T16:36:22.594Z",
       "action": "KAUF",
-      "symbol": "MELI",
-      "amount": -152.944133,
+      "symbol": "ASX",
+      "amount": -553.701757,
       "fee": 1,
       "trade_pnl": null,
-      "reason": "KI BUY 89%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 9.4; Continuation/Breakout). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Set · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 2.0%-Starter laufen; spaeter nachladen/ausbauen. · Order 152.94 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 3.993790005479452
+      "reason": "KI BUY 82%: EARLY-DIP DIP_REBOUND: Ruecksetzer -0.30% vom 20m-Hoch stabilisiert sich; 5m +0.06%, Beschl. +0.17 · max. 30% · OPPORTUNITY V3: guter relativer Dip; Rang 12.2, Verkäuferdruck bremst. Bis 14.7% Starter/Staf · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 7.0%-Starter laufen; spaeter nachladen/ausbauen. · Order 553.70 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 5.85
     },
     {
-      "ts": "2026-08-19T15:54:17.796Z",
+      "ts": "2026-08-19T16:34:29.960Z",
       "action": "VERKAUF",
-      "symbol": "BAH",
-      "amount": 337.84911685053976,
+      "symbol": "MSTR",
+      "amount": 229.796581393461,
       "fee": 2,
-      "trade_pnl": -4.401597149460258,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.5), 5m -0.09%, Rücklauf vom 20m-Hoch -0.14%· Trade P/L netto -2.40 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": -0.09563432835820905
+      "trade_pnl": -5.346143606539016,
+      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.47%, Rücklauf vom 20m-Hoch -0.47%· Trade P/L netto -3.35 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 1.2383660262891811
     },
     {
-      "ts": "2026-08-19T15:54:17.796Z",
+      "ts": "2026-08-19T16:34:29.960Z",
       "action": "VERKAUF",
-      "symbol": "KEEL.TO",
-      "amount": 322.0920540058027,
+      "symbol": "COIN",
+      "amount": 232.77267879418696,
       "fee": 2,
-      "trade_pnl": -0.5072439941972675,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.22%, Rücklauf vom 20m-Hoch -0.86%· Trade P/L netto +1.49 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 2.1000000000000005
+      "trade_pnl": -4.0193602058130296,
+      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.31%, Rücklauf vom 20m-Hoch -0.31%· Trade P/L netto -2.02 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 0.058403003533568906
     },
     {
-      "ts": "2026-08-19T15:52:26.761Z",
-      "action": "KAUF",
-      "symbol": "MRNA",
-      "amount": -295.518636,
-      "fee": 2,
-      "trade_pnl": null,
-      "reason": "KI BUY 82%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 12.8; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 4.1%-Starter laufen; spaeter nachladen/ausbauen. · Order 295.52 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 3.6999999999999997
-    },
-    {
-      "ts": "2026-08-19T15:51:16.135Z",
+      "ts": "2026-08-19T16:34:29.960Z",
       "action": "VERKAUF",
-      "symbol": "SKHY",
-      "amount": 433.95566605682666,
+      "symbol": "AVAV",
+      "amount": 535.4032846956034,
       "fee": 2,
-      "trade_pnl": -6.546457943173323,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.44%, Rücklauf vom 20m-Hoch -0.44%· Trade P/L netto -4.55 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": -4.5068950604907805
+      "trade_pnl": -8.904719304396622,
+      "reason": "KI SELL 91%: CANDLE-FLOW PROACTIVE SELL V2.1: eindeutige Verkäuferdominanz unabhängig von der Haltedauer · Exit-Qualität 8.4 · Käufer 7% / Verkäufer 93% · letzte 3 0 grün/1 rot · 2 höhere Tiefs/5 tiefere Hochs · Topbildung · rotes Volumen führt.· Trade P/L netto -6.90 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": -4.4844923076923076
     },
     {
-      "ts": "2026-08-19T15:49:23.167Z",
+      "ts": "2026-08-19T16:31:30.829Z",
       "action": "HALTEN",
       "symbol": "",
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal PANW: Score 4.30, Konfidenz 77%.",
+      "reason": "Kein Trade. Bestes Signal PCAR: Score 5.85, Konfidenz 78%.",
       "score": null
     },
     {
-      "ts": "2026-08-19T15:48:15.867Z",
-      "action": "VERKAUF",
-      "symbol": "MRNA",
-      "amount": 298.0950469976534,
-      "fee": 2,
-      "trade_pnl": -4.120338002346614,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.51%, Rücklauf vom 20m-Hoch -1.30%· Trade P/L netto -2.12 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": -5.223172820708033
-    },
-    {
-      "ts": "2026-08-19T15:46:26.596Z",
+      "ts": "2026-08-19T16:30:20.753Z",
       "action": "KAUF",
-      "symbol": "BAH",
-      "amount": -342.250714,
+      "symbol": "MSTR",
+      "amount": -235.142725,
       "fee": 2,
       "trade_pnl": null,
-      "reason": "KI BUY 89%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 10.9; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 5.0%-Starter laufen; spaeter nachladen/ausbauen. · Order 343.07 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 4.704365671641791
+      "reason": "KI BUY 89%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 14.5; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 3.3%-Starter laufen; spaeter nachladen/ausbauen. · Order 235.14 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 5.49285446205171
     },
     {
-      "ts": "2026-08-19T15:45:15.659Z",
-      "action": "KAUF",
-      "symbol": "SKHY",
-      "amount": -440.502124,
-      "fee": 2,
-      "trade_pnl": null,
-      "reason": "KI BUY 72%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 9.0; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor 0 · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 6.0%-Starter laufen; spaeter nachladen/ausbauen. · Order 440.50 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 2
-    },
-    {
-      "ts": "2026-08-19T15:44:16.670Z",
+      "ts": "2026-08-19T16:28:30.352Z",
       "action": "HALTEN",
       "symbol": "",
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal KEEL.TO: Score 6.45, Konfidenz 73%.",
+      "reason": "Kein Trade. Bestes Signal CACI: Score 6.45, Konfidenz 74%.",
       "score": null
     },
     {
-      "ts": "2026-08-19T15:42:15.846Z",
+      "ts": "2026-08-19T16:27:21.435Z",
       "action": "KAUF",
-      "symbol": "MRNA",
-      "amount": -302.215385,
+      "symbol": "TER",
+      "amount": -537.960935,
       "fee": 2,
       "trade_pnl": null,
-      "reason": "KI BUY 72%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 12.8; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 4.0%-Starter laufen; spaeter nachladen/ausbauen. · Order 302.22 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": -1.5502355875831486
+      "reason": "KI BUY 78%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.45% vom 20m-Hoch stabilisiert sich; 5m +0.07%, Beschl. +0.08 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · OPPORTUNITY V3: guter relativer Dip; Rang 13. · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 7.0%-Starter laufen; spaeter nachladen/ausbauen. · Order 537.96 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 6.6499999999999995
+    },
+    {
+      "ts": "2026-08-19T16:25:36.916Z",
+      "action": "VERKAUF",
+      "symbol": "BAH",
+      "amount": 477.65773232452386,
+      "fee": 2,
+      "trade_pnl": -3.497601675476119,
+      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.29%, Rücklauf vom 20m-Hoch -0.32%· Trade P/L netto -1.50 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 1.2043656716417912
+    },
+    {
+      "ts": "2026-08-19T16:24:19.786Z",
+      "action": "KAUF",
+      "symbol": "COIN",
+      "amount": -236.792039,
+      "fee": 2,
+      "trade_pnl": null,
+      "reason": "KI BUY 82%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 13.5; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 3.2%-Starter laufen; spaeter nachladen/ausbauen. · Order 236.79 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 5.672165922619048
+    },
+    {
+      "ts": "2026-08-19T16:24:19.786Z",
+      "action": "VERKAUF",
+      "symbol": "MRK",
+      "amount": 167.5884680190769,
+      "fee": 2,
+      "trade_pnl": -3.9238109809230934,
+      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.04%, Rücklauf vom 20m-Hoch -0.19%· Trade P/L netto -1.92 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 1.0869601261127595
+    },
+    {
+      "ts": "2026-08-19T16:22:31.123Z",
+      "action": "VERKAUF",
+      "symbol": "COIN",
+      "amount": 215.78948378249913,
+      "fee": 2,
+      "trade_pnl": -4.841279217500869,
+      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.00%, Rücklauf vom 20m-Hoch -0.21%· Trade P/L netto -2.84 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 2.122165922619048
+    },
+    {
+      "ts": "2026-08-19T16:21:19.895Z",
+      "action": "KAUF",
+      "symbol": "COIN",
+      "amount": -220.630763,
+      "fee": 2,
+      "trade_pnl": null,
+      "reason": "KI BUY 85%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 8.7; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor 0 · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 3.0%-Starter laufen; spaeter nachladen/ausbauen. · Order 220.63 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 4.1000000000000005
+    },
+    {
+      "ts": "2026-08-19T16:18:21.132Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal CACI: Score 6.45, Konfidenz 77%.",
+      "score": null
     }
   ],
   "recentAiLog": [
     {
-      "ts": "2026-08-19T16:04:30.032Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "TGT",
-      "message": "TGT: KI BUY 89%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 10.6; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 4.6%-Starter laufen; spaeter nachladen/ausbauen.",
-      "confidence": 0.7731
-    },
-    {
-      "ts": "2026-08-19T15:58:27.873Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "KEEL.TO",
-      "message": "KEEL.TO: Kein Trade. Bestes Signal KEEL.TO: Score 6.45, Konfidenz 73%.",
-      "confidence": 0.7300800000000001
-    },
-    {
-      "ts": "2026-08-19T15:57:17.577Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "MRNA",
-      "message": "MRNA: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.58%, Rücklauf vom 20m-Hoch -0.58%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T15:54:17.796Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "MELI",
-      "message": "MELI: KI BUY 89%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 9.4; Continuation/Breakout). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Set · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 2.0%-Starter laufen; spaeter nachladen/ausbauen.",
-      "confidence": 0.75276
-    },
-    {
-      "ts": "2026-08-19T15:54:17.796Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "BAH",
-      "message": "BAH: Momentum-Risk-Exit: starker Lauf kippt (3.5), 5m -0.09%, Rücklauf vom 20m-Hoch -0.14%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T15:54:17.796Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "KEEL.TO",
-      "message": "KEEL.TO: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.22%, Rücklauf vom 20m-Hoch -0.86%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T15:52:26.761Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "MRNA",
-      "message": "MRNA: KI BUY 82%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 12.8; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 4.1%-Starter laufen; spaeter nachladen/ausbauen.",
-      "confidence": 0.63
-    },
-    {
-      "ts": "2026-08-19T15:51:16.135Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "SKHY",
-      "message": "SKHY: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.44%, Rücklauf vom 20m-Hoch -0.44%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T15:48:15.867Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "MRNA",
-      "message": "MRNA: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.51%, Rücklauf vom 20m-Hoch -1.30%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T15:46:26.596Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "BAH",
-      "message": "BAH: KI BUY 89%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 10.9; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 5.0%-Starter laufen; spaeter nachladen/ausbauen.",
-      "confidence": 0.765
-    },
-    {
-      "ts": "2026-08-19T15:45:15.659Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "SKHY",
-      "message": "SKHY: KI BUY 72%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 9.0; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor 0 · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 6.0%-Starter laufen; spaeter nachladen/ausbauen.",
-      "confidence": 0.48000000000000004
-    },
-    {
-      "ts": "2026-08-19T15:44:16.670Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "KEEL.TO",
-      "message": "KEEL.TO: Kein Trade. Bestes Signal KEEL.TO: Score 6.45, Konfidenz 73%.",
-      "confidence": 0.7300800000000001
-    },
-    {
-      "ts": "2026-08-19T15:42:15.846Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "MRNA",
-      "message": "MRNA: KI BUY 72%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 12.8; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 4.0%-Starter laufen; spaeter nachladen/ausbauen.",
-      "confidence": 0.6105235587583149
-    },
-    {
-      "ts": "2026-08-19T15:39:15.671Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "TSLA",
-      "message": "TSLA: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.19%, Rücklauf vom 20m-Hoch -0.24%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T15:36:15.410Z",
+      "ts": "2026-08-19T16:37:28.824Z",
       "kind": "SYSTEM",
       "title": "Kurs-/FX-Ausreißer korrigiert",
       "symbol": "",
       "message": "Quote-Sanity: 1 Position(en) korrigiert, davon 1 FX-Einstiegsbasis repariert, 0 bereits verbuchte FX-Phantom-Verkäufe korrigiert, 0 extremer Feed-Ausreißer verworfen, 0 fehlerhafte Depot-Snapshot(s) entfernt.",
       "confidence": null
+    },
+    {
+      "ts": "2026-08-19T16:36:22.594Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "ASX",
+      "message": "ASX: KI BUY 82%: EARLY-DIP DIP_REBOUND: Ruecksetzer -0.30% vom 20m-Hoch stabilisiert sich; 5m +0.06%, Beschl. +0.17 · max. 30% · OPPORTUNITY V3: guter relativer Dip; Rang 12.2, Verkäuferdruck bremst. Bis 14.7% Starter/Staf · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 7.0%-Starter laufen; spaeter nachladen/ausbauen.",
+      "confidence": 0.78
+    },
+    {
+      "ts": "2026-08-19T16:34:29.960Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "MSTR",
+      "message": "MSTR: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.47%, Rücklauf vom 20m-Hoch -0.47%",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T16:34:29.960Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "COIN",
+      "message": "COIN: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.31%, Rücklauf vom 20m-Hoch -0.31%",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T16:34:29.960Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "AVAV",
+      "message": "AVAV: KI SELL 91%: CANDLE-FLOW PROACTIVE SELL V2.1: eindeutige Verkäuferdominanz unabhängig von der Haltedauer · Exit-Qualität 8.4 · Käufer 7% / Verkäufer 93% · letzte 3 0 grün/1 rot · 2 höhere Tiefs/5 tiefere Hochs · Topbildung · rotes Volumen führt.",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T16:33:21.543Z",
+      "kind": "IDEA",
+      "title": "Beobachtungskandidat",
+      "symbol": "PCAR",
+      "message": "PCAR: Kein Trade. Bestes Signal PCAR: Score 5.85, Konfidenz 78%.",
+      "confidence": 0.78
+    },
+    {
+      "ts": "2026-08-19T16:30:20.753Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "MSTR",
+      "message": "MSTR: KI BUY 89%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 14.5; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 3.3%-Starter laufen; spaeter nachladen/ausbauen.",
+      "confidence": 0.765
+    },
+    {
+      "ts": "2026-08-19T16:28:30.352Z",
+      "kind": "SYSTEM",
+      "title": "Kurs-/FX-Ausreißer korrigiert",
+      "symbol": "",
+      "message": "Quote-Sanity: 1 Position(en) korrigiert, davon 1 FX-Einstiegsbasis repariert, 0 bereits verbuchte FX-Phantom-Verkäufe korrigiert, 0 extremer Feed-Ausreißer verworfen, 0 fehlerhafte Depot-Snapshot(s) entfernt.",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T16:27:21.435Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "TER",
+      "message": "TER: KI BUY 78%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.45% vom 20m-Hoch stabilisiert sich; 5m +0.07%, Beschl. +0.08 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · OPPORTUNITY V3: guter relativer Dip; Rang 13. · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 7.0%-Starter laufen; spaeter nachladen/ausbauen.",
+      "confidence": 0.78
+    },
+    {
+      "ts": "2026-08-19T16:25:36.916Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "BAH",
+      "message": "BAH: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.29%, Rücklauf vom 20m-Hoch -0.32%",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T16:24:19.786Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "COIN",
+      "message": "COIN: KI BUY 82%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 13.5; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 3.2%-Starter laufen; spaeter nachladen/ausbauen.",
+      "confidence": 0.7695
+    },
+    {
+      "ts": "2026-08-19T16:24:19.786Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "MRK",
+      "message": "MRK: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.04%, Rücklauf vom 20m-Hoch -0.19%",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T16:22:31.123Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "COIN",
+      "message": "COIN: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.00%, Rücklauf vom 20m-Hoch -0.21%",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T16:21:19.895Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "COIN",
+      "message": "COIN: KI BUY 85%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 8.7; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor 0 · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 3.0%-Starter laufen; spaeter nachladen/ausbauen.",
+      "confidence": 0.63
+    },
+    {
+      "ts": "2026-08-19T16:18:21.132Z",
+      "kind": "IDEA",
+      "title": "Beobachtungskandidat",
+      "symbol": "MRVL",
+      "message": "MRVL: Kein Trade. Bestes Signal MRVL: Score 5.08, Konfidenz 79%.",
+      "confidence": 0.7911
     }
   ],
   "candleFlowPolicy": {
@@ -553,7 +538,10 @@
     "buyRule": "Relative Dips bevorzugen; BUY erst bei Bodenbildung, nachlassendem Verkaufsdruck, Absorption/höheren Tiefs und Käuferübernahme.",
     "holdRule": "Gewinner laufen lassen solange Käuferstruktur intakt bleibt; gemischte Boden-/Topbilder werden gehalten statt vorschnell verkauft.",
     "sellRule": "Normaler SELL erst bei eindeutiger Verkäuferdominanz, bestätigtem bärischem Reversal oder klarer Top-/Red-Volume-Struktur; harte Event-/Stop-/starke Reversal-Risiken bleiben sofort möglich.",
-    "foreignFxBuyRequiresRealFx": true
+    "foreignFxBuyRequiresRealFx": true,
+    "todayTradeReviewV1": true,
+    "buyerMajoritySellBlocked": true,
+    "momentumExitNeedsTwoWeakSignals": true
   },
   "selectiveCapitalPolicy": {
     "enabled": true,
@@ -623,7 +611,11 @@
     "multiTimeframeConfirmation": true,
     "foreignFxBuyRequiresRealFx": true,
     "forcedMinimumBuyPct": null,
-    "timeBasedSell": false
+    "timeBasedSell": false,
+    "todayTradeReviewV1": true,
+    "microDipBuyBlocked": true,
+    "highChaseBlocked": true,
+    "noiseSellBlocked": true
   },
   "profitOptimizer": {
     "enabled": true,
@@ -733,15 +725,20 @@
     "weeklyContext": "2y/1wk",
     "foreignFxBuyRequiresRealFx": true,
     "timeBasedExit": false,
-    "maxSingleNewPositionRiskCapPct": 28
+    "maxSingleNewPositionRiskCapPct": 28,
+    "todayTradeReviewV1": true,
+    "deeperDipPreferred": true,
+    "noiseSellBlocked": true,
+    "reentryNeedsNewStructure": true,
+    "continuationCannotBypassMtf": true
   },
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 5,
+    "activePositions": 4,
     "pendingEntries": 0,
-    "completedTradeOutcomes": 73,
-    "timedCheckpoints": 50,
+    "completedTradeOutcomes": 84,
+    "timedCheckpoints": 52,
     "horizonsMinutes": [
       15,
       30,
@@ -764,12 +761,12 @@
     "buckets": [
       {
         "bucket": "CHASE_NEAR_HIGH",
-        "samples15": 14,
-        "totalCheckpoints": 21,
-        "qualityPct": -0.009,
-        "winRatePct": 32.9,
+        "samples15": 16,
+        "totalCheckpoints": 23,
+        "qualityPct": -0.008,
+        "winRatePct": 33.8,
         "block": false,
-        "scoreDelta": -0.5896785714285714
+        "scoreDelta": -0.575140625
       },
       {
         "bucket": "NORMAL_ENTRY",
@@ -809,6 +806,24 @@
       }
     ],
     "recentTiming": [
+      {
+        "at": 1787156736916,
+        "symbol": "AVAV",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 15,
+        "pnlPct": -0.27,
+        "maePct": -0.28,
+        "mfePct": 0.04
+      },
+      {
+        "at": 1787155828583,
+        "symbol": "MELI",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 15,
+        "pnlPct": 0.15,
+        "maePct": -0.13,
+        "mfePct": 0.15
+      },
       {
         "at": 1787155652094,
         "symbol": "PANW",
@@ -898,24 +913,6 @@
         "pnlPct": -0.24,
         "maePct": -0.31,
         "mfePct": 0.8
-      },
-      {
-        "at": 1787145923892,
-        "symbol": "LOGI-B.ST",
-        "bucket": "NORMAL_ENTRY",
-        "horizonMin": 60,
-        "pnlPct": 0.31,
-        "maePct": -0.14,
-        "mfePct": 0.47
-      },
-      {
-        "at": 1787145563292,
-        "symbol": "SSAB-B.ST",
-        "bucket": "PULLBACK_RETEST",
-        "horizonMin": 15,
-        "pnlPct": 0.66,
-        "maePct": -0.31,
-        "mfePct": 0.66
       }
     ],
     "pendingOnlyForExecutedPositions": true,
@@ -925,30 +922,30 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T16:09:11.358Z",
-    "ageSeconds": 10,
+    "lastSeenAt": "2026-08-19T16:37:19.718Z",
+    "ageSeconds": 47,
     "metrics": {
-      "lastSeenAt": "2026-08-19T16:09:11.358Z",
+      "lastSeenAt": "2026-08-19T16:37:19.718Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 16186471,
+      "storageBytes": 16631997,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.11,
-      "ramMb": 61,
-      "downloadedBytes": 4587551383,
-      "uploadedBytes": 7003385,
+      "cpuPct": 0.12,
+      "ramMb": 58.1,
+      "downloadedBytes": 5220778024,
+      "uploadedBytes": 8235517,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
-      "lastLocalCleanupAt": "2026-08-19T16:06:21.7834695Z",
+      "lastLocalCleanupAt": "2026-08-19T16:36:23.5526942Z",
       "lastError": null
     },
     "singleScannerProfileDetected": true
   },
   "risk": {
-    "equity": 9805.106986731946,
-    "dailyPct": -1.9489301326805486,
-    "availableCash": 7424.90212187798,
+    "equity": 9745.492507673513,
+    "dailyPct": -2.5450749232648784,
+    "availableCash": 7356.323343354145,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -967,8 +964,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 106,
-      "updated_at": "2026-08-19T16:04:30.023Z"
+      "latency_ms": 93,
+      "updated_at": "2026-08-19T16:37:28.814Z"
     },
     {
       "source": "Yahoo FX",
@@ -976,8 +973,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 8,
-      "updated_at": "2026-08-19T16:04:30.023Z"
+      "latency_ms": 7,
+      "updated_at": "2026-08-19T16:37:28.814Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -986,16 +983,16 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": 2696,
-      "updated_at": "2026-08-19T16:04:30.023Z"
+      "updated_at": "2026-08-19T16:37:28.814Z"
     },
     {
       "source": "Yahoo News",
       "status": "OK",
-      "ok_count": 7,
+      "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 303,
-      "updated_at": "2026-08-19T16:04:30.023Z"
+      "latency_ms": 719,
+      "updated_at": "2026-08-19T16:37:28.814Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -1003,8 +1000,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 261,
-      "updated_at": "2026-08-19T16:04:30.023Z"
+      "latency_ms": 259,
+      "updated_at": "2026-08-19T16:37:28.814Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -1012,8 +1009,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 507,
-      "updated_at": "2026-08-19T16:04:30.023Z"
+      "latency_ms": 543,
+      "updated_at": "2026-08-19T16:37:28.814Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -1021,8 +1018,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 688,
-      "updated_at": "2026-08-19T16:04:30.023Z"
+      "latency_ms": 944,
+      "updated_at": "2026-08-19T16:37:28.814Z"
     },
     {
       "source": "Unternehmenstermine (Nasdaq-Fallback)",
@@ -1031,7 +1028,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T16:04:30.023Z"
+      "updated_at": "2026-08-19T16:37:28.814Z"
     },
     {
       "source": "finanzen.net News (Fallback)",
@@ -1039,26 +1036,26 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 782,
-      "updated_at": "2026-08-19T16:04:30.023Z"
+      "latency_ms": 743,
+      "updated_at": "2026-08-19T16:37:28.814Z"
     },
     {
       "source": "Early-Dip 1m",
       "status": "DOWN",
       "ok_count": 0,
-      "fail_count": 8,
+      "fail_count": 4,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T16:04:30.023Z"
+      "updated_at": "2026-08-19T16:37:28.814Z"
     },
     {
       "source": "Second-Chance 1m",
       "status": "DOWN",
       "ok_count": 0,
-      "fail_count": 6,
+      "fail_count": 2,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T16:04:30.023Z"
+      "updated_at": "2026-08-19T16:37:28.814Z"
     }
   ]
 }
