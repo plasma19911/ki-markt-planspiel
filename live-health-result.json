@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T11:20:38.988670+00:00",
+  "checkedAt": "2026-08-19T11:28:49.460695+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -45,14 +45,14 @@
     "pcWideSweep"
   ],
   "running": 1,
-  "scanCount": 72,
-  "lastScan": "2026-08-19T11:18:12.768Z",
+  "scanCount": 76,
+  "lastScan": "2026-08-19T11:28:20.443Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 9 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks. Beste HOLD · PU · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 9 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen au · EARLY-DIP: 1 ungeeignete Idee(n) gestoppt; kein Kauf – aktuell kein kontrollierter Einstieg.",
   "cash": 7000,
-  "equity": 9993.066669900938,
-  "pnl": -6.933330099062005,
-  "universeCount": 172,
+  "equity": 9984.254971710601,
+  "pnl": -15.74502828939876,
+  "universeCount": 175,
   "positions": 1,
   "positionRows": [
     {
@@ -64,13 +64,13 @@
       "invested": 2999,
       "entry_fee": 1,
       "entry_price": 10.210199809074402,
-      "last_price": 10.1899995803833,
+      "last_price": 10.15999984741211,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-19T11:06:12.370Z",
-      "score": 1.1,
-      "signal_confidence": 0.39,
+      "score": -3,
+      "signal_confidence": 0.5800000000000001,
       "zero_quantity": 293.7258874537023,
       "zero_whole_shares": 293,
       "zero_fractional_shares": 0.7258874537022848,
@@ -85,88 +85,88 @@
       "name": "Gubra A/S",
       "score": 6.45,
       "confidence": 0.63,
-      "day_change": 2.941176470588225,
+      "day_change": 2.993700684619549,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 64 konstruktiv · 5m +1.45% · 20m +1.55% · Momentum baut sich auf · Beschleunigung +1.76%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 66 konstruktiv · 5m +1.08% · 20m +1.19% · Momentum baut sich auf · Beschleunigung +0.46%",
       "contra": ""
+    },
+    {
+      "symbol": "ASELS.IS",
+      "name": "Aselsan",
+      "score": 2.9,
+      "confidence": 0.5700000000000001,
+      "day_change": 2.9508196721311553,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "contra": ""
+    },
+    {
+      "symbol": "BAYN.DE",
+      "name": "Bayer Aktiengesellschaft",
+      "score": 2.4660989399293287,
+      "confidence": 0.6742098939929329,
+      "day_change": 0.5129291720697537,
+      "news_score": -0.041342756183745576,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "contra": ""
+    },
+    {
+      "symbol": "KARNEL-B.ST",
+      "name": "Karnell Group AB ser. B",
+      "score": 1.8,
+      "confidence": 0.46,
+      "day_change": 0.884952376374093,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "Kurs über EMA21 · 5m +0.22% · 20m +0.88%",
+      "contra": "EMA-Trend schwach"
     },
     {
       "symbol": "ASML.AS",
       "name": "ASML Amsterdam",
-      "score": 3.3,
-      "confidence": 0.61,
+      "score": 0.5,
+      "confidence": 0.33,
       "day_change": 0.6096738339522068,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.22%",
-      "contra": ""
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 66 konstruktiv",
+      "contra": "MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     },
     {
-      "symbol": "R3NK.DE",
-      "name": "RENK Group",
-      "score": 2,
-      "confidence": 0.48000000000000004,
-      "day_change": 3.250976513657222,
+      "symbol": "ASM.AS",
+      "name": "ASM International",
+      "score": 0.5,
+      "confidence": 0.33,
+      "day_change": 0.09496821071122152,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "Kurs über EMA21 · RSI 56 konstruktiv · 5m +0.19%",
-      "contra": "EMA-Trend schwach"
-    },
-    {
-      "symbol": "ENR.DE",
-      "name": "Siemens Energy AG",
-      "score": 1.8,
-      "confidence": 0.5725,
-      "day_change": 0.3370514984170514,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.34%",
-      "contra": "RSI 86 überhitzt"
-    },
-    {
-      "symbol": "OTKAR.IS",
-      "name": "Otokar",
-      "score": 1.1,
-      "confidence": 0.39,
-      "day_change": 0.9345794392523255,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21",
-      "contra": "Kurs unter EMA21"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 58 konstruktiv",
+      "contra": "MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     },
     {
       "symbol": "KEMPOWR.HE",
       "name": "Kempower Oyj",
-      "score": 1.1,
-      "confidence": 0.39,
-      "day_change": -0.8754904631974592,
+      "score": -3,
+      "confidence": 0.5800000000000001,
+      "day_change": -1.167316659415274,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21",
-      "contra": "Kurs unter EMA21"
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 5m -0.49%"
     },
     {
-      "symbol": "SAF.PA",
-      "name": "Safran",
-      "score": 1,
-      "confidence": 0.38,
-      "day_change": 0.8779417182189775,
+      "symbol": "R3NK.DE",
+      "name": "RENK Group",
+      "score": -3.2,
+      "confidence": 0.6000000000000001,
+      "day_change": 2.9908963533786803,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21",
-      "contra": "RSI 87 überhitzt"
-    },
-    {
-      "symbol": "AIR.PA",
-      "name": "Airbus",
-      "score": 1,
-      "confidence": 0.38,
-      "day_change": 0.7864618437760651,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21",
-      "contra": "RSI 87 überhitzt"
+      "pro": "RSI 55 konstruktiv",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
@@ -284,8 +284,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 433,
-      "updated_at": "2026-08-19T11:18:12.501Z"
+      "latency_ms": 230,
+      "updated_at": "2026-08-19T11:28:20.170Z"
     },
     {
       "source": "Yahoo FX",
@@ -293,8 +293,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 108,
-      "updated_at": "2026-08-19T11:18:12.501Z"
+      "latency_ms": 112,
+      "updated_at": "2026-08-19T11:28:20.170Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -302,8 +302,8 @@
       "ok_count": 9,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 96,
-      "updated_at": "2026-08-19T11:18:12.501Z"
+      "latency_ms": 100,
+      "updated_at": "2026-08-19T11:28:20.170Z"
     },
     {
       "source": "Yahoo Events",
@@ -311,17 +311,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 181,
-      "updated_at": "2026-08-19T11:18:12.501Z"
+      "latency_ms": 196,
+      "updated_at": "2026-08-19T11:28:20.170Z"
     },
     {
       "source": "Yahoo News",
       "status": "OK",
-      "ok_count": 9,
+      "ok_count": 8,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 614,
-      "updated_at": "2026-08-19T11:18:12.501Z"
+      "latency_ms": 527,
+      "updated_at": "2026-08-19T11:28:20.170Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -329,8 +329,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 938,
-      "updated_at": "2026-08-19T11:18:12.501Z"
+      "latency_ms": 1088,
+      "updated_at": "2026-08-19T11:28:20.170Z"
     },
     {
       "source": "BörsenNews",
@@ -338,17 +338,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1022,
-      "updated_at": "2026-08-19T11:18:12.501Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1044,
-      "updated_at": "2026-08-19T11:18:12.501Z"
+      "latency_ms": 1267,
+      "updated_at": "2026-08-19T11:28:20.170Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -356,8 +347,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1078,
-      "updated_at": "2026-08-19T11:18:12.501Z"
+      "latency_ms": 1299,
+      "updated_at": "2026-08-19T11:28:20.170Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1453,
+      "updated_at": "2026-08-19T11:28:20.170Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -366,21 +366,21 @@
       "fail_count": 4,
       "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-19T11:18:12.501Z"
+      "updated_at": "2026-08-19T11:28:20.170Z"
     },
     {
       "source": "Second-Chance 1m",
-      "status": "DEGRADED",
+      "status": "OK",
       "ok_count": 0,
-      "fail_count": 1,
-      "last_error": "1m-Kurs nicht frisch",
+      "fail_count": 0,
+      "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T11:18:12.501Z"
+      "updated_at": "2026-08-19T11:28:20.170Z"
     }
   ],
   "risk": {
-    "equity": 9993.066669900938,
-    "dailyPct": -0.06933330099061497,
+    "equity": 9984.254971710601,
+    "dailyPct": -0.15745028289398943,
     "availableCash": 7000,
     "hardLimits": false,
     "budgetOnly": true,
@@ -457,7 +457,7 @@
     "enabled": true,
     "target": 24,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T11:19:16.570Z",
+    "updatedAt": "2026-08-19T11:28:22.408Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -480,7 +480,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T11:19:16.570Z",
+    "updatedAt": "2026-08-19T11:28:22.408Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -505,28 +505,28 @@
     "enabled": true,
     "target": 64,
     "candidateCount": 2,
-    "updatedAt": "2026-08-19T11:20:08.631Z",
+    "updatedAt": "2026-08-19T11:28:22.863Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
-    "profile": "CSHARP_PLUS_FAST_RADAR",
+    "profile": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
     "masterCount": 8530,
-    "scannedCount": 656,
-    "cycleMinutes": 8,
-    "batchCount": 14,
+    "scannedCount": 8530,
+    "cycleMinutes": 1,
+    "batchCount": 86,
     "coreCount": 1800,
-    "coreCycleMinutes": 8,
+    "coreCycleMinutes": 1,
     "tailCount": 6730,
-    "tailCycleMinutes": 17,
-    "fullMasterCycleMinutes": 17,
-    "maxCoverageMinutesTarget": 18,
+    "tailCycleMinutes": 1,
+    "fullMasterCycleMinutes": 1,
+    "maxCoverageMinutesTarget": 1,
     "tailBatchesPerMinute": 8,
     "hotEveryMinutes": 1,
     "warmEveryMinutes": 1,
-    "quietCoreEveryMinutes": 8,
-    "parallelRequests": 0,
+    "quietCoreEveryMinutes": 1,
+    "parallelRequests": 16,
     "batchesPerMinute": 0,
     "targetRowsPerMinute": 0,
-    "adaptiveConcurrency": false,
+    "adaptiveConcurrency": true,
     "fastHelper": null,
     "sourceBackoff": false,
     "pausedUntil": null,
@@ -538,8 +538,8 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 24,
-    "candidateCount": 3,
-    "updatedAt": "2026-08-19T11:18:12.768Z",
+    "candidateCount": 2,
+    "updatedAt": "2026-08-19T11:28:20.443Z",
     "fresh": true,
     "retentionMinutes": 15,
     "recheckPerScan": 6,
@@ -649,7 +649,7 @@
     "activePositions": 1,
     "pendingEntries": 0,
     "completedTradeOutcomes": 40,
-    "timedCheckpoints": 20,
+    "timedCheckpoints": 21,
     "horizonsMinutes": [
       15,
       30,
@@ -687,9 +687,27 @@
         "winRatePct": 0,
         "block": false,
         "scoreDelta": 0
+      },
+      {
+        "bucket": "NORMAL_ENTRY",
+        "samples15": 1,
+        "totalCheckpoints": 1,
+        "qualityPct": -0.3,
+        "winRatePct": 0,
+        "block": false,
+        "scoreDelta": 0
       }
     ],
     "recentTiming": [
+      {
+        "at": 1787138651931,
+        "symbol": "KEMPOWR.HE",
+        "bucket": "NORMAL_ENTRY",
+        "horizonMin": 15,
+        "pnlPct": -0.3,
+        "maePct": -0.3,
+        "mfePct": 0.1
+      },
       {
         "at": 1787127734607,
         "symbol": "OTKAR.IS",
@@ -788,15 +806,6 @@
         "pnlPct": 0.78,
         "maePct": -0.35,
         "mfePct": 0.91
-      },
-      {
-        "at": 1787081170419,
-        "symbol": "SAP",
-        "bucket": "CHASE_NEAR_HIGH",
-        "horizonMin": 60,
-        "pnlPct": -0.17,
-        "maePct": -0.38,
-        "mfePct": -0.06
       }
     ],
     "pendingOnlyForExecutedPositions": true,
@@ -823,7 +832,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T11:19:12.768Z",
+    "nextScanAt": "2026-08-19T11:29:20.443Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -880,10 +889,10 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T11:20:08.631Z",
-    "ageSeconds": 30,
+    "lastSeenAt": "2026-08-19T11:28:22.863Z",
+    "ageSeconds": 26,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-19T11:19:16.570Z",
+    "prefetchAt": "2026-08-19T11:28:22.408Z",
     "resolvedLeaderCount": 6,
     "leaderHealthy": false,
     "futureCandidates": 0,
@@ -892,22 +901,22 @@
     "wideSweepCandidates": 2,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8530,
-    "wideSweepScannedCount": 656,
+    "wideSweepScannedCount": 8530,
     "metrics": {
-      "lastSeenAt": "2026-08-19T11:20:08.631Z",
-      "version": "2.0.13-csharp-keyless-multisou",
+      "lastSeenAt": "2026-08-19T11:28:22.863Z",
+      "version": "2.1.0-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 11858225,
+      "storageBytes": 11913139,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 52.4,
-      "downloadedBytes": 99156815,
-      "uploadedBytes": 508882,
+      "ramMb": 85.2,
+      "downloadedBytes": 13606310,
+      "uploadedBytes": 0,
       "localPhase": "OPEN",
-      "agentMode": "WINDOWS_CSHARP_KEYLESS_MULTISOURCE_LOW_L",
-      "lastLocalCleanupAt": "2026-08-19T11:19:28.1672323Z",
-      "lastError": "Der Remoteserver hat einen Fehler zurückgegeben: (500) Interner Serverfehler."
+      "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
+      "lastLocalCleanupAt": null,
+      "lastError": null
     }
   }
 }
