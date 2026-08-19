@@ -1,5 +1,14 @@
 const CHANGELOG=[
   {
+    at:'19.08.2026 · 12:45',
+    title:'Fast-Radar PowerShell-Host-Kollision behoben',
+    items:[
+      'FAST_RADAR_TURBO_V4 wurde vom Live-Worker erkannt, der erste Yahoo-Kursaufruf scheiterte aber an der schreibgeschützten PowerShell-Systemvariable $Host.',
+      'SparkUrl verwendet jetzt den neutralen Parameternamen FinanceHost.',
+      'Radar-Version auf 1.1.3 / FAST_RADAR_TURBO_V5 angehoben, damit der korrigierte Lauf im Live-Status eindeutig erkennbar ist.'
+    ]
+  },
+  {
     at:'19.08.2026 · 12:40',
     title:'Fast-Radar leere HOT-Liste repariert',
     items:[
