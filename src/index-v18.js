@@ -7,11 +7,12 @@ export {MarketPortfolio};
 
 const portfolio=env=>env.PORTFOLIO.getByName('default-paper-portfolio');
 
-function noStoreHtml(request,response){
+function noStoreCritical(request,response){
  const url=new URL(request.url);
  const accept=String(request.headers.get('accept')||'');
  const htmlRoute=url.pathname==='/'||url.pathname.endsWith('.html')||accept.includes('text/html');
- if(!htmlRoute)return response;
+ const criticalUi=url.pathname==='/quota-guard.js';
+ if(!htmlRoute&&!criticalUi)return response;
  const headers=new Headers(response.headers);
  headers.set('Cache-Control','no-store, no-cache, must-revalidate, max-age=0');
  headers.set('Pragma','no-cache');
@@ -45,7 +46,8 @@ function controlGuard(request,url){
 
 // Production wrapper: API/scan behavior stays in index.js. The trade-chart endpoint
 // is intercepted here so closed positions keep a full historical buy/sell window.
-// HTML is never cached so phone/PWA browsers cannot keep an obsolete UI.
+// HTML and the small critical dashboard-guard asset are never cached so phone/PWA
+// browsers cannot keep an obsolete depot/replay renderer.
 export default{
  async fetch(request,env,ctx){
   const url=new URL(request.url);
@@ -58,7 +60,7 @@ export default{
    }catch(e){return json({error:String(e?.message||e)},500)}
   }
   const response=await base.fetch(request,env,ctx);
-  return noStoreHtml(request,response);
+  return noStoreCritical(request,response);
  },
  async scheduled(controller,env,ctx){
   await base.scheduled?.(controller,env,ctx);
