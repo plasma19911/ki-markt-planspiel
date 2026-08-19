@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T15:46:18.546432+00:00",
+  "checkedAt": "2026-08-19T15:47:52.539006+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,17 +28,17 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 221,
-  "lastScan": "2026-08-19T15:45:15.659Z",
+  "scanCount": 222,
+  "lastScan": "2026-08-19T15:46:26.596Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 8 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lag · Multi-Timeframe V1.3: SKHY kleiner Starter trotz fehlendem Langfristchart.",
-  "cash": 6888.98413777497,
-  "equity": 9828.22883920767,
-  "pnl": -171.7711607923302,
-  "marketValue": 2939.244701432701,
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 8 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lag · Multi-Timeframe V1.3: BAH kleiner Starter trotz fehlendem Langfristchart.",
+  "cash": 6546.733423774969,
+  "equity": 9827.511472171856,
+  "pnl": -172.48852782814356,
+  "marketValue": 3280.7780483968863,
   "accountingDelta": 0.0,
-  "universeCount": 221,
-  "positions": 6,
+  "universeCount": 220,
+  "positions": 7,
   "positionRows": [
     {
       "symbol": "SCHO.CO",
@@ -107,12 +107,12 @@
       "invested": 320.599298,
       "entry_fee": 2,
       "entry_price": 4.534530210018158,
-      "last_price": 4.619999885559082,
+      "last_price": 4.605000019073486,
       "entry_fx": 0.6202,
       "last_fx": 0.6201,
       "currency": "CAD",
       "opened_at": "2026-08-19T15:09:19.092Z",
-      "score": 5.45,
+      "score": 6.45,
       "signal_confidence": 0.7300800000000001,
       "zero_quantity": 113.99833419407568,
       "zero_whole_shares": 113,
@@ -131,13 +131,13 @@
       "invested": 572.615233,
       "entry_fee": 2,
       "entry_price": 359.6192697753906,
-      "last_price": 359.2250061035156,
+      "last_price": 359.1199951171875,
       "entry_fx": 0.857,
       "last_fx": 0.8569,
       "currency": "USD",
       "opened_at": "2026-08-19T15:34:23.660Z",
-      "score": 3.0089001584786055,
-      "signal_confidence": 0.7158900158478606,
+      "score": 1.551867237903226,
+      "signal_confidence": 0.5782867237903226,
       "zero_quantity": 1.8579718100059381,
       "zero_whole_shares": 1,
       "zero_fractional_shares": 0.8579718100059381,
@@ -160,13 +160,13 @@
       "invested": 300.215385,
       "entry_fee": 2,
       "entry_price": 140.19504766845702,
-      "last_price": 140.22000122070312,
+      "last_price": 141.49989318847656,
       "entry_fx": 0.857,
       "last_fx": 0.8569,
       "currency": "USD",
       "opened_at": "2026-08-19T15:42:15.846Z",
-      "score": -1.553038990825688,
-      "signal_confidence": 0.6108038990825688,
+      "score": 2.0449622979454083,
+      "signal_confidence": 0.6563962297945409,
       "zero_quantity": 2.498730686412849,
       "zero_whole_shares": 2,
       "zero_fractional_shares": 0.4987306864128489,
@@ -182,16 +182,38 @@
       "invested": 438.502124,
       "entry_fee": 2,
       "entry_price": 159.97982733154296,
-      "last_price": 159.82000732421875,
+      "last_price": 159.86000061035156,
       "entry_fx": 0.8569,
       "last_fx": 0.8569,
       "currency": "USD",
       "opened_at": "2026-08-19T15:45:15.659Z",
-      "score": 2,
-      "signal_confidence": 0.48000000000000004,
+      "score": 2.593104939509219,
+      "signal_confidence": 0.6788104939509219,
       "zero_quantity": 3.198720805310499,
       "zero_whole_shares": 3,
       "zero_fractional_shares": 0.19872080531049896,
+      "zero_uses_fractional": true,
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
+    },
+    {
+      "symbol": "BAH",
+      "name": "Booz Allen Hamilton",
+      "instrument_type": "EQUITY",
+      "theme": "DEFENSE_TECH",
+      "company_key": "BOOZ ALLEN HAMILTON",
+      "invested": 340.250714,
+      "entry_fee": 2,
+      "entry_price": 79.41433408355712,
+      "last_price": 79.33499908447266,
+      "entry_fx": 0.8569,
+      "last_fx": 0.8569,
+      "currency": "USD",
+      "opened_at": "2026-08-19T15:46:26.596Z",
+      "score": 4.704365671641791,
+      "signal_confidence": 0.765,
+      "zero_quantity": 4.9999999985304955,
+      "zero_whole_shares": 4,
+      "zero_fractional_shares": 0.9999999985304955,
       "zero_uses_fractional": true,
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     }
@@ -199,95 +221,105 @@
   "candidates": 8,
   "topCandidates": [
     {
-      "symbol": "BAH",
-      "name": "Booz Allen Hamilton",
-      "score": 6.454365671641791,
-      "confidence": 0.765,
-      "day_change": 4.633047311333693,
-      "news_score": 0.004477611940298508,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 53 konstruktiv · 5m +0.42% · 20m +0.78% · Momentum baut sich auf · Beschleunigung +0.61%",
-      "contra": ""
-    },
-    {
       "symbol": "KEEL.TO",
       "name": "Keel Infrastructure Corp.",
-      "score": 5.45,
+      "score": 6.45,
       "confidence": 0.7300800000000001,
-      "day_change": 4.524884288667019,
+      "day_change": 4.185520793517794,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +1.99% · 20m +3.36% · Momentum baut sich auf · Beschleunigung +2.43%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 65 konstruktiv · 5m +0.77% · 20m +2.79% · Momentum baut sich auf · Beschleunigung +0.11%",
       "contra": ""
     },
     {
       "symbol": "MELI",
-      "name": "MercadoLibre",
-      "score": 3.643790005479452,
-      "confidence": 0.87276,
-      "day_change": 4.7697202018953,
+      "name": "MercadoLibre, Inc.",
+      "score": 4.943790005479452,
+      "confidence": 0.75276,
+      "day_change": 5.001855103185382,
       "news_score": 0.10356164383561643,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · Volumen x2.1",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.22% · 20m +0.58%",
       "contra": ""
     },
     {
-      "symbol": "PANW",
-      "name": "Palo Alto Networks, Inc.",
-      "score": 3.0089001584786055,
-      "confidence": 0.7158900158478606,
-      "day_change": -3.9864740194805015,
-      "news_score": 0.0091283676703645,
+      "symbol": "BAH",
+      "name": "Booz Allen Hamilton",
+      "score": 4.704365671641791,
+      "confidence": 0.765,
+      "day_change": 4.71884778837468,
+      "news_score": 0.004477611940298508,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 49 konstruktiv",
-      "contra": ""
-    },
-    {
-      "symbol": "PDD",
-      "name": "PDD Holdings",
-      "score": 2.9,
-      "confidence": 0.6879000000000001,
-      "day_change": 2.3604925301417445,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 59 konstruktiv · 5m +0.36%",
       "contra": ""
     },
     {
       "symbol": "SKHY",
       "name": "SK hynix Inc.",
-      "score": 2,
-      "confidence": 0.48000000000000004,
-      "day_change": 2.698886598264205,
-      "news_score": 0,
+      "score": 2.593104939509219,
+      "confidence": 0.6788104939509219,
+      "day_change": 2.7245859210587087,
+      "news_score": 0.49373980396188905,
       "event_risk": "NONE",
-      "pro": "Kurs über EMA21 · RSI 52 konstruktiv · 5m +0.72%",
+      "pro": "Kurs über EMA21 · RSI 55 konstruktiv · 5m +0.48% · News +0.5 · 11 Ereigniscluster",
       "contra": "EMA-Trend schwach"
     },
     {
       "symbol": "MRNA",
       "name": "Moderna, Inc.",
-      "score": -1.553038990825688,
-      "confidence": 0.6108038990825688,
-      "day_change": 122.712835483963,
-      "news_score": 0.027522935779816505,
+      "score": 2.0449622979454083,
+      "confidence": 0.6563962297945409,
+      "day_change": 124.74570074408602,
+      "news_score": 0.030374800165788373,
       "event_risk": "NONE",
-      "pro": "5m +0.33%",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 20m -0.89%"
+      "pro": "Kurs über EMA21 · RSI 49 konstruktiv · 5m +1.30%",
+      "contra": "EMA-Trend schwach"
+    },
+    {
+      "symbol": "PANW",
+      "name": "Palo Alto Networks, Inc.",
+      "score": 1.551867237903226,
+      "confidence": 0.5782867237903226,
+      "day_change": -4.014541316836606,
+      "news_score": -0.03459677419354839,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · RSI 48 konstruktiv",
+      "contra": "Kurs unter EMA21"
     },
     {
       "symbol": "LLY",
       "name": "Eli Lilly and Company",
-      "score": -2.45,
-      "confidence": 0.525,
-      "day_change": 3.1752526587472296,
+      "score": 1.2000000000000002,
+      "confidence": 0.4,
+      "day_change": 3.2870223892088823,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "Kurs über EMA21 · RSI 51 konstruktiv",
+      "contra": "EMA-Trend schwach"
+    },
+    {
+      "symbol": "AXON",
+      "name": "Axon Enterprise",
+      "score": -3.65,
+      "confidence": 0.63,
+      "day_change": 2.5689277301211844,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 20m -0.51% · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     }
   ],
   "recentHistory": [
+    {
+      "ts": "2026-08-19T15:46:26.596Z",
+      "action": "KAUF",
+      "symbol": "BAH",
+      "amount": -342.250714,
+      "fee": 2,
+      "trade_pnl": null,
+      "reason": "KI BUY 89%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 10.9; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 5.0%-Starter laufen; spaeter nachladen/ausbauen. · Order 343.07 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 4.704365671641791
+    },
     {
       "ts": "2026-08-19T15:45:15.659Z",
       "action": "KAUF",
@@ -427,19 +459,17 @@
       "trade_pnl": null,
       "reason": "KI BUY 86%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 14.2; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 5.0%-Starter laufen; spaeter nachladen/ausbauen. · Order 372.38 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
       "score": 5.629719514094378
-    },
-    {
-      "ts": "2026-08-19T15:22:25.380Z",
-      "action": "KAUF",
-      "symbol": "MRNA",
-      "amount": -289.456899,
-      "fee": 2,
-      "trade_pnl": null,
-      "reason": "KI BUY 77%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 16.6; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 3.8%-Starter laufen; spaeter nachladen/ausbauen. · Order 289.46 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 0.8000000000000002
     }
   ],
   "recentAiLog": [
+    {
+      "ts": "2026-08-19T15:46:26.596Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "BAH",
+      "message": "BAH: KI BUY 89%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 10.9; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 5.0%-Starter laufen; spaeter nachladen/ausbauen.",
+      "confidence": 0.765
+    },
     {
       "ts": "2026-08-19T15:45:15.659Z",
       "kind": "TRADE",
@@ -551,14 +581,6 @@
       "symbol": "MRNA",
       "message": "MRNA: KI BUY 77%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 16.6; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 3.8%-Starter laufen; spaeter nachladen/ausbauen.",
       "confidence": 0.36000000000000004
-    },
-    {
-      "ts": "2026-08-19T15:21:16.661Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "TGT",
-      "message": "TGT: KI BUY 77%: OPPORTUNITY AUTO V3: stärkste aktuell sichere Chance im Kandidatenfeld (Rang 11.0; Dip). Kein Zwangskauf: nur Starter, finale Candle-/Mehr-Zeitebenen-Prüfung folgt. · SELECTIVE-SIZING: Dip · Risiko-Faktor  · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (query1 6mo/1d HTTP 429 · query1 2y/1wk HTTP 429). Kein Totalblock mehr: bestaetigter 1m-Flow darf als 6.7%-Starter laufen; spaeter nachladen/ausbauen.",
-      "confidence": 0.7695
     }
   ],
   "candleFlowPolicy": {
@@ -762,7 +784,7 @@
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 5,
+    "activePositions": 6,
     "pendingEntries": 0,
     "completedTradeOutcomes": 68,
     "timedCheckpoints": 48,
@@ -949,19 +971,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T15:45:11.691Z",
-    "ageSeconds": 67,
+    "lastSeenAt": "2026-08-19T15:47:11.247Z",
+    "ageSeconds": 41,
     "metrics": {
-      "lastSeenAt": "2026-08-19T15:45:11.691Z",
+      "lastSeenAt": "2026-08-19T15:47:11.247Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 15786961,
+      "storageBytes": 15843270,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.1,
-      "ramMb": 60.9,
-      "downloadedBytes": 4045450789,
-      "uploadedBytes": 6030120,
+      "cpuPct": 0.16,
+      "ramMb": 62.3,
+      "downloadedBytes": 4093702030,
+      "uploadedBytes": 6119445,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T15:43:17.9395786Z",
@@ -970,9 +992,9 @@
     "singleScannerProfileDetected": true
   },
   "risk": {
-    "equity": 9828.22883920767,
-    "dailyPct": -1.7177116079233001,
-    "availableCash": 6888.98413777497,
+    "equity": 9827.511472171856,
+    "dailyPct": -1.7248852782814406,
+    "availableCash": 6546.733423774969,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -991,8 +1013,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 90,
-      "updated_at": "2026-08-19T15:45:15.648Z"
+      "latency_ms": 89,
+      "updated_at": "2026-08-19T15:46:26.586Z"
     },
     {
       "source": "Yahoo FX",
@@ -1000,8 +1022,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 10,
-      "updated_at": "2026-08-19T15:45:15.648Z"
+      "latency_ms": 7,
+      "updated_at": "2026-08-19T15:46:26.586Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -1009,8 +1031,8 @@
       "ok_count": 8,
       "fail_count": 1,
       "last_error": "",
-      "latency_ms": 234,
-      "updated_at": "2026-08-19T15:45:15.648Z"
+      "latency_ms": 357,
+      "updated_at": "2026-08-19T15:46:26.586Z"
     },
     {
       "source": "Yahoo News",
@@ -1018,8 +1040,8 @@
       "ok_count": 9,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 319,
-      "updated_at": "2026-08-19T15:45:15.648Z"
+      "latency_ms": 537,
+      "updated_at": "2026-08-19T15:46:26.586Z"
     },
     {
       "source": "BörsenNews",
@@ -1027,26 +1049,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 403",
-      "latency_ms": 31,
-      "updated_at": "2026-08-19T15:45:15.648Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 239,
-      "updated_at": "2026-08-19T15:45:15.648Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 292,
-      "updated_at": "2026-08-19T15:45:15.648Z"
+      "latency_ms": 21,
+      "updated_at": "2026-08-19T15:46:26.586Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -1054,8 +1058,26 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 511,
-      "updated_at": "2026-08-19T15:45:15.648Z"
+      "latency_ms": 524,
+      "updated_at": "2026-08-19T15:46:26.586Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 703,
+      "updated_at": "2026-08-19T15:46:26.586Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1057,
+      "updated_at": "2026-08-19T15:46:26.586Z"
     },
     {
       "source": "Unternehmenstermine (Nasdaq-Fallback)",
@@ -1064,7 +1086,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T15:45:15.648Z"
+      "updated_at": "2026-08-19T15:46:26.586Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -1073,7 +1095,7 @@
       "fail_count": 8,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T15:45:15.648Z"
+      "updated_at": "2026-08-19T15:46:26.586Z"
     },
     {
       "source": "Second-Chance 1m",
@@ -1082,7 +1104,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T15:45:15.648Z"
+      "updated_at": "2026-08-19T15:46:26.586Z"
     }
   ]
 }
