@@ -17,9 +17,14 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+
+      - name: Apply reproducible core trade fixes
+        run: python3 scripts/apply-core-trade-fixes.py
 
       - name: Install dependencies
         id: install
@@ -43,6 +48,7 @@ jobs:
           runcheck syntax_constants node --check src/constants.js
           runcheck syntax_market node --check src/market-v3.js
           runcheck syntax_market_base node --check src/market-v3-base.js
+          runcheck syntax_r2 node --check src/r2-portfolio.js
           runcheck syntax_second_runtime node --check src/second-chance-runtime.js
           runcheck syntax_decision node --check src/decision-guard.js
           runcheck syntax_legacy node --check src/legacy-cash-neutralizer.js
@@ -86,6 +92,7 @@ jobs:
           runcheck rotation_cost node scripts/smoke-rotation-cost-guard.mjs
           runcheck pc_wide_sweep node scripts/smoke-pc-wide-sweep.mjs
           runcheck yahoo_sanity node scripts/smoke-yahoo-null-sanity.mjs
+          runcheck core_trade_paths node scripts/smoke-core-trade-paths.mjs
           runcheck wrangler_dryrun npx wrangler deploy --dry-run
 
       - name: Build validation report
@@ -123,7 +130,7 @@ jobs:
         env:
           INSTALL_OUTCOME: ${{ steps.install.outcome }}
 
-      - name: Publish validation report
+      - name: Publish core fixes and validation report
         if: always()
         run: |
           git config user.name 'github-actions[bot]'
@@ -131,21 +138,22 @@ jobs:
           for attempt in 1 2 3 4; do
             git fetch origin main
             git reset --hard origin/main
+            python3 scripts/apply-core-trade-fixes.py
             cp /tmp/validation-result.json validation-result.json
-            git add validation-result.json
+            git add src/r2-portfolio.js src/market-v3-base.js scripts/smoke-core-trade-paths.mjs validation-result.json
             if git diff --cached --quiet; then
-              echo 'Validation result unchanged'
+              echo 'Core sources and validation result unchanged'
               exit 0
             fi
-            git commit -m 'Update validation result [skip ci]'
+            git commit -m 'Apply core trade fixes and update validation [skip ci]'
             if git push origin HEAD:main; then
-              echo 'Validation result published'
+              echo 'Core trade fixes and validation result published'
               exit 0
             fi
             echo "Concurrent main update detected; retry $attempt"
             sleep 3
           done
-          echo 'Could not publish validation result after retries'
+          echo 'Could not publish core trade fixes after retries'
           exit 1
 
       - name: Enforce syntax and regression checks
