@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T15:39:34.840871+00:00",
+  "checkedAt": "2026-08-19T15:40:48.159200+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -740,10 +740,10 @@
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 5,
+    "activePositions": 4,
     "pendingEntries": 0,
-    "completedTradeOutcomes": 67,
-    "timedCheckpoints": 47,
+    "completedTradeOutcomes": 68,
+    "timedCheckpoints": 48,
     "horizonsMinutes": [
       15,
       30,
@@ -803,14 +803,23 @@
       {
         "bucket": "EXTENDED_MOMENTUM",
         "samples15": 1,
-        "totalCheckpoints": 1,
-        "qualityPct": -1.19,
-        "winRatePct": 0,
+        "totalCheckpoints": 2,
+        "qualityPct": -0.706,
+        "winRatePct": 37.5,
         "block": false,
         "scoreDelta": 0
       }
     ],
     "recentTiming": [
+      {
+        "at": 1787154027386,
+        "symbol": "KEEL.TO",
+        "bucket": "EXTENDED_MOMENTUM",
+        "horizonMin": 30,
+        "pnlPct": 0.1,
+        "maePct": -1.63,
+        "mfePct": 0.83
+      },
       {
         "at": 1787153235157,
         "symbol": "KEEL.TO",
@@ -909,15 +918,6 @@
         "pnlPct": -1.13,
         "maePct": -1.13,
         "mfePct": -0.1
-      },
-      {
-        "at": 1787145495890,
-        "symbol": "MTG-B.ST",
-        "bucket": "PULLBACK_RETEST",
-        "horizonMin": 60,
-        "pnlPct": 1.02,
-        "maePct": 0,
-        "mfePct": 1.02
       }
     ],
     "pendingOnlyForExecutedPositions": true,
@@ -927,19 +927,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T15:39:11.540Z",
-    "ageSeconds": 23,
+    "lastSeenAt": "2026-08-19T15:40:22.026Z",
+    "ageSeconds": 26,
     "metrics": {
-      "lastSeenAt": "2026-08-19T15:39:11.540Z",
+      "lastSeenAt": "2026-08-19T15:40:22.026Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 15741167,
+      "storageBytes": 15741202,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.13,
-      "ramMb": 59.1,
-      "downloadedBytes": 3910962325,
-      "uploadedBytes": 5830659,
+      "cpuPct": 0.1,
+      "ramMb": 60.6,
+      "downloadedBytes": 3939685468,
+      "uploadedBytes": 5847092,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T15:19:23.9341090Z",
