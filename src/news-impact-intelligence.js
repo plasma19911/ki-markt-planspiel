@@ -5,19 +5,26 @@ export function classifyNewsImpact(headline=''){
  const h=txt(headline);
  if(!h)return{type:'NONE',direction:0,impact:0,binary:false,structural:false};
 
- // Klinische Daten vor generischem "results" erkennen. Das war die MRNA-Luecke:
- // Phase-3-/Zulassungsdaten duerfen nicht als normales Earnings-/Momentum-Event enden.
+ // Klinische Daten vor generischem "results" erkennen. Diese Klasse deckt auch
+ // Langzeit-Follow-ups ab, bei denen der Titel den Nutzen als Risiko-Reduktion formuliert.
  if(/phase\s*(2|ii)\b/.test(h)||/phase\s*(3|iii)\b/.test(h)||has(h,'clinical trial','klinische studie','trial meets','primary endpoint','secondary endpoint','recurrence-free survival','overall survival','vaccine trial','cancer vaccine')){
-  const pos=has(h,'met primary','meets primary','met its primary','met goals','positive','significant reduction','improved','success','successful','achieved','erreicht','signifikant','verbessert');
+  const pos=has(h,'met primary','meets primary','met its primary','met goals','positive','significant reduction','improved','success','successful','achieved','erreicht','signifikant','verbessert','cuts recurrence','reduces recurrence','reduced recurrence','reduced risk','risk reduction','lower risk','durable benefit','sustained benefit','met key endpoint');
   const neg=has(h,'failed','missed primary','did not meet','no benefit','stopped for futility','safety concern','verfehlt','gescheitert');
   return{type:'CLINICAL_TRIAL',direction:pos?1:neg?-1:0,impact:/phase\s*(3|iii)\b/.test(h)?5:4,binary:true,structural:true};
  }
  if(has(h,'fda approval','fda approves','ema approval','approved by fda','approved by ema','zulassung erteilt','regulatory approval'))return{type:'REGULATORY_APPROVAL',direction:1,impact:5,binary:true,structural:true};
  if(has(h,'complete response letter','crl','fda rejects','ema rejects','approval denied','zulassung abgelehnt'))return{type:'REGULATORY_REJECTION',direction:-1,impact:5,binary:true,structural:true};
- if(has(h,'raises guidance','raised guidance','raises outlook','hebt prognose','prognose angehoben','guidance above'))return{type:'GUIDANCE_RAISE',direction:1,impact:4,binary:false,structural:true};
- if(has(h,'cuts guidance','cut guidance','lowers guidance','senkt prognose','gewinnwarnung','profit warning'))return{type:'GUIDANCE_CUT',direction:-1,impact:5,binary:false,structural:true};
+ if(has(h,'raises guidance','raised guidance','raises outlook','hebt prognose','prognose angehoben','guidance above','raises full-year forecast','raises sales forecast','forecast raised'))return{type:'GUIDANCE_RAISE',direction:1,impact:4,binary:false,structural:true};
+ if(has(h,'cuts guidance','cut guidance','lowers guidance','senkt prognose','gewinnwarnung','profit warning','lowers full-year forecast'))return{type:'GUIDANCE_CUT',direction:-1,impact:5,binary:false,structural:true};
+
+ // Strategische Beteiligungen/Warrants sind kein neutrales M&A-Rauschen. Ein großer
+ // Kunde/Partner, der sich beteiligt oder Kaufrechte erhält, kann Nachfrage und Bindung
+ // strukturell verändern und muss deshalb als eigener positiver Katalysator erkannt werden.
+ if(has(h,'strategic investment','strategic stake','takes a stake','takes stake','take a stake','equity investment','invests in','investment in')||(/warrant/.test(h)&&has(h,'purchase shares','buy shares','acquire shares','stake','equity')))
+  return{type:'STRATEGIC_STAKE',direction:1,impact:4,binary:false,structural:true};
+
  if(has(h,'acquisition','acquire','takeover','merger','übernahme','fusion','buyout'))return{type:'M&A',direction:0,impact:4,binary:true,structural:true};
- if(has(h,'major contract','contract award','wins contract','large order','record order','großauftrag','grossauftrag','auftrag erhalten'))return{type:'MAJOR_CONTRACT',direction:1,impact:3,binary:false,structural:false};
+ if(has(h,'major contract','contract award','wins contract','large order','record order','großauftrag','grossauftrag','auftrag erhalten','multi-year agreement','multiyear agreement'))return{type:'MAJOR_CONTRACT',direction:1,impact:3,binary:false,structural:false};
  if(has(h,'capital increase','rights issue','secondary offering','share offering','dilution','kapitalerhöhung'))return{type:'DILUTION_FINANCING',direction:-1,impact:4,binary:false,structural:true};
  if(has(h,'fraud','accounting irregular','sec investigation','criminal investigation','bankrupt','insolven','default','recall','data breach','cyberattack'))return{type:'SEVERE_NEGATIVE',direction:-1,impact:5,binary:true,structural:true};
  if(has(h,'beats estimates','beat estimates','earnings beat','revenue beat','übertrifft erwartungen'))return{type:'EARNINGS_BEAT',direction:1,impact:3,binary:false,structural:false};
