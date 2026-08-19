@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T20:15:27.259340+00:00",
+  "checkedAt": "2026-08-19T20:16:41.332849+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,8 +28,8 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 381,
-  "lastScan": "2026-08-19T20:15:10.391Z",
+  "scanCount": 382,
+  "lastScan": "2026-08-19T20:16:28.503Z",
   "lastError": null,
   "aiLastSummary": "KI-Wartefenster 10m; Fast-Decision: 0 SELL / 0 BUY aus 1 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 1/12 möglichen Checks. Beste  · PU · BALANCED-ADAPTIVE: Replay-Balance 2 Tag(e) · Missed 0.21 · Late 0.20 · Peak 0.14. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
   "cash": 8398.448297401768,
@@ -799,19 +799,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T20:15:08.613Z",
-    "ageSeconds": 18,
+    "lastSeenAt": "2026-08-19T20:16:15.194Z",
+    "ageSeconds": 26,
     "metrics": {
-      "lastSeenAt": "2026-08-19T20:15:08.613Z",
+      "lastSeenAt": "2026-08-19T20:16:15.194Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 20167511,
+      "storageBytes": 20167044,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.1,
-      "ramMb": 61.7,
-      "downloadedBytes": 10127400331,
-      "uploadedBytes": 17895705,
+      "cpuPct": 0.13,
+      "ramMb": 62,
+      "downloadedBytes": 10156581311,
+      "uploadedBytes": 17898393,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T19:55:20.5236508Z",
@@ -841,8 +841,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 19,
-      "updated_at": "2026-08-19T20:15:09.763Z"
+      "latency_ms": 18,
+      "updated_at": "2026-08-19T20:16:19.176Z"
     },
     {
       "source": "Yahoo FX",
@@ -850,17 +850,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 9,
-      "updated_at": "2026-08-19T20:15:09.763Z"
+      "latency_ms": 7,
+      "updated_at": "2026-08-19T20:16:19.176Z"
     },
     {
       "source": "Yahoo 1m Chart",
-      "status": "DEGRADED",
+      "status": "OK",
       "ok_count": 1,
-      "fail_count": 1,
-      "last_error": "Error: Zu wenig Minuten",
-      "latency_ms": 158,
-      "updated_at": "2026-08-19T20:15:09.763Z"
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 100,
+      "updated_at": "2026-08-19T20:16:19.176Z"
     },
     {
       "source": "Yahoo Events",
@@ -868,8 +868,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 286,
-      "updated_at": "2026-08-19T20:15:09.763Z"
+      "latency_ms": 895,
+      "updated_at": "2026-08-19T20:16:19.176Z"
     },
     {
       "source": "Yahoo News",
@@ -877,17 +877,8 @@
       "ok_count": 3,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 333,
-      "updated_at": "2026-08-19T20:15:09.763Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T20:15:09.763Z"
+      "latency_ms": 696,
+      "updated_at": "2026-08-19T20:16:19.176Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -895,8 +886,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T20:15:09.763Z"
+      "latency_ms": 925,
+      "updated_at": "2026-08-19T20:16:19.176Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 980,
+      "updated_at": "2026-08-19T20:16:19.176Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -904,8 +904,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T20:15:09.763Z"
+      "latency_ms": 1031,
+      "updated_at": "2026-08-19T20:16:19.176Z"
     },
     {
       "source": "finanzen.net News (Fallback)",
@@ -913,8 +913,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T20:15:09.763Z"
+      "latency_ms": 692,
+      "updated_at": "2026-08-19T20:16:19.176Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -923,7 +923,7 @@
       "fail_count": 2,
       "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-19T20:15:09.763Z"
+      "updated_at": "2026-08-19T20:16:19.176Z"
     },
     {
       "source": "Second-Chance 1m",
@@ -932,7 +932,7 @@
       "fail_count": 2,
       "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-19T20:15:09.763Z"
+      "updated_at": "2026-08-19T20:16:19.176Z"
     }
   ]
 }
