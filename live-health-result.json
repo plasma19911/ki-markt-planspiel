@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T11:56:34.505404+00:00",
+  "checkedAt": "2026-08-19T12:01:32.419765+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -45,41 +45,96 @@
     "pcWideSweep"
   ],
   "running": 1,
-  "scanCount": 80,
-  "lastScan": "2026-08-19T11:50:34.353Z",
+  "scanCount": 84,
+  "lastScan": "2026-08-19T12:01:15.806Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 9 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen au · EARLY-DIP: 1 ungeeignete Idee(n) gestoppt; kein Kauf – aktuell kein kontrollierter Einstieg.",
-  "cash": 7000,
-  "equity": 9987.192297813659,
-  "pnl": -12.807702186340975,
-  "universeCount": 172,
-  "positions": 1,
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 12 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen a · EARLY-DIP: 1 ungeeignete Idee(n) gestoppt; 1 Einstieg(e), fruehe Ruecksetzer priorisiert.",
+  "cash": 5379.537864023697,
+  "equity": 6723.379869973391,
+  "pnl": -3276.6201300266093,
+  "universeCount": 208,
+  "positions": 3,
   "positionRows": [
     {
-      "symbol": "KEMPOWR.HE",
-      "name": "Kempower Oyj",
+      "symbol": "EMBRAC-B.ST",
+      "name": "Embracer Group AB (publ)",
       "instrument_type": "EQUITY",
       "theme": null,
-      "company_key": "KEMPOWER OYJ",
-      "invested": 2999,
+      "company_key": "EMBRACER AB PUBL",
+      "invested": 2099,
       "entry_fee": 1,
-      "entry_price": 10.210199809074402,
-      "last_price": 10.170000076293945,
+      "entry_price": 73.13305755615234,
+      "last_price": 73,
       "entry_fx": 1,
-      "last_fx": 1,
-      "currency": "EUR",
-      "opened_at": "2026-08-19T11:06:12.370Z",
+      "last_fx": 0.0901,
+      "currency": "SEK",
+      "opened_at": "2026-08-19T11:56:39.182Z",
       "score": -2.1,
       "signal_confidence": 0.49000000000000005,
-      "zero_quantity": 293.7258874537023,
-      "zero_whole_shares": 293,
-      "zero_fractional_shares": 0.7258874537022848,
+      "zero_quantity": 28.701110963238005,
+      "zero_whole_shares": 28,
+      "zero_fractional_shares": 0.7011109632380048,
+      "zero_uses_fractional": true,
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
+    },
+    {
+      "symbol": "WIHL.ST",
+      "name": "Wihlborgs Fastigheter AB (publ)",
+      "instrument_type": "EQUITY",
+      "theme": null,
+      "company_key": "WIHLBORGS FASTIGHET AB PUBL",
+      "invested": 1469,
+      "entry_fee": 1,
+      "entry_price": 78.52844694519042,
+      "last_price": 78.44999694824219,
+      "entry_fx": 1,
+      "last_fx": 0.0901,
+      "currency": "SEK",
+      "opened_at": "2026-08-19T11:58:15.141Z",
+      "score": -2.1,
+      "signal_confidence": 0.49000000000000005,
+      "zero_quantity": 18.706596872153863,
+      "zero_whole_shares": 18,
+      "zero_fractional_shares": 0.7065968721538631,
+      "zero_uses_fractional": true,
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
+    },
+    {
+      "symbol": "INTRUM.ST",
+      "name": "Intrum AB (publ)",
+      "instrument_type": "EQUITY",
+      "theme": null,
+      "company_key": "INTRUM AB PUBL",
+      "invested": 1023.864355,
+      "entry_fee": 1,
+      "entry_price": 3.601598049640655,
+      "last_price": 3.5980000495910645,
+      "entry_fx": 1,
+      "last_fx": 1,
+      "currency": "SEK",
+      "opened_at": "2026-08-19T12:01:15.806Z",
+      "score": 4.5,
+      "signal_confidence": 0.7690000000000001,
+      "zero_quantity": 284.2805723825696,
+      "zero_whole_shares": 284,
+      "zero_fractional_shares": 0.2805723825695736,
       "zero_uses_fractional": true,
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     }
   ],
-  "candidates": 9,
+  "candidates": 12,
   "topCandidates": [
+    {
+      "symbol": "BAYN.DE",
+      "name": "Bayer Aktiengesellschaft",
+      "score": 5.060459075342466,
+      "confidence": 0.8019000000000001,
+      "day_change": 1.1284384807700887,
+      "news_score": -0.026712328767123285,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 67 konstruktiv · 20m +0.57%",
+      "contra": ""
+    },
     {
       "symbol": "ASELS.IS",
       "name": "Aselsan",
@@ -88,88 +143,127 @@
       "day_change": 3.0163934426229444,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 64 konstruktiv · 5m +0.26%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 58 konstruktiv · 5m +0.19%",
       "contra": ""
     },
     {
-      "symbol": "HAG.DE",
-      "name": "Hensoldt",
-      "score": 4.3,
-      "confidence": 0.7092,
-      "day_change": 0.2336951459013914,
+      "symbol": "INTRUM.ST",
+      "name": "Intrum AB (publ)",
+      "score": 4.5,
+      "confidence": 0.7690000000000001,
+      "day_change": -2.281367474441487,
       "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 64 konstruktiv · 5m +0.19%",
-      "contra": ""
+      "event_risk": "MEDIUM",
+      "pro": "Ruecksetzer -1.15% unter 20m-Hoch · Verkaufsdruck bremst deutlich +0.38%",
+      "contra": "5m noch -0.39%"
     },
     {
       "symbol": "OTKAR.IS",
       "name": "Otokar",
-      "score": 4.1000000000000005,
+      "score": 3.9,
       "confidence": 0.63,
-      "day_change": 1.4797507788161912,
+      "day_change": 1.2461059190031154,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.54%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 56 konstruktiv",
       "contra": ""
-    },
-    {
-      "symbol": "BAYN.DE",
-      "name": "Bayer Aktiengesellschaft",
-      "score": 2.166098939929329,
-      "confidence": 0.6442098939929329,
-      "day_change": 0.9642984909163932,
-      "news_score": -0.041342756183745576,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.51%",
-      "contra": "RSI 81 überhitzt"
     },
     {
       "symbol": "FCT.MI",
       "name": "Fincantieri",
-      "score": 2.1,
-      "confidence": 0.49000000000000005,
+      "score": -0.6000000000000001,
+      "confidence": 0.34,
       "day_change": 0.35657655984966397,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 50 konstruktiv",
-      "contra": "Kurs unter EMA21"
+      "pro": "RSI 55 konstruktiv",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21"
     },
     {
-      "symbol": "SIE.DE",
-      "name": "Siemens Aktiengesellschaft",
-      "score": 1.1,
-      "confidence": 0.39,
-      "day_change": 0.16316171138506252,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21",
-      "contra": "Kurs unter EMA21"
-    },
-    {
-      "symbol": "KEMPOWR.HE",
-      "name": "Kempower Oyj",
-      "score": -2.1,
-      "confidence": 0.49000000000000005,
-      "day_change": -1.0700381683468319,
+      "symbol": "ASML.AS",
+      "name": "ASML Amsterdam",
+      "score": -1.6,
+      "confidence": 0.44000000000000006,
+      "day_change": 0.4021273835776329,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
       "contra": "EMA-Trend schwach · Kurs unter EMA21"
     },
     {
-      "symbol": "AIR.PA",
-      "name": "Airbus",
-      "score": -2.4000000000000004,
-      "confidence": 0.52,
-      "day_change": 0.4528122020972303,
+      "symbol": "ENR.DE",
+      "name": "Siemens Energy AG",
+      "score": -1.6,
+      "confidence": 0.44000000000000006,
+      "day_change": 0.2981627515971308,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 10 sehr schwach"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21"
+    },
+    {
+      "symbol": "EMBRAC-B.ST",
+      "name": "Embracer Group AB (publ)",
+      "score": -2.1,
+      "confidence": 0.49000000000000005,
+      "day_change": -2.92553191489362,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21"
     }
   ],
   "recentHistory": [
+    {
+      "ts": "2026-08-19T12:01:15.806Z",
+      "action": "KAUF",
+      "symbol": "INTRUM.ST",
+      "amount": -1024.8643550000002,
+      "fee": 1,
+      "trade_pnl": null,
+      "reason": "KI BUY 77%: EARLY-DIP AUTO DEEP_DIP_STARTER: Kurs noch im Ruecksetzer (-1.15% vom 20m-Hoch), aber Fall bremst: 5m -0.39%, Beschl. +0.38 · 16% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · Order 1024.86 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 4.5
+    },
+    {
+      "ts": "2026-08-19T12:01:15.806Z",
+      "action": "VERKAUF",
+      "symbol": "KEMPOWR.HE",
+      "amount": 2974.402219023698,
+      "fee": 1,
+      "trade_pnl": -25.597780976302147,
+      "reason": "KI SELL 90%: CAPITAL-MOTION-ROTATION: BAYN.DE Erwartungswert 6.65 ist besser als KEMPOWR.HE -2.73 · Differenz 9.38 · P/L -0.69% · Kapital aktiv zum staerkeren Setup verschieben· Trade P/L netto -24.60 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": -3.3
+    },
+    {
+      "ts": "2026-08-19T11:59:23.572Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal BAYN.DE: Score 5.06, Konfidenz 81%.",
+      "score": null
+    },
+    {
+      "ts": "2026-08-19T11:58:15.141Z",
+      "action": "KAUF",
+      "symbol": "WIHL.ST",
+      "amount": -1470,
+      "fee": 1,
+      "trade_pnl": null,
+      "reason": "KI BUY 78%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.32% vom 20m-Hoch stabilisiert sich; 5m -0.06%, Beschl. +0.13 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · Order 1470.00 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 5.85
+    },
+    {
+      "ts": "2026-08-19T11:56:39.182Z",
+      "action": "KAUF",
+      "symbol": "EMBRAC-B.ST",
+      "amount": -2100,
+      "fee": 1,
+      "trade_pnl": null,
+      "reason": "KI BUY 78%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.22% vom 20m-Hoch stabilisiert sich; 5m +0.05%, Beschl. +0.19 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · Order 2100.00 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 5.85
+    },
     {
       "ts": "2026-08-19T11:07:21.279Z",
       "action": "HALTEN",
@@ -212,6 +306,38 @@
     }
   ],
   "recentAiLog": [
+    {
+      "ts": "2026-08-19T12:01:15.806Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "INTRUM.ST",
+      "message": "INTRUM.ST: KI BUY 77%: EARLY-DIP AUTO DEEP_DIP_STARTER: Kurs noch im Ruecksetzer (-1.15% vom 20m-Hoch), aber Fall bremst: 5m -0.39%, Beschl. +0.38 · 16% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer",
+      "confidence": 0.7690000000000001
+    },
+    {
+      "ts": "2026-08-19T12:01:15.806Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "KEMPOWR.HE",
+      "message": "KEMPOWR.HE: KI SELL 90%: CAPITAL-MOTION-ROTATION: BAYN.DE Erwartungswert 6.65 ist besser als KEMPOWR.HE -2.73 · Differenz 9.38 · P/L -0.69% · Kapital aktiv zum staerkeren Setup verschieben",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T11:58:15.141Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "WIHL.ST",
+      "message": "WIHL.ST: KI BUY 78%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.32% vom 20m-Hoch stabilisiert sich; 5m -0.06%, Beschl. +0.13 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer",
+      "confidence": 0.78
+    },
+    {
+      "ts": "2026-08-19T11:56:39.182Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "EMBRAC-B.ST",
+      "message": "EMBRAC-B.ST: KI BUY 78%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.22% vom 20m-Hoch stabilisiert sich; 5m +0.05%, Beschl. +0.19 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer",
+      "confidence": 0.78
+    },
     {
       "ts": "2026-08-19T11:50:34.353Z",
       "kind": "IDEA",
@@ -275,25 +401,17 @@
       "symbol": "PARAS.NS",
       "message": "PARAS.NS: Kein Trade. Bestes Signal PARAS.NS: Score 5.05, Konfidenz 63%.",
       "confidence": 0.63
-    },
-    {
-      "ts": "2026-08-19T09:04:12.975Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "OTKAR.IS",
-      "message": "OTKAR.IS: Kein Trade. Bestes Signal OTKAR.IS: Score 4.65, Konfidenz 75%.",
-      "confidence": 0.75
     }
   ],
   "sourceHealth": [
     {
       "source": "Yahoo Spark",
       "status": "OK",
-      "ok_count": 1,
+      "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 414,
-      "updated_at": "2026-08-19T11:50:31.619Z"
+      "latency_ms": 100,
+      "updated_at": "2026-08-19T12:01:15.750Z"
     },
     {
       "source": "Yahoo FX",
@@ -301,17 +419,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 137,
-      "updated_at": "2026-08-19T11:50:31.619Z"
+      "latency_ms": 106,
+      "updated_at": "2026-08-19T12:01:15.750Z"
     },
     {
       "source": "Yahoo 1m Chart",
       "status": "OK",
-      "ok_count": 9,
+      "ok_count": 11,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 97,
-      "updated_at": "2026-08-19T11:50:31.619Z"
+      "latency_ms": 238,
+      "updated_at": "2026-08-19T12:01:15.750Z"
     },
     {
       "source": "Yahoo Events",
@@ -319,17 +437,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 181,
-      "updated_at": "2026-08-19T11:50:31.619Z"
+      "latency_ms": 182,
+      "updated_at": "2026-08-19T12:01:15.750Z"
     },
     {
       "source": "Yahoo News",
       "status": "OK",
-      "ok_count": 9,
+      "ok_count": 11,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 320,
-      "updated_at": "2026-08-19T11:50:31.619Z"
+      "latency_ms": 690,
+      "updated_at": "2026-08-19T12:01:15.750Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -337,17 +455,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 911,
-      "updated_at": "2026-08-19T11:50:31.619Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1266,
-      "updated_at": "2026-08-19T11:50:31.619Z"
+      "latency_ms": 952,
+      "updated_at": "2026-08-19T12:01:15.750Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -355,8 +464,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1268,
-      "updated_at": "2026-08-19T11:50:31.619Z"
+      "latency_ms": 966,
+      "updated_at": "2026-08-19T12:01:15.750Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -364,32 +473,41 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1425,
-      "updated_at": "2026-08-19T11:50:31.619Z"
+      "latency_ms": 998,
+      "updated_at": "2026-08-19T12:01:15.750Z"
+    },
+    {
+      "source": "BörsenNews",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1223,
+      "updated_at": "2026-08-19T12:01:15.750Z"
     },
     {
       "source": "Early-Dip 1m",
-      "status": "DEGRADED",
-      "ok_count": 0,
-      "fail_count": 4,
-      "last_error": "1m-Kurs nicht frisch",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 7,
+      "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T11:50:31.619Z"
+      "updated_at": "2026-08-19T12:01:15.750Z"
     },
     {
       "source": "Second-Chance 1m",
-      "status": "OK",
+      "status": "DEGRADED",
       "ok_count": 0,
-      "fail_count": 0,
-      "last_error": "",
+      "fail_count": 1,
+      "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T11:50:31.619Z"
+      "updated_at": "2026-08-19T12:01:15.750Z"
     }
   ],
   "risk": {
-    "equity": 9987.192297813659,
-    "dailyPct": -0.1280770218634153,
-    "availableCash": 7000,
+    "equity": 6723.379869973391,
+    "dailyPct": -32.7662013002661,
+    "availableCash": 5379.537864023697,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -464,21 +582,19 @@
   "reboundScan": {
     "enabled": true,
     "target": 24,
-    "candidateCount": 24,
-    "updatedAt": "2026-08-19T11:55:19.383Z",
-    "source": "CLOUDFLARE_FALLBACK",
+    "candidateCount": 6,
+    "updatedAt": "2026-08-19T11:59:19.060Z",
+    "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
         "name": "TradingView DE Biggest Losers",
-        "found": 70,
-        "error": null,
-        "matched": 22
+        "found": 45,
+        "matched": 7
       },
       {
-        "name": "Yahoo Day Losers",
-        "found": 35,
-        "error": null,
-        "matched": 13
+        "name": "TradingView AU Biggest Losers",
+        "found": 44,
+        "matched": 6
       }
     ],
     "confirmationRequired": true,
@@ -489,21 +605,19 @@
   "earlyBreakoutScan": {
     "enabled": true,
     "target": 12,
-    "candidateCount": 12,
-    "updatedAt": "2026-08-19T11:55:20.009Z",
-    "source": "CLOUDFLARE_FALLBACK",
+    "candidateCount": 6,
+    "updatedAt": "2026-08-19T11:59:19.060Z",
+    "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
         "name": "TradingView DE Top Gainers",
-        "found": 40,
-        "error": null,
-        "matched": 9
+        "found": 45,
+        "matched": 7
       },
       {
-        "name": "Yahoo Day Gainers",
-        "found": 35,
-        "error": null,
-        "matched": 15
+        "name": "TradingView AU Top Gainers",
+        "found": 44,
+        "matched": 6
       }
     ],
     "confirmationRequired": true,
@@ -516,15 +630,15 @@
   "pcWideSweep": {
     "enabled": true,
     "target": 64,
-    "candidateCount": 0,
-    "updatedAt": "2026-08-19T11:44:49.126Z",
+    "candidateCount": 36,
+    "updatedAt": "2026-08-19T12:01:11.298Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
-    "profile": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
+    "profile": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER_2_STAGE",
     "masterCount": 8530,
     "scannedCount": 8530,
     "cycleMinutes": 1,
-    "batchCount": 171,
+    "batchCount": 291,
     "coreCount": 1800,
     "coreCycleMinutes": 1,
     "tailCount": 6730,
@@ -550,8 +664,8 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 24,
-    "candidateCount": 4,
-    "updatedAt": "2026-08-19T11:50:34.554Z",
+    "candidateCount": 6,
+    "updatedAt": "2026-08-19T12:01:16.804Z",
     "fresh": true,
     "retentionMinutes": 15,
     "recheckPerScan": 6,
@@ -658,7 +772,7 @@
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 1,
+    "activePositions": 3,
     "pendingEntries": 0,
     "completedTradeOutcomes": 40,
     "timedCheckpoints": 22,
@@ -844,7 +958,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T11:51:34.353Z",
+    "nextScanAt": "2026-08-19T12:02:15.806Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -861,16 +975,16 @@
     "pcAgentPreferred": true,
     "cloudflareFallbackIntervalMinutes": 5,
     "cloudflareFallbackOnlyWhenPcOffline": true,
-    "pcAgentOnline": false,
+    "pcAgentOnline": true,
     "pcAgentPrefetchFresh": true,
     "forwardLookingPool": true,
     "forwardPoolTarget": 15,
     "deepFinalists": 8,
     "secondChanceCapture": true,
     "reboundPoolTarget": 24,
-    "reboundPoolCandidates": 24,
+    "reboundPoolCandidates": 6,
     "earlyBreakoutPoolTarget": 12,
-    "earlyBreakoutPoolCandidates": 12,
+    "earlyBreakoutPoolCandidates": 6,
     "pcWideSweep": true,
     "pcWideSweepTarget": 64,
     "secondChanceWatch": true,
@@ -900,34 +1014,34 @@
   },
   "pcAgent": {
     "configured": true,
-    "online": false,
-    "lastSeenAt": "2026-08-19T11:44:49.126Z",
-    "ageSeconds": 705,
+    "online": true,
+    "lastSeenAt": "2026-08-19T12:01:11.298Z",
+    "ageSeconds": 21,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-19T11:44:48.032Z",
+    "prefetchAt": "2026-08-19T11:59:19.060Z",
     "resolvedLeaderCount": 6,
     "leaderHealthy": false,
     "futureCandidates": 0,
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
-    "wideSweepCandidates": 0,
+    "wideSweepCandidates": 36,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8530,
     "wideSweepScannedCount": 8530,
     "metrics": {
-      "lastSeenAt": "2026-08-19T11:44:49.126Z",
-      "version": "2.1.3-csharp-single-super-scan",
+      "lastSeenAt": "2026-08-19T12:01:11.298Z",
+      "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 12042438,
+      "storageBytes": 12185858,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0,
-      "ramMb": 82,
-      "downloadedBytes": 13605997,
-      "uploadedBytes": 0,
+      "cpuPct": 0.11,
+      "ramMb": 59.3,
+      "downloadedBytes": 138909021,
+      "uploadedBytes": 121332,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
-      "lastLocalCleanupAt": null,
+      "lastLocalCleanupAt": "2026-08-19T11:56:40.6717979Z",
       "lastError": null
     }
   }
