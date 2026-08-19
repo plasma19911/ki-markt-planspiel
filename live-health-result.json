@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T08:51:09.770164+00:00",
+  "checkedAt": "2026-08-19T08:54:09.132189+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -37,10 +37,10 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 4,
-  "lastScan": "2026-08-19T08:50:36.423Z",
+  "scanCount": 6,
+  "lastScan": "2026-08-19T08:53:19.702Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 1 BUY aus 4 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus  · DIP-FIRST: 1 teure/unbestaetigte Idee(n) gestoppt; kein Kauf – Cash wartet auf Dip.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 4 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus  · DIP-FIRST: 1 teure/unbestaetigte Idee(n) gestoppt; kein Kauf – Cash wartet auf Dip.",
   "cash": 10000,
   "equity": 10000,
   "pnl": 0,
@@ -50,14 +50,14 @@
   "candidates": 4,
   "topCandidates": [
     {
-      "symbol": "ASELS.IS",
-      "name": "ASELSAN Elektronik Sanayi ve Ticaret Anonim Sirketi",
-      "score": 5.45,
+      "symbol": "R3NK.DE",
+      "name": "RENK Group",
+      "score": 6.45,
       "confidence": 0.63,
-      "day_change": 2.9508196721311553,
+      "day_change": 2.9308807901159417,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.38% · 20m +0.64% · Momentum baut sich auf · Beschleunigung +0.19%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 64 konstruktiv · 5m +0.21% · 20m +0.70% · Momentum baut sich auf · Beschleunigung +0.08%",
       "contra": ""
     },
     {
@@ -65,22 +65,22 @@
       "name": "Safran",
       "score": 3.9,
       "confidence": 0.7308,
-      "day_change": 1.331064229104717,
+      "day_change": 1.3593865467245392,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 56 konstruktiv",
       "contra": ""
     },
     {
-      "symbol": "R3NK.DE",
-      "name": "RENK Group",
-      "score": 3.9,
-      "confidence": 0.63,
-      "day_change": 2.710813549240565,
+      "symbol": "ASELS.IS",
+      "name": "ASELSAN Elektronik Sanayi ve Ticaret Anonim Sirketi",
+      "score": 3.4,
+      "confidence": 0.62,
+      "day_change": 3.147540983606567,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 65 konstruktiv",
-      "contra": ""
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.32% · 20m +0.83%",
+      "contra": "RSI 88 überhitzt"
     },
     {
       "symbol": "OTKAR.IS",
@@ -102,7 +102,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal ASELS.IS: Score 5.45, Konfidenz 63%.",
+      "reason": "Kein Trade. Bestes Signal R3NK.DE: Score 6.45, Konfidenz 63%.",
       "score": null
     },
     {
@@ -124,8 +124,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T08:50:36.423Z"
+      "latency_ms": 377,
+      "updated_at": "2026-08-19T08:53:18.907Z"
     },
     {
       "source": "Yahoo FX",
@@ -133,8 +133,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T08:50:36.423Z"
+      "latency_ms": 125,
+      "updated_at": "2026-08-19T08:53:18.907Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -142,8 +142,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T08:50:36.423Z"
+      "latency_ms": 144,
+      "updated_at": "2026-08-19T08:53:18.907Z"
     },
     {
       "source": "Yahoo Events",
@@ -151,8 +151,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T08:50:36.423Z"
+      "latency_ms": 217,
+      "updated_at": "2026-08-19T08:53:18.907Z"
     },
     {
       "source": "Yahoo News",
@@ -160,17 +160,8 @@
       "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T08:50:36.423Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T08:50:36.423Z"
+      "latency_ms": 826,
+      "updated_at": "2026-08-19T08:53:18.907Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -178,8 +169,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T08:50:36.423Z"
+      "latency_ms": 273,
+      "updated_at": "2026-08-19T08:53:18.907Z"
     },
     {
       "source": "BörsenNews",
@@ -187,8 +178,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T08:50:36.423Z"
+      "latency_ms": 346,
+      "updated_at": "2026-08-19T08:53:18.907Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 565,
+      "updated_at": "2026-08-19T08:53:18.907Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -196,8 +196,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T08:50:36.423Z"
+      "latency_ms": 934,
+      "updated_at": "2026-08-19T08:53:18.907Z"
     }
   ],
   "risk": {
@@ -260,7 +260,7 @@
     "enabled": true,
     "target": 10,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T08:50:18.609Z",
+    "updatedAt": "2026-08-19T08:53:15.894Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -282,7 +282,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T08:50:18.609Z",
+    "updatedAt": "2026-08-19T08:53:15.894Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -307,7 +307,7 @@
     "enabled": true,
     "target": 24,
     "candidateCount": 0,
-    "updatedAt": "2026-08-19T08:51:08.635Z",
+    "updatedAt": "2026-08-19T08:54:07.742Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8530,
@@ -334,8 +334,8 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 12,
-    "candidateCount": 1,
-    "updatedAt": "2026-08-19T08:50:37.015Z",
+    "candidateCount": 2,
+    "updatedAt": "2026-08-19T08:53:19.702Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 4,
@@ -607,7 +607,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T08:51:36.423Z",
+    "nextScanAt": "2026-08-19T08:54:19.702Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -657,10 +657,10 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T08:51:08.635Z",
+    "lastSeenAt": "2026-08-19T08:54:07.742Z",
     "ageSeconds": 1,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-19T08:50:18.609Z",
+    "prefetchAt": "2026-08-19T08:53:15.894Z",
     "resolvedLeaderCount": 6,
     "leaderHealthy": false,
     "futureCandidates": 0,
@@ -671,16 +671,16 @@
     "wideSweepMasterCount": 8530,
     "wideSweepScannedCount": 656,
     "metrics": {
-      "lastSeenAt": "2026-08-19T08:51:08.635Z",
+      "lastSeenAt": "2026-08-19T08:54:07.742Z",
       "version": "2.0.13-csharp-keyless-multisou",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 8422172,
+      "storageBytes": 8473452,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 55.5,
-      "downloadedBytes": 392052464,
-      "uploadedBytes": 2114868,
+      "ramMb": 82.6,
+      "downloadedBytes": 405665825,
+      "uploadedBytes": 2166301,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_KEYLESS_MULTISOURCE_LOW_L",
       "lastLocalCleanupAt": "2026-08-19T08:49:52.7737042Z",
