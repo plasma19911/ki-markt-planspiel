@@ -81,6 +81,7 @@ jobs:
           runcheck syntax_v21 node --check src/compact-portfolio-v21-source-budget.js
           runcheck syntax_chart node --check public/position-chart-ui.js
           runcheck syntax_budget_ui node --check public/free-budget-ui.js
+          runcheck control_surface node scripts/smoke-control-surface.mjs
           runcheck adaptive_ai_cadence node scripts/smoke-adaptive-ai-cadence.mjs
           runcheck balanced_deep_selection node scripts/smoke-balanced-deep-selection.mjs
           runcheck position_scale_up node scripts/smoke-position-scale-up.mjs
