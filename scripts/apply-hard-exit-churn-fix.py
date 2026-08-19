@@ -1,6 +1,7 @@
 from pathlib import Path
 import re
 # Guarded one-shot: source files are committed only after all exit/replay/core tests pass.
+# Triggered after the diagnostic workflow was installed.
 root=Path(__file__).resolve().parents[1]
 
 def patch(path,fn):
