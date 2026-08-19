@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T05:41:59.158883+00:00",
+  "checkedAt": "2026-08-19T05:49:20.413508+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -37,14 +37,14 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 377,
-  "lastScan": "2026-08-19T05:41:15.849Z",
+  "scanCount": 383,
+  "lastScan": "2026-08-19T05:49:13.089Z",
   "lastError": null,
-  "aiLastSummary": "Deterministischer Ersatzplan · PROFIT-OPTIMIZER: bester Score -99.00, 0% fuer 0 BUY(s), 0 SELL(s); Anti-Chase + 15/30/60m-Lernen + Opportunity-Cost aktiv. · CAPITAL- · PU · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 4 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 2 aktive Gap-Lagen aus 4/12 möglichen Checks. Beste HOLD · PU · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
   "cash": 2.0620930740733456e-07,
-  "equity": 960.1765861757416,
-  "pnl": -39.82341382425841,
-  "universeCount": 172,
+  "equity": 962.3121998010544,
+  "pnl": -37.68780019894564,
+  "universeCount": 174,
   "positions": 3,
   "positionRows": [
     {
@@ -100,12 +100,12 @@
       "invested": 241.565664,
       "entry_fee": 1,
       "entry_price": 791790.9999999999,
-      "last_price": 792000,
+      "last_price": 799000,
       "entry_fx": 0.0006,
       "last_fx": 0.0006,
       "currency": "KRW",
       "opened_at": "2026-08-19T05:34:10.444Z",
-      "score": 6.05,
+      "score": 4.5,
       "signal_confidence": 0.63,
       "zero_quantity": 0.5084794350323284,
       "zero_whole_shares": 0,
@@ -114,62 +114,51 @@
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     }
   ],
-  "candidates": 5,
+  "candidates": 4,
   "topCandidates": [
     {
       "symbol": "079550.KS",
       "name": "LIG Defense&Aerospace Co., Ltd.",
-      "score": 6.05,
+      "score": 4.5,
       "confidence": 0.63,
-      "day_change": -0.37735849056603765,
+      "day_change": 0.5031446540880502,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 67 konstruktiv · 5m +0.38% · 20m +0.89% · Momentum baut sich auf · Beschleunigung +0.51%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.50% · 20m +1.14%",
       "contra": ""
+    },
+    {
+      "symbol": "012450.KS",
+      "name": "Hanwha Aerospace Co., Ltd.",
+      "score": 3.4,
+      "confidence": 0.62,
+      "day_change": 4.363001745200701,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.67% · 20m +0.59%",
+      "contra": "RSI 78 überhitzt"
+    },
+    {
+      "symbol": "ASB.AX",
+      "name": "Austal",
+      "score": 1.5,
+      "confidence": 0.5038,
+      "day_change": 1.418438814492351,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21",
+      "contra": "Kurs unter EMA21"
     },
     {
       "symbol": "3690.HK",
       "name": "Meituan",
-      "score": 4.745108800000001,
-      "confidence": 0.71388,
-      "day_change": 2.9222712469407552,
-      "news_score": 0.605,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 57 konstruktiv · 5m +0.23% · News +0.6 · 2 Ereigniscluster",
-      "contra": ""
-    },
-    {
-      "symbol": "9618.HK",
-      "name": "JD.com Hong Kong",
-      "score": 3.9,
-      "confidence": 0.63,
-      "day_change": 1.171173920502544,
+      "score": -1.4,
+      "confidence": 0.42000000000000004,
+      "day_change": 2.746933402546947,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 64 konstruktiv",
-      "contra": ""
-    },
-    {
-      "symbol": "ASB.AX",
-      "name": "Austal Limited",
-      "score": 3.9,
-      "confidence": 0.63,
-      "day_change": 1.6548508447958188,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 60 konstruktiv",
-      "contra": ""
-    },
-    {
-      "symbol": "DATAPATTNS.NS",
-      "name": "Data Patterns India",
-      "score": 3.5,
-      "confidence": 0.63,
-      "day_change": 0.24909229080469775,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 67 konstruktiv",
-      "contra": ""
+      "pro": "EMA9 über EMA21 · RSI 57 konstruktiv",
+      "contra": "Kurs unter EMA21 · 5m -0.28% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
@@ -180,7 +169,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal 079550.KS: Score 6.05, Konfidenz 63%.",
+      "reason": "Kein Trade. Bestes Signal 079550.KS: Score 4.50, Konfidenz 63%.",
       "score": null
     },
     {
@@ -296,6 +285,14 @@
   ],
   "recentAiLog": [
     {
+      "ts": "2026-08-19T05:46:09.814Z",
+      "kind": "IDEA",
+      "title": "Beobachtungskandidat",
+      "symbol": "079550.KS",
+      "message": "079550.KS: Kein Trade. Bestes Signal 079550.KS: Score 4.70, Konfidenz 63%.",
+      "confidence": 0.63
+    },
+    {
       "ts": "2026-08-19T05:40:09.676Z",
       "kind": "SYSTEM",
       "title": "ZERO-Ausführung blockiert",
@@ -382,14 +379,6 @@
       "symbol": "ESLT",
       "message": "ESLT: Kein Trade. Bestes Signal ESLT: Score 1.14, Konfidenz 52%.",
       "confidence": 0.5237004255319149
-    },
-    {
-      "ts": "2026-08-18T18:33:10.725Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "ESLT",
-      "message": "ESLT: Kein Trade. Bestes Signal ESLT: Score 4.74, Konfidenz 76%.",
-      "confidence": 0.7596
     }
   ],
   "sourceHealth": [
@@ -399,8 +388,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 377,
-      "updated_at": "2026-08-19T05:41:09.026Z"
+      "latency_ms": 493,
+      "updated_at": "2026-08-19T05:49:12.007Z"
     },
     {
       "source": "Yahoo FX",
@@ -408,17 +397,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 120,
-      "updated_at": "2026-08-19T05:41:09.026Z"
+      "latency_ms": 126,
+      "updated_at": "2026-08-19T05:49:12.007Z"
     },
     {
       "source": "Yahoo 1m Chart",
       "status": "OK",
-      "ok_count": 5,
+      "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 122,
-      "updated_at": "2026-08-19T05:41:09.026Z"
+      "latency_ms": 128,
+      "updated_at": "2026-08-19T05:49:12.007Z"
     },
     {
       "source": "Yahoo Events",
@@ -426,8 +415,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 219,
-      "updated_at": "2026-08-19T05:41:09.026Z"
+      "latency_ms": 220,
+      "updated_at": "2026-08-19T05:49:12.007Z"
     },
     {
       "source": "Yahoo News",
@@ -435,8 +424,8 @@
       "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 766,
-      "updated_at": "2026-08-19T05:41:09.026Z"
+      "latency_ms": 812,
+      "updated_at": "2026-08-19T05:49:12.007Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -444,8 +433,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 247,
-      "updated_at": "2026-08-19T05:41:09.026Z"
+      "latency_ms": 248,
+      "updated_at": "2026-08-19T05:49:12.007Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -453,8 +442,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 307,
-      "updated_at": "2026-08-19T05:41:09.026Z"
+      "latency_ms": 277,
+      "updated_at": "2026-08-19T05:49:12.007Z"
     },
     {
       "source": "BörsenNews",
@@ -462,8 +451,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 307,
-      "updated_at": "2026-08-19T05:41:09.026Z"
+      "latency_ms": 323,
+      "updated_at": "2026-08-19T05:49:12.007Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -471,13 +460,13 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 508,
-      "updated_at": "2026-08-19T05:41:09.026Z"
+      "latency_ms": 535,
+      "updated_at": "2026-08-19T05:49:12.007Z"
     }
   ],
   "risk": {
-    "equity": 960.1765861757416,
-    "dailyPct": -0.0974117352966486,
+    "equity": 962.3121998010544,
+    "dailyPct": 0.12479044269215755,
     "availableCash": 2.0620930740733456e-07,
     "hardLimits": false,
     "budgetOnly": true,
@@ -532,7 +521,7 @@
     "enabled": true,
     "target": 10,
     "candidateCount": 7,
-    "updatedAt": "2026-08-19T05:37:09.342Z",
+    "updatedAt": "2026-08-19T05:49:09.285Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -549,7 +538,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 3,
-    "updatedAt": "2026-08-19T05:37:09.342Z",
+    "updatedAt": "2026-08-19T05:49:09.285Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -568,12 +557,12 @@
   "pcWideSweep": {
     "enabled": true,
     "target": 16,
-    "candidateCount": 0,
-    "updatedAt": "2026-08-19T05:41:06.837Z",
+    "candidateCount": 2,
+    "updatedAt": "2026-08-19T05:49:09.665Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8530,
-    "scannedCount": 521,
+    "scannedCount": 520,
     "cycleMinutes": 9,
     "batchCount": 11,
     "coreCount": 1800,
@@ -596,8 +585,8 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 8,
-    "candidateCount": 4,
-    "updatedAt": "2026-08-19T05:41:15.908Z",
+    "candidateCount": 2,
+    "updatedAt": "2026-08-19T05:49:13.089Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 2,
@@ -831,14 +820,19 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T05:42:15.849Z",
+    "nextScanAt": "2026-08-19T05:50:13.089Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
     "persistentLeaderCache": true,
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
-    "lastFetchBudget": null,
+    "lastFetchBudget": {
+      "actual": 33,
+      "cacheHits": 0,
+      "blocked": 0,
+      "cap": 36
+    },
     "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Rebound-Radar beobachtet bis zu 10 Tagesverlierer; fallende Messer bleiben gesperrt, bis eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. HOT/WARM werden minuetlich priorisiert; der liquide Kern rotiert schneller und der lange Rest wird als beschleunigter Backstop vollstaendig durchlaufen. Nur die bis zu 16 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen; dadurch steigt die Abdeckung ohne mehr Deep-Checks zu erzwingen. Tages-Replay kann auf dem PC lokal laufen und spaeter synchronisiert werden; morgens werden die aktuellen News-/Forward-Signale neu geladen.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
@@ -877,30 +871,30 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T05:41:06.837Z",
-    "ageSeconds": 52,
+    "lastSeenAt": "2026-08-19T05:49:09.665Z",
+    "ageSeconds": 10,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-19T05:37:09.342Z",
+    "prefetchAt": "2026-08-19T05:49:09.285Z",
     "resolvedLeaderCount": 16,
     "leaderHealthy": true,
     "futureCandidates": 0,
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
-    "wideSweepCandidates": 0,
+    "wideSweepCandidates": 2,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8530,
-    "wideSweepScannedCount": 521,
+    "wideSweepScannedCount": 520,
     "metrics": {
-      "lastSeenAt": "2026-08-19T05:41:06.837Z",
+      "lastSeenAt": "2026-08-19T05:49:09.665Z",
       "version": "2.0.12-csharp-full-master-24mi",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 6165115,
+      "storageBytes": 6198059,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 79,
-      "downloadedBytes": 12373954,
-      "uploadedBytes": 59343,
+      "ramMb": 87.8,
+      "downloadedBytes": 17955408,
+      "uploadedBytes": 88171,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_FULL_MASTER_24MIN",
       "lastLocalCleanupAt": "2026-08-19T05:25:43.3070092Z",
