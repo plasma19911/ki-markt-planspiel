@@ -1,4 +1,4 @@
-name: Validate Replay Depot and Churn
+name: Validate Replay Depot Churn and IO
 
 on:
   workflow_dispatch:
@@ -13,9 +13,13 @@ on:
       - 'src/hard-exit-classifier.js'
       - 'src/fresh-position-churn-guard.js'
       - 'src/candle-flow-ai-guard.js'
+      - 'src/request-fetch-budget.js'
+      - 'src/yahoo-spark-repair.js'
       - 'public/quota-guard.js'
       - 'scripts/smoke-replay-depot-ui.mjs'
       - 'scripts/smoke-hard-exit-classifier.mjs'
+      - 'scripts/smoke-yahoo-null-sanity.mjs'
+      - 'scripts/smoke-yahoo-request-isolation.mjs'
       - '.github/workflows/validate-replay-depot.yml'
 
 permissions:
@@ -40,8 +44,12 @@ jobs:
           node --check src/hard-exit-classifier.js
           node --check src/fresh-position-churn-guard.js
           node --check src/candle-flow-ai-guard.js
+          node --check src/request-fetch-budget.js
+          node --check src/yahoo-spark-repair.js
           node --check public/quota-guard.js
-      - name: Replay depot and churn regressions
+      - name: Replay depot churn and IO regressions
         run: |
           node scripts/smoke-replay-depot-ui.mjs
           node scripts/smoke-hard-exit-classifier.mjs
+          node scripts/smoke-yahoo-null-sanity.mjs
+          node scripts/smoke-yahoo-request-isolation.mjs
