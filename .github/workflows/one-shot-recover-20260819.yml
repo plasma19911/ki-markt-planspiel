@@ -26,10 +26,8 @@ jobs:
           echo "$code" > /tmp/recover-code.txt
           python3 -c "import json,pathlib; code=pathlib.Path('/tmp/recover-code.txt').read_text().strip(); body=pathlib.Path('/tmp/recover-body.txt').read_text(encoding='utf-8',errors='replace') if pathlib.Path('/tmp/recover-body.txt').exists() else ''; pathlib.Path('/tmp/recovery-20260819-result.json').write_text(json.dumps({'http':code,'body':body},ensure_ascii=False,indent=2)+'\\n',encoding='utf-8')"
           cat /tmp/recovery-20260819-result.json
-      - name: Verify restore
-        run: |
-          python3 -c "import json; w=json.load(open('/tmp/recovery-20260819-result.json')); assert w.get('http')=='200',w; x=json.loads(w.get('body') or '{}'); a=x.get('after') or {}; assert x.get('ok') is True,x; assert a.get('positions')==2,a; assert abs(float(a.get('cash'))-8398.448297401768)<0.02,a; assert abs(float(a.get('equity'))-9700.8849562844)<0.10,a; print('Recovery verified',a)"
-      - name: Publish recovery proof
+      - name: Publish recovery diagnostic/proof
+        if: always()
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -39,8 +37,12 @@ jobs:
             cp /tmp/recovery-20260819-result.json recovery-20260819-result.json
             git add recovery-20260819-result.json
             if git diff --cached --quiet; then exit 0; fi
-            git commit -m 'Record successful depot recovery [skip ci]'
+            git commit -m 'Record depot recovery response [skip ci]'
             if git push origin HEAD:main; then exit 0; fi
             sleep 2
           done
           exit 1
+      - name: Verify restore
+        if: always()
+        run: |
+          python3 -c "import json; w=json.load(open('/tmp/recovery-20260819-result.json')); assert w.get('http')=='200',w; x=json.loads(w.get('body') or '{}'); a=x.get('after') or {}; assert x.get('ok') is True,x; assert a.get('positions')==2,a; assert abs(float(a.get('cash'))-8398.448297401768)<0.02,a; assert abs(float(a.get('equity'))-9700.8849562844)<0.10,a; print('Recovery verified',a)"
