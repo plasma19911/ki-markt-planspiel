@@ -1,0 +1,46 @@
+name: Validate Fast Radar
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "pc-agent/fast-wide-radar.ps1"
+      - "pc-agent/install-fast-radar.ps1"
+      - "pc-agent/FAST-RADAR-INSTALLIEREN.cmd"
+      - "src/compact-portfolio-v16.js"
+      - "src/wide-sweep-utils.js"
+      - ".github/workflows/validate-fast-radar.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-fast-radar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          package-manager-cache: false
+      - name: Worker merge syntax
+        run: |
+          node --check src/wide-sweep-utils.js
+          node --check src/compact-portfolio-v16.js
+      - name: Fast Radar PowerShell syntax
+        shell: pwsh
+        run: |
+          $failed = $false
+          foreach ($file in @('pc-agent/fast-wide-radar.ps1','pc-agent/install-fast-radar.ps1')) {
+            $tokens = $null
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($file,[ref]$tokens,[ref]$errors) | Out-Null
+            if ($errors.Count -gt 0) {
+              $failed = $true
+              Write-Host "Syntaxfehler in $file" -ForegroundColor Red
+              $errors | ForEach-Object { Write-Host $_.Message -ForegroundColor Red }
+            }
+          }
+          if ($failed) { exit 1 }
+          Write-Host 'Fast-Radar PowerShell syntax OK'
