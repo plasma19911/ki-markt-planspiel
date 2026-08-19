@@ -1,16 +1,19 @@
-// Yahoo v7 spark occasionally rejects a whole multi-symbol batch with HTTP 400 when
-// one symbol is problematic. Keep the Free-tier scanner useful by retrying only that
-// endpoint via query2 and recursively splitting the batch. The same fetch shim also
-// sanitizes Yahoo chart/spark null prices so Number(null) can never become a fake 0
-// and later create Infinity/NaN momentum. Yahoo v7 quote gets one query2 fallback so
-// event/liquidity metadata is not lost immediately on a query1 401/403/429.
-const INSTALL_KEY='__kiYahooMarketRepairInstalledV3';
-const STATS_KEY='__kiYahooMarketRepairStatsV3';
+// Central Yahoo transport resilience for the Worker.
+// - Spark: split bad batches.
+// - Quote/events: query2 then authenticated Yahoo cookie/crumb retry on 401/403.
+// - Chart: shared short cache + inflight dedupe + bounded concurrency to avoid 429 storms.
+// - All price arrays are sanitized so null can never become a fake zero.
+const INSTALL_KEY='__kiYahooMarketRepairInstalledV4';
+const STATS_KEY='__kiYahooMarketRepairStatsV4';
 const WINDOW_MS=55*1000;
-const MAX_EXTRA_REQUESTS=10;
+const MAX_EXTRA_REQUESTS=14;
 const RETRY_STATUSES=new Set([400,404,422]);
 const QUOTE_RETRY_STATUSES=new Set([401,403,429,500,502,503,504]);
 const MISSING='__KI_MISSING_PRICE__';
+const CHART_CACHE_MS=25*1000;
+const CHART_ERROR_CACHE_MS=2500;
+const CHART_MAX_PARALLEL=3;
+const YAHOO_SESSION_MS=30*60*1000;
 
 const textUrl=input=>{try{return typeof input==='string'||input instanceof URL?String(input):String(input?.url||'')}catch{return''}};
 const isYahoo=u=>u.hostname.endsWith('finance.yahoo.com');
@@ -18,6 +21,7 @@ const isSpark=u=>isYahoo(u)&&u.pathname==='/v7/finance/spark';
 const isQuote=u=>isYahoo(u)&&u.pathname==='/v7/finance/quote';
 const isChart=u=>isYahoo(u)&&u.pathname.startsWith('/v8/finance/chart/');
 const validPrice=v=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v))&&Number(v)>0;
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 
 function sanitizeResponseObject(j){
   let sanitized=0;
@@ -45,12 +49,47 @@ async function sanitizedResponse(r,extraHeaders={}){
   }catch{return r}
 }
 
+function requestHeaders(input,init){
+  const h=new Headers();
+  try{if(input instanceof Request)for(const [k,v] of input.headers)h.set(k,v)}catch{}
+  try{for(const [k,v] of new Headers(init?.headers||{}))h.set(k,v)}catch{}
+  if(!h.has('accept'))h.set('accept','application/json,text/plain,*/*');
+  if(!h.has('user-agent'))h.set('user-agent','Mozilla/5.0 (compatible; KI-Markt-Planspiel/YahooSession)');
+  return h;
+}
+function responseSnapshot(r){return r.clone().arrayBuffer().then(body=>({status:r.status,statusText:r.statusText,headers:[...r.headers.entries()],body}))}
+function responseFromSnapshot(x){return new Response(x.body.slice(0),{status:x.status,statusText:x.statusText,headers:x.headers})}
+function canonicalChartKey(u){const x=new URL(u);x.hostname='query.yahoo.local';return x.pathname+'?'+[...x.searchParams.entries()].sort((a,b)=>a[0].localeCompare(b[0])||String(a[1]).localeCompare(String(b[1]))).map(([k,v])=>`${k}=${v}`).join('&')}
+
 if(!globalThis[INSTALL_KEY]){
   globalThis[INSTALL_KEY]=true;
   const nativeFetch=globalThis.fetch.bind(globalThis);
-  const stats=globalThis[STATS_KEY]={windowStartedAt:Date.now(),extraRequests:0,initial400s:0,repairedBatches:0,recoveredRows:0,sanitizedPriceFields:0,quoteFallbackAttempts:0,quoteFallbackRecovered:0,badSymbols:[],lastRepairAt:null,lastError:null};
+  const stats=globalThis[STATS_KEY]={windowStartedAt:Date.now(),extraRequests:0,initial400s:0,repairedBatches:0,recoveredRows:0,sanitizedPriceFields:0,quoteFallbackAttempts:0,quoteFallbackRecovered:0,quoteSessionAttempts:0,quoteSessionRecovered:0,chartCacheHits:0,chartInflightHits:0,chartQueued:0,chartQuery2Recovered:0,badSymbols:[],lastRepairAt:null,lastError:null};
   const resetWindow=()=>{if(Date.now()-stats.windowStartedAt>=WINDOW_MS){stats.windowStartedAt=Date.now();stats.extraRequests=0;stats.badSymbols=[]}};
   const reserve=()=>{resetWindow();if(stats.extraRequests>=MAX_EXTRA_REQUESTS)return false;stats.extraRequests++;return true};
+  let yahooSession=null,sessionPromise=null;
+  const chartCache=new Map(),chartInflight=new Map(),chartQueue=[];let chartActive=0,lastChartStart=0;
+
+  async function ensureYahooSession(){
+    if(yahooSession&&Date.now()<yahooSession.expiresAt)return yahooSession;
+    if(sessionPromise)return sessionPromise;
+    sessionPromise=(async()=>{
+      stats.quoteSessionAttempts++;
+      try{
+        const landing=await nativeFetch('https://fc.yahoo.com/',{redirect:'manual',headers:{'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64)','accept':'text/html,*/*'}});
+        const rawCookie=landing.headers.get('set-cookie')||'';
+        const cm=rawCookie.match(/(?:^|,\s*)((?:A3S?|GUC)=[^;,\s]+)/i)||rawCookie.match(/([^=;,\s]+=[^;,\s]+)/);
+        const cookie=cm?.[1]||'';
+        const h={'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64)','accept':'text/plain,*/*'};if(cookie)h.cookie=cookie;
+        const cr=await nativeFetch('https://query1.finance.yahoo.com/v1/test/getcrumb',{headers:h});
+        const crumb=cr.ok?(await cr.text()).trim():'';
+        if(!crumb||crumb.length>200||crumb.includes('<'))throw new Error(`Crumb HTTP ${cr.status}`);
+        yahooSession={cookie,crumb,expiresAt:Date.now()+YAHOO_SESSION_MS};stats.lastError=null;return yahooSession;
+      }catch(e){stats.lastError=`Yahoo Session: ${String(e?.message||e).slice(0,140)}`;return null}
+      finally{sessionPromise=null}
+    })();
+    return sessionPromise;
+  }
 
   async function fetchPart(baseUrl,symbols,init){
     if(!symbols.length||!reserve())return[];
@@ -65,31 +104,64 @@ if(!globalThis[INSTALL_KEY]){
     return [...a,...b];
   }
 
+  async function authenticatedQuoteRetry(input,init,u){
+    if(!reserve())return null;
+    const s=await ensureYahooSession();if(!s)return null;
+    try{
+      const retryUrl=new URL(u);retryUrl.hostname='query1.finance.yahoo.com';retryUrl.searchParams.set('crumb',s.crumb);
+      const h=requestHeaders(input,init);if(s.cookie)h.set('cookie',s.cookie);
+      const retry=await nativeFetch(retryUrl,{...init,headers:h});
+      if(retry.ok){stats.quoteSessionRecovered++;stats.lastRepairAt=new Date().toISOString();stats.lastError=null;const hh=new Headers(retry.headers);hh.set('x-ki-yahoo-quote-fallback','cookie-crumb');return new Response(retry.body,{status:retry.status,statusText:retry.statusText,headers:hh})}
+      if(retry.status===401||retry.status===403)yahooSession=null;
+      stats.lastError=`Yahoo quote session HTTP ${retry.status}`;
+    }catch(e){stats.lastError=`Yahoo quote session: ${String(e?.message||e).slice(0,130)}`}
+    return null;
+  }
+
   async function quoteFallback(input,init,u){
     const first=await nativeFetch(input,init);
-    if(first.ok||!QUOTE_RETRY_STATUSES.has(first.status)||!reserve())return first;
+    if(first.ok||!QUOTE_RETRY_STATUSES.has(first.status))return first;
     stats.quoteFallbackAttempts++;
-    try{
+    let second=null;
+    if(reserve())try{
       const retryUrl=new URL(u);retryUrl.hostname='query2.finance.yahoo.com';
-      const retry=await nativeFetch(retryUrl,init);
-      if(retry.ok){stats.quoteFallbackRecovered++;stats.lastRepairAt=new Date().toISOString();stats.lastError=null;const h=new Headers(retry.headers);h.set('x-ki-yahoo-quote-fallback','query2');return new Response(retry.body,{status:retry.status,statusText:retry.statusText,headers:h})}
-      stats.lastError=`Yahoo quote fallback HTTP ${retry.status}`;
-    }catch(e){stats.lastError=`Yahoo quote fallback: ${String(e?.message||e).slice(0,130)}`}
+      second=await nativeFetch(retryUrl,init);
+      if(second.ok){stats.quoteFallbackRecovered++;stats.lastRepairAt=new Date().toISOString();stats.lastError=null;const h=new Headers(second.headers);h.set('x-ki-yahoo-quote-fallback','query2');return new Response(second.body,{status:second.status,statusText:second.statusText,headers:h})}
+    }catch(e){stats.lastError=`Yahoo quote query2: ${String(e?.message||e).slice(0,130)}`}
+    if([401,403].includes(first.status)||[401,403].includes(second?.status)){const auth=await authenticatedQuoteRetry(input,init,u);if(auth)return auth}
+    if(second&&!second.ok)stats.lastError=`Yahoo quote fallback HTTP ${second.status}`;
     return first;
+  }
+
+  function pumpChartQueue(){
+    while(chartActive<CHART_MAX_PARALLEL&&chartQueue.length){
+      const task=chartQueue.shift();chartActive++;stats.chartQueued++;
+      Promise.resolve().then(async()=>{const wait=Math.max(0,55-(Date.now()-lastChartStart));if(wait)await sleep(wait);lastChartStart=Date.now();return task.fn()}).then(task.resolve,task.reject).finally(()=>{chartActive--;pumpChartQueue()});
+    }
+  }
+  function chartGate(fn){return new Promise((resolve,reject)=>{chartQueue.push({fn,resolve,reject});pumpChartQueue()})}
+  async function chartResilient(input,init,u){
+    const key=canonicalChartKey(u),cached=chartCache.get(key),now=Date.now();
+    if(cached&&now-cached.at<(cached.ok?CHART_CACHE_MS:CHART_ERROR_CACHE_MS)){stats.chartCacheHits++;return responseFromSnapshot(cached.snap)}
+    if(chartInflight.has(key)){stats.chartInflightHits++;const snap=await chartInflight.get(key);return responseFromSnapshot(snap)}
+    const work=chartGate(async()=>{
+      let r=await nativeFetch(input,init);
+      if(!r.ok&&[429,500,502,503,504].includes(r.status)&&u.hostname==='query1.finance.yahoo.com'&&reserve()){
+        await sleep(100);const q2=new URL(u);q2.hostname='query2.finance.yahoo.com';const rr=await nativeFetch(q2,init);if(rr.ok){stats.chartQuery2Recovered++;stats.lastRepairAt=new Date().toISOString();r=rr}
+      }
+      const clean=await sanitizedResponse(r,{'x-ki-yahoo-chart-sanity':'1'}),n=Number(clean.headers?.get('x-ki-yahoo-price-sanitized')||0);if(n)stats.sanitizedPriceFields+=n;
+      const snap=await responseSnapshot(clean);chartCache.set(key,{at:Date.now(),ok:clean.ok,snap});
+      if(chartCache.size>180)for(const [k,v] of chartCache)if(Date.now()-v.at>CHART_CACHE_MS*2)chartCache.delete(k);
+      return snap;
+    });
+    chartInflight.set(key,work);try{return responseFromSnapshot(await work)}finally{chartInflight.delete(key)}
   }
 
   globalThis.fetch=async function yahooMarketRepairFetch(input,init){
     const raw=textUrl(input);let u;try{u=new URL(raw)}catch{return nativeFetch(input,init)}
     if(!isSpark(u)&&!isChart(u)&&!isQuote(u))return nativeFetch(input,init);
-
     if(isQuote(u))return quoteFallback(input,init,u);
-
-    if(isChart(u)){
-      const r=await nativeFetch(input,init);
-      const clean=await sanitizedResponse(r,{'x-ki-yahoo-chart-sanity':'1'});
-      const n=Number(clean.headers?.get('x-ki-yahoo-price-sanitized')||0);if(n)stats.sanitizedPriceFields+=n;
-      return clean;
-    }
+    if(isChart(u))return chartResilient(input,init,u);
 
     const first=await nativeFetch(input,init);
     if(first.ok){
