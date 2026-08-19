@@ -1,12 +1,11 @@
 export const AI_MODEL = '@cf/zai-org/glm-4.7-flash';
 export const SPARK_BATCH = 50;
-// Fast-Info-Profil: Die teuren 1m-Tiefenchecks laufen mit einer Parallelitaet von 6.
-// Deshalb koennen sechs statt vier Finalisten im selben Request-Wave geprueft werden.
-// News bleiben so bemessen, dass 4 Deep-News + 2 Radar-Werte ebenfalls in genau eine
-// parallele 6er-Welle passen. Mehr verwertbare Evidenz ohne eine zusaetzliche News-Welle.
-export const DEEP_LIMIT = 6;
-export const NEWS_LIMIT = 4;
-export const NEWS_RADAR_BATCH = 2;
+// Opportunity-First-Profil: mehr Werte kommen in die 1m-Tiefenpruefung.
+// Acht Finalisten sind ein bewusster Mittelweg: deutlich breiter als bisher,
+// aber noch klein genug, damit die teuren Minutenchecks nicht den ganzen Scan bremsen.
+export const DEEP_LIMIT = 8;
+export const NEWS_LIMIT = 5;
+export const NEWS_RADAR_BATCH = 3;
 
 // Das Live-Planspiel handelt ausschließlich Aktien.
 // ETFs und Hebelprodukte sind absichtlich aus dem aktiven Universum entfernt.
@@ -14,7 +13,6 @@ export const NEWS_RADAR_BATCH = 2;
 export const ZERO_ETF_MASTER = [];
 export const ZERO_ETF_MASTER_COUNT = 0;
 export const ZERO_ETF_ALWAYS_COUNT = 0;
-export const ZERO_ETF_ROTATING_PER_MINUTE = 0;
 // Die leere [].map-Form bleibt absichtlich erhalten, weil der historische
 // 2026-Generator diesen Block textuell liest. Inhaltlich entstehen 0 ETFs.
 export const CORE_ETFS = [
