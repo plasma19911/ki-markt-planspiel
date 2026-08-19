@@ -1,7 +1,8 @@
+import {withRequestLocalTask} from './request-fetch-budget.js';
 // Central Yahoo transport resilience for the Worker.
 // - Spark: split bad batches.
 // - Quote/events: query2 then authenticated Yahoo cookie/crumb retry on 401/403.
-// - Chart: shared short cache + inflight dedupe + bounded concurrency to avoid 429 storms.
+// - Chart: shared completed-byte cache + request-local inflight dedupe/concurrency to avoid 429 storms.
 // - All price arrays are sanitized so null can never become a fake zero.
 const INSTALL_KEY='__kiYahooMarketRepairInstalledV4';
 const STATS_KEY='__kiYahooMarketRepairStatsV4';
@@ -64,16 +65,16 @@ function canonicalChartKey(u){const x=new URL(u);x.hostname='query.yahoo.local';
 if(!globalThis[INSTALL_KEY]){
   globalThis[INSTALL_KEY]=true;
   const nativeFetch=globalThis.fetch.bind(globalThis);
-  const stats=globalThis[STATS_KEY]={windowStartedAt:Date.now(),extraRequests:0,initial400s:0,repairedBatches:0,recoveredRows:0,sanitizedPriceFields:0,quoteFallbackAttempts:0,quoteFallbackRecovered:0,quoteSessionAttempts:0,quoteSessionRecovered:0,chartCacheHits:0,chartInflightHits:0,chartQueued:0,chartQuery2Recovered:0,badSymbols:[],lastRepairAt:null,lastError:null};
+  const stats=globalThis[STATS_KEY]={windowStartedAt:Date.now(),extraRequests:0,initial400s:0,repairedBatches:0,recoveredRows:0,sanitizedPriceFields:0,quoteFallbackAttempts:0,quoteFallbackRecovered:0,quoteSessionAttempts:0,quoteSessionRecovered:0,chartCacheHits:0,chartInflightHits:0,chartQueued:0,chartQuery2Recovered:0,crossRequestPromiseSharing:false,requestLocalChartTasks:true,badSymbols:[],lastRepairAt:null,lastError:null};
   const resetWindow=()=>{if(Date.now()-stats.windowStartedAt>=WINDOW_MS){stats.windowStartedAt=Date.now();stats.extraRequests=0;stats.badSymbols=[]}};
   const reserve=()=>{resetWindow();if(stats.extraRequests>=MAX_EXTRA_REQUESTS)return false;stats.extraRequests++;return true};
-  let yahooSession=null,sessionPromise=null;
-  const chartCache=new Map(),chartInflight=new Map(),chartQueue=[];let chartActive=0,lastChartStart=0;
+  let yahooSession=null;
+  const chartCache=new Map();
 
   async function ensureYahooSession(){
     if(yahooSession&&Date.now()<yahooSession.expiresAt)return yahooSession;
-    if(sessionPromise)return sessionPromise;
-    sessionPromise=(async()=>{
+    return withRequestLocalTask('session',async()=>{
+      if(yahooSession&&Date.now()<yahooSession.expiresAt)return yahooSession;
       stats.quoteSessionAttempts++;
       try{
         const landing=await nativeFetch('https://fc.yahoo.com/',{redirect:'manual',headers:{'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64)','accept':'text/html,*/*'}});
@@ -86,9 +87,7 @@ if(!globalThis[INSTALL_KEY]){
         if(!crumb||crumb.length>200||crumb.includes('<'))throw new Error(`Crumb HTTP ${cr.status}`);
         yahooSession={cookie,crumb,expiresAt:Date.now()+YAHOO_SESSION_MS};stats.lastError=null;return yahooSession;
       }catch(e){stats.lastError=`Yahoo Session: ${String(e?.message||e).slice(0,140)}`;return null}
-      finally{sessionPromise=null}
-    })();
-    return sessionPromise;
+    },{group:'yahoo-session',maxParallel:1,dedupe:true});
   }
 
   async function fetchPart(baseUrl,symbols,init){
@@ -133,28 +132,22 @@ if(!globalThis[INSTALL_KEY]){
     return first;
   }
 
-  function pumpChartQueue(){
-    while(chartActive<CHART_MAX_PARALLEL&&chartQueue.length){
-      const task=chartQueue.shift();chartActive++;stats.chartQueued++;
-      Promise.resolve().then(async()=>{const wait=Math.max(0,55-(Date.now()-lastChartStart));if(wait)await sleep(wait);lastChartStart=Date.now();return task.fn()}).then(task.resolve,task.reject).finally(()=>{chartActive--;pumpChartQueue()});
-    }
-  }
-  function chartGate(fn){return new Promise((resolve,reject)=>{chartQueue.push({fn,resolve,reject});pumpChartQueue()})}
   async function chartResilient(input,init,u){
     const key=canonicalChartKey(u),cached=chartCache.get(key),now=Date.now();
     if(cached&&now-cached.at<(cached.ok?CHART_CACHE_MS:CHART_ERROR_CACHE_MS)){stats.chartCacheHits++;return responseFromSnapshot(cached.snap)}
-    if(chartInflight.has(key)){stats.chartInflightHits++;const snap=await chartInflight.get(key);return responseFromSnapshot(snap)}
-    const work=chartGate(async()=>{
+    const snap=await withRequestLocalTask(key,async()=>{
+      const again=chartCache.get(key),t=Date.now();
+      if(again&&t-again.at<(again.ok?CHART_CACHE_MS:CHART_ERROR_CACHE_MS)){stats.chartCacheHits++;return again.snap}
       let r=await nativeFetch(input,init);
       if(!r.ok&&[429,500,502,503,504].includes(r.status)&&u.hostname==='query1.finance.yahoo.com'&&reserve()){
         await sleep(100);const q2=new URL(u);q2.hostname='query2.finance.yahoo.com';const rr=await nativeFetch(q2,init);if(rr.ok){stats.chartQuery2Recovered++;stats.lastRepairAt=new Date().toISOString();r=rr}
       }
       const clean=await sanitizedResponse(r,{'x-ki-yahoo-chart-sanity':'1'}),n=Number(clean.headers?.get('x-ki-yahoo-price-sanitized')||0);if(n)stats.sanitizedPriceFields+=n;
-      const snap=await responseSnapshot(clean);chartCache.set(key,{at:Date.now(),ok:clean.ok,snap});
+      const out=await responseSnapshot(clean);chartCache.set(key,{at:Date.now(),ok:clean.ok,snap:out});
       if(chartCache.size>180)for(const [k,v] of chartCache)if(Date.now()-v.at>CHART_CACHE_MS*2)chartCache.delete(k);
-      return snap;
-    });
-    chartInflight.set(key,work);try{return responseFromSnapshot(await work)}finally{chartInflight.delete(key)}
+      return out;
+    },{group:'yahoo-chart',maxParallel:CHART_MAX_PARALLEL,minStartGapMs:55,dedupe:true});
+    return responseFromSnapshot(snap)
   }
 
   globalThis.fetch=async function yahooMarketRepairFetch(input,init){
