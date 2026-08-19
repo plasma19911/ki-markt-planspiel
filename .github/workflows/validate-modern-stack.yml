@@ -7,13 +7,12 @@ on:
     paths-ignore:
       - validation-result.json
       - live-health-result.json
-      - tranche-integration-result.json
 
 permissions:
   contents: write
 
 jobs:
-  integrate-tranche-scale-up:
+  validate-modern-stack:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -23,78 +22,151 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Apply candidate patch
-        id: patch
-        continue-on-error: true
-        run: python3 scripts/apply-tranche-scale-up.py > /tmp/patch.log 2>&1
+
       - name: Install dependencies
         id: install
         continue-on-error: true
         run: npm install > /tmp/install.log 2>&1
-      - name: Run tranche validation suite
+
+      - name: Run modern validation suite
         if: always()
         run: |
           set +e
           : > /tmp/results.tsv
-          runcheck(){ name="$1"; shift; "$@" > "/tmp/${name}.log" 2>&1; rc=$?; printf '%s\t%s\n' "$name" "$rc" >> /tmp/results.tsv; }
-          runcheck syntax_scale node --check src/position-scale-up.js
-          runcheck syntax_profit_v2 node --check src/profit-optimizer-v2.js
+          runcheck() {
+            name="$1"; shift
+            "$@" > "/tmp/${name}.log" 2>&1
+            rc=$?
+            printf '%s\t%s\n' "$name" "$rc" >> /tmp/results.tsv
+            return 0
+          }
+          runcheck syntax_index node --check src/index.js
+          runcheck syntax_index_v18 node --check src/index-v18.js
+          runcheck syntax_constants node --check src/constants.js
+          runcheck syntax_market node --check src/market-v3.js
+          runcheck syntax_market_base node --check src/market-v3-base.js
+          runcheck syntax_deep_selection node --check src/deep-candidate-selection.js
+          runcheck syntax_adaptive_ai node --check src/adaptive-ai-cadence.js
+          runcheck syntax_position_scale node --check src/position-scale-up.js
+          runcheck syntax_v5 node --check src/compact-portfolio-v5.js
           runcheck syntax_r2 node --check src/r2-portfolio.js
-          runcheck syntax_zero node --check src/zero-accounting.js
-          runcheck scale_helper node scripts/smoke-position-scale-up.mjs
+          runcheck syntax_zero_accounting node --check src/zero-accounting.js
+          runcheck syntax_second_runtime node --check src/second-chance-runtime.js
+          runcheck syntax_decision node --check src/decision-guard.js
+          runcheck syntax_legacy node --check src/legacy-cash-neutralizer.js
+          runcheck syntax_yahoo node --check src/yahoo-spark-repair.js
+          runcheck syntax_profit node --check src/profit-optimizer.js
+          runcheck syntax_profit_v2 node --check src/profit-optimizer-v2.js
+          runcheck syntax_pullback node --check src/pullback-first-ai-guard.js
+          runcheck syntax_research_entry node --check src/research-entry-quality-guard.js
+          runcheck syntax_day_replay node --check src/day-replay-learning.js
+          runcheck syntax_rotation_replay node --check src/rotation-replay-adjustment.js
+          runcheck syntax_rotation_cost node --check src/rotation-cost-guard.js
+          runcheck syntax_wide_sweep node --check src/wide-sweep-utils.js
+          runcheck syntax_learning node --check src/live-signal-learning.js
+          runcheck syntax_learning_reconcile node --check src/live-learning-execution-reconcile.js
+          runcheck syntax_rebound node --check src/rebound-ai-guard.js
+          runcheck syntax_early_breakout node --check src/early-breakout-ai-guard.js
+          runcheck syntax_target_venue node --check src/target-venue-ai-guard.js
+          runcheck syntax_v10 node --check src/compact-portfolio-v10.js
+          runcheck syntax_v11base node --check src/compact-portfolio-v11-base.js
+          runcheck syntax_v11 node --check src/compact-portfolio-v11.js
+          runcheck syntax_v12 node --check src/compact-portfolio-v12.js
+          runcheck syntax_v13 node --check src/compact-portfolio-v13.js
+          runcheck syntax_v14 node --check src/compact-portfolio-v14.js
+          runcheck syntax_v15 node --check src/compact-portfolio-v15.js
+          runcheck syntax_v16 node --check src/compact-portfolio-v16.js
+          runcheck syntax_v17 node --check src/compact-portfolio-v17.js
+          runcheck syntax_v18 node --check src/compact-portfolio-v18.js
+          runcheck syntax_v21 node --check src/compact-portfolio-v21-source-budget.js
+          runcheck syntax_chart node --check public/position-chart-ui.js
+          runcheck syntax_budget_ui node --check public/free-budget-ui.js
+          runcheck adaptive_ai_cadence node scripts/smoke-adaptive-ai-cadence.mjs
+          runcheck balanced_deep_selection node scripts/smoke-balanced-deep-selection.mjs
+          runcheck position_scale_up node scripts/smoke-position-scale-up.mjs
           runcheck zero_accounting node scripts/smoke-zero-accounting.mjs
-          runcheck opportunity_cost node scripts/smoke-opportunity-cost-rotation.mjs
-          runcheck capital_motion node scripts/smoke-capital-in-motion.mjs
-          runcheck core_paths node scripts/smoke-core-trade-paths.mjs
           runcheck cash_aware node scripts/smoke-best-validated-buy.mjs
-          runcheck adaptive_ai node scripts/smoke-adaptive-ai-cadence.mjs
-          runcheck balanced_deep node scripts/smoke-balanced-deep-selection.mjs
-          runcheck trade_day node scripts/smoke-trade-day-lessons.mjs
+          runcheck legacy_cash node scripts/smoke-legacy-cash-neutralizer.mjs
+          runcheck rebound_guard node scripts/smoke-rebound-guard.mjs
+          runcheck early_breakout_guard node scripts/smoke-early-breakout-guard.mjs
+          runcheck research_entry node scripts/smoke-research-entry-quality.mjs
+          runcheck target_venue_guard node scripts/smoke-target-venue-guard.mjs
+          runcheck entry_learning node scripts/smoke-entry-timing-learning.mjs
+          runcheck learning_execution_reconcile node scripts/smoke-learning-execution-reconcile.mjs
+          runcheck opportunity_cost node scripts/smoke-opportunity-cost-rotation.mjs
+          runcheck second_chance node scripts/smoke-second-chance.mjs
+          runcheck second_chance_watch node scripts/smoke-second-chance-watch.mjs
+          runcheck capital_in_motion node scripts/smoke-capital-in-motion.mjs
+          runcheck rotation_cost node scripts/smoke-rotation-cost-guard.mjs
+          runcheck pc_wide_sweep node scripts/smoke-pc-wide-sweep.mjs
+          runcheck yahoo_sanity node scripts/smoke-yahoo-null-sanity.mjs
+          runcheck core_trade_paths node scripts/smoke-core-trade-paths.mjs
+          runcheck trade_day_lessons node scripts/smoke-trade-day-lessons.mjs
           runcheck free_tier node scripts/smoke-free-tier-24h.mjs
-          runcheck wrangler npx wrangler deploy --dry-run
-      - name: Build diagnostic report
+          runcheck wrangler_dryrun npx wrangler deploy --dry-run
+
+      - name: Build validation report
         if: always()
         run: |
           python3 - <<'PY'
           import json, pathlib, datetime, os
-          checks={}
-          p=pathlib.Path('/tmp/results.tsv')
-          if p.exists():
-            for line in p.read_text().splitlines():
+          result={}
+          tsv=pathlib.Path('/tmp/results.tsv')
+          if tsv.exists():
+            for line in tsv.read_text().splitlines():
               if not line.strip(): continue
-              name,rc=line.split('\t',1); lp=pathlib.Path('/tmp')/(name+'.log'); text=lp.read_text(errors='replace') if lp.exists() else ''
-              checks[name]={'ok':rc=='0','exitCode':int(rc),'tail':text[-3500:]}
-          patch=pathlib.Path('/tmp/patch.log').read_text(errors='replace') if pathlib.Path('/tmp/patch.log').exists() else ''
-          install=pathlib.Path('/tmp/install.log').read_text(errors='replace') if pathlib.Path('/tmp/install.log').exists() else ''
-          failed=[k for k,v in checks.items() if not v['ok']]
-          patch_ok=os.environ.get('PATCH_OUTCOME')=='success'; install_ok=os.environ.get('INSTALL_OUTCOME')=='success'
-          out={'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'commit':os.environ.get('GITHUB_SHA'),'patch':{'ok':patch_ok,'tail':patch[-3500:]},'install':{'ok':install_ok,'tail':install[-3500:]},'checks':checks,'failedChecks':failed,'allPassed':patch_ok and install_ok and not failed}
-          pathlib.Path('/tmp/tranche-integration-result.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n')
-          print(json.dumps(out,ensure_ascii=False,indent=2))
+              name,rc=line.split('\t',1)
+              p=pathlib.Path('/tmp')/(name+'.log')
+              log=p.read_text(encoding='utf-8',errors='replace') if p.exists() else ''
+              result[name]={'ok':rc=='0','exitCode':int(rc),'tail':log[-2500:]}
+          install_log=pathlib.Path('/tmp/install.log')
+          install_text=install_log.read_text(encoding='utf-8',errors='replace') if install_log.exists() else ''
+          install_ok=os.environ.get('INSTALL_OUTCOME','')=='success'
+          failed=[k for k,v in result.items() if not v['ok']]
+          out={
+            'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            'commit':os.environ.get('GITHUB_SHA'),
+            'install':{'ok':install_ok,'tail':install_text[-2500:]},
+            'checks':result,
+            'failedChecks':failed,
+            'allCodeAndRegressionChecksPassed':install_ok and not failed,
+            'note':'Validation-only workflow. It never rewrites trading source code.'
+          }
+          raw=json.dumps(out,ensure_ascii=False,indent=2)+'\n'
+          pathlib.Path('/tmp/validation-result.json').write_text(raw,encoding='utf-8')
+          print(raw)
           PY
         env:
-          PATCH_OUTCOME: ${{ steps.patch.outcome }}
           INSTALL_OUTCOME: ${{ steps.install.outcome }}
-      - name: Publish diagnostic and source only when green
+
+      - name: Publish validation report only
         if: always()
         run: |
-          PASS=$(python3 -c "import json; print('1' if json.load(open('/tmp/tranche-integration-result.json'))['allPassed'] else '0')")
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           for attempt in 1 2 3 4; do
             git fetch origin main
             git reset --hard origin/main
-            cp /tmp/tranche-integration-result.json tranche-integration-result.json
-            git add tranche-integration-result.json
-            if [ "$PASS" = "1" ]; then
-              python3 scripts/apply-tranche-scale-up.py
-              git add src/r2-portfolio.js src/zero-accounting.js
-              MSG='Enable tranche-safe confirmed position scale-ups [skip ci]'
-            else
-              MSG='Update tranche scale-up diagnostics [skip ci]'
+            cp /tmp/validation-result.json validation-result.json
+            git add validation-result.json
+            if git diff --cached --quiet; then
+              echo 'Validation result unchanged'
+              exit 0
             fi
-            git commit -m "$MSG" || exit 0
+            git commit -m 'Update validation result [skip ci]'
             if git push origin HEAD:main; then exit 0; fi
             sleep 3
           done
           exit 1
+
+      - name: Enforce syntax and regression checks
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/validation-result.json',encoding='utf-8'))
+          critical=[k for k,v in (x.get('checks') or {}).items() if not v.get('ok')]
+          if not x.get('install',{}).get('ok'): critical.insert(0,'npm_install')
+          if critical: raise SystemExit('Critical validation failed: '+', '.join(critical))
+          print('All code/regression checks passed')
+          PY
