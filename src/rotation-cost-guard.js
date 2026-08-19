@@ -14,19 +14,20 @@ function rotationSell(a={}){return /(?:CAPITAL-MOTION-ROTATION|OPPORTUNITY-COST-
 function heldPnlPct(h={}){for(const v of [h?.pnlPct,h?.pnl_pct,h?.pnl])if(Number.isFinite(Number(v)))return Number(v);return 0}
 
 export function rotationCostDecision({held={},action={},storage=null}={}){
- const replay=getReplayRotationAdjustment(storage),notional=Math.max(0,num(held?.invested,held?.amount)),gap=reasonGap(action?.reason),smallPenalty=notional>0&&notional<250?.55:notional>0&&notional<500?.35:.10,pnl=heldPnlPct(held),hard=hardExit(held,action);
+ const replay=getReplayRotationAdjustment(storage),notional=Math.max(0,num(held?.invested,held?.amount)),gap=reasonGap(action?.reason),smallPenalty=notional>0&&notional<250?.55:notional>0&&notional<500?.35:.10,pnl=heldPnlPct(held),hard=hardExit(held,action),ageMinutes=Math.max(0,num(held?.ageMinutes,held?.age_minutes)),minAgeMinutes=10+num(replay.minAgeBonusMinutes);
  const estimatedRoundTripCostPct=notional>0?2/notional*100+.20:.45,costGapPenalty=Math.min(.35,estimatedRoundTripCostPct*.16),minGap=.80+smallPenalty+num(replay.gapBonus)+costGapPenalty;
  const exceptionalEdge=gap!=null&&gap>=Math.max(2.20,minGap+.45);
- // Kernregel: Ein Minus-Trade wird NICHT geschlossen, nur weil irgendwo anders
- // gerade ein hoeherer Score auftaucht. Damit verschwindet das Buy->2-Minuten->Loss-
- // Rotation-Churning. Ein echter Verlustexit muss aus dem Risiko/Verkaeufer-Signal
- // DER GEHALTENEN AKTIE selbst kommen (Hard Risk, Reversal, STRONG SELL etc.).
- const lossRotationBlocked=pnl<=0&&!hard;
- // Auch bei Gewinn soll Rotation wirtschaftlich Sinn ergeben: erst wenn der
- // Qualitaetsvorteil die Kosten/Hysterese rechtfertigt. Das ist keine Take-Profit-%.
+ // Negative Trades werden nicht nur deshalb geschlossen, weil anderswo gerade
+ // ein hoeherer Score auftaucht. Exakt neutral (0%) ist aber kein Verlust und darf
+ // nach Hysterese/Kostenpruefung rotieren.
+ const lossRotationBlocked=pnl<0&&!hard;
+ // Zehn Minuten Basis-Hysterese verhindern Buy->kurz danach->Rotation-Churning.
+ // Der Tages-Replay darf diese Wartezeit moderat erhoehen. Harte Risikoexits
+ // umgehen die Hysterese immer sofort.
+ const ageReady=ageMinutes>=minAgeMinutes;
  const economicEdge=gap==null||gap>=minGap||exceptionalEdge;
- const allow=hard||(!lossRotationBlocked&&economicEdge);
- return{allow,ageRule:false,gap,minGap:+minGap.toFixed(2),notional:+notional.toFixed(2),estimatedRoundTripCostPct:+estimatedRoundTripCostPct.toFixed(2),pnlPct:+pnl.toFixed(2),hardExit:hard,exceptionalEdge,lossRotationBlocked,replay,reason:hard?'harter Risikoexit der gehaltenen Aktie – sofort erlaubt':lossRotationBlocked?'LOSS-ROTATION BLOCK: Position ist im Minus; kein Verkauf nur zum Hinterherwechseln in einen anderen Kandidaten. Erst echte Thesis-/Verkaeufer-/Risiko-Invaliderung der gehaltenen Aktie darf einen Verlust realisieren.':allow?'Gewinn-/neutrale Rotation wirtschaftlich interessant; finale SELL-Freigabe nur durch aktuelle Verkaeuferstruktur':`Rotation wegen Kosten/zu kleinem Qualitaetsvorteil gebremst: Score-Abstand ${gap==null?'–':gap.toFixed(2)} < ${minGap.toFixed(2)}. Keine Minutenregel.`}
+ const allow=hard||(!lossRotationBlocked&&ageReady&&economicEdge);
+ return{allow,ageRule:true,ageMinutes:+ageMinutes.toFixed(2),minAgeMinutes:+minAgeMinutes.toFixed(2),gap,minGap:+minGap.toFixed(2),notional:+notional.toFixed(2),estimatedRoundTripCostPct:+estimatedRoundTripCostPct.toFixed(2),pnlPct:+pnl.toFixed(2),hardExit:hard,exceptionalEdge,lossRotationBlocked,replay,reason:hard?'harter Risikoexit der gehaltenen Aktie – sofort erlaubt':lossRotationBlocked?'LOSS-ROTATION BLOCK: Position ist im Minus; kein Verkauf nur zum Hinterherwechseln in einen anderen Kandidaten. Erst echte Thesis-/Verkaeufer-/Risiko-Invaliderung der gehaltenen Aktie darf einen Verlust realisieren.':!ageReady?`ROTATION-HYSTERESE: Position erst ${ageMinutes.toFixed(1)} Min. gehalten; normale Rotation ab ${minAgeMinutes.toFixed(1)} Min. Hard-Exit bleibt sofort moeglich.`:allow?'Gewinn-/neutrale Rotation nach Hysterese wirtschaftlich interessant; finale SELL-Freigabe nur durch aktuelle Verkaeuferstruktur':`Rotation wegen Kosten/zu kleinem Qualitaetsvorteil gebremst: Score-Abstand ${gap==null?'–':gap.toFixed(2)} < ${minGap.toFixed(2)}.`}
 }
 
 function postProcess(r,input,storage){
@@ -40,7 +41,7 @@ function postProcess(r,input,storage){
   actions.push(a)
  }
  if(cancelled.length&&cash<=2)actions=actions.filter(a=>String(a?.action||'').toUpperCase()!=='BUY'||!/CAPITAL-IN-MOTION/i.test(String(a?.reason||'')));
- if(cancelled.length)plan.summary=`${String(plan.summary||'').slice(0,155)} · ROTATION V2: ${cancelled.length} Rotation(en) gestoppt; ${cancelled[0].decision.reason}`;
+ if(cancelled.length)plan.summary=`${String(plan.summary||'').slice(0,155)} · ROTATION V3: ${cancelled.length} Rotation(en) gestoppt; ${cancelled[0].decision.reason}`;
  plan.actions=actions;return{...r,response:JSON.stringify(plan)}
 }
 
