@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T20:35:28.591391+00:00",
+  "checkedAt": "2026-08-19T20:35:40.704129+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -10,7 +10,7 @@
     "homepage": true,
     "apiStatus": true,
     "agentEndpoint": true,
-    "pcSuperscannerOnline": true,
+    "pcSuperscannerOnline": false,
     "scannerUiAsset": true,
     "candleFlowV21": true,
     "noMinuteSellRule": true,
@@ -25,8 +25,10 @@
     "targetVenueSanity": true,
     "entryTimingLearning": true
   },
-  "allRequiredChecksPassed": true,
-  "failedChecks": [],
+  "allRequiredChecksPassed": false,
+  "failedChecks": [
+    "pcSuperscannerOnline"
+  ],
   "running": 1,
   "scanCount": 1,
   "lastScan": "2026-08-19T20:32:55.768Z",
@@ -476,9 +478,9 @@
   },
   "pcAgent": {
     "configured": true,
-    "online": true,
+    "online": false,
     "lastSeenAt": "2026-08-19T20:33:04.956Z",
-    "ageSeconds": 143,
+    "ageSeconds": 156,
     "metrics": {
       "lastSeenAt": "2026-08-19T20:33:04.956Z",
       "version": "2.1.5-csharp-single-super-scan",
