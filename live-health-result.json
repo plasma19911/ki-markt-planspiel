@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T19:32:36.889790+00:00",
+  "checkedAt": "2026-08-19T19:33:43.311027+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,16 +28,16 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 356,
-  "lastScan": "2026-08-19T19:31:23.205Z",
+  "scanCount": 357,
+  "lastScan": "2026-08-19T19:33:14.566Z",
   "lastError": null,
-  "aiLastSummary": "KI-Free-Limit/Fehler: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers. · Multi-T · TAGES-REVIEW V2: BHC.TO BUY gestoppt.",
+  "aiLastSummary": "KI-Wartefenster 3m; Fast-Decision: 0 SELL / 0 BUY aus 8 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen · EARLY-DIP: 0 unge · SELECTIVE-CAPITAL: BHC.TO FX fehlt. Cash ist erlaubt; BUY/SELL final per Candle-Flow.",
   "cash": 8412.067513123307,
   "equity": 9714.50417200594,
   "pnl": -285.49582799406016,
   "marketValue": 1302.4366588826322,
   "accountingDelta": 0.0,
-  "universeCount": 232,
+  "universeCount": 237,
   "positions": 2,
   "positionRows": [
     {
@@ -105,7 +105,7 @@
       "symbol": "QH",
       "name": "Quhuo Limited",
       "score": 6.45,
-      "confidence": 0.69,
+      "confidence": 0.7152000000000001,
       "day_change": 1.363637230613013,
       "news_score": 0,
       "event_risk": "NONE",
@@ -113,80 +113,80 @@
       "contra": ""
     },
     {
-      "symbol": "BHC.TO",
-      "name": "Bausch Health Companies Inc.",
-      "score": 5.85,
-      "confidence": 0.78,
-      "day_change": -1.9170968643741904,
-      "news_score": 0,
-      "event_risk": "MEDIUM",
-      "pro": "Ruecksetzer -0.47% unter 20m-Hoch · Verkaufsdruck bremst deutlich +0.37% · 5m stabilisiert -0.05% · RSI 41 nicht ueberhitzt",
-      "contra": ""
-    },
-    {
-      "symbol": "AMZN",
-      "name": "Amazon.com, Inc.",
-      "score": 4.0069735714285715,
-      "confidence": 0.7695,
-      "day_change": 2.5920168791554232,
-      "news_score": 0.04742857142857141,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.61% · 20m +0.68% · Momentum baut sich auf · Beschleunigung +0.64%",
-      "contra": "RSI 86 überhitzt"
-    },
-    {
-      "symbol": "PSN",
-      "name": "Parsons",
-      "score": 3.6999999999999997,
-      "confidence": 0.63,
-      "day_change": 1.5931079154122285,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.36%",
-      "contra": ""
-    },
-    {
-      "symbol": "NTES",
-      "name": "NetEase ADR",
-      "score": 3.6,
-      "confidence": 0.7371,
-      "day_change": 1.5791592951527988,
-      "news_score": 0,
-      "event_risk": "HIGH",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv · 5m +0.44%",
-      "contra": "Quartalszahlen in ca. 16.5h · Nasdaq Earnings Calendar"
-    },
-    {
       "symbol": "MRNA",
       "name": "Moderna, Inc.",
-      "score": 2.909012537764351,
-      "confidence": 0.7140012537764351,
-      "day_change": 154.3996158973083,
-      "news_score": 0.042416918429003005,
+      "score": 5.501576605504587,
+      "confidence": 0.7695,
+      "day_change": 159.02955323041166,
+      "news_score": 0.042935779816513746,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +2.65%",
-      "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +3.07% · 20m +4.98% · Momentum baut sich auf · Beschleunigung +3.10%",
+      "contra": ""
     },
     {
-      "symbol": "BWXT",
-      "name": "BWX Technologies",
-      "score": 0.10000000000000009,
-      "confidence": 0.29000000000000004,
-      "day_change": -2.0180639501961917,
+      "symbol": "BHC.TO",
+      "name": "Bausch Health Companies Inc.",
+      "score": 5.3999999999999995,
+      "confidence": 0.78,
+      "day_change": -2.1243554940495457,
+      "news_score": 0,
+      "event_risk": "MEDIUM",
+      "pro": "Ruecksetzer -0.68% unter 20m-Hoch · Verkaufsdruck bremst deutlich +0.47% · 5m stabilisiert -0.05%",
+      "contra": ""
+    },
+    {
+      "symbol": "APP",
+      "name": "AppLovin",
+      "score": 3.9493143135135136,
+      "confidence": 0.75276,
+      "day_change": 1.9104357491416035,
+      "news_score": -0.0016216216216216218,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.69% · 20m +0.94% · Momentum baut sich auf · Beschleunigung +0.43%",
+      "contra": "RSI 81 überhitzt"
+    },
+    {
+      "symbol": "PH",
+      "name": "Parker-Hannifin Corporation",
+      "score": 3,
+      "confidence": 0.5800000000000001,
+      "day_change": -2.004130085604927,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "Kurs über EMA21 · 5m +0.22%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 62 konstruktiv",
+      "contra": ""
+    },
+    {
+      "symbol": "SOUN",
+      "name": "SoundHound AI",
+      "score": 2,
+      "confidence": 0.48000000000000004,
+      "day_change": 2.2460634616311426,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "Kurs über EMA21 · RSI 48 konstruktiv · 5m +0.59%",
       "contra": "EMA-Trend schwach"
     },
     {
-      "symbol": "LMT",
-      "name": "Lockheed Martin",
-      "score": -1.1,
-      "confidence": 0.39,
-      "day_change": -2.264587351076508,
+      "symbol": "COIN",
+      "name": "Coinbase Global, Inc.",
+      "score": 0.8354214743589745,
+      "confidence": 0.5030421474358975,
+      "day_change": 8.53067546897439,
+      "news_score": 0.029487179487179487,
+      "event_risk": "NONE",
+      "pro": "Kurs über EMA21 · RSI 49 konstruktiv · 5m +0.36%",
+      "contra": "EMA-Trend schwach · 20m -0.86%"
+    },
+    {
+      "symbol": "SRE",
+      "name": "Sempra",
+      "score": -2.1,
+      "confidence": 0.49000000000000005,
+      "day_change": -1.881164354751852,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "RSI 53 konstruktiv",
+      "pro": "",
       "contra": "EMA-Trend schwach · Kurs unter EMA21"
     }
   ],
@@ -198,7 +198,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal QH: Score 6.45, Konfidenz 69%.",
+      "reason": "Kein Trade. Bestes Signal QH: Score 6.45, Konfidenz 72%.",
       "score": null
     },
     {
@@ -876,19 +876,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T19:32:11.513Z",
-    "ageSeconds": 25,
+    "lastSeenAt": "2026-08-19T19:33:10.384Z",
+    "ageSeconds": 33,
     "metrics": {
-      "lastSeenAt": "2026-08-19T19:32:11.513Z",
+      "lastSeenAt": "2026-08-19T19:33:10.384Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
       "storageBytes": 19387253,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.16,
-      "ramMb": 66.6,
-      "downloadedBytes": 9156077817,
-      "uploadedBytes": 16111803,
+      "cpuPct": 0.12,
+      "ramMb": 66.4,
+      "downloadedBytes": 9175382300,
+      "uploadedBytes": 16136358,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T19:27:19.9191206Z",
@@ -918,8 +918,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 97,
-      "updated_at": "2026-08-19T19:31:23.126Z"
+      "latency_ms": 92,
+      "updated_at": "2026-08-19T19:33:14.456Z"
     },
     {
       "source": "Yahoo FX",
@@ -927,8 +927,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 109,
-      "updated_at": "2026-08-19T19:31:23.126Z"
+      "latency_ms": 7,
+      "updated_at": "2026-08-19T19:33:14.456Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -936,8 +936,8 @@
       "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 256,
-      "updated_at": "2026-08-19T19:31:23.126Z"
+      "latency_ms": 261,
+      "updated_at": "2026-08-19T19:33:14.456Z"
     },
     {
       "source": "Yahoo News",
@@ -945,26 +945,8 @@
       "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 398,
-      "updated_at": "2026-08-19T19:31:23.126Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 260,
-      "updated_at": "2026-08-19T19:31:23.126Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 540,
-      "updated_at": "2026-08-19T19:31:23.126Z"
+      "latency_ms": 458,
+      "updated_at": "2026-08-19T19:33:14.456Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -972,8 +954,26 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1002,
-      "updated_at": "2026-08-19T19:31:23.126Z"
+      "latency_ms": 969,
+      "updated_at": "2026-08-19T19:33:14.456Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 999,
+      "updated_at": "2026-08-19T19:33:14.456Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1028,
+      "updated_at": "2026-08-19T19:33:14.456Z"
     },
     {
       "source": "Unternehmenstermine (Nasdaq-Fallback)",
@@ -982,7 +982,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:31:23.126Z"
+      "updated_at": "2026-08-19T19:33:14.456Z"
     },
     {
       "source": "finanzen.net News (Fallback)",
@@ -990,8 +990,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 294,
-      "updated_at": "2026-08-19T19:31:23.126Z"
+      "latency_ms": 873,
+      "updated_at": "2026-08-19T19:33:14.456Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -1000,16 +1000,16 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:31:23.126Z"
+      "updated_at": "2026-08-19T19:33:14.456Z"
     },
     {
       "source": "Second-Chance 1m",
-      "status": "OK",
-      "ok_count": 2,
-      "fail_count": 0,
-      "last_error": "",
+      "status": "DEGRADED",
+      "ok_count": 1,
+      "fail_count": 1,
+      "last_error": "Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/configuration/#limits",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:31:23.126Z"
+      "updated_at": "2026-08-19T19:33:14.456Z"
     }
   ]
 }
