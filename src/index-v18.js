@@ -52,16 +52,24 @@ function controlGuard(request,url){
  return null;
 }
 
+function accidentalRestartSignature(status){
+ const c=status?.config||{},h=status?.history||[],positions=status?.positions||[];
+ const cash=Number(c.cash||0),scanCount=Number(c.scan_count||0);
+ const hasAccidentalStart=h.some(x=>String(x?.action||'').toUpperCase()==='START'&&String(x?.ts||'').startsWith('2026-08-19T20:32:53'));
+ return positions.length===0&&Math.abs(cash-10000)<0.02&&scanCount<=20&&hasAccidentalStart;
+}
+
 export default{
  async fetch(request,env,ctx){
   const url=new URL(request.url);
-  // EINMALIGE Wiederherstellung des letzten sicheren Health-Snapshots vor dem
-  // versehentlichen Neustart. Der Endpunkt/Import werden nach erfolgreichem Restore
-  // sofort wieder aus dem Repository entfernt.
-  if(url.pathname==='/api/recover-20260819-health-snapshot'&&request.method==='POST'){
-   if(String(request.headers.get('x-recovery-key')||'')!=='20260819-health-snapshot')return json({error:'Recovery nicht autorisiert.'},403);
-   const p=portfolio(env),before=await p.status(),result=await p.importLegacy(RECOVERY_20260819),after=await p.status();
-   return json({ok:true,result,before:{cash:before?.config?.cash,equity:before?.equity,positions:before?.positions?.length},after:{cash:after?.config?.cash,equity:after?.equity,positions:after?.positions?.length}});
+  // EINMALIGE selbstsichernde Wiederherstellung. Sie arbeitet nur, solange der
+  // aktuelle Zustand exakt dem versehentlichen 22:32-Neustart entspricht; auf einen
+  // bereits korrekten/aktiven Zustand kann dieser GET niemals schreiben.
+  if(url.pathname==='/api/recover-20260819-health-snapshot'&&request.method==='GET'){
+   const p=portfolio(env),before=await p.status();
+   if(!accidentalRestartSignature(before))return json({ok:false,skipped:true,reason:'Aktueller Zustand entspricht nicht dem versehentlichen Neustart.',before:{cash:before?.config?.cash,equity:before?.equity,positions:before?.positions?.length,scanCount:before?.config?.scan_count}},409);
+   const result=await p.importLegacy(RECOVERY_20260819),after=await p.status();
+   return json({ok:true,result,before:{cash:before?.config?.cash,equity:before?.equity,positions:before?.positions?.length,scanCount:before?.config?.scan_count},after:{cash:after?.config?.cash,equity:after?.equity,positions:after?.positions?.length,scanCount:after?.config?.scan_count}});
   }
   const blocked=controlGuard(request,url);
   if(blocked)return blocked;
