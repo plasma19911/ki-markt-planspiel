@@ -2,21 +2,25 @@ import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v17.js';
 import {reconcileLearningWithExecutedPositions,getLearningExecutionReconcileStatus} from './live-learning-execution-reconcile.js';
 import {ResearchEntryQualityGuard} from './research-entry-quality-guard.js';
 import {BalancedAdaptiveAiGuard,replayBalancePressure} from './balanced-adaptive-guard.js';
+import {FreshPositionChurnAiGuard} from './fresh-position-churn-guard.js';
 
 // V18 closes a learning-only gap: the fast layer may propose BUY before Pullback,
 // venue, cost and execution guards run. Only positions that really exist afterwards
 // are allowed to keep a pending entry-timing sample. Research-quality remains active,
 // but the outer BALANCED-ADAPTIVE layer prevents soft thresholds from becoming too rigid:
 // hard risks stay hard; very strong candidates may use a small starter position when
-// only a soft threshold is narrowly missed. Marginal exits need one confirmation.
+// only a soft threshold is narrowly missed. The final live-state guard sees the real
+// paper positions (including opened_at/theme/cash) before execution and blocks churn.
 export class MarketPortfolio extends BasePortfolio{
   constructor(ctx,env){
     super(ctx,env);this.ctx=ctx;this.env=env;
     let ai=this.engine?.env?.AI;
     if(ai?.run&&!ai.__researchEntryQualityGuard){const wrapped=new ResearchEntryQualityGuard(ai);wrapped.__researchEntryQualityGuard=true;ai=wrapped;this.engine.env.AI=ai}
     if(ai?.run&&!ai.__balancedAdaptiveGuard){const wrapped=new BalancedAdaptiveAiGuard(ai,ctx?.storage);wrapped.__balancedAdaptiveGuard=true;ai=wrapped;this.engine.env.AI=ai}
+    if(ai?.run&&!ai.__freshPositionChurnGuard){const wrapped=new FreshPositionChurnAiGuard(ai,{getState:()=>this._actualState(),storage:ctx?.storage});wrapped.__freshPositionChurnGuard=true;ai=wrapped;this.engine.env.AI=ai}
   }
-  _actualPositions(){try{return this.bucketAdapter?.peekState?.()?.positions||[]}catch{return[]}}
+  _actualState(){try{return this.bucketAdapter?.peekState?.()||{}}catch{return{}}}
+  _actualPositions(){return this._actualState()?.positions||[]}
   async scan(){
     // Clear proposals left by earlier scans before they can be mistaken for a later trade.
     const before=reconcileLearningWithExecutedPositions(this.ctx?.storage,this._actualPositions());
@@ -61,7 +65,16 @@ export class MarketPortfolio extends BasePortfolio{
       exceptionalRotationMayBypassAge:true,
       softThemeDiversification:true,
       diversificationHardBlock:false,
-      objective:'gute Chancen nicht wegen einer einzelnen weichen Grenze verpassen, ohne harte Risiken zu lockern'
+      freshPositionChurnShield:true,
+      liveStateInsteadOfPromptOnly:true,
+      softSellAbsoluteGraceMinutes:15,
+      marginalMomentumMinAgeMinutes:25,
+      normalRotationMinAgeMinutes:30,
+      exceptionalRotationMinAgeMinutes:15,
+      hardExitBypassesChurnShield:true,
+      zeroCashBuySuppression:true,
+      stateThemeDiversification:true,
+      objective:'gute Chancen nicht wegen einer einzelnen weichen Grenze verpassen, aber Kauf-Verkauf-Churn und Gebuehren vermeiden ohne harte Exit-Safety zu lockern'
     };
     s.newsSourcePolicy={
       primary:['Issuer Investor Relations','SEC/EDGAR fuer US-Filings','Deutsche Boerse/EQS fuer DE/EU-Meldungen','Federal Reserve','ECB','BLS'],
@@ -71,7 +84,7 @@ export class MarketPortfolio extends BasePortfolio{
       rule:'Primaerquelle/Emittent fuer harte Unternehmens- und Makrofakten bevorzugen; Aggregatoren nur zur Entdeckung, danach bestaetigen.'
     };
     if(s.entryTimingLearning)s.entryTimingLearning={...s.entryTimingLearning,pendingOnlyForExecutedPositions:true,pendingExecutionTtlMinutes:8,proposalContaminationFixed:true};
-    if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,learningOnlyFromExecutedEntries:true,researchBackedEntryPolicy:true,earlyBreakoutQualityGuard:true,earlyBreakoutInitialCapPct:35,balancedSoftOverride:true,balancedSoftStarterMaxPct:28,marginalExitConfirmation:true,exceptionalRotationEscape:true};
+    if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,learningOnlyFromExecutedEntries:true,researchBackedEntryPolicy:true,earlyBreakoutQualityGuard:true,earlyBreakoutInitialCapPct:35,balancedSoftOverride:true,balancedSoftStarterMaxPct:28,marginalExitConfirmation:true,exceptionalRotationEscape:true,freshPositionChurnShield:true,normalRotationMinAgeMinutes:30,zeroCashBuySuppression:true};
     return s;
   }
 }
