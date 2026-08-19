@@ -1,5 +1,6 @@
 export const SECOND_CHANCE_RETENTION_MS=12*60*1000;
-export const SECOND_CHANCE_TARGET=8;
+export const SECOND_CHANCE_TARGET=12;
+export const SECOND_CHANCE_RECHECK_PER_SCAN=4;
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const key=v=>String(v||'').toUpperCase().trim();
@@ -20,7 +21,7 @@ export function buildSecondChanceWatch(previous,current,now=Date.now()){
  const stamp=new Date(now).toISOString();
  for(const c of cur){if(!isSecondChanceCandidate(c))continue;const s=key(c.symbol),oldRow=m.get(s);m.set(s,{...c,symbol:s,firstSeenAt:oldRow?.firstSeenAt||stamp,lastSeenAt:stamp,watchReason:`Guter Deep-Kandidat ${num(c.score).toFixed(2)} / ${Math.round(num(c.confidence)*100)}% bleibt fuer frischen 1m-Zweitcheck aktiv`})}
  const candidates=[...m.values()].filter(x=>freshAt(x?.lastSeenAt||x?.updatedAt,now)).sort((a,b)=>(num(b.score)+num(b.confidence)*1.5)-(num(a.score)+num(a.confidence)*1.5)).slice(0,SECOND_CHANCE_TARGET);
- return{version:2,updatedAt:stamp,candidateCount:candidates.length,target:SECOND_CHANCE_TARGET,retentionMinutes:12,recheckPerScan:2,forcedBuy:false,requiresFreshOneMinuteRecheck:true,candidates};
+ return{version:3,updatedAt:stamp,candidateCount:candidates.length,target:SECOND_CHANCE_TARGET,retentionMinutes:12,recheckPerScan:SECOND_CHANCE_RECHECK_PER_SCAN,forcedBuy:false,requiresFreshOneMinuteRecheck:true,candidates};
 }
 
 export function isSecondChanceWatchFresh(watch,now=Date.now()){
