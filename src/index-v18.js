@@ -23,10 +23,6 @@ function noStoreCritical(request,response){
 
 const json=(x,status=200)=>Response.json(x,{status,headers:{'cache-control':'no-store'}});
 
-// Passwortlose Browser-Sicherheit: normale Steuerung aus der eigenen UI bleibt frei.
-// Fremde Cross-Site-Browseraufrufe werden blockiert. Start/Reset sind zusaetzlich
-// destruktiv und akzeptieren ohne Passwort nur echte Same-Origin-Browser-Metadaten;
-// fuer bewusstes CLI gibt es den expliziten, nicht geheimen Bestätigungsheader.
 const GUARDED_PATHS=new Set(['/api/start','/api/stop','/api/reset','/api/scan','/api/migrate-from-old-sql']);
 const DESTRUCTIVE_PATHS=new Set(['/api/start','/api/reset']);
 function needsGuard(url,method){return method==='POST'&&GUARDED_PATHS.has(url.pathname)}
@@ -62,22 +58,20 @@ function accidentalRestartSignature(status){
 export default{
  async fetch(request,env,ctx){
   const url=new URL(request.url);
-  // EINMALIGE selbstsichernde Wiederherstellung. Sie arbeitet nur, solange der
-  // aktuelle Zustand exakt dem versehentlichen 22:32-Neustart entspricht; auf einen
-  // bereits korrekten/aktiven Zustand kann dieser GET niemals schreiben.
   if(url.pathname==='/api/recover-20260819-health-snapshot'&&request.method==='GET'){
-   const p=portfolio(env),before=await p.status();
-   if(!accidentalRestartSignature(before))return json({ok:false,skipped:true,reason:'Aktueller Zustand entspricht nicht dem versehentlichen Neustart.',before:{cash:before?.config?.cash,equity:before?.equity,positions:before?.positions?.length,scanCount:before?.config?.scan_count}},409);
-   const result=await p.importLegacy(RECOVERY_20260819),after=await p.status();
-   return json({ok:true,result,before:{cash:before?.config?.cash,equity:before?.equity,positions:before?.positions?.length,scanCount:before?.config?.scan_count},after:{cash:after?.config?.cash,equity:after?.equity,positions:after?.positions?.length,scanCount:after?.config?.scan_count}});
+   try{
+    const p=portfolio(env),before=await p.status();
+    if(!accidentalRestartSignature(before))return json({ok:false,skipped:true,reason:'Aktueller Zustand entspricht nicht dem versehentlichen Neustart.',before:{cash:before?.config?.cash,equity:before?.equity,positions:before?.positions?.length,scanCount:before?.config?.scan_count}},409);
+    const result=await p.importLegacy(RECOVERY_20260819),after=await p.status();
+    return json({ok:true,result,before:{cash:before?.config?.cash,equity:before?.equity,positions:before?.positions?.length,scanCount:before?.config?.scan_count},after:{cash:after?.config?.cash,equity:after?.equity,positions:after?.positions?.length,scanCount:after?.config?.scan_count}});
+   }catch(e){
+    return json({ok:false,recoveryError:String(e?.message||e).slice(0,700),name:String(e?.name||'Error'),stack:String(e?.stack||'').slice(0,1200)},500);
+   }
   }
   const blocked=controlGuard(request,url);
   if(blocked)return blocked;
   if(url.pathname==='/api/position-chart'&&request.method==='GET'){
-   try{
-    const data=await positionChartHistoryData(portfolio(env),url);
-    return json(data,data.status||200);
-   }catch(e){return json({error:String(e?.message||e)},500)}
+   try{const data=await positionChartHistoryData(portfolio(env),url);return json(data,data.status||200)}catch(e){return json({error:String(e?.message||e)},500)}
   }
   const response=await base.fetch(request,env,ctx);
   return noStoreCritical(request,response);
