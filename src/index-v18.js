@@ -22,6 +22,10 @@ function noStoreCritical(request,response){
 
 const json=(x,status=200)=>Response.json(x,{status,headers:{'cache-control':'no-store'}});
 
+// Passwortlose Browser-Sicherheit: normale Steuerung aus der eigenen UI bleibt frei.
+// Fremde Cross-Site-Browseraufrufe werden blockiert. Start/Reset sind zusaetzlich
+// destruktiv und akzeptieren ohne Passwort nur echte Same-Origin-Browser-Metadaten;
+// fuer bewusstes CLI gibt es den expliziten, nicht geheimen Bestaetigungsheader.
 const GUARDED_PATHS=new Set(['/api/start','/api/stop','/api/reset','/api/scan','/api/migrate-from-old-sql']);
 const DESTRUCTIVE_PATHS=new Set(['/api/start','/api/reset']);
 function needsGuard(url,method){return method==='POST'&&GUARDED_PATHS.has(url.pathname)}
@@ -50,11 +54,6 @@ function controlGuard(request,url){
 export default{
  async fetch(request,env,ctx){
   const url=new URL(request.url);
-  // Nur fuer die heute reparierte Sitzung: verarbeitet einen begrenzten Replay-Batch.
-  // Der Pfad wird nach Abschluss des 19.08.-Replay sofort wieder entfernt.
-  if(url.pathname==='/api/finalize-replay-20260819'&&request.method==='GET'&&url.searchParams.get('key')==='20260819-final'){
-   try{return json(await portfolio(env).finalDayReplay(20))}catch(e){return json({error:String(e?.message||e).slice(0,500)},500)}
-  }
   const blocked=controlGuard(request,url);
   if(blocked)return blocked;
   if(url.pathname==='/api/position-chart'&&request.method==='GET'){
@@ -66,6 +65,8 @@ export default{
  async scheduled(controller,env,ctx){
   await base.scheduled?.(controller,env,ctx);
   const when=new Date(Number(controller?.scheduledTime)||Date.now()),session=gettexSessionState(when),p=portfolio(env);
+  // Der PC-Agent darf bewusst offline sein. Der finale Tages-Replay ist Cloudflare-
+  // seitig unabhaengig und laeuft nach gettex-Schluss weiter.
   if(session.isTradingDay&&session.localMinute>=22*60+5&&session.localMinute<=22*60+55){
    ctx.waitUntil((async()=>{const agent=await p.agentStatus();if(agent?.online)await p.dailyReplay(8)})().catch(e=>console.error('Preliminary day replay batch failed',e)));
   }
