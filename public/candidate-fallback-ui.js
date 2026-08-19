@@ -27,17 +27,19 @@ const COMPANIES={
  '079550':'LIG Nex1 entwickelt Lenkflugkörper, Radar-, Sensor-, Kommunikations- und weitere Verteidigungssysteme.',
  EOS:'Electro Optic Systems entwickelt ferngesteuerte Verteidigungssysteme, Sensorik und Weltraumtechnik.',
  '3690':'Meituan betreibt digitale Plattformen für Essenslieferung, lokale Dienstleistungen sowie Hotel- und Reisebuchungen.',
- '012450':'Hanwha Aerospace produziert Flugzeugtriebwerke, Artillerie-, Raumfahrt- und weitere Verteidigungstechnik.'
+ '012450':'Hanwha Aerospace produziert Flugzeugtriebwerke, Artillerie-, Raumfahrt- und weitere Verteidigungstechnik.',
+ '9618':'JD.com betreibt einen großen chinesischen Onlinehandel mit eigener Logistik, Marktplatz- und Lieferinfrastruktur.',
+ DATAPATTNS:'Data Patterns entwickelt elektronische Systeme, Avionik, Radar-, Kommunikations- und Embedded-Hardware vor allem für Luftfahrt und Verteidigung.'
 };
 const THEME={
- DEFENSE:'Das Unternehmen arbeitet im Bereich Luftfahrt, Verteidigung oder Sicherheit.',
- DEFENSE_TECH:'Das Unternehmen arbeitet im Bereich Verteidigung und Sicherheit.',
- RUSSIA_SANCTIONS_DEFENSE:'Das Unternehmen arbeitet im Bereich Verteidigung und Sicherheit.',
- AI_POWER_GRID:'Das Unternehmen hängt vom Ausbau von Rechenzentren und Stromnetzen ab.',
- CYBER_SECURITY:'Das Unternehmen bietet IT- oder Cybersicherheitslösungen an.',
- SEMI_EXPORT_CONTROLS:'Das Unternehmen gehört zur Halbleiter- und Chipindustrie.',
- NUCLEAR_URANIUM:'Das Unternehmen arbeitet im Bereich Kernenergie oder Uran.',
- RATES_MACRO:'Die Aktie reagiert stark auf Zinsen, Konjunktur und Marktstimmung.'
+ DEFENSE:'Entwickelt oder produziert Technik für Verteidigung, Luftfahrt, Sensorik oder Sicherheit.',
+ DEFENSE_TECH:'Entwickelt elektronische Systeme, Sensorik, Kommunikation oder andere Verteidigungstechnik.',
+ RUSSIA_SANCTIONS_DEFENSE:'Ist im Verteidigungs- oder Luftfahrtbereich tätig und liefert entsprechende Systeme oder Komponenten.',
+ AI_POWER_GRID:'Liefert Technik, Infrastruktur oder Komponenten für Rechenzentren, Stromversorgung und Netzausbau.',
+ CYBER_SECURITY:'Entwickelt Software und Dienste zum Schutz von Netzwerken, Cloud-Systemen und Unternehmensdaten.',
+ SEMI_EXPORT_CONTROLS:'Entwickelt oder produziert Halbleiter, Chiptechnik oder Anlagen und Komponenten für die Halbleiterindustrie.',
+ NUCLEAR_URANIUM:'Ist in Kernenergie, Reaktortechnik, Uranförderung oder der nuklearen Lieferkette tätig.',
+ RATES_MACRO:'Ist ein zyklisches oder zinssensitives Unternehmen, dessen Geschäft stark von Konjunktur und Finanzierung abhängt.'
 };
 const THEME_MOVE={
  DEFENSE:'Defense-/Aerospace-Sektor im Fokus',DEFENSE_TECH:'Defense-/Aerospace-Sektor im Fokus',RUSSIA_SANCTIONS_DEFENSE:'Geopolitik und Defense-Sektor im Fokus',
@@ -45,14 +47,46 @@ const THEME_MOVE={
  NUCLEAR_URANIUM:'Kernenergie-/Uran-Thema im Fokus',RATES_MACRO:'Zinsen und Konjunktur bewegen den Wert'
 };
 
+function cleanDirect(v){
+ const t=String(v||'').replace(/\s+/g,' ').trim();
+ if(!t)return'';
+ return t.replace(/\b(?:is|ist) (?:a |ein )?(?:publicly traded|börsennotiertes?) (?:company|unternehmen)[^.]*\.?/gi,'').replace(/Der Scanner beobachtet[^.]*\.?/gi,'').trim().slice(0,220);
+}
+function sectorDescription(x){
+ const raw=[x?.sector,x?.industry,x?.category,x?.business_sector,x?.businessSector].filter(Boolean).join(' ').toLowerCase();
+ if(!raw)return'';
+ if(/defen|aerospace|military|weapon|armament/.test(raw))return'Entwickelt oder produziert Systeme, Elektronik und Komponenten für Luftfahrt, Verteidigung oder Sicherheit.';
+ if(/semiconductor|chip|microelectronic/.test(raw))return'Entwickelt oder produziert Halbleiter, Chips oder Komponenten für elektronische Systeme.';
+ if(/software|cloud|information technology|it services/.test(raw))return'Entwickelt Software oder digitale Plattformen und verkauft diese an Unternehmen oder Verbraucher.';
+ if(/bank|financial|insurance|capital market/.test(raw))return'Bietet Finanzdienstleistungen wie Banking, Finanzierung, Kapitalmarkt- oder Versicherungslösungen an.';
+ if(/energy|oil|gas|petroleum/.test(raw))return'Ist im Energiegeschäft tätig, etwa bei Förderung, Verarbeitung, Stromerzeugung oder Energieinfrastruktur.';
+ if(/mining|metal|gold|uranium|mineral/.test(raw))return'Fördert oder verarbeitet Rohstoffe und Metalle beziehungsweise liefert dafür notwendige Infrastruktur.';
+ if(/retail|e-commerce|internet retail/.test(raw))return'Betreibt Handel beziehungsweise Onlinehandel und verkauft Waren oder Dienstleistungen an Verbraucher.';
+ if(/health|medical|pharma|biotech/.test(raw))return'Entwickelt oder vertreibt Produkte und Dienstleistungen für Medizin, Pharma, Diagnostik oder Biotechnologie.';
+ if(/industrial|machinery|engineering/.test(raw))return'Produziert Industrieanlagen, Maschinen, technische Komponenten oder Ingenieurdienstleistungen.';
+ return'';
+}
+function nameDescription(x){
+ const n=String(x?.name||'').toLowerCase();
+ if(!n)return'';
+ if(/aerospace|defense|defence|military|systems/.test(n))return'Entwickelt oder produziert technische Systeme und Komponenten für Luftfahrt, Verteidigung oder Sicherheit.';
+ if(/semiconductor|microelectronics|chip/.test(n))return'Entwickelt oder produziert Halbleiter, Chips und elektronische Komponenten.';
+ if(/software|digital|technolog|tech\b/.test(n))return'Entwickelt Software, digitale Produkte oder technische Lösungen für Unternehmen und Verbraucher.';
+ if(/energy|power|solar|wind/.test(n))return'Ist im Energiegeschäft tätig und entwickelt, produziert oder betreibt Technik für Energieerzeugung und -infrastruktur.';
+ if(/bank|financial|capital|insurance/.test(n))return'Bietet Finanz-, Bank-, Kapitalmarkt- oder Versicherungsdienstleistungen an.';
+ if(/pharma|therapeut|bio\b|medical|health/.test(n))return'Entwickelt oder vertreibt Produkte und Dienstleistungen für Medizin, Pharma oder Biotechnologie.';
+ if(/mining|minerals|gold|uranium|resources/.test(n))return'Fördert oder verarbeitet Rohstoffe beziehungsweise entwickelt entsprechende Bergbauprojekte.';
+ if(/logistics|shipping|freight/.test(n))return'Bietet Transport-, Logistik- oder Frachtdienstleistungen an.';
+ if(/motors|automotive|auto\b/.test(n))return'Entwickelt, produziert oder vertreibt Fahrzeuge und Komponenten für die Automobilindustrie.';
+ return'';
+}
 function company(x){
- const direct=String(x?.business_summary||x?.businessSummary||x?.description||'').trim();if(direct)return direct.slice(0,190);
+ const direct=cleanDirect(x?.business_summary||x?.businessSummary||x?.longBusinessSummary||x?.description);if(direct)return direct;
  const b=base(x.symbol);if(COMPANIES[b])return COMPANIES[b];
- const name=String(x.name||'').toLowerCase();
- if(name.includes('aerospace')||name.includes('defense')||name.includes('defence'))return'Das Unternehmen ist in Luftfahrt, Verteidigung oder Sicherheit tätig.';
- if(name.includes('optic'))return'Das Unternehmen entwickelt optische, sensorbasierte oder sicherheitsrelevante Technik.';
- if(name.includes('semiconductor')||name.includes('chip'))return'Das Unternehmen entwickelt oder produziert Halbleiter- und Chiptechnik.';
- return THEME[String(x.theme||'').toUpperCase()]||`${x.name||x.symbol||'Das Unternehmen'} wird als börsennotiertes Unternehmen vom Scanner weiter beobachtet.`;
+ const sector=sectorDescription(x);if(sector)return sector;
+ const byName=nameDescription(x);if(byName)return byName;
+ const themed=THEME[String(x.theme||'').toUpperCase()];if(themed)return themed;
+ return'Geschäftsfeld noch nicht eindeutig zugeordnet. Die Firmenbeschreibung wird mit den nächsten Stammdaten ergänzt.';
 }
 function scoreFromMessage(m){const x=String(m||'').match(/Score\s+(-?\d+(?:[.,]\d+)?)/i);return x?Number(x[1].replace(',','.')):null}
 function confFromMessage(m){const x=String(m||'').match(/Konfidenz\s+(\d+)%/i);return x?Number(x[1])/100:null}
