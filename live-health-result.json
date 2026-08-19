@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T10:15:08.080076+00:00",
+  "checkedAt": "2026-08-19T10:15:22.904426+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -40,17 +40,17 @@
     "pcWideSweep"
   ],
   "running": 1,
-  "scanCount": 40,
-  "lastScan": "2026-08-19T10:13:24.062Z",
+  "scanCount": 41,
+  "lastScan": "2026-08-19T10:15:12.822Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 6 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus  · DIP-FIRST: 1 teure/unbestaetigte Idee(n) gestoppt; kein Kauf – Cash wartet auf Dip.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 8 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus  · DIP-FIRST: 1 teure/unbestaetigte Idee(n) gestoppt; kein Kauf – Cash wartet auf Dip.",
   "cash": 10000,
   "equity": 10000,
   "pnl": 0,
   "universeCount": 170,
   "positions": 0,
   "positionRows": [],
-  "candidates": 6,
+  "candidates": 8,
   "topCandidates": [
     {
       "symbol": "R3NK.DE",
@@ -64,59 +64,81 @@
       "contra": ""
     },
     {
-      "symbol": "HAG.DE",
-      "name": "Hensoldt",
-      "score": 4.363455357142858,
-      "confidence": 0.7569,
-      "day_change": 0.6373463604945062,
-      "news_score": 0.6071428571428571,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.64% · News +0.6 · 2 Ereigniscluster",
-      "contra": ""
-    },
-    {
       "symbol": "SAF.PA",
       "name": "Safran",
       "score": 3.9,
       "confidence": 0.7308,
-      "day_change": 1.1045029736618472,
+      "day_change": 1.076180656042025,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 50 konstruktiv",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 57 konstruktiv",
+      "contra": ""
+    },
+    {
+      "symbol": "ENR.DE",
+      "name": "Siemens Energy AG",
+      "score": 2.5,
+      "confidence": 0.6722,
+      "day_change": 0.19445283319592388,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
       "contra": ""
     },
     {
       "symbol": "LDO.MI",
       "name": "Leonardo",
-      "score": 3.5,
-      "confidence": 0.63,
-      "day_change": 0.7268427190464832,
+      "score": 2.5,
+      "confidence": 0.53,
+      "day_change": 0.6930353191754834,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 67 konstruktiv",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "contra": ""
+    },
+    {
+      "symbol": "AIR.PA",
+      "name": "Airbus",
+      "score": 2.4805004363636365,
+      "confidence": 0.6508100436363636,
+      "day_change": 0.8579628710751352,
+      "news_score": -0.04611570247933884,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
       "contra": ""
     },
     {
       "symbol": "ASELS.IS",
       "name": "Aselsan",
-      "score": 1.2000000000000002,
-      "confidence": 0.4,
+      "score": 2,
+      "confidence": 0.48000000000000004,
       "day_change": 2.688524590163932,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "Kurs über EMA21 · RSI 53 konstruktiv",
+      "pro": "Kurs über EMA21 · RSI 54 konstruktiv · 5m +0.19%",
       "contra": "EMA-Trend schwach"
     },
     {
-      "symbol": "OTKAR.IS",
-      "name": "Otokar",
-      "score": -4.1,
-      "confidence": 0.63,
-      "day_change": 1.3239875389408073,
+      "symbol": "KOG.OL",
+      "name": "Kongsberg Gruppen",
+      "score": 1.8,
+      "confidence": 0.46,
+      "day_change": 0.7682833117653276,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "RSI 61 konstruktiv",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 5m -0.61% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.24%",
+      "contra": "RSI 93 überhitzt"
+    },
+    {
+      "symbol": "FCT.MI",
+      "name": "Fincantieri",
+      "score": 1,
+      "confidence": 0.38,
+      "day_change": 0.39619711801859303,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "contra": "RSI 80 überhitzt"
     }
   ],
   "recentHistory": [
@@ -182,8 +204,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 223,
-      "updated_at": "2026-08-19T10:13:21.015Z"
+      "latency_ms": 538,
+      "updated_at": "2026-08-19T10:15:12.668Z"
     },
     {
       "source": "Yahoo FX",
@@ -191,17 +213,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 110,
-      "updated_at": "2026-08-19T10:13:21.015Z"
+      "latency_ms": 106,
+      "updated_at": "2026-08-19T10:15:12.668Z"
     },
     {
       "source": "Yahoo 1m Chart",
       "status": "OK",
-      "ok_count": 6,
+      "ok_count": 8,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 102,
-      "updated_at": "2026-08-19T10:13:21.015Z"
+      "latency_ms": 98,
+      "updated_at": "2026-08-19T10:15:12.668Z"
     },
     {
       "source": "Yahoo Events",
@@ -209,17 +231,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 189,
-      "updated_at": "2026-08-19T10:13:21.015Z"
+      "latency_ms": 178,
+      "updated_at": "2026-08-19T10:15:12.668Z"
     },
     {
       "source": "Yahoo News",
       "status": "OK",
-      "ok_count": 6,
+      "ok_count": 8,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 541,
-      "updated_at": "2026-08-19T10:13:21.015Z"
+      "latency_ms": 465,
+      "updated_at": "2026-08-19T10:15:12.668Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -227,17 +249,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 275,
-      "updated_at": "2026-08-19T10:13:21.015Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 291,
-      "updated_at": "2026-08-19T10:13:21.015Z"
+      "latency_ms": 267,
+      "updated_at": "2026-08-19T10:15:12.668Z"
     },
     {
       "source": "BörsenNews",
@@ -245,8 +258,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 317,
-      "updated_at": "2026-08-19T10:13:21.015Z"
+      "latency_ms": 540,
+      "updated_at": "2026-08-19T10:15:12.668Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -254,8 +267,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1038,
-      "updated_at": "2026-08-19T10:13:21.015Z"
+      "latency_ms": 927,
+      "updated_at": "2026-08-19T10:15:12.668Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1034,
+      "updated_at": "2026-08-19T10:15:12.668Z"
     },
     {
       "source": "Second-Chance 1m",
@@ -264,7 +286,7 @@
       "fail_count": 1,
       "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-19T10:13:21.015Z"
+      "updated_at": "2026-08-19T10:15:12.668Z"
     }
   ],
   "risk": {
@@ -391,7 +413,7 @@
     "enabled": true,
     "target": 64,
     "candidateCount": 0,
-    "updatedAt": "2026-08-19T10:14:08.940Z",
+    "updatedAt": "2026-08-19T10:15:08.347Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "profile": "STANDARD_WIDE_SWEEP",
@@ -425,7 +447,7 @@
     "enabled": true,
     "target": 16,
     "candidateCount": 3,
-    "updatedAt": "2026-08-19T10:13:24.062Z",
+    "updatedAt": "2026-08-19T10:15:12.822Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 4,
@@ -705,7 +727,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T10:14:24.062Z",
+    "nextScanAt": "2026-08-19T10:16:12.822Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -760,8 +782,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T10:14:08.940Z",
-    "ageSeconds": 59,
+    "lastSeenAt": "2026-08-19T10:15:08.347Z",
+    "ageSeconds": 14,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-19T10:13:18.340Z",
     "resolvedLeaderCount": 6,
@@ -774,16 +796,16 @@
     "wideSweepMasterCount": 8530,
     "wideSweepScannedCount": 656,
     "metrics": {
-      "lastSeenAt": "2026-08-19T10:14:08.940Z",
+      "lastSeenAt": "2026-08-19T10:15:08.347Z",
       "version": "2.0.13-csharp-keyless-multisou",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 10670395,
+      "storageBytes": 10672444,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.01,
+      "cpuPct": 0,
       "ramMb": 53.8,
-      "downloadedBytes": 70629178,
-      "uploadedBytes": 354821,
+      "downloadedBytes": 70643077,
+      "uploadedBytes": 356849,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_KEYLESS_MULTISOURCE_LOW_L",
       "lastLocalCleanupAt": "2026-08-19T09:56:07.7975280Z",
