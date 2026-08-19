@@ -31,10 +31,13 @@ function postProcess(r,input){
  for(const a of arr(plan.actions)){
   if(String(a?.action||'').toUpperCase()!=='BUY'){out.push(a);continue}
   const c=cMap.get(key(a)),q=c?metrics(c):null;
-  if(q?.highLike&&bestDip&&key(bestDip.c)!==key(a)){
-   blockedHigh.push(key(a));out.push({symbol:key(a),action:'HOLD',confidence:.66,allocation_pct:0,reason:`DIP-FIRST V2: ${key(bestDip.c)} bietet aktuell den besseren echten Ruecksetzer; High-/Momentum-Kauf ${key(a)} wird zurueckgestellt.`});continue;
+  if(bestDip&&!q?.realDip&&key(bestDip.c)!==key(a)){
+   blockedHigh.push(key(a));out.push({symbol:key(a),action:'HOLD',confidence:.66,allocation_pct:0,reason:`DIP-FIRST V2: ${key(bestDip.c)} bietet aktuell den besseren echten Ruecksetzer; Kauf ${key(a)} wird zugunsten des günstigeren Einstiegs zurückgestellt.`});continue;
   }
   if(q?.realDip){out.push({...a,allocation_pct:Math.min(Math.max(1,num(a?.allocation_pct)),dipCap(q)),confidence:clamp(num(a?.confidence,q.confidence),.56,.82),reason:`${String(a?.reason||'').slice(0,300)} · DIP-FIRST V2: echter Ruecksetzer ${q.draw.toFixed(2)}% unter 20m-Hoch; Einstieg auf ${dipCap(q)}% begrenzt.`});continue}
+  // Bei bekanntem 20m-Hoch muss ein normaler neuer Kauf mindestens 0,35% darunter liegen.
+  // Grenzfälle wie -0,20 bis -0,32% waren bisher zu nah am Hoch und werden nun bewusst abgewartet.
+  if(q?.drawKnown&&q.draw>-.35){blockedHigh.push(key(a));out.push({symbol:key(a),action:'HOLD',confidence:.65,allocation_pct:0,reason:`DIP-FIRST V2 WAIT: Ruecksetzer erst ${q.draw.toFixed(2)}%; normaler Einstieg wartet auf mindestens -0,35% unter dem 20m-Hoch.`});continue}
   if(q?.highLike){out.push({...a,allocation_pct:Math.min(3,Math.max(1,num(a?.allocation_pct))),reason:`${String(a?.reason||'').slice(0,300)} · DIP-FIRST V2: kein guter Dip; High-Kauf nur als max. 3%-Mini-Starter.`});continue}
   out.push(a);
  }
