@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T09:27:55.266069+00:00",
+  "checkedAt": "2026-08-19T09:28:37.812577+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -38,14 +38,14 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 23,
-  "lastScan": "2026-08-19T09:26:21.281Z",
+  "scanCount": 24,
+  "lastScan": "2026-08-19T09:28:11.456Z",
   "lastError": null,
   "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 6 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks. Beste HOLD · PU · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
   "cash": 10000,
   "equity": 10000,
   "pnl": 0,
-  "universeCount": 170,
+  "universeCount": 172,
   "positions": 0,
   "positionRows": [],
   "candidates": 6,
@@ -55,10 +55,10 @@
       "name": "Otokar",
       "score": 4.7,
       "confidence": 0.63,
-      "day_change": 2.180685358255441,
+      "day_change": 2.102803738317749,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 58 konstruktiv · 5m +0.38%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 52 konstruktiv · 5m +0.31%",
       "contra": ""
     },
     {
@@ -66,55 +66,55 @@
       "name": "Data Patterns India",
       "score": 4.5,
       "confidence": 0.63,
-      "day_change": 0.8148232012053613,
+      "day_change": 0.8887065077999745,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.23% · 20m +0.50%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.20% · 20m +0.53%",
       "contra": ""
     },
     {
-      "symbol": "PARAS.NS",
-      "name": "Paras Defence and Space Technologies",
-      "score": 3,
-      "confidence": 0.5800000000000001,
-      "day_change": 0.05237841851224445,
+      "symbol": "GLAXO.NS",
+      "name": "GlaxoSmithKline Pharmaceuticals Limited",
+      "score": 3.4,
+      "confidence": 0.62,
+      "day_change": 5.157435491350704,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.28% · 20m +0.99%",
-      "contra": "RSI 79 überhitzt"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.19% · 20m +0.83%",
+      "contra": "RSI 81 überhitzt"
     },
     {
       "symbol": "ASELS.IS",
       "name": "Aselsan",
-      "score": 2.9,
-      "confidence": 0.5700000000000001,
-      "day_change": 3.0163934426229444,
+      "score": 1.65,
+      "confidence": 0.445,
+      "day_change": 2.9508196721311553,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "EMA9 über EMA21 · Kurs über EMA21",
-      "contra": ""
+      "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     },
     {
-      "symbol": "SAF.PA",
-      "name": "Safran",
-      "score": -1.2000000000000002,
-      "confidence": 0.4,
-      "day_change": 1.1328252912816694,
+      "symbol": "PARAS.NS",
+      "name": "Paras Defence and Space Technologies",
+      "score": 0.9500000000000002,
+      "confidence": 0.37500000000000006,
+      "day_change": 0.01964090787256456,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.83%",
+      "contra": "RSI 80 überhitzt · Momentum erschöpft (2.5): nach starkem Lauf Reversal-Risiko erhöht"
+    },
+    {
+      "symbol": "BLACKBUCK.NS",
+      "name": "BlackBuck Limited",
+      "score": -2.45,
+      "confidence": 0.525,
+      "day_change": 5.001698369565233,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21"
-    },
-    {
-      "symbol": "R3NK.DE",
-      "name": "RENK Group",
-      "score": -5.1,
-      "confidence": 0.63,
-      "day_change": 2.8108420319064464,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 5m -0.27% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     }
   ],
   "recentHistory": [
@@ -164,8 +164,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 245,
-      "updated_at": "2026-08-19T09:26:20.843Z"
+      "latency_ms": 717,
+      "updated_at": "2026-08-19T09:28:11.204Z"
     },
     {
       "source": "Yahoo FX",
@@ -173,8 +173,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 8,
-      "updated_at": "2026-08-19T09:26:20.843Z"
+      "latency_ms": 122,
+      "updated_at": "2026-08-19T09:28:11.204Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -182,8 +182,8 @@
       "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 519,
-      "updated_at": "2026-08-19T09:26:20.843Z"
+      "latency_ms": 115,
+      "updated_at": "2026-08-19T09:28:11.204Z"
     },
     {
       "source": "Yahoo Events",
@@ -191,8 +191,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 208,
-      "updated_at": "2026-08-19T09:26:20.843Z"
+      "latency_ms": 225,
+      "updated_at": "2026-08-19T09:28:11.204Z"
     },
     {
       "source": "Yahoo News",
@@ -200,35 +200,8 @@
       "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 344,
-      "updated_at": "2026-08-19T09:26:20.843Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 309,
-      "updated_at": "2026-08-19T09:26:20.843Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 331,
-      "updated_at": "2026-08-19T09:26:20.843Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 495,
-      "updated_at": "2026-08-19T09:26:20.843Z"
+      "latency_ms": 753,
+      "updated_at": "2026-08-19T09:28:11.204Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -236,8 +209,35 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 944,
-      "updated_at": "2026-08-19T09:26:20.843Z"
+      "latency_ms": 950,
+      "updated_at": "2026-08-19T09:28:11.204Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 951,
+      "updated_at": "2026-08-19T09:28:11.204Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1036,
+      "updated_at": "2026-08-19T09:28:11.204Z"
+    },
+    {
+      "source": "BörsenNews",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1081,
+      "updated_at": "2026-08-19T09:28:11.204Z"
     },
     {
       "source": "Second-Chance 1m",
@@ -246,7 +246,7 @@
       "fail_count": 1,
       "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-19T09:26:20.843Z"
+      "updated_at": "2026-08-19T09:28:11.204Z"
     }
   ],
   "risk": {
@@ -372,13 +372,13 @@
   "pcWideSweep": {
     "enabled": true,
     "target": 32,
-    "candidateCount": 1,
-    "updatedAt": "2026-08-19T09:27:08.804Z",
+    "candidateCount": 2,
+    "updatedAt": "2026-08-19T09:28:08.043Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "profile": "STANDARD_WIDE_SWEEP",
     "masterCount": 8530,
-    "scannedCount": 656,
+    "scannedCount": 657,
     "cycleMinutes": 8,
     "batchCount": 14,
     "coreCount": 1800,
@@ -406,8 +406,8 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 16,
-    "candidateCount": 4,
-    "updatedAt": "2026-08-19T09:26:21.429Z",
+    "candidateCount": 3,
+    "updatedAt": "2026-08-19T09:28:11.456Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 4,
@@ -687,7 +687,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T09:27:21.281Z",
+    "nextScanAt": "2026-08-19T09:29:11.456Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -742,8 +742,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T09:27:08.804Z",
-    "ageSeconds": 46,
+    "lastSeenAt": "2026-08-19T09:28:08.043Z",
+    "ageSeconds": 29,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-19T09:26:18.095Z",
     "resolvedLeaderCount": 6,
@@ -751,21 +751,21 @@
     "futureCandidates": 0,
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
-    "wideSweepCandidates": 1,
+    "wideSweepCandidates": 2,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8530,
-    "wideSweepScannedCount": 656,
+    "wideSweepScannedCount": 657,
     "metrics": {
-      "lastSeenAt": "2026-08-19T09:27:08.804Z",
+      "lastSeenAt": "2026-08-19T09:28:08.043Z",
       "version": "2.0.13-csharp-keyless-multisou",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 9059167,
+      "storageBytes": 9061143,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 57.3,
-      "downloadedBytes": 510074280,
-      "uploadedBytes": 2734232,
+      "ramMb": 57.2,
+      "downloadedBytes": 510089520,
+      "uploadedBytes": 2736502,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_KEYLESS_MULTISOURCE_LOW_L",
       "lastLocalCleanupAt": "2026-08-19T09:13:52.5416377Z",
