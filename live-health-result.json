@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T12:46:24.970790+00:00",
+  "checkedAt": "2026-08-19T12:51:11.020485+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -45,14 +45,14 @@
     "pcWideSweep"
   ],
   "running": 1,
-  "scanCount": 112,
-  "lastScan": "2026-08-19T12:44:26.101Z",
+  "scanCount": 114,
+  "lastScan": "2026-08-19T12:49:20.145Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 12 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks. · DIP-FIRST DYNAMIC: bester Rücksetzer KREATE.HE.",
+  "aiLastSummary": "Keine frischen handelbaren Kurse – keine Orderentscheidung.",
   "cash": 881.5676441546302,
   "equity": 9951.953710579968,
   "pnl": -48.046289420031826,
-  "universeCount": 232,
+  "universeCount": 230,
   "positions": 8,
   "positionRows": [
     {
@@ -276,98 +276,19 @@
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     }
   ],
-  "candidates": 15,
-  "topCandidates": [
-    {
-      "symbol": "JM.ST",
-      "name": "JM AB (publ)",
-      "score": 6.05,
-      "confidence": 0.63,
-      "day_change": -0.9486141883337407,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 66 konstruktiv · 5m +0.97% · 20m +0.56% · Momentum baut sich auf · Beschleunigung +1.29%",
-      "contra": ""
-    },
-    {
-      "symbol": "MTG-B.ST",
-      "name": "Modern Times Group MTG AB",
-      "score": 6.05,
-      "confidence": 0.63,
-      "day_change": -0.9139328990741657,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 65 konstruktiv · 5m +0.70% · 20m +0.54% · Momentum baut sich auf · Beschleunigung +0.70%",
-      "contra": ""
-    },
-    {
-      "symbol": "KREATE.HE",
-      "name": "Kreate Group Oyj",
-      "score": 5.55,
-      "confidence": 0.63,
-      "day_change": -2.020200735792166,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv · 5m +1.39% · 20m +1.75% · Momentum baut sich auf · Beschleunigung +1.74%",
-      "contra": ""
-    },
-    {
-      "symbol": "YIT.HE",
-      "name": "YIT Oyj",
-      "score": 3.8,
-      "confidence": 0.63,
-      "day_change": -1.5873046148391023,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 58 konstruktiv · 5m +0.49%",
-      "contra": ""
-    },
-    {
-      "symbol": "VISC.ST",
-      "name": "Gruvaktiebolaget Viscaria",
-      "score": 3,
-      "confidence": 0.5800000000000001,
-      "day_change": -0.6993042561279861,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.47% · 20m +1.67%",
-      "contra": "RSI 82 überhitzt"
-    },
-    {
-      "symbol": "EMBRAC-B.ST",
-      "name": "Embracer Group AB (publ)",
-      "score": 3,
-      "confidence": 0.5800000000000001,
-      "day_change": -2.8723392080753474,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 65 konstruktiv",
-      "contra": ""
-    },
-    {
-      "symbol": "HLUN-B.CO",
-      "name": "H. Lundbeck A/S",
-      "score": 3,
-      "confidence": 0.5800000000000001,
-      "day_change": -3.1890660592255093,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 60 konstruktiv",
-      "contra": ""
-    },
-    {
-      "symbol": "ENR.DE",
-      "name": "Siemens Energy AG",
-      "score": 2.35,
-      "confidence": 0.515,
-      "day_change": 0.9592912281798815,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.19% · Momentum baut sich auf · Beschleunigung +0.13%",
-      "contra": "RSI 84 überhitzt"
-    }
-  ],
+  "candidates": 0,
+  "topCandidates": [],
   "recentHistory": [
+    {
+      "ts": "2026-08-19T12:48:11.729Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Keine frischen handelbaren Signale.",
+      "score": null
+    },
     {
       "ts": "2026-08-19T12:44:26.101Z",
       "action": "KAUF",
@@ -477,16 +398,6 @@
       "trade_pnl": -9.157652030213626,
       "reason": "KI SELL 90%: OPPORTUNITY-COST-ROTATION: YIT.HE Score 9.63 vs. INTRUM.ST -4.50 · Haltedauer 9 Min. · P/L -0.60% · Kapital zum klar hoeheren Erwartungswert umschichten· Trade P/L netto -8.16 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
       "score": -4.992285714285714
-    },
-    {
-      "ts": "2026-08-19T12:08:27.042Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal SOSI1.HE: Score 6.05, Konfidenz 63%.",
-      "score": null
     }
   ],
   "recentAiLog": [
@@ -590,84 +501,75 @@
   "sourceHealth": [
     {
       "source": "Yahoo Spark",
-      "status": "OK",
-      "ok_count": 2,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 414,
-      "updated_at": "2026-08-19T12:44:26.036Z"
-    },
-    {
-      "source": "Yahoo FX",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 110,
-      "updated_at": "2026-08-19T12:44:26.036Z"
+      "status": "DOWN",
+      "ok_count": 0,
+      "fail_count": 2,
+      "last_error": "Error: HTTP 429",
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T12:49:20.145Z"
     },
     {
       "source": "Yahoo 1m Chart",
-      "status": "OK",
-      "ok_count": 15,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 110,
-      "updated_at": "2026-08-19T12:44:26.036Z"
+      "status": "DOWN",
+      "ok_count": 0,
+      "fail_count": 8,
+      "last_error": "TypeError: This ReadableStream is currently locked to a reader,",
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T12:49:20.145Z"
     },
     {
       "source": "Yahoo Events",
       "status": "DOWN",
       "ok_count": 0,
       "fail_count": 1,
-      "last_error": "Error: HTTP 401",
-      "latency_ms": 96,
-      "updated_at": "2026-08-19T12:44:26.036Z"
+      "last_error": "Error: HTTP 429",
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T12:49:20.145Z"
     },
     {
       "source": "Yahoo News",
-      "status": "OK",
-      "ok_count": 13,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 324,
-      "updated_at": "2026-08-19T12:44:26.036Z"
+      "status": "DOWN",
+      "ok_count": 0,
+      "fail_count": 3,
+      "last_error": "Error: Cannot perform I/O on behalf of a different Durable Object. I/O objects (such as streams, request/response bodies, and others) created in the context of one Durable Object c",
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T12:49:20.145Z"
     },
     {
       "source": "Börse Frankfurt",
       "status": "DOWN",
       "ok_count": 0,
       "fail_count": 1,
-      "last_error": "Error: HTTP 429",
+      "last_error": "TypeError: This ReadableStream is currently locked to a reader,",
       "latency_ms": 0,
-      "updated_at": "2026-08-19T12:44:26.036Z"
+      "updated_at": "2026-08-19T12:49:20.145Z"
     },
     {
       "source": "FinanzNachrichten",
       "status": "DOWN",
       "ok_count": 0,
       "fail_count": 1,
-      "last_error": "Error: HTTP 429",
+      "last_error": "TypeError: This ReadableStream is currently locked to a reader,",
       "latency_ms": 0,
-      "updated_at": "2026-08-19T12:44:26.036Z"
+      "updated_at": "2026-08-19T12:49:20.145Z"
     },
     {
       "source": "wallstreetONLINE",
       "status": "DOWN",
       "ok_count": 0,
       "fail_count": 1,
-      "last_error": "Error: HTTP 429",
+      "last_error": "TypeError: This ReadableStream is currently locked to a reader,",
       "latency_ms": 0,
-      "updated_at": "2026-08-19T12:44:26.036Z"
+      "updated_at": "2026-08-19T12:49:20.145Z"
     },
     {
       "source": "BörsenNews",
       "status": "DOWN",
       "ok_count": 0,
       "fail_count": 1,
-      "last_error": "Error: HTTP 429",
+      "last_error": "TypeError: This ReadableStream is currently locked to a reader,",
       "latency_ms": 0,
-      "updated_at": "2026-08-19T12:44:26.036Z"
+      "updated_at": "2026-08-19T12:49:20.145Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -676,16 +578,16 @@
       "fail_count": 8,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T12:44:26.036Z"
+      "updated_at": "2026-08-19T12:49:20.145Z"
     },
     {
       "source": "Second-Chance 1m",
       "status": "DEGRADED",
       "ok_count": 0,
-      "fail_count": 4,
+      "fail_count": 6,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T12:44:26.036Z"
+      "updated_at": "2026-08-19T12:49:20.145Z"
     }
   ],
   "risk": {
@@ -773,7 +675,7 @@
     "enabled": true,
     "target": 24,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T12:44:21.653Z",
+    "updatedAt": "2026-08-19T12:49:19.716Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -796,7 +698,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T12:44:21.653Z",
+    "updatedAt": "2026-08-19T12:49:19.716Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -820,8 +722,8 @@
   "pcWideSweep": {
     "enabled": true,
     "target": 64,
-    "candidateCount": 62,
-    "updatedAt": "2026-08-19T12:45:12.158Z",
+    "candidateCount": 59,
+    "updatedAt": "2026-08-19T12:50:12.570Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "profile": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER_2_STAGE",
@@ -854,8 +756,8 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 24,
-    "candidateCount": 9,
-    "updatedAt": "2026-08-19T12:44:26.101Z",
+    "candidateCount": 8,
+    "updatedAt": "2026-08-19T12:49:20.145Z",
     "fresh": true,
     "retentionMinutes": 15,
     "recheckPerScan": 6,
@@ -975,10 +877,10 @@
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 7,
+    "activePositions": 8,
     "pendingEntries": 0,
     "completedTradeOutcomes": 44,
-    "timedCheckpoints": 30,
+    "timedCheckpoints": 31,
     "horizonsMinutes": [
       15,
       30,
@@ -1011,9 +913,9 @@
       {
         "bucket": "NORMAL_ENTRY",
         "samples15": 4,
-        "totalCheckpoints": 6,
-        "qualityPct": -0.16,
-        "winRatePct": 31.3,
+        "totalCheckpoints": 7,
+        "qualityPct": -0.048,
+        "winRatePct": 43.7,
         "block": false,
         "scoreDelta": 0
       },
@@ -1037,6 +939,15 @@
       }
     ],
     "recentTiming": [
+      {
+        "at": 1787143591280,
+        "symbol": "HLUN-B.CO",
+        "bucket": "NORMAL_ENTRY",
+        "horizonMin": 30,
+        "pnlPct": 0.51,
+        "maePct": 0,
+        "mfePct": 0.51
+      },
       {
         "at": 1787143289111,
         "symbol": "YIT.HE",
@@ -1135,15 +1046,6 @@
         "pnlPct": -0.48,
         "maePct": -0.56,
         "mfePct": 0.05
-      },
-      {
-        "at": 1787127553029,
-        "symbol": "ASELS.IS",
-        "bucket": "CHASE_NEAR_HIGH",
-        "horizonMin": 30,
-        "pnlPct": 1.2,
-        "maePct": -0.1,
-        "mfePct": 1.33
       }
     ],
     "pendingOnlyForExecutedPositions": true,
@@ -1170,7 +1072,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T12:45:26.101Z",
+    "nextScanAt": "2026-08-19T12:50:20.145Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -1227,33 +1129,33 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T12:45:12.158Z",
-    "ageSeconds": 72,
+    "lastSeenAt": "2026-08-19T12:50:12.570Z",
+    "ageSeconds": 58,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-19T12:44:21.653Z",
+    "prefetchAt": "2026-08-19T12:49:19.716Z",
     "resolvedLeaderCount": 6,
     "leaderHealthy": false,
     "futureCandidates": 0,
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
-    "wideSweepCandidates": 62,
+    "wideSweepCandidates": 59,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8530,
     "wideSweepScannedCount": 8530,
     "metrics": {
-      "lastSeenAt": "2026-08-19T12:45:12.158Z",
+      "lastSeenAt": "2026-08-19T12:50:12.570Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 12918134,
+      "storageBytes": 13059268,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.13,
-      "ramMb": 60.4,
-      "downloadedBytes": 1130540065,
-      "uploadedBytes": 1153761,
+      "cpuPct": 0.16,
+      "ramMb": 58.1,
+      "downloadedBytes": 119710071,
+      "uploadedBytes": 120218,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
-      "lastLocalCleanupAt": "2026-08-19T12:35:24.8742743Z",
+      "lastLocalCleanupAt": "2026-08-19T12:46:32.6698330Z",
       "lastError": null
     }
   }
