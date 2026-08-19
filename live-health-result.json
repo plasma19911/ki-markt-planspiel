@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T07:22:00.174874+00:00",
+  "checkedAt": "2026-08-19T07:23:13.169221+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -37,13 +37,13 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 12,
-  "lastScan": "2026-08-19T07:20:21.569Z",
+  "scanCount": 13,
+  "lastScan": "2026-08-19T07:22:13.091Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 3 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 3/12 möglichen Checks. Beste HOLD · PU · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 2 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 2/12 möglichen Checks. Beste HOLD · PU · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
   "cash": 422.5,
-  "equity": 995.1944440220443,
-  "pnl": -4.805555977955692,
+  "equity": 995.3990066305739,
+  "pnl": -4.600993369426078,
   "universeCount": 171,
   "positions": 2,
   "positionRows": [
@@ -56,13 +56,13 @@
       "invested": 348,
       "entry_fee": 2,
       "entry_price": 112.61249999999998,
-      "last_price": 112.5,
+      "last_price": 112.5999984741211,
       "entry_fx": 0.1099,
       "last_fx": 0.1099,
       "currency": "HKD",
       "opened_at": "2026-08-19T07:05:20.069Z",
-      "score": 2.5,
-      "signal_confidence": 0.53,
+      "score": 3.9,
+      "signal_confidence": 0.63,
       "zero_quantity": 28.118681439882536,
       "zero_whole_shares": 28,
       "zero_fractional_shares": 0.11868143988253621,
@@ -78,13 +78,13 @@
       "invested": 225.5,
       "entry_fee": 2,
       "entry_price": 4749.745,
-      "last_price": 4740.10009765625,
+      "last_price": 4737.89990234375,
       "entry_fx": 0.009,
       "last_fx": 0.009,
       "currency": "INR",
       "opened_at": "2026-08-19T07:14:30.071Z",
-      "score": 1.1,
-      "signal_confidence": 0.39,
+      "score": 2.1,
+      "signal_confidence": 0.49000000000000005,
       "zero_quantity": 5.275136992734464,
       "zero_whole_shares": 5,
       "zero_fractional_shares": 0.27513699273446424,
@@ -92,40 +92,29 @@
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     }
   ],
-  "candidates": 3,
+  "candidates": 2,
   "topCandidates": [
     {
       "symbol": "9618.HK",
       "name": "JD.com Hong Kong",
-      "score": 2.5,
-      "confidence": 0.53,
-      "day_change": 1.3513513513513598,
+      "score": 3.9,
+      "confidence": 0.63,
+      "day_change": 1.4414400667757565,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 55 konstruktiv",
-      "contra": "Kurs unter EMA21"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 56 konstruktiv",
+      "contra": ""
     },
     {
       "symbol": "DATAPATTNS.NS",
       "name": "Data Patterns India",
-      "score": 1.1,
-      "confidence": 0.39,
-      "day_change": 0.06121965836887178,
+      "score": 2.1,
+      "confidence": 0.49000000000000005,
+      "day_change": 0.014774599842737324,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21",
+      "pro": "EMA9 über EMA21 · RSI 49 konstruktiv",
       "contra": "Kurs unter EMA21"
-    },
-    {
-      "symbol": "3690.HK",
-      "name": "Meituan",
-      "score": -4.978519619047619,
-      "confidence": 0.71388,
-      "day_change": 2.045590943024922,
-      "news_score": 0.28809523809523807,
-      "event_risk": "NONE",
-      "pro": "News +0.3 · 2 Ereigniscluster",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 22 sehr schwach · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
@@ -136,7 +125,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal 9618.HK: Score 2.50, Konfidenz 53%.",
+      "reason": "Kein Trade. Bestes Signal 9618.HK: Score 3.90, Konfidenz 63%.",
       "score": null
     },
     {
@@ -223,8 +212,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 706,
-      "updated_at": "2026-08-19T07:20:20.700Z"
+      "latency_ms": 789,
+      "updated_at": "2026-08-19T07:22:12.053Z"
     },
     {
       "source": "Yahoo FX",
@@ -232,17 +221,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 13,
-      "updated_at": "2026-08-19T07:20:20.700Z"
+      "latency_ms": 116,
+      "updated_at": "2026-08-19T07:22:12.053Z"
     },
     {
       "source": "Yahoo 1m Chart",
       "status": "DEGRADED",
-      "ok_count": 3,
-      "fail_count": 2,
+      "ok_count": 2,
+      "fail_count": 3,
       "last_error": "",
       "latency_ms": 110,
-      "updated_at": "2026-08-19T07:20:20.700Z"
+      "updated_at": "2026-08-19T07:22:12.053Z"
     },
     {
       "source": "Yahoo Events",
@@ -250,44 +239,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 212,
-      "updated_at": "2026-08-19T07:20:20.700Z"
+      "latency_ms": 206,
+      "updated_at": "2026-08-19T07:22:12.053Z"
     },
     {
       "source": "Yahoo News",
       "status": "OK",
-      "ok_count": 5,
+      "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 889,
-      "updated_at": "2026-08-19T07:20:20.700Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 527,
-      "updated_at": "2026-08-19T07:20:20.700Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 713,
-      "updated_at": "2026-08-19T07:20:20.700Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1085,
-      "updated_at": "2026-08-19T07:20:20.700Z"
+      "latency_ms": 981,
+      "updated_at": "2026-08-19T07:22:12.053Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -295,13 +257,40 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1090,
-      "updated_at": "2026-08-19T07:20:20.700Z"
+      "latency_ms": 289,
+      "updated_at": "2026-08-19T07:22:12.053Z"
+    },
+    {
+      "source": "BörsenNews",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 318,
+      "updated_at": "2026-08-19T07:22:12.053Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 699,
+      "updated_at": "2026-08-19T07:22:12.053Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 949,
+      "updated_at": "2026-08-19T07:22:12.053Z"
     }
   ],
   "risk": {
-    "equity": 995.1944440220443,
-    "dailyPct": -0.48055559779557333,
+    "equity": 995.3990066305739,
+    "dailyPct": -0.46009933694260985,
     "availableCash": 422.5,
     "hardLimits": false,
     "budgetOnly": true,
@@ -403,7 +392,7 @@
     "enabled": true,
     "target": 24,
     "candidateCount": 0,
-    "updatedAt": "2026-08-19T07:21:08.272Z",
+    "updatedAt": "2026-08-19T07:22:08.849Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8530,
@@ -431,7 +420,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 1,
-    "updatedAt": "2026-08-19T07:20:21.569Z",
+    "updatedAt": "2026-08-19T07:22:13.931Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 4,
@@ -698,7 +687,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T07:21:21.569Z",
+    "nextScanAt": "2026-08-19T07:23:13.091Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -746,8 +735,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T07:21:08.272Z",
-    "ageSeconds": 51,
+    "lastSeenAt": "2026-08-19T07:22:08.849Z",
+    "ageSeconds": 64,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-19T07:20:17.338Z",
     "resolvedLeaderCount": 6,
@@ -760,19 +749,19 @@
     "wideSweepMasterCount": 8530,
     "wideSweepScannedCount": 656,
     "metrics": {
-      "lastSeenAt": "2026-08-19T07:21:08.272Z",
+      "lastSeenAt": "2026-08-19T07:22:08.849Z",
       "version": "2.0.13-csharp-keyless-multisou",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 6885220,
+      "storageBytes": 6887196,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0.01,
       "ramMb": 54.7,
-      "downloadedBytes": 102921993,
-      "uploadedBytes": 563012,
+      "downloadedBytes": 102929570,
+      "uploadedBytes": 565040,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_KEYLESS_MULTISOURCE_LOW_L",
-      "lastLocalCleanupAt": "2026-08-19T06:50:31.5077477Z",
+      "lastLocalCleanupAt": "2026-08-19T07:21:07.5685558Z",
       "lastError": null
     }
   }
