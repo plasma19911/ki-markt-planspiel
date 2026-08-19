@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T20:14:53.582902+00:00",
+  "checkedAt": "2026-08-19T20:15:27.259340+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,10 +28,10 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 380,
-  "lastScan": "2026-08-19T20:12:22.162Z",
+  "scanCount": 381,
+  "lastScan": "2026-08-19T20:15:10.391Z",
   "lastError": null,
-  "aiLastSummary": "Deterministischer Ersatzplan · OUTER-FULL-CASH: 100% des verfügbaren Cashs auf 1 Aktien-BUY(s) verteilt. · Legacy-Cash-Failsafe: 1 Zwangskauf/-käufe blockiert. · PRO · PU · BALANCED-ADAPTIVE: Replay-Balance 2 Tag(e) · Missed 0.21 · Late 0.20 · Peak 0.14. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
+  "aiLastSummary": "KI-Wartefenster 10m; Fast-Decision: 0 SELL / 0 BUY aus 1 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 1/12 möglichen Checks. Beste  · PU · BALANCED-ADAPTIVE: Replay-Balance 2 Tag(e) · Missed 0.21 · Late 0.20 · Peak 0.14. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
   "cash": 8398.448297401768,
   "equity": 9700.8849562844,
   "pnl": -299.1150437155993,
@@ -104,13 +104,13 @@
     {
       "symbol": "MARA.MX",
       "name": "MARA Holdings, Inc.",
-      "score": -1.6622969957081546,
-      "confidence": 0.5758296995708154,
-      "day_change": 6.009365244536946,
+      "score": -5.462296995708154,
+      "confidence": 0.7596,
+      "day_change": 5.671173079825098,
       "news_score": -0.08652360515021458,
       "event_risk": "NONE",
-      "pro": "5m +0.62%",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 20m -2.39%"
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 20m -2.41% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
@@ -121,7 +121,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal MARA.MX: Score -1.66, Konfidenz 58%.",
+      "reason": "Kein Trade. Bestes Signal MARA.MX: Score -5.46, Konfidenz 76%.",
       "score": null
     },
     {
@@ -799,19 +799,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T20:14:05.991Z",
-    "ageSeconds": 47,
+    "lastSeenAt": "2026-08-19T20:15:08.613Z",
+    "ageSeconds": 18,
     "metrics": {
-      "lastSeenAt": "2026-08-19T20:14:05.991Z",
+      "lastSeenAt": "2026-08-19T20:15:08.613Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
       "storageBytes": 20167511,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.12,
-      "ramMb": 61.5,
-      "downloadedBytes": 10108037534,
-      "uploadedBytes": 17893014,
+      "cpuPct": 0.1,
+      "ramMb": 61.7,
+      "downloadedBytes": 10127400331,
+      "uploadedBytes": 17895705,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T19:55:20.5236508Z",
@@ -841,8 +841,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 118,
-      "updated_at": "2026-08-19T20:12:07.881Z"
+      "latency_ms": 19,
+      "updated_at": "2026-08-19T20:15:09.763Z"
     },
     {
       "source": "Yahoo FX",
@@ -850,8 +850,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 8,
-      "updated_at": "2026-08-19T20:12:07.881Z"
+      "latency_ms": 9,
+      "updated_at": "2026-08-19T20:15:09.763Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -859,8 +859,8 @@
       "ok_count": 1,
       "fail_count": 1,
       "last_error": "Error: Zu wenig Minuten",
-      "latency_ms": 157,
-      "updated_at": "2026-08-19T20:12:07.881Z"
+      "latency_ms": 158,
+      "updated_at": "2026-08-19T20:15:09.763Z"
     },
     {
       "source": "Yahoo Events",
@@ -868,8 +868,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 433,
-      "updated_at": "2026-08-19T20:12:07.881Z"
+      "latency_ms": 286,
+      "updated_at": "2026-08-19T20:15:09.763Z"
     },
     {
       "source": "Yahoo News",
@@ -877,8 +877,8 @@
       "ok_count": 3,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 669,
-      "updated_at": "2026-08-19T20:12:07.881Z"
+      "latency_ms": 333,
+      "updated_at": "2026-08-19T20:15:09.763Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -887,7 +887,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": 0,
-      "updated_at": "2026-08-19T20:12:07.881Z"
+      "updated_at": "2026-08-19T20:15:09.763Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -896,7 +896,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": 0,
-      "updated_at": "2026-08-19T20:12:07.881Z"
+      "updated_at": "2026-08-19T20:15:09.763Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -905,7 +905,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": 0,
-      "updated_at": "2026-08-19T20:12:07.881Z"
+      "updated_at": "2026-08-19T20:15:09.763Z"
     },
     {
       "source": "finanzen.net News (Fallback)",
@@ -914,7 +914,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": 0,
-      "updated_at": "2026-08-19T20:12:07.881Z"
+      "updated_at": "2026-08-19T20:15:09.763Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -923,16 +923,16 @@
       "fail_count": 2,
       "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-19T20:12:07.881Z"
+      "updated_at": "2026-08-19T20:15:09.763Z"
     },
     {
       "source": "Second-Chance 1m",
       "status": "DOWN",
       "ok_count": 0,
-      "fail_count": 3,
+      "fail_count": 2,
       "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-19T20:12:07.881Z"
+      "updated_at": "2026-08-19T20:15:09.763Z"
     }
   ]
 }
