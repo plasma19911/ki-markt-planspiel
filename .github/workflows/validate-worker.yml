@@ -7,94 +7,15 @@ on:
     paths:
       - "src/**"
       - "public/**"
-      - "scripts/smoke-fast-decisions.mjs"
-      - "scripts/smoke-order-approval.mjs"
-      - "scripts/smoke-zero-fees.mjs"
-      - "scripts/smoke-zero-universe.mjs"
-      - "scripts/smoke-zero-accounting.mjs"
-      - "scripts/smoke-trade-safety.mjs"
-      - "scripts/smoke-zero-cost-sizing.mjs"
-      - "scripts/smoke-early-session.mjs"
-      - "scripts/smoke-early-volume.mjs"
-      - "scripts/smoke-best-validated-buy.mjs"
-      - "scripts/smoke-trend-continuation.mjs"
-      - "scripts/smoke-trading-chain.mjs"
-      - "scripts/smoke-stocks-only.mjs"
-      - "scripts/smoke-quote-sanity.mjs"
-      - "scripts/smoke-free-tier-24h.mjs"
-      - "scripts/smoke-trade-day-lessons.mjs"
-      - "scripts/refresh_universe.py"
-      - "scripts/calibrate_fast-signals.py"
+      - "scripts/**"
       - "package.json"
       - "wrangler.jsonc"
       - ".github/workflows/validate-worker.yml"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  core_fix:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-      - name: Patch and validate core trade paths
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          def ensure_replace(path,old,new):
-              p=Path(path); t=p.read_text(encoding='utf-8')
-              if new in t:return
-              if t.count(old)!=1:raise SystemExit(f'{path}: patch anchor unresolved')
-              p.write_text(t.replace(old,new),encoding='utf-8')
-          ensure_replace('src/r2-portfolio.js',"const a=am.get(p.symbol);let why=null;if(q.momentumSellSignal==='STRONG'&&num(q.momentumExhaustionScore)>=3&&num(q.momentum5)<0)why=`Momentum-Risk-Exit: starker Lauf kippt (${num(q.momentumExhaustionScore).toFixed(1)}), 5m ${num(q.momentum5).toFixed(2)}%, Rücklauf vom 20m-Hoch ${num(q.drawdownFrom20mHighPct).toFixed(2)}%`;else if(a?.action==='SELL'&&a.confidence>=.5)why=`KI SELL ${Math.round(a.confidence*100)}%: ${a.reason}`;else if(fallback&&num(q.score)<=-1.5)why=`Signal-Fallback wegen nicht verfügbarer KI: Score ${num(q.score).toFixed(2)}`;if(why&&closePosition","const a=am.get(p.symbol);let why=null;const hardEvent=String(q.eventRisk||q.event_risk||'NONE').toUpperCase()==='HIGH';if(hardEvent)why=`HARD-EVENT-EXIT: ${q.eventText||q.event_text||'Event-Risiko HIGH'}`;else if(a?.action==='SELL'&&a.confidence>=.5)why=`KI SELL ${Math.round(a.confidence*100)}%: ${a.reason}`;if(why&&closePosition")
-          ensure_replace('src/r2-portfolio.js',"if(!buys.length&&fallback){const top=candidates.filter(x=>x.fresh&&x.confidence>=.55&&x.momentumSellSignal!=='STRONG'&&!existingKeys.has(entityKey(x))).sort((a,b)=>(num(b.score)+num(b.confidence))-(num(a.score)+num(a.confidence)))[0];if(top)buys.push({cand:top,a:{allocation_pct:100,confidence:top.confidence,reason:`stärkstes verfügbares Fallback-Signal ${top.score.toFixed(2)}`},k:top.score+top.confidence})}","if(!buys.length&&fallback){/* KI-/Validierungsfehler: kein unvalidierter Ersatzkauf; Cash bleibt frei. */}")
-          p=Path('src/market-v3-base.js');t=p.read_text(encoding='utf-8')
-          if 'function newsPriorityTargets(items,limit)' not in t:
-              anchor="function rotatingRadar(items){const minute=Math.floor(Date.now()/60000),priority=items.filter(x=>x.priority),regular=items.filter(x=>!x.priority),a=Math.min(Math.ceil(NEWS_RADAR_BATCH/2),priority.length),b=NEWS_RADAR_BATCH-a;return[...rotate(priority,a,minute),...rotate(regular,b,minute+17)]}"
-              helper=anchor+"\nfunction newsPriorityTargets(items,limit){const shock=[...items].filter(x=>Math.abs(num(x?.dayChange))>=4||Math.abs(num(x?.momentum20))>=2).sort((a,b)=>Math.abs(num(b?.dayChange))-Math.abs(num(a?.dayChange))||Math.abs(num(b?.momentum20))-Math.abs(num(a?.momentum20))),out=[];for(const c of [...shock,...items]){if(c&&!out.some(x=>x.symbol===c.symbol)){out.push(c);if(out.length>=limit)break}}return out}\nfunction newsSearchName(c){const words=companyWords(c),full=String(c?.name||c?.symbol||'').replace(/\"/g,'').trim(),core=words.slice(0,3).join(' ');return core.length>=5?core:full}"
-              if t.count(anchor)!=1:raise SystemExit('market rotatingRadar anchor unresolved')
-              t=t.replace(anchor,helper)
-          t=t.replace('const deepNewsTargets=deep.slice(0,NEWS_LIMIT);','const deepNewsTargets=newsPriorityTargets(deep,NEWS_LIMIT);')
-          t=t.replace("const enhanced=[];for(const c of (newsOnly?radarTargets.slice(0,4):[...deep.slice(0,2),...radarTargets.filter(x=>x.priority).slice(0,2)]))","const enhanced=[];for(const c of (newsOnly?radarTargets.slice(0,4):[...newsPriorityTargets(deep,2),...radarTargets.filter(x=>x.priority).slice(0,2)]))")
-          t=t.replace("u.searchParams.set('q',`\"${String(c.name||c.symbol).replace(/\"/g,'')}\" when:2d`);","u.searchParams.set('q',`\"${newsSearchName(c)}\" when:2d`);")
-          if not all(x in t for x in ['newsPriorityTargets(deep,NEWS_LIMIT)','newsPriorityTargets(deep,2)','newsSearchName(c)']):raise SystemExit('news patch incomplete')
-          p.write_text(t,encoding='utf-8')
-          Path('scripts/smoke-core-trade-paths.mjs').write_text(r'''import fs from 'node:fs';
-const r2=fs.readFileSync('src/r2-portfolio.js','utf8');
-const market=fs.readFileSync('src/market-v3-base.js','utf8');
-const fail=[];
-if(r2.includes("why=`Momentum-Risk-Exit:"))fail.push('direct momentum SELL bypass');
-if(r2.includes('Signal-Fallback wegen nicht verfügbarer KI'))fail.push('AI failure SELL bypass');
-if(r2.includes('stärkstes verfügbares Fallback-Signal'))fail.push('AI failure forced BUY');
-if(!r2.includes('kein unvalidierter Ersatzkauf; Cash bleibt frei'))fail.push('cash-hold fallback missing');
-if(!market.includes('newsPriorityTargets(deep,NEWS_LIMIT)'))fail.push('shock news priority missing');
-if(!market.includes('newsPriorityTargets(deep,2)'))fail.push('enhanced shock priority missing');
-if(!market.includes('newsSearchName(c)'))fail.push('legal-name query missing');
-if(fail.length){console.error(fail.join('\n'));process.exit(1)}
-console.log(JSON.stringify({ok:true,directMomentumSellBypass:false,aiFailureForcedBuy:false,shockNewsPriority:true},null,2));
-''',encoding='utf-8')
-          PY
-          node --check src/r2-portfolio.js
-          node --check src/market-v3-base.js
-          node --check scripts/smoke-core-trade-paths.mjs
-          node scripts/smoke-core-trade-paths.mjs
-      - name: Publish core fixes
-        run: |
-          if git diff --quiet -- src/r2-portfolio.js src/market-v3-base.js && [ -f scripts/smoke-core-trade-paths.mjs ] && git ls-files --error-unmatch scripts/smoke-core-trade-paths.mjs >/dev/null 2>&1; then exit 0; fi
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add src/r2-portfolio.js src/market-v3-base.js scripts/smoke-core-trade-paths.mjs
-          git commit -m 'Fix core sell gating and shock news targeting'
-          for attempt in 1 2 3 4 5; do
-            git fetch origin main
-            git rebase origin/main
-            if git push origin HEAD:main; then exit 0; fi
-            sleep 2
-          done
-          exit 1
-
   validate:
     runs-on: ubuntu-latest
     steps:
@@ -108,83 +29,39 @@ console.log(JSON.stringify({ok:true,directMomentumSellBypass:false,aiFailureForc
       - name: JavaScript syntax
         run: |
           node --check src/index.js
+          node --check src/index-v18.js
           node --check src/constants.js
           node --check src/gettex-session.js
           node --check src/market.js
-          node --check src/portfolio.js
           node --check src/market-v3.js
-          node --check src/priority-equities.js
-          node --check src/portfolio-v3.js
-          node --check src/portfolio-prod.js
-          node --check src/portfolio-final.js
-          node --check src/portfolio-no-leverage.js
-          node --check src/portfolio-learning.js
+          node --check src/market-v3-base.js
           node --check src/r2-portfolio.js
-          node --check src/compact-portfolio.js
-          node --check src/compact-portfolio-v2.js
-          node --check src/compact-portfolio-v3.js
-          node --check src/compact-portfolio-v4.js
-          node --check src/compact-portfolio-v5.js
-          node --check src/compact-portfolio-v6.js
-          node --check src/compact-portfolio-v7.js
-          node --check src/compact-portfolio-v8.js
-          node --check src/compact-portfolio-v9.js
+          node --check src/rotation-cost-guard.js
+          node --check src/wide-sweep-utils.js
           node --check src/trade-day-lessons-guard.js
-          node --check src/future-watch.js
-          node --check src/zero-accounting.js
-          node --check src/trade-safety.js
-          node --check src/order-approval.js
-          node --check src/access-auth.js
-          node --check src/zero-fee-model.js
-          node --check src/fast-signals.js
-          node --check src/gap-signals.js
-          node --check src/volume-overlay.js
-          node --check src/regional-benchmark-overlay.js
-          node --check src/fx-safety-overlay.js
-          node --check src/evidence-overlay.js
-          node --check src/execution-cost-overlay.js
-          node --check src/live-signal-learning.js
           node --check src/decision-guard.js
           node --check src/quote-sanity.js
-          node --check src/generated-fast-calibration.js
+          node --check src/zero-accounting.js
+          node --check src/zero-fee-model.js
           node --check src/zero-broker.js
-          node --check src/investment-intelligence.js
-          node --check src/news-learning.js
-          node --check src/news-learning-v2.js
-          node --check src/macro-geopolitics.js
-          node --check src/exposure-network.js
-          node --check src/last-week.js
+          node --check src/compact-portfolio-v21-source-budget.js
           node --check public/app.js
-          node --check public/analysis-ui.js
-          node --check public/investment-ui.js
-          node --check public/news-learning-ui.js
-          node --check public/macro-ui.js
-          node --check public/exposure-ui.js
-          node --check public/future-watch-ui.js
-          node --check public/free-budget-ui.js
-          node --check public/quota-guard.js
-          node --check public/accounting-ui.js
           node --check public/ui-v2.js
           node --check public/zero-ui.js
-          node --check public/order-approval-ui.js
-          node --check scripts/smoke-fast-decisions.mjs
-          node --check scripts/smoke-order-approval.mjs
-          node --check scripts/smoke-zero-fees.mjs
-          node --check scripts/smoke-zero-universe.mjs
-          node --check scripts/smoke-zero-accounting.mjs
-          node --check scripts/smoke-trade-safety.mjs
-          node --check scripts/smoke-zero-cost-sizing.mjs
-          node --check scripts/smoke-early-session.mjs
-          node --check scripts/smoke-early-volume.mjs
-          node --check scripts/smoke-best-validated-buy.mjs
-          node --check scripts/smoke-trend-continuation.mjs
-          node --check scripts/smoke-trading-chain.mjs
-          node --check scripts/smoke-stocks-only.mjs
-          node --check scripts/smoke-quote-sanity.mjs
-          node --check scripts/smoke-free-tier-24h.mjs
+          node --check scripts/smoke-core-trade-paths.mjs
+          node --check scripts/smoke-rotation-cost-guard.mjs
+          node --check scripts/smoke-pc-wide-sweep.mjs
           node --check scripts/smoke-trade-day-lessons.mjs
       - name: Python syntax
-        run: python3 -m py_compile scripts/calibrate_fast_signals.py scripts/refresh_universe.py
+        run: python3 -m py_compile scripts/calibrate_fast_signals.py scripts/refresh_universe.py scripts/apply-core-trade-fixes.py
+      - name: Core trade path regression
+        run: node scripts/smoke-core-trade-paths.mjs
+      - name: Rotation cost regression
+        run: node scripts/smoke-rotation-cost-guard.mjs
+      - name: PC wide-sweep regression
+        run: node scripts/smoke-pc-wide-sweep.mjs
+      - name: Trade-day entry guard regression
+        run: node scripts/smoke-trade-day-lessons.mjs
       - name: Fast decision smoke test
         run: node scripts/smoke-fast-decisions.mjs
       - name: Early-session technical smoke test
@@ -203,8 +80,6 @@ console.log(JSON.stringify({ok:true,directMomentumSellBypass:false,aiFailureForc
         run: node scripts/smoke-quote-sanity.mjs
       - name: Cloudflare Free 24h budget smoke test
         run: node scripts/smoke-free-tier-24h.mjs
-      - name: Trade-day entry guard regression smoke test
-        run: node scripts/smoke-trade-day-lessons.mjs
       - name: Order approval smoke test
         run: node scripts/smoke-order-approval.mjs
       - name: ZERO fee model smoke test
