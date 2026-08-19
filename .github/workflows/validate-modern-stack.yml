@@ -7,6 +7,7 @@ on:
     paths-ignore:
       - validation-result.json
       - live-health-result.json
+      - tranche-integration-result.json
 
 permissions:
   contents: write
@@ -22,41 +23,77 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Apply tranche-safe execution patch
-        run: python3 scripts/apply-tranche-scale-up.py
+      - name: Apply candidate patch
+        id: patch
+        continue-on-error: true
+        run: python3 scripts/apply-tranche-scale-up.py > /tmp/patch.log 2>&1
       - name: Install dependencies
-        run: npm install
-      - name: Validate tranche integration
+        id: install
+        continue-on-error: true
+        run: npm install > /tmp/install.log 2>&1
+      - name: Run tranche validation suite
+        if: always()
         run: |
-          node --check src/position-scale-up.js
-          node --check src/profit-optimizer-v2.js
-          node --check src/r2-portfolio.js
-          node --check src/zero-accounting.js
-          node scripts/smoke-position-scale-up.mjs
-          node scripts/smoke-zero-accounting.mjs
-          node scripts/smoke-opportunity-cost-rotation.mjs
-          node scripts/smoke-capital-in-motion.mjs
-          node scripts/smoke-core-trade-paths.mjs
-          node scripts/smoke-best-validated-buy.mjs
-          node scripts/smoke-adaptive-ai-cadence.mjs
-          node scripts/smoke-balanced-deep-selection.mjs
-          node scripts/smoke-trade-day-lessons.mjs
-          node scripts/smoke-free-tier-24h.mjs
-          npx wrangler deploy --dry-run
-      - name: Publish verified R2 and ZERO tranche changes
+          set +e
+          : > /tmp/results.tsv
+          runcheck(){ name="$1"; shift; "$@" > "/tmp/${name}.log" 2>&1; rc=$?; printf '%s\t%s\n' "$name" "$rc" >> /tmp/results.tsv; }
+          runcheck syntax_scale node --check src/position-scale-up.js
+          runcheck syntax_profit_v2 node --check src/profit-optimizer-v2.js
+          runcheck syntax_r2 node --check src/r2-portfolio.js
+          runcheck syntax_zero node --check src/zero-accounting.js
+          runcheck scale_helper node scripts/smoke-position-scale-up.mjs
+          runcheck zero_accounting node scripts/smoke-zero-accounting.mjs
+          runcheck opportunity_cost node scripts/smoke-opportunity-cost-rotation.mjs
+          runcheck capital_motion node scripts/smoke-capital-in-motion.mjs
+          runcheck core_paths node scripts/smoke-core-trade-paths.mjs
+          runcheck cash_aware node scripts/smoke-best-validated-buy.mjs
+          runcheck adaptive_ai node scripts/smoke-adaptive-ai-cadence.mjs
+          runcheck balanced_deep node scripts/smoke-balanced-deep-selection.mjs
+          runcheck trade_day node scripts/smoke-trade-day-lessons.mjs
+          runcheck free_tier node scripts/smoke-free-tier-24h.mjs
+          runcheck wrangler npx wrangler deploy --dry-run
+      - name: Build diagnostic report
+        if: always()
         run: |
+          python3 - <<'PY'
+          import json, pathlib, datetime, os
+          checks={}
+          p=pathlib.Path('/tmp/results.tsv')
+          if p.exists():
+            for line in p.read_text().splitlines():
+              if not line.strip(): continue
+              name,rc=line.split('\t',1); lp=pathlib.Path('/tmp')/(name+'.log'); text=lp.read_text(errors='replace') if lp.exists() else ''
+              checks[name]={'ok':rc=='0','exitCode':int(rc),'tail':text[-3500:]}
+          patch=pathlib.Path('/tmp/patch.log').read_text(errors='replace') if pathlib.Path('/tmp/patch.log').exists() else ''
+          install=pathlib.Path('/tmp/install.log').read_text(errors='replace') if pathlib.Path('/tmp/install.log').exists() else ''
+          failed=[k for k,v in checks.items() if not v['ok']]
+          patch_ok=os.environ.get('PATCH_OUTCOME')=='success'; install_ok=os.environ.get('INSTALL_OUTCOME')=='success'
+          out={'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'commit':os.environ.get('GITHUB_SHA'),'patch':{'ok':patch_ok,'tail':patch[-3500:]},'install':{'ok':install_ok,'tail':install[-3500:]},'checks':checks,'failedChecks':failed,'allPassed':patch_ok and install_ok and not failed}
+          pathlib.Path('/tmp/tranche-integration-result.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n')
+          print(json.dumps(out,ensure_ascii=False,indent=2))
+          PY
+        env:
+          PATCH_OUTCOME: ${{ steps.patch.outcome }}
+          INSTALL_OUTCOME: ${{ steps.install.outcome }}
+      - name: Publish diagnostic and source only when green
+        if: always()
+        run: |
+          PASS=$(python3 -c "import json; print('1' if json.load(open('/tmp/tranche-integration-result.json'))['allPassed'] else '0')")
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           for attempt in 1 2 3 4; do
             git fetch origin main
             git reset --hard origin/main
-            python3 scripts/apply-tranche-scale-up.py
-            git add src/r2-portfolio.js src/zero-accounting.js
-            if git diff --cached --quiet; then
-              echo 'Tranche integration already present'
-              exit 0
+            cp /tmp/tranche-integration-result.json tranche-integration-result.json
+            git add tranche-integration-result.json
+            if [ "$PASS" = "1" ]; then
+              python3 scripts/apply-tranche-scale-up.py
+              git add src/r2-portfolio.js src/zero-accounting.js
+              MSG='Enable tranche-safe confirmed position scale-ups [skip ci]'
+            else
+              MSG='Update tranche scale-up diagnostics [skip ci]'
             fi
-            git commit -m 'Enable tranche-safe confirmed position scale-ups [skip ci]'
+            git commit -m "$MSG" || exit 0
             if git push origin HEAD:main; then exit 0; fi
             sleep 3
           done
