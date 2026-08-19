@@ -52,6 +52,18 @@ async function agentUniverseData(env,requestUrl){
 
 const DASHBOARD_FIELDS=['config','equity','pnl','pnl_pct','positions','history','snapshots','candidates','newsRadar','sourceHealth','aiLog','statistics','risk','executionModel','futureWatch','marketRegime','investmentDossiers','intelligenceUpdatedAt','intelligenceModel','analysisNotice','pcAgent','gettexSession','orderApproval','accounting'];
 
+// history + aiLog waren zusammen ~68 % der Dashboard-Antwort (222 KB von 323 KB)
+// und wurden alle 60 Sekunden komplett neu uebertragen, obwohl das Dashboard nur
+// die letzten Eintraege zeigt. Beide sind in status() absteigend sortiert
+// (neueste zuerst), deshalb slice(0,N). Den Rest holt das Archiv per /api/history.
+const HISTORY_WINDOW=60;
+const AILOG_WINDOW=40;
+
+function windowList(list,limit){
+ if(!Array.isArray(list))return{rows:list,total:0};
+ return{rows:list.slice(0,limit),total:list.length};
+}
+
 function dashboardView(status){
  const out={};
  for(const k of DASHBOARD_FIELDS)if(status&&k in status)out[k]=status[k];
@@ -60,7 +72,22 @@ function dashboardView(status){
   const report=raw.report||raw;
   out.dayReplayLearning={report:{status:report?.status??null,processed:report?.processed??null,summary:report?.summary??raw?.summary??null}};
  }
+ const h=windowList(out.history,HISTORY_WINDOW);
+ if(Array.isArray(out.history)){out.history=h.rows;out.historyTotal=h.total;out.historyWindow=HISTORY_WINDOW}
+ const a=windowList(out.aiLog,AILOG_WINDOW);
+ if(Array.isArray(out.aiLog)){out.aiLog=a.rows;out.aiLogTotal=a.total;out.aiLogWindow=AILOG_WINDOW}
  return out;
+}
+
+// Archiv-Nachladen. Liefert nur den angeforderten Ausschnitt statt des ganzen
+// Status-Objekts, damit das Archiv-Tab nicht 350 KB fuer 80 Zeilen zieht.
+async function historyPage(p,u){
+ const kind=u.searchParams.get('kind')==='aiLog'?'aiLog':'history';
+ const limit=Math.max(1,Math.min(500,Number(u.searchParams.get('limit'))||200));
+ const offset=Math.max(0,Number(u.searchParams.get('offset'))||0);
+ const s=await p.status();
+ const all=Array.isArray(s?.[kind])?s[kind]:[];
+ return{ok:true,kind,offset,limit,total:all.length,rows:all.slice(offset,offset+limit)};
 }
 
 async function statusEtag(payload){
@@ -108,6 +135,7 @@ export default{
     sessionAuth=await verifyCloudflareAccess(request,env);if(!sessionAuth.ok)return reply({error:sessionAuth.error,approvalAuth:false},sessionAuth.status||403);
    }
    if(u.pathname==='/api/status'&&(request.method==='GET'||request.method==='HEAD'))return statusResponse(request,p,u);
+   if(u.pathname==='/api/history'&&request.method==='GET')return reply(await historyPage(p,u));
    if(u.pathname==='/api/day-replay-report'&&request.method==='GET'){const s=await p.status();return reply({ok:true,dayReplayLearning:s?.dayReplayLearning||null,pcDayReplayImport:s?.pcDayReplayImport||null,entryPriceTiming:s?.entryPriceTiming||null,profitOptimizer:s?.profitOptimizer||null})}
    if(u.pathname==='/api/position-chart'&&request.method==='GET'){const data=await positionChartData(p,u);return reply(data,data.status||200)}
    if(u.pathname==='/api/agent/status'&&request.method==='GET')return reply(await p.agentStatus());
