@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-19T20:32:42.449475+00:00",
-  "berlinNow": "2026-08-19T22:32:42.449368+02:00",
+  "checkedAt": "2026-08-19T20:33:26.241904+00:00",
+  "berlinNow": "2026-08-19T22:33:26.241726+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 378723,
-    "dashboard": 159149
+    "full": 105404,
+    "dashboard": 30998
   },
   "checks": {
     "fullStatus200": true,
@@ -30,7 +30,7 @@
     "capture": {
       "date": "2026-08-19",
       "symbolCount": 120,
-      "updatedAt": "2026-08-19T20:31:15.641Z"
+      "updatedAt": "2026-08-19T20:32:55.768Z"
     },
     "summary": {
       "symbolsAnalysed": 60,
@@ -1299,28 +1299,11 @@
     }
   },
   "depot": {
-    "cash": 8398.448297401768,
-    "equity": 9700.8849562844,
-    "displayMarketValue": 1302.4366588826322,
+    "cash": 10000.0,
+    "equity": 10000.0,
+    "displayMarketValue": 0.0,
     "displayAccountingDelta": 0.0,
-    "positions": [
-      {
-        "symbol": "SCHO.CO",
-        "invested": 763.822576,
-        "ratioValue": 759.880101831502,
-        "quantityValue": 759.880101831502,
-        "displayValue": 759.880101831502,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "LOGI-B.ST",
-        "invested": 534.375803,
-        "ratioValue": 542.5565570511302,
-        "quantityValue": 542.5565570511302,
-        "displayValue": 542.5565570511302,
-        "quantityUsed": true
-      }
-    ]
+    "positions": []
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: wed, 19 aug 2026 20:32:42 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=ddw0c3%2fbxhb7i1stzmeacrafldcek1%2b2bk1lucfiupfxoovkoj6ygkzfyze231jve8w3kzd5hszjultftl55nhlgimczx5p2feforfdkhny%2baxjb9fd0zqpw8igfvvienzgbfliecfq%2fqjo8ust3pxauz4qzagwidrc7j3a%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2dbedd82c45f7e3-lax\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: wed, 19 aug 2026 20:33:26 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=vy2bxagdnna4wwlqlpw5z5kwhky%2bs6xixgq83dsrio9ilhx7arjxmlbhogktoufqrel4ozpi00pfiipg8rsuw6wrg%2bdpmg01gwfkyu2naas%2bjxehdh5uw6omzhp1yvtrwxb50lfj8%2brgsqc7v2goaykgc%2b%2fqoz1alblttg4%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2dbeeea282016b7-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
