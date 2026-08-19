@@ -45,9 +45,6 @@ function candlePressure(rows=[]){
  }
  const total=Math.max(.0001,buy+sell),buyerShare=buy/total,sellerShare=sell/total,last3=a.slice(-3),last5=a.slice(-5),bull3=last3.filter(x=>x.c>x.o).length,bear3=last3.filter(x=>x.c<x.o).length;
  let higherLows=0,lowerHighs=0,risingCloses=0,fallingCloses=0;
- for(let i=Math.max(1,a.length-6);i<a.length;i++){if(a[i].l>=a[i-1].l)higherLows++;if(a[i].h<=a[i-1].h)lowerHighs++;if(a[i].c>a[i[i-1]?.c){} }
- // Korrekte Strukturzaehlung separat, damit keine Kerze aufgrund eines Seitwaertsprints falsch gewertet wird.
- higherLows=0;lowerHighs=0;risingCloses=0;fallingCloses=0;
  for(let i=Math.max(1,a.length-6);i<a.length;i++){if(a[i].l>=a[i-1].l)higherLows++;if(a[i].h<=a[i-1].h)lowerHighs++;if(a[i].c>a[i-1].c)risingCloses++;if(a[i].c<a[i-1].c)fallingCloses++}
  const p=a.at(-2),z=a.at(-1),bullEngulf=Boolean(p&&z&&p.c<p.o&&z.c>z.o&&z.o<=p.c&&z.c>=p.o),bearEngulf=Boolean(p&&z&&p.c>p.o&&z.c<z.o&&z.o>=p.c&&z.c<=p.o);
  const half=Math.floor(a.length/2),first=a.slice(0,half),second=a.slice(half);
