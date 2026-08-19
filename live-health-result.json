@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T14:39:57.039915+00:00",
+  "checkedAt": "2026-08-19T14:40:50.742294+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -565,6 +565,7 @@
     "fixedProfitTargets": false,
     "normalSoftExitMinProfitPct": null,
     "exitTiming": "CANDLE_FLOW_DYNAMIC",
+    "newsShockRetest": true,
     "candleFlowConfirmation": true,
     "multiTimeframeConfirmation": true,
     "foreignFxBuyRequiresRealFx": true,
@@ -667,6 +668,7 @@
     "quickProfitLockMinAgeMinutes": null,
     "lossRotationAllowed": "CANDLE_CONFIRMED_ONLY",
     "dipFirstV2": true,
+    "newsShockRetest": true,
     "dipSelectionMode": "RELATIVE_DYNAMIC",
     "realDipBeatsHighBuy": true,
     "candleFlowConfirmation": true,
@@ -859,23 +861,23 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T14:39:12.053Z",
-    "ageSeconds": 45,
+    "lastSeenAt": "2026-08-19T14:40:22.720Z",
+    "ageSeconds": 28,
     "metrics": {
-      "lastSeenAt": "2026-08-19T14:39:12.053Z",
+      "lastSeenAt": "2026-08-19T14:40:22.720Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 14791020,
+      "storageBytes": 14791590,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.11,
+      "cpuPct": 0.13,
       "ramMb": 59.1,
-      "downloadedBytes": 2561031468,
-      "uploadedBytes": 3552499,
+      "downloadedBytes": 2589744131,
+      "uploadedBytes": 3575989,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
-      "lastLocalCleanupAt": "2026-08-19T14:18:37.4914388Z",
-      "lastError": null
+      "lastLocalCleanupAt": "2026-08-19T14:39:16.1561779Z",
+      "lastError": "Der Remoteserver hat einen Fehler zurückgegeben: (500) Interner Serverfehler."
     },
     "singleScannerProfileDetected": true
   },
