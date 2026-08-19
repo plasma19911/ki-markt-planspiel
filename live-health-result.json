@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T12:31:31.496906+00:00",
+  "checkedAt": "2026-08-19T12:31:45.840728+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -711,7 +711,11 @@
     "earlyDipForesight": true,
     "fallingDipStarterAllowed": true,
     "nearHighBuyCapPct": 5,
-    "fastInfoProfile": true
+    "fastInfoProfile": true,
+    "profitFirst": true,
+    "normalSoftExitMinProfitPct": 1,
+    "lossRotationAllowed": false,
+    "foreignFxBuyRequiresRealFx": true
   },
   "fastInfoProfile": {
     "enabled": true,
@@ -929,7 +933,16 @@
     "dipReboundMaxPct": 30,
     "foresightStarterMaxPct": 12,
     "foresightReboundMaxPct": 18,
-    "cashMayRemainForBetterEntry": true
+    "cashMayRemainForBetterEntry": true,
+    "profitFirst": true,
+    "minimumNormalSoftExitProfitPct": 1,
+    "normalSoftExitMinAgeMinutes": 30,
+    "quickProfitLockPct": 1.5,
+    "quickProfitLockMinAgeMinutes": 10,
+    "lossRotationAllowed": false,
+    "dipFirstV2": true,
+    "realDipBeatsHighBuy": true,
+    "foreignFxBuyRequiresRealFx": true
   },
   "entryTimingLearning": {
     "version": 3,
@@ -937,7 +950,7 @@
     "activePositions": 7,
     "pendingEntries": 0,
     "completedTradeOutcomes": 44,
-    "timedCheckpoints": 27,
+    "timedCheckpoints": 23,
     "horizonsMinutes": [
       15,
       30,
@@ -960,27 +973,27 @@
     "buckets": [
       {
         "bucket": "CHASE_NEAR_HIGH",
-        "samples15": 13,
-        "totalCheckpoints": 18,
-        "qualityPct": 0.012,
-        "winRatePct": 30.4,
+        "samples15": 12,
+        "totalCheckpoints": 17,
+        "qualityPct": 0.023,
+        "winRatePct": 31.7,
         "block": false,
-        "scoreDelta": -0.6300413461538461
-      },
-      {
-        "bucket": "NORMAL_ENTRY",
-        "samples15": 3,
-        "totalCheckpoints": 5,
-        "qualityPct": -0.345,
-        "winRatePct": 0,
-        "block": false,
-        "scoreDelta": 0
+        "scoreDelta": -0.625825
       },
       {
         "bucket": "PULLBACK_RETEST",
         "samples15": 1,
         "totalCheckpoints": 3,
         "qualityPct": -0.268,
+        "winRatePct": 0,
+        "block": false,
+        "scoreDelta": 0
+      },
+      {
+        "bucket": "NORMAL_ENTRY",
+        "samples15": 1,
+        "totalCheckpoints": 2,
+        "qualityPct": -0.371,
         "winRatePct": 0,
         "block": false,
         "scoreDelta": 0
@@ -997,24 +1010,6 @@
     ],
     "recentTiming": [
       {
-        "at": 1787142676103,
-        "symbol": "HLUN-B.CO",
-        "bucket": "NORMAL_ENTRY",
-        "horizonMin": 15,
-        "pnlPct": -0.1,
-        "maePct": -86.65,
-        "mfePct": 0.09
-      },
-      {
-        "at": 1787142495279,
-        "symbol": "EMBRAC-B.ST",
-        "bucket": "NORMAL_ENTRY",
-        "horizonMin": 30,
-        "pnlPct": -0.37,
-        "maePct": -91.01,
-        "mfePct": -0.21
-      },
-      {
         "at": 1787142388553,
         "symbol": "YIT.HE",
         "bucket": "REBOUND_REVERSAL",
@@ -1022,24 +1017,6 @@
         "pnlPct": 0.22,
         "maePct": -0.26,
         "mfePct": 0.22
-      },
-      {
-        "at": 1787142316509,
-        "symbol": "MILDEF.ST",
-        "bucket": "CHASE_NEAR_HIGH",
-        "horizonMin": 15,
-        "pnlPct": -0.33,
-        "maePct": -90.99,
-        "mfePct": -0.1
-      },
-      {
-        "at": 1787141666161,
-        "symbol": "EMBRAC-B.ST",
-        "bucket": "NORMAL_ENTRY",
-        "horizonMin": 15,
-        "pnlPct": -0.48,
-        "maePct": -91.01,
-        "mfePct": -0.21
       },
       {
         "at": 1787139633274,
@@ -1103,6 +1080,42 @@
         "pnlPct": 0.08,
         "maePct": -0.28,
         "mfePct": 0.17
+      },
+      {
+        "at": 1787124674410,
+        "symbol": "DATAPATTNS.NS",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 15,
+        "pnlPct": -0.48,
+        "maePct": -0.48,
+        "mfePct": -0.11
+      },
+      {
+        "at": 1787124199512,
+        "symbol": "9618.HK",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 15,
+        "pnlPct": 0.08,
+        "maePct": -0.28,
+        "mfePct": 0.17
+      },
+      {
+        "at": 1787122692277,
+        "symbol": "9988.HK",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 15,
+        "pnlPct": -0.26,
+        "maePct": -0.26,
+        "mfePct": 0.06
+      },
+      {
+        "at": 1787122229642,
+        "symbol": "9618.HK",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 15,
+        "pnlPct": -0.28,
+        "maePct": -0.28,
+        "mfePct": -0.1
       }
     ],
     "pendingOnlyForExecutedPositions": true,
@@ -1187,7 +1200,7 @@
     "configured": true,
     "online": true,
     "lastSeenAt": "2026-08-19T12:31:11.692Z",
-    "ageSeconds": 19,
+    "ageSeconds": 34,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-19T12:29:18.830Z",
     "resolvedLeaderCount": 6,
