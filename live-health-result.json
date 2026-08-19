@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T08:39:56.968965+00:00",
+  "checkedAt": "2026-08-19T08:51:09.770164+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -37,283 +37,86 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 60,
-  "lastScan": "2026-08-19T08:38:27.779Z",
+  "scanCount": 4,
+  "lastScan": "2026-08-19T08:50:36.423Z",
   "lastError": null,
-  "aiLastSummary": "Deterministischer Ersatzplan · OUTER-FULL-CASH: 100% des verfügbaren Cashs auf 1 Aktien-BUY(s) verteilt. · Legacy-Cash-Failsafe: 1 Zwangskauf/-kä · DIP-FIRST: 1 zu teure/unbestaetigte Kaufidee(n) gestoppt; kein Kauf – Cash wartet auf besseren Preis.",
-  "cash": 969.3034028573238,
-  "equity": 969.3034028573238,
-  "pnl": -30.696597142676183,
-  "universeCount": 171,
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 1 BUY aus 4 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus  · DIP-FIRST: 1 teure/unbestaetigte Idee(n) gestoppt; kein Kauf – Cash wartet auf Dip.",
+  "cash": 10000,
+  "equity": 10000,
+  "pnl": 0,
+  "universeCount": 170,
   "positions": 0,
   "positionRows": [],
   "candidates": 4,
   "topCandidates": [
     {
       "symbol": "ASELS.IS",
-      "name": "Aselsan",
-      "score": 3.9,
+      "name": "ASELSAN Elektronik Sanayi ve Ticaret Anonim Sirketi",
+      "score": 5.45,
       "confidence": 0.63,
-      "day_change": 2.426229508196731,
+      "day_change": 2.9508196721311553,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 62 konstruktiv",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.38% · 20m +0.64% · Momentum baut sich auf · Beschleunigung +0.19%",
       "contra": ""
     },
     {
-      "symbol": "KOG.OL",
-      "name": "Kongsberg Gruppen",
-      "score": 3.5,
-      "confidence": 0.7344,
-      "day_change": 0.6453595574677395,
+      "symbol": "SAF.PA",
+      "name": "Safran",
+      "score": 3.9,
+      "confidence": 0.7308,
+      "day_change": 1.331064229104717,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 50 konstruktiv",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 56 konstruktiv",
       "contra": ""
-    },
-    {
-      "symbol": "HAG.DE",
-      "name": "Hensoldt",
-      "score": 0.8,
-      "confidence": 0.44406,
-      "day_change": 0.2549365343296861,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "Kurs über EMA21 · RSI 48 konstruktiv",
-      "contra": "EMA-Trend schwach"
     },
     {
       "symbol": "R3NK.DE",
       "name": "RENK Group",
-      "score": -1.6,
-      "confidence": 0.44000000000000006,
-      "day_change": 2.5507618716279046,
+      "score": 3.9,
+      "confidence": 0.63,
+      "day_change": 2.710813549240565,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "5m +0.22%",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 20m -0.79%"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 65 konstruktiv",
+      "contra": ""
+    },
+    {
+      "symbol": "OTKAR.IS",
+      "name": "Otokar",
+      "score": -0.20000000000000007,
+      "confidence": 0.30000000000000004,
+      "day_change": 1.2461059190031154,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "RSI 50 konstruktiv",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21"
     }
   ],
   "recentHistory": [
     {
-      "ts": "2026-08-19T08:31:13.377Z",
+      "ts": "2026-08-19T08:45:46.575Z",
       "action": "HALTEN",
       "symbol": "",
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal ASELS.IS: Score 3.90, Konfidenz 63%.",
+      "reason": "Kein Trade. Bestes Signal ASELS.IS: Score 5.45, Konfidenz 63%.",
       "score": null
     },
     {
-      "ts": "2026-08-19T08:29:20.444Z",
-      "action": "VERKAUF",
-      "symbol": "OTKAR.IS",
-      "amount": 320.4536250247339,
-      "fee": 2,
-      "trade_pnl": -5.638939975266055,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.23%, Rücklauf vom 20m-Hoch -0.23%· Trade P/L netto -3.64 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 0.8999999999999999
-    },
-    {
-      "ts": "2026-08-19T08:23:19.665Z",
-      "action": "HALTEN",
+      "ts": "2026-08-19T08:45:43.015Z",
+      "action": "START",
       "symbol": "",
-      "amount": 0,
+      "amount": 10000,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal ASELS.IS: Score 3.90, Konfidenz 63%.",
+      "reason": "R2-Planspiel gestartet: 10000.00 EUR, 7 days, Stil offensiv. Aktien + normale ETFs.",
       "score": null
-    },
-    {
-      "ts": "2026-08-19T08:22:14.607Z",
-      "action": "VERKAUF",
-      "symbol": "ASELS.IS",
-      "amount": 548.2882833453781,
-      "fee": 1,
-      "trade_pnl": 3.259106345378086,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.19%, Rücklauf vom 20m-Hoch -0.19%· Trade P/L netto +4.26 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 1.1000000000000005
-    },
-    {
-      "ts": "2026-08-19T08:17:35.361Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal ASM.AS: Score 4.00, Konfidenz 71%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T08:16:16.819Z",
-      "action": "VERKAUF",
-      "symbol": "DYVOX.ST",
-      "amount": 100.56149448721182,
-      "fee": 2,
-      "trade_pnl": -4.136027512788189,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.13%, Rücklauf vom 20m-Hoch -0.27%· Trade P/L netto -2.14 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 0.5
-    },
-    {
-      "ts": "2026-08-19T08:10:11.306Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal ASELS.IS: Score 5.90, Konfidenz 63%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T08:08:20.949Z",
-      "action": "KAUF",
-      "symbol": "DYVOX.ST",
-      "amount": -104.697522,
-      "fee": 2,
-      "trade_pnl": null,
-      "reason": "KI BUY 78%: PULLBACK-FIRST PULLBACK_RETEST: Ruecksetzer -0.34% vom 20m-Hoch, 1m/5m drehen wieder hoch · Preis-Timing 6.44 (Basis 5.09) · Zielanteil 100.0% · Order 104.70 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 3.5
-    },
-    {
-      "ts": "2026-08-19T08:05:20.358Z",
-      "action": "KAUF",
-      "symbol": "OTKAR.IS",
-      "amount": -326.092565,
-      "fee": 2,
-      "trade_pnl": null,
-      "reason": "KI BUY 76%: PULLBACK-FIRST NORMAL: neutraler Einstieg abseits des lokalen Hochs · Preis-Timing 5.98 (Basis 5.88) · Zielanteil 100.0% · STATE-DIVERSIFIKATION: DEFENSE bereits 100% des investierten Depots; neue Position nur 25% kleiner statt hart blockiert. · Order 326.09 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 4.1000000000000005
-    },
-    {
-      "ts": "2026-08-19T08:05:20.358Z",
-      "action": "VERKAUF",
-      "symbol": "R3NK.DE",
-      "amount": 67.54579853378884,
-      "fee": 2,
-      "trade_pnl": -3.776362466211154,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.21%, Rücklauf vom 20m-Hoch -0.33%· Trade P/L netto -1.78 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 2.1000000000000005
-    },
-    {
-      "ts": "2026-08-19T08:05:20.358Z",
-      "action": "VERKAUF",
-      "symbol": "HAG.DE",
-      "amount": 343.5261143463326,
-      "fee": 2,
-      "trade_pnl": -3.310634653667421,
-      "reason": "KI SELL 81%: CAPITAL-MOTION-ROTATION: DYVOX.ST Erwartungswert 8.28 ist besser als HAG.DE 5.32 · Differenz 2.96 · P/L 0.30% · Kapital aktiv zum staerkeren Setup verschieben· Trade P/L netto -1.31 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 4.1000000000000005
-    },
-    {
-      "ts": "2026-08-19T08:04:11.892Z",
-      "action": "VERKAUF",
-      "symbol": "OTKAR.IS",
-      "amount": 13.774660494885008,
-      "fee": 2,
-      "trade_pnl": -4.055879505114991,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.54%, Rücklauf vom 20m-Hoch -0.54%· Trade P/L netto -2.06 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 0.19999999999999973
     }
   ],
-  "recentAiLog": [
-    {
-      "ts": "2026-08-19T08:38:27.779Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "ASELS.IS",
-      "message": "ASELS.IS: Kein Trade. Bestes Signal ASELS.IS: Score 3.90, Konfidenz 63%.",
-      "confidence": 0.63
-    },
-    {
-      "ts": "2026-08-19T08:29:20.444Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "OTKAR.IS",
-      "message": "OTKAR.IS: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.23%, Rücklauf vom 20m-Hoch -0.23%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T08:23:19.665Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "ASML.AS",
-      "message": "ASML.AS: Kein Trade. Bestes Signal ASML.AS: Score 4.10, Konfidenz 63%.",
-      "confidence": 0.63
-    },
-    {
-      "ts": "2026-08-19T08:22:14.607Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "ASELS.IS",
-      "message": "ASELS.IS: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.19%, Rücklauf vom 20m-Hoch -0.19%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T08:16:16.819Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "DYVOX.ST",
-      "message": "DYVOX.ST: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.13%, Rücklauf vom 20m-Hoch -0.27%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T08:08:20.949Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "DYVOX.ST",
-      "message": "DYVOX.ST: KI BUY 78%: PULLBACK-FIRST PULLBACK_RETEST: Ruecksetzer -0.34% vom 20m-Hoch, 1m/5m drehen wieder hoch · Preis-Timing 6.44 (Basis 5.09) · Zielanteil 100.0%",
-      "confidence": 0.69
-    },
-    {
-      "ts": "2026-08-19T08:05:20.358Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "OTKAR.IS",
-      "message": "OTKAR.IS: KI BUY 76%: PULLBACK-FIRST NORMAL: neutraler Einstieg abseits des lokalen Hochs · Preis-Timing 5.98 (Basis 5.88) · Zielanteil 100.0% · STATE-DIVERSIFIKATION: DEFENSE bereits 100% des investierten Depots; neue Position nur 25% kleiner statt hart blockiert.",
-      "confidence": 0.63
-    },
-    {
-      "ts": "2026-08-19T08:05:20.358Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "R3NK.DE",
-      "message": "R3NK.DE: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.21%, Rücklauf vom 20m-Hoch -0.33%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T08:05:20.358Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "HAG.DE",
-      "message": "HAG.DE: KI SELL 81%: CAPITAL-MOTION-ROTATION: DYVOX.ST Erwartungswert 8.28 ist besser als HAG.DE 5.32 · Differenz 2.96 · P/L 0.30% · Kapital aktiv zum staerkeren Setup verschieben",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T08:04:11.892Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "OTKAR.IS",
-      "message": "OTKAR.IS: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.54%, Rücklauf vom 20m-Hoch -0.54%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T08:01:13.493Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "OTKAR.IS",
-      "message": "OTKAR.IS: KI BUY 81%: PULLBACK-FIRST NORMAL: neutraler Einstieg abseits des lokalen Hochs · Preis-Timing 7.22 (Basis 7.12) · Zielanteil 100.0% · STATE-DIVERSIFIKATION: DEFENSE bereits 100% des investierten Depots; neue Position nur 25% kleiner statt hart blockiert.",
-      "confidence": 0.63
-    },
-    {
-      "ts": "2026-08-19T07:50:25.893Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "R3NK.DE",
-      "message": "R3NK.DE: KI BUY 76%: PULLBACK-FIRST NORMAL: neutraler Einstieg abseits des lokalen Hochs · Preis-Timing 6.07 (Basis 5.97) · Zielanteil 100.0% · STATE-DIVERSIFIKATION: DEFENSE bereits 100% des investierten Depots; neue Position nur 25% kleiner statt hart blockiert.",
-      "confidence": 0.63
-    }
-  ],
+  "recentAiLog": [],
   "sourceHealth": [
     {
       "source": "Yahoo Spark",
@@ -321,8 +124,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 274,
-      "updated_at": "2026-08-19T08:38:21.155Z"
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T08:50:36.423Z"
     },
     {
       "source": "Yahoo FX",
@@ -330,8 +133,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 9,
-      "updated_at": "2026-08-19T08:38:21.155Z"
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T08:50:36.423Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -339,8 +142,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 324,
-      "updated_at": "2026-08-19T08:38:21.155Z"
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T08:50:36.423Z"
     },
     {
       "source": "Yahoo Events",
@@ -348,8 +151,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 406,
-      "updated_at": "2026-08-19T08:38:21.155Z"
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T08:50:36.423Z"
     },
     {
       "source": "Yahoo News",
@@ -357,26 +160,8 @@
       "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 767,
-      "updated_at": "2026-08-19T08:38:21.155Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 276,
-      "updated_at": "2026-08-19T08:38:21.155Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 337,
-      "updated_at": "2026-08-19T08:38:21.155Z"
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T08:50:36.423Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -384,8 +169,26 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 536,
-      "updated_at": "2026-08-19T08:38:21.155Z"
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T08:50:36.423Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T08:50:36.423Z"
+    },
+    {
+      "source": "BörsenNews",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T08:50:36.423Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -393,14 +196,14 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1005,
-      "updated_at": "2026-08-19T08:38:21.155Z"
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T08:50:36.423Z"
     }
   ],
   "risk": {
-    "equity": 969.3034028573238,
-    "dailyPct": -3.069659714267614,
-    "availableCash": 969.3034028573238,
+    "equity": 10000,
+    "dailyPct": 0,
+    "availableCash": 10000,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -457,7 +260,7 @@
     "enabled": true,
     "target": 10,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T08:38:17.950Z",
+    "updatedAt": "2026-08-19T08:50:18.609Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -479,7 +282,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T08:38:17.950Z",
+    "updatedAt": "2026-08-19T08:50:18.609Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -504,11 +307,11 @@
     "enabled": true,
     "target": 24,
     "candidateCount": 0,
-    "updatedAt": "2026-08-19T08:39:08.002Z",
+    "updatedAt": "2026-08-19T08:51:08.635Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8530,
-    "scannedCount": 657,
+    "scannedCount": 656,
     "cycleMinutes": 8,
     "batchCount": 14,
     "coreCount": 1800,
@@ -531,8 +334,8 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 12,
-    "candidateCount": 0,
-    "updatedAt": "2026-08-19T08:38:27.779Z",
+    "candidateCount": 1,
+    "updatedAt": "2026-08-19T08:50:37.015Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 4,
@@ -804,7 +607,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T08:39:27.779Z",
+    "nextScanAt": "2026-08-19T08:51:36.423Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -854,10 +657,10 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T08:39:08.002Z",
-    "ageSeconds": 49,
+    "lastSeenAt": "2026-08-19T08:51:08.635Z",
+    "ageSeconds": 1,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-19T08:38:17.950Z",
+    "prefetchAt": "2026-08-19T08:50:18.609Z",
     "resolvedLeaderCount": 6,
     "leaderHealthy": false,
     "futureCandidates": 0,
@@ -866,21 +669,21 @@
     "wideSweepCandidates": 0,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8530,
-    "wideSweepScannedCount": 657,
+    "wideSweepScannedCount": 656,
     "metrics": {
-      "lastSeenAt": "2026-08-19T08:39:08.002Z",
+      "lastSeenAt": "2026-08-19T08:51:08.635Z",
       "version": "2.0.13-csharp-keyless-multisou",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 8273776,
+      "storageBytes": 8422172,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.01,
-      "ramMb": 54.5,
-      "downloadedBytes": 354111382,
-      "uploadedBytes": 1908848,
+      "cpuPct": 0,
+      "ramMb": 55.5,
+      "downloadedBytes": 392052464,
+      "uploadedBytes": 2114868,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_KEYLESS_MULTISOURCE_LOW_L",
-      "lastLocalCleanupAt": "2026-08-19T08:14:34.8366692Z",
+      "lastLocalCleanupAt": "2026-08-19T08:49:52.7737042Z",
       "lastError": null
     }
   }
