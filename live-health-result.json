@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T16:05:50.989625+00:00",
+  "checkedAt": "2026-08-19T16:07:34.172576+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -738,10 +738,10 @@
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 4,
+    "activePositions": 5,
     "pendingEntries": 0,
     "completedTradeOutcomes": 73,
-    "timedCheckpoints": 49,
+    "timedCheckpoints": 50,
     "horizonsMinutes": [
       15,
       30,
@@ -774,9 +774,9 @@
       {
         "bucket": "NORMAL_ENTRY",
         "samples15": 5,
-        "totalCheckpoints": 12,
-        "qualityPct": -0.029,
-        "winRatePct": 52,
+        "totalCheckpoints": 13,
+        "qualityPct": -0.027,
+        "winRatePct": 50,
         "block": false,
         "scoreDelta": 0
       },
@@ -809,6 +809,15 @@
       }
     ],
     "recentTiming": [
+      {
+        "at": 1787155652094,
+        "symbol": "PANW",
+        "bucket": "NORMAL_ENTRY",
+        "horizonMin": 30,
+        "pnlPct": 0,
+        "maePct": -14.36,
+        "mfePct": 0.22
+      },
       {
         "at": 1787154676135,
         "symbol": "PANW",
@@ -907,15 +916,6 @@
         "pnlPct": 0.66,
         "maePct": -0.31,
         "mfePct": 0.66
-      },
-      {
-        "at": 1787145563292,
-        "symbol": "SCHO.CO",
-        "bucket": "NORMAL_ENTRY",
-        "horizonMin": 60,
-        "pnlPct": -0.52,
-        "maePct": -0.52,
-        "mfePct": 0
       }
     ],
     "pendingOnlyForExecutedPositions": true,
@@ -925,23 +925,23 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T16:05:10.901Z",
-    "ageSeconds": 40,
+    "lastSeenAt": "2026-08-19T16:07:19.438Z",
+    "ageSeconds": 14,
     "metrics": {
-      "lastSeenAt": "2026-08-19T16:05:10.901Z",
+      "lastSeenAt": "2026-08-19T16:07:19.438Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 16136800,
+      "storageBytes": 16136909,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.17,
-      "ramMb": 61.1,
-      "downloadedBytes": 4500998117,
-      "uploadedBytes": 6839916,
+      "cpuPct": 0.13,
+      "ramMb": 60.6,
+      "downloadedBytes": 4548851613,
+      "uploadedBytes": 6894500,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
-      "lastLocalCleanupAt": "2026-08-19T15:43:17.9395786Z",
-      "lastError": null
+      "lastLocalCleanupAt": "2026-08-19T16:06:21.7834695Z",
+      "lastError": "Der Remoteserver hat einen Fehler zurückgegeben: (500) Interner Serverfehler."
     },
     "singleScannerProfileDetected": true
   },
