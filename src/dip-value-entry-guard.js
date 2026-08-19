@@ -41,11 +41,9 @@ export function assessDipValueEntry(c={}){
  const mode=rebound?'DIP_REBOUND':dipStarter?(deepDip?'DEEP_DIP_STARTER':'DIP_STARTER'):unknownValue?'VALUE_STARTER':exceptionalBreakout?'EXCEPTIONAL_BREAKOUT':'WAIT_FOR_VALUE';
  const allow=rebound||dipStarter||unknownValue||exceptionalBreakout;
  let cap=rebound?30:dipStarter?(deepDip?16:20):unknownValue?14:exceptionalBreakout?5:0;
- // Early-Dip-Kandidaten haben noch nicht den kompletten regulaeren News/Event-Deep-Pass.
- // Sie duerfen deshalb frueher hinein, starten aber bewusst kleiner.
  if(x.foresight)cap=Math.min(cap,rebound?18:12);
  const dipBonus=x.wideDipDiscovery?1.65:(x.day<0?Math.min(1.1,Math.abs(x.day)*.20):0);
- const valueScore=x.score*1.10+x.confidence*2+x.news*.20+dipBonus+(inDip?Math.min(3.5,Math.abs(x.draw))*.55:0)+(x.accel>0?Math.min(.35,x.accel)*2:0)-(nearHigh?2.35:0)-(x.day>0?Math.min(6,x.day)*.48:0)+(x.foresight?.55:0);
+ const valueScore=x.score*1.10+x.confidence*2+x.news*.20+dipBonus+(inDip?Math.min(3.5,Math.abs(x.draw))*.55:0)+(x.accel>0?Math.min(.35,x.accel)*2:0)-(nearHigh?2.35:0)-(x.day>0?Math.min(6,x.day)*.48:0)+(x.foresight?0.55:0);
  const blockers=[];
  if(!x.hardSafe)blockers.push('harte Safety');
  if(!x.quality)blockers.push('Qualitaet/Konfidenz');
@@ -66,7 +64,7 @@ function assessEmptyDepotStarter(q={}){
  const priceOk=dipLike?(!q.drawKnown||q.draw<=-.05||q.day<=0):(!q.drawKnown?q.day<=.20:q.draw<=-.25);
  const allow=q.hardSafe&&baseQuality&&tapeOk&&temperatureOk&&priceOk;
  let cap=dipLike?(q.day<=-1.5?16:12):5;if(q.foresight)cap=Math.min(cap,10);
- const score=q.valueScore+(dipLike?2.3:-1.0)+q.confidence*1.1-Math.max(0,q.day)*.55+(q.accel>0?.30:0);
+ const score=q.valueScore+(dipLike?2.3:-1.0)+q.confidence*1.1-Math.max(0,q.day)*.55+(q.accel>0?0.30:0);
  return{allow,cap,score:+score.toFixed(3),dipLike};
 }
 
