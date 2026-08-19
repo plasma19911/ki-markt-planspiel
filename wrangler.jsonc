@@ -12,7 +12,10 @@
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
-    "run_worker_first": ["/*"]
+    // Statische Dateien wie app.js, CSS und universe.json werden direkt aus dem
+    // Asset-Layer bedient. Nur API sowie die Haupt-HTML-Routen laufen zuerst
+    // durch den Worker, damit API-Routing und no-store fuer die App erhalten bleiben.
+    "run_worker_first": ["/api/*", "/", "/index.html"]
   },
 
   "ai": {
