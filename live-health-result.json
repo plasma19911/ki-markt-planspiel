@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T08:08:43.322541+00:00",
+  "checkedAt": "2026-08-19T08:12:58.688833+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -21,8 +21,8 @@
     "legacyUiDisabled": true,
     "profitOptimizer": true,
     "opportunityCapture": true,
-    "capitalInMotion": true,
-    "capitalDeploymentPolicy": true,
+    "capitalInMotion": false,
+    "capitalDeploymentPolicy": false,
     "secondChanceWatch": true,
     "forwardScanner": true,
     "reboundScanner": true,
@@ -34,16 +34,19 @@
     "entryTimingLearning": true,
     "legacyFullCashFailsafe": true
   },
-  "allRequiredChecksPassed": true,
-  "failedChecks": [],
+  "allRequiredChecksPassed": false,
+  "failedChecks": [
+    "capitalInMotion",
+    "capitalDeploymentPolicy"
+  ],
   "running": 1,
-  "scanCount": 41,
-  "lastScan": "2026-08-19T08:08:20.949Z",
+  "scanCount": 43,
+  "lastScan": "2026-08-19T08:11:18.820Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 5 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 2/12 möglichen Checks.  · PULLBACK-FIR · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 6 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks. Beste HOLDs: AS · BALANCE · FRESH-POSITION-GUARD: BUY bei praktisch leerem Cash unterdrueckt. Harte Reversals/Event-Risiken bleiben sofort ausfuehrbar.",
   "cash": 0,
-  "equity": 974.2276526264378,
-  "pnl": -25.772347373562184,
+  "equity": 975.0286388156803,
+  "pnl": -24.971361184319676,
   "universeCount": 171,
   "positions": 3,
   "positionRows": [
@@ -56,7 +59,7 @@
       "invested": 544.029177,
       "entry_fee": 1,
       "entry_price": 385.38499999999993,
-      "last_price": 387.75,
+      "last_price": 389,
       "entry_fx": 0.0175,
       "last_fx": 0.0175,
       "currency": "TRY",
@@ -78,12 +81,12 @@
       "invested": 324.092565,
       "entry_fee": 2,
       "entry_price": 326.57624999999996,
-      "last_price": 326.75,
+      "last_price": 325.5,
       "entry_fx": 0.0175,
       "last_fx": 0.0175,
       "currency": "TRY",
       "opened_at": "2026-08-19T08:05:20.358Z",
-      "score": 5.45,
+      "score": 5.1000000000000005,
       "signal_confidence": 0.63,
       "zero_quantity": 56.70827300740721,
       "zero_whole_shares": 56,
@@ -100,13 +103,13 @@
       "invested": 102.697522,
       "entry_fee": 2,
       "entry_price": 74.1740984725952,
-      "last_price": 74.0999984741211,
+      "last_price": 74.30000305175781,
       "entry_fx": 0.09,
       "last_fx": 0.09,
       "currency": "SEK",
       "opened_at": "2026-08-19T08:08:20.949Z",
-      "score": 3.5,
-      "signal_confidence": 0.69,
+      "score": 6.45,
+      "signal_confidence": 0.63,
       "zero_quantity": 15.383854978218146,
       "zero_whole_shares": 15,
       "zero_fractional_shares": 0.38385497821814596,
@@ -114,65 +117,86 @@
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     }
   ],
-  "candidates": 5,
+  "candidates": 6,
   "topCandidates": [
     {
       "symbol": "ASELS.IS",
       "name": "ASELSAN Elektronik Sanayi ve Ticaret Anonim Sirketi",
       "score": 6.45,
       "confidence": 0.63,
-      "day_change": 1.7049180327868951,
+      "day_change": 2.0327868852459074,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 63 konstruktiv · 5m +0.32% · 20m +0.71% · Momentum baut sich auf · Beschleunigung +0.52%",
-      "contra": ""
-    },
-    {
-      "symbol": "OTKAR.IS",
-      "name": "Otokar",
-      "score": 5.45,
-      "confidence": 0.63,
-      "day_change": 1.7912772585669812,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.46% · 20m +1.32% · Momentum baut sich auf · Beschleunigung +0.54%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 67 konstruktiv · 5m +0.52% · 20m +0.91% · Momentum baut sich auf · Beschleunigung +0.65%",
       "contra": ""
     },
     {
       "symbol": "DYVOX.ST",
       "name": "Dynavox Group AB (publ)",
-      "score": 3.5,
-      "confidence": 0.69,
-      "day_change": 0.7477885440123622,
+      "score": 6.45,
+      "confidence": 0.63,
+      "day_change": 1.0197186291744709,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 52 konstruktiv",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 53 konstruktiv · 5m +0.27% · 20m +0.75% · Momentum baut sich auf · Beschleunigung +0.61%",
+      "contra": ""
+    },
+    {
+      "symbol": "OTKAR.IS",
+      "name": "Otokar",
+      "score": 5.1000000000000005,
+      "confidence": 0.63,
+      "day_change": 1.4018691588784993,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 56 konstruktiv · 20m +0.77%",
       "contra": ""
     },
     {
       "symbol": "SAF.PA",
       "name": "Safran",
-      "score": 2.9,
-      "confidence": 0.5700000000000001,
-      "day_change": 1.2744282366229376,
+      "score": 2.1,
+      "confidence": 0.49000000000000005,
+      "day_change": 1.2461059190031154,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "EMA9 über EMA21 · Kurs über EMA21",
-      "contra": ""
+      "contra": "RSI 30 sehr schwach"
+    },
+    {
+      "symbol": "ASML.AS",
+      "name": "ASML Amsterdam",
+      "score": 1,
+      "confidence": 0.38,
+      "day_change": 0.8950561412593983,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "contra": "RSI 79 überhitzt"
     },
     {
       "symbol": "R3NK.DE",
       "name": "RENK Group",
-      "score": 1.2000000000000002,
-      "confidence": 0.4,
-      "day_change": 3.7311162831271227,
+      "score": 0.25,
+      "confidence": 0.30500000000000005,
+      "day_change": 3.5110566739357862,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 55 konstruktiv · 20m +0.60%",
-      "contra": "5m -0.33% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "pro": "EMA9 über EMA21",
+      "contra": "Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     }
   ],
   "recentHistory": [
+    {
+      "ts": "2026-08-19T08:10:11.306Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal ASELS.IS: Score 6.45, Konfidenz 63%.",
+      "score": null
+    },
     {
       "ts": "2026-08-19T08:08:20.949Z",
       "action": "KAUF",
@@ -282,16 +306,6 @@
       "trade_pnl": null,
       "reason": "KI BUY 83%: PULLBACK-FIRST NORMAL: neutraler Einstieg abseits des lokalen Hochs · Preis-Timing 7.68 (Basis 7.58) · Zielanteil 55.0% · Order 545.03 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
       "score": 6.05
-    },
-    {
-      "ts": "2026-08-19T07:46:19.734Z",
-      "action": "KAUF",
-      "symbol": "HAG.DE",
-      "amount": -346.836749,
-      "fee": 2,
-      "trade_pnl": null,
-      "reason": "KI BUY 85%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag +0.79%, 5m +0.36%, noch nicht ueberhitzt · Preis-Timing 8.00 (Basis 7.55) · Zielanteil 45.0% · RESEARCH-CONFIRM: 5m 0.36%, 20m 0.68% · volle Breakout-Bestaetigung max. 35% · Order 346.84 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 6.05
     }
   ],
   "recentAiLog": [
@@ -399,8 +413,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 283,
-      "updated_at": "2026-08-19T08:08:20.215Z"
+      "latency_ms": 270,
+      "updated_at": "2026-08-19T08:11:18.628Z"
     },
     {
       "source": "Yahoo FX",
@@ -408,17 +422,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 143,
-      "updated_at": "2026-08-19T08:08:20.215Z"
+      "latency_ms": 125,
+      "updated_at": "2026-08-19T08:11:18.628Z"
     },
     {
       "source": "Yahoo 1m Chart",
       "status": "OK",
-      "ok_count": 4,
+      "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 316,
-      "updated_at": "2026-08-19T08:08:20.215Z"
+      "latency_ms": 119,
+      "updated_at": "2026-08-19T08:11:18.628Z"
     },
     {
       "source": "Yahoo Events",
@@ -426,17 +440,35 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 218,
-      "updated_at": "2026-08-19T08:08:20.215Z"
+      "latency_ms": 220,
+      "updated_at": "2026-08-19T08:11:18.628Z"
     },
     {
       "source": "Yahoo News",
       "status": "OK",
-      "ok_count": 4,
+      "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 953,
-      "updated_at": "2026-08-19T08:08:20.215Z"
+      "latency_ms": 506,
+      "updated_at": "2026-08-19T08:11:18.628Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 285,
+      "updated_at": "2026-08-19T08:11:18.628Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 291,
+      "updated_at": "2026-08-19T08:11:18.628Z"
     },
     {
       "source": "BörsenNews",
@@ -445,25 +477,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": 318,
-      "updated_at": "2026-08-19T08:08:20.215Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 506,
-      "updated_at": "2026-08-19T08:08:20.215Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 508,
-      "updated_at": "2026-08-19T08:08:20.215Z"
+      "updated_at": "2026-08-19T08:11:18.628Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -471,22 +485,22 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 958,
-      "updated_at": "2026-08-19T08:08:20.215Z"
+      "latency_ms": 960,
+      "updated_at": "2026-08-19T08:11:18.628Z"
     },
     {
       "source": "Second-Chance 1m",
-      "status": "OK",
-      "ok_count": 1,
+      "status": "DEGRADED",
+      "ok_count": 0,
       "fail_count": 1,
       "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-19T08:08:20.215Z"
+      "updated_at": "2026-08-19T08:11:18.628Z"
     }
   ],
   "risk": {
-    "equity": 974.2276526264378,
-    "dailyPct": -2.5772347373562154,
+    "equity": 975.0286388156803,
+    "dailyPct": -2.497136118431964,
     "availableCash": 0,
     "hardLimits": false,
     "budgetOnly": true,
@@ -510,21 +524,24 @@
     "spreadIsSeparate": true,
     "stocksOnly": true,
     "fullCashPolicy": false,
-    "strategicCashReservePct": 0,
+    "strategicCashReservePct": null,
     "quoteSanity": true,
     "unsafeFallbackBuysBlocked": true,
     "sameScanReentryBlocked": true,
-    "alwaysInvested": true,
-    "cashMayRemain": false,
+    "alwaysInvested": false,
+    "cashMayRemain": true,
     "legacyFullCashFailsafe": true,
     "targetVenueSanity": true,
     "unverifiedVentureOtcAutoBuyBlocked": true,
-    "capitalInMotion": true,
+    "capitalInMotion": false,
     "hardSafetyCashException": true,
     "peakProtectionCashException": true,
     "pullbackFirst": true,
     "peakChaseBlocked": true,
-    "rotationCostAware": true
+    "rotationCostAware": true,
+    "dipFirst": true,
+    "fallingDipStarterAllowed": true,
+    "nearHighBuyCapPct": 8
   },
   "forwardScan": {
     "enabled": true,
@@ -541,7 +558,7 @@
     "enabled": true,
     "target": 10,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T08:08:16.841Z",
+    "updatedAt": "2026-08-19T08:11:15.922Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -563,7 +580,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T08:08:16.841Z",
+    "updatedAt": "2026-08-19T08:11:15.922Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -588,7 +605,7 @@
     "enabled": true,
     "target": 24,
     "candidateCount": 0,
-    "updatedAt": "2026-08-19T08:08:17.220Z",
+    "updatedAt": "2026-08-19T08:12:08.489Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8530,
@@ -616,7 +633,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 4,
-    "updatedAt": "2026-08-19T08:08:21.136Z",
+    "updatedAt": "2026-08-19T08:11:18.820Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 4,
@@ -634,7 +651,7 @@
   "profitOptimizer": {
     "enabled": true,
     "objective": "maximaler erwarteter Paper-Gewinn nach realistischen Kosten",
-    "alwaysInvested": true,
+    "alwaysInvested": false,
     "maxSinglePositionPct": 72,
     "weakSetupsMayStayCash": false,
     "forwardCatalystBoost": true,
@@ -670,7 +687,7 @@
     "secondChanceMinExpected": 5.7,
     "capitalInMotion": true,
     "capitalMotionMinExpected": 3,
-    "capitalMotionTargetCashDeploymentPct": 100,
+    "capitalMotionTargetCashDeploymentPct": null,
     "rotationMinGap": 0.8,
     "lossRotationMinGap": 0.45,
     "rotationMinAgeMinutes": 10,
@@ -691,9 +708,9 @@
     "learningOnlyFromExecutedEntries": true,
     "researchBackedEntryPolicy": true,
     "earlyBreakoutQualityGuard": true,
-    "earlyBreakoutInitialCapPct": 35,
+    "earlyBreakoutInitialCapPct": 8,
     "balancedSoftOverride": true,
-    "balancedSoftStarterMaxPct": 28,
+    "balancedSoftStarterMaxPct": 16,
     "marginalExitConfirmation": true,
     "exceptionalRotationEscape": true,
     "freshPositionChurnShield": true,
@@ -701,12 +718,17 @@
     "zeroCashBuySuppression": true,
     "pcWideSweepTarget": 24,
     "pcWideSweepMaxAgeSeconds": 90,
-    "keylessMultiSource": true
+    "keylessMultiSource": true,
+    "dipFirst": true,
+    "fallingDipStarterAllowed": true,
+    "dipStarterMaxPct": 16,
+    "dipReboundMaxPct": 28,
+    "cashMayRemainForBetterEntry": true
   },
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 2,
+    "activePositions": 3,
     "pendingEntries": 0,
     "completedTradeOutcomes": 37,
     "timedCheckpoints": 18,
@@ -883,7 +905,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T08:09:20.949Z",
+    "nextScanAt": "2026-08-19T08:12:18.820Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -926,15 +948,17 @@
     "nextMorningFreshNewsMerge": true,
     "rotationCostAware": true,
     "pcWideSweepMaxAgeSeconds": 90,
-    "keylessMultiSource": true
+    "keylessMultiSource": true,
+    "dipFirst": true,
+    "cashMayRemainForBetterEntry": true
   },
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T08:08:17.220Z",
-    "ageSeconds": 26,
+    "lastSeenAt": "2026-08-19T08:12:08.489Z",
+    "ageSeconds": 50,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-19T08:08:16.841Z",
+    "prefetchAt": "2026-08-19T08:11:15.922Z",
     "resolvedLeaderCount": 6,
     "leaderHealthy": false,
     "futureCandidates": 0,
@@ -945,16 +969,16 @@
     "wideSweepMasterCount": 8530,
     "wideSweepScannedCount": 658,
     "metrics": {
-      "lastSeenAt": "2026-08-19T08:08:17.220Z",
+      "lastSeenAt": "2026-08-19T08:12:08.489Z",
       "version": "2.0.13-csharp-keyless-multisou",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 7700032,
+      "storageBytes": 7798644,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.02,
-      "ramMb": 55.9,
-      "downloadedBytes": 258989854,
-      "uploadedBytes": 1344391,
+      "cpuPct": 0,
+      "ramMb": 57.2,
+      "downloadedBytes": 268451937,
+      "uploadedBytes": 1443203,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_KEYLESS_MULTISOURCE_LOW_L",
       "lastLocalCleanupAt": "2026-08-19T07:51:08.5333817Z",
