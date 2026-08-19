@@ -8,6 +8,7 @@ export const WIDE_SWEEP_TTL_MS=8*60*1000;
 const arr=v=>Array.isArray(v)?v:[];
 const key=v=>String(v||'').toUpperCase().trim();
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
 
 export const isBlockedWideSweepSymbol=s=>/\.(?:V|NE|PK|OB)$/i.test(key(s));
 export const isFreshWideSweep=(ts,now=Date.now(),ttl=WIDE_SWEEP_TTL_MS)=>{const t=Date.parse(String(ts||''));return Number.isFinite(t)&&now-t>=0&&now-t<ttl};
@@ -54,4 +55,26 @@ export function normalizeWideSweepEntries(input,now=Date.now()){
  take(dips,WIDE_SWEEP_DIP_RESERVE);
  take(momentum,WIDE_SWEEP_TARGET-selected.length);
  return selected.slice(0,WIDE_SWEEP_TARGET);
+}
+
+function liveWavePriority(x={}){
+ const day=num(x?.pcWideSessionPct,x?.sessionPct),m5=num(x?.pcWideM5Pct,x?.m5Pct),m20=num(x?.pcWideM20Pct,x?.m20Pct),accel=num(x?.pcWideAccelerationPct,x?.accelerationPct),wide=num(x?.pcWideScore,x?.wideScore),rebound=Boolean(x?.reboundWatch||x?.reboundDiscovery);
+ let score=0;
+ if(day<=-.35&&day>=-7)score+=3.2-Math.abs(Math.abs(day)-2.2)*.35;else if(day<=.6&&day>=-.35)score+=.8;else if(day>2)score-=Math.min(4,day*.35);
+ if(m5>=-.55&&m5<=.18)score+=1.1;else if(m5<-.9)score-=1.3;
+ if(m20>=-1.8&&m20<=.28)score+=1.0;else if(m20<-2.5)score-=1.1;
+ score+=clamp(accel*18,-1.2,2.6)+clamp(wide,0,10)*.05+(rebound?.65:0);
+ return score;
+}
+
+// Zwei teure Cloudflare-1m-Slots sollen nicht rein zufaellig nach Listenposition
+// vergeben werden. Slot 1 geht immer an den aktuell besten gebremsten Pullback,
+// die restlichen Slots rotieren weiter durch den Pool. So bleibt Vollabdeckung
+// erhalten, aber gute Dips warten nicht mehrere Minuten auf ihre Detailpruefung.
+export function selectWideSweepLiveWave(input,minute=Math.floor(Date.now()/60000),slots=2){
+ const pool=arr(input).filter(x=>x?.symbol&&(x?.pcWideSweep||x?.reboundWatch));
+ const limit=Math.max(0,Math.floor(num(slots,2)));if(!limit||!pool.length)return[];if(pool.length<=limit)return pool;
+ const ranked=[...pool].sort((a,b)=>liveWavePriority(b)-liveWavePriority(a)||key(a.symbol).localeCompare(key(b.symbol))),chosen=[ranked[0]],rest=ranked.slice(1),rotating=Math.max(0,limit-1);
+ if(rotating&&rest.length){const start=Math.abs(Math.floor(num(minute)))%rest.length;for(let i=0;i<Math.min(rotating,rest.length);i++)chosen.push(rest[(start+i)%rest.length])}
+ return chosen;
 }
