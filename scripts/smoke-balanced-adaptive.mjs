@@ -37,11 +37,11 @@ assert.equal(hard.allow,true,'Harter Reversal-Exit muss sofort erlaubt bleiben')
 
 const rotationStorage=memoryStorage(report);
 const rot=rotationCostDecision({held:{symbol:'OLD',ageMinutes:7,invested:600,pnlPct:-.9,momentumState:'NORMAL',momentumSellSignal:'NONE'},action:{symbol:'OLD',action:'SELL',reason:'CAPITAL-MOTION-ROTATION: NEW besser · Differenz 2.60'},storage:rotationStorage});
-assert.equal(rot.allow,true,'Aussergewoehnlich klar bessere Alternative darf trotz Replay-Churn frueher rotieren');
+assert.equal(rot.allow,false,'Eine Position im Minus darf nicht nur fuer eine attraktivere Alternative rotiert werden; die eigene Aktie muss ein echtes Exit-Risiko zeigen');
 
 const base={run:async()=>({response:JSON.stringify({summary:'base',actions:[{symbol:'GOOD',action:'HOLD',confidence:.62,allocation_pct:0,reason:'RESEARCH-ENTRY-WAIT: knapp'}]})})};
 const input={messages:[{role:'user',content:`JSON-only Kandidaten=${JSON.stringify([strongNearMiss])} Gehalten=[]`}]};
 const plan=JSON.parse((await new BalancedAdaptiveAiGuard(base,storage).run('x',input)).response);
 assert.equal(plan.actions.some(a=>a.action==='BUY'&&a.symbol==='GOOD'),true,'Balance-Schicht muss einen guten Near-Miss als kleine Starterposition retten koennen');
 
-console.log(JSON.stringify({ok:true,pressure,softStarterPct:soft.allocationCap,firstMarginalExitHeld:true,secondMarginalExitAllowed:true,hardSafetyPreserved:true,exceptionalRotationAllowed:true},null,2));
+console.log(JSON.stringify({ok:true,pressure,softStarterPct:soft.allocationCap,firstMarginalExitHeld:true,secondMarginalExitAllowed:true,hardSafetyPreserved:true,lossOpportunityRotationBlocked:true},null,2));
