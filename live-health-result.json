@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T17:50:45.670232+00:00",
+  "checkedAt": "2026-08-19T17:52:28.943164+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,17 +28,17 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 296,
-  "lastScan": "2026-08-19T17:49:28.406Z",
+  "scanCount": 297,
+  "lastScan": "2026-08-19T17:51:21.008Z",
   "lastError": null,
-  "aiLastSummary": "KI-Free-Limit/Fehler: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers. · Multi-T · TAGES-REVIEW V2: MRK BUY gestoppt.",
-  "cash": 7459.859274936253,
-  "equity": 9719.043163596874,
-  "pnl": -280.95683640312564,
-  "marketValue": 2259.183888660621,
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 10 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-La · Multi-T · TAGES-REVIEW V2: SE BUY gestoppt.",
+  "cash": 7687.7788622676235,
+  "equity": 9717.56172092188,
+  "pnl": -282.4382790781201,
+  "marketValue": 2029.7828586542555,
   "accountingDelta": 0.0,
-  "universeCount": 234,
-  "positions": 6,
+  "universeCount": 232,
+  "positions": 5,
   "positionRows": [
     {
       "symbol": "SCHO.CO",
@@ -109,11 +109,11 @@
       "entry_price": 9.304295076370238,
       "last_price": 9.420000076293945,
       "entry_fx": 0.6201,
-      "last_fx": 0.6201,
+      "last_fx": 0.62,
       "currency": "CAD",
       "opened_at": "2026-08-19T16:57:23.635Z",
-      "score": 3.05,
-      "signal_confidence": 0.6641999999999999,
+      "score": 2.5,
+      "signal_confidence": 0.6092,
       "zero_quantity": 42.378795875072356,
       "zero_whole_shares": 42,
       "zero_fractional_shares": 0.3787958750723561,
@@ -136,13 +136,13 @@
       "invested": 243.35495,
       "entry_fee": 2,
       "entry_price": 93.47337725067138,
-      "last_price": 93.3499984741211,
+      "last_price": 93.41500091552734,
       "entry_fx": 0.6202,
-      "last_fx": 0.6201,
+      "last_fx": 0.62,
       "currency": "CAD",
       "opened_at": "2026-08-19T17:27:20.639Z",
-      "score": 1.6,
-      "signal_confidence": 0.44000000000000006,
+      "score": 3,
+      "signal_confidence": 0.5800000000000001,
       "zero_quantity": 4.197787870342655,
       "zero_whole_shares": 4,
       "zero_fractional_shares": 0.19778787034265477,
@@ -165,9 +165,9 @@
       "invested": 236.994302,
       "entry_fee": 1,
       "entry_price": 319.2289136657715,
-      "last_price": 318.760009765625,
+      "last_price": 318.7749938964844,
       "entry_fx": 0.8571,
-      "last_fx": 0.8572,
+      "last_fx": 0.8573,
       "currency": "USD",
       "opened_at": "2026-08-19T17:31:27.283Z",
       "score": 1.8199283154121866,
@@ -184,81 +184,41 @@
       "quote_sanity_last_fx": 0.8573,
       "quote_sanity_repaired_at": "2026-08-19T17:33:20.754Z",
       "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
-    },
-    {
-      "symbol": "WDC",
-      "name": "Western Digital Corporation",
-      "instrument_type": "EQUITY",
-      "theme": null,
-      "company_key": "WESTERN DIGITAL",
-      "invested": 229.717297,
-      "entry_fee": 1,
-      "entry_price": 467.4669999999999,
-      "last_price": 467.1400146484375,
-      "entry_fx": 0.8573,
-      "last_fx": 0.8572,
-      "currency": "USD",
-      "opened_at": "2026-08-19T17:39:22.089Z",
-      "score": -1.1,
-      "signal_confidence": 0.5196000000000001,
-      "zero_quantity": 0.5732049282526843,
-      "zero_whole_shares": 0,
-      "zero_fractional_shares": 0.5732049282526843,
-      "zero_uses_fractional": true,
-      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash",
-      "fx_basis_repaired_at": "2026-08-19T17:40:28.755Z",
-      "fx_basis_repair_reason": "FOREIGN_NATIVE_ENTRY_PRICE_WITH_ENTRY_FX_1",
-      "fx_basis_original_entry_fx": 1,
-      "quote_sanity_last_price": 466.67498779296875,
-      "quote_sanity_last_fx": 0.8573,
-      "quote_sanity_repaired_at": "2026-08-19T17:40:28.755Z",
-      "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
     }
   ],
   "candidates": 10,
   "topCandidates": [
     {
-      "symbol": "MRK",
-      "name": "Merck & Co., Inc.",
-      "score": 4.792141335227273,
-      "confidence": 0.7695,
-      "day_change": 11.848041398678522,
-      "news_score": 0.07670454545454543,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 55 konstruktiv · 5m +0.29%",
-      "contra": ""
-    },
-    {
-      "symbol": "MELI",
-      "name": "MercadoLibre, Inc.",
-      "score": 3.780119565217391,
-      "confidence": 0.765,
-      "day_change": 7.036824585895429,
-      "news_score": 0.08217391304347825,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.23%",
-      "contra": ""
-    },
-    {
       "symbol": "SE",
       "name": "Sea Limited",
       "score": 3.4452320967316816,
       "confidence": 0.7640232096731682,
-      "day_change": 2.8255618174310326,
+      "day_change": 2.752450614547275,
       "news_score": 0.03765419082762256,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.47% · 20m +0.88%",
-      "contra": "RSI 86 überhitzt"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.37% · 20m +0.84%",
+      "contra": "RSI 85 überhitzt"
+    },
+    {
+      "symbol": "DOO.TO",
+      "name": "BRP Inc.",
+      "score": 3,
+      "confidence": 0.5800000000000001,
+      "day_change": -1.9882479115230889,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 51 konstruktiv",
+      "contra": ""
     },
     {
       "symbol": "BHC.TO",
       "name": "Bausch Health Companies Inc.",
-      "score": 3.05,
-      "confidence": 0.6641999999999999,
+      "score": 2.5,
+      "confidence": 0.6092,
       "day_change": -2.383418898508338,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.32% · 20m +1.07% · Momentum baut sich auf · Beschleunigung +0.11%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.21% · 20m +1.07%",
       "contra": "RSI 100 überhitzt"
     },
     {
@@ -266,69 +226,90 @@
       "name": "Keysight Technologies, Inc.",
       "score": 1.8199283154121866,
       "confidence": 0.5969928315412187,
-      "day_change": -6.5219912710777095,
+      "day_change": -6.517597097805172,
       "news_score": 0.22556750298685785,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 57 konstruktiv",
+      "pro": "EMA9 über EMA21 · RSI 54 konstruktiv",
       "contra": "Kurs unter EMA21"
     },
     {
-      "symbol": "DOO.TO",
-      "name": "BRP Inc.",
-      "score": 1.6,
-      "confidence": 0.44000000000000006,
-      "day_change": -2.0564489831905397,
+      "symbol": "SMCI",
+      "name": "Super Micro Computer",
+      "score": 1,
+      "confidence": 0.38,
+      "day_change": 0.013367857597823551,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 53 konstruktiv",
-      "contra": "Kurs unter EMA21"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "contra": "RSI 86 überhitzt"
     },
     {
       "symbol": "COIN",
       "name": "Coinbase Global, Inc.",
-      "score": 1.1102230246251565e-16,
-      "confidence": 0.28,
-      "day_change": 9.863709076267924,
+      "score": 1,
+      "confidence": 0.38,
+      "day_change": 9.936397802664265,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "Kurs über EMA21 · RSI 51 konstruktiv",
-      "contra": "EMA-Trend schwach · 20m -0.50%"
+      "pro": "Kurs über EMA21 · 5m +0.22%",
+      "contra": "EMA-Trend schwach"
     },
     {
-      "symbol": "WDC",
-      "name": "Western Digital Corporation",
-      "score": -1.1,
-      "confidence": 0.5196000000000001,
-      "day_change": -5.8489167509598765,
+      "symbol": "MRK",
+      "name": "Merck & Co., Inc.",
+      "score": 0.8999999999999999,
+      "confidence": 0.37,
+      "day_change": 11.748171230123416,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "RSI 53 konstruktiv",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 54 konstruktiv",
+      "contra": "MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     },
     {
       "symbol": "MSTR",
       "name": "Strategy Inc",
-      "score": -1.4500000000000002,
-      "confidence": 0.42500000000000004,
-      "day_change": 11.489409344875611,
+      "score": -1.0499999999999998,
+      "confidence": 0.385,
+      "day_change": 11.543446766366404,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "RSI 57 konstruktiv",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "pro": "Kurs über EMA21",
+      "contra": "EMA-Trend schwach · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+    },
+    {
+      "symbol": "WDC",
+      "name": "Western Digital Corporation",
+      "score": -3,
+      "confidence": 0.7096,
+      "day_change": -6.016204942237636,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 5m -0.26%"
     },
     {
       "symbol": "MRNA",
       "name": "Moderna, Inc.",
-      "score": -6.300000000000001,
+      "score": -7.1,
       "confidence": 0.63,
-      "day_change": 145.02064706106802,
+      "day_change": 141.08957002244728,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 5m -3.02% · 20m -1.55% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 32 sehr schwach · 5m -2.95% · 20m -2.54% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
+    {
+      "ts": "2026-08-19T17:51:21.008Z",
+      "action": "VERKAUF",
+      "symbol": "WDC",
+      "amount": 227.91958733137,
+      "fee": 1,
+      "trade_pnl": -2.797709668630006,
+      "reason": "KI SELL 79%: CANDLE-FLOW PROACTIVE SELL V2.1: eindeutige Verkäuferdominanz unabhängig von der Haltedauer · Exit-Qualität 7.8 · Käufer 40% / Verkäufer 60% · letzte 3 0 grün/2 rot · 3 höhere Tiefs/4 tiefere Hochs · Topbildung · rotes Volumen führt.· Trade P/L netto -1.80 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": -3
+    },
     {
       "ts": "2026-08-19T17:40:28.755Z",
       "action": "HALTEN",
@@ -468,19 +449,17 @@
       "trade_pnl": null,
       "reason": "Kein Trade. Bestes Signal MRNA: Score 5.61, Konfidenz 81%.",
       "score": null
-    },
-    {
-      "ts": "2026-08-19T17:03:20.568Z",
-      "action": "KAUF",
-      "symbol": "TSEM",
-      "amount": -239.083168,
-      "fee": 2,
-      "trade_pnl": null,
-      "reason": "KI BUY 81%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.50% vom 20m-Hoch stabilisiert sich; 5m +0.14%, Beschl. +0.19 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · OPPORTUNITY V3: guter relativer Dip; Rang 12. · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvoll · TAGES-REVIEW SIZING: Start auf max. 3.0% begrenzt; tiefere echte Dips erhalten mehr Kapital als Mikro-Rücksetzer/High-Chases. · Order 239.08 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 5.85
     }
   ],
   "recentAiLog": [
+    {
+      "ts": "2026-08-19T17:51:21.008Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "WDC",
+      "message": "WDC: KI SELL 79%: CANDLE-FLOW PROACTIVE SELL V2.1: eindeutige Verkäuferdominanz unabhängig von der Haltedauer · Exit-Qualität 7.8 · Käufer 40% / Verkäufer 60% · letzte 3 0 grün/2 rot · 3 höhere Tiefs/4 tiefere Hochs · Topbildung · rotes Volumen führt.",
+      "confidence": null
+    },
     {
       "ts": "2026-08-19T17:40:28.755Z",
       "kind": "SYSTEM",
@@ -592,14 +571,6 @@
       "symbol": "",
       "message": "Quote-Sanity: 1 Position(en) korrigiert, davon 1 FX-Einstiegsbasis repariert, 0 bereits verbuchte FX-Phantom-Verkäufe korrigiert, 0 extremer Feed-Ausreißer verworfen, 0 fehlerhafte Depot-Snapshot(s) entfernt.",
       "confidence": null
-    },
-    {
-      "ts": "2026-08-19T16:57:23.635Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "BHC.TO",
-      "message": "BHC.TO: KI BUY 80%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.27% vom 20m-Hoch stabilisiert sich; 5m +0.05%, Beschl. +0.16 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · OPPORTUNITY V3: guter relativer Dip; Rang 12. · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvoll · TAGES-REVIEW SIZING: Start auf max. 3.0% begrenzt; tiefere echte Dips erhalten mehr Kapital als Mikro-Rücksetzer/High-Chases.",
-      "confidence": 0.78
     }
   ],
   "candleFlowPolicy": {
@@ -619,7 +590,7 @@
     "holdRule": "Gewinner laufen lassen solange Käuferstruktur intakt bleibt; gemischte Boden-/Topbilder werden gehalten statt vorschnell verkauft.",
     "sellRule": "Normaler SELL erst bei eindeutiger Verkäuferdominanz, bestätigtem bärischem Reversal oder klarer Top-/Red-Volume-Struktur; harte Event-/Stop-/starke Reversal-Risiken bleiben sofort möglich.",
     "foreignFxBuyRequiresRealFx": true,
-    "todayTradeReviewV1": true,
+    "todayTradeReviewV2": true,
     "buyerMajoritySellBlocked": true,
     "momentumExitNeedsTwoWeakSignals": true
   },
@@ -692,8 +663,11 @@
     "foreignFxBuyRequiresRealFx": true,
     "forcedMinimumBuyPct": null,
     "timeBasedSell": false,
-    "todayTradeReviewV1": true,
+    "todayTradeReviewV2": true,
     "microDipBuyBlocked": true,
+    "microDipThresholdPct": 0.7,
+    "redDayShallowRetestBlocked": true,
+    "missingMtfShallowBuyBlocked": true,
     "highChaseBlocked": true,
     "noiseSellBlocked": true,
     "catalystGapDiscoveryV2": true
@@ -807,8 +781,11 @@
     "foreignFxBuyRequiresRealFx": true,
     "timeBasedExit": false,
     "maxSingleNewPositionRiskCapPct": 28,
-    "todayTradeReviewV1": true,
+    "todayTradeReviewV2": true,
     "deeperDipPreferred": true,
+    "realDipThresholdPct": 0.7,
+    "redDayShallowRetestBlocked": true,
+    "missingMtfShallowBuyBlocked": true,
     "noiseSellBlocked": true,
     "reentryNeedsNewStructure": true,
     "continuationCannotBypassMtf": true,
@@ -817,9 +794,9 @@
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 6,
+    "activePositions": 5,
     "pendingEntries": 0,
-    "completedTradeOutcomes": 89,
+    "completedTradeOutcomes": 90,
     "timedCheckpoints": 59,
     "horizonsMinutes": [
       15,
@@ -1004,19 +981,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T17:50:11.772Z",
-    "ageSeconds": 34,
+    "lastSeenAt": "2026-08-19T17:52:18.844Z",
+    "ageSeconds": 9,
     "metrics": {
-      "lastSeenAt": "2026-08-19T17:50:11.772Z",
+      "lastSeenAt": "2026-08-19T17:52:18.844Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 17823888,
+      "storageBytes": 17824318,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.16,
-      "ramMb": 105.9,
-      "downloadedBytes": 6862245822,
-      "uploadedBytes": 11480686,
+      "cpuPct": 0.11,
+      "ramMb": 60.9,
+      "downloadedBytes": 6910170334,
+      "uploadedBytes": 11538587,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T17:42:21.8139414Z",
@@ -1025,9 +1002,9 @@
     "singleScannerProfileDetected": true
   },
   "risk": {
-    "equity": 9719.043163596874,
-    "dailyPct": -2.8095683640312563,
-    "availableCash": 7459.859274936253,
+    "equity": 9717.56172092188,
+    "dailyPct": -2.824382790781199,
+    "availableCash": 7687.7788622676235,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -1046,8 +1023,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 93,
-      "updated_at": "2026-08-19T17:49:28.384Z"
+      "latency_ms": 95,
+      "updated_at": "2026-08-19T17:51:20.998Z"
     },
     {
       "source": "Yahoo FX",
@@ -1055,8 +1032,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 7,
-      "updated_at": "2026-08-19T17:49:28.384Z"
+      "latency_ms": 98,
+      "updated_at": "2026-08-19T17:51:20.998Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -1064,44 +1041,17 @@
       "ok_count": 10,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 2699,
-      "updated_at": "2026-08-19T17:49:28.384Z"
-    },
-    {
-      "source": "Yahoo Events",
-      "status": "DOWN",
-      "ok_count": 0,
-      "fail_count": 1,
-      "last_error": "Error: HTTP 401",
-      "latency_ms": 84,
-      "updated_at": "2026-08-19T17:49:28.384Z"
+      "latency_ms": 2695,
+      "updated_at": "2026-08-19T17:51:20.998Z"
     },
     {
       "source": "Yahoo News",
       "status": "OK",
-      "ok_count": 9,
+      "ok_count": 7,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 311,
-      "updated_at": "2026-08-19T17:49:28.384Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1118,
-      "updated_at": "2026-08-19T17:49:28.384Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1174,
-      "updated_at": "2026-08-19T17:49:28.384Z"
+      "latency_ms": 302,
+      "updated_at": "2026-08-19T17:51:20.998Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -1109,8 +1059,35 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1222,
-      "updated_at": "2026-08-19T17:49:28.384Z"
+      "latency_ms": 266,
+      "updated_at": "2026-08-19T17:51:20.998Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 923,
+      "updated_at": "2026-08-19T17:51:20.998Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1080,
+      "updated_at": "2026-08-19T17:51:20.998Z"
+    },
+    {
+      "source": "Unternehmenstermine (Nasdaq-Fallback)",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": null,
+      "updated_at": "2026-08-19T17:51:20.998Z"
     },
     {
       "source": "finanzen.net News (Fallback)",
@@ -1118,8 +1095,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 701,
-      "updated_at": "2026-08-19T17:49:28.384Z"
+      "latency_ms": 894,
+      "updated_at": "2026-08-19T17:51:20.998Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -1128,16 +1105,16 @@
       "fail_count": 3,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T17:49:28.384Z"
+      "updated_at": "2026-08-19T17:51:20.998Z"
     },
     {
       "source": "Second-Chance 1m",
       "status": "DOWN",
       "ok_count": 0,
-      "fail_count": 2,
+      "fail_count": 1,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T17:49:28.384Z"
+      "updated_at": "2026-08-19T17:51:20.998Z"
     }
   ]
 }
