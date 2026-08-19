@@ -3,7 +3,6 @@ import base,{MarketPortfolio} from './index.js';
 import './intelligence-request-cache.js';
 import {gettexSessionState} from './gettex-session.js';
 import {positionChartHistoryData} from './position-chart-history.js';
-import {RECOVERY_20260819} from './recovery-20260819.js';
 export {MarketPortfolio};
 
 const portfolio=env=>env.PORTFOLIO.getByName('default-paper-portfolio');
@@ -48,22 +47,13 @@ function controlGuard(request,url){
  return null;
 }
 
-function accidentalRestartSignature(status){
- const c=status?.config||{},h=status?.history||[],positions=status?.positions||[];
- const cash=Number(c.cash||0),scanCount=Number(c.scan_count||0);
- const hasAccidentalStart=h.some(x=>String(x?.action||'').toUpperCase()==='START'&&String(x?.ts||'').startsWith('2026-08-19T20:32:53'));
- return positions.length===0&&Math.abs(cash-10000)<0.02&&scanCount<=20&&hasAccidentalStart;
-}
-
 export default{
  async fetch(request,env,ctx){
   const url=new URL(request.url);
   if(url.pathname==='/api/recover-20260819-health-snapshot'&&request.method==='GET'){
    try{
-    const p=portfolio(env),before=await p.status();
-    if(!accidentalRestartSignature(before))return json({ok:false,skipped:true,reason:'Aktueller Zustand entspricht nicht dem versehentlichen Neustart.',before:{cash:before?.config?.cash,equity:before?.equity,positions:before?.positions?.length,scanCount:before?.config?.scan_count}},409);
-    const result=await p.importLegacy(RECOVERY_20260819),after=await p.status();
-    return json({ok:true,result,before:{cash:before?.config?.cash,equity:before?.equity,positions:before?.positions?.length,scanCount:before?.config?.scan_count},after:{cash:after?.config?.cash,equity:after?.equity,positions:after?.positions?.length,scanCount:after?.config?.scan_count}});
+    const result=await portfolio(env).recover20260819();
+    return json(result,result?.ok?200:409);
    }catch(e){
     return json({ok:false,recoveryError:String(e?.message||e).slice(0,700),name:String(e?.name||'Error'),stack:String(e?.stack||'').slice(0,1200)},500);
    }
