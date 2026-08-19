@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T14:28:02.410791+00:00",
+  "checkedAt": "2026-08-19T14:39:57.039915+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,16 +28,16 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 175,
-  "lastScan": "2026-08-19T14:27:17.296Z",
+  "scanCount": 182,
+  "lastScan": "2026-08-19T14:37:24.160Z",
   "lastError": null,
-  "aiLastSummary": "KI-Free-Limit/Fehler: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers. · Tages-/Wochenchart+News: SAP SELL wartet auf Mehr-Zeitebenen-Daten.",
+  "aiLastSummary": "KI-Free-Limit/Fehler: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers. · Tages-/Wochenchart+News: EL wartet auf Tages-/Wochenchart.",
   "cash": 8557.010550684983,
-  "equity": 9859.235622782,
-  "pnl": -140.76437721799994,
-  "marketValue": 1302.2250720970176,
+  "equity": 9857.362688396717,
+  "pnl": -142.6373116032828,
+  "marketValue": 1300.3521377117336,
   "accountingDelta": 0.0,
-  "universeCount": 221,
+  "universeCount": 224,
   "positions": 2,
   "positionRows": [
     {
@@ -49,13 +49,13 @@
       "invested": 763.822576,
       "entry_fee": 1,
       "entry_price": 720.7199999999999,
-      "last_price": 717,
+      "last_price": 716,
       "entry_fx": 0.1336,
       "last_fx": 0.1336,
       "currency": "DKK",
       "opened_at": "2026-08-19T12:17:24.694Z",
-      "score": -1.0975351094018826,
-      "signal_confidence": 0.5125135109401883,
+      "score": -2.8975351094018826,
+      "signal_confidence": 0.6925135109401883,
       "quote_sanity_last_price": 717,
       "quote_sanity_last_fx": 0.1336,
       "zero_quantity": 7.932671287461709,
@@ -78,12 +78,12 @@
       "invested": 534.375803,
       "entry_fee": 1,
       "entry_price": 13.17315984725952,
-      "last_price": 13.34000015258789,
+      "last_price": 13.319999694824219,
       "entry_fx": 0.0901,
       "last_fx": 0.0903,
       "currency": "SEK",
       "opened_at": "2026-08-19T12:23:25.923Z",
-      "score": 4.5,
+      "score": 5.25,
       "signal_confidence": 0.63,
       "zero_quantity": 450.22751420134756,
       "zero_whole_shares": 450,
@@ -99,120 +99,130 @@
       "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
     }
   ],
-  "candidates": 11,
+  "candidates": 10,
   "topCandidates": [
     {
-      "symbol": "TSLA",
-      "name": "Tesla, Inc.",
-      "score": 5.308970454545454,
-      "confidence": 0.7695,
-      "day_change": 1.1547510213509637,
-      "news_score": 0.049090909090909074,
+      "symbol": "EL",
+      "name": "The Estée Lauder Companies Inc.",
+      "score": 6.776044476327116,
+      "confidence": 0.765,
+      "day_change": 17.064200220575422,
+      "news_score": 0.33440459110473464,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 65 konstruktiv · 5m +0.63% · Momentum baut sich auf · Beschleunigung +1.04%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv · 5m +0.30% · 20m +0.61% · Momentum baut sich auf · Beschleunigung +0.07% · News +0.3 · 12 Ereigniscluster",
       "contra": ""
     },
     {
-      "symbol": "PFE",
-      "name": "Pfizer Inc.",
-      "score": 5.1000000000000005,
-      "confidence": 0.7695,
-      "day_change": 4.165138454612238,
-      "news_score": 0,
+      "symbol": "AXON",
+      "name": "Axon Enterprise",
+      "score": 5.926740157480316,
+      "confidence": 0.7596,
+      "day_change": 2.9249374218560886,
+      "news_score": 0.03713910761154856,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 65 konstruktiv · 20m +0.58%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 65 konstruktiv · 5m +0.44% · 20m +1.16%",
       "contra": ""
     },
     {
-      "symbol": "NU",
-      "name": "Nu Holdings Ltd.",
-      "score": 4.775532871064468,
-      "confidence": 0.7695,
-      "day_change": 3.7282245915110535,
-      "news_score": 0.0628785607196402,
+      "symbol": "MRVL",
+      "name": "Marvell Technology, Inc.",
+      "score": 5.4550494029850745,
+      "confidence": 0.7911,
+      "day_change": 8.430558663827403,
+      "news_score": 0.003223880597014924,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv · 5m +0.34%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.73% · 20m +1.38% · Momentum baut sich auf · Beschleunigung +0.21%",
       "contra": ""
     },
     {
       "symbol": "LOGI-B.ST",
       "name": "Logistea AB (publ)",
-      "score": 4.5,
+      "score": 5.25,
       "confidence": 0.63,
-      "day_change": -0.14969945667746565,
+      "day_change": -0.29940348185464316,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.30% · 20m +1.06%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 67 konstruktiv · 20m +0.76% · Momentum baut sich auf · Beschleunigung +0.15%",
       "contra": ""
     },
     {
-      "symbol": "MRNA",
-      "name": "Moderna, Inc.",
-      "score": 3.6590772968197878,
-      "confidence": 0.7731,
-      "day_change": 155.02366062343648,
-      "news_score": 0.18621908127208475,
+      "symbol": "TSLA",
+      "name": "Tesla, Inc.",
+      "score": 3.9918960396039607,
+      "confidence": 0.7875,
+      "day_change": 2.00671026889081,
+      "news_score": 0.03089108910891088,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +1.23% · 20m +10.75%",
-      "contra": "RSI 80 überhitzt"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.56% · 20m +1.06% · Momentum baut sich auf · Beschleunigung +0.40%",
+      "contra": "RSI 79 überhitzt"
     },
     {
-      "symbol": "SAP",
-      "name": "SAP SE",
-      "score": 1.0068032356948229,
-      "confidence": 0.5201803235694823,
-      "day_change": 2.446902227009784,
-      "news_score": 0.08891008174386919,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 59 konstruktiv",
-      "contra": "MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
-    },
-    {
-      "symbol": "MRVL",
-      "name": "Marvell Technology, Inc.",
-      "score": 0.6,
-      "confidence": 0.34,
-      "day_change": 6.6712979917173065,
+      "symbol": "SKHY",
+      "name": "SK hynix Inc.",
+      "score": 2.6,
+      "confidence": 0.54,
+      "day_change": 2.8466797659412624,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "RSI 54 konstruktiv · 5m +0.51%",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21"
-    },
-    {
-      "symbol": "EL",
-      "name": "The Estée Lauder Companies Inc.",
-      "score": -0.20000000000000007,
-      "confidence": 0.30000000000000004,
-      "day_change": 16.33440567474709,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "RSI 58 konstruktiv",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21"
-    },
-    {
-      "symbol": "SCHO.CO",
-      "name": "Aktieselskabet Schouw & Co.",
-      "score": -1.0975351094018826,
-      "confidence": 0.5125135109401883,
-      "day_change": -1.5109890109890056,
-      "news_score": 0.005829369497014477,
-      "event_risk": "NONE",
-      "pro": "RSI 50 konstruktiv",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +1.55%",
+      "contra": "RSI 79 überhitzt"
     },
     {
       "symbol": "TGT",
       "name": "Target Corporation",
-      "score": -1.2000000000000002,
+      "score": 1.65,
+      "confidence": 0.445,
+      "day_change": 4.73504521789232,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+    },
+    {
+      "symbol": "MRNA",
+      "name": "Moderna, Inc.",
+      "score": 1.2000000000000002,
       "confidence": 0.4,
-      "day_change": 4.538296102101502,
+      "day_change": 151.65979562296496,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 52 konstruktiv · 20m +7.30%",
+      "contra": "5m -0.88% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
+    },
+    {
+      "symbol": "SCHO.CO",
+      "name": "Aktieselskabet Schouw & Co.",
+      "score": -2.8975351094018826,
+      "confidence": 0.6925135109401883,
+      "day_change": -1.6483516483516536,
+      "news_score": 0.005829369497014477,
+      "event_risk": "NONE",
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 17 sehr schwach"
+    },
+    {
+      "symbol": "MRK",
+      "name": "Merck & Co., Inc.",
+      "score": -5.4,
+      "confidence": 0.63,
+      "day_change": 10.486795310130304,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 20m -0.66% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
+    {
+      "ts": "2026-08-19T14:28:25.541Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal EL: Score 6.78, Konfidenz 77%.",
+      "score": null
+    },
     {
       "ts": "2026-08-19T14:27:17.296Z",
       "action": "VERKAUF",
@@ -352,19 +362,17 @@
       "trade_pnl": null,
       "reason": "KI BUY 82%: DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt. · SELECTIVE-SIZING:  · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 7.7 · Käufer 61% / Verkäufer 39% · letzte 3 2 grün/0 rot · 3 höhere Tiefs/3 tiefere Hochs · Bodenbildung · Topbildung · Verkäuferdruck lässt nach. · Order 378.99 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
       "score": 5.185088541666667
-    },
-    {
-      "ts": "2026-08-19T14:06:17.727Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal MRNA: Score 6.66, Konfidenz 77%.",
-      "score": null
     }
   ],
   "recentAiLog": [
+    {
+      "ts": "2026-08-19T14:34:25.359Z",
+      "kind": "IDEA",
+      "title": "Beobachtungskandidat",
+      "symbol": "EL",
+      "message": "EL: Kein Trade. Bestes Signal EL: Score 6.78, Konfidenz 77%.",
+      "confidence": 0.765
+    },
     {
       "ts": "2026-08-19T14:27:17.296Z",
       "kind": "TRADE",
@@ -476,14 +484,6 @@
       "symbol": "TGT",
       "message": "TGT: Momentum-Risk-Exit: starker Lauf kippt (4.0), 5m -0.77%, Rücklauf vom 20m-Hoch -0.77%",
       "confidence": null
-    },
-    {
-      "ts": "2026-08-19T14:03:15.799Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "TGT",
-      "message": "TGT: Kein Trade. Bestes Signal TGT: Score 5.70, Konfidenz 77%.",
-      "confidence": 0.7695
     }
   ],
   "candleFlowPolicy": {
@@ -681,9 +681,9 @@
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 3,
+    "activePositions": 2,
     "pendingEntries": 0,
-    "completedTradeOutcomes": 61,
+    "completedTradeOutcomes": 62,
     "timedCheckpoints": 46,
     "horizonsMinutes": [
       15,
@@ -859,19 +859,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T14:27:12.148Z",
-    "ageSeconds": 49,
+    "lastSeenAt": "2026-08-19T14:39:12.053Z",
+    "ageSeconds": 45,
     "metrics": {
-      "lastSeenAt": "2026-08-19T14:27:12.148Z",
+      "lastSeenAt": "2026-08-19T14:39:12.053Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 14603964,
+      "storageBytes": 14791020,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.13,
-      "ramMb": 61.9,
-      "downloadedBytes": 2291954755,
-      "uploadedBytes": 3065372,
+      "cpuPct": 0.11,
+      "ramMb": 59.1,
+      "downloadedBytes": 2561031468,
+      "uploadedBytes": 3552499,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T14:18:37.4914388Z",
@@ -880,8 +880,8 @@
     "singleScannerProfileDetected": true
   },
   "risk": {
-    "equity": 9859.235622782,
-    "dailyPct": -1.4076437721800006,
+    "equity": 9857.362688396717,
+    "dailyPct": -1.4263731160328308,
     "availableCash": 8557.010550684983,
     "hardLimits": false,
     "budgetOnly": true,
@@ -901,8 +901,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 346,
-      "updated_at": "2026-08-19T14:27:17.251Z"
+      "latency_ms": 218,
+      "updated_at": "2026-08-19T14:37:24.140Z"
     },
     {
       "source": "Yahoo FX",
@@ -910,17 +910,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 264,
-      "updated_at": "2026-08-19T14:27:17.251Z"
+      "latency_ms": 104,
+      "updated_at": "2026-08-19T14:37:24.140Z"
     },
     {
       "source": "Yahoo 1m Chart",
       "status": "OK",
-      "ok_count": 11,
+      "ok_count": 10,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 381,
-      "updated_at": "2026-08-19T14:27:17.251Z"
+      "latency_ms": 96,
+      "updated_at": "2026-08-19T14:37:24.140Z"
     },
     {
       "source": "Yahoo Events",
@@ -928,8 +928,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 229,
-      "updated_at": "2026-08-19T14:27:17.251Z"
+      "latency_ms": 90,
+      "updated_at": "2026-08-19T14:37:24.140Z"
     },
     {
       "source": "Yahoo News",
@@ -937,44 +937,44 @@
       "ok_count": 9,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 697,
-      "updated_at": "2026-08-19T14:27:17.251Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "DOWN",
-      "ok_count": 0,
-      "fail_count": 1,
-      "last_error": "Error: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/configuration/#limits",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T14:27:17.251Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "DOWN",
-      "ok_count": 0,
-      "fail_count": 1,
-      "last_error": "Error: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/configuration/#limits",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T14:27:17.251Z"
+      "latency_ms": 730,
+      "updated_at": "2026-08-19T14:37:24.140Z"
     },
     {
       "source": "wallstreetONLINE",
-      "status": "DOWN",
-      "ok_count": 0,
-      "fail_count": 1,
-      "last_error": "Error: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/configuration/#limits",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T14:27:17.251Z"
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 284,
+      "updated_at": "2026-08-19T14:37:24.140Z"
     },
     {
       "source": "BörsenNews",
-      "status": "DOWN",
-      "ok_count": 0,
-      "fail_count": 1,
-      "last_error": "Error: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/configuration/#limits",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T14:27:17.251Z"
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 318,
+      "updated_at": "2026-08-19T14:37:24.140Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 509,
+      "updated_at": "2026-08-19T14:37:24.140Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 994,
+      "updated_at": "2026-08-19T14:37:24.140Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -983,7 +983,7 @@
       "fail_count": 8,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T14:27:17.251Z"
+      "updated_at": "2026-08-19T14:37:24.140Z"
     },
     {
       "source": "Second-Chance 1m",
@@ -992,7 +992,7 @@
       "fail_count": 5,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T14:27:17.251Z"
+      "updated_at": "2026-08-19T14:37:24.140Z"
     }
   ]
 }
