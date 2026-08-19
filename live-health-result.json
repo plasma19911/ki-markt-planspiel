@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T17:11:17.295125+00:00",
+  "checkedAt": "2026-08-19T17:13:33.631554+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -708,9 +708,9 @@
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 4,
+    "activePositions": 3,
     "pendingEntries": 0,
-    "completedTradeOutcomes": 87,
+    "completedTradeOutcomes": 88,
     "timedCheckpoints": 55,
     "horizonsMinutes": [
       15,
@@ -895,23 +895,23 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T17:11:10.983Z",
-    "ageSeconds": 6,
+    "lastSeenAt": "2026-08-19T17:13:21.938Z",
+    "ageSeconds": 11,
     "metrics": {
-      "lastSeenAt": "2026-08-19T17:11:10.983Z",
+      "lastSeenAt": "2026-08-19T17:13:21.938Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 17208153,
+      "storageBytes": 17208262,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.13,
-      "ramMb": 62.1,
-      "downloadedBytes": 5984333140,
-      "uploadedBytes": 9802857,
+      "cpuPct": 0.09,
+      "ramMb": 62.3,
+      "downloadedBytes": 6032267153,
+      "uploadedBytes": 9853511,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
-      "lastLocalCleanupAt": "2026-08-19T17:07:29.0289075Z",
-      "lastError": null
+      "lastLocalCleanupAt": "2026-08-19T17:12:20.5942753Z",
+      "lastError": "Der Remoteserver hat einen Fehler zurückgegeben: (500) Interner Serverfehler."
     },
     "singleScannerProfileDetected": true
   },
