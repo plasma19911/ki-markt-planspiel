@@ -1,3 +1,4 @@
+import './public-feed-resilience.js';
 import base,{MarketPortfolio} from './index.js';
 import {gettexSessionState} from './gettex-session.js';
 import {positionChartHistoryData} from './position-chart-history.js';
