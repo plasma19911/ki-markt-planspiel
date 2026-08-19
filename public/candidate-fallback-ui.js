@@ -1,5 +1,5 @@
 const $=id=>document.getElementById(id);
-const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c]));
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const base=v=>String(v||'').toUpperCase().split('.')[0];
@@ -122,6 +122,13 @@ function normalizeRows(){
  for(const row of body.querySelectorAll('tr')){
    if(row.dataset.candidateOrder==='compact')continue;
    const cells=[...row.children];if(cells.length!==7)continue;
+   const symbol=String(cells[0].querySelector('b')?.textContent||'').trim();
+   const name=String(cells[0].querySelector('.muted')?.textContent||'').trim();
+   const oldCompany=String(cells[1].textContent||'').trim();
+   if(/börsennotiert|scanner beobachtet|publicly traded/i.test(oldCompany)||!oldCompany){
+     cells[1].textContent=company({symbol,name});
+     cells[1].classList.add('plainCell');
+   }
    normalizeIdentity(cells[0]);
    for(const i of [0,3,5,4,6,1,2])row.appendChild(cells[i]);
    row.dataset.candidateOrder='compact';
