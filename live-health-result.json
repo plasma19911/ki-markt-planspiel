@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T14:49:18.447479+00:00",
+  "checkedAt": "2026-08-19T14:50:03.994692+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,16 +28,16 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 187,
-  "lastScan": "2026-08-19T14:48:17.515Z",
+  "scanCount": 188,
+  "lastScan": "2026-08-19T14:49:24.604Z",
   "lastError": null,
-  "aiLastSummary": "KI-Free-Limit/Fehler: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/confi ·  · PU · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 11 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen a · EARLY-D · CANDLE-FLOW V2.1: SCHO.CO gehalten – Verkäufer nicht eindeutig dominant. Keine Minutenregel fuer SELL.",
   "cash": 8557.010550684983,
-  "equity": 9858.669207435596,
-  "pnl": -141.33079256440396,
-  "marketValue": 1301.6586567506129,
+  "equity": 9861.108518395136,
+  "pnl": -138.89148160486366,
+  "marketValue": 1304.0979677101527,
   "accountingDelta": 0.0,
-  "universeCount": 220,
+  "universeCount": 219,
   "positions": 2,
   "positionRows": [
     {
@@ -78,12 +78,12 @@
       "invested": 534.375803,
       "entry_fee": 1,
       "entry_price": 13.17315984725952,
-      "last_price": 13.300000190734863,
+      "last_price": 13.359999656677246,
       "entry_fx": 0.0901,
       "last_fx": 0.0903,
       "currency": "SEK",
       "opened_at": "2026-08-19T12:23:25.923Z",
-      "score": 3.8,
+      "score": 5.05,
       "signal_confidence": 0.63,
       "zero_quantity": 450.22751420134756,
       "zero_whole_shares": 450,
@@ -99,29 +99,73 @@
       "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
     }
   ],
-  "candidates": 10,
+  "candidates": 11,
   "topCandidates": [
+    {
+      "symbol": "ALEX.HE",
+      "name": "Alexandria Group Oyj",
+      "score": 5.85,
+      "confidence": 0.78,
+      "day_change": -3.2258064516129004,
+      "news_score": 0,
+      "event_risk": "MEDIUM",
+      "pro": "Ruecksetzer -2.28% unter 20m-Hoch · Verkaufsdruck bremst deutlich +2.28% · 5m stabilisiert +0.00% · RSI 45 nicht ueberhitzt",
+      "contra": ""
+    },
     {
       "symbol": "LOGI-B.ST",
       "name": "Logistea AB (publ)",
-      "score": 3.8,
+      "score": 5.05,
       "confidence": 0.63,
-      "day_change": -0.4491003687510209,
+      "day_change": -2.569781087924383e-06,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 55 konstruktiv · 20m +0.61%",
-      "contra": "5m -0.30%"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.30% · 20m +1.21% · Momentum baut sich auf · Beschleunigung +0.15%",
+      "contra": ""
+    },
+    {
+      "symbol": "MRK",
+      "name": "Merck & Co., Inc.",
+      "score": 4.7,
+      "confidence": 0.7731,
+      "day_change": 10.959606674407695,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 60 konstruktiv · 5m +0.42%",
+      "contra": ""
+    },
+    {
+      "symbol": "TGT",
+      "name": "Target Corporation",
+      "score": 4.009716543026706,
+      "confidence": 0.7695,
+      "day_change": 5.12854344947391,
+      "news_score": 0.09133531157270026,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 59 konstruktiv",
+      "contra": ""
+    },
+    {
+      "symbol": "AMZN",
+      "name": "Amazon.com, Inc.",
+      "score": 3.4213704081632654,
+      "confidence": 0.7832370408163266,
+      "day_change": 1.5686987911627925,
+      "news_score": 0.01364431486880466,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.22% · 20m +0.90%",
+      "contra": "RSI 84 überhitzt"
     },
     {
       "symbol": "TSLA",
       "name": "Tesla, Inc.",
       "score": 2.8879592876712334,
       "confidence": 0.7406959287671233,
-      "day_change": 2.7666466118699384,
+      "day_change": 2.8898420715196105,
       "news_score": 0.025643835616438345,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +1.33%",
-      "contra": "Momentum erschöpft (2.5): nach starkem Lauf Reversal-Risiko erhöht"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +1.25%",
+      "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     },
     {
       "symbol": "SCHO.CO",
@@ -135,81 +179,37 @@
       "contra": ""
     },
     {
-      "symbol": "TGT",
-      "name": "Target Corporation",
-      "score": 2.7597165430267063,
-      "confidence": 0.6954716543026707,
-      "day_change": 4.987543752536205,
-      "news_score": 0.09133531157270026,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 56 konstruktiv",
-      "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
-    },
-    {
-      "symbol": "AMZN",
-      "name": "Amazon.com, Inc.",
-      "score": 2.61900374251497,
-      "confidence": 0.699400374251497,
-      "day_change": 1.429949378342421,
-      "news_score": 0.014011976047904185,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.80%",
-      "contra": "RSI 79 überhitzt"
-    },
-    {
-      "symbol": "MRK",
-      "name": "Merck & Co., Inc.",
-      "score": 1.2000000000000002,
+      "symbol": "PFE",
+      "name": "Pfizer Inc.",
+      "score": -1.2000000000000002,
       "confidence": 0.4,
-      "day_change": 10.745733020802529,
+      "day_change": 3.9816480164134083,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "Kurs über EMA21 · RSI 61 konstruktiv",
-      "contra": "EMA-Trend schwach"
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21"
     },
     {
       "symbol": "MRVL",
       "name": "Marvell Technology, Inc.",
-      "score": -0.19999999999999973,
-      "confidence": 0.3,
-      "day_change": 7.986111111111116,
+      "score": -2.4,
+      "confidence": 0.52,
+      "day_change": 7.689815097384978,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 52 konstruktiv · 20m +0.62%",
-      "contra": "Kurs unter EMA21 · 5m -0.51% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
-    },
-    {
-      "symbol": "SKHY",
-      "name": "SK hynix Inc.",
-      "score": -0.19999999999999973,
-      "confidence": 0.3,
-      "day_change": 2.3004735562538015,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 50 konstruktiv · 20m +0.59%",
-      "contra": "Kurs unter EMA21 · 5m -0.52% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "pro": "EMA9 über EMA21",
+      "contra": "Kurs unter EMA21 · 5m -0.42% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     },
     {
       "symbol": "EL",
       "name": "The Estée Lauder Companies Inc.",
-      "score": -0.4,
-      "confidence": 0.32,
-      "day_change": 16.269138907005566,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "5m +0.44%",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21"
-    },
-    {
-      "symbol": "MRNA",
-      "name": "Moderna, Inc.",
-      "score": -7.1,
+      "score": -4.2,
       "confidence": 0.63,
-      "day_change": 131.23412756332144,
+      "day_change": 16.13860537152254,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 27 sehr schwach · 5m -4.24% · 20m -8.70% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
@@ -220,7 +220,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal LOGI-B.ST: Score 3.80, Konfidenz 63%.",
+      "reason": "Kein Trade. Bestes Signal ALEX.HE: Score 5.85, Konfidenz 78%.",
       "score": null
     },
     {
@@ -865,19 +865,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T14:48:13.585Z",
-    "ageSeconds": 65,
+    "lastSeenAt": "2026-08-19T14:49:20.438Z",
+    "ageSeconds": 43,
     "metrics": {
-      "lastSeenAt": "2026-08-19T14:48:13.585Z",
+      "lastSeenAt": "2026-08-19T14:49:20.438Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
       "storageBytes": 14930781,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.14,
-      "ramMb": 89.1,
-      "downloadedBytes": 2767068414,
-      "uploadedBytes": 3905443,
+      "cpuPct": 0.1,
+      "ramMb": 61.3,
+      "downloadedBytes": 2795740053,
+      "uploadedBytes": 3934173,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T14:40:27.3297682Z",
@@ -886,8 +886,8 @@
     "singleScannerProfileDetected": true
   },
   "risk": {
-    "equity": 9858.669207435596,
-    "dailyPct": -1.4133079256440362,
+    "equity": 9861.108518395136,
+    "dailyPct": -1.3889148160486364,
     "availableCash": 8557.010550684983,
     "hardLimits": false,
     "budgetOnly": true,
@@ -907,8 +907,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 190,
-      "updated_at": "2026-08-19T14:48:17.493Z"
+      "latency_ms": 188,
+      "updated_at": "2026-08-19T14:49:24.593Z"
     },
     {
       "source": "Yahoo FX",
@@ -916,8 +916,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 102,
-      "updated_at": "2026-08-19T14:48:17.493Z"
+      "latency_ms": 122,
+      "updated_at": "2026-08-19T14:49:24.593Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -925,8 +925,8 @@
       "ok_count": 10,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 98,
-      "updated_at": "2026-08-19T14:48:17.493Z"
+      "latency_ms": 94,
+      "updated_at": "2026-08-19T14:49:24.593Z"
     },
     {
       "source": "Yahoo Events",
@@ -935,16 +935,16 @@
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
       "latency_ms": 91,
-      "updated_at": "2026-08-19T14:48:17.493Z"
+      "updated_at": "2026-08-19T14:49:24.593Z"
     },
     {
       "source": "Yahoo News",
       "status": "OK",
-      "ok_count": 8,
+      "ok_count": 9,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 323,
-      "updated_at": "2026-08-19T14:48:17.493Z"
+      "latency_ms": 741,
+      "updated_at": "2026-08-19T14:49:24.593Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -952,8 +952,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 266,
-      "updated_at": "2026-08-19T14:48:17.493Z"
+      "latency_ms": 284,
+      "updated_at": "2026-08-19T14:49:24.593Z"
     },
     {
       "source": "BörsenNews",
@@ -961,17 +961,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 320,
-      "updated_at": "2026-08-19T14:48:17.493Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 953,
-      "updated_at": "2026-08-19T14:48:17.493Z"
+      "latency_ms": 294,
+      "updated_at": "2026-08-19T14:49:24.593Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -979,17 +970,26 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1106,
-      "updated_at": "2026-08-19T14:48:17.493Z"
+      "latency_ms": 550,
+      "updated_at": "2026-08-19T14:49:24.593Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 957,
+      "updated_at": "2026-08-19T14:49:24.593Z"
     },
     {
       "source": "Early-Dip 1m",
-      "status": "DEGRADED",
-      "ok_count": 0,
-      "fail_count": 8,
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 7,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T14:48:17.493Z"
+      "updated_at": "2026-08-19T14:49:24.593Z"
     },
     {
       "source": "Second-Chance 1m",
@@ -998,7 +998,7 @@
       "fail_count": 5,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T14:48:17.493Z"
+      "updated_at": "2026-08-19T14:49:24.593Z"
     }
   ]
 }
