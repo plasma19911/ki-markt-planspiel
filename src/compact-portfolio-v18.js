@@ -22,11 +22,8 @@ export class MarketPortfolio extends BasePortfolio{
   _actualState(){try{return this.bucketAdapter?.peekState?.()||{}}catch{return{}}}
   _actualPositions(){return this._actualState()?.positions||[]}
   async scan(){
-    // Clear proposals left by earlier scans before they can be mistaken for a later trade.
     const before=reconcileLearningWithExecutedPositions(this.ctx?.storage,this._actualPositions());
     const result=await super.scan();
-    // This is the authoritative reconciliation point: downstream guards and paper
-    // execution have already run, so only truly held symbols may remain pending.
     const after=reconcileLearningWithExecutedPositions(this.ctx?.storage,this._actualPositions());
     if(result&&typeof result==='object')result.learningExecutionReconcile={before,after};
     return result;
@@ -79,12 +76,15 @@ export class MarketPortfolio extends BasePortfolio{
     s.newsSourcePolicy={
       primary:['Issuer Investor Relations','SEC/EDGAR fuer US-Filings','Deutsche Boerse/EQS fuer DE/EU-Meldungen','Federal Reserve','ECB','BLS'],
       highQualityNews:['Reuters'],
-      discovery:['GDELT'],
-      priceTechnical:['PC-Agent Wide Sweep','Yahoo Chart/Spark'],
-      rule:'Primaerquelle/Emittent fuer harte Unternehmens- und Makrofakten bevorzugen; Aggregatoren nur zur Entdeckung, danach bestaetigen.'
+      discovery:['Google News RSS keyless','oeffentliche TradingView-Mover-Seiten'],
+      priceTechnical:['PC-Agent Keyless Multi-Source','Yahoo Chart/Spark keyless fallback'],
+      apiKeysRequiredForPcMarketData:false,
+      rule:'Primaerquelle/Emittent fuer harte Fakten bevorzugen. Oeffentliche Webseiten/RSS dienen der Discovery. Intraday-Daten muessen frisch sein; Wide-Sweep-Daten ueber 90 Sekunden werden verworfen.'
     };
+    if(s.secondChanceWatch)s.secondChanceWatch={...s.secondChanceWatch,target:12,recheckPerScan:4,mode:'Bis zu 12 starke Deep-Kandidaten bleiben im Heisspool; bis zu vier koennen pro Scan einen frischen Zweitcheck erhalten. Kein Kandidat erzwingt einen Kauf.'};
     if(s.entryTimingLearning)s.entryTimingLearning={...s.entryTimingLearning,pendingOnlyForExecutedPositions:true,pendingExecutionTtlMinutes:8,proposalContaminationFixed:true};
-    if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,learningOnlyFromExecutedEntries:true,researchBackedEntryPolicy:true,earlyBreakoutQualityGuard:true,earlyBreakoutInitialCapPct:35,balancedSoftOverride:true,balancedSoftStarterMaxPct:28,marginalExitConfirmation:true,exceptionalRotationEscape:true,freshPositionChurnShield:true,normalRotationMinAgeMinutes:30,zeroCashBuySuppression:true};
+    if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,learningOnlyFromExecutedEntries:true,researchBackedEntryPolicy:true,earlyBreakoutQualityGuard:true,earlyBreakoutInitialCapPct:35,balancedSoftOverride:true,balancedSoftStarterMaxPct:28,marginalExitConfirmation:true,exceptionalRotationEscape:true,freshPositionChurnShield:true,normalRotationMinAgeMinutes:30,zeroCashBuySuppression:true,secondChanceRecheckPerScan:4,pcWideSweepTarget:24,pcWideSweepMaxAgeSeconds:90,keylessMultiSource:true};
+    if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,secondChanceWatch:true,secondChanceRetentionMinutes:12,secondChanceRecheckPerScan:4,pcWideSweepTarget:24,pcWideSweepMaxAgeSeconds:90,keylessMultiSource:true};
     return s;
   }
 }
