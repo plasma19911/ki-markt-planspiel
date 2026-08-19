@@ -162,3 +162,4 @@ if(!document.querySelector('link[data-mobile-ui-v3]')){
   const l=document.createElement('link');l.rel='stylesheet';l.href='/mobile-ui-v3.css?v=20260819-1257';l.dataset.mobileUiV3='1';document.head.appendChild(l);
 }
 import('/single-scanner-ui.js?v=20260819-1257').catch(()=>{});
+import('/changelog-learning-1635.js?v=20260819-1635').catch(()=>{});
