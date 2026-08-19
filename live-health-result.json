@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T19:00:53.421501+00:00",
+  "checkedAt": "2026-08-19T19:01:53.658151+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,16 +28,16 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 335,
-  "lastScan": "2026-08-19T19:00:15.935Z",
+  "scanCount": 336,
+  "lastScan": "2026-08-19T19:01:21.629Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 6 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lag · Multi-T · TAGES-REVIEW V2: MRK BUY gestoppt.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 7 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen au · EARLY-D · CANDLE-FLOW V2.1: FFN.TO wartet auf bessere Bodenbildung. Keine Minutenregel fuer SELL.",
   "cash": 8412.067513123307,
   "equity": 9714.50417200594,
   "pnl": -285.49582799406016,
   "marketValue": 1302.4366588826322,
   "accountingDelta": 0.0,
-  "universeCount": 232,
+  "universeCount": 230,
   "positions": 2,
   "positionRows": [
     {
@@ -99,17 +99,28 @@
       "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
     }
   ],
-  "candidates": 6,
+  "candidates": 7,
   "topCandidates": [
+    {
+      "symbol": "FFN.TO",
+      "name": "North American Financial 15 Split Corp.",
+      "score": 6.6499999999999995,
+      "confidence": 0.78,
+      "day_change": -2.417793495281517,
+      "news_score": 0,
+      "event_risk": "MEDIUM",
+      "pro": "Ruecksetzer -0.39% unter 20m-Hoch · Verkaufsdruck bremst deutlich +0.20% · 5m stabilisiert +0.10% · RSI 57 nicht ueberhitzt",
+      "contra": ""
+    },
     {
       "symbol": "MRK",
       "name": "Merck & Co., Inc.",
       "score": 3.98792281626506,
       "confidence": 0.7695,
-      "day_change": 12.843085580599901,
+      "day_change": 12.96516040853648,
       "news_score": 0.07319277108433732,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 59 konstruktiv",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 64 konstruktiv",
       "contra": ""
     },
     {
@@ -117,33 +128,33 @@
       "name": "MercadoLibre",
       "score": -0.20000000000000007,
       "confidence": 0.30000000000000004,
-      "day_change": 6.715603893858124,
+      "day_change": 6.751131175473124,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "RSI 49 konstruktiv",
+      "pro": "RSI 53 konstruktiv",
       "contra": "EMA-Trend schwach · Kurs unter EMA21"
     },
     {
       "symbol": "MSTR",
       "name": "Strategy Inc",
-      "score": -2.3771044151455016,
-      "confidence": 0.6527104415145502,
-      "day_change": 11.759621190962942,
+      "score": -1.1271044151455016,
+      "confidence": 0.5277104415145502,
+      "day_change": 11.900128382292351,
       "news_score": 0.07476470241487042,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21"
     },
     {
       "symbol": "COIN",
       "name": "Coinbase Global, Inc.",
-      "score": -2.45,
-      "confidence": 0.525,
-      "day_change": 9.026870461452008,
+      "score": -1.2000000000000002,
+      "confidence": 0.4,
+      "day_change": 9.095260055595222,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21"
     },
     {
       "symbol": "MARA.MX",
@@ -159,13 +170,13 @@
     {
       "symbol": "MRNA",
       "name": "Moderna, Inc.",
-      "score": -7.046745771513352,
+      "score": -5.846745771513353,
       "confidence": 0.7695,
-      "day_change": 143.78176717018988,
+      "day_change": 144.45680378352824,
       "news_score": 0.04433234421364983,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 22 sehr schwach · 5m -0.89% · 20m -1.22% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 30 sehr schwach · 5m -0.51% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
@@ -176,7 +187,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal MRK: Score 3.99, Konfidenz 77%.",
+      "reason": "Kein Trade. Bestes Signal FFN.TO: Score 6.65, Konfidenz 78%.",
       "score": null
     },
     {
@@ -854,19 +865,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T19:00:11.783Z",
-    "ageSeconds": 41,
+    "lastSeenAt": "2026-08-19T19:01:18.485Z",
+    "ageSeconds": 35,
     "metrics": {
-      "lastSeenAt": "2026-08-19T19:00:11.783Z",
+      "lastSeenAt": "2026-08-19T19:01:18.485Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
       "storageBytes": 18880322,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.1,
-      "ramMb": 62,
-      "downloadedBytes": 8433910291,
-      "uploadedBytes": 14644650,
+      "cpuPct": 0.12,
+      "ramMb": 63.1,
+      "downloadedBytes": 8462609855,
+      "uploadedBytes": 14681570,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T18:57:16.2690039Z",
@@ -896,8 +907,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 96,
-      "updated_at": "2026-08-19T19:00:15.917Z"
+      "latency_ms": 93,
+      "updated_at": "2026-08-19T19:01:21.358Z"
     },
     {
       "source": "Yahoo FX",
@@ -905,8 +916,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 7,
-      "updated_at": "2026-08-19T19:00:15.917Z"
+      "latency_ms": 8,
+      "updated_at": "2026-08-19T19:01:21.358Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -914,8 +925,8 @@
       "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 256,
-      "updated_at": "2026-08-19T19:00:15.917Z"
+      "latency_ms": 259,
+      "updated_at": "2026-08-19T19:01:21.358Z"
     },
     {
       "source": "Yahoo News",
@@ -923,17 +934,8 @@
       "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 486,
-      "updated_at": "2026-08-19T19:00:15.917Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 949,
-      "updated_at": "2026-08-19T19:00:15.917Z"
+      "latency_ms": 312,
+      "updated_at": "2026-08-19T19:01:21.358Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -941,8 +943,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1002,
-      "updated_at": "2026-08-19T19:00:15.917Z"
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T19:01:21.358Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T19:01:21.358Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -950,8 +961,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1029,
-      "updated_at": "2026-08-19T19:00:15.917Z"
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T19:01:21.358Z"
     },
     {
       "source": "Unternehmenstermine (Nasdaq-Fallback)",
@@ -960,7 +971,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:00:15.917Z"
+      "updated_at": "2026-08-19T19:01:21.358Z"
     },
     {
       "source": "finanzen.net News (Fallback)",
@@ -968,8 +979,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 298,
-      "updated_at": "2026-08-19T19:00:15.917Z"
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T19:01:21.358Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -978,16 +989,16 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:00:15.917Z"
+      "updated_at": "2026-08-19T19:01:21.358Z"
     },
     {
       "source": "Second-Chance 1m",
-      "status": "DEGRADED",
+      "status": "OK",
       "ok_count": 2,
-      "fail_count": 1,
-      "last_error": "Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/configuration/#limits",
+      "fail_count": 0,
+      "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:00:15.917Z"
+      "updated_at": "2026-08-19T19:01:21.358Z"
     }
   ]
 }
