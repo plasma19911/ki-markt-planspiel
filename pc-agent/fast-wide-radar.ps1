@@ -7,12 +7,11 @@ param(
 
 $ErrorActionPreference='Stop'
 $ProgressPreference='SilentlyContinue'
-$RadarVersion='1.0.0'
+$RadarVersion='1.0.1'
 $Source='WINDOWS_PC_FAST_RADAR'
 $UniverseRefreshMinutes=20
 $CoreTarget=1800
 $NormalCoreBatches=8
-$NormalTailBatches=16
 $BackoffBatches=14
 $BackoffParallel=3
 $BackoffMinutes=3
@@ -27,38 +26,37 @@ $universePath=Join-Path $cacheDir 'fast-wide-radar-universe.json'
 $logPath=Join-Path $logDir 'fast-wide-radar.log'
 $configPath=Join-Path $Root 'config.json'
 $tokenPath=Join-Path $Root 'agent-token.txt'
-New-Item -ItemType Directory -Force -Path $dataDir,$cacheDir,$logDir|Out-Null
+New-Item -ItemType Directory -Force -Path $dataDir,$cacheDir,$logDir | Out-Null
 
 function Write-RadarLog([string]$Message){
   $line="[$((Get-Date).ToString('s'))] $Message"
   Add-Content -Path $logPath -Value $line -Encoding UTF8
-  try{if((Get-Item $logPath).Length -gt 5MB){Get-Content $logPath -Tail 1800|Set-Content $logPath -Encoding UTF8}}catch{}
+  try{if((Get-Item $logPath).Length -gt 5MB){Get-Content $logPath -Tail 1800 | Set-Content $logPath -Encoding UTF8}}catch{}
 }
 function Read-JsonFile([string]$Path){
-  if(-not(Test-Path $Path)){return $null}
-  try{return Get-Content $Path -Raw -Encoding UTF8|ConvertFrom-Json}catch{return $null}
+  if(-not (Test-Path $Path)){return $null}
+  try{return Get-Content $Path -Raw -Encoding UTF8 | ConvertFrom-Json}catch{return $null}
 }
 function Save-JsonFile([string]$Path,$Value){
   $tmp="$Path.tmp"
-  $Value|ConvertTo-Json -Depth 12 -Compress|Set-Content $tmp -Encoding UTF8
+  $Value | ConvertTo-Json -Depth 12 -Compress | Set-Content $tmp -Encoding UTF8
   Move-Item $tmp $Path -Force
 }
 function Num($Value,[double]$Fallback=0){
   if($null -eq $Value){return $Fallback}
-  try{$n=[double]$Value;if([double]::IsNaN($n)-or[double]::IsInfinity($n)){return $Fallback};return $n}catch{return $Fallback}
+  try{$n=[double]$Value;if([double]::IsNaN($n) -or [double]::IsInfinity($n)){return $Fallback};return $n}catch{return $Fallback}
 }
-function Clamp([double]$Value,[double]$Low,[double]$High){return [Math]::Max($Low,[Math]::Min($High,$Value))}
 function UrlEncode([string]$Text){return [Uri]::EscapeDataString($Text)}
 function Get-ConfigValue($Config,[string]$Name,$Fallback){
-  if($null-ne$Config -and $null-ne$Config.PSObject.Properties[$Name] -and $null-ne$Config.$Name){return $Config.$Name}
+  if($null -ne $Config -and $null -ne $Config.PSObject.Properties[$Name] -and $null -ne $Config.$Name){return $Config.$Name}
   return $Fallback
 }
 
 $config=Read-JsonFile $configPath
 $serverUrl=([string](Get-ConfigValue $config 'serverUrl' 'https://ki-markt-planspiel.orkimperium.workers.dev')).TrimEnd('/')
-if(-not(Test-Path $tokenPath)){throw "Agent-Token fehlt: $tokenPath"}
+if(-not (Test-Path $tokenPath)){throw "Agent-Token fehlt: $tokenPath"}
 $token=(Get-Content $tokenPath -Raw -Encoding ASCII).Trim()
-if(-not$token){throw 'Agent-Token ist leer.'}
+if(-not $token){throw 'Agent-Token ist leer.'}
 $authHeaders=@{Authorization="Bearer $token";Accept='application/json';'User-Agent'="KI-Markt-Fast-Radar/$RadarVersion"}
 
 Add-Type -AssemblyName System.Net.Http
@@ -68,17 +66,16 @@ $http.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; KI-Mark
 $http.DefaultRequestHeaders.Accept.ParseAdd('application/json')
 
 function Invoke-AgentPost([string]$Path,$Body){
-  $json=$Body|ConvertTo-Json -Depth 12 -Compress
+  $json=$Body | ConvertTo-Json -Depth 12 -Compress
   return Invoke-RestMethod -Uri ($serverUrl+$Path) -Method Post -Headers $authHeaders -ContentType 'application/json; charset=utf-8' -Body $json -TimeoutSec 35
 }
-
 function Get-Universe([switch]$Force){
   $cached=Read-JsonFile $universePath
   $ageMinutes=9999
   if($cached -and $cached.updatedAt){try{$ageMinutes=((Get-Date).ToUniversalTime()-[datetime]::Parse([string]$cached.updatedAt).ToUniversalTime()).TotalMinutes}catch{}}
-  if(-not$Force -and $cached -and @($cached.equities).Count -gt 500 -and $ageMinutes -lt $UniverseRefreshMinutes){return $cached}
+  if(-not $Force -and $cached -and @($cached.equities).Count -gt 500 -and $ageMinutes -lt $UniverseRefreshMinutes){return $cached}
   $remote=Invoke-AgentPost '/api/agent/universe' @{}
-  if(-not$remote.ok -or @($remote.equities).Count -lt 100){throw 'Broker-Master konnte nicht geladen werden.'}
+  if(-not $remote.ok -or @($remote.equities).Count -lt 100){throw 'Broker-Master konnte nicht geladen werden.'}
   $snapshot=[ordered]@{updatedAt=(Get-Date).ToUniversalTime().ToString('o');generatedAt=$remote.generatedAt;count=@($remote.equities).Count;equities=@($remote.equities)}
   Save-JsonFile $universePath $snapshot
   Write-RadarLog "Master aktualisiert: $($snapshot.count) Aktien."
@@ -86,48 +83,55 @@ function Get-Universe([switch]$Force){
 }
 
 function Get-RotatingSlice($Rows,[int]$Start,[int]$Count){
-  $a=@($Rows);if($a.Count-eq0 -or $Count-le0){return @()}
+  $a=@($Rows);if($a.Count -eq 0 -or $Count -le 0){return @()}
   $out=New-Object System.Collections.Generic.List[object]
-  for($i=0;$i-lt[Math]::Min($Count,$a.Count);$i++){$out.Add($a[(($Start+$i)%$a.Count)])}
+  for($i=0;$i -lt [Math]::Min($Count,$a.Count);$i++){$out.Add($a[(($Start+$i)%$a.Count)])}
   return @($out)
 }
 function Add-UniqueRows($Target,$Seen,$Rows,[int]$Limit=999999){
   foreach($r in @($Rows)){
-    if($Target.Count-ge$Limit){break}
-    $s=([string]$r.symbol).ToUpperInvariant().Trim();if(-not$s -or $Seen.ContainsKey($s)){continue}
+    if($Target.Count -ge $Limit){break}
+    $s=([string]$r.symbol).ToUpperInvariant().Trim();if(-not $s -or $Seen.ContainsKey($s)){continue}
     $Seen[$s]=$true;$Target.Add($r)
   }
 }
 function Split-Batches($Rows,[int]$Size){
   $a=@($Rows);$out=New-Object System.Collections.Generic.List[object]
-  for($i=0;$i-lt$a.Count;$i+=$Size){$end=[Math]::Min($a.Count-1,$i+$Size-1);$out.Add(@($a[$i..$end]))}
+  for($i=0;$i -lt $a.Count;$i+=$Size){
+    $end=[Math]::Min($a.Count-1,$i+$Size-1)
+    $out.Add([pscustomobject]@{rows=@($a[$i..$end])})
+  }
   return @($out)
 }
-function SparkUrl([string]$Host,$Batch){
-  $symbols=(@($Batch)|ForEach-Object{[string]$_.symbol}) -join ','
+function SparkUrl([string]$Host,$BatchRows){
+  $symbols=(@($BatchRows) | ForEach-Object{[string]$_.symbol}) -join ','
   return "https://$Host/v7/finance/spark?symbols=$(UrlEncode $symbols)&range=1d&interval=5m&indicators=close&includePrePost=false"
 }
 
-function Read-SparkBatch($Batch,[string]$Text){
-  $lookup=@{};foreach($r in @($Batch)){$lookup[([string]$r.symbol).ToUpperInvariant()]=$r}
-  try{$j=$Text|ConvertFrom-Json}catch{return @()}
+function Read-SparkBatch($BatchRows,[string]$Text){
+  $lookup=@{};foreach($r in @($BatchRows)){$lookup[([string]$r.symbol).ToUpperInvariant()]=$r}
+  try{$j=$Text | ConvertFrom-Json}catch{return @()}
   $rows=New-Object System.Collections.Generic.List[object]
   foreach($item in @($j.spark.result)){
-    $res=@($item.response)[0];if($null-eq$res){continue}
-    $meta=$res.meta;$symbol=([string]$(if($item.symbol){$item.symbol}else{$meta.symbol})).ToUpperInvariant();if(-not$lookup.ContainsKey($symbol)){continue}
+    $res=@($item.response)[0];if($null -eq $res){continue}
+    $meta=$res.meta
+    $rawSymbol=if($item.symbol){[string]$item.symbol}else{[string]$meta.symbol}
+    $symbol=$rawSymbol.ToUpperInvariant();if(-not $lookup.ContainsKey($symbol)){continue}
     $cl=New-Object System.Collections.Generic.List[double]
-    foreach($v in @($res.indicators.quote[0].close)){if($null-ne$v){$n=Num $v -1;if($n-gt0){$cl.Add($n)}}}
-    if($cl.Count-lt5){continue}
-    $last=$cl[$cl.Count-1];$prev=Num $meta.previousClose $cl[0];if($prev-le0){$prev=$cl[0]}
+    foreach($v in @($res.indicators.quote[0].close)){
+      if($null -eq $v){continue};$n=Num $v -1;if($n -gt 0){$cl.Add($n)}
+    }
+    if($cl.Count -lt 5){continue}
+    $last=$cl[$cl.Count-1];$prev=Num $meta.previousClose $cl[0];if($prev -le 0){$prev=$cl[0]}
     $m5=($last/$cl[$cl.Count-2]-1)*100
     $m20=($last/$cl[$cl.Count-5]-1)*100
-    $prev5=if($cl.Count-ge3){($cl[$cl.Count-2]/$cl[$cl.Count-3]-1)*100}else{0}
+    $prev5=if($cl.Count -ge 3){($cl[$cl.Count-2]/$cl[$cl.Count-3]-1)*100}else{0}
     $accel=$m5-$prev5
-    $session=if($prev-gt0){($last/$prev-1)*100}else{0}
+    $session=if($prev -gt 0){($last/$prev-1)*100}else{0}
     $marketTime=Num $meta.regularMarketTime 0
-    if($marketTime-gt0){$age=[DateTimeOffset]::UtcNow.ToUnixTimeSeconds()-[long]$marketTime;if($age-gt2700){continue}}
+    if($marketTime -gt 0){$age=[DateTimeOffset]::UtcNow.ToUnixTimeSeconds()-[long]$marketTime;if($age -gt 2700){continue}}
     $wide=$session*.24+$m5*1.75+$m20*.78+$accel*1.65
-    $dip=($session-le-.55-and$session-ge-10-and$m20-le.20-and$m20-ge-3.2-and$m5-le.15-and$m5-ge-.85-and$accel-ge.012)
+    $dip=($session -le -.55 -and $session -ge -10 -and $m20 -le .20 -and $m20 -ge -3.2 -and $m5 -le .15 -and $m5 -ge -.85 -and $accel -ge .012)
     $dipScore=0
     if($dip){$dipScore=[Math]::Max(0,3.6-[Math]::Abs([Math]::Abs($session)-2.6)*.52)+[Math]::Min(3.2,[Math]::Max(0,$accel)*13)+[Math]::Max(0,1.7-[Math]::Abs($m5)*1.7)}
     $rows.Add([pscustomobject]@{symbol=$symbol;wideScore=[Math]::Round($wide,4);m5Pct=[Math]::Round($m5,4);m20Pct=[Math]::Round($m20,4);accelerationPct=[Math]::Round($accel,4);sessionPct=[Math]::Round($session,4);last=[Math]::Round($last,8);observedAt=(Get-Date).ToUniversalTime().ToString('o');source=$Source;dipDiscovery=$dip;dipRankScore=[Math]::Round($dipScore,4);shockScore=[Math]::Round([Math]::Abs($m5)*1.8+[Math]::Abs($accel)*1.6+[Math]::Abs($session)*.18,4)})
@@ -135,34 +139,39 @@ function Read-SparkBatch($Batch,[string]$Text){
   return @($rows)
 }
 
+function Wait-HttpTasks($TaskRows){
+  $tasks=@($TaskRows | ForEach-Object{$_.task})
+  if(-not $tasks.Count){return}
+  try{[System.Threading.Tasks.Task]::WaitAll([System.Threading.Tasks.Task[]]$tasks,20000) | Out-Null}catch{}
+}
 function Invoke-SparkWave($Batches,[int]$Parallel){
   $allRows=New-Object System.Collections.Generic.List[object]
-  $fail=0;$throttle=0;$requests=0
-  $a=@($Batches)
-  for($offset=0;$offset-lt$a.Count;$offset+=$Parallel){
+  $fail=0;$throttle=0;$requests=0;$a=@($Batches)
+  for($offset=0;$offset -lt $a.Count;$offset+=$Parallel){
     $end=[Math]::Min($a.Count-1,$offset+$Parallel-1);$wave=@($a[$offset..$end]);$tasks=New-Object System.Collections.Generic.List[object]
-    foreach($b in $wave){$tasks.Add([pscustomobject]@{batch=$b;task=$http.GetAsync((SparkUrl 'query1.finance.yahoo.com' $b));host='query1'})}
-    try{[System.Threading.Tasks.Task]::WaitAll([System.Threading.Tasks.Task[]]@($tasks|ForEach-Object{$_.task}),20000)|Out-Null}catch{}
+    foreach($b in $wave){$tasks.Add([pscustomobject]@{batch=$b;task=$http.GetAsync((SparkUrl 'query1.finance.yahoo.com' $b.rows))})}
+    Wait-HttpTasks @($tasks)
     $retry=New-Object System.Collections.Generic.List[object]
     foreach($x in @($tasks)){
       $requests++
       try{
-        if(-not$x.task.IsCompleted -or $x.task.IsFaulted){$retry.Add($x);continue}
+        if(-not $x.task.IsCompleted -or $x.task.IsFaulted){$retry.Add($x);continue}
         $resp=$x.task.Result
-        if($resp.IsSuccessStatusCode){$txt=$resp.Content.ReadAsStringAsync().Result;foreach($r in @(Read-SparkBatch $x.batch $txt)){$allRows.Add($r)}}
-        else{if([int]$resp.StatusCode-in@(401,403,429)){$throttle++};$retry.Add($x)}
+        if($resp.IsSuccessStatusCode){$txt=$resp.Content.ReadAsStringAsync().Result;foreach($r in @(Read-SparkBatch $x.batch.rows $txt)){$allRows.Add($r)}}
+        else{if([int]$resp.StatusCode -in @(401,403,429)){$throttle++};$retry.Add($x)}
       }catch{$retry.Add($x)}
     }
     if($retry.Count){
       $rTasks=New-Object System.Collections.Generic.List[object]
-      foreach($x in @($retry)){$rTasks.Add([pscustomobject]@{batch=$x.batch;task=$http.GetAsync((SparkUrl 'query2.finance.yahoo.com' $x.batch))})}
-      try{[System.Threading.Tasks.Task]::WaitAll([System.Threading.Tasks.Task[]]@($rTasks|ForEach-Object{$_.task}),20000)|Out-Null}catch{}
+      foreach($x in @($retry)){$rTasks.Add([pscustomobject]@{batch=$x.batch;task=$http.GetAsync((SparkUrl 'query2.finance.yahoo.com' $x.batch.rows))})}
+      Wait-HttpTasks @($rTasks)
       foreach($x in @($rTasks)){
         $requests++
         try{
-          if(-not$x.task.IsCompleted -or$x.task.IsFaulted){$fail++;continue}
+          if(-not $x.task.IsCompleted -or $x.task.IsFaulted){$fail++;continue}
           $resp=$x.task.Result
-          if($resp.IsSuccessStatusCode){$txt=$resp.Content.ReadAsStringAsync().Result;foreach($r in @(Read-SparkBatch $x.batch $txt)){$allRows.Add($r)}}else{$fail++;if([int]$resp.StatusCode-in@(401,403,429)){$throttle++}}
+          if($resp.IsSuccessStatusCode){$txt=$resp.Content.ReadAsStringAsync().Result;foreach($r in @(Read-SparkBatch $x.batch.rows $txt)){$allRows.Add($r)}}
+          else{$fail++;if([int]$resp.StatusCode -in @(401,403,429)){$throttle++}}
         }catch{$fail++}
       }
     }
@@ -172,99 +181,64 @@ function Invoke-SparkWave($Batches,[int]$Parallel){
 
 function Select-UploadRows($Rows){
   $all=@($Rows);$picked=New-Object System.Collections.Generic.List[object];$seen=@{}
-  $dips=@($all|Where-Object{$_.dipDiscovery}|Sort-Object dipRankScore,accelerationPct,wideScore -Descending|Select-Object -First 240)
+  $dips=@($all | Where-Object{$_.dipDiscovery} | Sort-Object dipRankScore,accelerationPct,wideScore -Descending | Select-Object -First 240)
   Add-UniqueRows $picked $seen $dips $SendLimit
-  $shocks=@($all|Sort-Object shockScore -Descending|Select-Object -First 120)
+  $shocks=@($all | Sort-Object shockScore -Descending | Select-Object -First 140)
   Add-UniqueRows $picked $seen $shocks $SendLimit
-  $momentum=@($all|Sort-Object wideScore,accelerationPct,m5Pct -Descending|Select-Object -First 220)
+  $momentum=@($all | Sort-Object wideScore,accelerationPct,m5Pct -Descending | Select-Object -First 240)
   Add-UniqueRows $picked $seen $momentum $SendLimit
-  return @($picked|Select-Object -First $SendLimit|ForEach-Object{[pscustomobject]@{symbol=$_.symbol;wideScore=$_.wideScore;m5Pct=$_.m5Pct;m20Pct=$_.m20Pct;accelerationPct=$_.accelerationPct;sessionPct=$_.sessionPct;last=$_.last;observedAt=$_.observedAt;source=$_.source}})
+  return @($picked | Select-Object -First $SendLimit | ForEach-Object{[pscustomobject]@{symbol=$_.symbol;wideScore=$_.wideScore;m5Pct=$_.m5Pct;m20Pct=$_.m20Pct;accelerationPct=$_.accelerationPct;sessionPct=$_.sessionPct;last=$_.last;observedAt=$_.observedAt;source=$_.source}})
 }
-
 function Load-State(){
   $s=Read-JsonFile $statePath
-  if(-not$s){$s=[pscustomobject]@{coreCursor=0;tailCursor=0;backoffUntilUtc=$null;hot=@();lastRunAt=$null;lastError=$null;throttleCount=0}}
+  if(-not $s){$s=[pscustomobject]@{coreCursor=0;tailCursor=0;backoffUntilUtc=$null;hot=@();lastRunAt=$null;lastError=$null;throttleCount=0}}
   return $s
 }
 function Save-State($State){Save-JsonFile $statePath $State}
-function In-Backoff($State){if(-not$State.backoffUntilUtc){return $false};try{return [datetime]::Parse([string]$State.backoffUntilUtc).ToUniversalTime() -gt (Get-Date).ToUniversalTime()}catch{return $false}}
+function In-Backoff($State){if(-not $State.backoffUntilUtc){return $false};try{return [datetime]::Parse([string]$State.backoffUntilUtc).ToUniversalTime() -gt (Get-Date).ToUniversalTime()}catch{return $false}}
 
 function Invoke-RadarMinute{
-  $state=Load-State
-  $universe=Get-Universe
-  $rows=@($universe.equities|Where-Object{$_.symbol})
-  if($rows.Count-lt100){throw 'Zu wenige Master-Aktien.'}
-  $sorted=@($rows|Sort-Object @{Expression={Num $_.marketCapUSD 0};Descending=$true})
-  $core=@($sorted|Select-Object -First ([Math]::Min($CoreTarget,$sorted.Count)))
-  $tail=if($sorted.Count-gt$core.Count){@($sorted[$core.Count..($sorted.Count-1)])}else{@()}
-  $backoff=In-Backoff $state
-  $parallel=if($backoff){$BackoffParallel}else{$NormalParallelRequests}
-  $budget=if($backoff){$BackoffBatches}else{$NormalBatchesPerMinute}
-  $hotBudget=[Math]::Min(4,$budget)
-  $coreBatches=if($backoff){[Math]::Min(4,[Math]::Max(2,[Math]::Floor($budget*.33)))}else{[Math]::Min($NormalCoreBatches,$budget-$hotBudget)}
-  $tailBatches=[Math]::Max(0,$budget-$hotBudget-$coreBatches)
+  $state=Load-State;$universe=Get-Universe;$rows=@($universe.equities | Where-Object{$_.symbol})
+  if($rows.Count -lt 100){throw 'Zu wenige Master-Aktien.'}
+  $sorted=@($rows | Sort-Object @{Expression={Num $_.marketCapUSD 0};Descending=$true})
+  $core=@($sorted | Select-Object -First ([Math]::Min($CoreTarget,$sorted.Count)))
+  $tail=if($sorted.Count -gt $core.Count){@($sorted[$core.Count..($sorted.Count-1)])}else{@()}
+  $backoff=In-Backoff $state;$parallel=if($backoff){$BackoffParallel}else{$NormalParallelRequests};$budget=if($backoff){$BackoffBatches}else{$NormalBatchesPerMinute}
+  $hotBudget=[Math]::Min(4,$budget);$coreBatches=if($backoff){[Math]::Min(4,[Math]::Max(2,[Math]::Floor($budget*.33)))}else{[Math]::Min($NormalCoreBatches,[Math]::Max(0,$budget-$hotBudget))};$tailBatches=[Math]::Max(0,$budget-$hotBudget-$coreBatches)
 
   $bySymbol=@{};foreach($r in $rows){$bySymbol[([string]$r.symbol).ToUpperInvariant()]=$r}
   $hotRows=New-Object System.Collections.Generic.List[object]
   foreach($h in @($state.hot)){$s=([string]$h.symbol).ToUpperInvariant();if($bySymbol.ContainsKey($s)){$hotRows.Add($bySymbol[$s])}}
-  $selected=New-Object System.Collections.Generic.List[object];$seen=@{}
-  Add-UniqueRows $selected $seen $hotRows ($hotBudget*$BatchSize)
-
+  $selected=New-Object System.Collections.Generic.List[object];$seen=@{};Add-UniqueRows $selected $seen $hotRows ($hotBudget*$BatchSize)
   $coreTake=$coreBatches*$BatchSize;$tailTake=$tailBatches*$BatchSize
-  $coreSlice=Get-RotatingSlice $core ([int](Num $state.coreCursor 0)) $coreTake
-  $tailSlice=Get-RotatingSlice $tail ([int](Num $state.tailCursor 0)) $tailTake
-  Add-UniqueRows $selected $seen $coreSlice 999999
-  Add-UniqueRows $selected $seen $tailSlice 999999
+  Add-UniqueRows $selected $seen (Get-RotatingSlice $core ([int](Num $state.coreCursor 0)) $coreTake) 999999
+  Add-UniqueRows $selected $seen (Get-RotatingSlice $tail ([int](Num $state.tailCursor 0)) $tailTake) 999999
   $state.coreCursor=if($core.Count){(([int](Num $state.coreCursor 0)+$coreTake)%$core.Count)}else{0}
   $state.tailCursor=if($tail.Count){(([int](Num $state.tailCursor 0)+$tailTake)%$tail.Count)}else{0}
 
-  $batches=Split-Batches @($selected) $BatchSize
-  if($batches.Count-gt$budget){$batches=@($batches|Select-Object -First $budget)}
-  $started=Get-Date
-  $scan=Invoke-SparkWave $batches $parallel
-  $elapsed=[Math]::Max(.1,((Get-Date)-$started).TotalSeconds)
-  $scanRows=@($scan.rows)
-
-  $hot=@($scanRows|Where-Object{$_.dipDiscovery -or [Math]::Abs($_.m5Pct)-ge.22 -or [Math]::Abs($_.accelerationPct)-ge.05 -or [Math]::Abs($_.sessionPct)-ge1.1}|Sort-Object dipDiscovery,shockScore,wideScore -Descending|Select-Object -First 180|ForEach-Object{[pscustomobject]@{symbol=$_.symbol;score=$_.wideScore}})
-  $state.hot=$hot
-  $state.lastRunAt=(Get-Date).ToUniversalTime().ToString('o')
-  $state.lastError=$null
-  $state.throttleCount=[int](Num $state.throttleCount 0)+[int]$scan.throttles
+  $batches=@(Split-Batches @($selected) $BatchSize | Select-Object -First $budget)
+  $started=Get-Date;$scan=Invoke-SparkWave $batches $parallel;$elapsed=[Math]::Max(.1,((Get-Date)-$started).TotalSeconds);$scanRows=@($scan.rows)
+  $state.hot=@($scanRows | Where-Object{$_.dipDiscovery -or [Math]::Abs($_.m5Pct) -ge .22 -or [Math]::Abs($_.accelerationPct) -ge .05 -or [Math]::Abs($_.sessionPct) -ge 1.1} | Sort-Object dipDiscovery,shockScore,wideScore -Descending | Select-Object -First 180 | ForEach-Object{[pscustomobject]@{symbol=$_.symbol;score=$_.wideScore}})
+  $state.lastRunAt=(Get-Date).ToUniversalTime().ToString('o');$state.lastError=$null;$state.throttleCount=[int](Num $state.throttleCount 0)+[int]$scan.throttles
   $failureRatio=if($batches.Count){$scan.failures/[double]$batches.Count}else{1}
-  if($scan.throttles-gt0 -or $failureRatio-gt.25){
-    $state.backoffUntilUtc=(Get-Date).ToUniversalTime().AddMinutes($BackoffMinutes).ToString('o')
-    $state.lastError="Yahoo-Drosselung/Fehler: $($scan.failures) Fehler, $($scan.throttles) Throttle"
-  }elseif(-not$backoff){$state.backoffUntilUtc=$null}
+  if($scan.throttles -gt 0 -or $failureRatio -gt .25){$state.backoffUntilUtc=(Get-Date).ToUniversalTime().AddMinutes($BackoffMinutes).ToString('o');$state.lastError="Yahoo-Drosselung/Fehler: $($scan.failures) Fehler, $($scan.throttles) Throttle"}elseif(-not $backoff){$state.backoffUntilUtc=$null}
   Save-State $state
 
-  $upload=Select-UploadRows $scanRows
-  $corePerMinute=[Math]::Max(1,$coreBatches*$BatchSize)
-  $tailPerMinute=[Math]::Max(1,$tailBatches*$BatchSize)
-  $coreCycle=if($core.Count){[Math]::Ceiling($core.Count/$corePerMinute)}else{0}
-  $tailCycle=if($tail.Count){[Math]::Ceiling($tail.Count/$tailPerMinute)}else{0}
-  $fullCycle=[Math]::Max($coreCycle,$tailCycle)
-  $meta=[ordered]@{
-    profile='FAST_RADAR_ADAPTIVE_V1';fastHelper=$true;masterCount=$rows.Count;scannedCount=$scanRows.Count;cycleMinutes=$fullCycle;batchCount=$batches.Count;
-    coreCount=$core.Count;coreCycleMinutes=$coreCycle;tailCount=$tail.Count;tailCycleMinutes=$tailCycle;fullMasterCycleMinutes=$fullCycle;maxCoverageMinutesTarget=10;
-    tailBatchesPerMinute=$tailBatches;hotEveryMinutes=1;warmEveryMinutes=1;quietCoreEveryMinutes=$coreCycle;parallelRequests=$parallel;batchesPerMinute=$batches.Count;
-    targetRowsPerMinute=($batches.Count*$BatchSize);adaptiveConcurrency=$true;sourceBackoff=[bool](In-Backoff $state);throttleCount=[int](Num $state.throttleCount 0);
-    pausedUntil=$state.backoffUntilUtc;lastError=$state.lastError;elapsedSeconds=[Math]::Round($elapsed,2);radarVersion=$RadarVersion
-  }
-  $payload=[ordered]@{wideSweepOnly=$true;wideSweepEntries=$upload;wideSweepMeta=$meta}
-  $reply=Invoke-AgentPost '/api/agent/prefetch' $payload
+  $upload=Select-UploadRows $scanRows;$corePerMinute=[Math]::Max(1,$coreBatches*$BatchSize);$tailPerMinute=[Math]::Max(1,$tailBatches*$BatchSize)
+  $coreCycle=if($core.Count){[Math]::Ceiling($core.Count/$corePerMinute)}else{0};$tailCycle=if($tail.Count){[Math]::Ceiling($tail.Count/$tailPerMinute)}else{0};$fullCycle=[Math]::Max($coreCycle,$tailCycle)
+  $meta=[ordered]@{profile='FAST_RADAR_ADAPTIVE_V1';fastHelper=$true;masterCount=$rows.Count;scannedCount=$scanRows.Count;cycleMinutes=$fullCycle;batchCount=$batches.Count;coreCount=$core.Count;coreCycleMinutes=$coreCycle;tailCount=$tail.Count;tailCycleMinutes=$tailCycle;fullMasterCycleMinutes=$fullCycle;maxCoverageMinutesTarget=10;tailBatchesPerMinute=$tailBatches;hotEveryMinutes=1;warmEveryMinutes=1;quietCoreEveryMinutes=$coreCycle;parallelRequests=$parallel;batchesPerMinute=$batches.Count;targetRowsPerMinute=($batches.Count*$BatchSize);adaptiveConcurrency=$true;sourceBackoff=[bool](In-Backoff $state);throttleCount=[int](Num $state.throttleCount 0);pausedUntil=$state.backoffUntilUtc;lastError=$state.lastError;elapsedSeconds=[Math]::Round($elapsed,2);radarVersion=$RadarVersion}
+  Invoke-AgentPost '/api/agent/prefetch' ([ordered]@{wideSweepOnly=$true;wideSweepEntries=$upload;wideSweepMeta=$meta}) | Out-Null
   Write-RadarLog "FAST $($scanRows.Count)/$($selected.Count) Aktien in $([Math]::Round($elapsed,1))s | Batches $($batches.Count), parallel $parallel | Upload $($upload.Count) | Zyklus Kern ${coreCycle}m / Rest ${tailCycle}m | Backoff $([bool](In-Backoff $state))"
-  return $reply
 }
-
 function Seconds-To-NextRun{
   $now=Get-Date;$target=Get-Date -Hour $now.Hour -Minute $now.Minute -Second $LoopSecond
-  if($target-le$now){$target=$target.AddMinutes(1)}
+  if($target -le $now){$target=$target.AddMinutes(1)}
   return [Math]::Max(1,[Math]::Ceiling(($target-$now).TotalSeconds))
 }
 
 Write-RadarLog "Fast Wide Radar $RadarVersion gestartet. Ziel: $NormalBatchesPerMinute Batches/min, $NormalParallelRequests parallel, Batch $BatchSize."
 while($true){
-  try{Start-Sleep -Seconds (Seconds-To-NextRun);Invoke-RadarMinute|Out-Null}
+  try{Start-Sleep -Seconds (Seconds-To-NextRun);Invoke-RadarMinute}
   catch{
     $msg=$_.Exception.Message;Write-RadarLog "FEHLER: $msg"
     try{$s=Load-State;$s.lastError=$msg;$s.backoffUntilUtc=(Get-Date).ToUniversalTime().AddMinutes(2).ToString('o');Save-State $s}catch{}
