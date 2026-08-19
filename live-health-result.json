@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T11:52:35.293833+00:00",
+  "checkedAt": "2026-08-19T11:56:12.920757+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -464,19 +464,21 @@
   "reboundScan": {
     "enabled": true,
     "target": 24,
-    "candidateCount": 6,
-    "updatedAt": "2026-08-19T11:44:48.032Z",
-    "source": "WINDOWS_PC_AGENT",
+    "candidateCount": 24,
+    "updatedAt": "2026-08-19T11:55:19.383Z",
+    "source": "CLOUDFLARE_FALLBACK",
     "sourceStats": [
       {
         "name": "TradingView DE Biggest Losers",
-        "found": 45,
-        "matched": 7
+        "found": 70,
+        "error": null,
+        "matched": 22
       },
       {
-        "name": "TradingView AU Biggest Losers",
-        "found": 44,
-        "matched": 6
+        "name": "Yahoo Day Losers",
+        "found": 35,
+        "error": null,
+        "matched": 13
       }
     ],
     "confirmationRequired": true,
@@ -487,19 +489,21 @@
   "earlyBreakoutScan": {
     "enabled": true,
     "target": 12,
-    "candidateCount": 6,
-    "updatedAt": "2026-08-19T11:44:48.032Z",
-    "source": "WINDOWS_PC_AGENT",
+    "candidateCount": 12,
+    "updatedAt": "2026-08-19T11:55:20.009Z",
+    "source": "CLOUDFLARE_FALLBACK",
     "sourceStats": [
       {
         "name": "TradingView DE Top Gainers",
-        "found": 45,
-        "matched": 7
+        "found": 40,
+        "error": null,
+        "matched": 9
       },
       {
-        "name": "TradingView AU Top Gainers",
-        "found": 44,
-        "matched": 6
+        "name": "Yahoo Day Gainers",
+        "found": 35,
+        "error": null,
+        "matched": 15
       }
     ],
     "confirmationRequired": true,
@@ -864,9 +868,9 @@
     "deepFinalists": 8,
     "secondChanceCapture": true,
     "reboundPoolTarget": 24,
-    "reboundPoolCandidates": 6,
+    "reboundPoolCandidates": 24,
     "earlyBreakoutPoolTarget": 12,
-    "earlyBreakoutPoolCandidates": 6,
+    "earlyBreakoutPoolCandidates": 12,
     "pcWideSweep": true,
     "pcWideSweepTarget": 64,
     "secondChanceWatch": true,
@@ -898,7 +902,7 @@
     "configured": true,
     "online": false,
     "lastSeenAt": "2026-08-19T11:44:49.126Z",
-    "ageSeconds": 466,
+    "ageSeconds": 683,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-19T11:44:48.032Z",
     "resolvedLeaderCount": 6,
