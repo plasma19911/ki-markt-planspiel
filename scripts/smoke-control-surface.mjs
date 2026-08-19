@@ -9,21 +9,15 @@ const index=read('src/index.js');
 const quota=read('public/quota-guard.js');
 const wrangler=read('wrangler.jsonc');
 
-// State-changing endpoints must stay behind a mandatory server-side secret.
+// Owner UI is intentionally passwordless. Keep only the zero-friction browser
+// cross-site/CSRF protection so foreign web pages cannot drive the controls.
 for(const path of ['/api/start','/api/stop','/api/reset','/api/scan','/api/migrate-from-old-sql']){
-  assert.ok(wrapper.includes(`'${path}'`),`${path} muss im CONTROL_TOKEN-Guard bleiben`);
+  assert.ok(wrapper.includes(`'${path}'`),`${path} muss im Browser-Origin-Guard bleiben`);
 }
-assert.match(wrapper,/CONTROL_TOKEN/,'Steuer-Guard braucht CONTROL_TOKEN');
-assert.match(wrapper,/controlSecretMissing:true[^\n]*503|503[^\n]*controlSecretMissing:true/,'Fehlendes CONTROL_TOKEN muss Steueraktionen fail-closed sperren');
-assert.match(wrapper,/controlTokenRequired:true[^\n]*401|401[^\n]*controlTokenRequired:true/,'Fehlendes oder falsches Token muss 401 liefern');
-assert.match(wrapper,/x-control-token/,'Server muss x-control-token pruefen');
+assert.doesNotMatch(wrapper,/CONTROL_TOKEN|x-control-token|controlTokenRequired|controlSecretMissing/,'CONTROL_TOKEN darf nicht wieder fuer normale Steueraktionen verlangt werden');
 assert.match(wrapper,/sec-fetch-site/,'Browser-Cross-Site-Schutz muss aktiv bleiben');
 assert.match(wrapper,/origin/,'Origin-Pruefung muss aktiv bleiben');
-
-// The browser must attach the token and be able to recover from a 401 prompt.
-assert.match(quota,/planspiel\.controlToken/,'UI muss CONTROL_TOKEN lokal verwalten');
-assert.match(quota,/x-control-token/,'UI muss x-control-token an Steuer-POSTs senden');
-assert.match(quota,/controlTokenRequired/,'UI muss eine 401-Token-Anforderung erkennen');
+assert.doesNotMatch(quota,/planspiel\.controlToken|x-control-token|controlTokenRequired|window\.prompt\(/,'UI darf keinen Steuer-Token mehr abfragen');
 
 // Dashboard payload must stay windowed; older history is fetched only on demand.
 assert.match(index,/HISTORY_WINDOW=60/,'Dashboard-History muss auf 60 Eintraege begrenzt bleiben');
@@ -39,7 +33,7 @@ assert.match(wrangler,/"required"\s*:\s*\[\s*"PC_AGENT_TOKEN"\s*\]/,'PC_AGENT_TO
 console.log(JSON.stringify({
   ok:true,
   guardedControlEndpoints:5,
-  controlTokenFailClosed:true,
+  passwordlessControlUi:true,
   browserCsrfGuard:true,
   dashboardHistoryWindow:60,
   dashboardAiLogWindow:40,
