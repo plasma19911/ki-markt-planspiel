@@ -1,5 +1,6 @@
 from pathlib import Path
 
+# One-shot source integrator; removed again after the validated source commit lands.
 p=Path('src/compact-portfolio-v5.js')
 t=p.read_text(encoding='utf-8')
 imp="import {enforceFastExecutionGuards,isLowerAiPlanCooldown} from './decision-guard.js';"
