@@ -4,7 +4,9 @@ import {getSecondChanceRuntime} from './second-chance-runtime.js';
 export {BENCHMARKS,marketOpen,newsTradingAgeHours,newsRecencyWeight,loadUniverse} from './market-v3-base.js';
 
 const HEADERS={'accept':'application/json','user-agent':'Mozilla/5.0'};
-const RECHECK_MAX=2;
+// Vier frische 1m-Zweitchecks laufen parallel statt bisher nur zwei. Dadurch erhalten
+// mehr knapp verpasste Kandidaten im selben Zeitfenster neue Kurs-/Volumen-Evidenz.
+const RECHECK_MAX=4;
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
 const key=v=>String(v||'').toUpperCase().trim();
@@ -41,7 +43,7 @@ async function recheck(info,prior,fxFallback){
 
 export async function scanMarket(env,cfg,heldSymbols=[]){
  const result=await baseScanMarket(venueSafeEnv(env),cfg,heldSymbols);if(result?.marketState?.mode==='NEWS_ONLY')return result;
- const watch=getSecondChanceRuntime(),existing=new Set((result?.candidates||[]).map(x=>key(x?.symbol))),universe=new Map((result?.universe||[]).map(x=>[key(x?.symbol),x])),missing=watch.filter(x=>!blockedVenueSymbol(x?.symbol)&&!existing.has(key(x?.symbol))&&universe.has(key(x?.symbol))).slice(0,RECHECK_MAX);if(!missing.length)return{...result,secondChanceRechecked:0,secondChanceRecovered:0};
+ const watch=getSecondChanceRuntime(),existing=new Set((result?.candidates||[]).map(x=>key(x?.symbol))),universe=new Map((result?.universe||[]).map(x=>[key(x?.symbol),x])),missing=watch.filter(x=>!blockedVenueSymbol(x?.symbol)&&!existing.has(key(x?.symbol))&&universe.has(key(x?.symbol))).slice(0,RECHECK_MAX);if(!missing.length)return{...result,secondChanceRechecked:0,secondChanceRecovered:0,secondChanceRecheckMax:RECHECK_MAX};
  let candidates=[...(result.candidates||[])],recovered=0,failed=0,lastError='';const checked=await Promise.all(missing.map(async w=>{const info=universe.get(key(w.symbol)),same=candidates.find(c=>String(c?.currency||'')===String(info?.currency||'')&&num(c?.fxRate)>0);return recheck(info,w,num(w?.fx_rate,num(same?.fxRate,1)))}));for(const x of checked){if(x?.candidate){candidates.push(x.candidate);recovered++}else{failed++;lastError=x?.error||lastError}}candidates.sort((a,b)=>num(b?.score)-num(a?.score));
  return{...result,candidates,health:{...(result.health||{}),'Second-Chance 1m':{status:recovered>0?'OK':failed>0?'DEGRADED':'OK',okCount:recovered,failCount:failed,lastError:lastError||'',latencyMs:null}},secondChanceRechecked:missing.length,secondChanceRecovered:recovered,secondChanceRecheckMax:RECHECK_MAX};
 }
