@@ -4,6 +4,7 @@ import {ResearchEntryQualityGuard} from './research-entry-quality-guard.js';
 import {BalancedAdaptiveAiGuard,replayBalancePressure} from './balanced-adaptive-guard.js';
 import {DipValueEntryAiGuard} from './dip-value-entry-guard.js';
 import {FreshPositionChurnAiGuard} from './fresh-position-churn-guard.js';
+import {augmentDayReplayStatus,prepareFinalDayReplay} from './day-replay-runtime.js';
 
 // V18: EARLY-DIP-FIRST. Der breite PC-/Rebound-Radar darf kontrollierte Ruecksetzer
 // frueh in einen separaten 1m-Foresight-Check heben. Harte Safety bleibt unveraendert.
@@ -25,8 +26,14 @@ export class MarketPortfolio extends BasePortfolio{
     if(result&&typeof result==='object')result.learningExecutionReconcile={before,after};
     return result;
   }
+  async finalDayReplay(batchSize=8){
+    const prepared=prepareFinalDayReplay(this.ctx?.storage);
+    const result=await super.dailyReplay(batchSize);
+    return{...result,finalReplay:true,finalPreparation:prepared};
+  }
   async status(){
     let s=await super.status();
+    s.dayReplayLearning=augmentDayReplayStatus(this.ctx?.storage,s?.dayReplayLearning||{});
     reconcileLearningWithExecutedPositions(this.ctx?.storage,s?.positions||this._actualPositions());
     const balance=replayBalancePressure(this.ctx?.storage);
     s.learningExecutionReconcile=getLearningExecutionReconcileStatus(this.ctx?.storage);
@@ -38,7 +45,7 @@ export class MarketPortfolio extends BasePortfolio{
     if(s.entryTimingLearning)s.entryTimingLearning={...s.entryTimingLearning,pendingOnlyForExecutedPositions:true,pendingExecutionTtlMinutes:8,proposalContaminationFixed:true};
     if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,learningOnlyFromExecutedEntries:true,researchBackedEntryPolicy:true,earlyBreakoutQualityGuard:true,earlyBreakoutInitialCapPct:8,finalHighEntryCapPct:5,balancedSoftOverride:true,balancedSoftStarterMaxPct:16,marginalExitConfirmation:true,exceptionalRotationEscape:true,freshPositionChurnShield:true,normalRotationMinAgeMinutes:30,zeroCashBuySuppression:true,deepFinalists:8,deepNewsFinalists:5,foresightDipRechecksPerScan:8,strongCandidateRetentionMinutes:15,secondChancePoolTarget:24,secondChanceRecheckPerScan:6,pcWideSweepTarget:64,pcWideDipReserve:44,pcWideSweepMaxAgeSeconds:1080,reboundRadarTarget:24,keylessMultiSource:true,fastInfoProfile:true,dipFirst:true,earlyDipForesight:true,fallingDipStarterAllowed:true,dipStarterMaxPct:20,deepDipStarterMaxPct:16,dipReboundMaxPct:30,foresightStarterMaxPct:12,foresightReboundMaxPct:18,cashMayRemainForBetterEntry:true,alwaysInvested:false,capitalMotionTargetCashDeploymentPct:null};
     if(s.executionModel)s.executionModel={...s.executionModel,alwaysInvested:false,capitalInMotion:false,cashMayRemain:true,strategicCashReservePct:null,dipFirst:true,earlyDipForesight:true,fallingDipStarterAllowed:true,nearHighBuyCapPct:5,fastInfoProfile:true};
-    if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,secondChanceWatch:true,secondChanceRetentionMinutes:15,secondChancePoolTarget:24,secondChanceRecheckPerScan:6,pcWideSweepTarget:64,pcWideDipReserve:44,pcWideSweepMaxAgeSeconds:1080,reboundRadarTarget:24,deepFinalists:8,deepNewsFinalists:5,foresightDipRechecksPerScan:8,keylessMultiSource:true,fastInfoProfile:true,dipFirst:true,earlyDipForesight:true,cashMayRemainForBetterEntry:true};
+    if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,secondChanceWatch:true,secondChanceRetentionMinutes:15,secondChancePoolTarget:24,secondChanceRecheckPerScan:6,pcWideSweepTarget:64,pcWideDipReserve:44,pcWideSweepMaxAgeSeconds:1080,reboundRadarTarget:24,deepFinalists:8,deepNewsFinalists:5,foresightDipRechecksPerScan:8,keylessMultiSource:true,fastInfoProfile:true,dipFirst:true,earlyDipForesight:true,cashMayRemainForBetterEntry:true,dayReplayPreliminaryFromBerlin:'22:05',dayReplayFinalFromBerlin:'23:05',dayReplayCloudflareFallbackAlways:true};
     return s;
   }
 }
