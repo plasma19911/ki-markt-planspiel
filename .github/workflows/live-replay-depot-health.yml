@@ -1,0 +1,104 @@
+name: Live Replay and Depot Health
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'replay-depot-health-result.json'
+      - 'validation-result.json'
+      - 'live-health-result.json'
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - name: Allow production deploy
+        run: sleep 90
+      - name: Probe production
+        run: |
+          BASE='https://ki-markt-planspiel.orkimperium.workers.dev'
+          curl -sS --retry 2 -o /tmp/full.json -w '%{http_code}' "$BASE/api/status?health=replay-full-$(date +%s)" > /tmp/full-code.txt
+          curl -sS --retry 2 -o /tmp/dashboard.json -w '%{http_code}' "$BASE/api/status?view=dashboard&health=replay-dash-$(date +%s)" > /tmp/dashboard-code.txt
+          curl -sS --retry 2 -o /tmp/replay.json -w '%{http_code}' "$BASE/api/day-replay-report?health=$(date +%s)" > /tmp/replay-code.txt
+          curl -sSI --retry 2 "$BASE/quota-guard.js?health=$(date +%s)" > /tmp/quota-headers.txt
+      - name: Build health result
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, datetime
+          from zoneinfo import ZoneInfo
+          def load(p):
+              try:return json.loads(pathlib.Path(p).read_text(encoding='utf-8'))
+              except:return {}
+          def code(p):
+              try:return pathlib.Path(p).read_text().strip()[-3:]
+              except:return '000'
+          def n(v,d=0.0):
+              try:return float(v)
+              except:return d
+          full=load('/tmp/full.json'); dash=load('/tmp/dashboard.json'); replay=load('/tmp/replay.json')
+          c=dash.get('config') or {}; positions=dash.get('positions') or []
+          display_market=0.0; rows=[]
+          for p in positions:
+              invested=max(0,n(p.get('invested'))); ep=n(p.get('entry_price')); lp=n(p.get('last_price'),ep); ef=n(p.get('entry_fx'),1); lf=n(p.get('last_fx'),ef); qty=n(p.get('zero_quantity'))
+              ratio=invested*(lp/ep)*(lf/ef) if ep>0 and ef>0 else invested
+              qv=qty*lp*lf if qty>0 and lp>0 and lf>0 else 0
+              value=qv if qv>0 and ratio>0 and abs(qv/ratio-1)<=.05 else ratio
+              display_market+=value; rows.append({'symbol':p.get('symbol'),'invested':invested,'ratioValue':ratio,'quantityValue':qv,'displayValue':value,'quantityUsed':abs(value-qv)<1e-8 and qv>0})
+          cash=n(c.get('cash')); equity=n(dash.get('equity')); display_delta=equity-(cash+display_market)
+          dr=(replay.get('dayReplayLearning') or dash.get('dayReplayLearning') or {}); report=dr.get('report') or {}; capture=dr.get('capture') or {}
+          now=datetime.datetime.now(ZoneInfo('Europe/Berlin')); today=now.date().isoformat(); minute=now.hour*60+now.minute; status=str(report.get('status') or '')
+          trading=now.weekday()<5
+          replay_today=str(report.get('date') or capture.get('date') or '')==today
+          replay_ok=True
+          if trading and minute>=22*60+5: replay_ok=replay_today and status in {'RUNNING','PRELIMINARY_COMPLETE','COMPLETE'}
+          if trading and minute>=23*60+55: replay_ok=replay_today and status=='COMPLETE'
+          headers=pathlib.Path('/tmp/quota-headers.txt').read_text(encoding='utf-8',errors='replace').lower()
+          checks={
+            'fullStatus200':code('/tmp/full-code.txt')=='200',
+            'dashboardStatus200':code('/tmp/dashboard-code.txt')=='200',
+            'replayEndpoint200':code('/tmp/replay-code.txt')=='200',
+            'replayTodayOnSchedule':replay_ok,
+            'depotDisplayAccountingConsistent':abs(display_delta)<=.05,
+            'criticalUiNoStore':'cache-control:' in headers and 'no-store' in headers,
+          }
+          out={
+            'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            'berlinNow':now.isoformat(),
+            'http':{'full':code('/tmp/full-code.txt'),'dashboard':code('/tmp/dashboard-code.txt'),'replay':code('/tmp/replay-code.txt')},
+            'payloadBytes':{'full':pathlib.Path('/tmp/full.json').stat().st_size,'dashboard':pathlib.Path('/tmp/dashboard.json').stat().st_size},
+            'checks':checks,'failedChecks':[k for k,v in checks.items() if not v],'allChecksPassed':all(checks.values()),
+            'replay':{'date':report.get('date'),'status':status,'processed':report.get('processed'),'total':report.get('total'),'provisional':report.get('provisional'),'completedAt':report.get('completedAt'),'capture':capture,'summary':report.get('summary')},
+            'depot':{'cash':cash,'equity':equity,'displayMarketValue':display_market,'displayAccountingDelta':display_delta,'positions':rows},
+            'quotaGuardHeaders':headers[-1600:]
+          }
+          raw=json.dumps(out,ensure_ascii=False,indent=2)+'\n'; pathlib.Path('/tmp/replay-depot-health-result.json').write_text(raw,encoding='utf-8'); print(raw)
+          PY
+      - name: Publish result
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3 4; do
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/replay-depot-health-result.json replay-depot-health-result.json
+            git add replay-depot-health-result.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Update replay/depot live health [skip ci]'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep 3
+          done
+          exit 1
+      - name: Enforce live replay/depot health
+        run: |
+          python3 - <<'PY'
+          import json
+          x=json.load(open('/tmp/replay-depot-health-result.json',encoding='utf-8'))
+          if x.get('failedChecks'): raise SystemExit('Live replay/depot health failed: '+', '.join(x['failedChecks']))
+          print('Live replay/depot health green')
+          PY
