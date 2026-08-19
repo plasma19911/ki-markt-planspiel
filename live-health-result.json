@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T18:28:13.160461+00:00",
+  "checkedAt": "2026-08-19T18:29:35.006046+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,16 +28,16 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 315,
-  "lastScan": "2026-08-19T18:25:23.103Z",
+  "scanCount": 316,
+  "lastScan": "2026-08-19T18:28:25.215Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 7 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 mög · CANDLE-FLOW V2.1: MRK wartet auf bessere Bodenbildung. Keine Minutenregel fuer SELL.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 8 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lag · Multi-T · TAGES-REVIEW V2: NTAP BUY gestoppt.",
   "cash": 8168.83095571722,
-  "equity": 9716.527814343548,
-  "pnl": -283.472185656452,
-  "marketValue": 1547.6968586263288,
+  "equity": 9716.47572546222,
+  "pnl": -283.52427453778,
+  "marketValue": 1547.6447697450003,
   "accountingDelta": 0.0,
-  "universeCount": 234,
+  "universeCount": 236,
   "positions": 3,
   "positionRows": [
     {
@@ -107,12 +107,12 @@
       "invested": 243.35495,
       "entry_fee": 2,
       "entry_price": 93.47337725067138,
-      "last_price": 94.19000244140625,
+      "last_price": 94.16999816894531,
       "entry_fx": 0.6202,
       "last_fx": 0.6203,
       "currency": "CAD",
       "opened_at": "2026-08-19T17:27:20.639Z",
-      "score": 4,
+      "score": 4.55,
       "signal_confidence": 0.63,
       "zero_quantity": 4.197787870342655,
       "zero_whole_shares": 4,
@@ -128,84 +128,95 @@
       "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
     }
   ],
-  "candidates": 7,
+  "candidates": 8,
   "topCandidates": [
+    {
+      "symbol": "NTAP",
+      "name": "NetApp, Inc.",
+      "score": 5.85,
+      "confidence": 0.78,
+      "day_change": -3.8395749579817173,
+      "news_score": 0,
+      "event_risk": "MEDIUM",
+      "pro": "Ruecksetzer -0.58% unter 20m-Hoch · Verkaufsdruck bremst deutlich +0.39% · 5m stabilisiert +0.11% · RSI 47 nicht ueberhitzt",
+      "contra": ""
+    },
+    {
+      "symbol": "SOUN",
+      "name": "SoundHound AI",
+      "score": 4.7292645161290325,
+      "confidence": 0.7596,
+      "day_change": 2.002862867538169,
+      "news_score": 0.04064516129032258,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 63 konstruktiv · 5m +0.42%",
+      "contra": ""
+    },
     {
       "symbol": "DOO.TO",
       "name": "BRP Inc.",
-      "score": 4,
+      "score": 4.55,
       "confidence": 0.63,
-      "day_change": -1.1751102283010684,
+      "day_change": -1.1960988679621143,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.26% · 20m +0.86%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.30% · 20m +0.85% · Momentum baut sich auf · Beschleunigung +0.27%",
       "contra": ""
     },
     {
       "symbol": "MRK",
       "name": "Merck & Co., Inc.",
-      "score": 2.991674342105263,
-      "confidence": 0.7186674342105263,
-      "day_change": 12.280834706266885,
+      "score": 2.741674342105263,
+      "confidence": 0.6936674342105262,
+      "day_change": 12.377002216826515,
       "news_score": 0.07631578947368418,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21",
-      "contra": ""
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 60 konstruktiv",
+      "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     },
     {
-      "symbol": "MRNA",
-      "name": "Moderna, Inc.",
-      "score": 2.3292623154389887,
-      "confidence": 0.6848262315438989,
-      "day_change": 141.75682697998977,
-      "news_score": 0.05354657351054828,
+      "symbol": "COIN",
+      "name": "Coinbase Global, Inc.",
+      "score": 2,
+      "confidence": 0.48000000000000004,
+      "day_change": 9.67995247680773,
+      "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 63 konstruktiv · 5m +1.12%",
-      "contra": "20m -1.09% · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "pro": "Kurs über EMA21 · RSI 59 konstruktiv · 5m +0.18%",
+      "contra": "EMA-Trend schwach"
     },
     {
       "symbol": "MELI",
       "name": "MercadoLibre",
+      "score": 0.20000000000000007,
+      "confidence": 0.30000000000000004,
+      "day_change": 7.112983880203361,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "Kurs über EMA21",
+      "contra": "EMA-Trend schwach"
+    },
+    {
+      "symbol": "MSTR",
+      "name": "Strategy Inc",
       "score": -1.2000000000000002,
       "confidence": 0.4,
-      "day_change": 7.056776948764565,
+      "day_change": 11.88931759950973,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
       "contra": "EMA-Trend schwach · Kurs unter EMA21"
     },
     {
-      "symbol": "BAH",
-      "name": "Booz Allen Hamilton",
-      "score": -2.45,
-      "confidence": 0.525,
-      "day_change": 5.233630509663523,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
-    },
-    {
-      "symbol": "MSTR",
-      "name": "Strategy Inc",
-      "score": -3.2,
-      "confidence": 0.6000000000000001,
-      "day_change": 11.932552484429038,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "RSI 59 konstruktiv",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
-    },
-    {
-      "symbol": "COIN",
-      "name": "Coinbase Global, Inc.",
-      "score": -4.4,
+      "symbol": "MRNA",
+      "name": "Moderna, Inc.",
+      "score": -5.300000000000001,
       "confidence": 0.63,
-      "day_change": 9.52266893202276,
+      "day_change": 139.51730400967625,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "RSI 59 konstruktiv",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 20m -0.60% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "pro": "RSI 67 konstruktiv",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 5m -1.02% · 20m -0.61% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
@@ -216,7 +227,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal DOO.TO: Score 4.00, Konfidenz 63%.",
+      "reason": "Kein Trade. Bestes Signal NTAP: Score 5.85, Konfidenz 78%.",
       "score": null
     },
     {
@@ -892,29 +903,29 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T18:27:10.290Z",
-    "ageSeconds": 63,
+    "lastSeenAt": "2026-08-19T18:29:10.759Z",
+    "ageSeconds": 24,
     "metrics": {
-      "lastSeenAt": "2026-08-19T18:27:10.290Z",
+      "lastSeenAt": "2026-08-19T18:29:10.759Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 18376707,
+      "storageBytes": 18422908,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.11,
-      "ramMb": 61.5,
-      "downloadedBytes": 7689020087,
-      "uploadedBytes": 13141897,
+      "cpuPct": 0.13,
+      "ramMb": 64.6,
+      "downloadedBytes": 7736991766,
+      "uploadedBytes": 13246740,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
-      "lastLocalCleanupAt": "2026-08-19T18:18:15.8215702Z",
+      "lastLocalCleanupAt": "2026-08-19T18:27:14.7445333Z",
       "lastError": null
     },
     "singleScannerProfileDetected": true
   },
   "risk": {
-    "equity": 9716.527814343548,
-    "dailyPct": -2.834721856564515,
+    "equity": 9716.47572546222,
+    "dailyPct": -2.8352427453777973,
     "availableCash": 8168.83095571722,
     "hardLimits": false,
     "budgetOnly": true,
@@ -935,7 +946,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": 96,
-      "updated_at": "2026-08-19T18:25:23.048Z"
+      "updated_at": "2026-08-19T18:28:25.160Z"
     },
     {
       "source": "Yahoo FX",
@@ -943,8 +954,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 96,
-      "updated_at": "2026-08-19T18:25:23.048Z"
+      "latency_ms": 100,
+      "updated_at": "2026-08-19T18:28:25.160Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -952,8 +963,8 @@
       "ok_count": 7,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 218,
-      "updated_at": "2026-08-19T18:25:23.048Z"
+      "latency_ms": 212,
+      "updated_at": "2026-08-19T18:28:25.160Z"
     },
     {
       "source": "Yahoo News",
@@ -961,17 +972,8 @@
       "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 403,
-      "updated_at": "2026-08-19T18:25:23.048Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 259,
-      "updated_at": "2026-08-19T18:25:23.048Z"
+      "latency_ms": 756,
+      "updated_at": "2026-08-19T18:28:25.160Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -979,8 +981,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 531,
-      "updated_at": "2026-08-19T18:25:23.048Z"
+      "latency_ms": 955,
+      "updated_at": "2026-08-19T18:28:25.160Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -988,8 +990,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 942,
-      "updated_at": "2026-08-19T18:25:23.048Z"
+      "latency_ms": 980,
+      "updated_at": "2026-08-19T18:28:25.160Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1003,
+      "updated_at": "2026-08-19T18:28:25.160Z"
     },
     {
       "source": "Unternehmenstermine (Nasdaq-Fallback)",
@@ -998,7 +1009,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T18:25:23.048Z"
+      "updated_at": "2026-08-19T18:28:25.160Z"
     },
     {
       "source": "finanzen.net News (Fallback)",
@@ -1006,8 +1017,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 992,
-      "updated_at": "2026-08-19T18:25:23.048Z"
+      "latency_ms": 712,
+      "updated_at": "2026-08-19T18:28:25.160Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -1016,7 +1027,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T18:25:23.048Z"
+      "updated_at": "2026-08-19T18:28:25.160Z"
     },
     {
       "source": "Second-Chance 1m",
@@ -1025,7 +1036,7 @@
       "fail_count": 2,
       "last_error": "Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/configuration/#limits",
       "latency_ms": null,
-      "updated_at": "2026-08-19T18:25:23.048Z"
+      "updated_at": "2026-08-19T18:28:25.160Z"
     }
   ]
 }
