@@ -1,6 +1,7 @@
 import {ProfitOptimizerAiGuard} from './profit-optimizer.js';
 import {getEntryTimingAdjustment} from './live-signal-learning.js';
 import {targetVenueIssue} from './target-venue-ai-guard.js';
+import {scaleUpAllocation} from './position-scale-up.js';
 
 // V2 sitzt direkt um den bestehenden Profit-Optimizer. Der Capital-in-Motion-Modus
 // haelt verfuegbares Paper-Cash grundsaetzlich investiert und rotiert schwache
@@ -12,6 +13,7 @@ export const QUALIFIED_MIN_EXPECTED=4.7;
 export const CAPITAL_MOTION_MIN_EXPECTED=3.0;
 export const ROTATION_MIN_GAP=0.8;
 const LOSS_ROTATION_MIN_GAP=0.45;
+const MAX_SCALE_UP_CASH_PER_DECISION_PCT=15;
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
@@ -24,6 +26,7 @@ function findPlanMessage(input){for(let i=0;i<arr(input?.messages).length;i++){c
 function badEvidence(c){return/(?:Infinity|NaN|undefined)/i.test([...arr(c?.pro),...arr(c?.contra),c?.reason].join(' '))}
 function promptCash(text){const m=String(text||'').match(/\bCash\s+([0-9]+(?:[.,][0-9]+)?)/i);return m?num(String(m[1]).replace(',','.')):0}
 function heldAgeMinutes(h={}){if(Number.isFinite(Number(h?.ageMinutes)))return Math.max(0,Number(h.ageMinutes));const t=Date.parse(String(h?.opened_at||h?.openedAt||''));return Number.isFinite(t)?Math.max(0,(Date.now()-t)/60000):999}
+function heldScaleAgeMinutes(h={}){if(Number.isFinite(Number(h?.minutesSinceAdd)))return Math.max(0,Number(h.minutesSinceAdd));const t=Date.parse(String(h?.last_added_at||h?.lastAddedAt||h?.opened_at||h?.openedAt||''));return Number.isFinite(t)?Math.max(0,(Date.now()-t)/60000):999}
 function heldPnlPct(h={}){for(const v of [h?.pnlPct,h?.pnl_pct,h?.pnl])if(Number.isFinite(Number(v)))return Number(v);return 0}
 
 function metrics(c={},storage=null){
@@ -75,6 +78,18 @@ export function shouldRotateCapital({current={},alternative={},ageMinutes=999,pn
  return num(alternative?.expected)>=CAPITAL_MOTION_MIN_EXPECTED&&(gap>=threshold||(degrading&&gap>=.55));
 }
 
+function scaleUpActions(held,cMap,{cash,storage,sellSet}={}){
+ const capital=Math.max(.01,num(cash)+arr(held).reduce((a,h)=>a+Math.max(0,num(h?.invested)),0)),raw=[];
+ for(const h of arr(held)){
+  const symbol=key(h);if(!symbol||sellSet?.has(symbol))continue;const c=cMap.get(symbol);if(!c)continue;
+  const qualified=evaluateQualifiedBest(c,storage),second=evaluateSecondChance(c,storage),p=scaleUpAllocation({cash,capital,invested:num(h?.invested),pnlPct:heldPnlPct(h),minutesSinceAdd:heldScaleAgeMinutes(h),qualified:qualified.confirmed,secondChance:second.confirmed});
+  if(!p.allowed)continue;const tier=second.confirmed?'SECOND_CHANCE':'QUALIFIED',expected=Math.max(second.confirmed?second.expected:0,qualified.confirmed?qualified.expected:0);
+  raw.push({symbol,allocation_pct:p.allocationPct,confidence:clamp(.54+expected*.045,.58,.88),reason:`STARTER-AUSBAU ${tier}: Position erneut bestätigt · Erwartungswert ${expected.toFixed(2)} · ${p.reason} · neue Tranche max. ${p.allocationPct.toFixed(1)}% des freien Cashs`,expected,targetPositionPct:p.targetPositionPct});
+ }
+ raw.sort((a,b)=>b.expected-a.expected);const sum=raw.reduce((a,x)=>a+num(x.allocation_pct),0),scale=sum>MAX_SCALE_UP_CASH_PER_DECISION_PCT?MAX_SCALE_UP_CASH_PER_DECISION_PCT/sum:1;
+ return raw.map(x=>({symbol:x.symbol,action:'BUY',confidence:x.confidence,allocation_pct:+(x.allocation_pct*scale).toFixed(4),reason:x.reason})).filter(x=>x.allocation_pct>=2);
+}
+
 function postProcess(r,input,storage){
  const plan=parsePlan(r),hit=findPlanMessage(input);if(!plan||!hit)return r;
  const candidates=parseBlock(hit.text,'Kandidaten=',' Gehalten=');if(!Array.isArray(candidates)||!candidates.length)return r;
@@ -97,10 +112,15 @@ function postProcess(r,input,storage){
   return{...r,response:JSON.stringify(plan)};
  }
 
+ // Neue gute Kandidaten haben Vorrang vor einem Ausbau bestehender Starter. Nur wenn
+ // kein neuer hart-sicherer Kandidat die Kapitalverteilung besteht, darf ein bereits
+ // gehaltener Starter nach erneuter QUALIFIED/SECOND_CHANCE-Bestaetigung wachsen.
  const alloc=buildCapitalMotionAllocations(candidates.filter(c=>!heldSet.has(key(c))),storage);
  if(!alloc.length){
+  const scaleUps=scaleUpActions(held,cMap,{cash,storage,sellSet});
+  if(scaleUps.length){const buySymbols=new Set(scaleUps.map(key)),total=scaleUps.reduce((a,b)=>a+num(b.allocation_pct),0);plan.actions=[...sells,...scaleUps,...holds.filter(h=>!sellSet.has(key(h))&&!buySymbols.has(key(h)))];plan.summary=`${String(plan.summary||'').slice(0,165)} · STARTER-AUSBAU: ${scaleUps.length} erneut bestätigte Position(en), zusammen max. ${total.toFixed(1)}% des freien Cashs; neue Kandidaten hatten keinen Vorrang-Setup.`;return{...r,response:JSON.stringify(plan)}}
   plan.actions=[...sells,...holds.filter(h=>!sellSet.has(key(h)))];
-  plan.summary=`${String(plan.summary||'').slice(0,180)} · CAPITAL-IN-MOTION: kein Kandidat bestand die harten Mindest-Sicherheitsregeln; nur in diesem Ausnahmefall bleibt Cash frei.`;
+  plan.summary=`${String(plan.summary||'').slice(0,180)} · CAPITAL-IN-MOTION: weder neuer Kandidat noch bestehender Starter bestand die harten Ausbau-/Mindest-Sicherheitsregeln; Cash bleibt frei.`;
   return{...r,response:JSON.stringify(plan)};
  }
  const buySymbols=new Set(alloc.map(a=>a.symbol));
