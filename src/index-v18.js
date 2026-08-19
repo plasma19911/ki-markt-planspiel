@@ -23,7 +23,7 @@ function noStoreCritical(request,response){
 const json=(x,status=200)=>Response.json(x,{status,headers:{'cache-control':'no-store'}});
 
 // Kostenfreier Browser-CSRF-Schutz fuer zustandsaendernde UI-Endpunkte.
-// Kein CONTROL_TOKEN: die eigene Weboberflaeche darf ohne Passwort steuern.
+// Die eigene Weboberflaeche darf ohne zusaetzliches Passwort/Steuer-Secret arbeiten.
 // /api/agent/* bleibt separat ueber PC_AGENT_TOKEN geschuetzt; Order-Freigaben
 // behalten ihre bestehende Cloudflare-Access-Pruefung.
 const GUARDED_PATHS=new Set(['/api/start','/api/stop','/api/reset','/api/scan','/api/migrate-from-old-sql']);
