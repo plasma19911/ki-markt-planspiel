@@ -3,7 +3,7 @@ const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
 const key=x=>String(x?.symbol||x||'').toUpperCase().trim();
 const responseText=r=>String(r?.response||r?.result?.response||'');
-const HEADERS={'accept':'application/json','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/MultiTimeframeV1.2)'};
+const HEADERS={'accept':'application/json','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/MultiTimeframeV1.3)'};
 const MAX_CONTEXT_SYMBOLS=1;
 
 function parsePlan(r){const raw=responseText(r),a=raw.indexOf('{'),b=raw.lastIndexOf('}');if(a<0||b<=a)return null;try{const j=JSON.parse(raw.slice(a,b+1));return Array.isArray(j.actions)?j:null}catch{return null}}
@@ -32,12 +32,12 @@ function structure(rows=[]){
 function headlineText(h){if(typeof h==='string')return h;return String(h?.title||h?.headline||h?.text||'')}
 function newsContext(c={}){const event=String(c?.eventRisk||c?.event_risk||'NONE').toUpperCase(),heads=arr(c?.headlines).map(headlineText).filter(Boolean).slice(0,4),text=heads.join(' | ').toLowerCase(),score=num(c?.news,c?.newsScore),severeNegative=/(profit warning|gewinnwarnung|cuts? guidance|guidance lowered|prognose gesenkt|bankrupt|insolven|default|fraud|betrug|investigation|ermittlung|recall|rückruf|cyberattack|data breach|capital increase|kapitalerhöhung|rights issue|dilution|misses estimates|verfehlt erwartungen)/i.test(text),positive=/(raises? guidance|guidance raised|prognose angehoben|beats? estimates|übertrifft erwartungen|record orders|rekordauftrag|contract award|auftrag|approval granted|buyback|dividend increase|phase 3|clinical trial|primary endpoint)/i.test(text);return{event,score,heads,severeNegative,positive,hardNegative:event==='HIGH'||severeNegative}}
 function contextReason(d,w,n){const pct=x=>x?`${Math.round(x.rangePos*100)}% der jüngsten Spanne`:'keine Daten';return`Tageschart ${d?.trend||'?'}, ${pct(d)}${d?.supportZone?' · nahe Unterstützung':''}${d?.resistanceZone?' · nahe Widerstand':''}; Wochenchart ${w?.trend||'?'}, ${pct(w)}${w?.supportZone?' · nahe Unterstützung':''}${w?.resistanceZone?' · nahe Widerstand':''}; News ${n.hardNegative?'negatives Warnsignal':n.positive?'positiver Katalysator':n.heads.length?'geprüft/neutral':'ohne neue harte Meldung'}`}
+function candleConfirmedReason(reason=''){return/CANDLE-FLOW BUY|OPPORTUNITY CONTINUATION/i.test(String(reason))}
+function breakoutReason(reason=''){return/BREAKOUT|CONTINUATION|Käufertrend|KAUEFERTREND/i.test(String(reason))}
 
 async function postProcess(r,input){
  const plan=parsePlan(r),prompt=findPrompt(input);if(!plan||!prompt)return r;
  const candidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]),map=new Map(candidates.map(x=>[key(x),x]));
- // Zusätzliche Tages-/Wochen-Netzrequests nur für EINEN tatsächlich geplanten neuen BUY.
- // SELL bleibt bei Candle-Flow/Hard-Risk, damit der Free-Worker nicht wieder am Subrequest-Limit scheitert.
  const buySymbol=arr(plan.actions).find(a=>String(a?.action||'').toUpperCase()==='BUY'&&key(a));
  const symbols=buySymbol?[key(buySymbol)].slice(0,MAX_CONTEXT_SYMBOLS):[],checks=new Map();
  await Promise.all(symbols.map(async s=>{const [d,w]=await Promise.all([oneChart(s,'6mo','1d'),oneChart(s,'2y','1wk')]);checks.set(s,{daily:structure(d.rows),weekly:structure(w.rows),dailySource:d.source,weeklySource:w.source,errors:[d.error,w.error].filter(Boolean)})}));
@@ -45,16 +45,27 @@ async function postProcess(r,input){
  for(const a of arr(plan.actions)){
   const act=String(a?.action||'').toUpperCase(),s=key(a);
   if(act!=='BUY'||!checks.has(s)){out.push(a);continue}
-  const c=map.get(s)||{},x=checks.get(s),d=x.daily,w=x.weekly,n=newsContext(c),ctx=contextReason(d,w,n);
-  if(!d||!w){out.push({symbol:s,action:'HOLD',confidence:.73,allocation_pct:0,reason:`MULTI-TIMEFRAME DATA-WAIT: neuer Kauf wird nicht ausgeführt, weil Tages- oder Wochenchart nicht vollständig geladen wurde (${x.errors.join(' · ')||'keine Struktur'}). Minutenchart allein reicht nicht.`});notes.push(`${s} wartet auf Tages-/Wochenchart`);continue}
-  if(n.hardNegative){out.push({symbol:s,action:'HOLD',confidence:.74,allocation_pct:0,reason:`MULTI-TIMEFRAME WAIT: optischer Dip wird wegen aktueller Unternehmens-/Event-News nicht gekauft. ${ctx}.`});notes.push(`${s} News-Risiko blockiert Dip`);continue}
-  if(d.trend==='DOWN'&&w.trend==='DOWN'&&!d.base){out.push({symbol:s,action:'HOLD',confidence:.72,allocation_pct:0,reason:`MULTI-TIMEFRAME WAIT: Minutenboden reicht nicht, weil Tages- und Wochenstruktur weiter abwärts zeigen. ${ctx}. Erst echte übergeordnete Stabilisierung statt fallendes Messer.`});notes.push(`${s} Abwärtstrend statt sauberem Dip`);continue}
-  const dipLike=/DIP|BODEN|PULLBACK|RUECKSETZER|RÜCKSETZER|NEWS-SHOCK/i.test(String(a?.reason||'')),highContext=Boolean(d.resistanceZone&&w.resistanceZone&&!dipLike),weakContext=Boolean((d.trend==='DOWN'&&w.trend!=='UP')||d.top);
-  if(highContext){out.push({symbol:s,action:'HOLD',confidence:.70,allocation_pct:0,reason:`MULTI-TIMEFRAME WAIT: Einstieg liegt strukturell zu hoch an Tages- und Wochenwiderstand. ${ctx}. Nicht hinterherkaufen.`});notes.push(`${s} zu hoch für neuen Einstieg`);continue}
-  let mult=1;if(weakContext)mult*=.55;if(d.supportZone)mult*=1.08;if(w.trend==='UP')mult*=1.05;if(n.positive)mult*=1.05;const allocation=clamp(num(a?.allocation_pct)*mult,0,35);
-  out.push({...a,allocation_pct:+allocation.toFixed(2),reason:`${String(a?.reason||'').slice(0,170)} · MULTI-TIMEFRAME V1.2: ${ctx}. Tagesquelle ${x.dailySource}; Wochenquelle ${x.weeklySource}. Positionsgröße an übergeordneten Kontext angepasst.`});
+  const c=map.get(s)||{},x=checks.get(s),d=x.daily,w=x.weekly,n=newsContext(c),ctx=contextReason(d,w,n),reason=String(a?.reason||''),confirmed=candleConfirmedReason(reason),breakout=breakoutReason(reason)||['BREAKOUT','BUILDING'].includes(String(c?.momentumState||c?.momentum_state||'').toUpperCase());
+  if(n.hardNegative){out.push({symbol:s,action:'HOLD',confidence:.76,allocation_pct:0,reason:`MULTI-TIMEFRAME HARD-WAIT: aktuelle harte negative Unternehmens-/Event-News. ${ctx}. News hat nur hier Vetorecht, nicht bei normalen neutralen Meldungen.`});notes.push(`${s} harte negative News blockieren`);continue}
+  // Fehlende Tages-/Wochen-Daten sind kein Null-Euro-Veto mehr. Wenn der 1m-Candle-Flow bereits bestaetigt hat,
+  // darf ein kleiner Starter laufen; sonst bleibt WAIT sinnvoll.
+  if(!d||!w){
+   if(confirmed){const next=clamp(num(a?.allocation_pct)*.62,2,7);out.push({...a,allocation_pct:+next.toFixed(2),reason:`${reason.slice(0,205)} · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig (${x.errors.join(' · ')||'keine Struktur'}). Kein Totalblock mehr: bestaetigter 1m-Flow darf als ${next.toFixed(1)}%-Starter laufen; spaeter nachladen/ausbauen.`});notes.push(`${s} kleiner Starter trotz fehlendem Langfristchart`);continue}
+   out.push({symbol:s,action:'HOLD',confidence:.67,allocation_pct:0,reason:`MULTI-TIMEFRAME DATA-WAIT: Tages-/Wochenchart fehlt und der kurzfristige Käuferflow ist noch nicht eindeutig genug (${x.errors.join(' · ')||'keine Struktur'}).`});continue
+  }
+  const bothDown=d.trend==='DOWN'&&w.trend==='DOWN'&&!d.base,highContext=Boolean(d.resistanceZone&&w.resistanceZone),dipLike=/DIP|BODEN|PULLBACK|RUECKSETZER|RÜCKSETZER|NEWS-SHOCK/i.test(reason),weakContext=Boolean((d.trend==='DOWN'&&w.trend!=='UP')||d.top);
+  if(bothDown){
+   if(confirmed&&breakout){const next=clamp(num(a?.allocation_pct)*.42,2,5);out.push({...a,allocation_pct:+next.toFixed(2),reason:`${reason.slice(0,190)} · MULTI-TIMEFRAME CONTRARIAN-STARTER: Tages+Wochenchart noch DOWN, aber kurzfristiger Käufer-Reclaim/Breakout ist bestaetigt. Kein Vollkauf, nur ${next.toFixed(1)}% Beobachtungsposition; Ausbau erst bei besserer Struktur.`});notes.push(`${s} kleiner Contrarian-Starter statt Totalblock`);continue}
+   out.push({symbol:s,action:'HOLD',confidence:.72,allocation_pct:0,reason:`MULTI-TIMEFRAME WAIT: Tages- und Wochenstruktur weiter abwärts ohne Boden. ${ctx}. Hier bleibt Schutz vor fallendem Messer hart, solange keine klare Käufer-Reversal-Struktur vorliegt.`});continue
+  }
+  if(highContext&&!dipLike){
+   if(confirmed&&breakout){const next=clamp(num(a?.allocation_pct)*.58,2.5,7);out.push({...a,allocation_pct:+next.toFixed(2),reason:`${reason.slice(0,190)} · MULTI-TIMEFRAME BREAKOUT-STARTER: nahe Tages-/Wochenwiderstand, aber bestätigte Käufer-Continuation. Nicht hinterherjagen: nur ${next.toFixed(1)}% Starter und bei echtem Ausbruch ausbauen.`});notes.push(`${s} Breakout-Starter statt Widerstands-Totalblock`);continue}
+   out.push({symbol:s,action:'HOLD',confidence:.69,allocation_pct:0,reason:`MULTI-TIMEFRAME WAIT: Kurs steht an Tages- und Wochenwiderstand ohne ausreichend bestätigten Breakout. ${ctx}.`});continue
+  }
+  let mult=1;if(weakContext)mult*=.68;if(d.supportZone)mult*=1.10;if(w.trend==='UP')mult*=1.08;if(n.positive)mult*=1.03;if(confirmed)mult*=1.04;const allocation=clamp(num(a?.allocation_pct)*mult,1.5,35);
+  out.push({...a,allocation_pct:+allocation.toFixed(2),reason:`${reason.slice(0,170)} · MULTI-TIMEFRAME V1.3: ${ctx}. Kontext steuert Groesse, nicht pauschal BUY/HOLD. Tagesquelle ${x.dailySource}; Wochenquelle ${x.weeklySource}.`});
  }
- plan.actions=out;if(notes.length)plan.summary=`${String(plan.summary||'').slice(0,125)} · Tages-/Wochenchart: ${notes.slice(0,2).join(' · ')}.`;return{...r,response:JSON.stringify(plan)};
+ plan.actions=out;if(notes.length)plan.summary=`${String(plan.summary||'').slice(0,125)} · Multi-Timeframe V1.3: ${notes.slice(0,3).join(' · ')}.`;return{...r,response:JSON.stringify(plan)};
 }
 
 export class MultiTimeframeTradeAiGuard{constructor(base){this.base=base}async run(model,input){const r=await this.base.run(model,input);return postProcess(r,input)}}
