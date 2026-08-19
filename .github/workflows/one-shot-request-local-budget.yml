@@ -1,0 +1,47 @@
+name: One-shot Request Local Fetch Budget
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/apply-request-local-fetch-budget.py'
+      - 'src/request-fetch-budget.js'
+      - '.github/workflows/one-shot-request-local-budget.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Apply deterministic migration
+        run: python3 scripts/apply-request-local-fetch-budget.py
+      - name: Validate changed runtime
+        run: |
+          npm install
+          node --check src/request-fetch-budget.js
+          node --check src/compact-portfolio-v8.js
+          node --check src/compact-portfolio-v9.js
+          node scripts/smoke-free-tier-24h.mjs
+          node scripts/smoke-replay-depot-ui.mjs
+          npx wrangler deploy --dry-run
+      - name: Publish only after green checks
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/compact-portfolio-v8.js src/compact-portfolio-v9.js scripts/smoke-free-tier-24h.mjs
+          if git diff --cached --quiet; then
+            echo 'Already migrated'
+            exit 0
+          fi
+          git commit -m 'Use request-local fetch budgets in V8 and V9'
+          git push origin HEAD:main
