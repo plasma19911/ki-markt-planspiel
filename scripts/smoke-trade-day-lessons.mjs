@@ -23,6 +23,22 @@ const tsem=await run(
 );
 expect(tsem.action==='HOLD','-0.50% micro dip must be HOLD');
 
+const reviewedSoft=await run(
+  {symbol:'SOFT',day_change:-.8,intraday5m:.13,intraday20m:-.18,momentumAcceleration5:.05,drawdownFrom20mHighPct:-.95,score:4.65},
+  'CANDLE-FLOW BUY: Käufer 64% / Verkäufer 36% · Bodenbildung · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig; bestätigter 1m-Flow darf als 5.0%-Starter laufen',
+  5
+);
+expect(reviewedSoft.action==='BUY','already-reviewed MTF soft starter must not be zeroed by the outer day guard');
+expect(reviewedSoft.allocation_pct<=5,'reviewed MTF soft starter must remain small');
+
+const reviewedContinuation=await run(
+  {symbol:'CONT',day_change:1.1,intraday5m:.18,intraday20m:.28,momentumAcceleration5:.05,drawdownFrom20mHighPct:-.85,score:4.9},
+  'OPPORTUNITY CONTINUATION: Käufer 63% / Verkäufer 37% · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig; bestätigter 1m-Flow darf als 4.0%-Starter laufen',
+  4
+);
+expect(reviewedContinuation.action==='BUY','reviewed continuation starter must not require the full MTF marker a second time');
+expect(reviewedContinuation.allocation_pct<=4,'continuation starter stays risk-capped');
+
 const deepSoft=await run(
   {symbol:'DEEP',day_change:-2.8,intraday5m:.18,intraday20m:-.8,momentumAcceleration5:.08,drawdownFrom20mHighPct:-1.55,score:5.4},
   'EARLY-DIP AUTO DIP_REBOUND: Test · MULTI-TIMEFRAME SOFT-DATA: Tages-/Wochenchart unvollständig',
@@ -45,4 +61,4 @@ const outlier=await run(
 );
 expect(outlier.action==='HOLD','extreme day move must be HOLD pending verification');
 
-console.log('trade-day-lessons V2 smoke: OK');
+console.log('trade-day-lessons V2.1 smoke: OK');
