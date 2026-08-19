@@ -1,5 +1,5 @@
 export const WIDE_SWEEP_TARGET=24;
-export const WIDE_SWEEP_DIP_RESERVE=8;
+export const WIDE_SWEEP_DIP_RESERVE=14;
 export const WIDE_SWEEP_TTL_MS=90*1000;
 
 const arr=v=>Array.isArray(v)?v:[];
@@ -11,19 +11,19 @@ export const isFreshWideSweep=(ts,now=Date.now(),ttl=WIDE_SWEEP_TTL_MS)=>{const 
 
 function dipDiscovery(row){
  const day=num(row?.sessionPct),m5=num(row?.m5Pct),m20=num(row?.m20Pct),accel=num(row?.accelerationPct);
- // Nicht einfach die groessten Verlierer nehmen. Gesucht wird ein echter Ruecksetzer,
- // bei dem der Abwaertsdruck bereits nachlaesst, obwohl der Kurs noch nicht steigen muss.
- const declining=day<=-.70&&day>=-10;
- const controlled20=m20<=.20&&m20>=-3.0;
- const notCrashing5=m5<=.15&&m5>=-.80;
- const braking=accel>=.015;
+ // DIP-FIRST Discovery: nicht die groessten Verlierer, sondern Ruecksetzer,
+ // bei denen der Abwaertsdruck bereits nachlaesst. Der Kurs darf noch rot sein.
+ const declining=day<=-.55&&day>=-10;
+ const controlled20=m20<=.20&&m20>=-3.2;
+ const notCrashing5=m5<=.15&&m5>=-.85;
+ const braking=accel>=.012;
  const eligible=declining&&controlled20&&notCrashing5&&braking;
  if(!eligible)return{eligible:false,score:-Infinity};
- const declineSweet=Math.max(0,3.2-Math.abs(Math.abs(day)-2.4)*.55);
- const brake=Math.min(3.0,Math.max(0,accel)*12);
- const shortTape=Math.max(0,1.5-Math.abs(m5)*1.8);
- const mediumTape=Math.max(0,1.2-Math.abs(m20)*.45);
- const score=declineSweet+brake+shortTape+mediumTape+Math.max(0,num(row?.wideScore))*.10;
+ const declineSweet=Math.max(0,3.6-Math.abs(Math.abs(day)-2.6)*.52);
+ const brake=Math.min(3.2,Math.max(0,accel)*13);
+ const shortTape=Math.max(0,1.7-Math.abs(m5)*1.7);
+ const mediumTape=Math.max(0,1.35-Math.abs(m20)*.42);
+ const score=declineSweet+brake+shortTape+mediumTape+Math.max(0,num(row?.wideScore))*.08;
  return{eligible:true,score:+score.toFixed(4)};
 }
 
@@ -42,8 +42,8 @@ export function normalizeWideSweepEntries(input,now=Date.now()){
  const momentum=all.slice().sort((a,b)=>b.wideScore-a.wideScore||b.accelerationPct-a.accelerationPct||b.m5Pct-a.m5Pct);
  const selected=[],used=new Set();
  const take=(rows,n)=>{for(const x of rows){if(n<=0)break;if(used.has(x.symbol))continue;used.add(x.symbol);selected.push(x);n--}};
- // Bis zu 8 von 24 Plaetzen sind fuer fallende, aber bereits abbremsende Aktien reserviert.
- // Gibt es weniger geeignete Dips, werden die freien Plaetze normal mit Momentum-Werten gefuellt.
+ // 14 von 24 Plaetzen sind primaer fuer gebremste Ruecksetzer reserviert.
+ // Momentum/Highs bekommen nur den Rest und koennen einen guten Dip nicht verdraengen.
  take(dips,WIDE_SWEEP_DIP_RESERVE);
  take(momentum,WIDE_SWEEP_TARGET-selected.length);
  return selected.slice(0,WIDE_SWEEP_TARGET);
