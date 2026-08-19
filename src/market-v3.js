@@ -1,6 +1,7 @@
 import {scanMarket as baseScanMarket} from './market-v3-base.js';
 import {getSecondChanceRuntime} from './second-chance-runtime.js';
 import {publicFeedResilienceStats} from './public-feed-resilience.js';
+import {loadEventCalendarFallback,eventFallbackRisk} from './event-calendar-fallback.js';
 
 export {BENCHMARKS,marketOpen,newsTradingAgeHours,newsRecencyWeight,loadUniverse} from './market-v3-base.js';
 
@@ -67,8 +68,14 @@ async function recheckForesight(info,fxFallback=1){
 }
 
 function healthCard(ok,fail,lastError=''){return{status:fail>0?(ok>0?'DEGRADED':'DOWN'):'OK',okCount:ok,failCount:fail,lastError:fail?lastError:'',latencyMs:null}}
+async function repairEventContext(result,heldSymbols=[]){
+ const h=result?.health||{},bad=h['Yahoo Events']&&h['Yahoo Events'].status==='DOWN';if(!bad)return result;
+ const targets=[...new Set([...(result?.candidates||[]).slice(0,12).map(x=>key(x?.symbol)),...heldSymbols.map(key)].filter(Boolean))].slice(0,24),fb=await loadEventCalendarFallback(targets,new Date());if(!fb.ok)return result;
+ for(const c of result?.candidates||[]){const ev=fb.events.get(key(c?.symbol));if(!ev)continue;const er=eventFallbackRisk(ev);c.eventRisk=er.level;c.eventText=er.text;c.eventProvider=er.provider;if(er.level==='HIGH'){c.score=num(c.score)-1.1;c.contra=Array.isArray(c.contra)?c.contra:[];c.contra.push(`${er.text} · ${er.provider}`)}else if(er.level==='MEDIUM'){c.score=num(c.score)-.35;c.contra=Array.isArray(c.contra)?c.contra:[];c.contra.push(`${er.text} · ${er.provider}`)}c.reasons=[...(c.pro||[]),...(c.contra||[])]}
+ result.candidates?.sort((a,b)=>num(b?.score)-num(a?.score));delete h['Yahoo Events'];h['Unternehmenstermine (Nasdaq-Fallback)']={status:'OK',okCount:1,failCount:0,lastError:'',latencyMs:null};result.eventCalendarFallback={enabled:true,provider:'Nasdaq Earnings Calendar',matched:fb.matched,requestedSymbols:fb.requestedSymbols,calendarRequests:fb.calendarRequests,cacheHits:fb.cacheHits};return result;
+}
 export async function scanMarket(env,cfg,heldSymbols=[]){
- const safeEnv=venueSafeEnv(env),result=await baseScanMarket(safeEnv,cfg,heldSymbols);if(result?.marketState?.mode==='NEWS_ONLY')return result;
+ const safeEnv=venueSafeEnv(env),result=await repairEventContext(await baseScanMarket(safeEnv,cfg,heldSymbols),heldSymbols);if(result?.marketState?.mode==='NEWS_ONLY')return result;
  let candidates=[...(result.candidates||[])],existing=new Set(candidates.map(x=>key(x?.symbol))),foresightChecked=0,foresightRecovered=0,foresightSourceOk=0,foresightFailed=0,foresightRejected=0,foresightError='';
  const foresight=await overlayForesightPool(safeEnv,existing);if(foresight.length){
   const checked=await Promise.all(foresight.map(x=>recheckForesight(x,1)));foresightChecked=foresight.length;
