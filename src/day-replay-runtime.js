@@ -41,12 +41,13 @@ export function prepareFinalDayReplay(storage,ts=Date.now()){
 
 export function augmentDayReplayStatus(storage,baseStatus={},ts=Date.now()){
  const now=berlinParts(ts),capture=read(storage,CAPTURE_KEY,null),report=read(storage,REPORT_KEY,null),out={...(baseStatus||{})};
- const captureToday=capture?.date===now.date?capture:null,reportToday=report?.date===now.date?report:null;
+ const captureToday=capture?.date===now.date?capture:null,reportToday=report?.date===now.date?report:null,beforeFinal=now.minute<23*60+5;
  out.capture=captureToday?{date:captureToday.date,symbolCount:num(captureToday.symbolCount,Object.keys(captureToday.symbols||{}).length),updatedAt:captureToday.updatedAt||null}:null;
  out.schedule={preliminaryFromBerlin:'22:05',finalFromBerlin:'23:05',cloudflareFallbackAlways:true,pcReplayOptional:true};
  if(reportToday){
-  const summary=reportToday.summary||partialSummary(reportToday);
-  out.report={...(out.report||{}),date:reportToday.date,status:reportToday.status,processed:num(reportToday.processed),total:num(reportToday.total),completedAt:reportToday.completedAt||null,updatedAt:reportToday.updatedAt||null,summary,provisional:reportToday.status!=='COMPLETE'};
+  const summary=reportToday.summary||partialSummary(reportToday),displayStatus=beforeFinal&&reportToday.status==='COMPLETE'?'PRELIMINARY_COMPLETE':reportToday.status,provisional=displayStatus!=='COMPLETE';
+  if(provisional)summary.provisional=true;
+  out.report={...(out.report||{}),date:reportToday.date,status:displayStatus,processed:num(reportToday.processed),total:num(reportToday.total),completedAt:provisional?null:(reportToday.completedAt||null),updatedAt:reportToday.updatedAt||null,summary,provisional};
  }else if(captureToday){
   out.report={date:now.date,status:'CAPTURING',processed:0,total:num(captureToday.symbolCount,Object.keys(captureToday.symbols||{}).length),completedAt:null,updatedAt:captureToday.updatedAt||null,summary:{provisional:true,symbolsAnalysed:0,errors:0,mistakes:{},churn:{rapidRoundTrips:0,totalRapidTradePnl:0,fees:0,rows:[]}},provisional:true};
  }
