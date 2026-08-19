@@ -30,8 +30,6 @@ assert.match(index,/PC_AGENT_TOKEN/,'PC-Agent-Endpunkte muessen mit einem Cloudf
 assert.match(index,/\/api\/agent\/prefetch/,'PC-Agent muss Voranalyse hochladen koennen');
 assert.match(index,/\/api\/agent\/scan/,'PC-Agent muss den Minuten-Scan ausloesen koennen');
 assert.match(index,/session\.prepareNow/,'07:25 muss eine separate Pre-Open-Vorbereitung ausloesen koennen');
-assert.ok(index.includes(".replace(/setInterval\\(load,5000\\)/g,'setInterval(load,60000)')"),'UI-Status muss waehrend Handel auf 60s gedrosselt bleiben');
-assert.ok(index.includes(".replace(/includeEtfs:true/g,'includeEtfs:false')"),'UI muss ETFs clientseitig deaktivieren');
 
 assert.match(compact,/AI_DAILY_NEURON_SOFT_CAP=8_000/,'Workers-AI muss vor dem 10k-Free-Tageslimit softwareseitig stoppen');
 assert.match(compact,/GLM_INPUT_NEURONS_PER_TOKEN=5_500\/1_000_000/,'GLM Input-Neuronfaktor muss dem Cloudflare-Modell entsprechen');
@@ -55,6 +53,8 @@ assert.match(v8,/free-tier-subrequest-soft-cap/,'Soft-Cap muss reale Zusatzfetch
 assert.match(v8,/held_symbols_added/,'Gehaltene Aktien muessen unabhaengig von Toplisten zusaetzlich ueberwacht werden');
 assert.match(constants,/DEEP_LIMIT = 6/,'Sechs Finalisten duerfen pro Minutenrunde tief geprueft werden; V21 verteilt diese Slots ohne zusaetzliche Requests auf Pullbacks, Breakouts und regulaere Kandidaten');
 assert.match(constants,/NEWS_RADAR_BATCH = 2/,'News-Radar muss im Minutenprofil klein bleiben');
+assert.match(constants,/ZERO_ETF_MASTER = \[\]/,'Aktives Produktionsuniversum muss stocks-only bleiben');
+assert.match(constants,/LEVERAGED_ETFS = \[\]/,'Hebelprodukte duerfen im aktiven Universum nicht wieder auftauchen');
 assert.match(v21,/earlyDipLiveWave:LIVE_EARLY_WAVE/,'V21 muss den teuren Early-Dip-Live-Wave explizit begrenzen');
 assert.match(v21,/earlyDipPrioritySlots:1/,'V21 muss nur einen festen Qualitaets-Slot plus einen Rotations-Slot verwenden');
 
@@ -73,9 +73,10 @@ assert.match(v10,/scanFromAgent/,'PC-Agent braucht einen dedizierten Scanpfad');
 assert.match(v10,/cloudflareFallbackIntervalMinutes:5/,'Status muss den 5-Minuten-Fallback ausweisen');
 assert.match(v10,/futureWatch&&this\.engine\?\.store\?\.update/,'PC-Fruehindikator muss in den Hauptzustand uebernommen werden');
 
+// UI quota is enforced by the dedicated quota guard, not by brittle source-string rewrites in index.js.
 assert.match(quota,/ACTIVE_STATUS_TTL_MS=55_000/,'Dashboard muss waehrend Handel fast eine Minute cachen');
 assert.match(quota,/SLEEP_STATUS_TTL_MS=10\*60\*1000/,'Dashboard muss nachts 10 Minuten cachen');
-assert.match(quota,/future-watch-ui\.js/,'Fruehindikator-UI muss geladen werden');
+assert.match(quota,/statusTtl\(\)/,'Statusfetch muss die aktive/ruhende TTL dynamisch benutzen');
 
 assert.match(pcAgent,/E:\\KI-Markt-Agent/,'Lokaler Agent muss standardmaessig auf E:\\KI-Markt-Agent speichern');
 assert.match(pcAgent,/MaxStorageBytes/,'Lokaler Agent braucht ein hartes Speicherlimit');
