@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T10:48:43.737269+00:00",
+  "checkedAt": "2026-08-19T11:06:16.753258+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -45,79 +45,102 @@
     "pcWideSweep"
   ],
   "running": 1,
-  "scanCount": 56,
-  "lastScan": "2026-08-19T10:48:29.768Z",
+  "scanCount": 66,
+  "lastScan": "2026-08-19T11:06:12.370Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 8 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen au · EARLY-DIP: 1 ungeeignete Idee(n) gestoppt; kein Kauf – aktuell kein kontrollierter Einstieg.",
-  "cash": 10000,
-  "equity": 10000,
-  "pnl": 0,
-  "universeCount": 170,
-  "positions": 0,
-  "positionRows": [],
-  "candidates": 8,
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 9 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen au · EARLY-DIP: 1 ungeeignete Idee(n) gestoppt; 1 Einstieg(e), fruehe Ruecksetzer priorisiert.",
+  "cash": 7000,
+  "equity": 9996.003996003996,
+  "pnl": -3.9960039960042195,
+  "universeCount": 172,
+  "positions": 1,
+  "positionRows": [
+    {
+      "symbol": "KEMPOWR.HE",
+      "name": "Kempower Oyj",
+      "instrument_type": "EQUITY",
+      "theme": null,
+      "company_key": "KEMPOWER OYJ",
+      "invested": 2999,
+      "entry_fee": 1,
+      "entry_price": 10.210199809074402,
+      "last_price": 10.199999809265137,
+      "entry_fx": 1,
+      "last_fx": 1,
+      "currency": "EUR",
+      "opened_at": "2026-08-19T11:06:12.370Z",
+      "score": 6.199999999999999,
+      "signal_confidence": 0.78,
+      "zero_quantity": 293.7258874537023,
+      "zero_whole_shares": 293,
+      "zero_fractional_shares": 0.7258874537022848,
+      "zero_uses_fractional": true,
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
+    }
+  ],
+  "candidates": 9,
   "topCandidates": [
     {
-      "symbol": "BAS.DE",
-      "name": "BASF SE",
-      "score": 3.5921912244897958,
-      "confidence": 0.7586999999999999,
-      "day_change": 0.6668010022645277,
-      "news_score": 0.09918367346938778,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 62 konstruktiv",
-      "contra": ""
-    },
-    {
-      "symbol": "ENR.DE",
-      "name": "Siemens Energy AG",
-      "score": 3.5,
-      "confidence": 0.7424999999999999,
-      "day_change": 0.07777670241404522,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 62 konstruktiv",
-      "contra": ""
-    },
-    {
-      "symbol": "ASML.AS",
-      "name": "ASML Amsterdam",
-      "score": 3.5,
+      "symbol": "GUBRA.CO",
+      "name": "Gubra A/S",
+      "score": 6.45,
       "confidence": 0.63,
-      "day_change": 0.38915869945033155,
+      "day_change": 1.8907563025210017,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 67 konstruktiv",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 52 konstruktiv · 5m +0.62% · 20m +0.99% · Momentum baut sich auf · Beschleunigung +1.09%",
       "contra": ""
+    },
+    {
+      "symbol": "KEMPOWR.HE",
+      "name": "Kempower Oyj",
+      "score": 6.199999999999999,
+      "confidence": 0.78,
+      "day_change": -0.778211972129017,
+      "news_score": 0,
+      "event_risk": "MEDIUM",
+      "pro": "Ruecksetzer -0.20% unter 20m-Hoch · Verkaufsdruck bremst deutlich +0.10% · 5m stabilisiert +0.10% · RSI 53 nicht ueberhitzt",
+      "contra": ""
+    },
+    {
+      "symbol": "OTKAR.IS",
+      "name": "Otokar",
+      "score": 2.1,
+      "confidence": 0.49000000000000005,
+      "day_change": 0.8566978193146335,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · RSI 56 konstruktiv",
+      "contra": "Kurs unter EMA21"
+    },
+    {
+      "symbol": "HAG.DE",
+      "name": "Hensoldt",
+      "score": 0.6000000000000001,
+      "confidence": 0.4192,
+      "day_change": 0.21244565316616004,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "Kurs über EMA21 · 5m +0.21%",
+      "contra": "EMA-Trend schwach"
     },
     {
       "symbol": "ASELS.IS",
       "name": "Aselsan",
-      "score": 0.8999999999999999,
-      "confidence": 0.37,
-      "day_change": 3.147540983606567,
+      "score": -1.2000000000000002,
+      "confidence": 0.4,
+      "day_change": 3.0163934426229444,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 57 konstruktiv",
-      "contra": "MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21"
     },
     {
       "symbol": "LDO.MI",
       "name": "Leonardo",
-      "score": -0.6000000000000001,
-      "confidence": 0.34,
-      "day_change": 0.5747126436781658,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "RSI 48 konstruktiv",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21"
-    },
-    {
-      "symbol": "SAF.PA",
-      "name": "Safran",
       "score": -1.6,
       "confidence": 0.44000000000000006,
-      "day_change": 0.9062553930809125,
+      "day_change": 0.4901973680518257,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
@@ -126,27 +149,37 @@
     {
       "symbol": "AIR.PA",
       "name": "Airbus",
-      "score": -2.4000000000000004,
-      "confidence": 0.52,
-      "day_change": 0.7388017652600665,
+      "score": -1.6,
+      "confidence": 0.44000000000000006,
+      "day_change": 0.6196406594449977,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 29 sehr schwach"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21"
     },
     {
-      "symbol": "R3NK.DE",
-      "name": "RENK Group",
-      "score": -3.2500000000000004,
-      "confidence": 0.6050000000000001,
-      "day_change": 3.0709221921850105,
+      "symbol": "SAF.PA",
+      "name": "Safran",
+      "score": -2.4000000000000004,
+      "confidence": 0.52,
+      "day_change": 0.679694137638065,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 28 sehr schwach · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 28 sehr schwach"
     }
   ],
   "recentHistory": [
+    {
+      "ts": "2026-08-19T11:06:12.370Z",
+      "action": "KAUF",
+      "symbol": "KEMPOWR.HE",
+      "amount": -3000,
+      "fee": 1,
+      "trade_pnl": null,
+      "reason": "KI BUY 78%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.20% vom 20m-Hoch stabilisiert sich; 5m +0.10%, Beschl. +0.10 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · Order 3000.00 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 6.199999999999999
+    },
     {
       "ts": "2026-08-19T08:45:46.575Z",
       "action": "HALTEN",
@@ -169,6 +202,22 @@
     }
   ],
   "recentAiLog": [
+    {
+      "ts": "2026-08-19T11:06:12.370Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "KEMPOWR.HE",
+      "message": "KEMPOWR.HE: KI BUY 78%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.20% vom 20m-Hoch stabilisiert sich; 5m +0.10%, Beschl. +0.10 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer",
+      "confidence": 0.78
+    },
+    {
+      "ts": "2026-08-19T10:55:22.856Z",
+      "kind": "IDEA",
+      "title": "Beobachtungskandidat",
+      "symbol": "ASELS.IS",
+      "message": "ASELS.IS: Kein Trade. Bestes Signal ASELS.IS: Score 5.25, Konfidenz 63%.",
+      "confidence": 0.63
+    },
     {
       "ts": "2026-08-19T10:33:11.535Z",
       "kind": "IDEA",
@@ -217,8 +266,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 449,
-      "updated_at": "2026-08-19T10:48:29.620Z"
+      "latency_ms": 438,
+      "updated_at": "2026-08-19T11:06:12.200Z"
     },
     {
       "source": "Yahoo FX",
@@ -226,8 +275,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 108,
-      "updated_at": "2026-08-19T10:48:29.620Z"
+      "latency_ms": 107,
+      "updated_at": "2026-08-19T11:06:12.200Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -235,8 +284,8 @@
       "ok_count": 8,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 263,
-      "updated_at": "2026-08-19T10:48:29.620Z"
+      "latency_ms": 248,
+      "updated_at": "2026-08-19T11:06:12.200Z"
     },
     {
       "source": "Yahoo Events",
@@ -244,8 +293,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 184,
-      "updated_at": "2026-08-19T10:48:29.620Z"
+      "latency_ms": 181,
+      "updated_at": "2026-08-19T11:06:12.200Z"
     },
     {
       "source": "Yahoo News",
@@ -253,17 +302,8 @@
       "ok_count": 8,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1288,
-      "updated_at": "2026-08-19T10:48:29.620Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1081,
-      "updated_at": "2026-08-19T10:48:29.620Z"
+      "latency_ms": 708,
+      "updated_at": "2026-08-19T11:06:12.200Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -271,8 +311,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1148,
-      "updated_at": "2026-08-19T10:48:29.620Z"
+      "latency_ms": 711,
+      "updated_at": "2026-08-19T11:06:12.200Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1024,
+      "updated_at": "2026-08-19T11:06:12.200Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -280,8 +329,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1258,
-      "updated_at": "2026-08-19T10:48:29.620Z"
+      "latency_ms": 1033,
+      "updated_at": "2026-08-19T11:06:12.200Z"
     },
     {
       "source": "BörsenNews",
@@ -289,32 +338,32 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1438,
-      "updated_at": "2026-08-19T10:48:29.620Z"
+      "latency_ms": 1039,
+      "updated_at": "2026-08-19T11:06:12.200Z"
     },
     {
       "source": "Early-Dip 1m",
-      "status": "DEGRADED",
-      "ok_count": 0,
+      "status": "OK",
+      "ok_count": 1,
       "fail_count": 4,
       "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-19T10:48:29.620Z"
+      "updated_at": "2026-08-19T11:06:12.200Z"
     },
     {
       "source": "Second-Chance 1m",
-      "status": "OK",
+      "status": "DEGRADED",
       "ok_count": 0,
-      "fail_count": 0,
-      "last_error": "",
+      "fail_count": 2,
+      "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-19T10:48:29.620Z"
+      "updated_at": "2026-08-19T11:06:12.200Z"
     }
   ],
   "risk": {
-    "equity": 10000,
-    "dailyPct": 0,
-    "availableCash": 10000,
+    "equity": 9996.003996003996,
+    "dailyPct": -0.03996003996004083,
+    "availableCash": 7000,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -390,7 +439,7 @@
     "enabled": true,
     "target": 24,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T10:48:25.180Z",
+    "updatedAt": "2026-08-19T11:04:17.801Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -413,7 +462,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T10:48:25.180Z",
+    "updatedAt": "2026-08-19T11:04:17.801Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -437,33 +486,33 @@
   "pcWideSweep": {
     "enabled": true,
     "target": 64,
-    "candidateCount": 0,
-    "updatedAt": "2026-08-19T10:48:35.179Z",
+    "candidateCount": 2,
+    "updatedAt": "2026-08-19T11:06:09.181Z",
     "fresh": true,
     "source": "WINDOWS_PC_HYBRID_FAST_WIDE_SWEEP",
     "profile": "CSHARP_PLUS_FAST_RADAR",
-    "masterCount": 0,
-    "scannedCount": 0,
-    "cycleMinutes": 5,
-    "batchCount": 0,
+    "masterCount": 8530,
+    "scannedCount": 657,
+    "cycleMinutes": 8,
+    "batchCount": 14,
     "coreCount": 1800,
-    "coreCycleMinutes": 5,
-    "tailCount": 0,
-    "tailCycleMinutes": 5,
+    "coreCycleMinutes": 8,
+    "tailCount": 6730,
+    "tailCycleMinutes": 17,
     "fullMasterCycleMinutes": 5,
-    "maxCoverageMinutesTarget": 6,
-    "tailBatchesPerMinute": 28,
+    "maxCoverageMinutesTarget": 18,
+    "tailBatchesPerMinute": 8,
     "hotEveryMinutes": 1,
     "warmEveryMinutes": 1,
-    "quietCoreEveryMinutes": 5,
+    "quietCoreEveryMinutes": 8,
     "parallelRequests": 8,
     "batchesPerMinute": 40,
     "targetRowsPerMinute": 1920,
     "adaptiveConcurrency": true,
     "fastHelper": {
       "enabled": true,
-      "updatedAt": "2026-08-19T10:48:35.179Z",
-      "profile": "FAST_RADAR_TURBO_V4",
+      "updatedAt": "2026-08-19T10:52:36.373Z",
+      "profile": "FAST_RADAR_TURBO_V5",
       "parallelRequests": 8,
       "batchesPerMinute": 40,
       "targetRowsPerMinute": 1920,
@@ -474,11 +523,11 @@
       "tailCycleMinutes": 5,
       "sourceBackoff": false,
       "throttleCount": 0,
-      "lastError": "Die Variable \"Host\" kann nicht überschrieben werden, da sie konstant oder schreibgeschützt ist. | In E:\\KI-Markt-Agent\\fast-wide-radar.ps1:97 Zeichen:26\r\n+ ... b in $wave){$null=$tasks.Add([pscustomobject]@{batch=$b;task=$http.Ge ...\r\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+      "lastError": null
     },
     "sourceBackoff": false,
     "pausedUntil": null,
-    "lastError": "Die Variable \"Host\" kann nicht überschrieben werden, da sie konstant oder schreibgeschützt ist. | In E:\\KI-Markt-Agent\\fast-wide-radar.ps1:97 Zeichen:26\r\n+ ... b in $wave){$null=$tasks.Add([pscustomobject]@{batch=$b;task=$http.Ge ...\r\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    "lastError": null,
     "confirmationRequired": true,
     "forcedBuy": false,
     "mode": "Windows-PC scannt das handelbare Aktien-Master dynamisch. Haupt-C#-Agent und optionaler Fast-Radar werden frisch zusammengefuehrt; HOT/Dips bleiben priorisiert und nur Auffaelligkeiten gehen in Cloudflare-Deep/Safety."
@@ -486,8 +535,8 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 24,
-    "candidateCount": 1,
-    "updatedAt": "2026-08-19T10:48:29.768Z",
+    "candidateCount": 4,
+    "updatedAt": "2026-08-19T11:06:12.370Z",
     "fresh": true,
     "retentionMinutes": 15,
     "recheckPerScan": 6,
@@ -771,7 +820,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T10:49:29.768Z",
+    "nextScanAt": "2026-08-19T11:07:12.370Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -781,7 +830,7 @@
     "lastFetchBudget": {
       "actual": 36,
       "cacheHits": 0,
-      "blocked": 20,
+      "blocked": 33,
       "cap": 36
     },
     "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Dip/Rebound-Radar beobachtet bis zu 24 Tagesverlierer; der neue Early-Dip-Pfad darf gebremste Ruecksetzer schon vor dem offensichtlichen Rebound in die Tiefenpruefung heben. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. Der Haupt-C#-Agent bleibt aktiv; ein Fast-Radar kann parallel weitere frische Dips/HOT-Werte zuliefern, ohne einen zweiten Trade-Scan auszulösen. Nur die bis zu 64 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen. Tages-Replay kann auf dem PC lokal laufen und spaeter synchronisiert werden; morgens werden die aktuellen News-/Forward-Signale neu geladen.",
@@ -833,33 +882,33 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T10:48:25.560Z",
-    "ageSeconds": 18,
+    "lastSeenAt": "2026-08-19T11:06:09.181Z",
+    "ageSeconds": 7,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-19T10:48:25.180Z",
+    "prefetchAt": "2026-08-19T11:04:17.801Z",
     "resolvedLeaderCount": 6,
     "leaderHealthy": false,
     "futureCandidates": 0,
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
-    "wideSweepCandidates": 0,
+    "wideSweepCandidates": 2,
     "wideSweepFresh": true,
-    "wideSweepMasterCount": 0,
-    "wideSweepScannedCount": 0,
+    "wideSweepMasterCount": 8530,
+    "wideSweepScannedCount": 657,
     "metrics": {
-      "lastSeenAt": "2026-08-19T10:48:25.560Z",
+      "lastSeenAt": "2026-08-19T11:06:09.181Z",
       "version": "2.0.13-csharp-keyless-multisou",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 11240592,
+      "storageBytes": 11598069,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 76.7,
-      "downloadedBytes": 13618493,
-      "uploadedBytes": 0,
+      "ramMb": 52.7,
+      "downloadedBytes": 51718680,
+      "uploadedBytes": 253515,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_KEYLESS_MULTISOURCE_LOW_L",
-      "lastLocalCleanupAt": null,
+      "lastLocalCleanupAt": "2026-08-19T10:53:02.8802356Z",
       "lastError": null
     }
   }
