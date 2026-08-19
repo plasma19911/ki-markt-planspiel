@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-08-19T14:49:12.840445+00:00",
-  "commit": "117b03236f599c2837a1498f9772c2ddf6e98ccc",
+  "checkedAt": "2026-08-19T14:57:40.889436+00:00",
+  "commit": "31ecb898218f8aa2ee8a36c3fe2f245f2ccd19a0",
   "install": {
     "ok": true,
     "tail": "\nadded 38 packages, and audited 39 packages in 5s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
@@ -249,7 +249,7 @@
     "wrangler_dryrun": {
       "ok": true,
       "exitCode": 0,
-      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 42 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 751.22 KiB / gzip: 191.80 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
+      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 43 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 751.22 KiB / gzip: 191.80 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
     }
   },
   "failedChecks": [
