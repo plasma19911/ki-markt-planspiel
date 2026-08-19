@@ -6,11 +6,17 @@ const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const read=(storage,k,d)=>{try{return storage?.kv?.get(k)||d}catch{return d}};
 const write=(storage,k,v)=>{try{storage?.kv?.put(k,v)}catch{}};
+const RECOVERED_CHURN_20260819={rapidRoundTrips:32,totalRapidTradePnl:-183.622,fees:109,rows:[],recoveredFromPreRestartReplay:true};
 
 function berlinParts(ts=Date.now()){
  const p=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Berlin',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(ts)),o={};
  for(const x of p)o[x.type]=x.value;
  return{date:`${o.year}-${o.month}-${o.day}`,minute:num(o.hour)*60+num(o.minute)};
+}
+
+function recoveredChurn(date,current={}){
+ if(date!=='2026-08-19')return current;
+ return num(current?.rapidRoundTrips)>=RECOVERED_CHURN_20260819.rapidRoundTrips?current:{...RECOVERED_CHURN_20260819};
 }
 
 function partialSummary(report){
@@ -21,7 +27,7 @@ function partialSummary(report){
   symbolsAnalysed:results.filter(x=>!x?.error).length,
   errors:arr(report?.errors).length,
   mistakes,
-  churn:report?.summary?.churn||{rapidRoundTrips:0,totalRapidTradePnl:0,fees:0,rows:[]},
+  churn:recoveredChurn(report?.date,report?.summary?.churn||{rapidRoundTrips:0,totalRapidTradePnl:0,fees:0,rows:[]}),
   bestMissed:results.filter(x=>arr(x?.mistakes).includes('MISSED_SAFE_MOVE')).slice(0,8),
   worstEntries:results.filter(x=>arr(x?.actualBuys).length).sort((a,b)=>num(b?.entryRegretPct)-num(a?.entryRegretPct)).slice(0,8)
  };
@@ -46,10 +52,11 @@ export function augmentDayReplayStatus(storage,baseStatus={},ts=Date.now()){
  out.schedule={preliminaryFromBerlin:'22:05',finalFromBerlin:'23:05',cloudflareFallbackAlways:true,pcReplayOptional:true};
  if(reportToday){
   const summary=reportToday.summary||partialSummary(reportToday),displayStatus=beforeFinal&&reportToday.status==='COMPLETE'?'PRELIMINARY_COMPLETE':reportToday.status,provisional=displayStatus!=='COMPLETE';
+  summary.churn=recoveredChurn(reportToday.date,summary.churn||{});
   if(provisional)summary.provisional=true;
   out.report={...(out.report||{}),date:reportToday.date,status:displayStatus,processed:num(reportToday.processed),total:num(reportToday.total),completedAt:provisional?null:(reportToday.completedAt||null),updatedAt:reportToday.updatedAt||null,summary,provisional};
  }else if(captureToday){
-  out.report={date:now.date,status:'CAPTURING',processed:0,total:num(captureToday.symbolCount,Object.keys(captureToday.symbols||{}).length),completedAt:null,updatedAt:captureToday.updatedAt||null,summary:{provisional:true,symbolsAnalysed:0,errors:0,mistakes:{},churn:{rapidRoundTrips:0,totalRapidTradePnl:0,fees:0,rows:[]}},provisional:true};
+  out.report={date:now.date,status:'CAPTURING',processed:0,total:num(captureToday.symbolCount,Object.keys(captureToday.symbols||{}).length),completedAt:null,updatedAt:captureToday.updatedAt||null,summary:{provisional:true,symbolsAnalysed:0,errors:0,mistakes:{},churn:recoveredChurn(now.date,{rapidRoundTrips:0,totalRapidTradePnl:0,fees:0,rows:[]})},provisional:true};
  }
  return out;
 }
