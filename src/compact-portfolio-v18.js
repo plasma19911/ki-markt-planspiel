@@ -36,7 +36,8 @@ export class MarketPortfolio extends BasePortfolio{
     const before=await super.status(),c=before?.config||{},h=before?.history||[],positions=before?.positions||[];
     const accidental=positions.length===0&&Math.abs(Number(c.cash||0)-10000)<0.02&&Number(c.scan_count||0)<=20&&h.some(x=>String(x?.action||'').toUpperCase()==='START'&&String(x?.ts||'').startsWith('2026-08-19T20:32:53'));
     if(!accidental)return{ok:false,skipped:true,reason:'Aktueller Zustand entspricht nicht dem versehentlichen Neustart.',before:{cash:c.cash,equity:before?.equity,positions:positions.length,scanCount:c.scan_count}};
-    const result=await super.importLegacy(RECOVERY_20260819),after=await super.status();
+    if(!this.engine?.importLegacy)throw new Error('Interner R2-Recovery-Handler fehlt.');
+    const result=await this.engine.importLegacy(RECOVERY_20260819),after=await super.status();
     return{ok:true,result,before:{cash:c.cash,equity:before?.equity,positions:positions.length,scanCount:c.scan_count},after:{cash:after?.config?.cash,equity:after?.equity,positions:after?.positions?.length,scanCount:after?.config?.scan_count}};
   }
   async status(){
