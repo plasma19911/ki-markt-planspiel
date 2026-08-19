@@ -1,13 +1,13 @@
 {
-  "checkedAt": "2026-08-19T19:27:49.681042+00:00",
-  "commit": "594d2a1fb682ae4da7be79b065dec085dcda360e",
+  "checkedAt": "2026-08-19T19:29:14.155453+00:00",
+  "commit": "ac73b089f8e235be8ef23c1e1449c26e5400faea",
   "patch": {
     "ok": true,
     "tail": "tranche-safe scale-up integrated in R2 and ZERO accounting\n"
   },
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 6s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 8s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_scale": {
@@ -78,7 +78,7 @@
     "free_tier": {
       "ok": false,
       "exitCode": 1,
-      "tail": "node:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: UI-Status muss waehrend Handel auf 60s gedrosselt bleiben\n    at file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/scripts/smoke-free-tier-24h.mjs:33:8\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
+      "tail": "0,35)\\n\" +\n    ' }catch{gdeltRetryAfter=Date.now()+20*60000;return[]}\\n' +\n    '}\\n' +\n    '\\n' +\n    \"function macroHeadlines(state){return arr(state?.macroRadar?.events).map(e=>({title:`${e?.label||''} ${e?.headline||''}`,source:'Makro-Radar',severity:num(e?.severity),confirmed:Boolean(e?.marketConfirmation?.confirmed||num(e?.marketConfirmation?.score)>=62)}))}\\n\" +\n    \"function portfolioNews(state){return arr(state?.newsRadar).filter(x=>x?.headline).slice(0,25).map(x=>({title:`${x.symbol||''} ${x.headline||''}`,source:`News-Radar${x.sources?.length?` · ${x.sources.slice(0,2).join(', ')}`:''}`,severity:Math.min(100,Math.abs(num(x.news_score))*70),symbol:key(x.symbol)}))}\\n\" +\n    \"function previousThemeSignals(state){const age=Date.now()-Date.parse(state?.futureWatch?.updatedAt||'');if(!Number.isFinite(age)||age>2*3600000)return[];return arr(state?.futureWatch?.activeThemes).filter(x=>num(x?.issueStrength)>=55).map(x=>({title:x.label||x.id,source:'vorheriger Forward-Radar',themeIds:[x.id],severity:num(x.issueStrength)*.45}))}\\n\" +\n    '\\n' +\n    'function activateThemes(headlines){\\n' +\n    ' return THEMES.map(theme=>{\\n' +\n    '  const hits=[];let strength=0,urgency=0,eventAt=null,catalyst=null;\\n' +\n    \"  for(const h of headlines){const t=text(h.title),direct=arr(h.themeIds).includes(theme.id),matched=direct?['direct']:theme.keywords.filter(k=>t.includes(k));if(!matched.length)continue;hits.push(h);\\n\" +\n    \"   if(h.source==='Terminradar'){strength+=18+num(h.importance)*.18;urgency=Math.max(urgency,num(h.urgency));eventAt=h.scheduledAt||eventAt;catalyst=h.title||catalyst}\\n\" +\n    \"   else if(h.source==='Makro-Radar')strength+=h.confirmed?26:13;\\n\" +\n    \"   else if(h.source==='vorheriger Forward-Radar')strength+=5;\\n\" +\n    \"   else if(String(h.source).startsWith('News-Radar'))strength+=10;\\n\" +\n    '   else strength+=8;\\n' +\n    '   strength+=Math.min(8,matched.length*2);if(h.severity)strength+=Math.min(12,num(h.severity)*.12)\\n' +\n    '  }\\n' +\n    '  return{...theme,hits:hits.slice(0,6),issueStrength:clamp(25+strength,0,100),urgency:clamp(urgency,0,100),eventAt,catalyst};\\n' +\n    ' }).filter(x=>x.hits.length||x.issueStrength>=50)\\n' +\n    '}\\n' +\n    '\\n' +\n    'async function quoteBatch(symbols){\\n' +\n    ' const out=new Map();if(!symbols.length)return out;\\n' +\n    \" try{const u=new URL('https://query1.finance.yahoo.com/v7/finance/spark');u.searchParams.set('symbols',symbols.join(','));u.searchParams.set('range','1d');u.searchParams.set('interval','5m');u.searchParams.set('indicators','close');u.searchParams.set('includePrePost','false');const r=await fetch(u,{headers:HEADERS});if(!r.ok)return out;const j=await r.json();for(const item of arr(j?.spark?.result)){const res=item?.response?.[0],m=res?.meta||{},sym=key(item?.symbol||m?.symbol),cl=arr(res?.indicators?.quote?.[0]?.close).filter(v=>Number.isFinite(Number(v))).map(Number);if(!sym||!cl.length)continue;const price=num(m.regularMarketPrice,cl.at(-1)),prev=num(m.previousClose,cl[0]),back=cl[Math.max(0,cl.length-5)],day=prev?(price/prev-1)*100:0,m20=back?(price/back-1)*100:0;out.set(sym,{price,dayPct:day,m20Pct:m20,ts:num(m.regularMarketTime)})}}catch{}return out\\n\" +\n    '}\\n' +\n    '\\n' +\n    'function horizon(theme){\\n' +\n    \" if(theme.eventAt){const h=(Date.parse(theme.eventAt)-Date.now())/3600000;if(h<=24)return'morgen / <24h';if(h<=72)return'2–3 Tag\"... 3146 more characters,\n  expected: /DEFENSE_SECURITY/,\n  operator: 'match',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
     },
     "wrangler": {
       "ok": true,
