@@ -2,6 +2,22 @@ import {ZERO_FEE_MODEL,zeroAffordableBuy,zeroOrderFee} from './zero-fee-model.js
 
 export const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 
+const key=v=>String(v||'').trim().toUpperCase();
+function foreignFxBasisMismatch(p,price=p?.last_price,fx=p?.last_fx,baseCurrency='EUR'){
+  const currency=key(p?.currency),base=key(baseCurrency||'EUR'),ep=num(p?.entry_price),lp=num(price,ep),ef=num(p?.entry_fx,1),lf=num(fx,ef);
+  if(!currency||currency===base||!(ep>0&&lp>0&&ef>0&&lf>0))return false;
+  const samePriceScale=lp/ep>.35&&lp/ep<2.85;
+  return samePriceScale&&Math.abs(ef-1)<1e-9&&Math.abs(lf-1)>.025;
+}
+function effectiveEntryFx(p,price=p?.last_price,fx=p?.last_fx,baseCurrency='EUR'){
+  const ef=num(p?.entry_fx,1),lf=num(fx,ef);
+  // Legacy/base-engine positions could store a native-currency entry price while
+  // entry_fx stayed at 1. As soon as the live quote carries the real FX rate this
+  // would fake losses around -90% (SEK, JPY etc.). For valuation, use the live FX
+  // as the entry basis until the persisted position is repaired by quote-sanity.
+  return foreignFxBasisMismatch(p,price,fx,baseCurrency)?lf:ef;
+}
+
 function zeroBlockExplanation(fill,budget,price,type){
   const code=String(fill?.reason||'UNKNOWN');
   let text='keine ausführbare Einheit innerhalb des vorgesehenen Budgets';
@@ -12,11 +28,12 @@ function zeroBlockExplanation(fill,budget,price,type){
 }
 
 export function positionQuantity(p){
-  const stored=num(p?.zero_quantity,0);if(stored>0)return stored;
-  const priceBase=num(p?.entry_price)*num(p?.entry_fx,1);return priceBase>0?num(p?.invested)/priceBase:0;
+  const stored=num(p?.zero_quantity,0),entryFx=effectiveEntryFx(p,p?.last_price,p?.last_fx,'EUR');
+  if(stored>0&&!foreignFxBasisMismatch(p,p?.last_price,p?.last_fx,'EUR'))return stored;
+  const priceBase=num(p?.entry_price)*entryFx;return priceBase>0?num(p?.invested)/priceBase:0;
 }
 export function positionMarketValue(p,price=p?.last_price,fx=p?.last_fx){
-  const invested=num(p?.invested),entryPrice=num(p?.entry_price),entryFx=num(p?.entry_fx,1);
+  const invested=num(p?.invested),entryPrice=num(p?.entry_price),entryFx=effectiveEntryFx(p,price,fx,'EUR');
   if(!(entryPrice>0))return invested;
   return invested*(num(price)/entryPrice)*(num(fx,1)/entryFx);
 }
@@ -38,7 +55,7 @@ export async function reconcileZeroFees(engine,before){
     for(const h of rows){
       if(h.action==='KAUF'){
         const symbol=String(h.symbol||'').toUpperCase(),p=currentBySymbol.get(symbol),oldFee=num(h.fee),baseNotional=Math.max(0,Math.abs(num(h.amount))-oldFee),baseOutflow=baseNotional+oldFee;
-        const priceBase=p?num(p.entry_price)*num(p.entry_fx,1):0;
+        const priceBase=p?num(p.entry_price)*effectiveEntryFx(p,p.last_price,p.last_fx,'EUR'):0;
         if(p&&baseNotional>0&&priceBase>0){
           const oldPositionValue=positionMarketValue(p),type=String(p.instrument_type||'EQUITY').toUpperCase(),fractionalAllowed=type!=='ETF';
           const fill=zeroAffordableBuy({budgetEur:baseOutflow,priceEur:priceBase,instrumentType:type,fractionalAllowed});
