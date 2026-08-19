@@ -1,0 +1,261 @@
+=== APPLY ===
+Traceback (most recent call last):
+  File "/home/runner/work/ki-markt-planspiel/ki-markt-planspiel/scripts/apply-yahoo-request-local.py", line 37, in <module>
+    s,n=session_re.subn(session_new,s,count=1)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/re/__init__.py", line 334, in _compile_template
+    return _sre.template(pattern, _parser.parse_template(repl, pattern))
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/re/_parser.py", line 1075, in parse_template
+    raise s.error('bad escape %s' % this, len(this)) from None
+re.error: bad escape \s at position 574 (line 9, column 41)
+apply_rc=1
+=== NPM ===
+
+added 38 packages, and audited 39 packages in 6s
+
+7 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+npm_rc=0
+=== SYNTAX ===
+syntax_rc=0,0
+=== YAHOO NULL ===
+{
+  "ok": true,
+  "nullPricesCannotBecomeZero": true,
+  "quoteFallback": true,
+  "sanitized": 5
+}
+yahoo_null_rc=0
+=== YAHOO ISOLATION ===
+node:internal/modules/run_main:123
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Yahoo repair must use request-local task dedupe
+    at file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/scripts/smoke-yahoo-request-isolation.mjs:7:8
+    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: '// Central Yahoo transport resilience for the Worker.\n' +
+    '// - Spark: split bad batches.\n' +
+    '// - Quote/events: query2 then authenticated Yahoo cookie/crumb retry on 401/403.\n' +
+    '// - Chart: shared short cache + inflight dedupe + bounded concurrency to avoid 429 storms.\n' +
+    '// - All price arrays are sanitized so null can never become a fake zero.\n' +
+    "const INSTALL_KEY='__kiYahooMarketRepairInstalledV4';\n" +
+    "const STATS_KEY='__kiYahooMarketRepairStatsV4';\n" +
+    'const WINDOW_MS=55*1000;\n' +
+    'const MAX_EXTRA_REQUESTS=14;\n' +
+    'const RETRY_STATUSES=new Set([400,404,422]);\n' +
+    'const QUOTE_RETRY_STATUSES=new Set([401,403,429,500,502,503,504]);\n' +
+    "const MISSING='__KI_MISSING_PRICE__';\n" +
+    'const CHART_CACHE_MS=25*1000;\n' +
+    'const CHART_ERROR_CACHE_MS=2500;\n' +
+    'const CHART_MAX_PARALLEL=3;\n' +
+    'const YAHOO_SESSION_MS=30*60*1000;\n' +
+    '\n' +
+    "const textUrl=input=>{try{return typeof input==='string'||input instanceof URL?String(input):String(input?.url||'')}catch{return''}};\n" +
+    "const isYahoo=u=>u.hostname.endsWith('finance.yahoo.com');\n" +
+    "const isSpark=u=>isYahoo(u)&&u.pathname==='/v7/finance/spark';\n" +
+    "const isQuote=u=>isYahoo(u)&&u.pathname==='/v7/finance/quote';\n" +
+    "const isChart=u=>isYahoo(u)&&u.pathname.startsWith('/v8/finance/chart/');\n" +
+    "const validPrice=v=>v!==null&&v!==undefined&&v!==''&&Number.isFinite(Number(v))&&Number(v)>0;\n" +
+    'const sleep=ms=>new Promise(r=>setTimeout(r,ms));\n' +
+    '\n' +
+    'function sanitizeResponseObject(j){\n' +
+    '  let sanitized=0;\n' +
+    '  const cleanResult=res=>{\n' +
+    "    if(!res||typeof res!=='object')return;\n" +
+    '    const q=res?.indicators?.quote?.[0];\n' +
+    "    if(q&&typeof q==='object'){\n" +
+    "      for(const field of ['open','high','low','close'])if(Array.isArray(q[field]))q[field]=q[field].map(v=>{if(validPrice(v))return v;sanitized++;return MISSING});\n" +
+    '    }\n' +
+    "    const m=res.meta;if(m&&typeof m==='object')for(const field of ['regularMarketPrice','previousClose','chartPreviousClose'])if(field in m&&!validPrice(m[field])){m[field]=MISSING;sanitized++}\n" +
+    '  };\n' +
+    '  for(const item of j?.spark?.result||[])for(const res of item?.response||[])cleanResult(res);\n' +
+    '  for(const res of j?.chart?.result||[])cleanResult(res);\n' +
+    '  return{json:j,sanitized};\n' +
+    '}\n' +
+    '\n' +
+    'async function sanitizedResponse(r,extraHeaders={}){\n' +
+    '  if(!r?.ok)return r;\n' +
+    '  try{\n' +
+    '    const probe=r.clone(),parsed=sanitizeResponseObject(await probe.json());\n' +
+    "    const h=new Headers(r.headers);h.delete('content-length');h.delete('content-encoding');h.set('content-type','application/json; charset=utf-8');\n" +
+    '    for(const [k,v] of Object.entries(extraHeaders))h.set(k,v);\n' +
+    "    if(parsed.sanitized)h.set('x-ki-yahoo-price-sanitized',String(parsed.sanitized));\n" +
+    '    return new Response(JSON.stringify(parsed.json),{status:r.status,statusText:r.statusText,headers:h});\n' +
+    '  }catch{return r}\n' +
+    '}\n' +
+    '\n' +
+    'function requestHeaders(input,init){\n' +
+    '  const h=new Headers();\n' +
+    '  try{if(input instanceof Request)for(const [k,v] of input.headers)h.set(k,v)}catch{}\n' +
+    '  try{for(const [k,v] of new Headers(init?.headers||{}))h.set(k,v)}catch{}\n' +
+    "  if(!h.has('accept'))h.set('accept','application/json,text/plain,*/*');\n" +
+    "  if(!h.has('user-agent'))h.set('user-agent','Mozilla/5.0 (compatible; KI-Markt-Planspiel/YahooSession)');\n" +
+    '  return h;\n' +
+    '}\n' +
+    'function responseSnapshot(r){return r.clone().arrayBuffer().then(body=>({status:r.status,statusText:r.statusText,headers:[...r.headers.entries()],body}))}\n' +
+    'function responseFromSnapshot(x){return new Response(x.body.slice(0),{status:x.status,statusText:x.statusText,headers:x.headers})}\n' +
+    "function canonicalChartKey(u){const x=new URL(u);x.hostname='query.yahoo.local';return x.pathname+'?'+[...x.searchParams.entries()].sort((a,b)=>a[0].localeCompare(b[0])||String(a[1]).localeCompare(String(b[1]))).map(([k,v])=>`${k}=${v}`).join('&')}\n" +
+    '\n' +
+    'if(!globalThis[INSTALL_KEY]){\n' +
+    '  globalThis[INSTALL_KEY]=true;\n' +
+    '  const nativeFetch=globalThis.fetch.bind(globalThis);\n' +
+    '  const stats=globalThis[STATS_KEY]={windowStartedAt:Date.now(),extraRequests:0,initial400s:0,repairedBatches:0,recoveredRows:0,sanitizedPriceFields:0,quoteFallbackAttempts:0,quoteFallbackRecovered:0,quoteSessionAttempts:0,quoteSessionRecovered:0,chartCacheHits:0,chartInflightHits:0,chartQueued:0,chartQuery2Recovered:0,badSymbols:[],lastRepairAt:null,lastError:null};\n' +
+    '  const resetWindow=()=>{if(Date.now()-stats.windowStartedAt>=WINDOW_MS){stats.windowStartedAt=Date.now();stats.extraRequests=0;stats.badSymbols=[]}};\n' +
+    '  const reserve=()=>{resetWindow();if(stats.extraRequests>=MAX_EXTRA_REQUESTS)return false;stats.extraRequests++;return true};\n' +
+    '  let yahooSession=null,sessionPromise=null;\n' +
+    '  const chartCache=new Map(),chartInflight=new Map(),chartQueue=[];let chartActive=0,lastChartStart=0;\n' +
+    '\n' +
+    '  async function ensureYahooSession(){\n' +
+    '    if(yahooSession&&Date.now()<yahooSession.expiresAt)return yahooSession;\n' +
+    '    if(sessionPromise)return sessionPromise;\n' +
+    '    sessionPromise=(async()=>{\n' +
+    '      stats.quoteSessionAttempts++;\n' +
+    '      try{\n' +
+    "        const landing=await nativeFetch('https://fc.yahoo.com/',{redirect:'manual',headers:{'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64)','accept':'text/html,*/*'}});\n" +
+    "        const rawCookie=landing.headers.get('set-cookie')||'';\n" +
+    '        const cm=rawCookie.match(/(?:^|,\\s*)((?:A3S?|GUC)=[^;,\\s]+)/i)||rawCookie.match(/([^=;,\\s]+=[^;,\\s]+)/);\n' +
+    "        const cookie=cm?.[1]||'';\n" +
+    "        const h={'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64)','accept':'text/plain,*/*'};if(cookie)h.cookie=cookie;\n" +
+    "        const cr=await nativeFetch('https://query1.finance.yahoo.com/v1/test/getcrumb',{headers:h});\n" +
+    "        const crumb=cr.ok?(await cr.text()).trim():'';\n" +
+    "        if(!crumb||crumb.length>200||crumb.includes('<'))throw new Error(`Crumb HTTP ${cr.status}`);\n" +
+    '        yahooSession={cookie,crumb,expiresAt:Date.now()+YAHOO_SESSION_MS};stats.lastError=null;return yahooSession;\n' +
+    '      }catch(e){stats.lastError=`Yahoo Session: ${String(e?.message||e).slice(0,140)}`;return null}\n' +
+    '      finally{sessionPromise=null}\n' +
+    '    })();\n' +
+    '    return sessionPromise;\n' +
+    '  }\n' +
+    '\n' +
+    '  async function fetchPart(baseUrl,symbols,init){\n' +
+    '    if(!symbols.length||!reserve())return[];\n' +
+    "    const u=new URL(baseUrl);u.hostname='query2.finance.yahoo.com';u.searchParams.set('symbols',symbols.join(','));\n" +
+    '    try{\n' +
+    '      const r=await nativeFetch(u,init);\n' +
+    '      if(r.ok){const j=await r.json(),parsed=sanitizeResponseObject(j);stats.sanitizedPriceFields+=parsed.sanitized;return Array.isArray(parsed.json?.spark?.result)?parsed.json.spark.result:[]}\n' +
+    '      if(symbols.length===1){stats.badSymbols.push(symbols[0]);stats.lastError=`HTTP ${r.status} ${symbols[0]}`;return[]}\n' +
+    '    }catch(e){if(symbols.length===1){stats.badSymbols.push(symbols[0]);stats.lastError=String(e?.message||e).slice(0,160);return[]}}\n' +
+    '    if(symbols.length<=1)return[];\n' +
+    '    const mid=Math.ceil(symbols.length/2),a=await fetchPart(baseUrl,symbols.slice(0,mid),init),b=await fetchPart(baseUrl,symbols.slice(mid),init);\n' +
+    '    return [...a,...b];\n' +
+    '  }\n' +
+    '\n' +
+    '  async function authenticatedQuoteRetry(input,init,u){\n' +
+    '    if(!reserve())return null;\n' +
+    '    const s=await ensureYahooSession();if(!s)return null;\n' +
+    '    try{\n' +
+    "      const retryUrl=new URL(u);retryUrl.hostname='query1.finance.yahoo.com';retryUrl.searchParams.set('crumb',s.crumb);\n" +
+    "      const h=requestHeaders(input,init);if(s.cookie)h.set('cookie',s.cookie);\n" +
+    '      const retry=await nativeFetch(retryUrl,{...init,headers:h});\n' +
+    "      if(retry.ok){stats.quoteSessionRecovered++;stats.lastRepairAt=new Date().toISOString();stats.lastError=null;const hh=new Headers(retry.headers);hh.set('x-ki-yahoo-quote-fallback','cookie-crumb');return new Response(retry.body,{status:retry.status,statusText:retry.statusText,headers:hh})}\n" +
+    '      if(retry.status===401||retry.status===403)yahooSession=null;\n' +
+    '      stats.lastError=`Yahoo quote session HTTP ${retry.status}`;\n' +
+    '    }catch(e){stats.lastError=`Yahoo quote session: ${String(e?.message||e).slice(0,130)}`}\n' +
+    '    return null;\n' +
+    '  }\n' +
+    '\n' +
+    '  async function quoteFallback(input,init,u){\n' +
+    '    const first=await nativeFetch(input,init);\n' +
+    '    if(first.ok||!QUOTE_RETRY_STATUSES.has(first.status))return first;\n' +
+    '    stats.quoteFallbackAttempts++;\n' +
+    '    let second=null;\n' +
+    '    if(reserve())try{\n' +
+    "      const retryUrl=new URL(u);retryUrl.hostname='query2.finance.yahoo.com';\n" +
+    '      second=await nativeFetch(retryUrl,init);\n' +
+    "      if(second.ok){stats.quoteFallbackRecovered++;stats.lastRepairAt=new Date().toISOString();stats.lastError=null;const h=new Headers(second.headers);h.set('x-ki-yahoo-quote-fallback','query2');return new Response(second.body,{status:second.status,statusText:second.statusText,headers:h})}\n" +
+    '    }catch(e){stats.lastError=`Yahoo quote query2: ${String(e?.message||e).slice(0,130)}`}\n' +
+    '    if([401,403].includes(first.status)||[401,403].includes(second?.status)){const auth=await authenticatedQuoteRetry(input,init,u);if(auth)return auth}\n' +
+    '    if(second&&!second.ok)stats.lastError=`Yahoo quote fallback HTTP ${second.status}`;\n' +
+    '    return first;\n' +
+    '  }\n' +
+    '\n' +
+    '  function pumpChartQueue(){\n' +
+    '    while(chartActive<CHART_MAX_PARALLEL&&chartQueue.length){\n' +
+    '      const task=chartQueue.shift();chartActive++;stats.chartQueued++;\n' +
+    '      Promise.resolve().then(async()=>{const wait=Math.max(0,55-(Date.now()-lastChartStart));if(wait)await sleep(wait);lastChartStart=Date.now();return task.fn()}).then(task.resolve,task.reject).finally(()=>{chartActive--;pumpChartQueue()});\n' +
+    '    }\n' +
+    '  }\n' +
+    '  function chartGate(fn){return new Promise((resolve,reject)=>{chartQueue.push({fn,resolve,reject});pumpChartQueue()})}\n' +
+    '  async function chartResilient(input,init,u){\n' +
+    '    const key=canonicalChartKey(u),cached=chartCache.get(key),now=Date.now();\n' +
+    '    if(cached&&now-cached.at<(cached.ok?CHART_CACHE_MS:CHART_ERROR_CACHE_MS)){stats.chartCacheHits++;return responseFromSnapshot(cached.snap)}\n' +
+    '    if(chartInflight.has(key)){stats.chartInflightHits++;const snap=await chartInflight.get(key);return responseFromSnapshot(snap)}\n' +
+    '    const work=chartGate(async()=>{\n' +
+    '      let r=await nativeFetch(input,init);\n' +
+    "      if(!r.ok&&[429,500,502,503,504].includes(r.status)&&u.hostname==='query1.finance.yahoo.com'&&reserve()){\n" +
+    "        await sleep(100);const q2=new URL(u);q2.hostname='query2.finance.yahoo.com';const rr=await nativeFetch(q2,init);if(rr.ok){stats.chartQuery2Recovered++;stats.la"... 2090 more characters,
+  expected: /withRequestLocalTask/,
+  operator: 'match',
+  diff: 'simple'
+}
+
+Node.js v22.23.2
+yahoo_isolation_rc=1
+=== FREE TIER ===
+{
+  "ok": true,
+  "cloudflarePlan": "FREE",
+  "mode": "WINDOWS_PC_AGENT + CLOUDFLARE_FALLBACK",
+  "gettex": "07:25 PREOPEN; 07:30-23:00 OPEN; sonst SLEEP",
+  "pcMarketScanRequestsPerTradingDay": 930,
+  "preopenRunsPerTradingDay": 1,
+  "cloudflareFallbackEnvelopePerWeekday": 216,
+  "pcLeaderRefreshesPerTradingDay": 187,
+  "dynamicExternalLeaderTarget": 25,
+  "deepFinalists": 6,
+  "deepRequestCountUnchangedByScaleUp": true,
+  "externalFetchSoftCapPerCloudflareScan": 36,
+  "preopenFetchSoftCap": 24,
+  "agentOfflineFallbackSeconds": 150,
+  "cloudflareFallbackMinutes": 5,
+  "pcStoragePath": "E:\\KI-Markt-Agent",
+  "pcStorageLimitGb": 2,
+  "pcTrimToGb": 1.6,
+  "aiNeuronSoftCapPerUtcDay": 8000,
+  "nightNews": false,
+  "nightMarketScans": false
+}
+free_tier_rc=0
+=== REPLAY DEPOT ===
+{
+  "ok": true,
+  "preliminaryReplay": true,
+  "finalReplayRebuild": true,
+  "pcNormalBucket": true,
+  "depotUnifiedValuation": true,
+  "passwordlessControls": true
+}
+replay_depot_rc=0
+=== HARD EXIT ===
+{
+  "ok": true,
+  "microReversalNeedsCandles": true,
+  "severeBreakImmediate": true,
+  "eventImmediate": true,
+  "stopLossImmediate": true
+}
+hard_exit_rc=0
+=== WRANGLER ===
+
+ ⛅️ wrangler 4.124.0
+────────────────────
+✨ Read 45 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public
+Total Upload: 838.67 KiB / gzip: 215.03 KiB
+Your Worker has access to the following bindings:
+Binding                              Resource            
+env.PORTFOLIO (MarketPortfolio)      Durable Object      
+env.AI                               AI                  
+env.ASSETS                           Assets              
+
+--dry-run: exiting now.
+
+Cloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md
+wrangler_rc=0
+overall_rc=1
