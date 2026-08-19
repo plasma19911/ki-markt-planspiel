@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T19:20:48.266489+00:00",
+  "checkedAt": "2026-08-19T19:21:23.129184+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,10 +28,10 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 348,
-  "lastScan": "2026-08-19T19:19:21.635Z",
+  "scanCount": 349,
+  "lastScan": "2026-08-19T19:21:15.461Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster 10m; Fast-Decision: 0 SELL / 0 BUY aus 6 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 · CANDLE-FLOW V2.1: QH wartet auf bessere Bodenbildung. Keine Minutenregel fuer SELL.",
+  "aiLastSummary": "KI-Wartefenster 10m; Fast-Decision: 0 SELL / 0 BUY aus 6 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lage · EARLY-D · CANDLE-FLOW V2.1: MRK wartet auf bessere Bodenbildung. Keine Minutenregel fuer SELL.",
   "cash": 8412.067513123307,
   "equity": 9714.50417200594,
   "pnl": -285.49582799406016,
@@ -102,25 +102,25 @@
   "candidates": 6,
   "topCandidates": [
     {
-      "symbol": "MRNA",
-      "name": "Moderna, Inc.",
-      "score": 6.501576605504587,
-      "confidence": 0.7695,
-      "day_change": 150.40501712086544,
-      "news_score": 0.042935779816513746,
+      "symbol": "BBAI",
+      "name": "BigBear.ai",
+      "score": 6.05,
+      "confidence": 0.63,
+      "day_change": 0.4807689251043801,
+      "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 65 konstruktiv · 5m +2.03% · 20m +2.47% · Momentum baut sich auf · Beschleunigung +3.60%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 65 konstruktiv · 5m +0.43% · 20m +0.64% · Momentum baut sich auf · Beschleunigung +0.22%",
       "contra": ""
     },
     {
-      "symbol": "QH",
-      "name": "Quhuo Limited",
-      "score": 6.45,
-      "confidence": 0.63,
-      "day_change": 2.7249964800747817,
-      "news_score": 0,
+      "symbol": "MRNA",
+      "name": "Moderna, Inc.",
+      "score": 5.501576605504587,
+      "confidence": 0.7695,
+      "day_change": 150.95298602287167,
+      "news_score": 0.042935779816513746,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 56 konstruktiv · 5m +4.63% · 20m +6.85% · Momentum baut sich auf · Beschleunigung +3.93%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +1.29% · 20m +2.88% · Momentum baut sich auf · Beschleunigung +1.32%",
       "contra": ""
     },
     {
@@ -128,7 +128,7 @@
       "name": "Merck & Co., Inc.",
       "score": 3.9859610091743116,
       "confidence": 0.7695,
-      "day_change": 13.212990145222236,
+      "day_change": 13.35725834394883,
       "news_score": 0.07155963302752291,
       "event_risk": "NONE",
       "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv",
@@ -139,33 +139,33 @@
       "name": "Axon Enterprise",
       "score": 3.4202756936585366,
       "confidence": 0.7447875693658537,
-      "day_change": 4.151007032321319,
+      "day_change": 4.196981565600555,
       "news_score": 0.047951219512195116,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.30% · 20m +1.09%",
-      "contra": "RSI 92 überhitzt"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.27% · 20m +1.10%",
+      "contra": "RSI 89 überhitzt"
     },
     {
-      "symbol": "TDY",
-      "name": "Teledyne Technologies Incorporated",
-      "score": 1.3,
-      "confidence": 0.41000000000000003,
-      "day_change": -2.2586495535714235,
+      "symbol": "CIEN",
+      "name": "Ciena Corporation",
+      "score": 3,
+      "confidence": 0.5800000000000001,
+      "day_change": -1.9233638520552931,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.20%",
-      "contra": "RSI 78 überhitzt"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 62 konstruktiv",
+      "contra": ""
     },
     {
-      "symbol": "GRID.TO",
-      "name": "Tantalus Systems Holding Inc.",
-      "score": -3.75,
-      "confidence": 0.63,
-      "day_change": -2.097906543936212,
+      "symbol": "TLO.TO",
+      "name": "Talon Metals Corp.",
+      "score": -2.1,
+      "confidence": 0.5871026965002869,
+      "day_change": -1.5999984741210893,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "5m +0.24%",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 20m -0.59% · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21"
     }
   ],
   "recentHistory": [
@@ -176,7 +176,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal MRNA: Score 6.50, Konfidenz 77%.",
+      "reason": "Kein Trade. Bestes Signal BBAI: Score 6.05, Konfidenz 63%.",
       "score": null
     },
     {
@@ -854,19 +854,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T19:20:11.526Z",
-    "ageSeconds": 36,
+    "lastSeenAt": "2026-08-19T19:21:10.777Z",
+    "ageSeconds": 12,
     "metrics": {
-      "lastSeenAt": "2026-08-19T19:20:11.526Z",
+      "lastSeenAt": "2026-08-19T19:21:10.777Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
       "storageBytes": 19204098,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.15,
-      "ramMb": 62.7,
-      "downloadedBytes": 8886401731,
-      "uploadedBytes": 15567671,
+      "cpuPct": 0.14,
+      "ramMb": 63.9,
+      "downloadedBytes": 8905697438,
+      "uploadedBytes": 15596115,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T18:57:16.2690039Z",
@@ -896,8 +896,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 95,
-      "updated_at": "2026-08-19T19:19:21.298Z"
+      "latency_ms": 98,
+      "updated_at": "2026-08-19T19:21:15.291Z"
     },
     {
       "source": "Yahoo FX",
@@ -905,8 +905,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 8,
-      "updated_at": "2026-08-19T19:19:21.298Z"
+      "latency_ms": 7,
+      "updated_at": "2026-08-19T19:21:15.291Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -914,8 +914,8 @@
       "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 255,
-      "updated_at": "2026-08-19T19:19:21.298Z"
+      "latency_ms": 438,
+      "updated_at": "2026-08-19T19:21:15.291Z"
     },
     {
       "source": "Yahoo News",
@@ -923,17 +923,8 @@
       "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 392,
-      "updated_at": "2026-08-19T19:19:21.298Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T19:19:21.298Z"
+      "latency_ms": 716,
+      "updated_at": "2026-08-19T19:21:15.291Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -941,8 +932,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T19:19:21.298Z"
+      "latency_ms": 939,
+      "updated_at": "2026-08-19T19:21:15.291Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1039,
+      "updated_at": "2026-08-19T19:21:15.291Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -950,8 +950,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T19:19:21.298Z"
+      "latency_ms": 1082,
+      "updated_at": "2026-08-19T19:21:15.291Z"
     },
     {
       "source": "Unternehmenstermine (Nasdaq-Fallback)",
@@ -960,7 +960,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:19:21.298Z"
+      "updated_at": "2026-08-19T19:21:15.291Z"
     },
     {
       "source": "finanzen.net News (Fallback)",
@@ -968,8 +968,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T19:19:21.298Z"
+      "latency_ms": 796,
+      "updated_at": "2026-08-19T19:21:15.291Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -978,16 +978,16 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:19:21.298Z"
+      "updated_at": "2026-08-19T19:21:15.291Z"
     },
     {
       "source": "Second-Chance 1m",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
+      "status": "DOWN",
+      "ok_count": 0,
+      "fail_count": 1,
+      "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:19:21.298Z"
+      "updated_at": "2026-08-19T19:21:15.291Z"
     }
   ]
 }
