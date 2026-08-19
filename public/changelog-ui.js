@@ -1,5 +1,15 @@
 const CHANGELOG=[
   {
+    at:'19.08.2026 · 12:28',
+    title:'Fast-Radar meldet Start und Fehler jetzt sofort',
+    items:[
+      'Fast-Radar sendet direkt beim Start einen eigenen Status an den Worker, bevor der erste Vollscan beginnt.',
+      'Der erste Turbo-Durchlauf startet sofort und wartet nicht mehr bis zur nächsten Minutenmarke.',
+      'Turbo-Standard auf 40 Batches pro Minute, 8 parallele Requests und Ziel 4–6 Minuten gesetzt.',
+      'Fehler beim Master-Download, Worker-Upload oder Yahoo-Scan werden im Fast-Radar-Status und Log sichtbar statt nur als laufender Prozess zu erscheinen.'
+    ]
+  },
+  {
     at:'19.08.2026 · 12:24',
     title:'Fast-Radar auf Turbo-Profil umgestellt',
     items:[
