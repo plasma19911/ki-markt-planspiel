@@ -29,34 +29,48 @@ function latestTrade(state,symbol){const rows=arr(state?.history||state?.recentH
 function hold(symbol,confidence,reason){return{symbol,action:'HOLD',confidence:clamp(confidence,.58,.88),allocation_pct:0,reason}}
 
 function buyDecision(a,c,state){
- const s=key(a),r=String(a?.reason||''),x=tape(c),f=flowFromReason(r),allocation=Math.max(1,Number(a?.allocation_pct)||1),isContinuation=/CONTINUATION|BREAKOUT/i.test(r),reasons=[];
- const d=x.draw,day=x.day,m5=x.m5,m20=x.m20,score=x.score;
+ const s=key(a),r=String(a?.reason||''),x=tape(c),f=flowFromReason(r),allocation=Math.max(1,Number(a?.allocation_pct)||1),isContinuation=/CONTINUATION|BREAKOUT/i.test(r),isAutoDip=/EARLY-DIP AUTO/i.test(r),reasons=[];
+ const d=x.draw,day=x.day,m5=x.m5,m20=x.m20,score=x.score,accel=x.accel;
  const quoteOutlier=day!==null&&Math.abs(day)>=35;
- const microDip=d!==null&&d>-.45&&(m20===null||m20>=0)&&(day===null||day>-1);
+ // V2: Ein Ruecksetzer unter 0,70% vom lokalen 20m-Hoch ist kein belastbarer Dip.
+ // Das gilt jetzt unabhaengig davon, ob der Gesamt-Tag rot oder gruen ist. Genau
+ // diese Luecke hatte die verlustreichen -0,27 bis -0,50%-Auto-Dips durchgelassen.
+ const microDip=d!==null&&d>-.70;
  const highChase=(day!==null&&day>=8&&(d===null||d>-2))||(day!==null&&day>=5&&m20!==null&&m20>.8&&(d===null||d>-1.25))||(day!==null&&day>=3&&m20!==null&&m20>1.2&&(d===null||d>-.8));
  const mtfMissing=missingMtf(r),mtfConfirmed=hasFullMtf(r);
  const weakScore=score!==null&&score<3.5;
+ // Auf bereits deutlich roten Tagen braucht ein Rebound einen tieferen echten Retest.
+ // Sonst kauft die Logik nur knapp unter dem lokalen Hoch in einen noch schwachen Tag.
+ const redDayShallow=day!==null&&d!==null&&((day<=-4&&d>-1.35)||(day<=-2&&d>-1.05));
+ // Fehlender Tages-/Wochenkontext ist bei Auto-Dips kein Sizing-Problem mehr, sondern
+ // eine Entry-Frage. Nur ein substanzieller Dip mit klarer kurzfristiger Erholung darf
+ // trotz Soft-Data als kleiner Starter weiterlaufen.
+ const mtfFallbackStrong=mtfMissing&&d!==null&&d<=-1.35&&m5!==null&&m5>=.10&&score!==null&&score>=4.8&&(accel===null||accel>=.03);
+ const mtfEntryUnsafe=mtfMissing&&!mtfFallbackStrong;
+ const autoDipWeak=isAutoDip&&((d===null||d>-.90)||(m5===null||m5<.08)||(score!==null&&score<4.6));
  const last=latestTrade(state,s),reentry=last&&['SELL','VERKAUF'].includes(String(last.action||'').toUpperCase());
  const newStructure=d!==null&&d<=-1.25&&m5!==null&&m5>=0&&f.buyer!==null&&f.buyer>=.60&&score!==null&&score>=4.8&&mtfConfirmed;
  if(quoteOutlier)reasons.push(`Tagesbewegung ${day.toFixed(1)}% ist extrem und muss zuerst als echter Kurs-/News-Move bestätigt werden`);
- if(microDip)reasons.push(`nur ${Math.abs(d).toFixed(2)}% Rücksetzer vom 20m-Hoch – das ist Marktrauschen statt echter Dip`);
+ if(microDip)reasons.push(`nur ${Math.abs(d).toFixed(2)}% Rücksetzer vom 20m-Hoch – unter 0,70% gilt als Marktrauschen statt echter Dip`);
+ if(redDayShallow)reasons.push(`schwacher Handelstag ${day.toFixed(1)}% braucht einen tieferen Retest statt Kauf knapp unter dem lokalen Hoch`);
  if(highChase)reasons.push('Tages-/20m-Lauf bereits weit fortgeschritten; kleiner Rücksetzer wird nicht mehr als günstiger Dip gewertet');
  if(weakScore)reasons.push(`Qualitätsscore ${score.toFixed(2)} ist für einen automatischen Neueinstieg zu schwach`);
- if(mtfMissing&&((day!==null&&day>=3)||(m20!==null&&m20>1.5)||isContinuation))reasons.push('Tages-/Wochenkontext fehlt gerade; bei hochgelaufenen/Continuation-Setups reicht 1m-Flow nicht');
+ if(mtfEntryUnsafe)reasons.push('Tages-/Wochenkontext fehlt; ohne mindestens 1,35% echten Rücksetzer plus bestätigte 5m-Erholung bleibt Cash frei');
+ if(autoDipWeak)reasons.push('automatischer Early-Dip hat noch zu wenig Tiefe bzw. kurzfristige Reclaim-Qualität');
  if(isContinuation&&!mtfConfirmed)reasons.push('Continuation/Breakout darf die Mehr-Zeitebenen-Prüfung nicht mehr umgehen');
  if(reentry&&!newStructure)reasons.push('nach dem letzten Verkauf fehlt eine neue, klar bestätigte Dip-/Bodenstruktur für einen Wiedereinstieg');
- if(reasons.length)return hold(s,Number(a?.confidence)||.72,`TAGES-REVIEW BUY-WAIT: ${reasons.join(' · ')}. Cash bleibt für den besseren Einstieg frei.`);
+ if(reasons.length)return hold(s,Number(a?.confidence)||.72,`TAGES-REVIEW V2 BUY-WAIT: ${reasons.join(' · ')}. Cash bleibt für den besseren Einstieg frei.`);
  let cap=20;
- if(d!==null&&d>-.8)cap=Math.min(cap,5);
- else if(d!==null&&d>-1.5)cap=Math.min(cap,8);
- else if(d!==null&&d>-2.5)cap=Math.min(cap,12);
- else cap=Math.min(cap,16);
+ if(d!==null&&d>-.9)cap=Math.min(cap,4);
+ else if(d!==null&&d>-1.5)cap=Math.min(cap,7);
+ else if(d!==null&&d>-2.5)cap=Math.min(cap,11);
+ else cap=Math.min(cap,15);
  if(day!==null&&day>=5)cap=Math.min(cap,4);
- if(mtfMissing)cap=Math.min(cap,3);
+ if(mtfMissing)cap=Math.min(cap,5);
  if(score!==null&&score<4.5)cap=Math.min(cap,5);
  if(isContinuation)cap=Math.min(cap,4);
  const scaled=Math.min(allocation,cap);
- if(scaled<allocation)return{...a,allocation_pct:+scaled.toFixed(2),reason:`${r.slice(0,260)} · TAGES-REVIEW SIZING: Start auf max. ${scaled.toFixed(1)}% begrenzt; tiefere echte Dips erhalten mehr Kapital als Mikro-Rücksetzer/High-Chases.`};
+ if(scaled<allocation)return{...a,allocation_pct:+scaled.toFixed(2),reason:`${r.slice(0,260)} · TAGES-REVIEW V2 SIZING: Start auf max. ${scaled.toFixed(1)}% begrenzt; Kapital erst nach tieferem Retest und bestätigter Struktur ausbauen.`};
  return a
 }
 
@@ -85,7 +99,7 @@ function postProcess(r,input,state){
   out.push(next)
  }
  plan.actions=out;
- if(notes.length)plan.summary=`${String(plan.summary||'').slice(0,135)} · TAGES-REVIEW V1: ${notes.slice(0,4).join(' · ')}.`;
+ if(notes.length)plan.summary=`${String(plan.summary||'').slice(0,135)} · TAGES-REVIEW V2: ${notes.slice(0,4).join(' · ')}.`;
  return{...r,response:JSON.stringify(plan)}
 }
 
