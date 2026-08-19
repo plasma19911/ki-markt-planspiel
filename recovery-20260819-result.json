@@ -1,4 +1,4 @@
 {
-  "http": "500",
-  "body": "{\"ok\":false,\"recoveryError\":\"(intermediate value).importLegacy is not a function\",\"name\":\"TypeError\",\"stack\":\"TypeError: (intermediate value).importLegacy is not a function\\n    at async Object.fetch (index-v18.js:14048:24)\"}"
+  "http": "200",
+  "body": "{\"ok\":true,\"result\":{\"ok\":true,\"storage\":\"R2\"},\"before\":{\"cash\":10000,\"equity\":10000,\"positions\":0,\"scanCount\":3},\"after\":{\"cash\":10000,\"equity\":10000,\"positions\":0,\"scanCount\":3}}"
 }
