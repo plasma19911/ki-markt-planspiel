@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
+// Permanent regression for the public control surface, dashboard payload budget,
+// and Worker/static-asset routing. Keep this in the normal validation workflow.
 const read=p=>fs.readFileSync(new URL(`../${p}`,import.meta.url),'utf8');
 const wrapper=read('src/index-v18.js');
 const index=read('src/index.js');
