@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T15:03:08.916558+00:00",
+  "checkedAt": "2026-08-19T15:03:49.039822+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,8 +28,8 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 195,
-  "lastScan": "2026-08-19T15:01:24.158Z",
+  "scanCount": 196,
+  "lastScan": "2026-08-19T15:03:17.519Z",
   "lastError": null,
   "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 9 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lag · Tages-/Wochenchart: TGT wartet auf Tages-/Wochenchart.",
   "cash": 8557.010550684983,
@@ -37,7 +37,7 @@
   "pnl": -140.55279043238443,
   "marketValue": 1302.4366588826322,
   "accountingDelta": 0.0,
-  "universeCount": 229,
+  "universeCount": 226,
   "positions": 2,
   "positionRows": [
     {
@@ -83,7 +83,7 @@
       "last_fx": 0.0902,
       "currency": "SEK",
       "opened_at": "2026-08-19T12:23:25.923Z",
-      "score": 5.05,
+      "score": 4.7,
       "signal_confidence": 0.63,
       "zero_quantity": 450.22751420134756,
       "zero_whole_shares": 450,
@@ -102,58 +102,58 @@
   "candidates": 9,
   "topCandidates": [
     {
+      "symbol": "EL",
+      "name": "The Estée Lauder Companies Inc.",
+      "score": 5.47658016139879,
+      "confidence": 0.7695,
+      "day_change": 16.41153254316019,
+      "news_score": 0.3134902488231338,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 62 konstruktiv · 20m +0.57% · News +0.3 · 12 Ereigniscluster",
+      "contra": ""
+    },
+    {
       "symbol": "LOGI-B.ST",
       "name": "Logistea AB (publ)",
-      "score": 5.05,
+      "score": 4.7,
       "confidence": 0.63,
       "day_change": -2.569781087924383e-06,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.30% · 20m +1.21% · Momentum baut sich auf · Beschleunigung +0.15%",
-      "contra": ""
-    },
-    {
-      "symbol": "EL",
-      "name": "The Estée Lauder Companies Inc.",
-      "score": 5.010879616963065,
-      "confidence": 0.765,
-      "day_change": 16.6251320509041,
-      "news_score": 0.3188508891928865,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 65 konstruktiv · 5m +0.18% · News +0.3 · 12 Ereigniscluster",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 64 konstruktiv · 20m +1.21%",
       "contra": ""
     },
     {
       "symbol": "TGT",
       "name": "Target Corporation",
-      "score": 4.860095747800587,
+      "score": 3.8526399999999996,
       "confidence": 0.7731,
-      "day_change": 5.279380101847386,
-      "news_score": 0.11507331378299115,
+      "day_change": 5.167891271216929,
+      "news_score": 0.10971428571428568,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 60 konstruktiv · 5m +0.38%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.25%",
       "contra": ""
     },
     {
-      "symbol": "SKHY",
-      "name": "SK hynix Inc.",
-      "score": 4.442491290145622,
-      "confidence": 0.7731,
-      "day_change": 3.033026820389817,
-      "news_score": 0.3899308464658554,
+      "symbol": "KEEL.TO",
+      "name": "Keel Infrastructure Corp.",
+      "score": 3.4,
+      "confidence": 0.72008,
+      "day_change": 2.0362042733446994,
+      "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 62 konstruktiv · News +0.4 · 11 Ereigniscluster",
-      "contra": ""
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.45% · 20m +4.40%",
+      "contra": "RSI 86 überhitzt"
     },
     {
-      "symbol": "TXT",
-      "name": "Textron",
-      "score": 4.334345403899722,
-      "confidence": 0.7533,
-      "day_change": 0.5738520066773445,
-      "news_score": 0.050139275766016705,
+      "symbol": "PFE",
+      "name": "Pfizer Inc.",
+      "score": 2.9,
+      "confidence": 0.7050000000000001,
+      "day_change": 4.036698647595327,
+      "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 54 konstruktiv · 5m +0.36%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
       "contra": ""
     },
     {
@@ -161,44 +161,44 @@
       "name": "SAP SE",
       "score": 2.6,
       "confidence": 0.54,
-      "day_change": 3.5254427660229126,
+      "day_change": 3.572958375618418,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.54%",
-      "contra": "RSI 80 überhitzt"
-    },
-    {
-      "symbol": "MRVL",
-      "name": "Marvell Technology, Inc.",
-      "score": 0,
-      "confidence": 0.28,
-      "day_change": 8.356482894332329,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 55 konstruktiv",
-      "contra": "5m -0.36% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.65%",
+      "contra": "RSI 90 überhitzt"
     },
     {
       "symbol": "MRK",
       "name": "Merck & Co., Inc.",
-      "score": -0.20000000000000007,
-      "confidence": 0.30000000000000004,
-      "day_change": 10.520085366315346,
+      "score": -2.0000000000000004,
+      "confidence": 0.4800000000000001,
+      "day_change": 10.527479393714877,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "RSI 49 konstruktiv",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21"
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 32 sehr schwach"
+    },
+    {
+      "symbol": "MRVL",
+      "name": "Marvell Technology, Inc.",
+      "score": -2.5999999999999996,
+      "confidence": 0.54,
+      "day_change": 7.736114219382961,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · RSI 52 konstruktiv",
+      "contra": "Kurs unter EMA21 · 5m -0.86% · 20m -0.74% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
     },
     {
       "symbol": "MRNA",
       "name": "Moderna, Inc.",
       "score": -6.300000000000001,
       "confidence": 0.63,
-      "day_change": 128.94741770878832,
+      "day_change": 130.5590909499831,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 5m -1.28% · 20m -5.13% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 5m -1.50% · 20m -4.52% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
@@ -209,7 +209,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal EL: Score 5.01, Konfidenz 77%.",
+      "reason": "Kein Trade. Bestes Signal EL: Score 5.48, Konfidenz 77%.",
       "score": null
     },
     {
@@ -854,19 +854,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T15:02:12.180Z",
-    "ageSeconds": 56,
+    "lastSeenAt": "2026-08-19T15:03:12.316Z",
+    "ageSeconds": 36,
     "metrics": {
-      "lastSeenAt": "2026-08-19T15:02:12.180Z",
+      "lastSeenAt": "2026-08-19T15:03:12.316Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
       "storageBytes": 15165485,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.1,
-      "ramMb": 62.2,
-      "downloadedBytes": 3083997409,
-      "uploadedBytes": 4471538,
+      "cpuPct": 0.12,
+      "ramMb": 62.4,
+      "downloadedBytes": 3103257505,
+      "uploadedBytes": 4498159,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T14:58:26.9306683Z",
@@ -896,8 +896,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 194,
-      "updated_at": "2026-08-19T15:01:24.138Z"
+      "latency_ms": 191,
+      "updated_at": "2026-08-19T15:03:17.503Z"
     },
     {
       "source": "Yahoo FX",
@@ -905,8 +905,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 10,
-      "updated_at": "2026-08-19T15:01:24.138Z"
+      "latency_ms": 97,
+      "updated_at": "2026-08-19T15:03:17.503Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -914,8 +914,8 @@
       "ok_count": 9,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 95,
-      "updated_at": "2026-08-19T15:01:24.138Z"
+      "latency_ms": 223,
+      "updated_at": "2026-08-19T15:03:17.503Z"
     },
     {
       "source": "Yahoo Events",
@@ -923,8 +923,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 89,
-      "updated_at": "2026-08-19T15:01:24.138Z"
+      "latency_ms": 86,
+      "updated_at": "2026-08-19T15:03:17.503Z"
     },
     {
       "source": "Yahoo News",
@@ -932,35 +932,8 @@
       "ok_count": 8,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 332,
-      "updated_at": "2026-08-19T15:01:24.138Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 266,
-      "updated_at": "2026-08-19T15:01:24.138Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 284,
-      "updated_at": "2026-08-19T15:01:24.138Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 319,
-      "updated_at": "2026-08-19T15:01:24.138Z"
+      "latency_ms": 316,
+      "updated_at": "2026-08-19T15:03:17.503Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -968,8 +941,35 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 928,
-      "updated_at": "2026-08-19T15:01:24.138Z"
+      "latency_ms": 943,
+      "updated_at": "2026-08-19T15:03:17.503Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 981,
+      "updated_at": "2026-08-19T15:03:17.503Z"
+    },
+    {
+      "source": "BörsenNews",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1014,
+      "updated_at": "2026-08-19T15:03:17.503Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1309,
+      "updated_at": "2026-08-19T15:03:17.503Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -978,7 +978,7 @@
       "fail_count": 8,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T15:01:24.138Z"
+      "updated_at": "2026-08-19T15:03:17.503Z"
     },
     {
       "source": "Second-Chance 1m",
@@ -987,7 +987,7 @@
       "fail_count": 6,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T15:01:24.138Z"
+      "updated_at": "2026-08-19T15:03:17.503Z"
     }
   ]
 }
