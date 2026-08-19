@@ -1,11 +1,12 @@
 export const AI_MODEL = '@cf/zai-org/glm-4.7-flash';
 export const SPARK_BATCH = 50;
-// Opportunity-First-Profil: mehr Werte kommen in die 1m-Tiefenpruefung.
-// Acht Finalisten sind ein bewusster Mittelweg: deutlich breiter als bisher,
-// aber noch klein genug, damit die teuren Minutenchecks nicht den ganzen Scan bremsen.
-export const DEEP_LIMIT = 8;
-export const NEWS_LIMIT = 5;
-export const NEWS_RADAR_BATCH = 3;
+// Der PC-Superscanner deckt weiterhin das komplette Aktien-Master ab. Cloudflare
+// vertieft pro Minute nur die besten sechs Werte und rotiert weitere Kandidaten in
+// den Folgeminuten. Das spart externe Requests fuer News/Events/MTF, statt Quellen
+// wegen des Worker-Subrequest-Limits ausfallen zu lassen.
+export const DEEP_LIMIT = 6;
+export const NEWS_LIMIT = 3;
+export const NEWS_RADAR_BATCH = 2;
 
 // Das Live-Planspiel handelt ausschließlich Aktien.
 // ETFs und Hebelprodukte sind absichtlich aus dem aktiven Universum entfernt.
