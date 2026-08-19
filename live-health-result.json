@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T10:18:02.246434+00:00",
+  "checkedAt": "2026-08-19T10:18:44.251309+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -20,11 +20,11 @@
     "cleanLayout": true,
     "legacyUiDisabled": true,
     "profitOptimizer": true,
-    "opportunityCapture": true,
-    "dipFirstEntryPolicy": true,
+    "opportunityCapture": false,
+    "dipFirstEntryPolicy": false,
     "capitalDeploymentPolicy": true,
-    "secondChanceWatch": true,
-    "fastInfoProfile": true,
+    "secondChanceWatch": false,
+    "fastInfoProfile": false,
     "forwardScanner": true,
     "reboundScanner": false,
     "fallingKnifeProtection": true,
@@ -37,14 +37,18 @@
   },
   "allRequiredChecksPassed": false,
   "failedChecks": [
+    "opportunityCapture",
+    "dipFirstEntryPolicy",
+    "secondChanceWatch",
+    "fastInfoProfile",
     "reboundScanner",
     "pcWideSweep"
   ],
   "running": 1,
-  "scanCount": 41,
-  "lastScan": "2026-08-19T10:15:12.822Z",
+  "scanCount": 42,
+  "lastScan": "2026-08-19T10:18:20.485Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 8 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus  · DIP-FIRST: 1 teure/unbestaetigte Idee(n) gestoppt; kein Kauf – Cash wartet auf Dip.",
+  "aiLastSummary": "Deterministischer Ersatzplan · OUTER-FULL-CASH: 100% des verfügbaren Cashs auf 1 Aktien-BUY(s) verteilt. · Legacy-Cash-Failsafe: 1 · EARLY-DIP: 1 ungeeignete Idee(n) gestoppt; kein Kauf – aktuell kein kontrollierter Einstieg.",
   "cash": 10000,
   "equity": 10000,
   "pnl": 0,
@@ -54,92 +58,92 @@
   "candidates": 8,
   "topCandidates": [
     {
-      "symbol": "R3NK.DE",
-      "name": "RENK Group",
-      "score": 5.606538825757577,
-      "confidence": 0.7605,
-      "day_change": 3.591074881058076,
-      "news_score": 0.39924242424242423,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 67 konstruktiv · 20m +0.72% · News +0.4 · 2 Ereigniscluster",
-      "contra": ""
-    },
-    {
-      "symbol": "SAF.PA",
-      "name": "Safran",
-      "score": 3.9,
-      "confidence": 0.7308,
-      "day_change": 1.076180656042025,
+      "symbol": "ASELS.IS",
+      "name": "Aselsan",
+      "score": 4.25,
+      "confidence": 0.63,
+      "day_change": 3.0163934426229444,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 57 konstruktiv",
-      "contra": ""
-    },
-    {
-      "symbol": "ENR.DE",
-      "name": "Siemens Energy AG",
-      "score": 2.5,
-      "confidence": 0.6722,
-      "day_change": 0.19445283319592388,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21",
-      "contra": ""
-    },
-    {
-      "symbol": "LDO.MI",
-      "name": "Leonardo",
-      "score": 2.5,
-      "confidence": 0.53,
-      "day_change": 0.6930353191754834,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.38% · Momentum baut sich auf · Beschleunigung +0.32%",
       "contra": ""
     },
     {
       "symbol": "AIR.PA",
       "name": "Airbus",
-      "score": 2.4805004363636365,
-      "confidence": 0.6508100436363636,
-      "day_change": 0.8579628710751352,
+      "score": 3.4805004363636365,
+      "confidence": 0.7508100436363636,
+      "day_change": 0.8341291953087637,
       "news_score": -0.04611570247933884,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 56 konstruktiv",
+      "contra": ""
+    },
+    {
+      "symbol": "R3NK.DE",
+      "name": "RENK Group",
+      "score": 3.1565388257575755,
+      "confidence": 0.7261538825757576,
+      "day_change": 3.4110205595858423,
+      "news_score": 0.39924242424242423,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 66 konstruktiv · News +0.4 · 2 Ereigniscluster",
+      "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+    },
+    {
+      "symbol": "FCT.MI",
+      "name": "Fincantieri",
+      "score": 2.75,
+      "confidence": 0.555,
+      "day_change": 0.39619711801859303,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.52% · Momentum baut sich auf · Beschleunigung +0.08%",
+      "contra": "RSI 80 überhitzt"
+    },
+    {
+      "symbol": "KOG.OL",
+      "name": "Kongsberg Gruppen",
+      "score": 2.5,
+      "confidence": 0.53,
+      "day_change": 0.6760928406624567,
+      "news_score": 0,
       "event_risk": "NONE",
       "pro": "EMA9 über EMA21 · Kurs über EMA21",
       "contra": ""
     },
     {
-      "symbol": "ASELS.IS",
-      "name": "Aselsan",
-      "score": 2,
-      "confidence": 0.48000000000000004,
-      "day_change": 2.688524590163932,
+      "symbol": "SAF.PA",
+      "name": "Safran",
+      "score": 1.5,
+      "confidence": 0.43000000000000005,
+      "day_change": 1.0195446635602456,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "Kurs über EMA21 · RSI 54 konstruktiv · 5m +0.19%",
+      "pro": "EMA9 über EMA21",
+      "contra": "Kurs unter EMA21"
+    },
+    {
+      "symbol": "LDO.MI",
+      "name": "Leonardo",
+      "score": 1.1,
+      "confidence": 0.39,
+      "day_change": 0.6254205194335283,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21",
+      "contra": "Kurs unter EMA21"
+    },
+    {
+      "symbol": "SIE.DE",
+      "name": "Siemens Aktiengesellschaft",
+      "score": 0.8,
+      "confidence": 0.36000000000000004,
+      "day_change": 0.2538071065989911,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "Kurs über EMA21 · RSI 48 konstruktiv",
       "contra": "EMA-Trend schwach"
-    },
-    {
-      "symbol": "KOG.OL",
-      "name": "Kongsberg Gruppen",
-      "score": 1.8,
-      "confidence": 0.46,
-      "day_change": 0.7682833117653276,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.24%",
-      "contra": "RSI 93 überhitzt"
-    },
-    {
-      "symbol": "FCT.MI",
-      "name": "Fincantieri",
-      "score": 1,
-      "confidence": 0.38,
-      "day_change": 0.39619711801859303,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21",
-      "contra": "RSI 80 überhitzt"
     }
   ],
   "recentHistory": [
@@ -150,7 +154,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal R3NK.DE: Score 5.61, Konfidenz 76%.",
+      "reason": "Kein Trade. Bestes Signal ASELS.IS: Score 4.25, Konfidenz 63%.",
       "score": null
     },
     {
@@ -205,8 +209,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 538,
-      "updated_at": "2026-08-19T10:15:12.668Z"
+      "latency_ms": 573,
+      "updated_at": "2026-08-19T10:18:12.218Z"
     },
     {
       "source": "Yahoo FX",
@@ -214,8 +218,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 106,
-      "updated_at": "2026-08-19T10:15:12.668Z"
+      "latency_ms": 115,
+      "updated_at": "2026-08-19T10:18:12.218Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -223,8 +227,8 @@
       "ok_count": 8,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 98,
-      "updated_at": "2026-08-19T10:15:12.668Z"
+      "latency_ms": 252,
+      "updated_at": "2026-08-19T10:18:12.218Z"
     },
     {
       "source": "Yahoo Events",
@@ -232,8 +236,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 178,
-      "updated_at": "2026-08-19T10:15:12.668Z"
+      "latency_ms": 217,
+      "updated_at": "2026-08-19T10:18:12.218Z"
     },
     {
       "source": "Yahoo News",
@@ -241,17 +245,8 @@
       "ok_count": 8,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 465,
-      "updated_at": "2026-08-19T10:15:12.668Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 267,
-      "updated_at": "2026-08-19T10:15:12.668Z"
+      "latency_ms": 736,
+      "updated_at": "2026-08-19T10:18:12.218Z"
     },
     {
       "source": "BörsenNews",
@@ -259,8 +254,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 540,
-      "updated_at": "2026-08-19T10:15:12.668Z"
+      "latency_ms": 321,
+      "updated_at": "2026-08-19T10:18:12.218Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 377,
+      "updated_at": "2026-08-19T10:18:12.218Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -268,8 +272,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 927,
-      "updated_at": "2026-08-19T10:15:12.668Z"
+      "latency_ms": 956,
+      "updated_at": "2026-08-19T10:18:12.218Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -277,17 +281,26 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1034,
-      "updated_at": "2026-08-19T10:15:12.668Z"
+      "latency_ms": 1113,
+      "updated_at": "2026-08-19T10:18:12.218Z"
+    },
+    {
+      "source": "Early-Dip 1m",
+      "status": "DEGRADED",
+      "ok_count": 0,
+      "fail_count": 4,
+      "last_error": "1m-Kurs nicht frisch",
+      "latency_ms": null,
+      "updated_at": "2026-08-19T10:18:12.218Z"
     },
     {
       "source": "Second-Chance 1m",
       "status": "DEGRADED",
       "ok_count": 0,
-      "fail_count": 1,
+      "fail_count": 2,
       "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-19T10:15:12.668Z"
+      "updated_at": "2026-08-19T10:18:12.218Z"
     }
   ],
   "risk": {
@@ -332,24 +345,26 @@
     "peakChaseBlocked": true,
     "rotationCostAware": true,
     "dipFirst": true,
+    "earlyDipForesight": true,
     "fallingDipStarterAllowed": true,
     "nearHighBuyCapPct": 5,
     "fastInfoProfile": true
   },
   "fastInfoProfile": {
     "enabled": true,
-    "mode": "PARALLEL_EVIDENCE_FIRST",
-    "deepFinalists": 6,
+    "mode": "EARLY_DIP_PARALLEL_EVIDENCE",
+    "deepFinalists": 8,
     "deepChecksParallel": 6,
-    "newsFinalists": 4,
-    "newsRadarPerScan": 2,
-    "newsRequestsFitSingleParallelWave": true,
-    "secondChancePoolTarget": 16,
-    "secondChanceRecheckPerScan": 4,
-    "pcWideSweepTarget": 32,
-    "pcWideDipReserve": 20,
-    "reboundRadarTarget": 16,
-    "objective": "mehr frische Kurs-, Volumen-, Dip- und News-Evidenz je Scan bei moeglichst wenigen zusaetzlichen seriellen Wartezeiten"
+    "newsFinalists": 5,
+    "newsRadarPerScan": 3,
+    "newsRequestsFitSingleParallelWave": false,
+    "foresightDipRechecksPerScan": 8,
+    "secondChancePoolTarget": 24,
+    "secondChanceRecheckPerScan": 6,
+    "pcWideSweepTarget": 64,
+    "pcWideDipReserve": 44,
+    "reboundRadarTarget": 24,
+    "objective": "breitere Discovery plus eigener 1m-Early-Dip-Pfad: Chancen sollen vor dem offensichtlichen Rebound sichtbar werden, nicht erst nachdem sie hochgelaufen sind"
   },
   "forwardScan": {
     "enabled": true,
@@ -414,7 +429,7 @@
     "enabled": true,
     "target": 64,
     "candidateCount": 0,
-    "updatedAt": "2026-08-19T10:17:08.593Z",
+    "updatedAt": "2026-08-19T10:18:08.749Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "profile": "STANDARD_WIDE_SWEEP",
@@ -446,15 +461,15 @@
   },
   "secondChanceWatch": {
     "enabled": true,
-    "target": 16,
-    "candidateCount": 3,
-    "updatedAt": "2026-08-19T10:15:12.822Z",
+    "target": 24,
+    "candidateCount": 2,
+    "updatedAt": "2026-08-19T10:18:20.561Z",
     "fresh": true,
-    "retentionMinutes": 12,
-    "recheckPerScan": 4,
+    "retentionMinutes": 15,
+    "recheckPerScan": 6,
     "requiresFreshOneMinuteRecheck": true,
     "forcedBuy": false,
-    "mode": "Bis zu 16 starke Deep-Kandidaten bleiben im Heisspool; bis zu vier koennen pro Scan parallel einen frischen 1m-Zweitcheck erhalten. Kein Kandidat erzwingt einen Kauf."
+    "mode": "Bis zu 24 fast passende Kandidaten bleiben 15 Minuten im Heisspool; bis zu sechs erhalten pro Scan parallel einen frischen 1m-Zweitcheck."
   },
   "targetVenueSanity": {
     "enabled": true,
@@ -482,10 +497,10 @@
     "legacyFullCashFailsafe": true,
     "secondChanceCapture": true,
     "secondChanceProbeMaxPct": 28,
-    "deepFinalists": 6,
+    "deepFinalists": 8,
     "note": "Capital-in-Motion Paper-Modus mit Pullback-First, kostenbewusster Rotation und Tages-Replay-Lernen. Der Replay kann abends lokal auf dem PC gerechnet und bei Bedarf am Folgemorgen synchronisiert werden. Die gespeicherten Timing-Learnings treffen dann auf den frisch aktualisierten News-/Forward-Radar. Keine Gewinngarantie.",
     "reboundRadar": true,
-    "reboundRadarTarget": 16,
+    "reboundRadarTarget": 24,
     "fallingKnifeProtection": true,
     "reboundLearning": true,
     "earlyBreakoutDiscovery": true,
@@ -498,7 +513,7 @@
     "fullMasterCoverageTracked": true,
     "hybridFastWideRadar": false,
     "strongCandidateRetentionMinutes": 12,
-    "secondChanceRecheckPerScan": 4,
+    "secondChanceRecheckPerScan": 6,
     "bestQualifiedEntry": true,
     "bestQualifiedMinExpected": 4.7,
     "secondChanceMinExpected": 5.7,
@@ -534,18 +549,22 @@
     "freshPositionChurnShield": true,
     "normalRotationMinAgeMinutes": 30,
     "zeroCashBuySuppression": true,
-    "deepNewsFinalists": 4,
-    "secondChancePoolTarget": 16,
-    "pcWideSweepTarget": 32,
-    "pcWideDipReserve": 20,
+    "deepNewsFinalists": 5,
+    "foresightDipRechecksPerScan": 8,
+    "secondChancePoolTarget": 24,
+    "pcWideSweepTarget": 64,
+    "pcWideDipReserve": 44,
     "pcWideSweepMaxAgeSeconds": 90,
     "keylessMultiSource": true,
     "fastInfoProfile": true,
     "dipFirst": true,
+    "earlyDipForesight": true,
     "fallingDipStarterAllowed": true,
-    "dipStarterMaxPct": 18,
-    "deepDipStarterMaxPct": 14,
+    "dipStarterMaxPct": 20,
+    "deepDipStarterMaxPct": 16,
     "dipReboundMaxPct": 30,
+    "foresightStarterMaxPct": 12,
+    "foresightReboundMaxPct": 18,
     "cashMayRemainForBetterEntry": true
   },
   "entryTimingLearning": {
@@ -728,7 +747,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T10:16:12.822Z",
+    "nextScanAt": "2026-08-19T10:19:20.485Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -749,17 +768,17 @@
     "pcAgentPrefetchFresh": true,
     "forwardLookingPool": true,
     "forwardPoolTarget": 15,
-    "deepFinalists": 6,
+    "deepFinalists": 8,
     "secondChanceCapture": true,
     "reboundPoolTarget": 24,
     "reboundPoolCandidates": 6,
     "earlyBreakoutPoolTarget": 12,
     "earlyBreakoutPoolCandidates": 6,
     "pcWideSweep": true,
-    "pcWideSweepTarget": 32,
+    "pcWideSweepTarget": 64,
     "secondChanceWatch": true,
-    "secondChanceRetentionMinutes": 12,
-    "secondChanceRecheckPerScan": 4,
+    "secondChanceRetentionMinutes": 15,
+    "secondChanceRecheckPerScan": 6,
     "bestQualifiedEntry": true,
     "capitalInMotion": true,
     "alwaysInvested": true,
@@ -770,21 +789,23 @@
     "pcOfflineReplaySync": true,
     "nextMorningFreshNewsMerge": true,
     "rotationCostAware": true,
-    "secondChancePoolTarget": 16,
-    "pcWideDipReserve": 20,
+    "secondChancePoolTarget": 24,
+    "pcWideDipReserve": 44,
     "pcWideSweepMaxAgeSeconds": 90,
-    "reboundRadarTarget": 16,
-    "deepNewsFinalists": 4,
+    "reboundRadarTarget": 24,
+    "deepNewsFinalists": 5,
+    "foresightDipRechecksPerScan": 8,
     "keylessMultiSource": true,
     "fastInfoProfile": true,
     "dipFirst": true,
+    "earlyDipForesight": true,
     "cashMayRemainForBetterEntry": true
   },
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T10:17:08.593Z",
-    "ageSeconds": 53,
+    "lastSeenAt": "2026-08-19T10:18:08.749Z",
+    "ageSeconds": 35,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-19T10:16:16.193Z",
     "resolvedLeaderCount": 6,
@@ -797,20 +818,20 @@
     "wideSweepMasterCount": 8530,
     "wideSweepScannedCount": 656,
     "metrics": {
-      "lastSeenAt": "2026-08-19T10:17:08.593Z",
+      "lastSeenAt": "2026-08-19T10:18:08.749Z",
       "version": "2.0.13-csharp-keyless-multisou",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 10722061,
+      "storageBytes": 10726075,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
       "ramMb": 54,
-      "downloadedBytes": 80083130,
-      "uploadedBytes": 406250,
+      "downloadedBytes": 80193910,
+      "uploadedBytes": 408349,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_KEYLESS_MULTISOURCE_LOW_L",
       "lastLocalCleanupAt": "2026-08-19T10:16:44.1326952Z",
-      "lastError": "Der Remoteserver hat einen Fehler zurückgegeben: (500) Interner Serverfehler."
+      "lastError": null
     }
   }
 }
