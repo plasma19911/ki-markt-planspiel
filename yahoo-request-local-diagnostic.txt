@@ -1,6 +1,6 @@
 === APPLY ===
 Traceback (most recent call last):
-  File "/home/runner/work/ki-markt-planspiel/ki-markt-planspiel/scripts/apply-yahoo-request-local.py", line 37, in <module>
+  File "/home/runner/work/ki-markt-planspiel/ki-markt-planspiel/scripts/apply-yahoo-request-local.py", line 38, in <module>
     s,n=session_re.subn(session_new,s,count=1)
         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "/usr/lib/python3.12/re/__init__.py", line 334, in _compile_template
@@ -12,7 +12,7 @@ re.error: bad escape \s at position 574 (line 9, column 41)
 apply_rc=1
 === NPM ===
 
-added 38 packages, and audited 39 packages in 6s
+added 38 packages, and audited 39 packages in 8s
 
 7 packages are looking for funding
   run `npm fund` for details
