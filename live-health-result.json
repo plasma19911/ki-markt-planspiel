@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T06:43:58.578400+00:00",
+  "checkedAt": "2026-08-19T06:45:51.346274+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -20,34 +20,30 @@
     "cleanLayout": true,
     "legacyUiDisabled": true,
     "profitOptimizer": true,
-    "opportunityCapture": false,
+    "opportunityCapture": true,
     "capitalInMotion": true,
     "capitalDeploymentPolicy": true,
-    "secondChanceWatch": false,
+    "secondChanceWatch": true,
     "forwardScanner": true,
     "reboundScanner": true,
     "fallingKnifeProtection": true,
     "earlyBreakoutScanner": true,
     "earlyBreakoutGuard": true,
-    "pcWideSweep": false,
+    "pcWideSweep": true,
     "targetVenueSanity": true,
     "entryTimingLearning": true,
     "legacyFullCashFailsafe": true
   },
-  "allRequiredChecksPassed": false,
-  "failedChecks": [
-    "opportunityCapture",
-    "secondChanceWatch",
-    "pcWideSweep"
-  ],
+  "allRequiredChecksPassed": true,
+  "failedChecks": [],
   "running": 1,
-  "scanCount": 420,
-  "lastScan": "2026-08-19T06:43:19.030Z",
+  "scanCount": 421,
+  "lastScan": "2026-08-19T06:45:10.751Z",
   "lastError": null,
-  "aiLastSummary": "Deterministischer Ersatzplan · OUTER-FULL-CASH: 100% des verfügbaren Cashs auf 1 Aktien-BUY(s) verteilt. · Legacy-Cash-Failsafe: 1 Zwangskauf/-käufe blockiert, 0 Alt · PU · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 5 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 1 aktive Gap-Lagen aus 1/12 möglichen Checks. Beste HOLD · PU · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
   "cash": 70.9742752193663,
-  "equity": 940.0148575968789,
-  "pnl": -59.98514240312113,
+  "equity": 939.9504747895157,
+  "pnl": -60.04952521048426,
   "universeCount": 172,
   "positions": 5,
   "positionRows": [
@@ -104,7 +100,7 @@
       "invested": 57.791787,
       "entry_fee": 2,
       "entry_price": 1481.9805,
-      "last_price": 1476.4000244140625,
+      "last_price": 1475.300048828125,
       "entry_fx": 0.009,
       "last_fx": 0.009,
       "currency": "INR",
@@ -126,13 +122,13 @@
       "invested": 56.795257,
       "entry_fee": 2,
       "entry_price": 112.51240152740478,
-      "last_price": 112.4000015258789,
+      "last_price": 112.30000305175781,
       "entry_fx": 0.1099,
       "last_fx": 0.1099,
       "currency": "HKD",
       "opened_at": "2026-08-19T06:33:22.411Z",
-      "score": 1.4,
-      "signal_confidence": 0.42000000000000004,
+      "score": 2.5,
+      "signal_confidence": 0.53,
       "zero_quantity": 4.593185485496364,
       "zero_whole_shares": 4,
       "zero_fractional_shares": 0.5931854854963641,
@@ -148,7 +144,7 @@
       "invested": 36.216917,
       "entry_fee": 2,
       "entry_price": 124.92480305480956,
-      "last_price": 124.80000305175781,
+      "last_price": 124.9000015258789,
       "entry_fx": 0.1099,
       "last_fx": 0.1099,
       "currency": "HKD",
@@ -169,51 +165,51 @@
       "name": "Alibaba Hong Kong",
       "score": 3,
       "confidence": 0.5800000000000001,
-      "day_change": -1.4996029583600579,
+      "day_change": -1.420677564420758,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 63 konstruktiv",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 59 konstruktiv",
       "contra": ""
     },
     {
       "symbol": "9618.HK",
       "name": "JD.com Hong Kong",
-      "score": 1.4,
-      "confidence": 0.42000000000000004,
-      "day_change": 1.2612626359269408,
+      "score": 2.5,
+      "confidence": 0.53,
+      "day_change": 1.171173920502544,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21",
-      "contra": "RSI 80 überhitzt"
-    },
-    {
-      "symbol": "3690.HK",
-      "name": "Meituan",
-      "score": -0.478519619047619,
-      "confidence": 0.41173196190476197,
-      "day_change": 2.454706634574988,
-      "news_score": 0.28809523809523807,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 62 konstruktiv · News +0.3 · 2 Ereigniscluster",
-      "contra": "Kurs unter EMA21 · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "pro": "EMA9 über EMA21 · RSI 50 konstruktiv",
+      "contra": "Kurs unter EMA21"
     },
     {
       "symbol": "DATAPATTNS.NS",
       "name": "Data Patterns India",
-      "score": -1.6,
-      "confidence": 0.44000000000000006,
-      "day_change": -0.23853959419593007,
+      "score": -0.6000000000000001,
+      "confidence": 0.34,
+      "day_change": -0.17309803259308865,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "",
+      "pro": "RSI 50 konstruktiv",
       "contra": "EMA-Trend schwach · Kurs unter EMA21"
+    },
+    {
+      "symbol": "3690.HK",
+      "name": "Meituan",
+      "score": -1.4500000000000002,
+      "confidence": 0.42500000000000004,
+      "day_change": 2.396257713759309,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "RSI 50 konstruktiv",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     },
     {
       "symbol": "COCHINSHIP.NS",
       "name": "Cochin Shipyard Limited",
       "score": -1.6,
       "confidence": 0.44000000000000006,
-      "day_change": -0.5858174928245474,
+      "day_change": -0.6598849351474589,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
@@ -447,8 +443,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 21,
-      "updated_at": "2026-08-19T06:43:11.971Z"
+      "latency_ms": 35,
+      "updated_at": "2026-08-19T06:45:10.043Z"
     },
     {
       "source": "Yahoo FX",
@@ -456,8 +452,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 14,
-      "updated_at": "2026-08-19T06:43:11.971Z"
+      "latency_ms": 125,
+      "updated_at": "2026-08-19T06:45:10.043Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -465,8 +461,8 @@
       "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 138,
-      "updated_at": "2026-08-19T06:43:11.971Z"
+      "latency_ms": 130,
+      "updated_at": "2026-08-19T06:45:10.043Z"
     },
     {
       "source": "Yahoo Events",
@@ -474,8 +470,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 245,
-      "updated_at": "2026-08-19T06:43:11.971Z"
+      "latency_ms": 232,
+      "updated_at": "2026-08-19T06:45:10.043Z"
     },
     {
       "source": "Yahoo News",
@@ -483,17 +479,8 @@
       "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 752,
-      "updated_at": "2026-08-19T06:43:11.971Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 267,
-      "updated_at": "2026-08-19T06:43:11.971Z"
+      "latency_ms": 935,
+      "updated_at": "2026-08-19T06:45:10.043Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -501,8 +488,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 293,
-      "updated_at": "2026-08-19T06:43:11.971Z"
+      "latency_ms": 286,
+      "updated_at": "2026-08-19T06:45:10.043Z"
     },
     {
       "source": "BörsenNews",
@@ -510,8 +497,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 355,
-      "updated_at": "2026-08-19T06:43:11.971Z"
+      "latency_ms": 344,
+      "updated_at": "2026-08-19T06:45:10.043Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1006,
+      "updated_at": "2026-08-19T06:45:10.043Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -519,13 +515,13 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 624,
-      "updated_at": "2026-08-19T06:43:11.971Z"
+      "latency_ms": 1020,
+      "updated_at": "2026-08-19T06:45:10.043Z"
     }
   ],
   "risk": {
-    "equity": 940.0148575968789,
-    "dailyPct": -2.195160105667937,
+    "equity": 939.9504747895157,
+    "dailyPct": -2.2018588829427865,
     "availableCash": 70.9742752193663,
     "hardLimits": false,
     "budgetOnly": true,
@@ -617,7 +613,7 @@
     "enabled": true,
     "target": 24,
     "candidateCount": 0,
-    "updatedAt": "2026-08-19T06:43:10.124Z",
+    "updatedAt": "2026-08-19T06:45:07.482Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8530,
@@ -645,7 +641,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 1,
-    "updatedAt": "2026-08-19T06:43:19.030Z",
+    "updatedAt": "2026-08-19T06:45:10.977Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 4,
@@ -915,7 +911,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T06:44:19.030Z",
+    "nextScanAt": "2026-08-19T06:46:10.751Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -963,8 +959,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T06:43:10.124Z",
-    "ageSeconds": 48,
+    "lastSeenAt": "2026-08-19T06:45:07.482Z",
+    "ageSeconds": 43,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-19T06:43:09.759Z",
     "resolvedLeaderCount": 16,
@@ -977,16 +973,16 @@
     "wideSweepMasterCount": 8530,
     "wideSweepScannedCount": 520,
     "metrics": {
-      "lastSeenAt": "2026-08-19T06:43:10.124Z",
+      "lastSeenAt": "2026-08-19T06:45:07.482Z",
       "version": "2.0.12-csharp-full-master-24mi",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 6415757,
+      "storageBytes": 6428699,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 87,
-      "downloadedBytes": 47125729,
-      "uploadedBytes": 282771,
+      "ramMb": 89.1,
+      "downloadedBytes": 47418108,
+      "uploadedBytes": 294536,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_FULL_MASTER_24MIN",
       "lastLocalCleanupAt": "2026-08-19T06:22:51.3671096Z",
