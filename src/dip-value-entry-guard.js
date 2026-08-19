@@ -8,6 +8,7 @@ import {targetVenueIssue} from './target-venue-ai-guard.js';
 
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
+const firstNum=(...v)=>{for(const x of v)if(Number.isFinite(Number(x)))return Number(x);return 0};
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
 const key=x=>String(x?.symbol||x||'').toUpperCase();
 const responseText=r=>String(r?.response||r?.result?.response||'');
@@ -19,10 +20,16 @@ function promptCash(text){const m=String(text||'').match(/\bCash\s+([0-9]+(?:[.,
 function isRotationSell(a={}){return String(a?.action||'').toUpperCase()==='SELL'&&/(?:CAPITAL-MOTION-ROTATION|OPPORTUNITY-COST-ROTATION)/i.test(String(a?.reason||''))}
 
 function metrics(c={}){
- const score=num(c?.liveScore,c?.score),confidence=num(c?.liveConfidence,c?.confidence),news=num(c?.newsScore,c?.news_score??c?.news),day=num(c?.day,c?.day_change),m5=num(c?.intraday5m,c?.momentum5),m20=num(c?.intraday20m,c?.momentum20),accel=num(c?.momentumAcceleration5,c?.momentum_acceleration5),rsi=num(c?.intradayRsi,c?.rsi||50),rawDraw=c?.drawdownFrom20mHighPct??c?.drawdown_from_20m_high_pct,drawKnown=Number.isFinite(Number(rawDraw)),draw=drawKnown?Number(rawDraw):null,event=String(c?.eventRisk||c?.event_risk||'NONE').toUpperCase(),state=String(c?.momentumState||c?.momentum_state||'NORMAL').toUpperCase(),sell=String(c?.momentumSellSignal||c?.momentum_sell_signal||'NONE').toUpperCase();
+ const score=firstNum(c?.liveScore,c?.score),confidence=firstNum(c?.liveConfidence,c?.confidence),news=firstNum(c?.newsScore,c?.news_score,c?.news),day=firstNum(c?.day,c?.day_change,c?.pcWideSessionPct),m5=firstNum(c?.intraday5m,c?.momentum5,c?.pcWideM5Pct),m20=firstNum(c?.intraday20m,c?.momentum20,c?.pcWideM20Pct),accel=firstNum(c?.momentumAcceleration5,c?.momentum_acceleration5,c?.pcWideAccelerationPct),rsi=firstNum(c?.intradayRsi,c?.rsi,50),rawDraw=c?.drawdownFrom20mHighPct??c?.drawdown_from_20m_high_pct,drawKnown=Number.isFinite(Number(rawDraw)),draw=drawKnown?Number(rawDraw):null,event=String(c?.eventRisk||c?.event_risk||'NONE').toUpperCase(),state=String(c?.momentumState||c?.momentum_state||'NORMAL').toUpperCase(),sell=String(c?.momentumSellSignal||c?.momentum_sell_signal||'NONE').toUpperCase();
  const hardSafe=event!=='HIGH'&&sell!=='STRONG'&&!['REVERSAL','EXHAUSTION'].includes(state)&&!targetVenueIssue(c);
- const quality=(score>=4.10&&confidence>=.62)||(score>=3.70&&confidence>=.70)||(score>=3.55&&confidence>=.66&&news>=.28);
- return{score,confidence,news,day,m5,m20,accel,rsi,drawKnown,draw,event,state,sell,hardSafe,quality};
+ const regularQuality=(score>=4.10&&confidence>=.62)||(score>=3.70&&confidence>=.70)||(score>=3.55&&confidence>=.66&&news>=.28);
+ // Der Breitscan bewertet Ruecksetzer anders als Gewinner: ein fallender Wert muss
+ // nicht erst wieder einen Momentum-Score >4 erreichen. Er braucht aber einen
+ // kontrollierten Tagesverlust, gebremstes 5m/20m-Tape und positive Beschleunigung.
+ const wideDipDiscovery=Boolean(c?.pcWideSweep)&&day<=-.70&&day>=-10&&m5>=-.80&&m5<=.15&&m20>=-3&&m20<=.20&&accel>=.015;
+ const dipQuality=wideDipDiscovery&&((score>=2.60&&confidence>=.58)||(score>=2.25&&confidence>=.62&&news>=-.05));
+ const quality=regularQuality||dipQuality;
+ return{score,confidence,news,day,m5,m20,accel,rsi,drawKnown,draw,event,state,sell,hardSafe,quality,regularQuality,dipQuality,wideDipDiscovery};
 }
 
 export function assessDipValueEntry(c={}){
@@ -42,7 +49,7 @@ export function assessDipValueEntry(c={}){
  const mode=rebound?'DIP_REBOUND':dipStarter?(deepDip?'DEEP_DIP_STARTER':'DIP_STARTER'):unknownValue?'VALUE_STARTER':exceptionalBreakout?'EXCEPTIONAL_BREAKOUT':'WAIT_FOR_VALUE';
  const allow=rebound||dipStarter||unknownValue||exceptionalBreakout;
  const cap=rebound?28:dipStarter?(deepDip?12:16):unknownValue?10:exceptionalBreakout?8:0;
- const valueScore=x.score*1.15+x.confidence*2+x.news*.20+(inDip?Math.min(2.5,Math.abs(x.draw))*.42:0)+(x.accel>0?Math.min(.25,x.accel)*1.6:0)-(nearHigh?1.35:0)-(x.day>1?Math.min(6,x.day-1)*.28:0);
+ const valueScore=x.score*1.15+x.confidence*2+x.news*.20+(x.wideDipDiscovery?.85:0)+(inDip?Math.min(2.5,Math.abs(x.draw))*.42:0)+(x.accel>0?Math.min(.25,x.accel)*1.6:0)-(nearHigh?1.35:0)-(x.day>1?Math.min(6,x.day-1)*.28:0);
  const blockers=[];
  if(!x.hardSafe)blockers.push('harte Safety');
  if(!x.quality)blockers.push('Qualitaet/Konfidenz');
@@ -56,9 +63,10 @@ export function assessDipValueEntry(c={}){
 }
 
 function reasonFor(q){
- if(q.mode==='DIP_REBOUND')return `Ruecksetzer ${q.draw?.toFixed(2)}% vom 20m-Hoch stabilisiert sich; 5m ${q.m5>=0?'+':''}${q.m5.toFixed(2)}%, Beschl. ${q.accel>=0?'+':''}${q.accel.toFixed(2)}`;
- if(q.mode==='DEEP_DIP_STARTER'||q.mode==='DIP_STARTER')return `Kurs noch im Ruecksetzer (${q.draw?.toFixed(2)}% vom 20m-Hoch), aber Fall bremst: 5m ${q.m5.toFixed(2)}%, Beschl. +${q.accel.toFixed(2)}`;
- if(q.mode==='VALUE_STARTER')return `Aktie heute nicht hochgelaufen; kurzfristiger Abwaertsdruck bremst, kleine Value-Starterposition`;
+ const src=q.wideDipDiscovery?'Breitscan-Dip · ':'';
+ if(q.mode==='DIP_REBOUND')return `${src}Ruecksetzer ${q.draw?.toFixed(2)}% vom 20m-Hoch stabilisiert sich; 5m ${q.m5>=0?'+':''}${q.m5.toFixed(2)}%, Beschl. ${q.accel>=0?'+':''}${q.accel.toFixed(2)}`;
+ if(q.mode==='DEEP_DIP_STARTER'||q.mode==='DIP_STARTER')return `${src}Kurs noch im Ruecksetzer (${q.draw?.toFixed(2)}% vom 20m-Hoch), aber Fall bremst: 5m ${q.m5.toFixed(2)}%, Beschl. +${q.accel.toFixed(2)}`;
+ if(q.mode==='VALUE_STARTER')return `${src}Aktie heute nicht hochgelaufen; kurzfristiger Abwaertsdruck bremst, kleine Value-Starterposition`;
  if(q.mode==='EXCEPTIONAL_BREAKOUT')return `Ausnahme-Breakout nur als Mini-Starter; nicht hinterherlaufen`;
  return q.blockers.join(' · ')||'kein guenstiger Einstieg';
 }
