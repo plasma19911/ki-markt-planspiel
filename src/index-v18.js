@@ -3,6 +3,7 @@ import base,{MarketPortfolio} from './index.js';
 import './intelligence-request-cache.js';
 import {gettexSessionState} from './gettex-session.js';
 import {positionChartHistoryData} from './position-chart-history.js';
+import {RECOVERY_20260819} from './recovery-20260819.js';
 export {MarketPortfolio};
 
 const portfolio=env=>env.PORTFOLIO.getByName('default-paper-portfolio');
@@ -22,11 +23,12 @@ function noStoreCritical(request,response){
 
 const json=(x,status=200)=>Response.json(x,{status,headers:{'cache-control':'no-store'}});
 
-// Kostenfreier Browser-CSRF-Schutz fuer zustandsaendernde UI-Endpunkte.
-// Die eigene Weboberflaeche darf ohne zusaetzliches Passwort/Steuer-Secret arbeiten.
-// /api/agent/* bleibt separat ueber PC_AGENT_TOKEN geschuetzt; Order-Freigaben
-// behalten ihre bestehende Cloudflare-Access-Pruefung.
+// Passwortlose Browser-Sicherheit: normale Steuerung aus der eigenen UI bleibt frei.
+// Fremde Cross-Site-Browseraufrufe werden blockiert. Start/Reset sind zusaetzlich
+// destruktiv und akzeptieren ohne Passwort nur echte Same-Origin-Browser-Metadaten;
+// fuer bewusstes CLI gibt es den expliziten, nicht geheimen Bestätigungsheader.
 const GUARDED_PATHS=new Set(['/api/start','/api/stop','/api/reset','/api/scan','/api/migrate-from-old-sql']);
+const DESTRUCTIVE_PATHS=new Set(['/api/start','/api/reset']);
 function needsGuard(url,method){return method==='POST'&&GUARDED_PATHS.has(url.pathname)}
 function browserOriginAllowed(request,url){
  const site=String(request.headers.get('sec-fetch-site')||'').toLowerCase();
@@ -37,20 +39,30 @@ function browserOriginAllowed(request,url){
  if(referer){try{if(new URL(referer).origin!==url.origin)return false}catch{return false}}
  return true;
 }
+function destructiveConfirmed(request,url){
+ if(!DESTRUCTIVE_PATHS.has(url.pathname)||request.method!=='POST')return true;
+ const site=String(request.headers.get('sec-fetch-site')||'').toLowerCase();
+ if(site==='same-origin')return true;
+ return String(request.headers.get('x-planspiel-confirm')||'').toLowerCase()==='replace';
+}
 function controlGuard(request,url){
  if(!needsGuard(url,request.method))return null;
- if(!browserOriginAllowed(request,url))
-  return json({error:'Diese Steueraktion wurde als Cross-Site-Anfrage blockiert.',controlAuth:false},403);
+ if(!browserOriginAllowed(request,url))return json({error:'Diese Steueraktion wurde als Cross-Site-Anfrage blockiert.',controlAuth:false},403);
+ if(!destructiveConfirmed(request,url))return json({error:'Start/Reset braucht eine ausdrückliche lokale Bestätigung.',destructiveConfirmationRequired:true},409);
  return null;
 }
 
-// Production wrapper: API/scan behavior stays in index.js. The trade-chart endpoint
-// is intercepted here so closed positions keep a full historical buy/sell window.
-// HTML and the small critical dashboard-guard asset are never cached so phone/PWA
-// browsers cannot keep an obsolete depot/replay renderer.
 export default{
  async fetch(request,env,ctx){
   const url=new URL(request.url);
+  // EINMALIGE Wiederherstellung des letzten sicheren Health-Snapshots vor dem
+  // versehentlichen Neustart. Der Endpunkt/Import werden nach erfolgreichem Restore
+  // sofort wieder aus dem Repository entfernt.
+  if(url.pathname==='/api/recover-20260819-health-snapshot'&&request.method==='POST'){
+   if(String(request.headers.get('x-recovery-key')||'')!=='20260819-health-snapshot')return json({error:'Recovery nicht autorisiert.'},403);
+   const p=portfolio(env),before=await p.status(),result=await p.importLegacy(RECOVERY_20260819),after=await p.status();
+   return json({ok:true,result,before:{cash:before?.config?.cash,equity:before?.equity,positions:before?.positions?.length},after:{cash:after?.config?.cash,equity:after?.equity,positions:after?.positions?.length}});
+  }
   const blocked=controlGuard(request,url);
   if(blocked)return blocked;
   if(url.pathname==='/api/position-chart'&&request.method==='GET'){
@@ -65,16 +77,9 @@ export default{
  async scheduled(controller,env,ctx){
   await base.scheduled?.(controller,env,ctx);
   const when=new Date(Number(controller?.scheduledTime)||Date.now()),session=gettexSessionState(when),p=portfolio(env);
-  // Ab 22:05 ist die regulaere US-Session beendet. Wenn der PC-Agent online ist,
-  // laeuft ohnehin kein Cloudflare-Markt-Fallback; diese freien Cron-Slots bauen
-  // bereits einen heutigen vorlaeufigen Replay auf. So ist die Tagesauswertung am
-  // selben Abend sichtbar statt erst eine Stunde spaeter.
   if(session.isTradingDay&&session.localMinute>=22*60+5&&session.localMinute<=22*60+55){
    ctx.waitUntil((async()=>{const agent=await p.agentStatus();if(agent?.online)await p.dailyReplay(8)})().catch(e=>console.error('Preliminary day replay batch failed',e)));
   }
-  // Nach Ende des gettex-Fensters wird der Report einmal aus dem finalen Capture
-  // neu aufgebaut. Spaete Trades/Kandidaten zwischen 22:05 und 23:00 gehen dadurch
-  // nicht verloren; weitere 5-Minuten-Crons arbeiten denselben finalen Report ab.
   if(session.isTradingDay&&session.localMinute>=23*60+5&&session.localMinute<=23*60+55){
    ctx.waitUntil(p.finalDayReplay(8).catch(e=>console.error('Final day replay batch failed',e)));
   }
