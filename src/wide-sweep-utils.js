@@ -1,9 +1,9 @@
 export const WIDE_SWEEP_TARGET=64;
 export const WIDE_SWEEP_DIP_RESERVE=44;
-// Discovery darf so lange leben, bis der langsame Vollzyklus einmal herum ist.
-// Das ist KEIN Kaufalter: jeder echte Einstieg wird danach nochmals mit frischen
-// 1m-Daten bestaetigt. Dadurch verschwinden gute Tail-Funde nicht nach 90 Sekunden.
-export const WIDE_SWEEP_TTL_MS=18*60*1000;
+// Discovery darf nicht so lange leben, dass ein alter Tail-Fund mehrfach teure
+// Deep-Slots verbraucht. Acht Minuten reichen fuer den rotierenden Vollscan; ein
+// echter Einstieg wird danach ohnehin nochmals mit frischen 1m-Daten bestaetigt.
+export const WIDE_SWEEP_TTL_MS=8*60*1000;
 
 const arr=v=>Array.isArray(v)?v:[];
 const key=v=>String(v||'').toUpperCase().trim();
@@ -43,8 +43,8 @@ export function normalizeWideSweepEntries(input,now=Date.now()){
   if(clearlyNewer||betterSameTime)bySymbol.set(symbol,row);
  }
  const all=[...bySymbol.values()];
- // Alter ist nur Discovery-Penalty. Ein 12-Minuten-alter starker Tail-Fund darf
- // weiterhin zur frischen 1m-Pruefung antreten, wird aber gegen neue Funde abgestuft.
+ // Alter bleibt zusaetzlich ein Ranking-Penalty innerhalb des erlaubten 8-Minuten-
+ // Fensters, damit frische Funde bei gleicher Qualitaet zuerst geprueft werden.
  const dipRank=x=>x.dipDiscoveryScore-Math.min(3,x.ageSeconds/240);
  const momRank=x=>x.wideScore-Math.min(4,x.ageSeconds/300);
  const dips=all.filter(x=>x.dipDiscovery).sort((a,b)=>dipRank(b)-dipRank(a)||b.accelerationPct-a.accelerationPct||b.wideScore-a.wideScore);
