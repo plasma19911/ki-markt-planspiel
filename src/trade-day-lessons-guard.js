@@ -24,6 +24,7 @@ function flowFromReason(reason=''){
 }
 function missingMtf(reason=''){return/(?:MULTI-TIMEFRAME SOFT-DATA|Tageschart\s*\?,\s*keine Daten|Wochenchart\s*\?,\s*keine Daten|Tages-\/Wochenchart unvollständig|6mo\/1d HTTP 429|2y\/1wk HTTP 429)/i.test(String(reason))}
 function hasFullMtf(reason=''){return/MULTI-TIMEFRAME V1\.3:/i.test(String(reason))}
+function hasReviewedSoftMtf(reason=''){return/MULTI-TIMEFRAME (?:SOFT-DATA|BREAKOUT-STARTER|CONTRARIAN-STARTER)/i.test(String(reason))}
 function hardEvent(reason='',x={}){return x.event==='HIGH'||/(?:EVENT[- ]?RISK|NOTAUSSTIEG|STOP[- ]?LOSS|REGULATORY_REJECTION|SEVERE_NEGATIVE|DILUTION_FINANCING)/i.test(String(reason))}
 function latestTrade(state,symbol){const rows=arr(state?.history||state?.recentHistory).filter(x=>key(x)===symbol&&['BUY','KAUF','SELL','VERKAUF'].includes(String(x?.action||'').toUpperCase()));if(!rows.length)return null;return rows.sort((a,b)=>Date.parse(b?.ts||0)-Date.parse(a?.ts||0))[0]||null}
 function hold(symbol,confidence,reason){return{symbol,action:'HOLD',confidence:clamp(confidence,.58,.88),allocation_pct:0,reason}}
@@ -37,16 +38,17 @@ function buyDecision(a,c,state){
  // diese Luecke hatte die verlustreichen -0,27 bis -0,50%-Auto-Dips durchgelassen.
  const microDip=d!==null&&d>-.70;
  const highChase=(day!==null&&day>=8&&(d===null||d>-2))||(day!==null&&day>=5&&m20!==null&&m20>.8&&(d===null||d>-1.25))||(day!==null&&day>=3&&m20!==null&&m20>1.2&&(d===null||d>-.8));
- const mtfMissing=missingMtf(r),mtfConfirmed=hasFullMtf(r);
+ const mtfMissing=missingMtf(r),mtfConfirmed=hasFullMtf(r),mtfSoftReviewed=hasReviewedSoftMtf(r),mtfReviewed=mtfConfirmed||mtfSoftReviewed;
  const weakScore=score!==null&&score<3.5;
  // Auf bereits deutlich roten Tagen braucht ein Rebound einen tieferen echten Retest.
  // Sonst kauft die Logik nur knapp unter dem lokalen Hoch in einen noch schwachen Tag.
  const redDayShallow=day!==null&&d!==null&&((day<=-4&&d>-1.35)||(day<=-2&&d>-1.05));
- // Fehlender Tages-/Wochenkontext ist bei Auto-Dips kein Sizing-Problem mehr, sondern
- // eine Entry-Frage. Nur ein substanzieller Dip mit klarer kurzfristiger Erholung darf
- // trotz Soft-Data als kleiner Starter weiterlaufen.
+ // Fehlender Tages-/Wochenkontext bleibt vorsichtig. Wenn der eigentliche MTF-Guard
+ // den BUY aber bereits nach frischem 1m-Kaeuferflow bewusst zu einem kleinen
+ // SOFT-DATA/CONTRARIAN/BREAKOUT-Starter verkleinert hat, darf die aeussere
+ // Tagespruefung ihn nicht erneut als ungeprueften MTF-BUY auf Null setzen.
  const mtfFallbackStrong=mtfMissing&&d!==null&&d<=-1.35&&m5!==null&&m5>=.10&&score!==null&&score>=4.8&&(accel===null||accel>=.03);
- const mtfEntryUnsafe=mtfMissing&&!mtfFallbackStrong;
+ const mtfEntryUnsafe=mtfMissing&&!mtfFallbackStrong&&!mtfSoftReviewed;
  const autoDipWeak=isAutoDip&&((d===null||d>-.90)||(m5===null||m5<.08)||(score!==null&&score<4.6));
  const last=latestTrade(state,s),reentry=last&&['SELL','VERKAUF'].includes(String(last.action||'').toUpperCase());
  const newStructure=d!==null&&d<=-1.25&&m5!==null&&m5>=0&&f.buyer!==null&&f.buyer>=.60&&score!==null&&score>=4.8&&mtfConfirmed;
@@ -55,9 +57,9 @@ function buyDecision(a,c,state){
  if(redDayShallow)reasons.push(`schwacher Handelstag ${day.toFixed(1)}% braucht einen tieferen Retest statt Kauf knapp unter dem lokalen Hoch`);
  if(highChase)reasons.push('Tages-/20m-Lauf bereits weit fortgeschritten; kleiner Rücksetzer wird nicht mehr als günstiger Dip gewertet');
  if(weakScore)reasons.push(`Qualitätsscore ${score.toFixed(2)} ist für einen automatischen Neueinstieg zu schwach`);
- if(mtfEntryUnsafe)reasons.push('Tages-/Wochenkontext fehlt; ohne mindestens 1,35% echten Rücksetzer plus bestätigte 5m-Erholung bleibt Cash frei');
+ if(mtfEntryUnsafe)reasons.push('Tages-/Wochenkontext fehlt; ohne bereits vom MTF-Guard bestätigten kleinen Starter oder mindestens 1,35% echten Rücksetzer plus 5m-Erholung bleibt Cash frei');
  if(autoDipWeak)reasons.push('automatischer Early-Dip hat noch zu wenig Tiefe bzw. kurzfristige Reclaim-Qualität');
- if(isContinuation&&!mtfConfirmed)reasons.push('Continuation/Breakout darf die Mehr-Zeitebenen-Prüfung nicht mehr umgehen');
+ if(isContinuation&&!mtfReviewed)reasons.push('Continuation/Breakout darf die Mehr-Zeitebenen-Prüfung nicht umgehen');
  if(reentry&&!newStructure)reasons.push('nach dem letzten Verkauf fehlt eine neue, klar bestätigte Dip-/Bodenstruktur für einen Wiedereinstieg');
  if(reasons.length)return hold(s,Number(a?.confidence)||.72,`TAGES-REVIEW V2 BUY-WAIT: ${reasons.join(' · ')}. Cash bleibt für den besseren Einstieg frei.`);
  let cap=20;
