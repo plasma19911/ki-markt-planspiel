@@ -1,16 +1,22 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v19.js';
 import {ContinuationOpportunityAiGuard} from './continuation-opportunity-guard.js';
+import {LossChurnFinalAiGuard} from './loss-churn-final-guard.js';
 
 // PAPER-TRADING ONLY. Diese Schicht fuehrt keine echten Broker-Orders aus.
-// Sie verhindert im Planspiel, dass ein fuer Dips optimierter Candle-Score
-// starke BUYER-CONFIRMED Breakout/Continuation-Setups pauschal auf HOLD setzt.
+// Sie erweitert V19 um Opportunity/Continuation und einen letzten Anti-Churn-Schutz.
 export class MarketPortfolio extends BasePortfolio{
   constructor(ctx,env){
     super(ctx,env);
-    const ai=this.engine?.env?.AI;
+    let ai=this.engine?.env?.AI;
     if(ai?.run&&!ai.__continuationOpportunityGuard){
       const wrapped=new ContinuationOpportunityAiGuard(ai);
       wrapped.__continuationOpportunityGuard=true;
+      ai=wrapped;this.engine.env.AI=ai;
+    }
+    ai=this.engine?.env?.AI;
+    if(ai?.run&&!ai.__lossChurnFinalGuard){
+      const wrapped=new LossChurnFinalAiGuard(ai);
+      wrapped.__lossChurnFinalGuard=true;
       this.engine.env.AI=wrapped;
     }
   }
@@ -18,14 +24,18 @@ export class MarketPortfolio extends BasePortfolio{
     const s=await super.status();
     s.paperOpportunityPolicy={
       enabled:true,
-      version:20,
+      version:20.1,
       paperTradingOnly:true,
-      mode:'RANK_STAGE_AND_CONFIRM',
+      mode:'RANK_STAGE_CONFIRM_AND_ANTI_CHURN',
       dipDoesNotVetoAllOtherBuys:true,
       continuationBreakoutStarter:true,
       newsGlobalVeto:false,
       missingLongChartIsSoftWhen1mBuyerFlowConfirmed:true,
-      rule:'Im Planspiel werden gute Dips bevorzugt, aber starke bestaetigte Continuation-/Breakout-Chancen duerfen als kleine Starter weiterlaufen. News sind Kontext; nur harte negative Unternehmensereignisse bleiben ein Veto. Kein Zwang, 100% investiert zu sein.'
+      lossOpportunityRotationBlocked:true,
+      mixedOneMinuteLossSellBlocked:true,
+      hardRiskCanExitImmediately:true,
+      fixedMinimumHoldMinutes:null,
+      rule:'Gute Dips und bestaetigte Continuation-Chancen duerfen gestaffelt gekauft werden. Eine Position im Minus wird nicht mehr nur wegen einer attraktiveren anderen Aktie rotiert. Widerspruechliche 1m-SELL-Strukturen werden im Minus gehalten; echte Hard-Risk/Reversal/STRONG-SELL-Signale duerfen weiterhin sofort aussteigen. Keine Minutenregel.'
     };
     return s;
   }
