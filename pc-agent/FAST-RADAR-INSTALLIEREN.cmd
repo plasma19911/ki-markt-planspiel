@@ -1,13 +1,14 @@
 @echo off
 setlocal EnableExtensions
 set "ROOT=E:\KI-Markt-Agent"
-set "TMP=%TEMP%\KI-Markt-Fast-Radar-Setup"
-set "BASE=https://raw.githubusercontent.com/plasma19911/ki-markt-planspiel/main/pc-agent"
+set "RADAR=%ROOT%\fast-wide-radar.ps1"
+set "NEW=%ROOT%\fast-wide-radar.ps1.new"
+set "URL=https://raw.githubusercontent.com/plasma19911/ki-markt-planspiel/main/pc-agent/fast-wide-radar.ps1"
 set "CACHE=%RANDOM%%RANDOM%%RANDOM%"
 
 echo.
 echo =============================================
-echo   KI-MARKT FAST-RADAR WIRD AKTIVIERT
+echo   KI-MARKT FAST-RADAR TURBO AKTIVIEREN
 echo =============================================
 echo.
 
@@ -16,55 +17,74 @@ if not exist "E:\" (
   goto :fail
 )
 if not exist "%ROOT%\agent-token.txt" (
-  echo FEHLER: Der bestehende KI-Markt-Agent wurde unter
-  echo        %ROOT%
-  echo        nicht gefunden. agent-token.txt fehlt.
+  echo FEHLER: %ROOT%\agent-token.txt fehlt.
+  echo Der bestehende KI-Markt-Agent muss zuerst eingerichtet sein.
   goto :fail
 )
+if not exist "%ROOT%" mkdir "%ROOT%" >nul 2>nul
+if not exist "%ROOT%\data\logs" mkdir "%ROOT%\data\logs" >nul 2>nul
+if not exist "%ROOT%\data\cache" mkdir "%ROOT%\data\cache" >nul 2>nul
 
-if exist "%TMP%" rmdir /s /q "%TMP%" >nul 2>nul
-mkdir "%TMP%" >nul 2>nul
+echo Lade aktuellen Fast-Radar direkt aus GitHub ...
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -UseBasicParsing -Uri '%URL%?c=%CACHE%' -OutFile '%NEW%' -TimeoutSec 40"
 if errorlevel 1 (
-  echo FEHLER: Temporaerer Setup-Ordner konnte nicht erstellt werden.
+  echo FEHLER: Download des Fast-Radars fehlgeschlagen.
   goto :fail
 )
 
-echo Lade die aktuelle Fast-Radar-Version direkt aus GitHub ...
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -UseBasicParsing -Uri '%BASE%/install-fast-radar.ps1?c=%CACHE%' -OutFile '%TMP%\install-fast-radar.ps1' -TimeoutSec 30; Invoke-WebRequest -UseBasicParsing -Uri '%BASE%/fast-wide-radar.ps1?c=%CACHE%' -OutFile '%TMP%\fast-wide-radar.ps1' -TimeoutSec 30"
+echo Pruefe PowerShell-Datei ...
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$tokens=$null; $errors=$null; [System.Management.Automation.Language.Parser]::ParseFile('%NEW%',[ref]$tokens,[ref]$errors) | Out-Null; if($errors.Count -gt 0){ $errors | ForEach-Object { Write-Host $_.Message -ForegroundColor Red }; exit 1 }"
 if errorlevel 1 (
-  echo.
-  echo FEHLER: Die Fast-Radar-Dateien konnten nicht aus GitHub geladen werden.
-  echo Pruefe Internetverbindung oder GitHub-Zugriff.
+  del /q "%NEW%" >nul 2>nul
+  echo FEHLER: Die geladene Fast-Radar-Datei hat einen Syntaxfehler.
   goto :fail
 )
 
-echo Installiere und starte Fast-Radar ...
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%TMP%\install-fast-radar.ps1" -Root "%ROOT%"
-set "ERR=%ERRORLEVEL%"
+move /y "%NEW%" "%RADAR%" >nul
+if errorlevel 1 (
+  echo FEHLER: Fast-Radar konnte nicht nach %RADAR% installiert werden.
+  goto :fail
+)
 
-rmdir /s /q "%TMP%" >nul 2>nul
+echo Beende nur einen eventuell alten Fast-Radar ...
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$p=@(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -and $_.CommandLine.IndexOf('%RADAR%',[StringComparison]::OrdinalIgnoreCase) -ge 0 }); foreach($x in $p){ try { Stop-Process -Id $x.ProcessId -Force -ErrorAction SilentlyContinue } catch {} }"
+
+echo Richte Windows-Autostart ein ...
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$run='powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File ""%RADAR%"" -NormalBatchesPerMinute 40 -NormalParallelRequests 8 -BatchSize 48'; New-Item -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Force | Out-Null; Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Name 'KI-Markt-Fast-Radar' -Value $run"
+if errorlevel 1 (
+  echo FEHLER: Windows-Autostart konnte nicht eingerichtet werden.
+  goto :fail
+)
+
+echo Starte Turbo-Radar: 40 Batches/Minute, 8 parallel ...
+start "KI-Markt Fast-Radar" /min powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "%RADAR%" -NormalBatchesPerMinute 40 -NormalParallelRequests 8 -BatchSize 48
+
+timeout /t 3 /nobreak >nul
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$p=@(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -and $_.CommandLine.IndexOf('%RADAR%',[StringComparison]::OrdinalIgnoreCase) -ge 0 }); if($p.Count -lt 1){ exit 1 } else { Write-Host ('Fast-Radar laeuft. PID: ' + (($p.ProcessId) -join ', ')) -ForegroundColor Green }"
+if errorlevel 1 (
+  echo FEHLER: Fast-Radar ist nach dem Start nicht aktiv.
+  echo Log pruefen: %ROOT%\data\logs\fast-wide-radar.log
+  goto :fail
+)
 
 echo.
-if not "%ERR%"=="0" (
-  echo FEHLER: Fast-Radar konnte nicht aktiviert werden.
-  echo Falls oben eine konkrete Fehlermeldung steht, sende sie mir genau so.
-  goto :failcode
-)
-
 echo =============================================
-echo   FAST-RADAR IST AKTIV
+echo   FAST-RADAR TURBO IST AKTIV
 echo =============================================
-echo Haupt-Agent: bleibt unveraendert aktiv
-echo Fast-Radar:  laeuft jetzt parallel
-echo Windowsstart: automatisch nach Anmeldung
+echo Ziel: Volluniversum ungefaehr 4-6 Minuten
+echo Normal: 40 Batches/Minute, 8 parallel, 48 Aktien/Batch
+echo Bei Yahoo-Drosselung reduziert sich der Radar automatisch.
+echo Haupt-C#-Agent bleibt parallel aktiv.
+echo Windowsstart: automatisch nach Anmeldung.
 echo Log: %ROOT%\data\logs\fast-wide-radar.log
 echo.
 pause
 exit /b 0
 
 :fail
-set "ERR=1"
-:failcode
+echo.
+echo Fast-Radar Turbo wurde NICHT aktiviert.
+echo Sende mir die Meldung oberhalb dieser Zeile.
 echo.
 pause
-exit /b %ERR%
+exit /b 1
