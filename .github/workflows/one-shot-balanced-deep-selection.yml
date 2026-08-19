@@ -1,0 +1,62 @@
+name: One Shot Balanced Deep Selection
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/one-shot-balanced-deep-selection.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Sync latest main
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+      - name: Apply balanced selector
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('src/market-v3-base.js')
+          t=p.read_text(encoding='utf-8')
+          imp="import {PRIORITY_EQUITIES} from './priority-equities.js';"
+          newimp=imp+"\nimport {selectBalancedDeepCandidates} from './deep-candidate-selection.js';"
+          if "selectBalancedDeepCandidates" not in t:
+              if t.count(imp)!=1: raise SystemExit('priority import anchor unresolved')
+              t=t.replace(imp,newimp)
+          old="const tradable=coarse.filter(x=>!x.benchmark),freshTradable=tradable.filter(x=>x.fresh),regularRank=[...freshTradable].sort((a,b)=>b.preScore-a.preScore),selected=regularRank.slice(0,Math.max(1,DEEP_LIMIT-MOMENTUM_BREAKOUT_RESERVE)),breakoutRank=[...freshTradable].filter(x=>x.breakoutPre).sort((a,b)=>b.breakoutPreScore-a.breakoutPreScore);for(const x of breakoutRank){if(selected.length>=DEEP_LIMIT)break;if(!selected.some(y=>y.symbol===x.symbol))selected.push(x)}for(const x of regularRank){if(selected.length>=DEEP_LIMIT)break;if(!selected.some(y=>y.symbol===x.symbol))selected.push(x)}"
+          new="const tradable=coarse.filter(x=>!x.benchmark),freshTradable=tradable.filter(x=>x.fresh),selected=selectBalancedDeepCandidates(freshTradable,DEEP_LIMIT,MOMENTUM_BREAKOUT_RESERVE)"
+          if old in t:
+              t=t.replace(old,new)
+          elif new not in t:
+              raise SystemExit('deep selection anchor unresolved')
+          p.write_text(t,encoding='utf-8')
+          PY
+      - name: Validate
+        run: |
+          node --check src/deep-candidate-selection.js
+          node --check src/market-v3-base.js
+          node scripts/smoke-balanced-deep-selection.mjs
+          node scripts/smoke-trade-day-lessons.mjs
+          node scripts/smoke-pc-wide-sweep.mjs
+      - name: Commit source change
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/market-v3-base.js
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Balance deep scan between pullbacks and momentum'
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            git rebase origin/main
+            if git push origin HEAD:main; then exit 0; fi
+            sleep 2
+          done
+          exit 1
