@@ -47,7 +47,7 @@ if errorlevel 1 (
 )
 
 echo Beende nur einen eventuell alten Fast-Radar ...
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$p=@(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -and $_.CommandLine.IndexOf('%RADAR%',[StringComparison]::OrdinalIgnoreCase) -ge 0 }); foreach($x in $p){ try { Stop-Process -Id $x.ProcessId -Force -ErrorAction SilentlyContinue } catch {} }"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$self=$PID; $p=@(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object { $_.ProcessId -ne $self -and $_.CommandLine -and $_.CommandLine.IndexOf('%RADAR%',[StringComparison]::OrdinalIgnoreCase) -ge 0 }); foreach($x in $p){ try { Stop-Process -Id $x.ProcessId -Force -ErrorAction SilentlyContinue } catch {} }"
 
 echo Richte Windows-Autostart ein ...
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$run='powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File ""%RADAR%"" -NormalBatchesPerMinute 40 -NormalParallelRequests 8 -BatchSize 48'; New-Item -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Force | Out-Null; Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Name 'KI-Markt-Fast-Radar' -Value $run"
@@ -60,7 +60,7 @@ echo Starte Turbo-Radar: 40 Batches/Minute, 8 parallel ...
 start "KI-Markt Fast-Radar" /min powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "%RADAR%" -NormalBatchesPerMinute 40 -NormalParallelRequests 8 -BatchSize 48
 
 timeout /t 3 /nobreak >nul
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$p=@(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object { $_.CommandLine -and $_.CommandLine.IndexOf('%RADAR%',[StringComparison]::OrdinalIgnoreCase) -ge 0 }); if($p.Count -lt 1){ exit 1 } else { Write-Host ('Fast-Radar laeuft. PID: ' + (($p.ProcessId) -join ', ')) -ForegroundColor Green }"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "$self=$PID; $p=@(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Where-Object { $_.ProcessId -ne $self -and $_.CommandLine -and $_.CommandLine.IndexOf('%RADAR%',[StringComparison]::OrdinalIgnoreCase) -ge 0 }); if($p.Count -lt 1){ exit 1 } else { Write-Host ('Fast-Radar laeuft. PID: ' + (($p.ProcessId) -join ', ')) -ForegroundColor Green }"
 if errorlevel 1 (
   echo FEHLER: Fast-Radar ist nach dem Start nicht aktiv.
   echo Log pruefen: %ROOT%\data\logs\fast-wide-radar.log
