@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-19T19:20:09.044132+00:00",
-  "commit": "e1c6f23d1b1c5a4046dab9f6ce3648bfc17d8c61",
+  "checkedAt": "2026-08-19T19:34:55.814653+00:00",
+  "commit": "fc9ec8254a463cae8f305ded1d0a39c8d21dab5f",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 7s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 6s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -36,7 +36,12 @@
       "exitCode": 0,
       "tail": ""
     },
-    "syntax_adaptive_ai_cadence": {
+    "syntax_adaptive_ai": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_position_scale": {
       "ok": true,
       "exitCode": 0,
       "tail": ""
@@ -47,6 +52,11 @@
       "tail": ""
     },
     "syntax_r2": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_zero_accounting": {
       "ok": true,
       "exitCode": 0,
       "tail": ""
@@ -211,6 +221,16 @@
       "exitCode": 0,
       "tail": "{\n  \"ok\": true,\n  \"unchangedDeepRequests\": 6,\n  \"pullbackSlots\": 2,\n  \"breakoutSlots\": 2,\n  \"regularSlots\": 2,\n  \"symbols\": [\n    \"PULLBACK:DIP1\",\n    \"PULLBACK:DIP2\",\n    \"REGULAR:MOON1\",\n    \"BREAKOUT:MOON2\",\n    \"BREAKOUT:MOON3\",\n    \"REGULAR:UP4\"\n  ]\n}\n"
     },
+    "position_scale_up": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"valuationPreserved\": true,\n  \"fxValuationPreserved\": true,\n  \"hysteresisMinutes\": 10,\n  \"qualifiedMaxCashPct\": 6,\n  \"secondChanceMaxCashPct\": 10,\n  \"qualifiedTargetPct\": 14,\n  \"secondChanceTargetPct\": 20,\n  \"noBlindAverageDown\": true\n}\n"
+    },
+    "zero_accounting": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"blockedCash\": 100,\n  \"resizedCash\": 99.5,\n  \"resizedInvested\": 500.5,\n  \"resizedEquity\": 599.5,\n  \"scaleUp\": {\n    \"reconciled\": 1,\n    \"invested\": 798,\n    \"quantity\": 7.706384524566342\n  },\n  \"blockedScaleUpPreserved\": true\n}\n"
+    },
     "cash_aware": {
       "ok": true,
       "exitCode": 0,
@@ -279,7 +299,7 @@
     "pc_wide_sweep": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"target\": 64,\n  \"dipReserve\": 44,\n  \"selected\": 64,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-19T19:19:46.568Z\",\n    \"ageSeconds\": 20,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"freshMerge\": {\n    \"symbol\": \"FRESH.DE\",\n    \"wideScore\": 29.8,\n    \"m5Pct\": 0.02,\n    \"m20Pct\": 0.1,\n    \"accelerationPct\": 0.02,\n    \"sessionPct\": 0.2,\n    \"last\": 10.1,\n    \"observedAt\": \"2026-08-19T19:19:56.568Z\",\n    \"ageSeconds\": 10,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"liveWave\": {\n    \"priority\": \"DIPBEST.DE\",\n    \"rotating\": [\n      \"ROTATE.DE\",\n      \"HIGH.DE\"\n    ]\n  },\n  \"forcedBuy\": false\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"target\": 64,\n  \"dipReserve\": 44,\n  \"selected\": 64,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-19T19:34:33.853Z\",\n    \"ageSeconds\": 20,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"freshMerge\": {\n    \"symbol\": \"FRESH.DE\",\n    \"wideScore\": 29.8,\n    \"m5Pct\": 0.02,\n    \"m20Pct\": 0.1,\n    \"accelerationPct\": 0.02,\n    \"sessionPct\": 0.2,\n    \"last\": 10.1,\n    \"observedAt\": \"2026-08-19T19:34:43.853Z\",\n    \"ageSeconds\": 10,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"liveWave\": {\n    \"priority\": \"DIPBEST.DE\",\n    \"rotating\": [\n      \"ROTATE.DE\",\n      \"HIGH.DE\"\n    ]\n  },\n  \"forcedBuy\": false\n}\n"
     },
     "yahoo_sanity": {
       "ok": true,
@@ -296,10 +316,15 @@
       "exitCode": 0,
       "tail": "trade-day-lessons V2.1 smoke: OK\n"
     },
+    "free_tier": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"cloudflarePlan\": \"FREE\",\n  \"mode\": \"WINDOWS_PC_AGENT + CLOUDFLARE_FALLBACK\",\n  \"gettex\": \"07:25 PREOPEN; 07:30-23:00 OPEN; sonst SLEEP\",\n  \"pcMarketScanRequestsPerTradingDay\": 930,\n  \"preopenRunsPerTradingDay\": 1,\n  \"cloudflareFallbackEnvelopePerWeekday\": 216,\n  \"pcLeaderRefreshesPerTradingDay\": 187,\n  \"dynamicExternalLeaderTarget\": 25,\n  \"deepFinalists\": 6,\n  \"deepRequestCountUnchangedByScaleUp\": true,\n  \"externalFetchSoftCapPerCloudflareScan\": 36,\n  \"preopenFetchSoftCap\": 24,\n  \"agentOfflineFallbackSeconds\": 150,\n  \"cloudflareFallbackMinutes\": 5,\n  \"pcStoragePath\": \"E:\\\\KI-Markt-Agent\",\n  \"pcStorageLimitGb\": 2,\n  \"pcTrimToGb\": 1.6,\n  \"aiNeuronSoftCapPerUtcDay\": 8000,\n  \"nightNews\": false,\n  \"nightMarketScans\": false\n}\n"
+    },
     "wrangler_dryrun": {
       "ok": true,
       "exitCode": 0,
-      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 45 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 823.79 KiB / gzip: 210.63 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
+      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 45 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 828.88 KiB / gzip: 211.97 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
     }
   },
   "failedChecks": [],
