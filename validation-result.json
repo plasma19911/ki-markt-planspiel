@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-19T13:42:53.773986+00:00",
-  "commit": "642af44e30a1d6bca6b53d38f36f8f59812b58c7",
+  "checkedAt": "2026-08-19T13:43:55.007744+00:00",
+  "commit": "6454361f6e0709b7f07fa6179287781905c3faec",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 8s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 7s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -247,15 +247,14 @@
       "tail": "{\n  \"ok\": true,\n  \"nullPricesCannotBecomeZero\": true,\n  \"quoteFallback\": true,\n  \"sanitized\": 5\n}\n"
     },
     "wrangler_dryrun": {
-      "ok": false,
-      "exitCode": 1,
-      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n\n\u001b[31m✘ \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mBuild failed with 1 error:\u001b[0m\n\n  \u001b[31m✘ \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mExpected \"]\" but found \")\"\u001b[0m\n  \n      src/candle-flow-ai-guard.js:48:137:\n  \u001b[37m      48 │ ...Lows++;if(a[i].h<=a[i-1].h)lowerHighs++;if(a[i].c>a[i[i-1]?.c\u001b[32m)\u001b[37m{} }\n           │                                                                 \u001b[32m^\u001b[37m\n           ╵                                                                 \u001b[32m]\u001b[0m\n  \n  \n\n\n🪵  Logs were written to \"/home/runner/.config/.wrangler/logs/wrangler-2026-08-19_13-42-52_938.log\"\n"
+      "ok": true,
+      "exitCode": 0,
+      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 39 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 706.01 KiB / gzip: 181.17 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
     }
   },
   "failedChecks": [
     "rotation_cost",
-    "pc_wide_sweep",
-    "wrangler_dryrun"
+    "pc_wide_sweep"
   ],
   "allCodeAndRegressionChecksPassed": false,
   "note": "Wrangler dry-run may report required runtime-secret/auth limitations in CI; syntax and smoke regressions are listed separately."
