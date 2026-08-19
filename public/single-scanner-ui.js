@@ -60,3 +60,4 @@ async function loadScanner(){
 }
 loadScanner();
 setInterval(loadScanner,15000);
+import('/changelog-latest.js?v=20260819-1312').catch(()=>{});
