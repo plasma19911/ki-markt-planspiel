@@ -44,10 +44,10 @@ export class MarketPortfolio extends BasePortfolio{
       avoid:['PEAK_CHASE','OVEREXTENDED_MOMENTUM','UNBRAKED_FALLING_KNIFE'],
       fallingDipStarterAllowed:true,
       fallingDipRequiresDeceleration:true,
-      dipStarterMaxPct:16,
-      deepDipStarterMaxPct:12,
-      dipReboundMaxPct:28,
-      exceptionalBreakoutMaxPct:8,
+      dipStarterMaxPct:18,
+      deepDipStarterMaxPct:14,
+      dipReboundMaxPct:30,
+      exceptionalBreakoutMaxPct:5,
       cashMayWaitForValue:true,
       requireBounceAfterPullback:false,
       earlyBreakoutMin5mPct:.10,
@@ -55,6 +55,7 @@ export class MarketPortfolio extends BasePortfolio{
       earlyBreakoutMinAccelerationPct:.02,
       earlyBreakoutMinVolumeRatioWhenKnown:1.05,
       earlyBreakoutInitialCapPct:8,
+      finalHighEntryCapPct:5,
       newsVolumeConfirmationPreferred:true,
       openingPriceDiscoveryNeedsExtraConfirmation:true,
       orderPriceDiscipline:true,
@@ -94,11 +95,26 @@ export class MarketPortfolio extends BasePortfolio{
       apiKeysRequiredForPcMarketData:false,
       rule:'Primaerquelle/Emittent fuer harte Fakten bevorzugen. Oeffentliche Webseiten/RSS dienen der Discovery. Intraday-Daten muessen frisch sein; Wide-Sweep-Daten ueber 90 Sekunden werden verworfen.'
     };
-    if(s.secondChanceWatch)s.secondChanceWatch={...s.secondChanceWatch,target:12,recheckPerScan:4,mode:'Bis zu 12 starke Deep-Kandidaten bleiben im Heisspool; bis zu vier koennen pro Scan einen frischen Zweitcheck erhalten. Kein Kandidat erzwingt einen Kauf.'};
+    s.fastInfoProfile={
+      enabled:true,
+      mode:'PARALLEL_EVIDENCE_FIRST',
+      deepFinalists:6,
+      deepChecksParallel:6,
+      newsFinalists:4,
+      newsRadarPerScan:2,
+      newsRequestsFitSingleParallelWave:true,
+      secondChancePoolTarget:16,
+      secondChanceRecheckPerScan:4,
+      pcWideSweepTarget:32,
+      pcWideDipReserve:20,
+      reboundRadarTarget:16,
+      objective:'mehr frische Kurs-, Volumen-, Dip- und News-Evidenz je Scan bei moeglichst wenigen zusaetzlichen seriellen Wartezeiten'
+    };
+    if(s.secondChanceWatch)s.secondChanceWatch={...s.secondChanceWatch,target:16,recheckPerScan:4,mode:'Bis zu 16 starke Deep-Kandidaten bleiben im Heisspool; bis zu vier koennen pro Scan parallel einen frischen 1m-Zweitcheck erhalten. Kein Kandidat erzwingt einen Kauf.'};
     if(s.entryTimingLearning)s.entryTimingLearning={...s.entryTimingLearning,pendingOnlyForExecutedPositions:true,pendingExecutionTtlMinutes:8,proposalContaminationFixed:true};
-    if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,learningOnlyFromExecutedEntries:true,researchBackedEntryPolicy:true,earlyBreakoutQualityGuard:true,earlyBreakoutInitialCapPct:8,balancedSoftOverride:true,balancedSoftStarterMaxPct:16,marginalExitConfirmation:true,exceptionalRotationEscape:true,freshPositionChurnShield:true,normalRotationMinAgeMinutes:30,zeroCashBuySuppression:true,secondChanceRecheckPerScan:4,pcWideSweepTarget:24,pcWideSweepMaxAgeSeconds:90,keylessMultiSource:true,dipFirst:true,fallingDipStarterAllowed:true,dipStarterMaxPct:16,dipReboundMaxPct:28,cashMayRemainForBetterEntry:true,alwaysInvested:false,capitalMotionTargetCashDeploymentPct:null};
-    if(s.executionModel)s.executionModel={...s.executionModel,alwaysInvested:false,capitalInMotion:false,cashMayRemain:true,strategicCashReservePct:null,dipFirst:true,fallingDipStarterAllowed:true,nearHighBuyCapPct:8};
-    if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,secondChanceWatch:true,secondChanceRetentionMinutes:12,secondChanceRecheckPerScan:4,pcWideSweepTarget:24,pcWideSweepMaxAgeSeconds:90,keylessMultiSource:true,dipFirst:true,cashMayRemainForBetterEntry:true};
+    if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,learningOnlyFromExecutedEntries:true,researchBackedEntryPolicy:true,earlyBreakoutQualityGuard:true,earlyBreakoutInitialCapPct:8,finalHighEntryCapPct:5,balancedSoftOverride:true,balancedSoftStarterMaxPct:16,marginalExitConfirmation:true,exceptionalRotationEscape:true,freshPositionChurnShield:true,normalRotationMinAgeMinutes:30,zeroCashBuySuppression:true,deepFinalists:6,deepNewsFinalists:4,secondChancePoolTarget:16,secondChanceRecheckPerScan:4,pcWideSweepTarget:32,pcWideDipReserve:20,pcWideSweepMaxAgeSeconds:90,reboundRadarTarget:16,keylessMultiSource:true,fastInfoProfile:true,dipFirst:true,fallingDipStarterAllowed:true,dipStarterMaxPct:18,deepDipStarterMaxPct:14,dipReboundMaxPct:30,cashMayRemainForBetterEntry:true,alwaysInvested:false,capitalMotionTargetCashDeploymentPct:null};
+    if(s.executionModel)s.executionModel={...s.executionModel,alwaysInvested:false,capitalInMotion:false,cashMayRemain:true,strategicCashReservePct:null,dipFirst:true,fallingDipStarterAllowed:true,nearHighBuyCapPct:5,fastInfoProfile:true};
+    if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,secondChanceWatch:true,secondChanceRetentionMinutes:12,secondChancePoolTarget:16,secondChanceRecheckPerScan:4,pcWideSweepTarget:32,pcWideDipReserve:20,pcWideSweepMaxAgeSeconds:90,reboundRadarTarget:16,deepFinalists:6,deepNewsFinalists:4,keylessMultiSource:true,fastInfoProfile:true,dipFirst:true,cashMayRemainForBetterEntry:true};
     return s;
   }
 }
