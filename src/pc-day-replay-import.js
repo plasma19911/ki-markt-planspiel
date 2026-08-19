@@ -9,7 +9,7 @@ const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const read=(storage,k,d)=>{try{return storage?.kv?.get(k)||d}catch{return d}};
 const write=(storage,k,v)=>{try{storage?.kv?.put(k,v)}catch{}};
-const safeBucket=v=>['PULLBACK_RETEST','EARLY_BREAKOUT','NORMAL_ENTRY'].includes(String(v||'').toUpperCase())?String(v).toUpperCase():null;
+const safeBucket=v=>{const x=String(v||'').toUpperCase();if(x==='NORMAL_ENTRY')return'NORMAL';return['PULLBACK_RETEST','EARLY_BREAKOUT','NORMAL'].includes(x)?x:null};
 
 function learnDefaults(){return{version:1,samples:{},seen:{},completedDays:0,lastDate:null}}
 function aggregateResult(learn,date,r){
