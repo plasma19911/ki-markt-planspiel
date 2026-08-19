@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T13:53:52.501954+00:00",
+  "checkedAt": "2026-08-19T14:19:12.105734+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,16 +28,16 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 153,
-  "lastScan": "2026-08-19T13:52:26.808Z",
+  "scanCount": 169,
+  "lastScan": "2026-08-19T14:16:25.737Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 11 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks. · DIP-FIRST DYNAMIC: bester Rücksetzer TGT.",
-  "cash": 7668.80823038427,
-  "equity": 9895.648401534452,
-  "pnl": -104.3515984655478,
-  "marketValue": 2226.8401711501815,
+  "aiLastSummary": "KI-Free-Limit/Fehler: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/ · CANDLE-FLOW V2.1: LOW wartet auf bessere Bodenbildung. Keine Minutenregel fuer SELL.",
+  "cash": 7254.7392329581335,
+  "equity": 9872.581767074429,
+  "pnl": -127.41823292557092,
+  "marketValue": 2617.842534116295,
   "accountingDelta": 0.0,
-  "universeCount": 217,
+  "universeCount": 219,
   "positions": 4,
   "positionRows": [
     {
@@ -49,13 +49,13 @@
       "invested": 763.822576,
       "entry_fee": 1,
       "entry_price": 720.7199999999999,
-      "last_price": 717,
+      "last_price": 718,
       "entry_fx": 0.1336,
       "last_fx": 0.1336,
       "currency": "DKK",
       "opened_at": "2026-08-19T12:17:24.694Z",
-      "score": -1.0975351094018826,
-      "signal_confidence": 0.5125135109401883,
+      "score": 0.30246489059811765,
+      "signal_confidence": 0.43300648905981176,
       "quote_sanity_last_price": 717,
       "quote_sanity_last_fx": 0.1336,
       "zero_quantity": 7.932671287461709,
@@ -78,12 +78,12 @@
       "invested": 534.375803,
       "entry_fee": 1,
       "entry_price": 13.17315984725952,
-      "last_price": 13.279999732971191,
+      "last_price": 13.319999694824219,
       "entry_fx": 0.0901,
       "last_fx": 0.0903,
       "currency": "SEK",
       "opened_at": "2026-08-19T12:23:25.923Z",
-      "score": 5.05,
+      "score": 3.7,
       "signal_confidence": 0.63,
       "zero_quantity": 450.22751420134756,
       "zero_whole_shares": 450,
@@ -99,318 +99,404 @@
       "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
     },
     {
-      "symbol": "KREATE.HE",
-      "name": "Kreate Group Oyj",
+      "symbol": "TDG",
+      "name": "TransDigm Group",
       "instrument_type": "EQUITY",
-      "theme": null,
-      "company_key": "KREATE OYJ",
-      "invested": 365.642564,
-      "entry_fee": 2,
-      "entry_price": 29.12910038185119,
-      "last_price": 28.700000762939453,
-      "entry_fx": 1,
-      "last_fx": 1,
-      "currency": "EUR",
-      "opened_at": "2026-08-19T12:44:26.101Z",
-      "score": 0.7000000000000002,
-      "signal_confidence": 0.35000000000000003,
-      "zero_quantity": 12.552483923867428,
-      "zero_whole_shares": 12,
-      "zero_fractional_shares": 0.5524839238674275,
+      "theme": "DEFENSE",
+      "company_key": "TRANSDIGM",
+      "invested": 954.42921,
+      "entry_fee": 1,
+      "entry_price": 1237.756539550781,
+      "last_price": 1230.1199951171875,
+      "entry_fx": 0.8577,
+      "last_fx": 0.857,
+      "currency": "USD",
+      "opened_at": "2026-08-19T13:58:24.682Z",
+      "score": -3.3000000000000003,
+      "signal_confidence": 0.6838000000000001,
+      "zero_quantity": 0.8990277197019279,
+      "zero_whole_shares": 0,
+      "zero_fractional_shares": 0.8990277197019279,
       "zero_uses_fractional": true,
-      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash",
-      "quote_sanity_last_price": 28.799999237060547,
-      "quote_sanity_last_fx": 1
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     },
     {
-      "symbol": "TGT",
-      "name": "Target Corporation",
+      "symbol": "SAP",
+      "name": "SAP SE",
       "instrument_type": "EQUITY",
       "theme": null,
-      "company_key": "TARGET",
-      "invested": 567.364949,
-      "entry_fee": 1,
-      "entry_price": 160.58542805480954,
-      "last_price": 160.4250030517578,
-      "entry_fx": 0.858,
-      "last_fx": 0.858,
+      "company_key": "SAP",
+      "invested": 367.553876,
+      "entry_fee": 2,
+      "entry_price": 215.33511511230466,
+      "last_price": 215.44000244140625,
+      "entry_fx": 0.8573,
+      "last_fx": 0.857,
       "currency": "USD",
-      "opened_at": "2026-08-19T13:52:26.808Z",
-      "score": 6.883609674788948,
-      "signal_confidence": 0.7875,
-      "zero_quantity": 4.117836330319501,
-      "zero_whole_shares": 4,
-      "zero_fractional_shares": 0.11783633031950114,
+      "opened_at": "2026-08-19T14:12:16.577Z",
+      "score": 5.2068032356948235,
+      "signal_confidence": 0.7695,
+      "zero_quantity": 1.9910094708600328,
+      "zero_whole_shares": 1,
+      "zero_fractional_shares": 0.9910094708600328,
       "zero_uses_fractional": true,
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     }
   ],
-  "candidates": 11,
+  "candidates": 12,
   "topCandidates": [
-    {
-      "symbol": "TGT",
-      "name": "Target Corporation",
-      "score": 6.883609674788948,
-      "confidence": 0.7875,
-      "day_change": 5.107123797259927,
-      "news_score": 0.3197122026093629,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 63 konstruktiv · 5m +0.24% · 20m +2.84% · Momentum baut sich auf · Beschleunigung +0.02% · News +0.3 · 13 Ereigniscluster",
-      "contra": ""
-    },
-    {
-      "symbol": "MRNA",
-      "name": "Moderna, Inc.",
-      "score": 6.582556113138686,
-      "confidence": 0.8055,
-      "day_change": 112.03939008894537,
-      "news_score": 0.07768856447688562,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 66 konstruktiv · 5m +5.83% · 20m +12.28% · Momentum baut sich auf · Beschleunigung +5.79%",
-      "contra": ""
-    },
-    {
-      "symbol": "MRK",
-      "name": "Merck & Co., Inc.",
-      "score": 6.546067708333333,
-      "confidence": 0.7875,
-      "day_change": 10.346229769399184,
-      "news_score": 0.0708333333333333,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 55 konstruktiv · 5m +0.49% · 20m +2.26% · Momentum baut sich auf · Beschleunigung +0.29%",
-      "contra": ""
-    },
-    {
-      "symbol": "PFE",
-      "name": "Pfizer Inc.",
-      "score": 6.45,
-      "confidence": 0.7695,
-      "day_change": 3.1914862830763058,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 56 konstruktiv · 5m +0.37% · 20m +1.41% · Momentum baut sich auf · Beschleunigung +0.55%",
-      "contra": ""
-    },
     {
       "symbol": "LOW",
       "name": "Lowe's Companies, Inc.",
-      "score": 5.606854128787879,
+      "score": 5.266973750000001,
       "confidence": 0.7695,
-      "day_change": 2.96626050338773,
-      "news_score": 0.13057575757575754,
+      "day_change": 4.280838694826317,
+      "news_score": 0.13899999999999998,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.66% · 20m +2.52% · Momentum baut sich auf · Beschleunigung +0.09%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 66 konstruktiv · 20m +0.84%",
       "contra": ""
     },
     {
-      "symbol": "AAPL",
-      "name": "Apple Inc.",
-      "score": 5.45,
-      "confidence": 0.63,
-      "day_change": 1.17730305963335,
-      "news_score": 0,
+      "symbol": "SAP",
+      "name": "SAP SE",
+      "score": 5.2068032356948235,
+      "confidence": 0.7695,
+      "day_change": 2.361382829574876,
+      "news_score": 0.08891008174386919,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.27% · 20m +0.88% · Momentum baut sich auf · Beschleunigung +0.01%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 67 konstruktiv · 20m +0.72%",
       "contra": ""
     },
     {
       "symbol": "LOGI-B.ST",
       "name": "Logistea AB (publ)",
-      "score": 5.05,
+      "score": 3.7,
       "confidence": 0.63,
-      "day_change": -0.5988043939281984,
+      "day_change": -0.29940348185464316,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.30% · 20m +1.07% · Momentum baut sich auf · Beschleunigung +0.15%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.91%",
       "contra": ""
     },
     {
-      "symbol": "DTE.DE",
-      "name": "Deutsche Telekom AG",
-      "score": 3.55,
-      "confidence": 0.63,
-      "day_change": 0.6237037960060476,
-      "news_score": 0,
+      "symbol": "MRNA",
+      "name": "Moderna, Inc.",
+      "score": 2.3397016994094257,
+      "confidence": 0.6894701699409426,
+      "day_change": 127.47776559832134,
+      "news_score": 0.14048451247438828,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.41% · 20m +0.66% · Momentum baut sich auf · Beschleunigung +0.31%",
-      "contra": "RSI 91 überhitzt"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 67 konstruktiv · 20m +3.93%",
+      "contra": "MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     },
     {
-      "symbol": "EL",
-      "name": "The Estée Lauder Companies Inc.",
-      "score": 3.4,
-      "confidence": 0.62,
-      "day_change": 17.882990789000395,
-      "news_score": 0,
+      "symbol": "AXON",
+      "name": "Axon Enterprise",
+      "score": 2.226740157480315,
+      "confidence": 0.6322740157480315,
+      "day_change": 1.9424077838892329,
+      "news_score": 0.03713910761154856,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.25% · 20m +1.51%",
-      "contra": "RSI 78 überhitzt"
+      "pro": "Kurs über EMA21 · 5m +0.47% · 20m +0.60%",
+      "contra": "EMA-Trend schwach"
     },
     {
-      "symbol": "KREATE.HE",
-      "name": "Kreate Group Oyj",
-      "score": 0.7000000000000002,
-      "confidence": 0.35000000000000003,
-      "day_change": -3.3670007981836614,
+      "symbol": "PFE",
+      "name": "Pfizer Inc.",
+      "score": 0.8999999999999999,
+      "confidence": 0.37,
+      "day_change": 3.7614664900193606,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 55 konstruktiv",
-      "contra": "Kurs unter EMA21 · 5m -1.37%"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 60 konstruktiv",
+      "contra": "MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+    },
+    {
+      "symbol": "SCHO.CO",
+      "name": "Aktieselskabet Schouw & Co.",
+      "score": 0.30246489059811765,
+      "confidence": 0.43300648905981176,
+      "day_change": -1.3736263736263687,
+      "news_score": 0.005829369497014477,
+      "event_risk": "NONE",
+      "pro": "Kurs über EMA21 · RSI 50 konstruktiv",
+      "contra": "EMA-Trend schwach"
+    },
+    {
+      "symbol": "MRK",
+      "name": "Merck & Co., Inc.",
+      "score": 0,
+      "confidence": 0.28,
+      "day_change": 11.670494432358346,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 57 konstruktiv",
+      "contra": "5m -0.55% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+    },
+    {
+      "symbol": "TGT",
+      "name": "Target Corporation",
+      "score": -2.45,
+      "confidence": 0.525,
+      "day_change": 4.685860440713552,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+    },
+    {
+      "symbol": "MRVL",
+      "name": "Marvell Technology, Inc.",
+      "score": -2.85,
+      "confidence": 0.5650000000000001,
+      "day_change": 6.541668927228006,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "5m +0.80%",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 20m -1.43% · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     }
   ],
   "recentHistory": [
     {
-      "ts": "2026-08-19T13:52:26.808Z",
+      "ts": "2026-08-19T14:16:25.737Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal LOW: Score 5.27, Konfidenz 77%.",
+      "score": null
+    },
+    {
+      "ts": "2026-08-19T14:15:15.788Z",
+      "action": "VERKAUF",
+      "symbol": "MRK",
+      "amount": 376.0614847283034,
+      "fee": 2,
+      "trade_pnl": -2.9328662716965823,
+      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.28%, Rücklauf vom 20m-Hoch -0.47%· Trade P/L netto -0.93 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 0.08508854166666663
+    },
+    {
+      "ts": "2026-08-19T14:13:25.171Z",
+      "action": "VERKAUF",
+      "symbol": "PFE",
+      "amount": 856.5659562541499,
+      "fee": 1,
+      "trade_pnl": -2.3405657458500855,
+      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.05%, Rücklauf vom 20m-Hoch -0.30%· Trade P/L netto -1.34 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 0.8999999999999999
+    },
+    {
+      "ts": "2026-08-19T14:12:16.577Z",
       "action": "KAUF",
-      "symbol": "TGT",
-      "amount": -568.364949,
-      "fee": 1,
+      "symbol": "SAP",
+      "amount": -369.553876,
+      "fee": 2,
       "trade_pnl": null,
-      "reason": "KI BUY 79%: DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt. · SELECTIVE-SIZING:  · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 5.7 · Käufer 61% / Verkäufer 39% · letzte 3 0 grün/2 rot · 5 höhere Tiefs/4 tiefere Hochs · Bodenbildung · grünes Volumen führt. · Order 568.36 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 6.883609674788948
+      "reason": "KI BUY 87%: DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt. · SELECTIVE-SIZING:  · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 6.3 · Käufer 75% / Verkäufer 26% · letzte 3 1 grün/1 rot · 4 höhere Tiefs/2 tiefere Hochs · Bodenbildung · grünes Volumen führt. · Order 369.55 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 4.2068032356948235
     },
     {
-      "ts": "2026-08-19T13:51:15.881Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal SAP: Score 6.56, Konfidenz 77%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T13:49:25.738Z",
+      "ts": "2026-08-19T14:12:16.577Z",
       "action": "VERKAUF",
-      "symbol": "OVZON.ST",
-      "amount": 570.0991629211541,
-      "fee": 1,
-      "trade_pnl": -2.215943078845953,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.46%, Rücklauf vom 20m-Hoch -0.46%· Trade P/L netto -1.22 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 0.7999999999999998
-    },
-    {
-      "ts": "2026-08-19T13:48:17.421Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal LOGI-B.ST: Score 6.05, Konfidenz 63%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T13:46:26.436Z",
-      "action": "VERKAUF",
-      "symbol": "MTG-B.ST",
-      "amount": 1101.8184502364027,
-      "fee": 1,
-      "trade_pnl": 9.214770236402728,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.08%, Rücklauf vom 20m-Hoch -0.46%· Trade P/L netto +10.21 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 0.7000000000000002
-    },
-    {
-      "ts": "2026-08-19T13:37:24.893Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal LOGI-B.ST: Score 6.05, Konfidenz 63%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T13:36:16.041Z",
-      "action": "VERKAUF",
-      "symbol": "SSAB-B.ST",
-      "amount": 903.6323920285902,
-      "fee": 1,
-      "trade_pnl": -6.2548619714098095,
-      "reason": "KI SELL 86%: CANDLE-FLOW PROACTIVE SELL: Verkäufer übernehmen unabhängig von der Haltedauer · Exit-Qualität 7.2 · Käufer 28% / Verkäufer 73% · letzte 3 0 grün/1 rot · 1 höhere Tiefs/6 tiefere Hochs · Topbildung.· Trade P/L netto -5.25 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": -4.5
-    },
-    {
-      "ts": "2026-08-19T13:31:23.690Z",
-      "action": "VERKAUF",
-      "symbol": "NETC.CO",
-      "amount": 1281.035842115471,
-      "fee": 1,
-      "trade_pnl": -5.372080884528941,
-      "reason": "KI SELL 70%: CANDLE-FLOW PROACTIVE SELL: Verkäufer übernehmen unabhängig von der Haltedauer · Exit-Qualität 5.9 · Käufer 53% / Verkäufer 47% · letzte 3 0 grün/0 rot · 3 höhere Tiefs/4 tiefere Hochs · Bodenbildung · Topbildung.· Trade P/L netto -4.37 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": -2.0306192000000003
-    },
-    {
-      "ts": "2026-08-19T13:25:23.892Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal OVZON.ST: Score 5.05, Konfidenz 63%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T13:24:16.435Z",
-      "action": "KAUF",
-      "symbol": "NETC.CO",
-      "amount": -1286.407923,
-      "fee": 1,
-      "trade_pnl": null,
-      "reason": "KI BUY 89%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.56% vom 20m-Hoch stabilisiert sich; 5m +0.13%, Beschl. +0.38 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · DIP-FIRST DYNAMIC: relativer Rücksetzer prior · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 5.4 · Käufer 100% / Verkäufer 0% · letzte 3 1 grün/0 rot · 3 höhere Tiefs/3 tiefere Hochs · Bodenbildung · Topbildung · grünes Volumen führt. · Order 1286.41 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 5.85
-    },
-    {
-      "ts": "2026-08-19T13:22:25.955Z",
-      "action": "VERKAUF",
-      "symbol": "HLUN-B.CO",
-      "amount": 1768.098598445138,
-      "fee": 1,
-      "trade_pnl": -8.889418554862004,
-      "reason": "KI SELL 80%: CANDLE-FLOW PROACTIVE SELL: Verkäufer übernehmen unabhängig von der Haltedauer · Exit-Qualität 7.5 · Käufer 36% / Verkäufer 64% · letzte 3 1 grün/1 rot · 2 höhere Tiefs/3 tiefere Hochs · Bodenbildung · Topbildung.· Trade P/L netto -7.89 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "symbol": "KREATE.HE",
+      "amount": 357.8960416377658,
+      "fee": 2,
+      "trade_pnl": -9.746522362234202,
+      "reason": "KI SELL 74%: CANDLE-FLOW PROACTIVE SELL V2.1: eindeutige Verkäuferdominanz unabhängig von der Haltedauer · Exit-Qualität 7.4 · Käufer 47% / Verkäufer 53% · letzte 3 0 grün/1 rot · 4 höhere Tiefs/5 tiefere Hochs · Topbildung · rotes Volumen führt.· Trade P/L netto -7.75 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
       "score": -2
     },
     {
-      "ts": "2026-08-19T13:16:26.021Z",
+      "ts": "2026-08-19T14:09:16.078Z",
       "action": "HALTEN",
       "symbol": "",
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal OVZON.ST: Score 5.00, Konfidenz 63%.",
+      "reason": "Kein Trade. Bestes Signal MRK: Score 6.54, Konfidenz 77%.",
       "score": null
     },
     {
-      "ts": "2026-08-19T13:15:17.353Z",
+      "ts": "2026-08-19T14:07:23.675Z",
       "action": "KAUF",
-      "symbol": "OVZON.ST",
-      "amount": -572.315106,
-      "fee": 1,
+      "symbol": "MRK",
+      "amount": -378.994351,
+      "fee": 2,
       "trade_pnl": null,
-      "reason": "KI BUY 89%: DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt. · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 5.9 · Käufer 84% / Verkäufer 16% · letzte 3 0 grün/0 rot · 4 höhere Tiefs/2 tiefere Hochs · Bodenbildung · Verkäuferdruck lässt nach. · Order 572.32 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 5
+      "reason": "KI BUY 82%: DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt. · SELECTIVE-SIZING:  · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 7.7 · Käufer 61% / Verkäufer 39% · letzte 3 2 grün/0 rot · 3 höhere Tiefs/3 tiefere Hochs · Bodenbildung · Topbildung · Verkäuferdruck lässt nach. · Order 378.99 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 5.185088541666667
     },
     {
-      "ts": "2026-08-19T13:12:16.422Z",
+      "ts": "2026-08-19T14:06:17.727Z",
       "action": "HALTEN",
       "symbol": "",
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal DEMANT.CO: Score 5.85, Konfidenz 78%.",
+      "reason": "Kein Trade. Bestes Signal MRNA: Score 6.66, Konfidenz 77%.",
       "score": null
     },
     {
-      "ts": "2026-08-19T13:10:25.484Z",
+      "ts": "2026-08-19T14:04:25.480Z",
+      "action": "VERKAUF",
+      "symbol": "EL",
+      "amount": 251.79482385173208,
+      "fee": 2,
+      "trade_pnl": -5.216519148267935,
+      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.36%, Rücklauf vom 20m-Hoch -0.47%· Trade P/L netto -3.22 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 1.6107993051266216
+    },
+    {
+      "ts": "2026-08-19T14:04:25.480Z",
+      "action": "VERKAUF",
+      "symbol": "TGT",
+      "amount": 563.507998101913,
+      "fee": 1,
+      "trade_pnl": -4.856950898087007,
+      "reason": "Momentum-Risk-Exit: starker Lauf kippt (4.0), 5m -0.77%, Rücklauf vom 20m-Hoch -0.77%· Trade P/L netto -3.86 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": -0.6584823379419765
+    },
+    {
+      "ts": "2026-08-19T14:03:15.799Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal TGT: Score 5.70, Konfidenz 77%.",
+      "score": null
+    },
+    {
+      "ts": "2026-08-19T14:01:25.856Z",
       "action": "KAUF",
-      "symbol": "HLUN-B.CO",
-      "amount": -1776.988017,
+      "symbol": "EL",
+      "amount": -257.011343,
+      "fee": 2,
+      "trade_pnl": null,
+      "reason": "KI BUY 88%: DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt. · SELECTIVE-SIZING:  · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 6.5 · Käufer 76% / Verkäufer 24% · letzte 3 2 grün/0 rot · 4 höhere Tiefs/2 tiefere Hochs · Bodenbildung · grünes Volumen führt. · Order 257.01 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 6.874189173111244
+    },
+    {
+      "ts": "2026-08-19T14:00:17.226Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal TGT: Score 6.90, Konfidenz 77%.",
+      "score": null
+    },
+    {
+      "ts": "2026-08-19T13:58:24.682Z",
+      "action": "KAUF",
+      "symbol": "TDG",
+      "amount": -955.42921,
       "fee": 1,
       "trade_pnl": null,
-      "reason": "KI BUY 78%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.56% vom 20m-Hoch stabilisiert sich; 5m +0.24%, Beschl. +1.03 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · DIP-FIRST DYNAMIC: relativer Rücksetzer prior · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 6.2 · Käufer 57% / Verkäufer 43% · letzte 3 0 grün/0 rot · 4 höhere Tiefs/2 tiefere Hochs · Bodenbildung · Topbildung · Verkäuferdruck lässt nach. · Order 1776.99 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 5.85
+      "reason": "KI BUY 88%: DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt. · SELECTIVE-SIZING:  · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 6.9 · Käufer 75% / Verkäufer 25% · letzte 3 2 grün/0 rot · 5 höhere Tiefs/1 tiefere Hochs · Bodenbildung · grünes Volumen führt. · Order 955.43 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 4.3
+    },
+    {
+      "ts": "2026-08-19T13:57:16.442Z",
+      "action": "KAUF",
+      "symbol": "PFE",
+      "amount": -858.906522,
+      "fee": 1,
+      "trade_pnl": null,
+      "reason": "KI BUY 88%: DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt. · SELECTIVE-SIZING:  · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 6.0 · Käufer 77% / Verkäufer 23% · letzte 3 0 grün/2 rot · 4 höhere Tiefs/3 tiefere Hochs · Bodenbildung · grünes Volumen führt. · Order 858.91 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 4.7
     }
   ],
   "recentAiLog": [
+    {
+      "ts": "2026-08-19T14:15:15.788Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "MRK",
+      "message": "MRK: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.28%, Rücklauf vom 20m-Hoch -0.47%",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T14:13:25.171Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "PFE",
+      "message": "PFE: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.05%, Rücklauf vom 20m-Hoch -0.30%",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T14:12:16.577Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "SAP",
+      "message": "SAP: KI BUY 87%: DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt. · SELECTIVE-SIZING:  · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 6.3 · Käufer 75% / Verkäufer 26% · letzte 3 1 grün/1 rot · 4 höhere Tiefs/2 tiefere Hochs · Bodenbildung · grünes Volumen führt.",
+      "confidence": 0.7695
+    },
+    {
+      "ts": "2026-08-19T14:12:16.577Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "KREATE.HE",
+      "message": "KREATE.HE: KI SELL 74%: CANDLE-FLOW PROACTIVE SELL V2.1: eindeutige Verkäuferdominanz unabhängig von der Haltedauer · Exit-Qualität 7.4 · Käufer 47% / Verkäufer 53% · letzte 3 0 grün/1 rot · 4 höhere Tiefs/5 tiefere Hochs · Topbildung · rotes Volumen führt.",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T14:07:23.675Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "MRK",
+      "message": "MRK: KI BUY 82%: DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt. · SELECTIVE-SIZING:  · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 7.7 · Käufer 61% / Verkäufer 39% · letzte 3 2 grün/0 rot · 3 höhere Tiefs/3 tiefere Hochs · Bodenbildung · Topbildung · Verkäuferdruck lässt nach.",
+      "confidence": 0.7695
+    },
+    {
+      "ts": "2026-08-19T14:04:25.480Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "EL",
+      "message": "EL: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.36%, Rücklauf vom 20m-Hoch -0.47%",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T14:04:25.480Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "TGT",
+      "message": "TGT: Momentum-Risk-Exit: starker Lauf kippt (4.0), 5m -0.77%, Rücklauf vom 20m-Hoch -0.77%",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T14:03:15.799Z",
+      "kind": "IDEA",
+      "title": "Beobachtungskandidat",
+      "symbol": "TGT",
+      "message": "TGT: Kein Trade. Bestes Signal TGT: Score 5.70, Konfidenz 77%.",
+      "confidence": 0.7695
+    },
+    {
+      "ts": "2026-08-19T14:01:25.856Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "EL",
+      "message": "EL: KI BUY 88%: DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt. · SELECTIVE-SIZING:  · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 6.5 · Käufer 76% / Verkäufer 24% · letzte 3 2 grün/0 rot · 4 höhere Tiefs/2 tiefere Hochs · Bodenbildung · grünes Volumen führt.",
+      "confidence": 0.7875
+    },
+    {
+      "ts": "2026-08-19T13:58:24.682Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "TDG",
+      "message": "TDG: KI BUY 88%: DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt. · SELECTIVE-SIZING:  · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 6.9 · Käufer 75% / Verkäufer 25% · letzte 3 2 grün/0 rot · 5 höhere Tiefs/1 tiefere Hochs · Bodenbildung · grünes Volumen führt.",
+      "confidence": 0.7038
+    },
+    {
+      "ts": "2026-08-19T13:57:16.442Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "PFE",
+      "message": "PFE: KI BUY 88%: DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt. · SELECTIVE-SIZING:  · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 6.0 · Käufer 77% / Verkäufer 23% · letzte 3 0 grün/2 rot · 4 höhere Tiefs/3 tiefere Hochs · Bodenbildung · grünes Volumen führt.",
+      "confidence": 0.7695
+    },
     {
       "ts": "2026-08-19T13:52:26.808Z",
       "kind": "TRADE",
@@ -441,94 +527,6 @@
       "title": "Verkauf ausgeführt",
       "symbol": "MTG-B.ST",
       "message": "MTG-B.ST: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.08%, Rücklauf vom 20m-Hoch -0.46%",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T13:36:16.041Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "SSAB-B.ST",
-      "message": "SSAB-B.ST: KI SELL 86%: CANDLE-FLOW PROACTIVE SELL: Verkäufer übernehmen unabhängig von der Haltedauer · Exit-Qualität 7.2 · Käufer 28% / Verkäufer 73% · letzte 3 0 grün/1 rot · 1 höhere Tiefs/6 tiefere Hochs · Topbildung.",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T13:31:23.690Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "NETC.CO",
-      "message": "NETC.CO: KI SELL 70%: CANDLE-FLOW PROACTIVE SELL: Verkäufer übernehmen unabhängig von der Haltedauer · Exit-Qualität 5.9 · Käufer 53% / Verkäufer 47% · letzte 3 0 grün/0 rot · 3 höhere Tiefs/4 tiefere Hochs · Bodenbildung · Topbildung.",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T13:28:24.955Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "ENR.DE",
-      "message": "ENR.DE: Kein Trade. Bestes Signal ENR.DE: Score 4.70, Konfidenz 74%.",
-      "confidence": 0.7371
-    },
-    {
-      "ts": "2026-08-19T13:25:23.892Z",
-      "kind": "SYSTEM",
-      "title": "Kurs-/FX-Ausreißer korrigiert",
-      "symbol": "",
-      "message": "Quote-Sanity: 1 Position(en) korrigiert, davon 1 FX-Einstiegsbasis repariert, 0 bereits verbuchte FX-Phantom-Verkäufe korrigiert, 0 extremer Feed-Ausreißer verworfen, 0 fehlerhafte Depot-Snapshot(s) entfernt.",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T13:24:16.435Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "NETC.CO",
-      "message": "NETC.CO: KI BUY 89%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.56% vom 20m-Hoch stabilisiert sich; 5m +0.13%, Beschl. +0.38 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · DIP-FIRST DYNAMIC: relativer Rücksetzer prior · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 5.4 · Käufer 100% / Verkäufer 0% · letzte 3 1 grün/0 rot · 3 höhere Tiefs/3 tiefere Hochs · Bodenbildung · Topbildung · grünes Volumen führt.",
-      "confidence": 0.78
-    },
-    {
-      "ts": "2026-08-19T13:22:25.955Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "HLUN-B.CO",
-      "message": "HLUN-B.CO: KI SELL 80%: CANDLE-FLOW PROACTIVE SELL: Verkäufer übernehmen unabhängig von der Haltedauer · Exit-Qualität 7.5 · Käufer 36% / Verkäufer 64% · letzte 3 1 grün/1 rot · 2 höhere Tiefs/3 tiefere Hochs · Bodenbildung · Topbildung.",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T13:15:17.353Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "OVZON.ST",
-      "message": "OVZON.ST: KI BUY 89%: DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt. · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 5.9 · Käufer 84% / Verkäufer 16% · letzte 3 0 grün/0 rot · 4 höhere Tiefs/2 tiefere Hochs · Bodenbildung · Verkäuferdruck lässt nach.",
-      "confidence": 0.63
-    },
-    {
-      "ts": "2026-08-19T13:13:22.612Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "DEMANT.CO",
-      "message": "DEMANT.CO: Kein Trade. Bestes Signal DEMANT.CO: Score 5.85, Konfidenz 78%.",
-      "confidence": 0.78
-    },
-    {
-      "ts": "2026-08-19T13:12:16.422Z",
-      "kind": "SYSTEM",
-      "title": "Kurs-/FX-Ausreißer korrigiert",
-      "symbol": "",
-      "message": "Quote-Sanity: 1 Position(en) korrigiert, davon 1 FX-Einstiegsbasis repariert, 0 bereits verbuchte FX-Phantom-Verkäufe korrigiert, 0 extremer Feed-Ausreißer verworfen, 1 fehlerhafte Depot-Snapshot(s) entfernt.",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T13:10:25.484Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "HLUN-B.CO",
-      "message": "HLUN-B.CO: KI BUY 78%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.56% vom 20m-Hoch stabilisiert sich; 5m +0.24%, Beschl. +1.03 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · DIP-FIRST DYNAMIC: relativer Rücksetzer prior · CANDLE-FLOW BUY: Dip/Boden mit Käuferübernahme · Dip-Qualität 6.2 · Käufer 57% / Verkäufer 43% · letzte 3 0 grün/0 rot · 4 höhere Tiefs/2 tiefere Hochs · Bodenbildung · Topbildung · Verkäuferdruck lässt nach.",
-      "confidence": 0.78
-    },
-    {
-      "ts": "2026-08-19T13:03:18.300Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "YIT.HE",
-      "message": "YIT.HE: KI SELL 70%: CANDLE-FLOW PROACTIVE SELL: Verkäufer übernehmen unabhängig von der Haltedauer · Exit-Qualität 8.1 · Käufer 85% / Verkäufer 15% · letzte 3 0 grün/1 rot · 2 höhere Tiefs/4 tiefere Hochs · Bodenbildung · Topbildung.",
       "confidence": null
     }
   ],
@@ -612,6 +610,7 @@
     "normalSoftExitMinProfitPct": null,
     "exitTiming": "CANDLE_FLOW_DYNAMIC",
     "candleFlowConfirmation": true,
+    "multiTimeframeConfirmation": true,
     "foreignFxBuyRequiresRealFx": true,
     "forcedMinimumBuyPct": null,
     "timeBasedSell": false
@@ -715,7 +714,10 @@
     "dipSelectionMode": "RELATIVE_DYNAMIC",
     "realDipBeatsHighBuy": true,
     "candleFlowConfirmation": true,
+    "multiTimeframeConfirmation": true,
     "candleInterval": "1m",
+    "dailyContext": "6mo/1d",
+    "weeklyContext": "2y/1wk",
     "foreignFxBuyRequiresRealFx": true,
     "timeBasedExit": false,
     "maxSingleNewPositionRiskCapPct": 28
@@ -723,10 +725,10 @@
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 3,
+    "activePositions": 4,
     "pendingEntries": 0,
-    "completedTradeOutcomes": 53,
-    "timedCheckpoints": 44,
+    "completedTradeOutcomes": 58,
+    "timedCheckpoints": 46,
     "horizonsMinutes": [
       15,
       30,
@@ -749,12 +751,12 @@
     "buckets": [
       {
         "bucket": "CHASE_NEAR_HIGH",
-        "samples15": 13,
-        "totalCheckpoints": 20,
-        "qualityPct": 0.015,
-        "winRatePct": 34.2,
+        "samples15": 14,
+        "totalCheckpoints": 21,
+        "qualityPct": -0.009,
+        "winRatePct": 32.9,
         "block": false,
-        "scoreDelta": -0.576528846153846
+        "scoreDelta": -0.5896785714285714
       },
       {
         "bucket": "NORMAL_ENTRY",
@@ -767,10 +769,10 @@
       },
       {
         "bucket": "PULLBACK_RETEST",
-        "samples15": 3,
-        "totalCheckpoints": 8,
-        "qualityPct": 0.243,
-        "winRatePct": 53.3,
+        "samples15": 4,
+        "totalCheckpoints": 9,
+        "qualityPct": 0.22,
+        "winRatePct": 57.5,
         "block": false,
         "scoreDelta": 0
       },
@@ -785,6 +787,24 @@
       }
     ],
     "recentTiming": [
+      {
+        "at": 1787148985725,
+        "symbol": "TDG",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 15,
+        "pnlPct": -0.7,
+        "maePct": -0.7,
+        "mfePct": -0.05
+      },
+      {
+        "at": 1787148805171,
+        "symbol": "PFE",
+        "bucket": "PULLBACK_RETEST",
+        "horizonMin": 15,
+        "pnlPct": 0.06,
+        "maePct": -0.21,
+        "mfePct": 0.34
+      },
       {
         "at": 1787147297421,
         "symbol": "KREATE.HE",
@@ -874,24 +894,6 @@
         "pnlPct": -0.1,
         "maePct": -0.1,
         "mfePct": -0.1
-      },
-      {
-        "at": 1787144124260,
-        "symbol": "LOGI-B.ST",
-        "bucket": "NORMAL_ENTRY",
-        "horizonMin": 30,
-        "pnlPct": 0.47,
-        "maePct": -0.14,
-        "mfePct": 0.47
-      },
-      {
-        "at": 1787143875824,
-        "symbol": "SCHO.CO",
-        "bucket": "NORMAL_ENTRY",
-        "horizonMin": 30,
-        "pnlPct": -0.38,
-        "maePct": -0.38,
-        "mfePct": 0
       }
     ],
     "pendingOnlyForExecutedPositions": true,
@@ -901,30 +903,30 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T13:53:12.028Z",
-    "ageSeconds": 40,
+    "lastSeenAt": "2026-08-19T14:18:12.118Z",
+    "ageSeconds": 60,
     "metrics": {
-      "lastSeenAt": "2026-08-19T13:53:12.028Z",
+      "lastSeenAt": "2026-08-19T14:18:12.118Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 14056002,
+      "storageBytes": 14454324,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.12,
-      "ramMb": 58.9,
-      "downloadedBytes": 1533519906,
-      "uploadedBytes": 1845420,
+      "cpuPct": 0.1,
+      "ramMb": 60.3,
+      "downloadedBytes": 2090251541,
+      "uploadedBytes": 2790263,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
-      "lastLocalCleanupAt": "2026-08-19T13:33:16.0323653Z",
+      "lastLocalCleanupAt": "2026-08-19T14:04:25.1447063Z",
       "lastError": null
     },
     "singleScannerProfileDetected": true
   },
   "risk": {
-    "equity": 9895.648401534452,
-    "dailyPct": -1.0435159846554742,
-    "availableCash": 7668.80823038427,
+    "equity": 9872.581767074429,
+    "dailyPct": -1.274182329255713,
+    "availableCash": 7254.7392329581335,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -943,8 +945,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 215,
-      "updated_at": "2026-08-19T13:52:26.788Z"
+      "latency_ms": 186,
+      "updated_at": "2026-08-19T14:16:25.707Z"
     },
     {
       "source": "Yahoo FX",
@@ -952,17 +954,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 107,
-      "updated_at": "2026-08-19T13:52:26.788Z"
+      "latency_ms": 116,
+      "updated_at": "2026-08-19T14:16:25.707Z"
     },
     {
       "source": "Yahoo 1m Chart",
       "status": "OK",
-      "ok_count": 11,
+      "ok_count": 12,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 246,
-      "updated_at": "2026-08-19T13:52:26.788Z"
+      "latency_ms": 107,
+      "updated_at": "2026-08-19T14:16:25.707Z"
     },
     {
       "source": "Yahoo Events",
@@ -971,16 +973,16 @@
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
       "latency_ms": 91,
-      "updated_at": "2026-08-19T13:52:26.788Z"
+      "updated_at": "2026-08-19T14:16:25.707Z"
     },
     {
       "source": "Yahoo News",
       "status": "OK",
-      "ok_count": 11,
+      "ok_count": 10,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 340,
-      "updated_at": "2026-08-19T13:52:26.788Z"
+      "latency_ms": 305,
+      "updated_at": "2026-08-19T14:16:25.707Z"
     },
     {
       "source": "BörsenNews",
@@ -989,25 +991,7 @@
       "fail_count": 1,
       "last_error": "Error: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/configuration/#limits",
       "latency_ms": 0,
-      "updated_at": "2026-08-19T13:52:26.788Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1076,
-      "updated_at": "2026-08-19T13:52:26.788Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1171,
-      "updated_at": "2026-08-19T13:52:26.788Z"
+      "updated_at": "2026-08-19T14:16:25.707Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -1015,8 +999,26 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 2218,
-      "updated_at": "2026-08-19T13:52:26.788Z"
+      "latency_ms": 1097,
+      "updated_at": "2026-08-19T14:16:25.707Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1153,
+      "updated_at": "2026-08-19T14:16:25.707Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1682,
+      "updated_at": "2026-08-19T14:16:25.707Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -1025,16 +1027,16 @@
       "fail_count": 8,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T13:52:26.788Z"
+      "updated_at": "2026-08-19T14:16:25.707Z"
     },
     {
       "source": "Second-Chance 1m",
       "status": "DEGRADED",
       "ok_count": 0,
-      "fail_count": 2,
+      "fail_count": 4,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T13:52:26.788Z"
+      "updated_at": "2026-08-19T14:16:25.707Z"
     }
   ]
 }
