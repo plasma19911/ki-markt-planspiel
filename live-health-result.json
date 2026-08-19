@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T10:18:44.251309+00:00",
+  "checkedAt": "2026-08-19T10:19:27.778547+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -45,10 +45,10 @@
     "pcWideSweep"
   ],
   "running": 1,
-  "scanCount": 42,
-  "lastScan": "2026-08-19T10:18:20.485Z",
+  "scanCount": 43,
+  "lastScan": "2026-08-19T10:19:21.078Z",
   "lastError": null,
-  "aiLastSummary": "Deterministischer Ersatzplan · OUTER-FULL-CASH: 100% des verfügbaren Cashs auf 1 Aktien-BUY(s) verteilt. · Legacy-Cash-Failsafe: 1 · EARLY-DIP: 1 ungeeignete Idee(n) gestoppt; kein Kauf – aktuell kein kontrollierter Einstieg.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 8 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks. Beste HOLD · PU · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
   "cash": 10000,
   "equity": 10000,
   "pnl": 0,
@@ -58,23 +58,12 @@
   "candidates": 8,
   "topCandidates": [
     {
-      "symbol": "ASELS.IS",
-      "name": "Aselsan",
-      "score": 4.25,
+      "symbol": "LDO.MI",
+      "name": "Leonardo",
+      "score": 3.5,
       "confidence": 0.63,
-      "day_change": 3.0163934426229444,
+      "day_change": 0.7099422431620983,
       "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.38% · Momentum baut sich auf · Beschleunigung +0.32%",
-      "contra": ""
-    },
-    {
-      "symbol": "AIR.PA",
-      "name": "Airbus",
-      "score": 3.4805004363636365,
-      "confidence": 0.7508100436363636,
-      "day_change": 0.8341291953087637,
-      "news_score": -0.04611570247933884,
       "event_risk": "NONE",
       "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 56 konstruktiv",
       "contra": ""
@@ -91,15 +80,15 @@
       "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     },
     {
-      "symbol": "FCT.MI",
-      "name": "Fincantieri",
+      "symbol": "ASELS.IS",
+      "name": "Aselsan",
       "score": 2.75,
       "confidence": 0.555,
-      "day_change": 0.39619711801859303,
+      "day_change": 3.0163934426229444,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.52% · Momentum baut sich auf · Beschleunigung +0.08%",
-      "contra": "RSI 80 überhitzt"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.32% · Momentum baut sich auf · Beschleunigung +0.26%",
+      "contra": "RSI 83 überhitzt"
     },
     {
       "symbol": "KOG.OL",
@@ -113,36 +102,47 @@
       "contra": ""
     },
     {
+      "symbol": "AIR.PA",
+      "name": "Airbus",
+      "score": 2.4805004363636365,
+      "confidence": 0.6508100436363636,
+      "day_change": 0.8341291953087637,
+      "news_score": -0.04611570247933884,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "contra": ""
+    },
+    {
       "symbol": "SAF.PA",
       "name": "Safran",
       "score": 1.5,
       "confidence": 0.43000000000000005,
-      "day_change": 1.0195446635602456,
+      "day_change": 1.0478583384221807,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "EMA9 über EMA21",
       "contra": "Kurs unter EMA21"
     },
     {
-      "symbol": "LDO.MI",
-      "name": "Leonardo",
-      "score": 1.1,
-      "confidence": 0.39,
-      "day_change": 0.6254205194335283,
+      "symbol": "FCT.MI",
+      "name": "Fincantieri",
+      "score": 1,
+      "confidence": 0.38,
+      "day_change": 0.4358176761875221,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21",
-      "contra": "Kurs unter EMA21"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "contra": "RSI 87 überhitzt"
     },
     {
       "symbol": "SIE.DE",
       "name": "Siemens Aktiengesellschaft",
       "score": 0.8,
       "confidence": 0.36000000000000004,
-      "day_change": 0.2538071065989911,
+      "day_change": 0.3081921307049873,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "Kurs über EMA21 · RSI 48 konstruktiv",
+      "pro": "Kurs über EMA21 · RSI 57 konstruktiv",
       "contra": "EMA-Trend schwach"
     }
   ],
@@ -154,7 +154,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal ASELS.IS: Score 4.25, Konfidenz 63%.",
+      "reason": "Kein Trade. Bestes Signal LDO.MI: Score 3.50, Konfidenz 63%.",
       "score": null
     },
     {
@@ -209,8 +209,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 573,
-      "updated_at": "2026-08-19T10:18:12.218Z"
+      "latency_ms": 219,
+      "updated_at": "2026-08-19T10:19:20.947Z"
     },
     {
       "source": "Yahoo FX",
@@ -218,8 +218,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 115,
-      "updated_at": "2026-08-19T10:18:12.218Z"
+      "latency_ms": 116,
+      "updated_at": "2026-08-19T10:19:20.947Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -227,8 +227,8 @@
       "ok_count": 8,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 252,
-      "updated_at": "2026-08-19T10:18:12.218Z"
+      "latency_ms": 96,
+      "updated_at": "2026-08-19T10:19:20.947Z"
     },
     {
       "source": "Yahoo Events",
@@ -236,8 +236,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 217,
-      "updated_at": "2026-08-19T10:18:12.218Z"
+      "latency_ms": 188,
+      "updated_at": "2026-08-19T10:19:20.947Z"
     },
     {
       "source": "Yahoo News",
@@ -245,17 +245,8 @@
       "ok_count": 8,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 736,
-      "updated_at": "2026-08-19T10:18:12.218Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 321,
-      "updated_at": "2026-08-19T10:18:12.218Z"
+      "latency_ms": 333,
+      "updated_at": "2026-08-19T10:19:20.947Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -263,17 +254,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 377,
-      "updated_at": "2026-08-19T10:18:12.218Z"
+      "latency_ms": 299,
+      "updated_at": "2026-08-19T10:19:20.947Z"
     },
     {
-      "source": "FinanzNachrichten",
+      "source": "BörsenNews",
       "status": "OK",
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 956,
-      "updated_at": "2026-08-19T10:18:12.218Z"
+      "latency_ms": 334,
+      "updated_at": "2026-08-19T10:19:20.947Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -281,8 +272,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1113,
-      "updated_at": "2026-08-19T10:18:12.218Z"
+      "latency_ms": 555,
+      "updated_at": "2026-08-19T10:19:20.947Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 951,
+      "updated_at": "2026-08-19T10:19:20.947Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -291,7 +291,7 @@
       "fail_count": 4,
       "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-19T10:18:12.218Z"
+      "updated_at": "2026-08-19T10:19:20.947Z"
     },
     {
       "source": "Second-Chance 1m",
@@ -300,7 +300,7 @@
       "fail_count": 2,
       "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-19T10:18:12.218Z"
+      "updated_at": "2026-08-19T10:19:20.947Z"
     }
   ],
   "risk": {
@@ -381,7 +381,7 @@
     "enabled": true,
     "target": 24,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T10:16:16.193Z",
+    "updatedAt": "2026-08-19T10:19:17.962Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -404,7 +404,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T10:16:16.193Z",
+    "updatedAt": "2026-08-19T10:19:17.962Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -429,7 +429,7 @@
     "enabled": true,
     "target": 64,
     "candidateCount": 0,
-    "updatedAt": "2026-08-19T10:18:08.749Z",
+    "updatedAt": "2026-08-19T10:19:18.358Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "profile": "STANDARD_WIDE_SWEEP",
@@ -463,7 +463,7 @@
     "enabled": true,
     "target": 24,
     "candidateCount": 2,
-    "updatedAt": "2026-08-19T10:18:20.561Z",
+    "updatedAt": "2026-08-19T10:19:21.078Z",
     "fresh": true,
     "retentionMinutes": 15,
     "recheckPerScan": 6,
@@ -747,14 +747,19 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T10:19:20.485Z",
+    "nextScanAt": "2026-08-19T10:20:21.078Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
     "persistentLeaderCache": true,
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
-    "lastFetchBudget": null,
+    "lastFetchBudget": {
+      "actual": 36,
+      "cacheHits": 0,
+      "blocked": 27,
+      "cap": 36
+    },
     "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Dip/Rebound-Radar beobachtet bis zu 24 Tagesverlierer; der neue Early-Dip-Pfad darf gebremste Ruecksetzer schon vor dem offensichtlichen Rebound in die Tiefenpruefung heben. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. Der Haupt-C#-Agent bleibt aktiv; ein Fast-Radar kann parallel weitere frische Dips/HOT-Werte zuliefern, ohne einen zweiten Trade-Scan auszulösen. Nur die bis zu 64 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen. Tages-Replay kann auf dem PC lokal laufen und spaeter synchronisiert werden; morgens werden die aktuellen News-/Forward-Signale neu geladen.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
@@ -804,10 +809,10 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T10:18:08.749Z",
-    "ageSeconds": 35,
+    "lastSeenAt": "2026-08-19T10:19:18.358Z",
+    "ageSeconds": 9,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-19T10:16:16.193Z",
+    "prefetchAt": "2026-08-19T10:19:17.962Z",
     "resolvedLeaderCount": 6,
     "leaderHealthy": false,
     "futureCandidates": 0,
@@ -818,16 +823,16 @@
     "wideSweepMasterCount": 8530,
     "wideSweepScannedCount": 656,
     "metrics": {
-      "lastSeenAt": "2026-08-19T10:18:08.749Z",
+      "lastSeenAt": "2026-08-19T10:19:18.358Z",
       "version": "2.0.13-csharp-keyless-multisou",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 10726075,
+      "storageBytes": 10728442,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0,
-      "ramMb": 54,
-      "downloadedBytes": 80193910,
-      "uploadedBytes": 408349,
+      "cpuPct": 0.01,
+      "ramMb": 56.1,
+      "downloadedBytes": 89652932,
+      "uploadedBytes": 410372,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_KEYLESS_MULTISOURCE_LOW_L",
       "lastLocalCleanupAt": "2026-08-19T10:16:44.1326952Z",
