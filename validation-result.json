@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-19T18:45:05.717067+00:00",
-  "commit": "7fe471265c004e8c3002c06a748ba19f00da39e1",
+  "checkedAt": "2026-08-19T18:45:21.885317+00:00",
+  "commit": "7216451c820d585d08f2ad216bd59fecfaf5c24b",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 6s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 7s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -242,9 +242,9 @@
       "tail": "{\n  \"ok\": true,\n  \"base\": {\n    \"minAge\": 10,\n    \"smallOrderPenalty\": true\n  },\n  \"replay\": {\n    \"samples\": 5,\n    \"minAgeBonusMinutes\": 3,\n    \"gapBonus\": 0.293,\n    \"reason\": \"Tages-Replay bremst Kosten-Churn moderat: 5 schnelle Roundtrips, P/L -8.40 EUR, Gebuehren 7.00 EUR\"\n  },\n  \"hardReversalImmediate\": true\n}\n"
     },
     "pc_wide_sweep": {
-      "ok": false,
-      "exitCode": 1,
-      "tail": "node:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Veraltete Wide-Sweep-Signale duerfen nicht verwendet werden\n\ntrue !== false\n\n    at file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/scripts/smoke-pc-wide-sweep.mjs:22:8\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: true,\n  expected: false,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"target\": 64,\n  \"dipReserve\": 44,\n  \"selected\": 64,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-19T18:44:59.820Z\",\n    \"ageSeconds\": 20,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"freshMerge\": {\n    \"symbol\": \"FRESH.DE\",\n    \"wideScore\": 29.8,\n    \"m5Pct\": 0.02,\n    \"m20Pct\": 0.1,\n    \"accelerationPct\": 0.02,\n    \"sessionPct\": 0.2,\n    \"last\": 10.1,\n    \"observedAt\": \"2026-08-19T18:45:09.820Z\",\n    \"ageSeconds\": 10,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"forcedBuy\": false\n}\n"
     },
     "yahoo_sanity": {
       "ok": true,
@@ -262,9 +262,7 @@
       "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 45 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 811.50 KiB / gzip: 207.44 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
     }
   },
-  "failedChecks": [
-    "pc_wide_sweep"
-  ],
-  "allCodeAndRegressionChecksPassed": false,
+  "failedChecks": [],
+  "allCodeAndRegressionChecksPassed": true,
   "note": "Wrangler dry-run may report required runtime-secret/auth limitations in CI; syntax and smoke regressions are listed separately."
 }
