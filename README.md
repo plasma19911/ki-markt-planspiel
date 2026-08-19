@@ -5,7 +5,7 @@ Reines Paper-Trading / Planspiel. Keine echten Orders und aktuell kein Broker-Zu
 ## Was diese Version macht
 
 - läuft serverseitig auf Cloudflare, auch wenn PC, Handy und Browser aus sind
-- Cron Trigger jede Minute (`* * * * *`)
+- Cron Trigger alle 5 Minuten an Handelstagen (`*/5 5-22 * * 1-5`); der Windows-PC-Agent liefert die Minutenauflösung
 - SQLite Durable Object speichert Depot, Positionen, Verlauf, Lernwerte und Entscheidungen dauerhaft
 - Zieldepot für eine spätere praktische Umsetzung: **finanzen.net ZERO / gettex**
 - tägliches, branchenunabhängiges Aktienuniversum mit bis zu **3.000 liquiden Unternehmen**
@@ -39,7 +39,7 @@ Das Kostenmodell ist bewusst konservativ: Kleinst-/Bruchstückorders werden mit 
 
 ## Cloudflare Free
 
-Der Minuten-Cron bedeutet 1.440 geplante Läufe pro Tag. Der breite Aktienpool wird deshalb rotierend gescannt, damit ein einzelner Worker-Aufruf nicht mit Tausenden externen Kurs-/News-Abfragen überladen wird. Die KI hat zusätzlich Cooldowns und Fehler-Fallbacks; bei KI-Limits werden keine erfundenen Ersatzentscheidungen erzeugt.
+Der 5-Minuten-Cron an Werktagen bedeutet rund 220 geplante Läufe pro Tag statt 1.440. Der breite Aktienpool wird deshalb rotierend gescannt, damit ein einzelner Worker-Aufruf nicht mit Tausenden externen Kurs-/News-Abfragen überladen wird. Die KI hat zusätzlich Cooldowns und Fehler-Fallbacks; bei KI-Limits werden keine erfundenen Ersatzentscheidungen erzeugt.
 
 ## Marktdaten
 
@@ -64,6 +64,19 @@ Dann `http://localhost:8787` öffnen.
 
 Den Cron lokal testen:
 `http://localhost:8787/cdn-cgi/handler/scheduled?cron=*+*+*+*+*`
+
+## Secrets
+
+Beide werden über `npx wrangler secret put NAME` bzw. im Cloudflare-Dashboard gesetzt:
+
+| Secret | Pflicht | Zweck |
+| --- | --- | --- |
+| `PC_AGENT_TOKEN` | ja | Authentifiziert den Windows-PC-Agent auf `/api/agent/*` |
+| `CONTROL_TOKEN` | **ja für Steueraktionen** | Schützt `/api/start`, `/api/stop`, `/api/reset`, `/api/scan` und `/api/migrate-from-old-sql`. Fehlt das Secret, bleiben diese Endpunkte mit HTTP 503 gesperrt. |
+
+Die Oberfläche fragt `CONTROL_TOKEN` beim ersten Steuerklick einmalig ab und legt es im `localStorage` dieses Browsers ab. Ein falsches oder fehlendes Token wird mit HTTP 401 abgewiesen; Cross-Site-Browseraufrufe werden zusätzlich blockiert.
+
+`secrets.required` ist in aktuellen Wrangler-Versionen ein gültiges Konfigurationsfeld. `PC_AGENT_TOKEN` bleibt dort deklariert. `CONTROL_TOKEN` wird erst nach seiner Einrichtung als deploy-seitige Pflichtdeklaration ergänzt, damit der erste Sicherheits-Deploy nicht wegen eines noch fehlenden Secrets blockiert wird.
 
 ## Deploy
 
