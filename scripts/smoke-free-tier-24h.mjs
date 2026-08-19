@@ -13,6 +13,7 @@ const v4=read('src/compact-portfolio-v4.js');
 const v8=read('src/compact-portfolio-v8.js');
 const v9=read('src/compact-portfolio-v9.js');
 const v10=read('src/compact-portfolio-v10.js');
+const v21=read('src/compact-portfolio-v21-source-budget.js');
 const future=read('src/future-watch.js');
 const quota=read('public/quota-guard.js');
 const pcAgent=read('pc-agent/pc-agent.ps1');
@@ -50,8 +51,10 @@ assert.match(v8,/persistentLeaderCache:true/,'Status muss persistenten Leadercac
 assert.match(v8,/EXTERNAL_FETCH_SOFT_CAP=36/,'Pro Scan muss mit Redirect-Reserve vor dem Cloudflare-50er-Hardlimit gebremst werden');
 assert.match(v8,/free-tier-subrequest-soft-cap/,'Soft-Cap muss reale Zusatzfetches blockieren');
 assert.match(v8,/held_symbols_added/,'Gehaltene Aktien muessen unabhaengig von Toplisten zusaetzlich ueberwacht werden');
-assert.match(constants,/DEEP_LIMIT = 2/,'Nur zwei Finalisten duerfen pro Minutenrunde tief geprueft werden');
+assert.match(constants,/DEEP_LIMIT = 6/,'Sechs Finalisten duerfen pro Minutenrunde tief geprueft werden; V21 verteilt diese Slots ohne zusaetzliche Requests auf Pullbacks, Breakouts und regulaere Kandidaten');
 assert.match(constants,/NEWS_RADAR_BATCH = 2/,'News-Radar muss im Minutenprofil klein bleiben');
+assert.match(v21,/earlyDipLiveWave:LIVE_EARLY_WAVE/,'V21 muss den teuren Early-Dip-Live-Wave explizit begrenzen');
+assert.match(v21,/earlyDipPrioritySlots:1/,'V21 muss nur einen festen Qualitaets-Slot plus einen Rotations-Slot verwenden');
 
 assert.match(v9,/gettex-closed-sleep/,'Ausserhalb gettex muss der komplette Scanner schlafen');
 assert.match(v9,/PREOPEN_FETCH_SOFT_CAP=24/,'Pre-Open muss einen eigenen Subrequest-Softcap besitzen');
@@ -103,4 +106,4 @@ assert.equal(cloudflareFallbackEnvelopePerWeekday,216);
 const pcLeaderRefreshesPerTradingDay=1+Math.ceil(marketScansPerTradingDay/5);
 assert.equal(pcLeaderRefreshesPerTradingDay,187);
 
-console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',mode:'WINDOWS_PC_AGENT + CLOUDFLARE_FALLBACK',gettex:'07:25 PREOPEN; 07:30-23:00 OPEN; sonst SLEEP',pcMarketScanRequestsPerTradingDay:marketScansPerTradingDay,preopenRunsPerTradingDay,cloudflareFallbackEnvelopePerWeekday,pcLeaderRefreshesPerTradingDay,dynamicExternalLeaderTarget:25,deepFinalists:2,externalFetchSoftCapPerCloudflareScan:36,preopenFetchSoftCap:24,agentOfflineFallbackSeconds:150,cloudflareFallbackMinutes:5,pcStoragePath:'E:\\KI-Markt-Agent',pcStorageLimitGb:2,pcTrimToGb:1.6,aiNeuronSoftCapPerUtcDay:8000,nightNews:false,nightMarketScans:false},null,2));
+console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',mode:'WINDOWS_PC_AGENT + CLOUDFLARE_FALLBACK',gettex:'07:25 PREOPEN; 07:30-23:00 OPEN; sonst SLEEP',pcMarketScanRequestsPerTradingDay:marketScansPerTradingDay,preopenRunsPerTradingDay,cloudflareFallbackEnvelopePerWeekday,pcLeaderRefreshesPerTradingDay,dynamicExternalLeaderTarget:25,deepFinalists:6,deepRequestCountUnchangedByScaleUp:true,externalFetchSoftCapPerCloudflareScan:36,preopenFetchSoftCap:24,agentOfflineFallbackSeconds:150,cloudflareFallbackMinutes:5,pcStoragePath:'E:\\KI-Markt-Agent',pcStorageLimitGb:2,pcTrimToGb:1.6,aiNeuronSoftCapPerUtcDay:8000,nightNews:false,nightMarketScans:false},null,2));
