@@ -1,6 +1,8 @@
 from pathlib import Path
 import re
 
+# One-shot deterministic migration. The workflow validates all changed runtime files
+# before it is allowed to publish the V8/V9 replacements.
 root=Path(__file__).resolve().parents[1]
 
 def patch(path, transform):
