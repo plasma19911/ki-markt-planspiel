@@ -1,5 +1,6 @@
 import base,{MarketPortfolio} from './index.js';
 import {gettexSessionState} from './gettex-session.js';
+import {positionChartHistoryData} from './position-chart-history.js';
 export {MarketPortfolio};
 
 const portfolio=env=>env.PORTFOLIO.getByName('default-paper-portfolio');
@@ -16,11 +17,20 @@ function noStoreHtml(request,response){
  return new Response(response.body,{status:response.status,statusText:response.statusText,headers});
 }
 
-// Thin production wrapper: normal API/scan behavior stays in index.js. HTML is
-// deliberately never cached so phone/PWA browsers cannot keep an obsolete UI
-// after a deployment. Static versioned CSS/JS assets may still cache normally.
+const json=(x,status=200)=>Response.json(x,{status,headers:{'cache-control':'no-store'}});
+
+// Production wrapper: API/scan behavior stays in index.js. The trade-chart endpoint
+// is intercepted here so closed positions keep a full historical buy/sell window.
+// HTML is never cached so phone/PWA browsers cannot keep an obsolete UI.
 export default{
  async fetch(request,env,ctx){
+  const url=new URL(request.url);
+  if(url.pathname==='/api/position-chart'&&request.method==='GET'){
+   try{
+    const data=await positionChartHistoryData(portfolio(env),url);
+    return json(data,data.status||200);
+   }catch(e){return json({error:String(e?.message||e)},500)}
+  }
   const response=await base.fetch(request,env,ctx);
   return noStoreHtml(request,response);
  },
