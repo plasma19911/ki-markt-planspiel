@@ -15,8 +15,6 @@ function newsRowsFor(symbol,state,c={}){const b=key(symbol).split('.')[0],rows=[
 function shockProfile(c,state,learn={}){const rows=newsRowsFor(c?.symbol,state,c),impact=strongestNewsImpact(rows),m=candidateMetrics(c),positive=impact.direction>0&&impact.impact>=4,negative=impact.direction<0&&impact.impact>=4;
  const shockMove=Math.abs(m.day)>=8||Math.abs(m.m20)>=3;
  const learnedRetest=clamp(num(learn?.summary?.newsShockRetestMultiplier,1),.78,1.22);
- // Je groesser der News-Schock, desto tiefer muss der erste geordnete Retest sein.
- // Die EOD-Lernschleife kann diese Geduld nach echten verpassten/zu-fruehen Trades vorsichtig anpassen.
  const expectedRetest=clamp(Math.sqrt(Math.max(0,Math.abs(m.day)))*.24*learnedRetest,.45,4.75);
  const pulledBack=Number.isFinite(m.draw)&&m.draw<=-expectedRetest;
  const reclaim=m.m5>=0&&m.accel>0&&m.event!=='HIGH';
@@ -36,13 +34,17 @@ function postProcess(r,input,getState,storage){
  for(const a of arr(plan.actions)){
   const act=String(a?.action||'').toUpperCase(),s=key(a),c=map.get(s),p=c?shockProfile(c,state,learn):null;
   if(act==='BUY'&&negative.has(s)){const q=negative.get(s);out.push({symbol:s,action:'HOLD',confidence:.78,allocation_pct:0,reason:`NEWS-IMPACT BLOCK: fundamentaler negativer Katalysator (${reasonImpact(q)}). Kein optischer Dip-Kauf gegen strukturelle News.`});notes.push(`${s} negativer News-Schock blockiert`);continue}
-  if(act==='BUY'&&leader&&key(leader.c)!==s&&leader.p.tooExtended&&leader.p.m.score>=num(c?.score)-.5){out.push({symbol:s,action:'HOLD',confidence:.70,allocation_pct:0,reason:`NEWS-SHOCK PRIORITY: ${key(leader.c)} ist der dominante fundamentale News-Leader, aber noch zu weit vom geordneten Retest entfernt. Cash bleibt frei statt in einen schwaecheren Ersatz-Trade zu gehen.`});notes.push(`Cash fuer ${key(leader.c)}-Retest frei`);continue}
-  if(act==='BUY'&&p?.positive&&p.shockMove&&!p.continuationReady){out.push({symbol:s,action:'HOLD',confidence:.72,allocation_pct:0,reason:`NEWS-SHOCK WAIT: ${reasonImpact(p)}. Grosser News-Sprung wird nicht am Peak gejagt. Dynamischer Retest ca. ${p.expectedRetest.toFixed(2)}% (Lernfaktor ${p.learnedRetest.toFixed(2)}); danach Käufer-Reclaim abwarten.`});notes.push(`${s} wartet auf News-Retest`);continue}
-  if(act==='BUY'&&p?.continuationReady){out.push({...a,allocation_pct:+Math.min(12,Math.max(2,num(a?.allocation_pct))).toFixed(2),confidence:clamp(Math.max(num(a?.confidence,.65),.74),.62,.88),reason:`${String(a?.reason||'').slice(0,210)} · NEWS-SHOCK CONTINUATION: ${reasonImpact(p)} · geordneter Retest ${p.m.draw.toFixed(2)}% und Käufer-Reclaim bestätigt; kleiner Starter, finale Candle-Flow-Prüfung folgt.`});continue}
+  // Ein wartender News-Leader hat KEIN Vetorecht mehr ueber andere gute Setups.
+  // Er reserviert nur gedanklich etwas Kapital; der andere Trade darf als kleiner Starter weiterlaufen.
+  if(act==='BUY'&&leader&&key(leader.c)!==s&&leader.p.tooExtended&&leader.p.m.score>=num(c?.score)-.5){
+   const old=Math.max(1,num(a?.allocation_pct)),next=Math.max(2,old*.78);out.push({...a,allocation_pct:+next.toFixed(2),reason:`${String(a?.reason||'').slice(0,235)} · NEWS-CONTEXT: ${key(leader.c)} ist ein starker News-Leader und wartet noch auf Retest. Dieser gute Nicht-News-Trade wird NICHT blockiert, nur moderat kleiner gestartet (${next.toFixed(1)}%).`});notes.push(`${s} trotz wartendem News-Leader aktiv`);continue
+  }
+  if(act==='BUY'&&p?.positive&&p.shockMove&&!p.continuationReady){out.push({symbol:s,action:'HOLD',confidence:.72,allocation_pct:0,reason:`NEWS-SHOCK WAIT: ${reasonImpact(p)}. Grosser News-Sprung wird nicht am Peak gejagt. Dynamischer Retest ca. ${p.expectedRetest.toFixed(2)}% (Lernfaktor ${p.learnedRetest.toFixed(2)}); danach Käufer-Reclaim abwarten.`});notes.push(`${s} wartet auf eigenen News-Retest`);continue}
+  if(act==='BUY'&&p?.continuationReady){out.push({...a,allocation_pct:+Math.min(14,Math.max(3,num(a?.allocation_pct))).toFixed(2),confidence:clamp(Math.max(num(a?.confidence,.65),.74),.62,.88),reason:`${String(a?.reason||'').slice(0,210)} · NEWS-SHOCK CONTINUATION: ${reasonImpact(p)} · geordneter Retest ${p.m.draw.toFixed(2)}% und Käufer-Reclaim bestätigt; Starter, finale Candle-Flow-Prüfung folgt.`});continue}
   out.push(a);
  }
  const hasBuy=out.some(a=>String(a?.action||'').toUpperCase()==='BUY');
- if(!hasBuy&&leader?.p.continuationReady){out.push({symbol:key(leader.c),action:'BUY',confidence:clamp(Math.max(leader.p.m.confidence,.74),.62,.86),allocation_pct:8,reason:`NEWS-SHOCK AUTO: ${reasonImpact(leader.p)} · nach grossem News-Sprung jetzt geordneter Retest ${leader.p.m.draw.toFixed(2)}% + positiver Reclaim. Kein Peak-Chase; kleiner Starter, Candle-Flow entscheidet final.`});notes.push(`${key(leader.c)} News-Retest aktiviert`)}
+ if(!hasBuy&&leader?.p.continuationReady){out.push({symbol:key(leader.c),action:'BUY',confidence:clamp(Math.max(leader.p.m.confidence,.74),.62,.86),allocation_pct:9,reason:`NEWS-SHOCK AUTO: ${reasonImpact(leader.p)} · nach grossem News-Sprung jetzt geordneter Retest ${leader.p.m.draw.toFixed(2)}% + positiver Reclaim. Kein Peak-Chase; Starter, Candle-Flow entscheidet final.`});notes.push(`${key(leader.c)} News-Retest aktiviert`)}
  plan.actions=out;if(notes.length)plan.summary=`${String(plan.summary||'').slice(0,145)} · NEWS-IMPACT: ${notes.slice(0,3).join(' · ')}.`;return{...r,response:JSON.stringify(plan)};
 }
 
