@@ -93,7 +93,8 @@ assert.match(pcAgent,/leaderMinutes/,'Leader-Voranalyse muss lokal getaktet sein
 assert.match(pcAgent,/futureMinutes/,'Future-Watch muss lokal getaktet sein');
 assert.match(pcInstall,/maxStorageGb=2\.0/,'Installer muss 2 GB Standardlimit setzen');
 assert.match(pcInstall,/trimToGb=1\.6/,'Installer muss auf etwa 1,6 GB zurueckraeumen');
-assert.match(pcInstall,/ONLOGON/,'Windows-Agent muss automatisch bei Anmeldung starten');
+assert.match(pcInstall,/HKCU:\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Run/,'Windows-Agent muss automatisch ueber den Benutzer-Run-Key starten');
+assert.match(pcInstall,/New-ItemProperty -Path \$runKey -Name \$runName/,'Installer muss den Autostartwert ohne Administratorrechte setzen');
 
 let g=gettexSessionState(new Date('2026-08-18T05:24:00Z'));assert.equal(g.phase,'CLOSED');
 g=gettexSessionState(new Date('2026-08-18T05:25:00Z'));assert.equal(g.phase,'PREOPEN');assert.equal(g.prepareNow,true);
