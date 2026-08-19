@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {normalizeWideSweepEntries,WIDE_SWEEP_TARGET,WIDE_SWEEP_DIP_RESERVE} from '../src/wide-sweep-utils.js';
+import {normalizeWideSweepEntries,selectWideSweepLiveWave,WIDE_SWEEP_TARGET,WIDE_SWEEP_DIP_RESERVE} from '../src/wide-sweep-utils.js';
 
 const now=Date.now(),ts=new Date(now-20_000).toISOString();
 const rows=[];
@@ -30,4 +30,15 @@ assert.equal(dipOut.length,WIDE_SWEEP_TARGET);
 assert.equal(dipOut.filter(x=>x.dipDiscovery).length,WIDE_SWEEP_DIP_RESERVE,'Gute fruehe Dips muessen ihre 44 reservierten Plaetze erhalten');
 assert.equal(dipOut.slice(0,WIDE_SWEEP_DIP_RESERVE).every(x=>x.dipDiscovery),true,'Dip-Reserve muss vor Momentum gefuellt werden');
 
-console.log(JSON.stringify({ok:true,target:WIDE_SWEEP_TARGET,dipReserve:WIDE_SWEEP_DIP_RESERVE,selected:out.length,top:out[0],freshMerge:out.find(x=>x.symbol==='FRESH.DE'),forcedBuy:false},null,2));
+const livePool=[
+ {symbol:'DIPBEST.DE',pcWideSweep:true,pcWideSessionPct:-2.2,pcWideM5Pct:-.10,pcWideM20Pct:-.65,pcWideAccelerationPct:.08,pcWideScore:5},
+ {symbol:'HIGH.DE',pcWideSweep:true,pcWideSessionPct:8.0,pcWideM5Pct:.60,pcWideM20Pct:1.4,pcWideAccelerationPct:.20,pcWideScore:99},
+ {symbol:'ROTATE.DE',pcWideSweep:true,pcWideSessionPct:-.8,pcWideM5Pct:-.08,pcWideM20Pct:-.25,pcWideAccelerationPct:.025,pcWideScore:4}
+];
+const waveA=selectWideSweepLiveWave(livePool,100,2),waveB=selectWideSweepLiveWave(livePool,101,2);
+assert.equal(waveA.length,2,'Live-Wave muss beim 2er-Budget genau zwei Kandidaten auswaehlen');
+assert.equal(waveA[0].symbol,'DIPBEST.DE','Qualitaets-Slot muss den besten gebremsten Pullback sofort priorisieren');
+assert.equal(waveB[0].symbol,'DIPBEST.DE','Qualitaets-Slot muss minute-zu-minute stabil beim besten Dip bleiben');
+assert.notEqual(waveA[1].symbol,waveB[1].symbol,'Zweiter Slot muss fuer Vollabdeckung weiter rotieren');
+
+console.log(JSON.stringify({ok:true,target:WIDE_SWEEP_TARGET,dipReserve:WIDE_SWEEP_DIP_RESERVE,selected:out.length,top:out[0],freshMerge:out.find(x=>x.symbol==='FRESH.DE'),liveWave:{priority:waveA[0].symbol,rotating:[waveA[1].symbol,waveB[1].symbol]},forcedBuy:false},null,2));
