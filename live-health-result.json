@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T10:43:48.795538+00:00",
+  "checkedAt": "2026-08-19T10:48:02.712353+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -45,8 +45,8 @@
     "pcWideSweep"
   ],
   "running": 1,
-  "scanCount": 54,
-  "lastScan": "2026-08-19T10:40:21.099Z",
+  "scanCount": 55,
+  "lastScan": "2026-08-19T10:44:33.302Z",
   "lastError": null,
   "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 8 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks. Beste HOLD · PU · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
   "cash": 10000,
@@ -60,12 +60,12 @@
     {
       "symbol": "ASELS.IS",
       "name": "Aselsan",
-      "score": 3.9,
+      "score": 3.6999999999999997,
       "confidence": 0.63,
-      "day_change": 3.0163934426229444,
+      "day_change": 3.2786885245901676,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 55 konstruktiv",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.25%",
       "contra": ""
     },
     {
@@ -73,55 +73,33 @@
       "name": "BASF SE",
       "score": 3.5921912244897958,
       "confidence": 0.7586999999999999,
-      "day_change": 0.5491281776106582,
+      "day_change": 0.607960849304856,
       "news_score": 0.09918367346938778,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 63 konstruktiv",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 67 konstruktiv",
       "contra": ""
     },
     {
-      "symbol": "FCT.MI",
-      "name": "Fincantieri",
-      "score": 2.5,
-      "confidence": 0.53,
-      "day_change": 0.35657655984966397,
+      "symbol": "ASML.AS",
+      "name": "ASML Amsterdam",
+      "score": 1.6,
+      "confidence": 0.44000000000000006,
+      "day_change": 0.35023681228920633,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21",
-      "contra": ""
+      "pro": "Kurs über EMA21 · RSI 51 konstruktiv · 5m +0.21%",
+      "contra": "EMA-Trend schwach"
     },
     {
       "symbol": "R3NK.DE",
       "name": "RENK Group",
-      "score": 1.5,
-      "confidence": 0.43000000000000005,
-      "day_change": 3.250976513657222,
+      "score": 0.7000000000000001,
+      "confidence": 0.35000000000000003,
+      "day_change": 3.2309662381136306,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "EMA9 über EMA21",
-      "contra": "Kurs unter EMA21"
-    },
-    {
-      "symbol": "AIR.PA",
-      "name": "Airbus",
-      "score": 1.0858303617021277,
-      "confidence": 0.5113430361702127,
-      "day_change": 0.8341291953087637,
-      "news_score": -0.03351063829787234,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21",
-      "contra": "Kurs unter EMA21"
-    },
-    {
-      "symbol": "SAF.PA",
-      "name": "Safran",
-      "score": -1.6,
-      "confidence": 0.44000000000000006,
-      "day_change": 0.9345777107007569,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21"
+      "contra": "Kurs unter EMA21 · RSI 32 sehr schwach"
     },
     {
       "symbol": "LDO.MI",
@@ -135,15 +113,37 @@
       "contra": "EMA-Trend schwach · Kurs unter EMA21"
     },
     {
-      "symbol": "OTKAR.IS",
-      "name": "Otokar",
-      "score": -3.3000000000000003,
-      "confidence": 0.6100000000000001,
-      "day_change": 0.7788161993769416,
+      "symbol": "SAF.PA",
+      "name": "Safran",
+      "score": -1.6,
+      "confidence": 0.44000000000000006,
+      "day_change": 0.8779417182189775,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 10 sehr schwach · 5m -0.46%"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21"
+    },
+    {
+      "symbol": "AIR.PA",
+      "name": "Airbus",
+      "score": -1.6,
+      "confidence": 0.44000000000000006,
+      "day_change": 0.7388017652600665,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21"
+    },
+    {
+      "symbol": "KOG.OL",
+      "name": "Kongsberg Gruppen",
+      "score": -2.4000000000000004,
+      "confidence": 0.52,
+      "day_change": 0.49170251997541214,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 20 sehr schwach"
     }
   ],
   "recentHistory": [
@@ -154,7 +154,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal ASELS.IS: Score 3.90, Konfidenz 63%.",
+      "reason": "Kein Trade. Bestes Signal ASELS.IS: Score 3.70, Konfidenz 63%.",
       "score": null
     },
     {
@@ -217,8 +217,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 331,
-      "updated_at": "2026-08-19T10:40:20.948Z"
+      "latency_ms": 567,
+      "updated_at": "2026-08-19T10:44:33.160Z"
     },
     {
       "source": "Yahoo FX",
@@ -226,8 +226,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 9,
-      "updated_at": "2026-08-19T10:40:20.948Z"
+      "latency_ms": 102,
+      "updated_at": "2026-08-19T10:44:33.160Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -235,8 +235,8 @@
       "ok_count": 8,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 96,
-      "updated_at": "2026-08-19T10:40:20.948Z"
+      "latency_ms": 91,
+      "updated_at": "2026-08-19T10:44:33.160Z"
     },
     {
       "source": "Yahoo Events",
@@ -244,8 +244,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 191,
-      "updated_at": "2026-08-19T10:40:20.948Z"
+      "latency_ms": 324,
+      "updated_at": "2026-08-19T10:44:33.160Z"
     },
     {
       "source": "Yahoo News",
@@ -253,35 +253,8 @@
       "ok_count": 8,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1144,
-      "updated_at": "2026-08-19T10:40:20.948Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 253,
-      "updated_at": "2026-08-19T10:40:20.948Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 519,
-      "updated_at": "2026-08-19T10:40:20.948Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 523,
-      "updated_at": "2026-08-19T10:40:20.948Z"
+      "latency_ms": 319,
+      "updated_at": "2026-08-19T10:44:33.160Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -289,8 +262,35 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 926,
-      "updated_at": "2026-08-19T10:40:20.948Z"
+      "latency_ms": 1135,
+      "updated_at": "2026-08-19T10:44:33.160Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1195,
+      "updated_at": "2026-08-19T10:44:33.160Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1229,
+      "updated_at": "2026-08-19T10:44:33.160Z"
+    },
+    {
+      "source": "BörsenNews",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 1231,
+      "updated_at": "2026-08-19T10:44:33.160Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -299,7 +299,7 @@
       "fail_count": 4,
       "last_error": "1m-Kurs nicht frisch",
       "latency_ms": null,
-      "updated_at": "2026-08-19T10:40:20.948Z"
+      "updated_at": "2026-08-19T10:44:33.160Z"
     },
     {
       "source": "Second-Chance 1m",
@@ -308,7 +308,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T10:40:20.948Z"
+      "updated_at": "2026-08-19T10:44:33.160Z"
     }
   ],
   "risk": {
@@ -390,7 +390,7 @@
     "enabled": true,
     "target": 24,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T10:40:17.313Z",
+    "updatedAt": "2026-08-19T10:44:28.566Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -413,7 +413,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T10:40:17.313Z",
+    "updatedAt": "2026-08-19T10:44:28.566Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -438,7 +438,7 @@
     "enabled": true,
     "target": 64,
     "candidateCount": 0,
-    "updatedAt": "2026-08-19T10:43:33.363Z",
+    "updatedAt": "2026-08-19T10:47:37.044Z",
     "fresh": true,
     "source": "WINDOWS_PC_HYBRID_FAST_WIDE_SWEEP",
     "profile": "CSHARP_PLUS_FAST_RADAR",
@@ -462,7 +462,7 @@
     "adaptiveConcurrency": true,
     "fastHelper": {
       "enabled": true,
-      "updatedAt": "2026-08-19T10:43:33.363Z",
+      "updatedAt": "2026-08-19T10:47:37.044Z",
       "profile": "FAST_RADAR_TURBO_V4",
       "parallelRequests": 8,
       "batchesPerMinute": 40,
@@ -487,7 +487,7 @@
     "enabled": true,
     "target": 24,
     "candidateCount": 1,
-    "updatedAt": "2026-08-19T10:40:21.272Z",
+    "updatedAt": "2026-08-19T10:44:33.302Z",
     "fresh": true,
     "retentionMinutes": 15,
     "recheckPerScan": 6,
@@ -771,7 +771,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T10:41:21.099Z",
+    "nextScanAt": "2026-08-19T10:45:33.302Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -828,10 +828,10 @@
   "pcAgent": {
     "configured": true,
     "online": false,
-    "lastSeenAt": "2026-08-19T10:40:17.677Z",
-    "ageSeconds": 211,
+    "lastSeenAt": "2026-08-19T10:44:28.945Z",
+    "ageSeconds": 213,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-19T10:40:17.313Z",
+    "prefetchAt": "2026-08-19T10:44:28.566Z",
     "resolvedLeaderCount": 6,
     "leaderHealthy": false,
     "futureCandidates": 0,
@@ -842,19 +842,19 @@
     "wideSweepMasterCount": 0,
     "wideSweepScannedCount": 0,
     "metrics": {
-      "lastSeenAt": "2026-08-19T10:40:17.677Z",
+      "lastSeenAt": "2026-08-19T10:44:28.945Z",
       "version": "2.0.13-csharp-keyless-multisou",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 11141862,
+      "storageBytes": 11191269,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.02,
-      "ramMb": 95.9,
-      "downloadedBytes": 23172489,
-      "uploadedBytes": 51362,
+      "cpuPct": 0,
+      "ramMb": 76.7,
+      "downloadedBytes": 13618115,
+      "uploadedBytes": 0,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_KEYLESS_MULTISOURCE_LOW_L",
-      "lastLocalCleanupAt": "2026-08-19T10:37:55.9096659Z",
+      "lastLocalCleanupAt": null,
       "lastError": null
     }
   }
