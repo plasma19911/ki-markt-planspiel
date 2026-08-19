@@ -1,0 +1,69 @@
+=== APPLY ===
+src/compact-portfolio-v8.js: patched
+src/compact-portfolio-v9.js: patched
+scripts/smoke-free-tier-24h.mjs: patched
+changed= 3
+apply_rc=0
+=== NPM ===
+
+added 38 packages, and audited 39 packages in 5s
+
+7 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+npm_rc=0
+=== SYNTAX ===
+syntax_rc=0,0,0
+=== FREE TIER ===
+{
+  "ok": true,
+  "cloudflarePlan": "FREE",
+  "mode": "WINDOWS_PC_AGENT + CLOUDFLARE_FALLBACK",
+  "gettex": "07:25 PREOPEN; 07:30-23:00 OPEN; sonst SLEEP",
+  "pcMarketScanRequestsPerTradingDay": 930,
+  "preopenRunsPerTradingDay": 1,
+  "cloudflareFallbackEnvelopePerWeekday": 216,
+  "pcLeaderRefreshesPerTradingDay": 187,
+  "dynamicExternalLeaderTarget": 25,
+  "deepFinalists": 6,
+  "deepRequestCountUnchangedByScaleUp": true,
+  "externalFetchSoftCapPerCloudflareScan": 36,
+  "preopenFetchSoftCap": 24,
+  "agentOfflineFallbackSeconds": 150,
+  "cloudflareFallbackMinutes": 5,
+  "pcStoragePath": "E:\\KI-Markt-Agent",
+  "pcStorageLimitGb": 2,
+  "pcTrimToGb": 1.6,
+  "aiNeuronSoftCapPerUtcDay": 8000,
+  "nightNews": false,
+  "nightMarketScans": false
+}
+free_tier_rc=0
+=== REPLAY DEPOT ===
+{
+  "ok": true,
+  "preliminaryReplay": true,
+  "finalReplayRebuild": true,
+  "pcNormalBucket": true,
+  "depotUnifiedValuation": true,
+  "passwordlessControls": true
+}
+replay_depot_rc=0
+=== WRANGLER ===
+
+ ⛅️ wrangler 4.124.0
+────────────────────
+✨ Read 45 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public
+Total Upload: 837.70 KiB / gzip: 214.71 KiB
+Your Worker has access to the following bindings:
+Binding                              Resource            
+env.PORTFOLIO (MarketPortfolio)      Durable Object      
+env.AI                               AI                  
+env.ASSETS                           Assets              
+
+--dry-run: exiting now.
+
+Cloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md
+wrangler_rc=0
+overall_rc=0
