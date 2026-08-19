@@ -2,6 +2,7 @@ from pathlib import Path
 import re
 
 # Guarded one-shot: Yahoo source is published only after all runtime regressions pass.
+# Triggered after diagnostic capture was installed.
 root=Path(__file__).resolve().parents[1]
 p=root/'src/yahoo-spark-repair.js'
 s=p.read_text(encoding='utf-8')
