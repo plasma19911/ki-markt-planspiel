@@ -13,6 +13,7 @@ const v4=read('src/compact-portfolio-v4.js');
 const v8=read('src/compact-portfolio-v8.js');
 const v9=read('src/compact-portfolio-v9.js');
 const v10=read('src/compact-portfolio-v10.js');
+const v11=read('src/compact-portfolio-v11.js');
 const v21=read('src/compact-portfolio-v21-source-budget.js');
 const future=read('src/future-watch.js');
 const quota=read('public/quota-guard.js');
@@ -21,7 +22,8 @@ const pcInstall=read('pc-agent/install.ps1');
 
 assert.match(wrangler,/"crons"\s*:\s*\["\*\/5 5-22 \* \* 1-5"\]/,'Cloudflare-Cron muss nur alle 5 Minuten als Fallback feuern');
 assert.match(wrangler,/"head_sampling_rate"\s*:\s*0\.1/,'Observability-Sampling muss fuer Free reduziert sein');
-assert.match(index,/compact-portfolio-v10\.js/,'Produktionsentry muss V10 mit Windows-PC-Hybrid nutzen');
+assert.match(index,/compact-portfolio-v11\.js/,'Produktionsentry muss den V11-Kompatibilitätspfad nutzen');
+assert.match(v11,/compact-portfolio-v21-source-budget\.js/,'V11-Kompatibilitätspfad muss auf die aktuelle V21-Source-Budget-Implementierung zeigen');
 assert.match(index,/gettexSessionState/,'Scheduled-Handler muss gettex vor dem Durable Object pruefen');
 assert.match(index,/agentStatus\(\)/,'Cloudflare-Fallback muss den PC-Agent-Heartbeat pruefen');
 assert.match(index,/PC_AGENT_TOKEN/,'PC-Agent-Endpunkte muessen mit einem Cloudflare Secret geschuetzt sein');
@@ -85,25 +87,19 @@ assert.match(pcInstall,/maxStorageGb=2\.0/,'Installer muss 2 GB Standardlimit se
 assert.match(pcInstall,/trimToGb=1\.6/,'Installer muss auf etwa 1,6 GB zurueckraeumen');
 assert.match(pcInstall,/ONLOGON/,'Windows-Agent muss automatisch bei Anmeldung starten');
 
-// Europe/Berlin DST-safe session checks.
 let g=gettexSessionState(new Date('2026-08-18T05:24:00Z'));assert.equal(g.phase,'CLOSED');
 g=gettexSessionState(new Date('2026-08-18T05:25:00Z'));assert.equal(g.phase,'PREOPEN');assert.equal(g.prepareNow,true);
 g=gettexSessionState(new Date('2026-08-18T05:30:00Z'));assert.equal(g.phase,'OPEN');
 g=gettexSessionState(new Date('2026-08-18T20:59:00Z'));assert.equal(g.phase,'OPEN');
 g=gettexSessionState(new Date('2026-08-18T21:00:00Z'));assert.equal(g.phase,'CLOSED');
-// Winter: CET is UTC+1.
 g=gettexSessionState(new Date('2026-01-02T06:25:00Z'));assert.equal(g.phase,'PREOPEN');
 g=gettexSessionState(new Date('2026-01-02T06:30:00Z'));assert.equal(g.phase,'OPEN');
-// Official 2026 gettex holiday and weekend.
 g=gettexSessionState(new Date('2026-05-01T08:00:00Z'));assert.equal(g.phase,'NON_TRADING_DAY');
 g=gettexSessionState(new Date('2026-08-22T10:00:00Z'));assert.equal(g.phase,'NON_TRADING_DAY');
 
-const marketScansPerTradingDay=(23*60)-(7*60+30); // PC 07:30..22:59
-assert.equal(marketScansPerTradingDay,930);
+const marketScansPerTradingDay=(23*60)-(7*60+30);assert.equal(marketScansPerTradingDay,930);
 const preopenRunsPerTradingDay=1;
-const cloudflareFallbackEnvelopePerWeekday=((22-5+1)*60)/5;
-assert.equal(cloudflareFallbackEnvelopePerWeekday,216);
-const pcLeaderRefreshesPerTradingDay=1+Math.ceil(marketScansPerTradingDay/5);
-assert.equal(pcLeaderRefreshesPerTradingDay,187);
+const cloudflareFallbackEnvelopePerWeekday=((22-5+1)*60)/5;assert.equal(cloudflareFallbackEnvelopePerWeekday,216);
+const pcLeaderRefreshesPerTradingDay=1+Math.ceil(marketScansPerTradingDay/5);assert.equal(pcLeaderRefreshesPerTradingDay,187);
 
 console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',mode:'WINDOWS_PC_AGENT + CLOUDFLARE_FALLBACK',gettex:'07:25 PREOPEN; 07:30-23:00 OPEN; sonst SLEEP',pcMarketScanRequestsPerTradingDay:marketScansPerTradingDay,preopenRunsPerTradingDay,cloudflareFallbackEnvelopePerWeekday,pcLeaderRefreshesPerTradingDay,dynamicExternalLeaderTarget:25,deepFinalists:6,deepRequestCountUnchangedByScaleUp:true,externalFetchSoftCapPerCloudflareScan:36,preopenFetchSoftCap:24,agentOfflineFallbackSeconds:150,cloudflareFallbackMinutes:5,pcStoragePath:'E:\\KI-Markt-Agent',pcStorageLimitGb:2,pcTrimToGb:1.6,aiNeuronSoftCapPerUtcDay:8000,nightNews:false,nightMarketScans:false},null,2));
