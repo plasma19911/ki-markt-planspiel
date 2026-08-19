@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T09:05:20.089993+00:00",
+  "checkedAt": "2026-08-19T09:08:35.262595+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -44,83 +44,94 @@
     "pcWideSweep"
   ],
   "running": 1,
-  "scanCount": 10,
-  "lastScan": "2026-08-19T09:04:12.975Z",
+  "scanCount": 13,
+  "lastScan": "2026-08-19T09:08:22.801Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 6 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks. Beste HOLD · PU · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 2 BUY aus 7 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus  · DIP-FIRST: 2 teure/unbestaetigte Idee(n) gestoppt; kein Kauf – Cash wartet auf Dip.",
   "cash": 10000,
   "equity": 10000,
   "pnl": 0,
-  "universeCount": 170,
+  "universeCount": 172,
   "positions": 0,
   "positionRows": [],
-  "candidates": 6,
+  "candidates": 7,
   "topCandidates": [
+    {
+      "symbol": "RRKABEL.NS",
+      "name": "R R Kabel Limited",
+      "score": 6.45,
+      "confidence": 0.63,
+      "day_change": 3.0521707186523805,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 64 konstruktiv · 5m +0.21% · 20m +0.52% · Momentum baut sich auf · Beschleunigung +0.12%",
+      "contra": ""
+    },
+    {
+      "symbol": "LLOYDSENT.NS",
+      "name": "Lloyds Enterprises Limited",
+      "score": 5.05,
+      "confidence": 0.63,
+      "day_change": -0.1644925650020168,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.90% · 20m +0.75% · Momentum baut sich auf · Beschleunigung +0.87%",
+      "contra": ""
+    },
+    {
+      "symbol": "PARAS.NS",
+      "name": "Paras Defence and Space Technologies",
+      "score": 3.7,
+      "confidence": 0.69,
+      "day_change": -0.8577259757824196,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.88%",
+      "contra": ""
+    },
     {
       "symbol": "OTKAR.IS",
       "name": "Otokar",
-      "score": 4.65,
-      "confidence": 0.75,
-      "day_change": 2.024922118380057,
+      "score": 3.4,
+      "confidence": 0.62,
+      "day_change": 2.102803738317749,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.46% · 20m +0.85% · Volumen x8.1 · Momentum baut sich auf · Beschleunigung +0.15%",
-      "contra": "RSI 86 überhitzt"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.31% · 20m +0.85%",
+      "contra": "RSI 82 überhitzt"
     },
     {
       "symbol": "R3NK.DE",
       "name": "RENK Group",
-      "score": 4.1000000000000005,
-      "confidence": 0.7605,
-      "day_change": 3.351004996323126,
+      "score": 2.1000000000000005,
+      "confidence": 0.6205,
+      "day_change": 3.130937755447727,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.84%",
-      "contra": ""
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 67 konstruktiv · 20m +0.55%",
+      "contra": "MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     },
     {
-      "symbol": "SAF.PA",
-      "name": "Safran",
-      "score": 3.9,
-      "confidence": 0.7308,
-      "day_change": 1.3877088643443614,
+      "symbol": "DATAPATTNS.NS",
+      "name": "Data Patterns India",
+      "score": 1,
+      "confidence": 0.38,
+      "day_change": 0.33353035548424614,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv",
-      "contra": ""
-    },
-    {
-      "symbol": "ASML.AS",
-      "name": "ASML Amsterdam",
-      "score": 2.5,
-      "confidence": 0.53,
-      "day_change": 1.1285478772781854,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 53 konstruktiv",
-      "contra": "Kurs unter EMA21"
-    },
-    {
-      "symbol": "AIR.PA",
-      "name": "Airbus",
-      "score": 2.1,
-      "confidence": 0.49000000000000005,
-      "day_change": 0.8341291953087637,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 53 konstruktiv",
-      "contra": "Kurs unter EMA21"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "contra": "RSI 92 überhitzt"
     },
     {
       "symbol": "ASELS.IS",
-      "name": "ASELSAN Elektronik Sanayi ve Ticaret Anonim Sirketi",
-      "score": -2.4,
-      "confidence": 0.52,
-      "day_change": 2.688524590163932,
+      "name": "Aselsan",
+      "score": -2.45,
+      "confidence": 0.525,
+      "day_change": 2.6229508196721207,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21",
-      "contra": "Kurs unter EMA21 · 5m -0.25% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
     }
   ],
   "recentHistory": [
@@ -131,7 +142,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal OTKAR.IS: Score 4.65, Konfidenz 75%.",
+      "reason": "Kein Trade. Bestes Signal RRKABEL.NS: Score 6.45, Konfidenz 63%.",
       "score": null
     },
     {
@@ -162,8 +173,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 279,
-      "updated_at": "2026-08-19T09:04:12.628Z"
+      "latency_ms": 707,
+      "updated_at": "2026-08-19T09:08:22.623Z"
     },
     {
       "source": "Yahoo FX",
@@ -171,8 +182,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 299,
-      "updated_at": "2026-08-19T09:04:12.628Z"
+      "latency_ms": 115,
+      "updated_at": "2026-08-19T09:08:22.623Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -180,8 +191,8 @@
       "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 118,
-      "updated_at": "2026-08-19T09:04:12.628Z"
+      "latency_ms": 169,
+      "updated_at": "2026-08-19T09:08:22.623Z"
     },
     {
       "source": "Yahoo Events",
@@ -189,8 +200,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 215,
-      "updated_at": "2026-08-19T09:04:12.628Z"
+      "latency_ms": 224,
+      "updated_at": "2026-08-19T09:08:22.623Z"
     },
     {
       "source": "Yahoo News",
@@ -198,8 +209,8 @@
       "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1190,
-      "updated_at": "2026-08-19T09:04:12.628Z"
+      "latency_ms": 750,
+      "updated_at": "2026-08-19T09:08:22.623Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -207,26 +218,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 275,
-      "updated_at": "2026-08-19T09:04:12.628Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 527,
-      "updated_at": "2026-08-19T09:04:12.628Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 923,
-      "updated_at": "2026-08-19T09:04:12.628Z"
+      "latency_ms": 456,
+      "updated_at": "2026-08-19T09:08:22.623Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -234,8 +227,35 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 966,
-      "updated_at": "2026-08-19T09:04:12.628Z"
+      "latency_ms": 547,
+      "updated_at": "2026-08-19T09:08:22.623Z"
+    },
+    {
+      "source": "BörsenNews",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 548,
+      "updated_at": "2026-08-19T09:08:22.623Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 931,
+      "updated_at": "2026-08-19T09:08:22.623Z"
+    },
+    {
+      "source": "Second-Chance 1m",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": null,
+      "updated_at": "2026-08-19T09:08:22.623Z"
     }
   ],
   "risk": {
@@ -299,7 +319,7 @@
     "enabled": true,
     "target": 16,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T09:05:16.447Z",
+    "updatedAt": "2026-08-19T09:08:19.221Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -322,7 +342,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T09:05:16.447Z",
+    "updatedAt": "2026-08-19T09:08:19.221Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -346,8 +366,8 @@
   "pcWideSweep": {
     "enabled": true,
     "target": 32,
-    "candidateCount": 1,
-    "updatedAt": "2026-08-19T09:05:16.814Z",
+    "candidateCount": 2,
+    "updatedAt": "2026-08-19T09:08:19.590Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8530,
@@ -374,8 +394,8 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 16,
-    "candidateCount": 2,
-    "updatedAt": "2026-08-19T09:04:14.260Z",
+    "candidateCount": 4,
+    "updatedAt": "2026-08-19T09:08:22.801Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 4,
@@ -654,14 +674,19 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T09:05:12.975Z",
+    "nextScanAt": "2026-08-19T09:09:22.801Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
     "persistentLeaderCache": true,
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
-    "lastFetchBudget": null,
+    "lastFetchBudget": {
+      "actual": 36,
+      "cacheHits": 0,
+      "blocked": 11,
+      "cap": 36
+    },
     "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Dip/Rebound-Radar beobachtet bis zu 16 Tagesverlierer; fallende Messer bleiben gesperrt, bis der Verkaufsdruck nachlaesst bzw. eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. HOT/WARM werden minuetlich priorisiert; der liquide Kern rotiert schneller und der lange Rest wird als beschleunigter Backstop vollstaendig durchlaufen. Nur die bis zu 32 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen; dadurch steigt die Abdeckung ohne mehr Deep-Checks zu erzwingen. Tages-Replay kann auf dem PC lokal laufen und spaeter synchronisiert werden; morgens werden die aktuellen News-/Forward-Signale neu geladen.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
@@ -709,30 +734,30 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T09:05:16.814Z",
-    "ageSeconds": 3,
+    "lastSeenAt": "2026-08-19T09:08:19.590Z",
+    "ageSeconds": 15,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-19T09:05:16.447Z",
+    "prefetchAt": "2026-08-19T09:08:19.221Z",
     "resolvedLeaderCount": 6,
     "leaderHealthy": false,
     "futureCandidates": 0,
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
-    "wideSweepCandidates": 1,
+    "wideSweepCandidates": 2,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8530,
     "wideSweepScannedCount": 656,
     "metrics": {
-      "lastSeenAt": "2026-08-19T09:05:16.814Z",
+      "lastSeenAt": "2026-08-19T09:08:19.590Z",
       "version": "2.0.13-csharp-keyless-multisou",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 8640984,
+      "storageBytes": 8696775,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0.01,
-      "ramMb": 56.1,
-      "downloadedBytes": 443596748,
-      "uploadedBytes": 2325047,
+      "ramMb": 55.6,
+      "downloadedBytes": 453169367,
+      "uploadedBytes": 2377224,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_KEYLESS_MULTISOURCE_LOW_L",
       "lastLocalCleanupAt": "2026-08-19T09:01:28.8978391Z",
