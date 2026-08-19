@@ -64,7 +64,15 @@ assert.match(v9,/noNews:true/,'Schlafmodus muss News explizit deaktivieren');
 assert.match(v9,/preOpenPrepare/,'07:25 muss Overnight-Vorbereitung ohne Trades besitzen');
 assert.match(v9,/noTrades:true/,'Pre-Open darf keine Trades ausfuehren');
 assert.match(v9,/FUTURE_WATCH_COOLDOWN_MS=10\*60\*1000/,'Fruehindikator darf nur alle 10 Minuten extern aktualisiert werden');
-assert.match(future,/AI_POWER_GRID/);assert.match(future,/NUCLEAR_URANIUM/);assert.match(future,/DEFENSE_SECURITY/);assert.match(future,/CYBER_SECURITY/);assert.match(future,/ENERGY_SECURITY/);
+assert.match(future,/MIDDLE_EAST_ENERGY/,'Forward-Radar muss Nahost-/Energie-Risiken beobachten');
+assert.match(future,/RUSSIA_SANCTIONS_DEFENSE/,'Forward-Radar muss Sanktionen/Aufruestung beobachten');
+assert.match(future,/SEMI_EXPORT_CONTROLS/,'Forward-Radar muss Halbleiter-/Exportkontrollen beobachten');
+assert.match(future,/AI_POWER_GRID/,'Forward-Radar muss AI-Strom-/Netzengpaesse beobachten');
+assert.match(future,/NUCLEAR_URANIUM/,'Forward-Radar muss Kernenergie/Uran beobachten');
+assert.match(future,/CYBER_SECURITY/,'Forward-Radar muss Cyberrisiken beobachten');
+assert.match(future,/CRITICAL_MINERALS/,'Forward-Radar muss kritische Rohstoffe beobachten');
+assert.match(future,/SHIPPING_DISRUPTION/,'Forward-Radar muss Handelsrouten beobachten');
+assert.match(future,/RATES_MACRO/,'Forward-Radar muss Zins-/Makrotermine beobachten');
 assert.match(future,/v7\/finance\/spark/,'Cloudflare-Fallback fuer Fruehindikator-Kurse muss gebuendelt bleiben');
 
 assert.match(v10,/AGENT_ONLINE_MS=150\*1000/,'PC-Agent muss nach 150 Sekunden ohne Heartbeat als offline gelten');
@@ -73,7 +81,6 @@ assert.match(v10,/scanFromAgent/,'PC-Agent braucht einen dedizierten Scanpfad');
 assert.match(v10,/cloudflareFallbackIntervalMinutes:5/,'Status muss den 5-Minuten-Fallback ausweisen');
 assert.match(v10,/futureWatch&&this\.engine\?\.store\?\.update/,'PC-Fruehindikator muss in den Hauptzustand uebernommen werden');
 
-// UI quota is enforced by the dedicated quota guard, not by brittle source-string rewrites in index.js.
 assert.match(quota,/ACTIVE_STATUS_TTL_MS=55_000/,'Dashboard muss waehrend Handel fast eine Minute cachen');
 assert.match(quota,/SLEEP_STATUS_TTL_MS=10\*60\*1000/,'Dashboard muss nachts 10 Minuten cachen');
 assert.match(quota,/statusTtl\(\)/,'Statusfetch muss die aktive/ruhende TTL dynamisch benutzen');
