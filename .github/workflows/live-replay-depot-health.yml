@@ -8,6 +8,7 @@ on:
       - 'replay-depot-health-result.json'
       - 'validation-result.json'
       - 'live-health-result.json'
+      - 'recovery-20260819-result.json'
 
 permissions:
   contents: write
@@ -19,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Allow production deploy
-        run: sleep 90
+        run: sleep 75
       - name: Probe production
         run: |
           BASE='https://ki-markt-planspiel.orkimperium.workers.dev'
@@ -83,7 +84,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          for attempt in 1 2 3 4; do
+          for attempt in 1 2 3; do
             git fetch origin main
             git reset --hard origin/main
             cp /tmp/replay-depot-health-result.json replay-depot-health-result.json
