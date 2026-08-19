@@ -41,6 +41,41 @@ function movement(x,s){const n=currentNews(x.symbol,s);if(n)return n.slice(0,190
 function rating(x){if(x.kind==='IM DEPOT')return['Im Depot','hold'];const sc=num(x.score,-99);if(sc>=5)return['Sehr interessant','strong'];if(sc>=3.5)return['Interessant','good'];return['Beobachten','watch']}
 function risk(x){const e=String(x.event_risk||'').toUpperCase();if(e==='HIGH')return['Hohes Event-Risiko','high'];if(e==='MEDIUM')return['Mittleres Event-Risiko','mid'];return['Wird laufend geprüft',''];}
 
+function installCandidateFitStyle(){
+ if(document.getElementById('candidate-fit-style'))return;
+ const style=document.createElement('style');style.id='candidate-fit-style';
+ style.textContent=`
+ #signals .candidatesWrap{overflow-x:hidden!important;overflow-y:auto!important;max-width:100%!important}
+ #signals .candidatesWrap table{width:100%!important;min-width:0!important;max-width:100%!important;table-layout:fixed!important}
+ #signals .candidatesWrap th,#signals .candidatesWrap td{white-space:normal!important;overflow-wrap:anywhere!important;word-break:normal!important;min-width:0!important;max-width:none!important;vertical-align:top!important}
+ #signals .candidatesWrap th:nth-child(1),#signals .candidatesWrap td:nth-child(1){width:13%!important}
+ #signals .candidatesWrap th:nth-child(2),#signals .candidatesWrap td:nth-child(2){width:25%!important}
+ #signals .candidatesWrap th:nth-child(3),#signals .candidatesWrap td:nth-child(3){width:29%!important}
+ #signals .candidatesWrap th:nth-child(4),#signals .candidatesWrap td:nth-child(4){width:9%!important}
+ #signals .candidatesWrap th:nth-child(5),#signals .candidatesWrap td:nth-child(5){width:7%!important;text-align:center!important}
+ #signals .candidatesWrap th:nth-child(6),#signals .candidatesWrap td:nth-child(6){width:7%!important;text-align:center!important}
+ #signals .candidatesWrap th:nth-child(7),#signals .candidatesWrap td:nth-child(7){width:10%!important}
+ #signals .candidatesWrap .plainCell{white-space:normal!important;overflow-wrap:anywhere!important;line-height:1.45!important}
+ #signals .candidatesWrap .eventPill,#signals .candidatesWrap .fallbackRating{white-space:normal!important;max-width:100%!important;text-align:center!important;line-height:1.25!important}
+ #signals .candidatesWrap::-webkit-scrollbar:horizontal{height:0!important}
+ @media(max-width:850px){
+   #signals .candidatesWrap{overflow:visible!important;max-height:none!important;border:0!important}
+   #signals .candidatesWrap table,#signals .candidatesWrap tbody{display:block!important;width:100%!important}
+   #signals .candidatesWrap thead{display:none!important}
+   #signals .candidatesWrap tr{display:grid!important;grid-template-columns:1fr 1fr!important;gap:0 12px!important;margin:0 0 10px!important;padding:10px!important;border:1px solid #1d3349!important;border-radius:11px!important;background:#0a1723!important}
+   #signals .candidatesWrap td{display:block!important;width:auto!important;padding:7px 0!important;border:0!important;text-align:left!important}
+   #signals .candidatesWrap td:nth-child(1),#signals .candidatesWrap td:nth-child(2),#signals .candidatesWrap td:nth-child(3){grid-column:1/-1!important}
+   #signals .candidatesWrap td:nth-child(2)::before{content:'Was macht die Firma?';display:block;margin-bottom:4px;color:#6f879e;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.05em}
+   #signals .candidatesWrap td:nth-child(3)::before{content:'Was bewegt die Aktie gerade?';display:block;margin-bottom:4px;color:#6f879e;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.05em}
+   #signals .candidatesWrap td:nth-child(4)::before{content:'Bewertung';display:block;margin-bottom:4px;color:#6f879e;font-size:9px;font-weight:900;text-transform:uppercase}
+   #signals .candidatesWrap td:nth-child(5)::before{content:'Sicherheit';display:block;margin-bottom:4px;color:#6f879e;font-size:9px;font-weight:900;text-transform:uppercase}
+   #signals .candidatesWrap td:nth-child(6)::before{content:'Heute';display:block;margin-bottom:4px;color:#6f879e;font-size:9px;font-weight:900;text-transform:uppercase}
+   #signals .candidatesWrap td:nth-child(7)::before{content:'Risiko';display:block;margin-bottom:4px;color:#6f879e;font-size:9px;font-weight:900;text-transform:uppercase}
+ }
+ `;
+ document.head.appendChild(style);
+}
+
 function buildRows(s){
  const map=new Map();
  for(const p of arr(s.positions)){
@@ -72,5 +107,5 @@ function renderFallback(s){
 
 let loading=false;
 async function refresh(){const body=$('candidatesBody');if(!isEmptyState(body)||loading)return;loading=true;try{const r=await fetch('/api/status',{cache:'no-store'});if(r.ok)renderFallback(await r.json())}catch{}finally{loading=false}}
-function install(){const body=$('candidatesBody');if(!body)return;new MutationObserver(()=>{if(isEmptyState(body))queueMicrotask(refresh)}).observe(body,{childList:true,subtree:true});refresh()}
+function install(){installCandidateFitStyle();const body=$('candidatesBody');if(!body)return;new MutationObserver(()=>{if(isEmptyState(body))queueMicrotask(refresh)}).observe(body,{childList:true,subtree:true});refresh()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});else install();
