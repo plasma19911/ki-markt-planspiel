@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-19T20:55:09.616957+00:00",
-  "berlinNow": "2026-08-19T22:55:09.616803+02:00",
+  "checkedAt": "2026-08-19T20:58:12.748963+00:00",
+  "berlinNow": "2026-08-19T22:58:12.748786+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 105446,
-    "dashboard": 30994
+    "full": 105494,
+    "dashboard": 31041
   },
   "checks": {
     "fullStatus200": true,
@@ -30,7 +30,7 @@
     "capture": {
       "date": "2026-08-19",
       "symbolCount": 120,
-      "updatedAt": "2026-08-19T20:50:35.271Z"
+      "updatedAt": "2026-08-19T20:55:35.218Z"
     },
     "summary": {
       "symbolsAnalysed": 60,
@@ -42,10 +42,11 @@
         "MISSED_SAFE_MOVE": 9
       },
       "churn": {
-        "rapidRoundTrips": 0,
-        "totalRapidTradePnl": 0,
-        "fees": 0,
-        "rows": []
+        "rapidRoundTrips": 32,
+        "totalRapidTradePnl": -183.622,
+        "fees": 109,
+        "rows": [],
+        "recoveredFromPreRestartReplay": true
       },
       "bestMissed": [
         {
@@ -1164,5 +1165,5 @@
     "displayAccountingDelta": 0.0,
     "positions": []
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: wed, 19 aug 2026 20:55:09 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=usil0k9iedv5lmlwzilbwxiosb7np5l%2fm%2fczeaifck%2bzpcplrfydzzbnd49p5rsuw36q7u3b2agdpk6qpuewjd4s76fnumnvdmcjzvy5cwngp5v9ytf1ol9wn2nhiewnmfpxqih%2ftrfhadoud1ncigdo2fxrc8qxubr5siy%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2dc0ebc0d19694c-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: wed, 19 aug 2026 20:58:12 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=odu5fa%2fmeuefndtfifd7ccmgdbfef2b70kpt586ae7q8oyhjg%2fec%2f5h3msnhtw6wulbotcstcxuy3akexcmxpdgqplrr9zxmomgijlclbghdf6ks1o30iozfozxtzv%2bl3pra6idyajf36gmda3%2b9wlf0veywbvbuuszthrq%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2dc13350e2f7575-sea\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
