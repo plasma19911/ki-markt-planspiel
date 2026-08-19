@@ -11,7 +11,7 @@ rows.push({symbol:'ZERO.DE',wideScore:100,last:0,observedAt:ts});
 // Beim Zusammenfuehren von C#- und Fast-Radar-Daten muss die deutlich frischere
 // Beobachtung gewinnen, auch wenn der alte Messpunkt noch einen hoeheren Score hatte.
 rows.push({symbol:'FRESH.DE',wideScore:100,m5Pct:1,m20Pct:2,accelerationPct:.8,sessionPct:3,last:10,observedAt:new Date(now-70_000).toISOString()});
-rows.push({symbol:'FRESH.DE',wideScore:2,m5Pct:.02,m20Pct:.1,accelerationPct:.02,sessionPct:.2,last:10.1,observedAt:new Date(now-10_000).toISOString()});
+rows.push({symbol:'FRESH.DE',wideScore:19.8,m5Pct:.02,m20Pct:.1,accelerationPct:.02,sessionPct:.2,last:10.1,observedAt:new Date(now-10_000).toISOString()});
 
 const out=normalizeWideSweepEntries(rows,now);
 assert.equal(WIDE_SWEEP_TARGET,32,'Produktionsprofil muss 32 Finalisten erlauben');
@@ -19,7 +19,7 @@ assert.equal(WIDE_SWEEP_DIP_RESERVE,20,'20 der 32 Slots muessen fuer gebremste D
 assert.equal(out.length,WIDE_SWEEP_TARGET,'Wide Sweep muss auf die vorgesehenen Finalisten begrenzt bleiben');
 assert.equal(out[0].symbol,'TEST0.DE','Der bessere zeitgleiche Duplikat-Eintrag muss gewinnen');
 assert.equal(out[0].wideScore,99);
-assert.equal(out.find(x=>x.symbol==='FRESH.DE')?.wideScore,2,'Eine deutlich frischere Messung muss einen alten hohen Score ersetzen');
+assert.equal(out.find(x=>x.symbol==='FRESH.DE')?.wideScore,19.8,'Eine deutlich frischere Messung muss einen alten hohen Score ersetzen');
 assert.equal(out.some(x=>x.symbol==='BAD.V'),false,'Venture-Symbole duerfen keine Deep-Slots verbrauchen');
 assert.equal(out.some(x=>x.symbol==='STALE.DE'),false,'Veraltete Wide-Sweep-Signale duerfen nicht verwendet werden');
 assert.equal(out.some(x=>x.symbol==='ZERO.DE'),false,'Nullkurse duerfen nicht verwendet werden');
