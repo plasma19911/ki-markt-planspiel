@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T19:15:51.727010+00:00",
+  "checkedAt": "2026-08-19T19:18:05.096850+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,16 +28,16 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 345,
-  "lastScan": "2026-08-19T19:15:15.976Z",
+  "scanCount": 346,
+  "lastScan": "2026-08-19T19:16:25.759Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster 3m; Fast-Decision: 0 SELL / 0 BUY aus 8 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen · EARLY-D · CANDLE-FLOW V2.1: STX wartet auf bessere Bodenbildung. Keine Minutenregel fuer SELL.",
+  "aiLastSummary": "KI-Wartefenster 10m; Fast-Decision: 0 SELL / 0 BUY aus 6 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap · Multi-T · TAGES-REVIEW V2: MRNA BUY gestoppt.",
   "cash": 8412.067513123307,
   "equity": 9714.50417200594,
   "pnl": -285.49582799406016,
   "marketValue": 1302.4366588826322,
   "accountingDelta": 0.0,
-  "universeCount": 229,
+  "universeCount": 228,
   "positions": 2,
   "positionRows": [
     {
@@ -99,7 +99,7 @@
       "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
     }
   ],
-  "candidates": 8,
+  "candidates": 6,
   "topCandidates": [
     {
       "symbol": "QH",
@@ -113,66 +113,44 @@
       "contra": ""
     },
     {
-      "symbol": "FFN.TO",
-      "name": "North American Financial 15 Split Corp.",
-      "score": 5.55,
-      "confidence": 0.7530000000000001,
-      "day_change": -1.934232656453061,
-      "news_score": 0,
-      "event_risk": "MEDIUM",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 59 konstruktiv · 5m +0.20% · 20m +1.30% · Momentum baut sich auf +0.10%",
-      "contra": ""
-    },
-    {
-      "symbol": "STX",
-      "name": "Seagate Technology Holdings plc",
-      "score": 5.549999999999999,
-      "confidence": 0.78,
-      "day_change": -7.634352827207225,
-      "news_score": 0,
-      "event_risk": "MEDIUM",
-      "pro": "Ruecksetzer -0.20% unter 20m-Hoch · Verkaufsdruck bremst deutlich +0.05% · 5m stabilisiert +0.12% · RSI 49 nicht ueberhitzt",
-      "contra": ""
-    },
-    {
-      "symbol": "AXON",
-      "name": "Axon Enterprise",
-      "score": 3.4,
-      "confidence": 0.6540912236030002,
-      "day_change": 3.825118586527987,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.31% · 20m +0.87%",
-      "contra": "RSI 84 überhitzt"
-    },
-    {
-      "symbol": "LYG",
-      "name": "Lloyds Banking Group plc",
-      "score": 0.6000000000000001,
-      "confidence": 0.34,
-      "day_change": -1.8151846655917958,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21",
-      "contra": "Kurs unter EMA21"
-    },
-    {
       "symbol": "MRNA",
       "name": "Moderna, Inc.",
-      "score": 0.05157660550458714,
-      "confidence": 0.4246576605504587,
-      "day_change": 146.72807550490887,
+      "score": 5.951576605504587,
+      "confidence": 0.7695,
+      "day_change": 148.3205298456485,
       "news_score": 0.042935779816513746,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 58 konstruktiv",
-      "contra": "5m -1.11% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 66 konstruktiv · 5m +0.20% · 20m +1.07%",
+      "contra": ""
+    },
+    {
+      "symbol": "MRK",
+      "name": "Merck & Co., Inc.",
+      "score": 5.535961009174312,
+      "confidence": 0.7695,
+      "day_change": 13.390548400133873,
+      "news_score": 0.07155963302752291,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.25% · 20m +0.56% · Momentum baut sich auf · Beschleunigung +0.12%",
+      "contra": ""
+    },
+    {
+      "symbol": "TOT.TO",
+      "name": "Total Energy Services Inc.",
+      "score": -1.1,
+      "confidence": 0.39,
+      "day_change": -2.2128238299363945,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "RSI 54 konstruktiv",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21"
     },
     {
       "symbol": "MS",
       "name": "Morgan Stanley",
       "score": -2.1,
       "confidence": 0.49000000000000005,
-      "day_change": -1.7467248908296984,
+      "day_change": -1.7306349519148,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
@@ -181,13 +159,13 @@
     {
       "symbol": "MSTR",
       "name": "Strategy Inc",
-      "score": -6.227104415145502,
+      "score": -5.027104415145501,
       "confidence": 0.765,
-      "day_change": 11.302962511378457,
+      "day_change": 11.321879319695238,
       "news_score": 0.07476470241487042,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 5m -1.06% · 20m -0.54% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · 5m -1.34% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
@@ -876,19 +854,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T19:15:11.818Z",
-    "ageSeconds": 40,
+    "lastSeenAt": "2026-08-19T19:17:10.378Z",
+    "ageSeconds": 54,
     "metrics": {
-      "lastSeenAt": "2026-08-19T19:15:11.818Z",
+      "lastSeenAt": "2026-08-19T19:17:10.378Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 19111295,
+      "storageBytes": 19158048,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.13,
-      "ramMb": 61.7,
-      "downloadedBytes": 8770706845,
-      "uploadedBytes": 15323060,
+      "cpuPct": 0.17,
+      "ramMb": 61.6,
+      "downloadedBytes": 8819099538,
+      "uploadedBytes": 15427811,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T18:57:16.2690039Z",
@@ -918,8 +896,8 @@
       "ok_count": 4,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 93,
-      "updated_at": "2026-08-19T19:15:15.906Z"
+      "latency_ms": 90,
+      "updated_at": "2026-08-19T19:16:25.582Z"
     },
     {
       "source": "Yahoo FX",
@@ -927,8 +905,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 6,
-      "updated_at": "2026-08-19T19:15:15.906Z"
+      "latency_ms": 96,
+      "updated_at": "2026-08-19T19:16:25.582Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -936,17 +914,17 @@
       "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 252,
-      "updated_at": "2026-08-19T19:15:15.906Z"
+      "latency_ms": 260,
+      "updated_at": "2026-08-19T19:16:25.582Z"
     },
     {
       "source": "Yahoo News",
       "status": "OK",
-      "ok_count": 4,
+      "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 396,
-      "updated_at": "2026-08-19T19:15:15.906Z"
+      "latency_ms": 699,
+      "updated_at": "2026-08-19T19:16:25.582Z"
     },
     {
       "source": "Börse Frankfurt",
@@ -954,8 +932,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 949,
-      "updated_at": "2026-08-19T19:15:15.906Z"
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T19:16:25.582Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -963,8 +941,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 971,
-      "updated_at": "2026-08-19T19:15:15.906Z"
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T19:16:25.582Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -972,8 +950,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1062,
-      "updated_at": "2026-08-19T19:15:15.906Z"
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T19:16:25.582Z"
     },
     {
       "source": "Unternehmenstermine (Nasdaq-Fallback)",
@@ -982,7 +960,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:15:15.906Z"
+      "updated_at": "2026-08-19T19:16:25.582Z"
     },
     {
       "source": "finanzen.net News (Fallback)",
@@ -990,26 +968,26 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 710,
-      "updated_at": "2026-08-19T19:15:15.906Z"
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T19:16:25.582Z"
     },
     {
       "source": "Early-Dip 1m",
+      "status": "DEGRADED",
+      "ok_count": 1,
+      "fail_count": 1,
+      "last_error": "1m-Kurs nicht frisch",
+      "latency_ms": null,
+      "updated_at": "2026-08-19T19:16:25.582Z"
+    },
+    {
+      "source": "Second-Chance 1m",
       "status": "OK",
       "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:15:15.906Z"
-    },
-    {
-      "source": "Second-Chance 1m",
-      "status": "OK",
-      "ok_count": 3,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": null,
-      "updated_at": "2026-08-19T19:15:15.906Z"
+      "updated_at": "2026-08-19T19:16:25.582Z"
     }
   ]
 }
