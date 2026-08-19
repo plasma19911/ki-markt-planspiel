@@ -36,9 +36,12 @@ export class MarketPortfolio extends BasePortfolio{
     const before=await super.status(),c=before?.config||{},h=before?.history||[],positions=before?.positions||[];
     const accidental=positions.length===0&&Math.abs(Number(c.cash||0)-10000)<0.02&&Number(c.scan_count||0)<=20&&h.some(x=>String(x?.action||'').toUpperCase()==='START'&&String(x?.ts||'').startsWith('2026-08-19T20:32:53'));
     if(!accidental)return{ok:false,skipped:true,reason:'Aktueller Zustand entspricht nicht dem versehentlichen Neustart.',before:{cash:c.cash,equity:before?.equity,positions:positions.length,scanCount:c.scan_count}};
-    if(!this.engine?.importLegacy)throw new Error('Interner R2-Recovery-Handler fehlt.');
-    const result=await this.engine.importLegacy(RECOVERY_20260819),after=await super.status();
-    return{ok:true,result,before:{cash:c.cash,equity:before?.equity,positions:positions.length,scanCount:c.scan_count},after:{cash:after?.config?.cash,equity:after?.equity,positions:after?.positions?.length,scanCount:after?.config?.scan_count}};
+    if(!this.bucketAdapter?.put||!this.engine?.store?.load)throw new Error('Autoritativer Compact-State-Recovery-Pfad fehlt.');
+    const saved=await this.bucketAdapter.put('compact/current-v1',JSON.stringify(RECOVERY_20260819),{});
+    if(!saved)throw new Error('Recovery-State konnte nicht in den Compact-State geschrieben werden.');
+    await this.engine.store.load(true);
+    const after=await this.engine.status();
+    return{ok:true,result:{storage:'Durable Object compact/current-v1',etag:saved.etag},before:{cash:c.cash,equity:before?.equity,positions:positions.length,scanCount:c.scan_count},after:{cash:after?.config?.cash,equity:after?.equity,positions:after?.positions?.length,scanCount:after?.config?.scan_count}};
   }
   async status(){
     let s=await super.status();
