@@ -13,6 +13,7 @@ on:
       - 'src/hard-exit-classifier.js'
       - 'src/fresh-position-churn-guard.js'
       - 'src/candle-flow-ai-guard.js'
+      - 'src/balanced-adaptive-guard.js'
       - 'src/request-fetch-budget.js'
       - 'src/yahoo-spark-repair.js'
       - 'public/quota-guard.js'
@@ -44,6 +45,7 @@ jobs:
           node --check src/hard-exit-classifier.js
           node --check src/fresh-position-churn-guard.js
           node --check src/candle-flow-ai-guard.js
+          node --check src/balanced-adaptive-guard.js
           node --check src/request-fetch-budget.js
           node --check src/yahoo-spark-repair.js
           node --check public/quota-guard.js
