@@ -21,33 +21,12 @@ function noStoreHtml(request,response){
 
 const json=(x,status=200)=>Response.json(x,{status,headers:{'cache-control':'no-store'}});
 
-// ---------------------------------------------------------------------------
-// Schutz fuer zustandsaendernde Endpunkte.
-//
-// CONTROL_TOKEN ist fuer Steuer-POSTs absichtlich PFLICHT. Same-Origin allein
-// waere nur ein CSRF-Schutz und keine Authentifizierung gegen direkte HTTP-Clients.
-// Browser-Anfragen werden zusaetzlich auf Cross-Site-Nutzung geprueft. Requests
-// ohne Browser-Fetch-Metadaten (z. B. ein bewusstes CLI) duerfen mit gueltigem
-// Token weiter arbeiten.
-// /api/agent/* bleibt aussen vor: diese Endpunkte haben PC_AGENT_TOKEN.
-// Order-Freigaben bleiben bei ihrer bestehenden Cloudflare-Access-Pruefung.
-// ---------------------------------------------------------------------------
+// Kostenfreier Browser-CSRF-Schutz fuer zustandsaendernde UI-Endpunkte.
+// Kein CONTROL_TOKEN: die eigene Weboberflaeche darf ohne Passwort steuern.
+// /api/agent/* bleibt separat ueber PC_AGENT_TOKEN geschuetzt; Order-Freigaben
+// behalten ihre bestehende Cloudflare-Access-Pruefung.
 const GUARDED_PATHS=new Set(['/api/start','/api/stop','/api/reset','/api/scan','/api/migrate-from-old-sql']);
-const enc=new TextEncoder();
-
-async function tokenEqual(a,b){
- const [da,db]=await Promise.all([
-  crypto.subtle.digest('SHA-256',enc.encode(String(a||''))),
-  crypto.subtle.digest('SHA-256',enc.encode(String(b||'')))
- ]);
- const aa=new Uint8Array(da),bb=new Uint8Array(db);
- let diff=aa.length^bb.length;
- for(let i=0;i<Math.min(aa.length,bb.length);i++)diff|=aa[i]^bb[i];
- return diff===0;
-}
-
 function needsGuard(url,method){return method==='POST'&&GUARDED_PATHS.has(url.pathname)}
-
 function browserOriginAllowed(request,url){
  const site=String(request.headers.get('sec-fetch-site')||'').toLowerCase();
  if(site&&site!=='same-origin'&&site!=='none')return false;
@@ -57,17 +36,10 @@ function browserOriginAllowed(request,url){
  if(referer){try{if(new URL(referer).origin!==url.origin)return false}catch{return false}}
  return true;
 }
-
-async function controlGuard(request,url,env){
+function controlGuard(request,url){
  if(!needsGuard(url,request.method))return null;
  if(!browserOriginAllowed(request,url))
   return json({error:'Diese Steueraktion wurde als Cross-Site-Anfrage blockiert.',controlAuth:false},403);
- const expected=String(env?.CONTROL_TOKEN||'').trim();
- if(!expected)
-  return json({error:'CONTROL_TOKEN fehlt in Cloudflare. Steuer-Endpunkte bleiben bis zur Einrichtung gesperrt.',controlAuth:false,controlSecretMissing:true},503);
- const given=String(request.headers.get('x-control-token')||'').trim();
- if(!given||!(await tokenEqual(given,expected)))
-  return json({error:'Steuer-Token fehlt oder ist falsch.',controlAuth:false,controlTokenRequired:true},401);
  return null;
 }
 
@@ -77,7 +49,7 @@ async function controlGuard(request,url,env){
 export default{
  async fetch(request,env,ctx){
   const url=new URL(request.url);
-  const blocked=await controlGuard(request,url,env);
+  const blocked=controlGuard(request,url);
   if(blocked)return blocked;
   if(url.pathname==='/api/position-chart'&&request.method==='GET'){
    try{
