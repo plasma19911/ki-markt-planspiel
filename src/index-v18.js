@@ -1,6 +1,7 @@
 import './public-feed-resilience.js';
 import base,{MarketPortfolio} from './index.js';
 import './yahoo-chart-serial.js';
+import './intelligence-request-cache.js';
 import {gettexSessionState} from './gettex-session.js';
 import {positionChartHistoryData} from './position-chart-history.js';
 export {MarketPortfolio};
