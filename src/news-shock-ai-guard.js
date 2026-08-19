@@ -21,12 +21,12 @@ function companyWords(c={}){const stop=new Set(['inc','incorporated','corp','cor
 function matchesCompany(c,title){const t=normal(title),w=companyWords(c);if(!t)return false;if(w.length>=2&&t.includes(`${w[0]} ${w[1]}`))return true;if(w[0]?.length>=5&&t.split(' ').includes(w[0]))return true;const s=key(c).split('.')[0].replace(/[^A-Z0-9]/g,'').toLowerCase();return s.length>=4&&new RegExp(`(^|\\s)${s}(\\s|$)`,'i').test(t)}
 async function googleQuery(q){try{const u=new URL('https://news.google.com/rss/search');u.searchParams.set('q',q);u.searchParams.set('hl','en-US');u.searchParams.set('gl','US');u.searchParams.set('ceid','US:en');const r=await fetch(u,{headers:NEWS_HEADERS});if(!r.ok)return[];return rssItems(await r.text())}catch{return[]}}
 function cachedRows(c){const x=targetCache.get(key(c));return x&&Date.now()-x.at<TARGET_TTL_MS?arr(x.items):[]}
-async function targetedCatalysts(c){const s=key(c),cached=cachedRows(c);if(cached.length)return cached;const name=String(c?.name||s).replace(/"/g,'').trim(),items=await googleQuery(`"${name}" stock when:1d`);targetCache.set(s,{at:Date.now(),items});if(targetCache.size>20){const oldest=[...targetCache.entries()].sort((a,b)=>a[1].at-b[1].at).slice(0,targetCache.size-16);for(const [k] of oldest)targetCache.delete(k)}return items}
+async function targetedCatalysts(c){const s=key(c),now=Date.now(),entry=targetCache.get(s);if(entry&&now-entry.at<TARGET_TTL_MS)return arr(entry.items);const name=String(c?.name||s).replace(/"/g,'').trim(),items=await googleQuery(`"${name}" stock when:1d`);targetCache.set(s,{at:now,items});if(targetCache.size>20){const oldest=[...targetCache.entries()].sort((a,b)=>a[1].at-b[1].at).slice(0,targetCache.size-16);for(const [k] of oldest)targetCache.delete(k)}return items}
 function existingRowsFor(symbol,state,c={}){const b=key(symbol).split('.')[0],rows=[];for(const n of arr(state?.newsRadar)){if(key(n).split('.')[0]===b)rows.push(n)}for(const h of arr(c?.headlines))rows.push(typeof h==='string'?{headline:h}:h);return rows}
 async function discoverMissingCatalysts(candidates,state){
  const ranked=arr(candidates).map(c=>{const m=candidateMetrics(c),known=[...existingRowsFor(key(c),state,c),...cachedRows(c)],existing=strongestNewsImpact(known),gap=Math.abs(m.day)*(1.15-clamp(m.newsConfidence,0,1))*(1+Math.max(0,4-existing.impact)*.22);return{c,m,existing,gap}}).sort((a,b)=>b.gap-a.gap),target=ranked.find(x=>x.existing.impact<4)?.c||null,out=new Map();
- // Maximal ein zusaetzlicher News-Request pro Entscheidung. Bereits gepruefte Symbole
- // kommen aus dem 120s-Cache; dadurch wandert der Gap-Check im Zeitverlauf weiter.
+ // Maximal ein zusaetzlicher News-Request pro Entscheidung. Auch ein leerer/fehlgeschlagener
+ // Gap-Check wird 120 Sekunden gecacht, damit derselbe Kandidat das Budget nicht pro Scan erneut belastet.
  if(target)await targetedCatalysts(target);
  for(const c of candidates){const rows=cachedRows(c).filter(x=>matchesCompany(c,x.headline)||key(c)===key(target));if(rows.length)out.set(key(c),rows)}
  return out;
