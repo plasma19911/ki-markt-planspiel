@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-19T18:37:59.154403+00:00",
-  "commit": "919467199c21ad12d2db8bbef2a2a9ca493d6ab8",
+  "checkedAt": "2026-08-19T18:42:14.795101+00:00",
+  "commit": "1790474a0af5cd464b35ea561e674e782f1ff220",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 8s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 7s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -32,9 +32,9 @@
       "tail": ""
     },
     "syntax_r2": {
-      "ok": false,
-      "exitCode": 1,
-      "tail": "bleibt frei. */}buys.sort((a,b)=>b.k-a.k);const startCash=num(cfg.cash),sum=buys.reduce((a,x)=>a+clamp(num(x.a.allocation_pct),0,100),0),scale=sum>100?100/sum:1;for(const x of buys){const budget=Math.min(num(cfg.cash),startCash*clamp(num(x.a.allocation_pct)*scale,0,100)/100);if(budget<=0)continue;const fixed=Math.max(0,num(cfg.fee_fixed)),rate=Math.max(0,num(cfg.fee_percent))/100,notional=Math.max(0,(budget-fixed)/(1+rate));if(notional<=0)continue;if(openPosition(s,x.cand,notional,`KI BUY ${Math.round(x.a.confidence*100)}%: ${x.a.reason}`)){actions++;existingKeys.add(entityKey(x.cand))}}const eq=equity(s);if(!actions){const top=candidates[0],reason=top?`Kein Trade. Bestes Signal ${top.symbol}: Score ${num(top.score).toFixed(2)}, Konfidenz ${Math.round(num(top.confidence)*100)}%.`:'Keine frischen handelbaren Signale.';record(s,'HALTEN',{cashBefore:num(cfg.cash),cashAfter:num(cfg.cash),equity:eq,reason,scanNo:nextScan});if(top&&nextScan%10===0)logAI(s,'IDEA','Beobachtungskandidat',`${top.symbol}: ${reason}`,{symbol:top.symbol,confidence:num(top.confidence)})}addSnapshot(s);cfg.last_scan=nowIso();cfg.scan_count=nextScan;cfg.last_error=null;cfg.scan_lock_until=0;const saved=await this.store.put(s,etag);return saved?{ok:true,equity:eq,actions,marketMode:ms.mode,newsTrend:trend.label,ai:plan.summary}:{ok:true,aborted:'state-changed'}}catch(e){const msg=String(e?.message||e).slice(0,900);s.config.last_error=msg;s.config.scan_lock_until=0;record(s,'FEHLER',{cashBefore:num(s.config.cash),cashAfter:num(s.config.cash),equity:equity(s),reason:`Scan fehlgeschlagen: ${msg}`,scanNo:num(s.config.scan_count)+1});logAI(s,'ERROR','Scan-Fehler',msg);await this.store.put(s,etag).catch(()=>null);return{ok:false,error:msg}}}\n                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ^^^^^\n\nSyntaxError: Unexpected token 'const'\n    at checkSyntax (node:internal/main/check_syntax:74:5)\n\nNode.js v22.23.2\n"
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
     },
     "syntax_second_runtime": {
       "ok": true,
@@ -257,16 +257,14 @@
       "tail": "{\n  \"ok\": true,\n  \"directMomentumSellBypass\": false,\n  \"aiFailureScoreSellBypass\": false,\n  \"aiFailureForcedBuy\": false,\n  \"hardEventExit\": true,\n  \"requestGlobalFetchMutation\": false,\n  \"requestLocalGoogleNewsDisable\": true,\n  \"shockNewsPriority\": true,\n  \"legalNameNewsQuery\": true\n}\n"
     },
     "wrangler_dryrun": {
-      "ok": false,
-      "exitCode": 1,
-      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n\n\u001b[31m✘ \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mBuild failed with 1 error:\u001b[0m\n\n  \u001b[31m✘ \u001b[41;31m[\u001b[41;97mERROR\u001b[41;31m]\u001b[0m \u001b[1mExpected \";\" but found \"const\"\u001b[0m\n  \n      src/r2-portfolio.js:75:648:\n  \u001b[37m      75 │ ...s.positions.map(p=>p.symbol))\u001b[32mconst\u001b[37m candidates=dedupe(m.candidat...\n           │                                 \u001b[32m~~~~~\u001b[37m\n           ╵                                 \u001b[32m;\u001b[0m\n  \n  \n\n\n🪵  Logs were written to \"/home/runner/.config/.wrangler/logs/wrangler-2026-08-19_18-37-58_314.log\"\n"
+      "ok": true,
+      "exitCode": 0,
+      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 45 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 811.08 KiB / gzip: 207.30 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
     }
   },
   "failedChecks": [
-    "syntax_r2",
     "rotation_cost",
-    "pc_wide_sweep",
-    "wrangler_dryrun"
+    "pc_wide_sweep"
   ],
   "allCodeAndRegressionChecksPassed": false,
   "note": "Wrangler dry-run may report required runtime-secret/auth limitations in CI; syntax and smoke regressions are listed separately."
