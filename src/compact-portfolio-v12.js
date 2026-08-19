@@ -2,11 +2,11 @@ import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v11-base.js'
 import {ReboundAiGuard} from './rebound-ai-guard.js';
 
 const REBOUND_STATE_KEY='state/rebound-watch-v1';
-const REBOUND_TARGET=16;
+const REBOUND_TARGET=24;
 const REBOUND_TTL_MS=8*60*1000;
 const REBOUND_REFRESH_MS=2*60*1000;
 const MIN_MARKET_CAP=150_000_000;
-const SOURCE_LIMIT=50;
+const SOURCE_LIMIT=70;
 const HEADERS={'accept':'text/html,application/xhtml+xml','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/ReboundRadar)'};
 
 const SOURCES=[
@@ -52,7 +52,7 @@ function resolve(entry,index){
 function liquidEnough(row){const cap=num(row?.marketCapUSD||row?.marketCap);return cap<=0||cap>=MIN_MARKET_CAP}
 function normalizeEntries(input){
   const out=[],seen=new Set();
-  for(const x of arr(input).slice(0,200)){
+  for(const x of arr(input).slice(0,260)){
     const symbol=key(typeof x==='string'?x:x?.symbol);if(!symbol||symbol.length>24)continue;
     const market=clean(typeof x==='string'?'GLOBAL':x?.market||'GLOBAL',16).toUpperCase();
     const source=clean(typeof x==='string'?'PC-Agent Rebound':x?.source||'PC-Agent Rebound',80);
@@ -74,14 +74,13 @@ function buildWatch(entries,rows,mode='PC_AGENT'){
   const ranked=[...scores.values()].sort((a,b)=>b.sources.size-a.sources.size||b.score-a.score||a.bestRank-b.bestRank);
   const picked=[],used=new Set();
   const take=(list,n)=>{for(const x of list){const s=key(x.row.symbol);if(used.has(s))continue;used.add(s);picked.push(x);if(--n<=0)break}};
-  // Mehr Dip-Abdeckung, ohne einen Kauf zu erzwingen: zuerst Europa/DE, danach global.
-  take(ranked.filter(x=>x.market==='DE'),9);take(ranked.filter(x=>x.market!=='DE'),7);if(picked.length<REBOUND_TARGET)take(ranked,REBOUND_TARGET-picked.length);
+  take(ranked.filter(x=>x.market==='DE'),13);take(ranked.filter(x=>x.market!=='DE'),11);if(picked.length<REBOUND_TARGET)take(ranked,REBOUND_TARGET-picked.length);
   const candidates=picked.slice(0,REBOUND_TARGET).map((x,i)=>({
     symbol:key(x.row.symbol),name:clean(x.row.name||x.row.symbol,120),rank:i+1,
     sourceRank:x.bestRank,source:[...x.sources].join(' + '),sourceCount:x.sources.size,
     market:x.market,watchReason:'Tagesverlierer/Rebound-Beobachtung – noch kein Kaufsignal'
   }));
-  return{version:2,updatedAt:new Date().toISOString(),candidateCount:candidates.length,target:REBOUND_TARGET,mode,candidates,sourceStats:[...sourceStats.values()],confirmationRequired:true,notice:'Dip-Radar sammelt breiter und frischer. BUY erst nach gebremstem Abverkauf bzw. bestaetigter Stabilisierung sowie Safety-/News-Pruefung.'};
+  return{version:3,updatedAt:new Date().toISOString(),candidateCount:candidates.length,target:REBOUND_TARGET,mode,candidates,sourceStats:[...sourceStats.values()],confirmationRequired:true,notice:'Groesserer Dip-Radar: mehr Tagesverlierer werden vor der sichtbaren Umkehr beobachtet. BUY weiterhin erst nach gebremstem Abverkauf/Stabilisierung sowie Safety-Pruefung.'};
 }
 
 export class MarketPortfolio extends BasePortfolio{
@@ -113,52 +112,25 @@ export class MarketPortfolio extends BasePortfolio{
     const ai=this.engine?.env?.AI;if(ai?.run&&!ai.__reboundGuard){const wrapped=new ReboundAiGuard(ai,this.bucketAdapter,ctx?.storage);wrapped.__reboundGuard=true;this.engine.env.AI=wrapped}
   }
 
-  _readReboundWatch(){
-    const s=this.bucketAdapter?.peekState?.()?.reboundWatch;if(s)return s;
-    try{return this.ctx?.storage?.kv?.get(REBOUND_STATE_KEY)||null}catch{return null}
-  }
-  async _storeReboundWatch(watch){
-    try{this.ctx?.storage?.kv?.put(REBOUND_STATE_KEY,watch)}catch{}
-    if(this.engine?.store?.update)try{await this.engine.store.update(s=>{s.reboundWatch=watch;return true})}catch{}
-    return watch;
-  }
+  _readReboundWatch(){const s=this.bucketAdapter?.peekState?.()?.reboundWatch;if(s)return s;try{return this.ctx?.storage?.kv?.get(REBOUND_STATE_KEY)||null}catch{return null}}
+  async _storeReboundWatch(watch){try{this.ctx?.storage?.kv?.put(REBOUND_STATE_KEY,watch)}catch{}if(this.engine?.store?.update)try{await this.engine.store.update(s=>{s.reboundWatch=watch;return true})}catch{}return watch}
   async _refreshReboundFallback(rows){
     const current=this._readReboundWatch();if(current&&fresh(current.updatedAt,REBOUND_REFRESH_MS))return current;
-    const entries=[],stats=[];
-    const results=await Promise.all(SOURCES.map(async src=>{
-      try{
-        const r=await fetch(src.url,{headers:HEADERS,redirect:'follow'});if(!r.ok)throw new Error(`HTTP ${r.status}`);
-        const html=await r.text(),symbols=src.kind==='tv-de'?extractTvSymbols(html):extractYahooSymbols(html);
-        return{src,symbols,error:null};
-      }catch(e){return{src,symbols:[],error:String(e?.message||e).slice(0,120)}}
-    }));
-    for(const x of results){
-      stats.push({name:x.src.name,found:x.symbols.length,error:x.error});
-      x.symbols.forEach((symbol,i)=>entries.push({symbol,market:x.src.market,source:x.src.name,rank:i+1}));
-    }
-    const watch=buildWatch(entries,rows,'CLOUDFLARE_FALLBACK');
-    watch.sourceStats=stats.map(s=>({...s,matched:watch.sourceStats.find(x=>x.name===s.name)?.matched||0}));
-    return this._storeReboundWatch(watch);
+    const entries=[],stats=[],results=await Promise.all(SOURCES.map(async src=>{try{const r=await fetch(src.url,{headers:HEADERS,redirect:'follow'});if(!r.ok)throw new Error(`HTTP ${r.status}`);const html=await r.text(),symbols=src.kind==='tv-de'?extractTvSymbols(html):extractYahooSymbols(html);return{src,symbols,error:null}}catch(e){return{src,symbols:[],error:String(e?.message||e).slice(0,120)}}}));
+    for(const x of results){stats.push({name:x.src.name,found:x.symbols.length,error:x.error});x.symbols.forEach((symbol,i)=>entries.push({symbol,market:x.src.market,source:x.src.name,rank:i+1}))}
+    const watch=buildWatch(entries,rows,'CLOUDFLARE_FALLBACK');watch.sourceStats=stats.map(s=>({...s,matched:watch.sourceStats.find(x=>x.name===s.name)?.matched||0}));return this._storeReboundWatch(watch);
   }
-
   async agentPrefetch(payload={}){
-    const result=await super.agentPrefetch(payload);
-    const entries=normalizeEntries(payload?.reboundEntries);
-    if(entries.length){
-      let raw=null;try{raw=await this.zeroAssets?._load?.()}catch{}
-      const rows=arr(raw?.equities).filter(x=>x?.symbol),watch=buildWatch(entries,rows,'WINDOWS_PC_AGENT');
-      await this._storeReboundWatch(watch);
-      result.prefetch={...(result.prefetch||{}),reboundCandidates:watch.candidateCount};
-    }
+    const result=await super.agentPrefetch(payload),entries=normalizeEntries(payload?.reboundEntries);
+    if(entries.length){let raw=null;try{raw=await this.zeroAssets?._load?.()}catch{}const rows=arr(raw?.equities).filter(x=>x?.symbol),watch=buildWatch(entries,rows,'WINDOWS_PC_AGENT');await this._storeReboundWatch(watch);result.prefetch={...(result.prefetch||{}),reboundCandidates:watch.candidateCount}}
     return result;
   }
-
   async status(){
     const s=await super.status(),watch=this._readReboundWatch();
-    s.reboundScan={enabled:true,target:REBOUND_TARGET,candidateCount:num(watch?.candidateCount),updatedAt:watch?.updatedAt||null,source:watch?.mode||'PENDING',sourceStats:arr(watch?.sourceStats),confirmationRequired:true,fallingKnifeBuysBlocked:true,refreshMinutes:2,mode:'bis zu 16 Tagesverlierer separat und frischer beobachten; BUY nur bei gebremstem Fall/Stabilisierung'};
+    s.reboundScan={enabled:true,target:REBOUND_TARGET,candidateCount:num(watch?.candidateCount),updatedAt:watch?.updatedAt||null,source:watch?.mode||'PENDING',sourceStats:arr(watch?.sourceStats),confirmationRequired:true,fallingKnifeBuysBlocked:true,refreshMinutes:2,mode:'bis zu 24 Tagesverlierer separat und frischer beobachten; Early-Dip-Pfad prueft vor der sichtbaren Umkehr mit 1m-Daten'};
     if(s.pcAgent)s.pcAgent={...s.pcAgent,reboundCandidates:num(watch?.candidateCount),reboundSource:watch?.mode||null};
     if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,reboundRadar:true,reboundRadarTarget:REBOUND_TARGET,fallingKnifeProtection:true,reboundLearning:true};
-    if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,reboundPoolTarget:REBOUND_TARGET,reboundPoolCandidates:num(watch?.candidateCount),note:`${s.freeTierBudget.note||''} Separater Dip/Rebound-Radar beobachtet bis zu ${REBOUND_TARGET} Tagesverlierer; fallende Messer bleiben gesperrt, bis der Verkaufsdruck nachlaesst bzw. eine Umkehr live bestaetigt ist.`};
+    if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,reboundPoolTarget:REBOUND_TARGET,reboundPoolCandidates:num(watch?.candidateCount),note:`${s.freeTierBudget.note||''} Separater Dip/Rebound-Radar beobachtet bis zu ${REBOUND_TARGET} Tagesverlierer; der neue Early-Dip-Pfad darf gebremste Ruecksetzer schon vor dem offensichtlichen Rebound in die Tiefenpruefung heben.`};
     return s;
   }
 }
