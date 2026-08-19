@@ -2,6 +2,15 @@ import {ZERO_FEE_MODEL,zeroAffordableBuy,zeroOrderFee} from './zero-fee-model.js
 
 export const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 
+function zeroBlockExplanation(fill,budget,price,type){
+  const code=String(fill?.reason||'UNKNOWN');
+  let text='keine ausführbare Einheit innerhalb des vorgesehenen Budgets';
+  if(code==='NO_BUDGET_OR_PRICE')text='Budget oder umgerechneter EUR-Kurs fehlt bzw. ist 0';
+  else if(code==='ZERO_MINIMUM_NOT_AFFORDABLE')text='Budget reicht nicht für das kleinste zulässige Aktien-Bruchstück plus ZERO-Bruchstückgebühr';
+  else if(code==='WHOLE_SHARE_NOT_AFFORDABLE')text='Budget reicht nicht für eine ganze handelbare Einheit inklusive ZERO-Gebühr';
+  return `${text} · Budget ${num(budget).toFixed(2)} € · Kurs ${num(price).toFixed(4)} €/Stk. · Typ ${String(type||'EQUITY')} · ZERO-Code ${code}`;
+}
+
 export function positionQuantity(p){
   const stored=num(p?.zero_quantity,0);if(stored>0)return stored;
   const priceBase=num(p?.entry_price)*num(p?.entry_fx,1);return priceBase>0?num(p?.invested)/priceBase:0;
@@ -35,11 +44,12 @@ export async function reconcileZeroFees(engine,before){
           const fill=zeroAffordableBuy({budgetEur:baseOutflow,priceEur:priceBase,instrumentType:type,fractionalAllowed});
           if(!fill.ok){
             const i=s.positions.indexOf(p);if(i>=0)s.positions.splice(i,1);currentBySymbol.delete(symbol);
-            const deltaCash=baseOutflow,deltaEquity=deltaCash-oldPositionValue;
+            const deltaCash=baseOutflow,deltaEquity=deltaCash-oldPositionValue,detail=zeroBlockExplanation(fill,baseOutflow,priceBase,type);
             cashCorrection+=deltaCash;equityCorrection+=deltaEquity;feeCorrection-=oldFee;blockedBuys++;
             h.action='KAUF_BLOCKIERT_ZERO';h.amount=0;h.fee=0;h.trade_pnl=null;h.zero_fee_model_version=ZERO_FEE_MODEL.version;
-            h.reason=`${String(h.reason||'').replace(/ · Gebühr [^·]+/,'')} · ZERO: keine ausführbare Einheit innerhalb des Budgets; Kauf rückgängig gemacht.`;
-            const id=num(s.aiLog?.at(-1)?.id,0)+1;s.aiLog.push({id,ts:new Date().toISOString(),kind:'SYSTEM',symbol,title:'ZERO-Ausführung blockiert',message:`${symbol}: keine ausführbare Einheit innerhalb des vorgesehenen Budgets.`,confidence:null,meta:{feeModel:ZERO_FEE_MODEL.version}});if(s.aiLog.length>300)s.aiLog=s.aiLog.slice(-300);
+            h.zero_block_details={code:String(fill?.reason||'UNKNOWN'),budgetEur:+baseOutflow.toFixed(6),priceEur:+priceBase.toFixed(6),instrumentType:type,fractionalAllowed};
+            h.reason=`${String(h.reason||'').replace(/ · Gebühr [^·]+/,'')} · ZERO: ${detail}; Kauf rückgängig gemacht.`;
+            const id=num(s.aiLog?.at(-1)?.id,0)+1;s.aiLog.push({id,ts:new Date().toISOString(),kind:'SYSTEM',symbol,title:'ZERO-Ausführung blockiert',message:`${symbol}: ${detail}.`,confidence:null,meta:{feeModel:ZERO_FEE_MODEL.version,code:String(fill?.reason||'UNKNOWN'),budgetEur:+baseOutflow.toFixed(6),priceEur:+priceBase.toFixed(6),instrumentType:type,fractionalAllowed}});if(s.aiLog.length>300)s.aiLog=s.aiLog.slice(-300);
           }else{
             const fee=fill.fee,actualOut=fill.notional+fee,deltaCash=baseOutflow-actualOut;
             p.invested=fill.notional;p.entry_fee=fee;p.zero_quantity=fill.quantity;p.zero_whole_shares=fill.feeInfo?.wholeQuantity||0;p.zero_fractional_shares=fill.feeInfo?.fractionalQuantity||0;p.zero_uses_fractional=Boolean(fill.usesFractional);p.zero_fee_model_version=ZERO_FEE_MODEL.version;
