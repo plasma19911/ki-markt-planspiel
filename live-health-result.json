@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T12:17:42.961971+00:00",
+  "checkedAt": "2026-08-19T12:27:19.488682+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -45,15 +45,15 @@
     "pcWideSweep"
   ],
   "running": 1,
-  "scanCount": 94,
-  "lastScan": "2026-08-19T12:17:24.694Z",
+  "scanCount": 100,
+  "lastScan": "2026-08-19T12:26:28.553Z",
   "lastError": null,
-  "aiLastSummary": "KI-Free-Limit/Fehler: Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloud · EARLY-DIP: 0 ungeeignete Idee(n) gestoppt; 1 Einstieg(e), fruehe Ruecksetzer priorisiert.",
-  "cash": 1784.5860111546303,
-  "equity": 9931.418453488035,
-  "pnl": -68.58154651196492,
-  "universeCount": 236,
-  "positions": 6,
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 12 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen a · EARLY-DIP: 1 ungeeignete Idee(n) gestoppt; kein Kauf – aktuell kein kontrollierter Einstieg.",
+  "cash": 1249.2102081546302,
+  "equity": 9927.392575763502,
+  "pnl": -72.60742423649754,
+  "universeCount": 237,
+  "positions": 7,
   "positionRows": [
     {
       "symbol": "EMBRAC-B.ST",
@@ -64,7 +64,7 @@
       "invested": 2099,
       "entry_fee": 1,
       "entry_price": 73.13305755615234,
-      "last_price": 72.9000015258789,
+      "last_price": 72.86000061035156,
       "entry_fx": 0.0901,
       "last_fx": 0.0901,
       "currency": "SEK",
@@ -79,7 +79,7 @@
       "fx_basis_repaired_at": "2026-08-19T12:05:52.441Z",
       "fx_basis_repair_reason": "FOREIGN_NATIVE_ENTRY_PRICE_WITH_ENTRY_FX_1",
       "fx_basis_original_entry_fx": 1,
-      "quote_sanity_last_price": 72.9000015258789,
+      "quote_sanity_last_price": 72.86000061035156,
       "quote_sanity_last_fx": 0.0901,
       "quote_sanity_repaired_at": "2026-08-19T12:05:52.441Z",
       "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
@@ -93,14 +93,14 @@
       "invested": 880.46085,
       "entry_fee": 1,
       "entry_price": 214.9146969451904,
-      "last_price": 214.60000610351562,
+      "last_price": 214.3000030517578,
       "entry_fx": 0.0901,
       "last_fx": 0.0901,
       "currency": "SEK",
       "opened_at": "2026-08-19T12:07:15.210Z",
-      "score": -2.1,
-      "signal_confidence": 0.49000000000000005,
-      "quote_sanity_last_price": 214.60000610351562,
+      "score": -3.3,
+      "signal_confidence": 0.61,
+      "quote_sanity_last_price": 214.1999969482422,
       "quote_sanity_last_fx": 0.0901,
       "zero_quantity": 45.46939157463019,
       "zero_whole_shares": 45,
@@ -122,19 +122,19 @@
       "invested": 1761.956777,
       "entry_fee": 1,
       "entry_price": 3.0930899140834804,
-      "last_price": 3.0950000286102295,
+      "last_price": 3.0999999046325684,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-19T12:10:15.402Z",
-      "score": 3.8,
+      "score": 4.2,
       "signal_confidence": 0.63,
       "zero_quantity": 569.6429220162565,
       "zero_whole_shares": 569,
       "zero_fractional_shares": 0.6429220162565343,
       "zero_uses_fractional": true,
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash",
-      "quote_sanity_last_price": 3.0950000286102295,
+      "quote_sanity_last_price": 3.0999999046325684,
       "quote_sanity_last_fx": 1
     },
     {
@@ -151,8 +151,8 @@
       "last_fx": 0.1336,
       "currency": "DKK",
       "opened_at": "2026-08-19T12:14:26.161Z",
-      "score": -2.1,
-      "signal_confidence": 0.49000000000000005,
+      "score": -1.1,
+      "signal_confidence": 0.39,
       "zero_quantity": 275.42864276792903,
       "zero_whole_shares": 275,
       "zero_fractional_shares": 0.4286427679290341,
@@ -161,7 +161,7 @@
       "fx_basis_repaired_at": "2026-08-19T12:16:15.686Z",
       "fx_basis_repair_reason": "FOREIGN_NATIVE_ENTRY_PRICE_WITH_ENTRY_FX_1",
       "fx_basis_original_entry_fx": 1,
-      "quote_sanity_last_price": 42.36000061035156,
+      "quote_sanity_last_price": 42.400001525878906,
       "quote_sanity_last_fx": 0.1336,
       "quote_sanity_repaired_at": "2026-08-19T12:16:15.686Z",
       "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
@@ -175,14 +175,14 @@
       "invested": 1091.60368,
       "entry_fee": 1,
       "entry_price": 129.42930305480957,
-      "last_price": 129.3000030517578,
+      "last_price": 129.1999969482422,
       "entry_fx": 0.0901,
       "last_fx": 0.0901,
       "currency": "SEK",
       "opened_at": "2026-08-19T12:16:15.686Z",
-      "score": 0.6000000000000001,
-      "signal_confidence": 0.34,
-      "quote_sanity_last_price": 129.3000030517578,
+      "score": -1.1,
+      "signal_confidence": 0.39,
+      "quote_sanity_last_price": 129.1999969482422,
       "quote_sanity_last_fx": 0.0901,
       "zero_quantity": 93.6068406500909,
       "zero_whole_shares": 93,
@@ -204,107 +204,141 @@
       "invested": 763.822576,
       "entry_fee": 1,
       "entry_price": 720.7199999999999,
-      "last_price": 720,
-      "entry_fx": 1,
-      "last_fx": 1,
+      "last_price": 718,
+      "entry_fx": 0.1336,
+      "last_fx": 0.1336,
       "currency": "DKK",
       "opened_at": "2026-08-19T12:17:24.694Z",
-      "score": 5.3999999999999995,
-      "signal_confidence": 0.78,
-      "quote_sanity_last_price": 720,
-      "quote_sanity_last_fx": 1,
-      "zero_quantity": 1.0598048842079995,
-      "zero_whole_shares": 1,
-      "zero_fractional_shares": 0.059804884207999454,
+      "score": -5.011730983918173,
+      "signal_confidence": 0.7596,
+      "quote_sanity_last_price": 718,
+      "quote_sanity_last_fx": 0.1336,
+      "zero_quantity": 7.932671287461709,
+      "zero_whole_shares": 7,
+      "zero_fractional_shares": 0.9326712874617087,
       "zero_uses_fractional": true,
-      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
-    }
-  ],
-  "candidates": 14,
-  "topCandidates": [
-    {
-      "symbol": "SCHO.CO",
-      "name": "Aktieselskabet Schouw & Co.",
-      "score": 5.3999999999999995,
-      "confidence": 0.78,
-      "day_change": -1.098901098901095,
-      "news_score": 0,
-      "event_risk": "MEDIUM",
-      "pro": "Ruecksetzer -0.55% unter 20m-Hoch · Verkaufsdruck bremst deutlich +0.14% · 5m stabilisiert +0.00%",
-      "contra": ""
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash",
+      "fx_basis_repaired_at": "2026-08-19T12:19:16.739Z",
+      "fx_basis_repair_reason": "FOREIGN_NATIVE_ENTRY_PRICE_WITH_ENTRY_FX_1",
+      "fx_basis_original_entry_fx": 1,
+      "quote_sanity_repaired_at": "2026-08-19T12:19:16.739Z",
+      "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
     },
     {
-      "symbol": "BIOMAR.CO",
-      "name": "BioMar Group A/S",
-      "score": 4.85,
+      "symbol": "LOGI-B.ST",
+      "name": "Logistea AB (publ)",
+      "instrument_type": "EQUITY",
+      "theme": null,
+      "company_key": "LOGISTEA AB PUBL",
+      "invested": 534.375803,
+      "entry_fee": 1,
+      "entry_price": 13.17315984725952,
+      "last_price": 13.15999984741211,
+      "entry_fx": 0.0901,
+      "last_fx": 0.0901,
+      "currency": "SEK",
+      "opened_at": "2026-08-19T12:23:25.923Z",
+      "score": -2.9000000000000004,
+      "signal_confidence": 0.5700000000000001,
+      "zero_quantity": 450.22751420134756,
+      "zero_whole_shares": 450,
+      "zero_fractional_shares": 0.22751420134756017,
+      "zero_uses_fractional": true,
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash",
+      "fx_basis_repaired_at": "2026-08-19T12:25:16.509Z",
+      "fx_basis_repair_reason": "FOREIGN_NATIVE_ENTRY_PRICE_WITH_ENTRY_FX_1",
+      "fx_basis_original_entry_fx": 1,
+      "quote_sanity_last_price": 13.15999984741211,
+      "quote_sanity_last_fx": 0.0901,
+      "quote_sanity_repaired_at": "2026-08-19T12:25:16.509Z",
+      "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
+    }
+  ],
+  "candidates": 15,
+  "topCandidates": [
+    {
+      "symbol": "SSAB-B.ST",
+      "name": "SSAB AB (publ)",
+      "score": 4.3,
       "confidence": 0.63,
-      "day_change": -0.49140049140048436,
+      "day_change": -0.6635042163433025,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv · 5m +0.50% · Momentum baut sich auf · Beschleunigung +0.58%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 60 konstruktiv · 5m +0.19%",
       "contra": ""
     },
     {
       "symbol": "YIT.HE",
       "name": "YIT Oyj",
-      "score": 3.8,
+      "score": 4.2,
       "confidence": 0.63,
-      "day_change": -1.7460308377704847,
+      "day_change": -1.5873046148391023,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 52 konstruktiv · 5m +0.32%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 50 konstruktiv · 20m +0.81%",
       "contra": ""
+    },
+    {
+      "symbol": "SF.ST",
+      "name": "Stillfront Group AB (publ)",
+      "score": 3.55,
+      "confidence": 0.63,
+      "day_change": -0.9558803894940571,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +1.43% · 20m +2.43% · Momentum baut sich auf · Beschleunigung +1.28%",
+      "contra": "RSI 81 überhitzt"
     },
     {
       "symbol": "ENR.DE",
       "name": "Siemens Energy AG",
       "score": 3.5,
-      "confidence": 0.7424999999999999,
-      "day_change": 0.46668395125746276,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 65 konstruktiv",
-      "contra": ""
-    },
-    {
-      "symbol": "DTE.DE",
-      "name": "Deutsche Telekom AG",
-      "score": 3.5,
-      "confidence": 0.729,
-      "day_change": 0.24255129998538294,
+      "confidence": 0.63,
+      "day_change": 0.5963164040978741,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 57 konstruktiv",
       "contra": ""
     },
     {
-      "symbol": "BAYN.DE",
-      "name": "Bayer Aktiengesellschaft",
-      "score": 2.89038235755102,
-      "confidence": 0.709798235755102,
-      "day_change": 1.046368485843252,
-      "news_score": -0.019836734693877547,
+      "symbol": "BIOMAR.CO",
+      "name": "BioMar Group A/S",
+      "score": 3.5,
+      "confidence": 0.63,
+      "day_change": -0.49140049140048436,
+      "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv",
       "contra": ""
     },
     {
-      "symbol": "MTG-B.ST",
-      "name": "Modern Times Group MTG AB",
-      "score": 0.6000000000000001,
-      "confidence": 0.34,
-      "day_change": -1.5232269217381522,
+      "symbol": "DTE.DE",
+      "name": "Deutsche Telekom AG",
+      "score": 1.1,
+      "confidence": 0.39,
+      "day_change": 0.20790047225900388,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "EMA9 über EMA21",
       "contra": "Kurs unter EMA21"
     },
     {
-      "symbol": "NDA-FI.HE",
-      "name": "Nordea Bank Abp",
-      "score": -0.6000000000000001,
-      "confidence": 0.34,
-      "day_change": -0.4337758670451608,
+      "symbol": "SIE.DE",
+      "name": "Siemens Aktiengesellschaft",
+      "score": -0.19999999999999996,
+      "confidence": 0.30000000000000004,
+      "day_change": 0.03625594506322383,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "Kurs über EMA21",
+      "contra": "EMA-Trend schwach"
+    },
+    {
+      "symbol": "HLUN-B.CO",
+      "name": "H. Lundbeck A/S",
+      "score": -1.1,
+      "confidence": 0.39,
+      "day_change": -3.5079712748255942,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "RSI 50 konstruktiv",
@@ -312,6 +346,36 @@
     }
   ],
   "recentHistory": [
+    {
+      "ts": "2026-08-19T12:25:16.509Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal SSAB-B.ST: Score 4.30, Konfidenz 63%.",
+      "score": null
+    },
+    {
+      "ts": "2026-08-19T12:23:25.923Z",
+      "action": "KAUF",
+      "symbol": "LOGI-B.ST",
+      "amount": -535.375803,
+      "fee": 1,
+      "trade_pnl": null,
+      "reason": "KI BUY 78%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.60% vom 20m-Hoch stabilisiert sich; 5m +0.00%, Beschl. +0.45 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · Order 535.38 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 5.3999999999999995
+    },
+    {
+      "ts": "2026-08-19T12:19:16.739Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal NKT.CO: Score 3.51, Konfidenz 77%.",
+      "score": null
+    },
     {
       "ts": "2026-08-19T12:17:24.694Z",
       "action": "KAUF",
@@ -401,39 +465,33 @@
       "trade_pnl": null,
       "reason": "KI BUY 78%: EARLY-DIP AUTO DIP_STARTER: Kurs noch im Ruecksetzer (-0.32% vom 20m-Hoch), aber Fall bremst: 5m -0.09%, Beschl. +0.09 · 20% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · Order 881.46 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
       "score": 5.85
-    },
-    {
-      "ts": "2026-08-19T12:04:17.414Z",
-      "action": "KAUF",
-      "symbol": "OVZON.ST",
-      "amount": -1102.326063,
-      "fee": 1,
-      "trade_pnl": null,
-      "reason": "KI BUY 78%: EARLY-DIP AUTO DIP_STARTER: Kurs noch im Ruecksetzer (-0.77% vom 20m-Hoch), aber Fall bremst: 5m -0.10%, Beschl. +0.31 · 20% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · Order 1102.33 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 6.3
-    },
-    {
-      "ts": "2026-08-19T12:04:17.414Z",
-      "action": "VERKAUF",
-      "symbol": "WIHL.ST",
-      "amount": 1464.0649350649353,
-      "fee": 2,
-      "trade_pnl": -5.935064935064702,
-      "reason": "KI SELL 90%: CAPITAL-MOTION-ROTATION: OVZON.ST Erwartungswert 8.54 ist besser als WIHL.ST -2.42 · Differenz 10.96 · P/L -0.40% · Kapital aktiv zum staerkeren Setup verschieben· Trade P/L netto -1337.91 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat. · FX-PHANTOM-LOSS repariert: doppelter Fremdwährungsfaktor 0.090100 aus Verkaufserlös entfernt.",
-      "score": -2.9000000000000004
-    },
-    {
-      "ts": "2026-08-19T12:02:25.529Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal ASELS.IS: Score 4.70, Konfidenz 63%.",
-      "score": null
     }
   ],
   "recentAiLog": [
+    {
+      "ts": "2026-08-19T12:26:28.553Z",
+      "kind": "IDEA",
+      "title": "Beobachtungskandidat",
+      "symbol": "SSAB-B.ST",
+      "message": "SSAB-B.ST: Kein Trade. Bestes Signal SSAB-B.ST: Score 4.30, Konfidenz 63%.",
+      "confidence": 0.63
+    },
+    {
+      "ts": "2026-08-19T12:25:16.509Z",
+      "kind": "SYSTEM",
+      "title": "Kurs-/FX-Ausreißer korrigiert",
+      "symbol": "",
+      "message": "Quote-Sanity: 1 Position(en) korrigiert, davon 1 FX-Einstiegsbasis repariert, 0 bereits verbuchte FX-Phantom-Verkäufe korrigiert, 0 extremer Feed-Ausreißer verworfen, 0 fehlerhafte Depot-Snapshot(s) entfernt.",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T12:23:25.923Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "LOGI-B.ST",
+      "message": "LOGI-B.ST: KI BUY 78%: EARLY-DIP AUTO DIP_REBOUND: Ruecksetzer -0.60% vom 20m-Hoch stabilisiert sich; 5m +0.00%, Beschl. +0.45 · 30% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer",
+      "confidence": 0.78
+    },
     {
       "ts": "2026-08-19T12:17:24.694Z",
       "kind": "SYSTEM",
@@ -505,30 +563,6 @@
       "symbol": "INTRUM.ST",
       "message": "INTRUM.ST: KI SELL 90%: OPPORTUNITY-COST-ROTATION: YIT.HE Score 9.63 vs. INTRUM.ST -4.50 · Haltedauer 9 Min. · P/L -0.60% · Kapital zum klar hoeheren Erwartungswert umschichten",
       "confidence": null
-    },
-    {
-      "ts": "2026-08-19T12:09:17.239Z",
-      "kind": "SYSTEM",
-      "title": "Kurs-/FX-Ausreißer korrigiert",
-      "symbol": "",
-      "message": "Quote-Sanity: 0 Position(en) korrigiert, davon 0 FX-Einstiegsbasis repariert, 1 bereits verbuchte FX-Phantom-Verkäufe korrigiert, 0 extremer Feed-Ausreißer verworfen, 0 fehlerhafte Depot-Snapshot(s) entfernt.",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T12:07:15.210Z",
-      "kind": "SYSTEM",
-      "title": "Kurs-/FX-Ausreißer korrigiert",
-      "symbol": "",
-      "message": "Quote-Sanity: 1 Position(en) korrigiert, davon 1 FX-Einstiegsbasis repariert, 0 extremer Feed-Ausreißer verworfen, 0 fehlerhafte Depot-Snapshot(s) entfernt.",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T12:07:15.210Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "MILDEF.ST",
-      "message": "MILDEF.ST: KI BUY 78%: EARLY-DIP AUTO DIP_STARTER: Kurs noch im Ruecksetzer (-0.32% vom 20m-Hoch), aber Fall bremst: 5m -0.09%, Beschl. +0.09 · 20% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer",
-      "confidence": 0.78
     }
   ],
   "sourceHealth": [
@@ -538,8 +572,8 @@
       "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 409,
-      "updated_at": "2026-08-19T12:17:24.602Z"
+      "latency_ms": 392,
+      "updated_at": "2026-08-19T12:26:25.972Z"
     },
     {
       "source": "Yahoo FX",
@@ -548,16 +582,16 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": 104,
-      "updated_at": "2026-08-19T12:17:24.602Z"
+      "updated_at": "2026-08-19T12:26:25.972Z"
     },
     {
       "source": "Yahoo 1m Chart",
       "status": "OK",
-      "ok_count": 13,
+      "ok_count": 15,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 94,
-      "updated_at": "2026-08-19T12:17:24.602Z"
+      "latency_ms": 101,
+      "updated_at": "2026-08-19T12:26:25.972Z"
     },
     {
       "source": "Yahoo Events",
@@ -565,77 +599,77 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 93,
-      "updated_at": "2026-08-19T12:17:24.602Z"
+      "latency_ms": 91,
+      "updated_at": "2026-08-19T12:26:25.972Z"
     },
     {
       "source": "Yahoo News",
-      "status": "OK",
-      "ok_count": 12,
-      "fail_count": 0,
+      "status": "DEGRADED",
+      "ok_count": 13,
+      "fail_count": 1,
       "last_error": "",
-      "latency_ms": 988,
-      "updated_at": "2026-08-19T12:17:24.602Z"
+      "latency_ms": 800,
+      "updated_at": "2026-08-19T12:26:25.972Z"
     },
     {
       "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 487,
-      "updated_at": "2026-08-19T12:17:24.602Z"
+      "status": "DOWN",
+      "ok_count": 0,
+      "fail_count": 1,
+      "last_error": "Error: HTTP 429",
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T12:26:25.972Z"
     },
     {
       "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1035,
-      "updated_at": "2026-08-19T12:17:24.602Z"
+      "status": "DOWN",
+      "ok_count": 0,
+      "fail_count": 1,
+      "last_error": "Error: HTTP 429",
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T12:26:25.972Z"
     },
     {
       "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1040,
-      "updated_at": "2026-08-19T12:17:24.602Z"
+      "status": "DOWN",
+      "ok_count": 0,
+      "fail_count": 1,
+      "last_error": "Error: HTTP 429",
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T12:26:25.972Z"
     },
     {
       "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1077,
-      "updated_at": "2026-08-19T12:17:24.602Z"
+      "status": "DOWN",
+      "ok_count": 0,
+      "fail_count": 1,
+      "last_error": "Error: HTTP 429",
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T12:26:25.972Z"
     },
     {
       "source": "Early-Dip 1m",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 7,
+      "status": "DEGRADED",
+      "ok_count": 0,
+      "fail_count": 8,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T12:17:24.602Z"
+      "updated_at": "2026-08-19T12:26:25.972Z"
     },
     {
       "source": "Second-Chance 1m",
       "status": "DEGRADED",
       "ok_count": 0,
-      "fail_count": 6,
+      "fail_count": 3,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T12:17:24.602Z"
+      "updated_at": "2026-08-19T12:26:25.972Z"
     }
   ],
   "risk": {
-    "equity": 9931.418453488035,
-    "dailyPct": -0.6858154651196546,
-    "availableCash": 1784.5860111546303,
+    "equity": 9927.392575763502,
+    "dailyPct": -0.7260742423649713,
+    "availableCash": 1249.2102081546302,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -711,7 +745,7 @@
     "enabled": true,
     "target": 24,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T12:17:19.720Z",
+    "updatedAt": "2026-08-19T12:26:21.876Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -734,7 +768,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T12:17:19.720Z",
+    "updatedAt": "2026-08-19T12:26:21.876Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -758,8 +792,8 @@
   "pcWideSweep": {
     "enabled": true,
     "target": 64,
-    "candidateCount": 64,
-    "updatedAt": "2026-08-19T12:17:20.091Z",
+    "candidateCount": 63,
+    "updatedAt": "2026-08-19T12:27:11.804Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "profile": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER_2_STAGE",
@@ -792,8 +826,8 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 24,
-    "candidateCount": 12,
-    "updatedAt": "2026-08-19T12:17:24.694Z",
+    "candidateCount": 8,
+    "updatedAt": "2026-08-19T12:26:28.553Z",
     "fresh": true,
     "retentionMinutes": 15,
     "recheckPerScan": 6,
@@ -900,10 +934,10 @@
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 5,
+    "activePositions": 7,
     "pendingEntries": 0,
     "completedTradeOutcomes": 44,
-    "timedCheckpoints": 23,
+    "timedCheckpoints": 25,
     "horizonsMinutes": [
       15,
       30,
@@ -915,10 +949,10 @@
     "reboundTimingLearning": true,
     "reboundTiming": {
       "bucket": "REBOUND_REVERSAL",
-      "samples15": 0,
-      "totalCheckpoints": 0,
-      "qualityPct": 0,
-      "winRatePct": null,
+      "samples15": 1,
+      "totalCheckpoints": 1,
+      "qualityPct": 0.22,
+      "winRatePct": 100,
       "block": false,
       "scoreDelta": 0
     },
@@ -926,12 +960,12 @@
     "buckets": [
       {
         "bucket": "CHASE_NEAR_HIGH",
-        "samples15": 12,
-        "totalCheckpoints": 17,
-        "qualityPct": 0.023,
-        "winRatePct": 31.7,
+        "samples15": 13,
+        "totalCheckpoints": 18,
+        "qualityPct": 0.012,
+        "winRatePct": 30.4,
         "block": false,
-        "scoreDelta": -0.625825
+        "scoreDelta": -0.6300413461538461
       },
       {
         "bucket": "NORMAL_ENTRY",
@@ -950,9 +984,36 @@
         "winRatePct": 0,
         "block": false,
         "scoreDelta": 0
+      },
+      {
+        "bucket": "REBOUND_REVERSAL",
+        "samples15": 1,
+        "totalCheckpoints": 1,
+        "qualityPct": 0.22,
+        "winRatePct": 100,
+        "block": false,
+        "scoreDelta": 0
       }
     ],
     "recentTiming": [
+      {
+        "at": 1787142388553,
+        "symbol": "YIT.HE",
+        "bucket": "REBOUND_REVERSAL",
+        "horizonMin": 15,
+        "pnlPct": 0.22,
+        "maePct": -0.26,
+        "mfePct": 0.22
+      },
+      {
+        "at": 1787142316509,
+        "symbol": "MILDEF.ST",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 15,
+        "pnlPct": -0.33,
+        "maePct": -90.99,
+        "mfePct": -0.1
+      },
       {
         "at": 1787141666161,
         "symbol": "EMBRAC-B.ST",
@@ -1042,24 +1103,6 @@
         "pnlPct": 0.08,
         "maePct": -0.28,
         "mfePct": 0.17
-      },
-      {
-        "at": 1787122692277,
-        "symbol": "9988.HK",
-        "bucket": "CHASE_NEAR_HIGH",
-        "horizonMin": 15,
-        "pnlPct": -0.26,
-        "maePct": -0.26,
-        "mfePct": 0.06
-      },
-      {
-        "at": 1787122229642,
-        "symbol": "9618.HK",
-        "bucket": "CHASE_NEAR_HIGH",
-        "horizonMin": 15,
-        "pnlPct": -0.28,
-        "maePct": -0.28,
-        "mfePct": -0.1
       }
     ],
     "pendingOnlyForExecutedPositions": true,
@@ -1086,7 +1129,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T12:18:24.694Z",
+    "nextScanAt": "2026-08-19T12:27:28.553Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -1143,30 +1186,30 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T12:17:20.091Z",
-    "ageSeconds": 22,
+    "lastSeenAt": "2026-08-19T12:27:11.804Z",
+    "ageSeconds": 7,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-19T12:17:19.720Z",
+    "prefetchAt": "2026-08-19T12:26:21.876Z",
     "resolvedLeaderCount": 6,
     "leaderHealthy": false,
     "futureCandidates": 0,
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
-    "wideSweepCandidates": 64,
+    "wideSweepCandidates": 63,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8530,
     "wideSweepScannedCount": 8530,
     "metrics": {
-      "lastSeenAt": "2026-08-19T12:17:20.091Z",
+      "lastSeenAt": "2026-08-19T12:27:11.804Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 12437617,
+      "storageBytes": 12635033,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.11,
-      "ramMb": 58.4,
-      "downloadedBytes": 504460481,
-      "uploadedBytes": 480314,
+      "cpuPct": 0.14,
+      "ramMb": 59.9,
+      "downloadedBytes": 726003303,
+      "uploadedBytes": 736608,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T12:05:23.3771687Z",
