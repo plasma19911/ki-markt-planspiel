@@ -2,7 +2,7 @@ from pathlib import Path
 import re
 
 # Guarded one-shot: Yahoo source is published only after all runtime regressions pass.
-# Triggered after diagnostic capture was installed.
+# Replacement callbacks preserve backslashes inside embedded JavaScript regex literals.
 root=Path(__file__).resolve().parents[1]
 p=root/'src/yahoo-spark-repair.js'
 s=p.read_text(encoding='utf-8')
@@ -35,11 +35,11 @@ session_new="""  async function ensureYahooSession(){
   }
 
   async function fetchPart"""
-s,n=session_re.subn(session_new,s,count=1)
-if n!=1 and 'withRequestLocalTask(\'session\'' not in s: raise RuntimeError('ensureYahooSession block not found')
+s,n=session_re.subn(lambda _m: session_new,s,count=1)
+if n!=1 and "withRequestLocalTask('session'" not in s: raise RuntimeError('ensureYahooSession block not found')
 
 queue_re=re.compile(r"  function pumpChartQueue\(\)\{.*?\n  async function chartResilient",re.S)
-s,n=queue_re.subn("  async function chartResilient",s,count=1)
+s,n=queue_re.subn(lambda _m:"  async function chartResilient",s,count=1)
 if n!=1 and 'function pumpChartQueue' in s: raise RuntimeError('chart queue block not found')
 
 chart_re=re.compile(r"  async function chartResilient\(input,init,u\)\{.*?\n  \}\n\n  globalThis\.fetch=async function yahooMarketRepairFetch",re.S)
@@ -62,7 +62,7 @@ chart_new="""  async function chartResilient(input,init,u){
   }
 
   globalThis.fetch=async function yahooMarketRepairFetch"""
-s,n=chart_re.subn(chart_new,s,count=1)
+s,n=chart_re.subn(lambda _m: chart_new,s,count=1)
 if n!=1 and 'withRequestLocalTask(key' not in s: raise RuntimeError('chartResilient block not found')
 
 for forbidden in ['sessionPromise','chartInflight','chartQueue','chartActive','lastChartStart','chartGate','pumpChartQueue']:
