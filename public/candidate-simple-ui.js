@@ -60,9 +60,11 @@ function simplify(){
   const table=body.closest('table');
   const heads=table?.querySelectorAll('thead th');
   if(heads?.length>=7){heads[0].textContent='Aktie';heads[1].textContent='Bewertung';heads[2].textContent='Heute';heads[3].textContent='Sicherheit';heads[4].textContent='Risiko';heads[5].textContent='Firma kurz';heads[6].textContent='Aktuell'}
-  const help=document.querySelector('#signals .candidateHelp');if(help)help.textContent='Kurzansicht: Gesamtqualität, Tagesbewegung, Sicherheit und der aktuelle Auslöser.';
+  const help=document.querySelector('#signals .candidateHelp');if(help&&help.dataset.simple!=='1'){help.textContent='Kurzansicht: Gesamtqualität, Tagesbewegung, Sicherheit und der aktuelle Auslöser.';help.dataset.simple='1'}
   body.querySelectorAll('tr').forEach(tr=>{
+   if(tr.dataset.simpleCandidate==='1')return;
    const cells=tr.children;if(cells.length<7)return;
+   tr.dataset.simpleCandidate='1';
    tr.querySelectorAll('.candidateState,.candidateScore').forEach(x=>x.remove());
    const oldRating=cells[1].textContent,[rt,rc]=ratingText(oldRating);cells[1].innerHTML=`<span class="simpleRating ${rc}">${rt}</span>`;
    const [st,sc]=safetyText(cells[3].textContent);cells[3].innerHTML=`<span class="simpleSafety ${sc}">${st}</span>`;
