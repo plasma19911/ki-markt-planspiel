@@ -1,5 +1,5 @@
-export const WIDE_SWEEP_TARGET=32;
-export const WIDE_SWEEP_DIP_RESERVE=20;
+export const WIDE_SWEEP_TARGET=64;
+export const WIDE_SWEEP_DIP_RESERVE=44;
 export const WIDE_SWEEP_TTL_MS=90*1000;
 
 const arr=v=>Array.isArray(v)?v:[];
@@ -11,36 +11,33 @@ export const isFreshWideSweep=(ts,now=Date.now(),ttl=WIDE_SWEEP_TTL_MS)=>{const 
 
 function dipDiscovery(row){
  const day=num(row?.sessionPct),m5=num(row?.m5Pct),m20=num(row?.m20Pct),accel=num(row?.accelerationPct);
- // DIP-FIRST Discovery: nicht die groessten Verlierer, sondern Ruecksetzer,
- // bei denen der Abwaertsdruck bereits nachlaesst. Der Kurs darf noch rot sein.
- const declining=day<=-.55&&day>=-10;
- const controlled20=m20<=.20&&m20>=-3.2;
- const notCrashing5=m5<=.15&&m5>=-.85;
- const braking=accel>=.012;
+ // EARLY-DIP Discovery: Ein Ruecksetzer muss noch nicht positiv drehen. Wichtig ist,
+ // dass die kurzfristige Abwaertsdynamik bereits erkennbar nachlaesst.
+ const declining=day<=-.35&&day>=-10;
+ const controlled20=m20<=.28&&m20>=-3.5;
+ const notCrashing5=m5<=.18&&m5>=-.95;
+ const braking=accel>=.008;
  const eligible=declining&&controlled20&&notCrashing5&&braking;
  if(!eligible)return{eligible:false,score:-Infinity};
- const declineSweet=Math.max(0,3.6-Math.abs(Math.abs(day)-2.6)*.52);
- const brake=Math.min(3.2,Math.max(0,accel)*13);
- const shortTape=Math.max(0,1.7-Math.abs(m5)*1.7);
- const mediumTape=Math.max(0,1.35-Math.abs(m20)*.42);
- const score=declineSweet+brake+shortTape+mediumTape+Math.max(0,num(row?.wideScore))*.08;
+ const declineSweet=Math.max(0,3.8-Math.abs(Math.abs(day)-2.4)*.48);
+ const brake=Math.min(3.4,Math.max(0,accel)*14);
+ const shortTape=Math.max(0,1.8-Math.abs(m5)*1.55);
+ const mediumTape=Math.max(0,1.45-Math.abs(m20)*.40);
+ const score=declineSweet+brake+shortTape+mediumTape+Math.max(0,num(row?.wideScore))*.06;
  return{eligible:true,score:+score.toFixed(4)};
 }
 
 export function normalizeWideSweepEntries(input,now=Date.now()){
  const bySymbol=new Map();
- // Der PC darf jetzt einen groesseren vorverdichteten Ausschnitt senden. Das ist
- // weiterhin billig: Cloudflare bekommt nur Kennzahlen, nicht fuer jeden Wert einen Deep-Request.
- for(const x of arr(input).slice(0,480)){
+ // Groesserer Vorfilter: PC/Fast-Radar duerfen mehr Rohkandidaten schicken; Cloudflare
+ // behaelt davon nur 64. Das verbreitert die Suche, ohne 8.000 Deep-Requests zu erzeugen.
+ for(const x of arr(input).slice(0,800)){
   const symbol=key(x?.symbol);if(!symbol||symbol.length>28||isBlockedWideSweepSymbol(symbol))continue;
   const observed=Date.parse(String(x?.observedAt||x?.ts||''));if(!Number.isFinite(observed)||observed>now+60_000||now-observed>WIDE_SWEEP_TTL_MS)continue;
   const score=num(x?.wideScore,NaN),last=num(x?.last,NaN);if(!Number.isFinite(score)||!Number.isFinite(last)||last<=0)continue;
   const row={symbol,wideScore:+score.toFixed(4),m5Pct:+num(x?.m5Pct).toFixed(4),m20Pct:+num(x?.m20Pct).toFixed(4),accelerationPct:+num(x?.accelerationPct).toFixed(4),sessionPct:+num(x?.sessionPct).toFixed(4),last:+last.toFixed(8),observedAt:new Date(observed).toISOString(),ageSeconds:+Math.max(0,(now-observed)/1000).toFixed(1),source:String(x?.source||'WINDOWS_PC_WIDE_SWEEP').slice(0,80)};
   const dip=dipDiscovery(row);row.dipDiscovery=dip.eligible;row.dipDiscoveryScore=dip.eligible?dip.score:0;
   const old=bySymbol.get(symbol),oldAt=old?Date.parse(old.observedAt):0;
-  // Bei zusammengefuehrten C#- und Fast-Radar-Daten gewinnt zuerst die frischere
-  // Beobachtung. Nur nahezu zeitgleiche Messungen werden nach Dip-/Wide-Qualitaet
-  // entschieden. So kann ein 70-Sekunden-alter hoher Score keinen neuen Kurs verdraengen.
   const clearlyNewer=!old||observed>oldAt+5000;
   const nearlySame=!old||Math.abs(observed-oldAt)<=5000;
   const betterSameTime=nearlySame&&(row.dipDiscovery&&!old?.dipDiscovery||row.wideScore>num(old?.wideScore,-Infinity));
@@ -51,8 +48,8 @@ export function normalizeWideSweepEntries(input,now=Date.now()){
  const momentum=all.slice().sort((a,b)=>b.wideScore-a.wideScore||b.accelerationPct-a.accelerationPct||b.m5Pct-a.m5Pct);
  const selected=[],used=new Set();
  const take=(rows,n)=>{for(const x of rows){if(n<=0)break;if(used.has(x.symbol))continue;used.add(x.symbol);selected.push(x);n--}};
- // 20 von 32 Plaetzen sind primaer fuer gebremste Ruecksetzer reserviert.
- // Momentum/Highs bekommen nur den Rest und koennen einen guten Dip nicht verdraengen.
+ // 44/64 Plaetze bleiben fuer kontrollierte oder gerade abbremsende Ruecksetzer frei.
+ // So werden Chancen sichtbar, bevor sie wieder zu offensichtlichen Gewinnern werden.
  take(dips,WIDE_SWEEP_DIP_RESERVE);
  take(momentum,WIDE_SWEEP_TARGET-selected.length);
  return selected.slice(0,WIDE_SWEEP_TARGET);
