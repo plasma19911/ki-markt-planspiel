@@ -24,13 +24,24 @@ async function agentUniverseData(env,requestUrl){
  if(!r.ok)return{error:`Aktien-Master nicht verfügbar (HTTP ${r.status}).`,status:502};
  const j=await r.json().catch(()=>null);if(!j||!Array.isArray(j.equities))return{error:'Aktien-Master enthält keine Equity-Liste.',status:502};
  const blocked=s=>/\.(?:V|NE|PK|OB)$/i.test(String(s||'').toUpperCase());
- const equities=[];
+ const pref=s=>{s=String(s||'').toUpperCase();if(s.endsWith('.DE'))return 0;if(s.endsWith('.F'))return 1;if(s.endsWith('.SG'))return 2;if(!s.includes('.'))return 3;return 4};
+ const companyRows=new Map(),withoutCompany=[];let eligibleRaw=0;
  for(const x of j.equities){
   const symbol=String(x?.symbol||'').trim().toUpperCase();if(!symbol||symbol.length>32||blocked(symbol))continue;
   const cap=Number(x?.marketCapUSD??x?.marketCap??0);if(Number.isFinite(cap)&&cap>0&&cap<150_000_000)continue;
-  equities.push({symbol,name:String(x?.name||symbol).slice(0,120),currency:x?.currency||null,marketCapUSD:Number.isFinite(cap)&&cap>0?cap:null});
+  eligibleRaw++;
+  const companyKey=String(x?.companyKey||'').trim().toUpperCase();
+  const row={symbol,name:String(x?.name||symbol).slice(0,120),currency:x?.currency||null,marketCapUSD:Number.isFinite(cap)&&cap>0?cap:null,companyKey:companyKey||null};
+  if(!companyKey){withoutCompany.push(row);continue}
+  const old=companyRows.get(companyKey),better=!old||pref(symbol)<pref(old.symbol)||(pref(symbol)===pref(old.symbol)&&Number(row.marketCapUSD||0)>Number(old.marketCapUSD||0));
+  if(better)companyRows.set(companyKey,row);
  }
- return{ok:true,updatedAt:new Date().toISOString(),generatedAt:j.generated_at||null,exactBrokerCatalog:Boolean(j.exact_broker_catalog),count:equities.length,equities};
+ const equities=[...companyRows.values(),...withoutCompany].sort((a,b)=>Number(b.marketCapUSD||0)-Number(a.marketCapUSD||0)||pref(a.symbol)-pref(b.symbol)||a.symbol.localeCompare(b.symbol));
+ const removed=Math.max(0,eligibleRaw-equities.length);
+ return{
+  ok:true,updatedAt:new Date().toISOString(),generatedAt:j.generated_at||null,exactBrokerCatalog:Boolean(j.exact_broker_catalog),count:equities.length,rawEligibleCount:eligibleRaw,duplicateListingsRemoved:removed,equities,
+  scannerProfile:{version:1,mode:'FAST_ADAPTIVE_PARALLEL',batchSize:48,normalBatchesPerMinute:28,normalParallelRequests:6,backoffBatchesPerMinute:14,backoffParallelRequests:3,targetFullMasterCycleMinutes:10,hotEveryMinutes:1,warmEveryMinutes:1,outputCandidates:32,dipReserve:20,rule:'Mehr Parallelitaet nur auf dem PC; Cloudflare erhaelt weiterhin nur vorverdichtete Kandidaten. Bei 401/403/429 oder hoher Fehlerquote automatisch drosseln.'}
+ };
 }
 
 // /api/status ist der mit Abstand teuerste Endpunkt: ~90 KB, alle 60 s pro Tab.
