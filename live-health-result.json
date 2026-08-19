@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T12:44:01.437309+00:00",
+  "checkedAt": "2026-08-19T12:44:43.444604+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -45,15 +45,15 @@
     "pcWideSweep"
   ],
   "running": 1,
-  "scanCount": 111,
-  "lastScan": "2026-08-19T12:43:17.463Z",
+  "scanCount": 112,
+  "lastScan": "2026-08-19T12:44:26.101Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 12 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks. Beste HOL · PU · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
-  "cash": 1249.2102081546302,
-  "equity": 9958.012558482074,
-  "pnl": -41.98744151792562,
-  "universeCount": 235,
-  "positions": 7,
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 12 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks. · DIP-FIRST DYNAMIC: bester Rücksetzer KREATE.HE.",
+  "cash": 881.5676441546302,
+  "equity": 9951.953710579968,
+  "pnl": -48.046289420031826,
+  "universeCount": 232,
+  "positions": 8,
   "positionRows": [
     {
       "symbol": "EMBRAC-B.ST",
@@ -64,13 +64,13 @@
       "invested": 2099,
       "entry_fee": 1,
       "entry_price": 73.13305755615234,
-      "last_price": 73.13999938964844,
+      "last_price": 73.04000091552734,
       "entry_fx": 0.0901,
       "last_fx": 0.0902,
       "currency": "SEK",
       "opened_at": "2026-08-19T11:56:39.182Z",
-      "score": 2,
-      "signal_confidence": 0.48000000000000004,
+      "score": 3,
+      "signal_confidence": 0.5800000000000001,
       "zero_quantity": 318.547291489878,
       "zero_whole_shares": 318,
       "zero_fractional_shares": 0.5472914898779777,
@@ -93,13 +93,13 @@
       "invested": 880.46085,
       "entry_fee": 1,
       "entry_price": 214.9146969451904,
-      "last_price": 214.60000610351562,
+      "last_price": 214.39999389648438,
       "entry_fx": 0.0901,
       "last_fx": 0.0902,
       "currency": "SEK",
       "opened_at": "2026-08-19T12:07:15.210Z",
-      "score": 0.30000000000000004,
-      "signal_confidence": 0.31000000000000005,
+      "score": -1.1,
+      "signal_confidence": 0.39,
       "quote_sanity_last_price": 214.1999969482422,
       "quote_sanity_last_fx": 0.0901,
       "zero_quantity": 45.46939157463019,
@@ -252,6 +252,28 @@
       "quote_sanity_last_fx": 0.0901,
       "quote_sanity_repaired_at": "2026-08-19T12:25:16.509Z",
       "quote_sanity_reason": "FOREIGN_FX_ENTRY_BASIS_REPAIRED"
+    },
+    {
+      "symbol": "KREATE.HE",
+      "name": "Kreate Group Oyj",
+      "instrument_type": "EQUITY",
+      "theme": null,
+      "company_key": "KREATE OYJ",
+      "invested": 365.642564,
+      "entry_fee": 2,
+      "entry_price": 29.12910038185119,
+      "last_price": 29.100000381469727,
+      "entry_fx": 1,
+      "last_fx": 1,
+      "currency": "EUR",
+      "opened_at": "2026-08-19T12:44:26.101Z",
+      "score": 5.55,
+      "signal_confidence": 0.63,
+      "zero_quantity": 12.552483923867428,
+      "zero_whole_shares": 12,
+      "zero_fractional_shares": 0.5524839238674275,
+      "zero_uses_fractional": true,
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     }
   ],
   "candidates": 15,
@@ -260,7 +282,7 @@
       "symbol": "JM.ST",
       "name": "JM AB (publ)",
       "score": 6.05,
-      "confidence": 0.7344,
+      "confidence": 0.63,
       "day_change": -0.9486141883337407,
       "news_score": 0,
       "event_risk": "NONE",
@@ -279,25 +301,14 @@
       "contra": ""
     },
     {
-      "symbol": "MTRS.ST",
-      "name": "Munters Group AB (publ)",
-      "score": 5.05,
+      "symbol": "KREATE.HE",
+      "name": "Kreate Group Oyj",
+      "score": 5.55,
       "confidence": 0.63,
-      "day_change": -0.6104294653076381,
+      "day_change": -2.020200735792166,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.53% · 20m +0.90% · Momentum baut sich auf · Beschleunigung +0.36%",
-      "contra": ""
-    },
-    {
-      "symbol": "VISC.ST",
-      "name": "Gruvaktiebolaget Viscaria",
-      "score": 4.5,
-      "confidence": 0.63,
-      "day_change": -0.6993042561279861,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.95% · 20m +1.19%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv · 5m +1.39% · 20m +1.75% · Momentum baut sich auf · Beschleunigung +1.74%",
       "contra": ""
     },
     {
@@ -312,15 +323,26 @@
       "contra": ""
     },
     {
-      "symbol": "SF.ST",
-      "name": "Stillfront Group AB (publ)",
-      "score": 3.55,
-      "confidence": 0.63,
-      "day_change": -0.14705938451430312,
+      "symbol": "VISC.ST",
+      "name": "Gruvaktiebolaget Viscaria",
+      "score": 3,
+      "confidence": 0.5800000000000001,
+      "day_change": -0.6993042561279861,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +1.49% · 20m +2.88% · Momentum baut sich auf · Beschleunigung +0.59%",
-      "contra": "RSI 92 überhitzt"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.47% · 20m +1.67%",
+      "contra": "RSI 82 überhitzt"
+    },
+    {
+      "symbol": "EMBRAC-B.ST",
+      "name": "Embracer Group AB (publ)",
+      "score": 3,
+      "confidence": 0.5800000000000001,
+      "day_change": -2.8723392080753474,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 65 konstruktiv",
+      "contra": ""
     },
     {
       "symbol": "HLUN-B.CO",
@@ -334,18 +356,28 @@
       "contra": ""
     },
     {
-      "symbol": "ASELS.IS",
-      "name": "Aselsan",
-      "score": 2.65,
-      "confidence": 0.545,
-      "day_change": 3.868852459016403,
+      "symbol": "ENR.DE",
+      "name": "Siemens Energy AG",
+      "score": 2.35,
+      "confidence": 0.515,
+      "day_change": 0.9592912281798815,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 50 konstruktiv",
-      "contra": "Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.19% · Momentum baut sich auf · Beschleunigung +0.13%",
+      "contra": "RSI 84 überhitzt"
     }
   ],
   "recentHistory": [
+    {
+      "ts": "2026-08-19T12:44:26.101Z",
+      "action": "KAUF",
+      "symbol": "KREATE.HE",
+      "amount": -367.642564,
+      "fee": 2,
+      "trade_pnl": null,
+      "reason": "KI BUY 83%: DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt. · CANDLE-FLOW BUY: Dip mit Käuferübernahme · Käufer 83% / Verkäufer 17% · letzte 3 1 grün/0 rot · 4 höhere Tiefs/1 tiefere Hochs · Verkäuferdruck lässt nach. · Order 367.64 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 5.55
+    },
     {
       "ts": "2026-08-19T12:25:16.509Z",
       "action": "HALTEN",
@@ -455,19 +487,17 @@
       "trade_pnl": null,
       "reason": "Kein Trade. Bestes Signal SOSI1.HE: Score 6.05, Konfidenz 63%.",
       "score": null
-    },
-    {
-      "ts": "2026-08-19T12:07:15.210Z",
-      "action": "KAUF",
-      "symbol": "MILDEF.ST",
-      "amount": -881.46085,
-      "fee": 1,
-      "trade_pnl": null,
-      "reason": "KI BUY 78%: EARLY-DIP AUTO DIP_STARTER: Kurs noch im Ruecksetzer (-0.32% vom 20m-Hoch), aber Fall bremst: 5m -0.09%, Beschl. +0.09 · 20% Start/Ziel, Rest-Cash fuer weiteren Ruecksetzer · Order 881.46 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 5.85
     }
   ],
   "recentAiLog": [
+    {
+      "ts": "2026-08-19T12:44:26.101Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "KREATE.HE",
+      "message": "KREATE.HE: KI BUY 83%: DIP-FIRST DYNAMIC AUTO: bester relativer Dip im aktuellen Kandidatenfeld; Verkaufsdruck bremst/ Käuferseite beginnt zu übernehmen. Keine feste Dip-%-Grenze; finale Kerzenprüfung folgt. · CANDLE-FLOW BUY: Dip mit Käuferübernahme · Käufer 83% / Verkäufer 17% · letzte 3 1 grün/0 rot · 4 höhere Tiefs/1 tiefere Hochs · Verkäuferdruck lässt nach.",
+      "confidence": 0.63
+    },
     {
       "ts": "2026-08-19T12:41:29.111Z",
       "kind": "IDEA",
@@ -555,14 +585,6 @@
       "symbol": "SOSI1.HE",
       "message": "SOSI1.HE: Kein Trade. Bestes Signal SOSI1.HE: Score 6.05, Konfidenz 63%.",
       "confidence": 0.63
-    },
-    {
-      "ts": "2026-08-19T12:10:15.402Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "YIT.HE",
-      "message": "YIT.HE: KI BUY 82%: EARLY-DIP DIP_REBOUND: Ruecksetzer -0.32% vom 20m-Hoch stabilisiert sich; 5m +0.16%, Beschl. +0.32 · max. 30%",
-      "confidence": 0.78
     }
   ],
   "sourceHealth": [
@@ -572,8 +594,8 @@
       "ok_count": 2,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 391,
-      "updated_at": "2026-08-19T12:43:17.400Z"
+      "latency_ms": 414,
+      "updated_at": "2026-08-19T12:44:26.036Z"
     },
     {
       "source": "Yahoo FX",
@@ -581,8 +603,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 121,
-      "updated_at": "2026-08-19T12:43:17.400Z"
+      "latency_ms": 110,
+      "updated_at": "2026-08-19T12:44:26.036Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -590,8 +612,8 @@
       "ok_count": 15,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 265,
-      "updated_at": "2026-08-19T12:43:17.400Z"
+      "latency_ms": 110,
+      "updated_at": "2026-08-19T12:44:26.036Z"
     },
     {
       "source": "Yahoo Events",
@@ -599,8 +621,8 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 90,
-      "updated_at": "2026-08-19T12:43:17.400Z"
+      "latency_ms": 96,
+      "updated_at": "2026-08-19T12:44:26.036Z"
     },
     {
       "source": "Yahoo News",
@@ -608,44 +630,44 @@
       "ok_count": 13,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 517,
-      "updated_at": "2026-08-19T12:43:17.400Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 313,
-      "updated_at": "2026-08-19T12:43:17.400Z"
-    },
-    {
-      "source": "wallstreetONLINE",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 486,
-      "updated_at": "2026-08-19T12:43:17.400Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 951,
-      "updated_at": "2026-08-19T12:43:17.400Z"
+      "latency_ms": 324,
+      "updated_at": "2026-08-19T12:44:26.036Z"
     },
     {
       "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 959,
-      "updated_at": "2026-08-19T12:43:17.400Z"
+      "status": "DOWN",
+      "ok_count": 0,
+      "fail_count": 1,
+      "last_error": "Error: HTTP 429",
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T12:44:26.036Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "DOWN",
+      "ok_count": 0,
+      "fail_count": 1,
+      "last_error": "Error: HTTP 429",
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T12:44:26.036Z"
+    },
+    {
+      "source": "wallstreetONLINE",
+      "status": "DOWN",
+      "ok_count": 0,
+      "fail_count": 1,
+      "last_error": "Error: HTTP 429",
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T12:44:26.036Z"
+    },
+    {
+      "source": "BörsenNews",
+      "status": "DOWN",
+      "ok_count": 0,
+      "fail_count": 1,
+      "last_error": "Error: HTTP 429",
+      "latency_ms": 0,
+      "updated_at": "2026-08-19T12:44:26.036Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -654,22 +676,22 @@
       "fail_count": 8,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T12:43:17.400Z"
+      "updated_at": "2026-08-19T12:44:26.036Z"
     },
     {
       "source": "Second-Chance 1m",
       "status": "DEGRADED",
       "ok_count": 0,
-      "fail_count": 3,
+      "fail_count": 4,
       "last_error": "HTTP 429",
       "latency_ms": null,
-      "updated_at": "2026-08-19T12:43:17.400Z"
+      "updated_at": "2026-08-19T12:44:26.036Z"
     }
   ],
   "risk": {
-    "equity": 9958.012558482074,
-    "dailyPct": -0.4198744151792555,
-    "availableCash": 1249.2102081546302,
+    "equity": 9951.953710579968,
+    "dailyPct": -0.4804628942003175,
+    "availableCash": 881.5676441546302,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -751,7 +773,7 @@
     "enabled": true,
     "target": 24,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T12:41:21.641Z",
+    "updatedAt": "2026-08-19T12:44:21.653Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -774,7 +796,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T12:41:21.641Z",
+    "updatedAt": "2026-08-19T12:44:21.653Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -798,8 +820,8 @@
   "pcWideSweep": {
     "enabled": true,
     "target": 64,
-    "candidateCount": 64,
-    "updatedAt": "2026-08-19T12:43:13.204Z",
+    "candidateCount": 61,
+    "updatedAt": "2026-08-19T12:44:22.071Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "profile": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER_2_STAGE",
@@ -832,8 +854,8 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 24,
-    "candidateCount": 8,
-    "updatedAt": "2026-08-19T12:43:18.767Z",
+    "candidateCount": 9,
+    "updatedAt": "2026-08-19T12:44:26.101Z",
     "fresh": true,
     "retentionMinutes": 15,
     "recheckPerScan": 6,
@@ -1148,7 +1170,7 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T12:44:17.463Z",
+    "nextScanAt": "2026-08-19T12:45:26.101Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
@@ -1205,30 +1227,30 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T12:43:13.204Z",
-    "ageSeconds": 48,
+    "lastSeenAt": "2026-08-19T12:44:22.071Z",
+    "ageSeconds": 21,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-19T12:41:21.641Z",
+    "prefetchAt": "2026-08-19T12:44:21.653Z",
     "resolvedLeaderCount": 6,
     "leaderHealthy": false,
     "futureCandidates": 0,
     "reboundCandidates": null,
     "earlyBreakoutCandidates": null,
-    "wideSweepCandidates": 64,
+    "wideSweepCandidates": 61,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8530,
     "wideSweepScannedCount": 8530,
     "metrics": {
-      "lastSeenAt": "2026-08-19T12:43:13.204Z",
+      "lastSeenAt": "2026-08-19T12:44:22.071Z",
       "version": "2.1.5-csharp-single-super-scan",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 12872327,
+      "storageBytes": 12872488,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.11,
-      "ramMb": 62.3,
-      "downloadedBytes": 1082477885,
-      "uploadedBytes": 1092970,
+      "cpuPct": 0.12,
+      "ramMb": 60.3,
+      "downloadedBytes": 1111234637,
+      "uploadedBytes": 1100549,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-19T12:35:24.8742743Z",
