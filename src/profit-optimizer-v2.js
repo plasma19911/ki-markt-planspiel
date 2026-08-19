@@ -14,6 +14,7 @@ export const CAPITAL_MOTION_MIN_EXPECTED=3.0;
 export const ROTATION_MIN_GAP=0.8;
 const LOSS_ROTATION_MIN_GAP=0.45;
 const MAX_SCALE_UP_CASH_PER_DECISION_PCT=15;
+const MAX_PARALLEL_SCALE_UP_CASH_PCT=6;
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
@@ -90,6 +91,11 @@ function scaleUpActions(held,cMap,{cash,storage,sellSet}={}){
  return raw.map(x=>({symbol:x.symbol,action:'BUY',confidence:x.confidence,allocation_pct:+(x.allocation_pct*scale).toFixed(4),reason:x.reason})).filter(x=>x.allocation_pct>=2);
 }
 
+export function buildConfirmedScaleUpActions(held=[],candidates=[],{cash=0,storage=null,sellSymbols=[]}={}){
+ const cMap=new Map(arr(candidates).map(c=>[key(c),c])),sellSet=new Set(arr(sellSymbols).map(key));
+ return scaleUpActions(held,cMap,{cash,storage,sellSet});
+}
+
 function postProcess(r,input,storage){
  const plan=parsePlan(r),hit=findPlanMessage(input);if(!plan||!hit)return r;
  const candidates=parseBlock(hit.text,'Kandidaten=',' Gehalten=');if(!Array.isArray(candidates)||!candidates.length)return r;
@@ -97,8 +103,6 @@ function postProcess(r,input,storage){
  const original=arr(plan.actions),sells=original.filter(a=>String(a?.action||'').toUpperCase()==='SELL'),holds=original.filter(a=>String(a?.action||'').toUpperCase()==='HOLD'),sellSet=new Set(sells.map(key));
  const capitalRanked=rankCapitalCandidates(candidates,heldSet,storage),bestAlt=capitalRanked[0]||null;
 
- // Aggressivere Opportunity-Cost-Rotation: Verlierer bzw. schwaechere Positionen
- // duerfen frueh gegen einen klar besseren Kandidaten getauscht werden.
  if(bestAlt&&held.length){
   const heldRank=held.map(h=>{const c=cMap.get(key(h))||h,e=evaluateCapitalMotion(c,storage);return{h,c,e,age:heldAgeMinutes(h),pnl:heldPnlPct(h)}}).filter(x=>!sellSet.has(key(x.h))).sort((a,b)=>a.e.expected-b.e.expected),weak=heldRank[0];
   if(weak&&key(weak.h)!==key(bestAlt.c)&&shouldRotateCapital({current:weak.e,alternative:bestAlt.e,ageMinutes:weak.age,pnlPct:weak.pnl})){
@@ -112,22 +116,20 @@ function postProcess(r,input,storage){
   return{...r,response:JSON.stringify(plan)};
  }
 
- // Neue gute Kandidaten haben Vorrang vor einem Ausbau bestehender Starter. Nur wenn
- // kein neuer hart-sicherer Kandidat die Kapitalverteilung besteht, darf ein bereits
- // gehaltener Starter nach erneuter QUALIFIED/SECOND_CHANCE-Bestaetigung wachsen.
+ const availableScaleUps=scaleUpActions(held,cMap,{cash,storage,sellSet});
  const alloc=buildCapitalMotionAllocations(candidates.filter(c=>!heldSet.has(key(c))),storage);
  if(!alloc.length){
-  const scaleUps=scaleUpActions(held,cMap,{cash,storage,sellSet});
-  if(scaleUps.length){const buySymbols=new Set(scaleUps.map(key)),total=scaleUps.reduce((a,b)=>a+num(b.allocation_pct),0);plan.actions=[...sells,...scaleUps,...holds.filter(h=>!sellSet.has(key(h))&&!buySymbols.has(key(h)))];plan.summary=`${String(plan.summary||'').slice(0,165)} · STARTER-AUSBAU: ${scaleUps.length} erneut bestätigte Position(en), zusammen max. ${total.toFixed(1)}% des freien Cashs; neue Kandidaten hatten keinen Vorrang-Setup.`;return{...r,response:JSON.stringify(plan)}}
+  if(availableScaleUps.length){const buySymbols=new Set(availableScaleUps.map(key)),total=availableScaleUps.reduce((a,b)=>a+num(b.allocation_pct),0);plan.actions=[...sells,...availableScaleUps,...holds.filter(h=>!sellSet.has(key(h))&&!buySymbols.has(key(h)))];plan.summary=`${String(plan.summary||'').slice(0,165)} · STARTER-AUSBAU: ${availableScaleUps.length} erneut bestätigte Position(en), zusammen max. ${total.toFixed(1)}% des freien Cashs; neue Kandidaten hatten keinen Vorrang-Setup.`;return{...r,response:JSON.stringify(plan)}}
   plan.actions=[...sells,...holds.filter(h=>!sellSet.has(key(h)))];
   plan.summary=`${String(plan.summary||'').slice(0,180)} · CAPITAL-IN-MOTION: weder neuer Kandidat noch bestehender Starter bestand die harten Ausbau-/Mindest-Sicherheitsregeln; Cash bleibt frei.`;
   return{...r,response:JSON.stringify(plan)};
  }
- const buySymbols=new Set(alloc.map(a=>a.symbol));
  const buys=alloc.map(a=>({symbol:a.symbol,action:'BUY',confidence:clamp(.50+a.expected*.045,.54,.86),allocation_pct:a.allocation_pct,reason:`CAPITAL-IN-MOTION ${a.tier}: bestes aktuell hart-sicheres Setup · Erwartungswert ${a.expected.toFixed(2)} · verfuegbares Cash aktiv eingesetzt · Zielanteil ${a.allocation_pct.toFixed(1)}%`}));
- plan.actions=[...sells,...buys,...holds.filter(h=>!sellSet.has(key(h))&&!buySymbols.has(key(h)))];
- const total=buys.reduce((a,b)=>a+num(b.allocation_pct),0),top=alloc[0];
- plan.summary=`${String(plan.summary||'').slice(0,165)} · CAPITAL-IN-MOTION: ${total.toFixed(0)}% des verfuegbaren Cashs auf ${buys.length} beste hart-sichere Aktie(n); Top ${top.symbol} ${top.expected.toFixed(2)}; aktive Rotation=${sells.length>0?'ja':'nein'}.`;
+ const parallelScaleUps=availableScaleUps.slice(0,1).map(a=>({...a,allocation_pct:+Math.min(MAX_PARALLEL_SCALE_UP_CASH_PCT,num(a.allocation_pct)).toFixed(4),reason:`${a.reason} · PARALLEL-AUSBAU: neuer Kandidat hat Vorrang; bestehender Starter erhaelt daneben hoechstens ${MAX_PARALLEL_SCALE_UP_CASH_PCT}% des freien Cashs.`})).filter(a=>a.allocation_pct>=2);
+ const buySymbols=new Set([...buys,...parallelScaleUps].map(key));
+ plan.actions=[...sells,...buys,...parallelScaleUps,...holds.filter(h=>!sellSet.has(key(h))&&!buySymbols.has(key(h)))];
+ const total=buys.reduce((a,b)=>a+num(b.allocation_pct),0),scaleTotal=parallelScaleUps.reduce((a,b)=>a+num(b.allocation_pct),0),top=alloc[0];
+ plan.summary=`${String(plan.summary||'').slice(0,150)} · CAPITAL-IN-MOTION: ${total.toFixed(0)}% Plan-Cash auf ${buys.length} neue hart-sichere Aktie(n); Top ${top.symbol} ${top.expected.toFixed(2)}${scaleTotal?` · parallel ${scaleTotal.toFixed(1)}% bestätigter Starter-Ausbau`:''}; aktive Rotation=${sells.length>0?'ja':'nein'}.`;
  return{...r,response:JSON.stringify(plan)};
 }
 
