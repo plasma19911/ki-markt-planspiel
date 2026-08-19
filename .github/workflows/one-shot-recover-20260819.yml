@@ -18,36 +18,47 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Allow production deploy
-        run: sleep 90
-      - name: Restore last verified depot snapshot
+        run: sleep 60
+      - name: Call recovery endpoint
+        id: call
+        continue-on-error: true
         run: |
           BASE='https://ki-markt-planspiel.orkimperium.workers.dev'
-          code=$(curl -sS -o /tmp/recover.json -w '%{http_code}' -X POST -H 'x-recovery-key: 20260819-health-snapshot' "$BASE/api/recover-20260819-health-snapshot")
-          cat /tmp/recover.json
-          test "$code" = '200'
-          python3 - <<'PY'
-          import json
-          x=json.load(open('/tmp/recover.json'))
-          a=x.get('after') or {}
-          assert x.get('ok') is True
-          assert a.get('positions')==2
-          assert abs(float(a.get('cash'))-8398.448297401768)<0.02
-          assert abs(float(a.get('equity'))-9700.8849562844)<0.10
-          print('Recovery verified:',a)
-          PY
-      - name: Publish recovery proof
+          code=$(curl -sS -o /tmp/recover-body.txt -w '%{http_code}' -X POST -H 'x-recovery-key: 20260819-health-snapshot' "$BASE/api/recover-20260819-health-snapshot" || true)
+          printf '{"http":"%s","body":%s}\n' "$code" "$(python3 - <<'PY'
+import json, pathlib
+print(json.dumps(pathlib.Path('/tmp/recover-body.txt').read_text(encoding='utf-8',errors='replace') if pathlib.Path('/tmp/recover-body.txt').exists() else ''))
+PY
+)" > /tmp/recovery-20260819-result.json
+          cat /tmp/recovery-20260819-result.json
+      - name: Publish recovery diagnostic/proof
+        if: always()
         run: |
-          cp /tmp/recover.json recovery-20260819-result.json
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           for attempt in 1 2 3; do
             git fetch origin main
             git reset --hard origin/main
-            cp /tmp/recover.json recovery-20260819-result.json
+            cp /tmp/recovery-20260819-result.json recovery-20260819-result.json
             git add recovery-20260819-result.json
             if git diff --cached --quiet; then exit 0; fi
-            git commit -m 'Record successful depot recovery [skip ci]'
+            git commit -m 'Record depot recovery response [skip ci]'
             if git push origin HEAD:main; then exit 0; fi
             sleep 2
           done
           exit 1
+      - name: Enforce successful restore
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json
+          wrap=json.load(open('/tmp/recovery-20260819-result.json'))
+          assert wrap.get('http')=='200', wrap
+          x=json.loads(wrap.get('body') or '{}')
+          a=x.get('after') or {}
+          assert x.get('ok') is True, x
+          assert a.get('positions')==2, a
+          assert abs(float(a.get('cash'))-8398.448297401768)<0.02, a
+          assert abs(float(a.get('equity'))-9700.8849562844)<0.10, a
+          print('Recovery verified:',a)
+          PY
