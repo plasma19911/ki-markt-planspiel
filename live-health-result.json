@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T06:11:21.243093+00:00",
+  "checkedAt": "2026-08-19T06:41:36.703163+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -23,29 +23,32 @@
     "opportunityCapture": true,
     "capitalInMotion": true,
     "capitalDeploymentPolicy": true,
-    "secondChanceWatch": true,
+    "secondChanceWatch": false,
     "forwardScanner": true,
     "reboundScanner": true,
     "fallingKnifeProtection": true,
     "earlyBreakoutScanner": true,
     "earlyBreakoutGuard": true,
-    "pcWideSweep": true,
+    "pcWideSweep": false,
     "targetVenueSanity": true,
     "entryTimingLearning": true,
     "legacyFullCashFailsafe": true
   },
-  "allRequiredChecksPassed": true,
-  "failedChecks": [],
+  "allRequiredChecksPassed": false,
+  "failedChecks": [
+    "secondChanceWatch",
+    "pcWideSweep"
+  ],
   "running": 1,
-  "scanCount": 398,
-  "lastScan": "2026-08-19T06:11:10.164Z",
+  "scanCount": 418,
+  "lastScan": "2026-08-19T06:40:30.675Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 5 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 1 aktive Gap-Lagen aus 1/12 möglichen Checks. Beste HOLD · PU · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
-  "cash": 204.66538496661522,
-  "equity": 951.1644871814824,
-  "pnl": -48.8355128185176,
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 5 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 1/12 möglichen Checks.  · PULLBACK-FIR · BALANCE · FRESH-POSITION-GUARD: 1 schneller Soft-Exit gestoppt. Harte Reversals/Event-Risiken bleiben sofort ausfuehrbar.",
+  "cash": 70.9742752193663,
+  "equity": 939.9602617956978,
+  "pnl": -60.03973820430224,
   "universeCount": 172,
-  "positions": 3,
+  "positions": 5,
   "positionRows": [
     {
       "symbol": "ESLT",
@@ -92,24 +95,68 @@
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     },
     {
-      "symbol": "079550.KS",
-      "name": "LIG Nex1",
+      "symbol": "COCHINSHIP.NS",
+      "name": "Cochin Shipyard",
       "instrument_type": "EQUITY",
-      "theme": "DEFENSE_TECH",
-      "company_key": "LIG NEX1",
-      "invested": 28.120498,
-      "entry_fee": 1,
-      "entry_price": 800799.9999999999,
-      "last_price": 796000,
-      "entry_fx": 0.0006,
-      "last_fx": 0.0006,
-      "currency": "KRW",
-      "opened_at": "2026-08-19T06:01:21.436Z",
-      "score": 1.2000000000000002,
-      "signal_confidence": 0.4,
-      "zero_quantity": 0.05852584421174815,
-      "zero_whole_shares": 0,
-      "zero_fractional_shares": 0.05852584421174815,
+      "theme": "DEFENSE",
+      "company_key": "COCHIN SHIPYARD",
+      "invested": 57.791787,
+      "entry_fee": 2,
+      "entry_price": 1481.9805,
+      "last_price": 1475,
+      "entry_fx": 0.009,
+      "last_fx": 0.009,
+      "currency": "INR",
+      "opened_at": "2026-08-19T06:27:10.578Z",
+      "score": -2.4000000000000004,
+      "signal_confidence": 0.52,
+      "zero_quantity": 4.332924534101019,
+      "zero_whole_shares": 4,
+      "zero_fractional_shares": 0.33292453410101874,
+      "zero_uses_fractional": true,
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
+    },
+    {
+      "symbol": "9618.HK",
+      "name": "JD.com Hong Kong",
+      "instrument_type": "EQUITY",
+      "theme": "TECH_COMMERCE",
+      "company_key": "JD COM HONG KONG",
+      "invested": 56.795257,
+      "entry_fee": 2,
+      "entry_price": 112.51240152740478,
+      "last_price": 112.4000015258789,
+      "entry_fx": 0.1099,
+      "last_fx": 0.1099,
+      "currency": "HKD",
+      "opened_at": "2026-08-19T06:33:22.411Z",
+      "score": 2.9,
+      "signal_confidence": 0.5700000000000001,
+      "zero_quantity": 4.593185485496364,
+      "zero_whole_shares": 4,
+      "zero_fractional_shares": 0.5931854854963641,
+      "zero_uses_fractional": true,
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
+    },
+    {
+      "symbol": "9988.HK",
+      "name": "Alibaba Hong Kong",
+      "instrument_type": "EQUITY",
+      "theme": "TECH_PLATFORM",
+      "company_key": "ALIBABA HONG KONG",
+      "invested": 36.216917,
+      "entry_fee": 2,
+      "entry_price": 124.92480305480956,
+      "last_price": 124.80000305175781,
+      "entry_fx": 0.1099,
+      "last_fx": 0.1099,
+      "currency": "HKD",
+      "opened_at": "2026-08-19T06:40:30.675Z",
+      "score": 3,
+      "signal_confidence": 0.5800000000000001,
+      "zero_quantity": 2.637941226836727,
+      "zero_whole_shares": 2,
+      "zero_fractional_shares": 0.6379412268367268,
       "zero_uses_fractional": true,
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     }
@@ -119,60 +166,160 @@
     {
       "symbol": "3690.HK",
       "name": "Meituan",
-      "score": 2.521480380952381,
-      "confidence": 0.6160280380952381,
-      "day_change": 2.863822326125076,
+      "score": 3.921480380952381,
+      "confidence": 0.71388,
+      "day_change": 2.51314663733746,
       "news_score": 0.28809523809523807,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 50 konstruktiv · News +0.3 · 2 Ereigniscluster",
-      "contra": "Kurs unter EMA21"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 67 konstruktiv · News +0.3 · 2 Ereigniscluster",
+      "contra": ""
+    },
+    {
+      "symbol": "9988.HK",
+      "name": "Alibaba Hong Kong",
+      "score": 3,
+      "confidence": 0.5800000000000001,
+      "day_change": -1.4996029583600579,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv",
+      "contra": ""
     },
     {
       "symbol": "9618.HK",
       "name": "JD.com Hong Kong",
-      "score": 2.5,
-      "confidence": 0.53,
-      "day_change": 1.171173920502544,
+      "score": 2.9,
+      "confidence": 0.5700000000000001,
+      "day_change": 1.2612626359269408,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 60 konstruktiv",
-      "contra": "Kurs unter EMA21"
-    },
-    {
-      "symbol": "079550.KS",
-      "name": "LIG Defense&Aerospace Co., Ltd.",
-      "score": 1.2000000000000002,
-      "confidence": 0.4,
-      "day_change": 0.12578616352201255,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · RSI 50 konstruktiv",
-      "contra": "Kurs unter EMA21 · 5m -0.50%"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "contra": ""
     },
     {
       "symbol": "DATAPATTNS.NS",
       "name": "Data Patterns India",
       "score": -1.6,
       "confidence": 0.44000000000000006,
-      "day_change": 0.1308769387771358,
+      "day_change": -0.20476230684792762,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
       "contra": "EMA-Trend schwach · Kurs unter EMA21"
     },
     {
-      "symbol": "012450.KS",
-      "name": "Hanwha Aerospace",
-      "score": -3.2,
-      "confidence": 0.6000000000000001,
-      "day_change": 3.839441535776622,
+      "symbol": "COCHINSHIP.NS",
+      "name": "Cochin Shipyard Limited",
+      "score": -2.4000000000000004,
+      "confidence": 0.52,
+      "day_change": -0.6800888829035068,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "RSI 50 konstruktiv",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "pro": "",
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 23 sehr schwach"
     }
   ],
   "recentHistory": [
+    {
+      "ts": "2026-08-19T06:40:30.675Z",
+      "action": "KAUF",
+      "symbol": "9988.HK",
+      "amount": -38.216917,
+      "fee": 2,
+      "trade_pnl": null,
+      "reason": "KI BUY 72%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag -1.50%, 5m +0.16%, noch nicht ueberhitzt · Preis-Timing 4.99 (Basis 4.54) · Zielanteil 45.0% · RESEARCH-CONFIRM: 5m 0.16%, 20m 0.16% · volle Breakout-Bestaetigung max. 35% · Order 38.22 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 3
+    },
+    {
+      "ts": "2026-08-19T06:35:13.260Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal 3690.HK: Score 3.92, Konfidenz 71%.",
+      "score": null
+    },
+    {
+      "ts": "2026-08-19T06:33:22.411Z",
+      "action": "KAUF",
+      "symbol": "9618.HK",
+      "amount": -58.795257,
+      "fee": 2,
+      "trade_pnl": null,
+      "reason": "KI BUY 81%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag +1.26%, 5m +0.27%, noch nicht ueberhitzt · Preis-Timing 7.09 (Basis 6.64) · Zielanteil 45.0% · RESEARCH-CONFIRM: 5m 0.27%, 20m 0.18% · volle Breakout-Bestaetigung max. 35% · Order 58.80 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 4.7
+    },
+    {
+      "ts": "2026-08-19T06:28:09.903Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal COCHINSHIP.NS: Score 3.50, Konfidenz 63%.",
+      "score": null
+    },
+    {
+      "ts": "2026-08-19T06:27:10.578Z",
+      "action": "KAUF",
+      "symbol": "COCHINSHIP.NS",
+      "amount": -59.791787,
+      "fee": 2,
+      "trade_pnl": null,
+      "reason": "KI BUY 74%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag -0.31%, 5m +0.10%, noch nicht ueberhitzt · Preis-Timing 5.58 (Basis 5.13) · Zielanteil 45.0% · RESEARCH-CONFIRM: 5m 0.10%, 20m 0.13% · volle Breakout-Bestaetigung max. 35% · STATE-DIVERSIFIKATION: DEFENSE bereits 100% des investierten Depots; neue Position nur 25% kleiner statt hart blockiert. · Order 59.79 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 3.5
+    },
+    {
+      "ts": "2026-08-19T06:21:11.223Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal COCHINSHIP.NS: Score 2.50, Konfidenz 53%.",
+      "score": null
+    },
+    {
+      "ts": "2026-08-19T06:19:13.723Z",
+      "action": "VERKAUF",
+      "symbol": "FSL.NS",
+      "amount": 227.7782362193663,
+      "fee": 2,
+      "trade_pnl": -4.670818780633681,
+      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.29%, Rücklauf vom 20m-Hoch -0.36%· Trade P/L netto -2.67 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 1.2000000000000002
+    },
+    {
+      "ts": "2026-08-19T06:16:11.028Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal FSL.NS: Score 5.10, Konfidenz 70%.",
+      "score": null
+    },
+    {
+      "ts": "2026-08-19T06:14:27.704Z",
+      "action": "KAUF",
+      "symbol": "FSL.NS",
+      "amount": -232.449055,
+      "fee": 2,
+      "trade_pnl": null,
+      "reason": "KI BUY 86%: PULLBACK-FIRST PULLBACK_RETEST: Ruecksetzer -0.27% vom 20m-Hoch, 1m/5m drehen wieder hoch · Preis-Timing 10.46 (Basis 9.11) · Zielanteil 100.0% · Order 232.45 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 6.45
+    },
+    {
+      "ts": "2026-08-19T06:14:27.704Z",
+      "action": "VERKAUF",
+      "symbol": "079550.KS",
+      "amount": 26.783670056923082,
+      "fee": 1,
+      "trade_pnl": -2.336827943076919,
+      "reason": "KI SELL 90%: OPPORTUNITY-COST-ROTATION: FSL.NS Score 8.66 vs. 079550.KS -4.17 · Haltedauer 13 Min. · P/L -1.10% · Kapital zum klar hoeheren Erwartungswert umschichten· Trade P/L netto -1.34 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": -4.5
+    },
     {
       "ts": "2026-08-19T06:10:09.428Z",
       "action": "HALTEN",
@@ -192,109 +339,65 @@
       "trade_pnl": -4.362325824415478,
       "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.11%, Rücklauf vom 20m-Hoch -0.11%· Trade P/L netto -2.36 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
       "score": 0.9214803809523808
-    },
-    {
-      "ts": "2026-08-19T06:03:13.245Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal 079550.KS: Score 4.70, Konfidenz 63%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T06:01:21.436Z",
-      "action": "KAUF",
-      "symbol": "079550.KS",
-      "amount": -29.120498,
-      "fee": 1,
-      "trade_pnl": null,
-      "reason": "KI BUY 86%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag +0.63%, 5m +0.25%, noch nicht ueberhitzt · Preis-Timing 8.87 (Basis 8.41) · Zielanteil 45.0% · RESEARCH-CONFIRM: 5m 0.25%, 20m 1.01% · volle Breakout-Bestaetigung max. 35% · Order 29.12 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 6.05
-    },
-    {
-      "ts": "2026-08-19T06:01:21.436Z",
-      "action": "VERKAUF",
-      "symbol": "ASB.AX",
-      "amount": 80.85937967935644,
-      "fee": 2,
-      "trade_pnl": -4.373067320643557,
-      "reason": "KI SELL 90%: CAPITAL-MOTION-ROTATION: 012450.KS Erwartungswert 8.95 ist besser als ASB.AX 1.06 · Differenz 7.88 · P/L -0.35% · Kapital aktiv zum staerkeren Setup verschieben· Trade P/L netto -2.37 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 0.9219858156028238
-    },
-    {
-      "ts": "2026-08-19T05:57:10.937Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal 012450.KS: Score 6.45, Konfidenz 63%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T05:55:15.099Z",
-      "action": "KAUF",
-      "symbol": "3690.HK",
-      "amount": -156.946787,
-      "fee": 2,
-      "trade_pnl": null,
-      "reason": "KI BUY 70%: PULLBACK-FIRST NORMAL: neutraler Einstieg abseits des lokalen Hochs · Preis-Timing 4.52 (Basis 4.42) · Zielanteil 100.0% · Order 157.29 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 2.9451088
-    },
-    {
-      "ts": "2026-08-19T05:53:13.189Z",
-      "action": "KAUF",
-      "symbol": "ASB.AX",
-      "amount": -85.232447,
-      "fee": 2,
-      "trade_pnl": null,
-      "reason": "KI BUY 84%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag +1.65%, 5m +0.23%, noch nicht ueberhitzt · Preis-Timing 7.92 (Basis 7.47) · Zielanteil 45.0% · RESEARCH-CONFIRM: 5m 0.23%, 20m 0.47% · volle Breakout-Bestaetigung max. 35% · Order 85.23 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 5.25
-    },
-    {
-      "ts": "2026-08-19T05:53:13.189Z",
-      "action": "VERKAUF",
-      "symbol": "079550.KS",
-      "amount": 242.52127590546496,
-      "fee": 1,
-      "trade_pnl": -0.044388094535037226,
-      "reason": "KI SELL 90%: CAPITAL-MOTION-ROTATION: ASB.AX Erwartungswert 7.47 ist besser als 079550.KS 1.36 · Differenz 6.11 · P/L 0.91% · Kapital aktiv zum staerkeren Setup verschieben· Trade P/L netto +0.96 EUR · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 0.9500000000000002
-    },
-    {
-      "ts": "2026-08-19T05:41:15.849Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal 012450.KS: Score 5.45, Konfidenz 63%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T05:40:09.676Z",
-      "action": "KAUF_BLOCKIERT_ZERO",
-      "symbol": "ASB.AX",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "KI BUY 85%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag +1.54%, 5m +0.35%, noch nicht ueberhitzt · Preis-Timing 7.98 (Basis 7.53) · Zielanteil 45.0% · RESEARCH-CONFIRM: 5m 0.35%, 20m 0.35% · volle Breakout-Bestaetigung max. 35% · Order 0.00 EUR· Slippage 0.10% · ZERO: keine ausführbare Einheit innerhalb des Budgets; Kauf rückgängig gemacht.",
-      "score": 5.25
-    },
-    {
-      "ts": "2026-08-19T05:35:10.438Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal ASB.AX: Score 5.25, Konfidenz 70%.",
-      "score": null
     }
   ],
   "recentAiLog": [
+    {
+      "ts": "2026-08-19T06:40:30.675Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "9988.HK",
+      "message": "9988.HK: KI BUY 72%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag -1.50%, 5m +0.16%, noch nicht ueberhitzt · Preis-Timing 4.99 (Basis 4.54) · Zielanteil 45.0% · RESEARCH-CONFIRM: 5m 0.16%, 20m 0.16% · volle Breakout-Bestaetigung max. 35%",
+      "confidence": 0.5800000000000001
+    },
+    {
+      "ts": "2026-08-19T06:33:22.411Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "9618.HK",
+      "message": "9618.HK: KI BUY 81%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag +1.26%, 5m +0.27%, noch nicht ueberhitzt · Preis-Timing 7.09 (Basis 6.64) · Zielanteil 45.0% · RESEARCH-CONFIRM: 5m 0.27%, 20m 0.18% · volle Breakout-Bestaetigung max. 35%",
+      "confidence": 0.63
+    },
+    {
+      "ts": "2026-08-19T06:28:09.903Z",
+      "kind": "IDEA",
+      "title": "Beobachtungskandidat",
+      "symbol": "COCHINSHIP.NS",
+      "message": "COCHINSHIP.NS: Kein Trade. Bestes Signal COCHINSHIP.NS: Score 3.50, Konfidenz 63%.",
+      "confidence": 0.63
+    },
+    {
+      "ts": "2026-08-19T06:27:10.578Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "COCHINSHIP.NS",
+      "message": "COCHINSHIP.NS: KI BUY 74%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag -0.31%, 5m +0.10%, noch nicht ueberhitzt · Preis-Timing 5.58 (Basis 5.13) · Zielanteil 45.0% · RESEARCH-CONFIRM: 5m 0.10%, 20m 0.13% · volle Breakout-Bestaetigung max. 35% · STATE-DIVERSIFIKATION: DEFENSE bereits 100% des investierten Depots; neue Position nur 25% kleiner statt hart blockiert.",
+      "confidence": 0.63
+    },
+    {
+      "ts": "2026-08-19T06:19:13.723Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "FSL.NS",
+      "message": "FSL.NS: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.29%, Rücklauf vom 20m-Hoch -0.36%",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T06:14:27.704Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "FSL.NS",
+      "message": "FSL.NS: KI BUY 86%: PULLBACK-FIRST PULLBACK_RETEST: Ruecksetzer -0.27% vom 20m-Hoch, 1m/5m drehen wieder hoch · Preis-Timing 10.46 (Basis 9.11) · Zielanteil 100.0%",
+      "confidence": 0.7038
+    },
+    {
+      "ts": "2026-08-19T06:14:27.704Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "079550.KS",
+      "message": "079550.KS: KI SELL 90%: OPPORTUNITY-COST-ROTATION: FSL.NS Score 8.66 vs. 079550.KS -4.17 · Haltedauer 13 Min. · P/L -1.10% · Kapital zum klar hoeheren Erwartungswert umschichten",
+      "confidence": null
+    },
     {
       "ts": "2026-08-19T06:09:10.940Z",
       "kind": "TRADE",
@@ -334,62 +437,6 @@
       "symbol": "3690.HK",
       "message": "3690.HK: KI BUY 70%: PULLBACK-FIRST NORMAL: neutraler Einstieg abseits des lokalen Hochs · Preis-Timing 4.52 (Basis 4.42) · Zielanteil 100.0%",
       "confidence": 0.65839088
-    },
-    {
-      "ts": "2026-08-19T05:53:13.189Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "ASB.AX",
-      "message": "ASB.AX: KI BUY 84%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag +1.65%, 5m +0.23%, noch nicht ueberhitzt · Preis-Timing 7.92 (Basis 7.47) · Zielanteil 45.0% · RESEARCH-CONFIRM: 5m 0.23%, 20m 0.47% · volle Breakout-Bestaetigung max. 35%",
-      "confidence": 0.7038
-    },
-    {
-      "ts": "2026-08-19T05:53:13.189Z",
-      "kind": "TRADE",
-      "title": "Verkauf ausgeführt",
-      "symbol": "079550.KS",
-      "message": "079550.KS: KI SELL 90%: CAPITAL-MOTION-ROTATION: ASB.AX Erwartungswert 7.47 ist besser als 079550.KS 1.36 · Differenz 6.11 · P/L 0.91% · Kapital aktiv zum staerkeren Setup verschieben",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T05:46:09.814Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "079550.KS",
-      "message": "079550.KS: Kein Trade. Bestes Signal 079550.KS: Score 4.70, Konfidenz 63%.",
-      "confidence": 0.63
-    },
-    {
-      "ts": "2026-08-19T05:40:09.676Z",
-      "kind": "SYSTEM",
-      "title": "ZERO-Ausführung blockiert",
-      "symbol": "ASB.AX",
-      "message": "ASB.AX: keine ausführbare Einheit innerhalb des vorgesehenen Budgets.",
-      "confidence": null
-    },
-    {
-      "ts": "2026-08-19T05:40:09.676Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "ASB.AX",
-      "message": "ASB.AX: KI BUY 85%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag +1.54%, 5m +0.35%, noch nicht ueberhitzt · Preis-Timing 7.98 (Basis 7.53) · Zielanteil 45.0% · RESEARCH-CONFIRM: 5m 0.35%, 20m 0.35% · volle Breakout-Bestaetigung max. 35%",
-      "confidence": 0.7038
-    },
-    {
-      "ts": "2026-08-19T05:34:10.444Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "079550.KS",
-      "message": "079550.KS: KI BUY 74%: PULLBACK-FIRST NORMAL: neutraler Einstieg abseits des lokalen Hochs · Preis-Timing 5.39 (Basis 5.29) · Zielanteil 100.0%",
-      "confidence": 0.63
-    },
-    {
-      "ts": "2026-08-19T05:32:12.863Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "012450.KS",
-      "message": "012450.KS: Kein Trade. Bestes Signal 012450.KS: Score 5.45, Konfidenz 63%.",
-      "confidence": 0.63
     }
   ],
   "sourceHealth": [
@@ -399,8 +446,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 297,
-      "updated_at": "2026-08-19T06:11:09.152Z"
+      "latency_ms": 146,
+      "updated_at": "2026-08-19T06:40:30.071Z"
     },
     {
       "source": "Yahoo FX",
@@ -408,8 +455,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 10,
-      "updated_at": "2026-08-19T06:11:09.152Z"
+      "latency_ms": 124,
+      "updated_at": "2026-08-19T06:40:30.071Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -417,8 +464,8 @@
       "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 122,
-      "updated_at": "2026-08-19T06:11:09.152Z"
+      "latency_ms": 128,
+      "updated_at": "2026-08-19T06:40:30.071Z"
     },
     {
       "source": "Yahoo Events",
@@ -426,44 +473,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 217,
-      "updated_at": "2026-08-19T06:11:09.152Z"
+      "latency_ms": 242,
+      "updated_at": "2026-08-19T06:40:30.071Z"
     },
     {
       "source": "Yahoo News",
       "status": "OK",
-      "ok_count": 5,
+      "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1332,
-      "updated_at": "2026-08-19T06:11:09.152Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 238,
-      "updated_at": "2026-08-19T06:11:09.152Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 252,
-      "updated_at": "2026-08-19T06:11:09.152Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 309,
-      "updated_at": "2026-08-19T06:11:09.152Z"
+      "latency_ms": 1848,
+      "updated_at": "2026-08-19T06:40:30.071Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -471,23 +491,41 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 467,
-      "updated_at": "2026-08-19T06:11:09.152Z"
+      "latency_ms": 267,
+      "updated_at": "2026-08-19T06:40:30.071Z"
     },
     {
-      "source": "Second-Chance 1m",
-      "status": "DEGRADED",
-      "ok_count": 0,
-      "fail_count": 1,
-      "last_error": "1m-Kurs nicht frisch",
-      "latency_ms": null,
-      "updated_at": "2026-08-19T06:11:09.152Z"
+      "source": "BörsenNews",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 337,
+      "updated_at": "2026-08-19T06:40:30.071Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 927,
+      "updated_at": "2026-08-19T06:40:30.071Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 964,
+      "updated_at": "2026-08-19T06:40:30.071Z"
     }
   ],
   "risk": {
-    "equity": 951.1644871814824,
-    "dailyPct": -1.03508510516096,
-    "availableCash": 204.66538496661522,
+    "equity": 939.9602617956978,
+    "dailyPct": -2.2008405835351352,
+    "availableCash": 70.9742752193663,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -532,7 +570,7 @@
     "forwardPoolTarget": 15,
     "forwardCandidates": 0,
     "monitoredForwardUniverse": 0,
-    "activeThemes": 1,
+    "activeThemes": 3,
     "mode": "25 aktuelle Leader + bis zu 15 vorausschauende, im Broker-Master aufgelöste Ereignis-/Themenwerte",
     "confirmationRequired": true,
     "watchMayBeBroaderThanTradablePool": true
@@ -541,7 +579,7 @@
     "enabled": true,
     "target": 10,
     "candidateCount": 7,
-    "updatedAt": "2026-08-19T06:08:07.488Z",
+    "updatedAt": "2026-08-19T06:40:26.160Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -558,7 +596,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 3,
-    "updatedAt": "2026-08-19T06:08:07.488Z",
+    "updatedAt": "2026-08-19T06:40:26.160Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -576,13 +614,13 @@
   },
   "pcWideSweep": {
     "enabled": true,
-    "target": 16,
+    "target": 24,
     "candidateCount": 0,
-    "updatedAt": "2026-08-19T06:11:06.552Z",
+    "updatedAt": "2026-08-19T06:41:07.884Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8530,
-    "scannedCount": 520,
+    "scannedCount": 521,
     "cycleMinutes": 9,
     "batchCount": 11,
     "coreCount": 1800,
@@ -604,9 +642,9 @@
   },
   "secondChanceWatch": {
     "enabled": true,
-    "target": 8,
-    "candidateCount": 2,
-    "updatedAt": "2026-08-19T06:11:10.164Z",
+    "target": 12,
+    "candidateCount": 1,
+    "updatedAt": "2026-08-19T06:40:30.675Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 2,
@@ -693,9 +731,9 @@
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 3,
+    "activePositions": 4,
     "pendingEntries": 0,
-    "completedTradeOutcomes": 23,
+    "completedTradeOutcomes": 25,
     "timedCheckpoints": 10,
     "horizonsMinutes": [
       15,
@@ -837,9 +875,21 @@
     "monitoredUniverseCount": null,
     "activeThemes": [
       {
+        "id": "NUCLEAR_URANIUM",
+        "label": "Kernenergie / Uran-Versorgung",
+        "issueStrength": 95,
+        "headlineCount": 7
+      },
+      {
         "id": "DEFENSE_SECURITY",
         "label": "Verteidigung / Sicherheitsausgaben",
         "issueStrength": 46,
+        "headlineCount": 1
+      },
+      {
+        "id": "CYBER_SECURITY",
+        "label": "Cybersecurity / kritische Infrastruktur",
+        "issueStrength": 35,
         "headlineCount": 1
       }
     ],
@@ -852,20 +902,15 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T06:12:10.164Z",
+    "nextScanAt": "2026-08-19T06:41:30.675Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
     "persistentLeaderCache": true,
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
-    "lastFetchBudget": {
-      "actual": 36,
-      "cacheHits": 0,
-      "blocked": 6,
-      "cap": 36
-    },
-    "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Rebound-Radar beobachtet bis zu 10 Tagesverlierer; fallende Messer bleiben gesperrt, bis eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. HOT/WARM werden minuetlich priorisiert; der liquide Kern rotiert schneller und der lange Rest wird als beschleunigter Backstop vollstaendig durchlaufen. Nur die bis zu 16 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen; dadurch steigt die Abdeckung ohne mehr Deep-Checks zu erzwingen. Tages-Replay kann auf dem PC lokal laufen und spaeter synchronisiert werden; morgens werden die aktuellen News-/Forward-Signale neu geladen.",
+    "lastFetchBudget": null,
+    "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Rebound-Radar beobachtet bis zu 10 Tagesverlierer; fallende Messer bleiben gesperrt, bis eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. HOT/WARM werden minuetlich priorisiert; der liquide Kern rotiert schneller und der lange Rest wird als beschleunigter Backstop vollstaendig durchlaufen. Nur die bis zu 24 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen; dadurch steigt die Abdeckung ohne mehr Deep-Checks zu erzwingen. Tages-Replay kann auf dem PC lokal laufen und spaeter synchronisiert werden; morgens werden die aktuellen News-/Forward-Signale neu geladen.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
     "newsAtNight": false,
@@ -885,7 +930,7 @@
     "earlyBreakoutPoolTarget": 12,
     "earlyBreakoutPoolCandidates": 3,
     "pcWideSweep": true,
-    "pcWideSweepTarget": 16,
+    "pcWideSweepTarget": 24,
     "secondChanceWatch": true,
     "secondChanceRetentionMinutes": 12,
     "secondChanceRecheckPerScan": 2,
@@ -903,10 +948,10 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T06:11:06.552Z",
-    "ageSeconds": 14,
+    "lastSeenAt": "2026-08-19T06:41:07.884Z",
+    "ageSeconds": 28,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-19T06:08:07.488Z",
+    "prefetchAt": "2026-08-19T06:40:26.160Z",
     "resolvedLeaderCount": 16,
     "leaderHealthy": true,
     "futureCandidates": 0,
@@ -915,21 +960,21 @@
     "wideSweepCandidates": 0,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8530,
-    "wideSweepScannedCount": 520,
+    "wideSweepScannedCount": 521,
     "metrics": {
-      "lastSeenAt": "2026-08-19T06:11:06.552Z",
+      "lastSeenAt": "2026-08-19T06:41:07.884Z",
       "version": "2.0.12-csharp-full-master-24mi",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 6290919,
+      "storageBytes": 6412406,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 65.8,
-      "downloadedBytes": 26488063,
-      "uploadedBytes": 172780,
+      "ramMb": 82,
+      "downloadedBytes": 44541042,
+      "uploadedBytes": 279649,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_FULL_MASTER_24MIN",
-      "lastLocalCleanupAt": "2026-08-19T05:56:06.1298443Z",
+      "lastLocalCleanupAt": "2026-08-19T06:22:51.3671096Z",
       "lastError": null
     }
   }
