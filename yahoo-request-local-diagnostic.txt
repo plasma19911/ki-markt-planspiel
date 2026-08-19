@@ -1,18 +1,13 @@
 === APPLY ===
 Traceback (most recent call last):
-  File "/home/runner/work/ki-markt-planspiel/ki-markt-planspiel/scripts/apply-yahoo-request-local.py", line 38, in <module>
-    s,n=session_re.subn(session_new,s,count=1)
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/re/__init__.py", line 334, in _compile_template
-    return _sre.template(pattern, _parser.parse_template(repl, pattern))
-                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3.12/re/_parser.py", line 1075, in parse_template
-    raise s.error('bad escape %s' % this, len(this)) from None
-re.error: bad escape \s at position 574 (line 9, column 41)
+  File "/home/runner/work/ki-markt-planspiel/ki-markt-planspiel/scripts/apply-yahoo-request-local.py", line 69, in <module>
+    if forbidden in s: raise RuntimeError(f'forbidden cross-request token remains: {forbidden}')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: forbidden cross-request token remains: chartInflight
 apply_rc=1
 === NPM ===
 
-added 38 packages, and audited 39 packages in 8s
+added 38 packages, and audited 39 packages in 6s
 
 7 packages are looking for funding
   run `npm fund` for details
