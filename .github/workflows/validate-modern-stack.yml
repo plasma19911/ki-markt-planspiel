@@ -23,6 +23,9 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Apply balanced deep selector
+        run: python3 scripts/apply-balanced-deep-selection.py
+
       - name: Install dependencies
         id: install
         continue-on-error: true
@@ -45,6 +48,7 @@ jobs:
           runcheck syntax_constants node --check src/constants.js
           runcheck syntax_market node --check src/market-v3.js
           runcheck syntax_market_base node --check src/market-v3-base.js
+          runcheck syntax_deep_selection node --check src/deep-candidate-selection.js
           runcheck syntax_r2 node --check src/r2-portfolio.js
           runcheck syntax_second_runtime node --check src/second-chance-runtime.js
           runcheck syntax_decision node --check src/decision-guard.js
@@ -76,6 +80,7 @@ jobs:
           runcheck syntax_v21 node --check src/compact-portfolio-v21-source-budget.js
           runcheck syntax_chart node --check public/position-chart-ui.js
           runcheck syntax_budget_ui node --check public/free-budget-ui.js
+          runcheck balanced_deep_selection node scripts/smoke-balanced-deep-selection.mjs
           runcheck cash_aware node scripts/smoke-best-validated-buy.mjs
           runcheck legacy_cash node scripts/smoke-legacy-cash-neutralizer.mjs
           runcheck rebound_guard node scripts/smoke-rebound-guard.mjs
@@ -120,7 +125,7 @@ jobs:
             'checks':result,
             'failedChecks':failed,
             'allCodeAndRegressionChecksPassed':install_ok and not failed,
-            'note':'Validation-only workflow. It never rewrites trading source code.'
+            'note':'Temporary source application for the verified balanced-deep selector; revert workflow to validation-only after source commit lands.'
           }
           raw=json.dumps(out,ensure_ascii=False,indent=2)+'\n'
           pathlib.Path('/tmp/validation-result.json').write_text(raw,encoding='utf-8')
@@ -129,7 +134,7 @@ jobs:
         env:
           INSTALL_OUTCOME: ${{ steps.install.outcome }}
 
-      - name: Publish validation report only
+      - name: Publish verified selector and validation report
         if: always()
         run: |
           git config user.name 'github-actions[bot]'
@@ -137,18 +142,18 @@ jobs:
           for attempt in 1 2 3 4; do
             git fetch origin main
             git reset --hard origin/main
+            python3 scripts/apply-balanced-deep-selection.py
             cp /tmp/validation-result.json validation-result.json
-            git add validation-result.json
+            git add src/market-v3-base.js validation-result.json
             if git diff --cached --quiet; then
-              echo 'Validation result unchanged'
+              echo 'Selector and validation result unchanged'
               exit 0
             fi
-            git commit -m 'Update validation result [skip ci]'
+            git commit -m 'Balance deep scan between pullbacks and momentum [skip ci]'
             if git push origin HEAD:main; then
-              echo 'Validation result published'
+              echo 'Balanced deep selector published'
               exit 0
             fi
-            echo "Concurrent main update detected; retry $attempt"
             sleep 3
           done
           exit 1
