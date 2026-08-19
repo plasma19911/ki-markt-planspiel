@@ -11,9 +11,7 @@ Reines Paper-Trading / Planspiel. Keine echten Orders und aktuell kein Broker-Zu
 - tägliches, branchenunabhängiges Aktienuniversum mit bis zu **3.000 liquiden Unternehmen**
 - großer Aktienpool wird in Cloudflare-Free-tauglichen Minuten-Slices rotiert statt jede Minute komplett abgefragt
 - Tech und Rüstung sind Zusatzbereiche, aber **kein Hauptfilter**
-- normale europäische UCITS-ETFs werden mitgescannt; keine Hebel-/Inverse-ETFs
-- Vanguard FTSE All-World UCITS ETF (A2PKXG / VWCE) und iShares Nasdaq-100 UCITS ETF (A0F5UF / EXXT) sind im ETF-Kern enthalten
-- US-domiciled ETFs wie SPY/QQQ dienen nur als Markt-/Makro-Proxys, nicht als kaufbare ETF-Kandidaten
+- aktiver Produktionshandel ist derzeit auf normale Aktien begrenzt; Hebel-/Inverse-Produkte sind ausgeschlossen
 - grober Markt-Scan in Batches, danach 1-Minuten-Tiefenanalyse nur für die stärksten Kandidaten
 - EMA 9/21, RSI 14, 5-/20-Minuten-Momentum, Volumen, Tagesbewegung, FX und Ereignisrisiko
 - frische Mehrquellen-News mit Clustering, Quellen-/Ereignislernen und Handelszeit-Alter
@@ -24,7 +22,7 @@ Reines Paper-Trading / Planspiel. Keine echten Orders und aktuell kein Broker-Zu
 - Cloudflare Workers AI als zusätzliche Entscheidungsstufe; Markt-/News-Scanning läuft auch weiter, wenn die KI ihr Tageskontingent erreicht
 - automatische BUY / SELL / HOLD-Entscheidungen ausschließlich mit Spielgeld
 - vollständige Geld- und Entscheidungs-History; HALTEN-Phasen werden zusammengefasst
-- eigener 2026-Tab: theoretischer perfekter Rückblick gegen kausalen Walk-Forward
+- Tages-Replay: erster heutiger Zwischenstand ab 22:05 Berliner Zeit; finaler Neuaufbau nach gettex-Schluss ab 23:05
 - mobile Web-App mit Icon / Manifest
 - Browser-Statuscache reduziert unnötige Dashboard-Anfragen; Hintergrundtabs pollen nicht dauerhaft
 - kein Marktdaten-API-Key erforderlich
@@ -40,6 +38,12 @@ Das Kostenmodell ist bewusst konservativ: Kleinst-/Bruchstückorders werden mit 
 ## Cloudflare Free
 
 Der 5-Minuten-Cron an Werktagen bedeutet rund 220 geplante Läufe pro Tag statt 1.440. Der breite Aktienpool wird deshalb rotierend gescannt, damit ein einzelner Worker-Aufruf nicht mit Tausenden externen Kurs-/News-Abfragen überladen wird. Die KI hat zusätzlich Cooldowns und Fehler-Fallbacks; bei KI-Limits werden keine erfundenen Ersatzentscheidungen erzeugt.
+
+## Tages-Replay
+
+Während des Handelstages sammelt das System Kandidaten und echte Paper-Trades in einem Tages-Capture. Ab 22:05 Berliner Zeit kann Cloudflare bereits einen **vorläufigen** Replay-Zwischenstand berechnen. Da gettex bis 23:00 läuft, wird ab 23:05 der heutige Report einmal aus dem finalen Capture neu aufgebaut. Dadurch gehen späte Trades und Kandidaten nicht verloren.
+
+Der Windows-PC-Agent ist für den normalen Minuten-Scanner wichtig, aber der Tages-Replay hängt nicht mehr davon ab, dass der PC lokal einen separaten Replay berechnet.
 
 ## Marktdaten
 
@@ -67,16 +71,13 @@ Den Cron lokal testen:
 
 ## Secrets
 
-Beide werden über `npx wrangler secret put NAME` bzw. im Cloudflare-Dashboard gesetzt:
+Für den vorgesehenen Betrieb wird nur das Agent-Secret benötigt:
 
 | Secret | Pflicht | Zweck |
 | --- | --- | --- |
 | `PC_AGENT_TOKEN` | ja | Authentifiziert den Windows-PC-Agent auf `/api/agent/*` |
-| `CONTROL_TOKEN` | **ja für Steueraktionen** | Schützt `/api/start`, `/api/stop`, `/api/reset`, `/api/scan` und `/api/migrate-from-old-sql`. Fehlt das Secret, bleiben diese Endpunkte mit HTTP 503 gesperrt. |
 
-Die Oberfläche fragt `CONTROL_TOKEN` beim ersten Steuerklick einmalig ab und legt es im `localStorage` dieses Browsers ab. Ein falsches oder fehlendes Token wird mit HTTP 401 abgewiesen; Cross-Site-Browseraufrufe werden zusätzlich blockiert.
-
-`secrets.required` ist in aktuellen Wrangler-Versionen ein gültiges Konfigurationsfeld. `PC_AGENT_TOKEN` bleibt dort deklariert. `CONTROL_TOKEN` wird erst nach seiner Einrichtung als deploy-seitige Pflichtdeklaration ergänzt, damit der erste Sicherheits-Deploy nicht wegen eines noch fehlenden Secrets blockiert wird.
+Die normalen Steuerknöpfe der Weboberfläche (`Start`, `Stop`, `Scan`, `Reset`) verlangen **kein zusätzliches Passwort oder CONTROL_TOKEN**. Browser-Anfragen von fremden Origins werden weiterhin durch den Same-Origin-/CSRF-Guard abgewiesen.
 
 ## Deploy
 
