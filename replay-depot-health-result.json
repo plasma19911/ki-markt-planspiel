@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-19T21:08:23.321362+00:00",
-  "berlinNow": "2026-08-19T23:08:23.321178+02:00",
+  "checkedAt": "2026-08-19T21:13:26.901382+00:00",
+  "berlinNow": "2026-08-19T23:13:26.901224+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 67485,
-    "dashboard": 15511
+    "full": 71316,
+    "dashboard": 15553
   },
   "checks": {
     "fullStatus200": true,
@@ -23,21 +23,21 @@
   "replay": {
     "date": "2026-08-19",
     "status": "RUNNING",
-    "processed": 8,
+    "processed": 16,
     "total": 72,
     "provisional": true,
     "completedAt": null,
     "capture": {
       "date": "2026-08-19",
       "symbolCount": 120,
-      "updatedAt": "2026-08-19T21:05:34.892Z"
+      "updatedAt": "2026-08-19T21:10:34.916Z"
     },
     "summary": {
       "provisional": true,
-      "symbolsAnalysed": 8,
+      "symbolsAnalysed": 16,
       "errors": 0,
       "mistakes": {
-        "MISSED_SAFE_MOVE": 5,
+        "MISSED_SAFE_MOVE": 10,
         "LATE_DISCOVERY": 2
       },
       "churn": {
@@ -345,17 +345,211 @@
           "mistakes": [
             "MISSED_SAFE_MOVE"
           ]
+        },
+        {
+          "symbol": "TGT",
+          "name": "Target Corporation",
+          "firstSeenAt": "2026-08-19T13:51:15.881Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787155800000,
+            "price": 159.3249969482422,
+            "mode": "NORMAL",
+            "metrics": {
+              "m5": -0.022,
+              "m20": -0.066,
+              "accel": 0.608,
+              "draw": -0.652,
+              "day": 4.489,
+              "rsi": 41.2
+            },
+            "forward": {
+              "f15": 0.562,
+              "f30": 0.581,
+              "f60": 1.321,
+              "f120": 1.246,
+              "mfe120": 1.484,
+              "mae120": 0.562
+            },
+            "quality": 2.044
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787151300000,
+            "price": 160.1199951171875,
+            "mode": "NORMAL",
+            "metrics": {
+              "m5": 0,
+              "m20": 0.313,
+              "accel": 0.249,
+              "draw": -0.249,
+              "day": 5.01,
+              "rsi": 46.1
+            },
+            "forward": {
+              "f15": 0.362,
+              "f30": 0.484,
+              "f60": 0.091,
+              "f120": 0.899,
+              "mfe120": 0.899,
+              "mae120": -0.497
+            },
+            "quality": 0.302
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE"
+          ]
+        },
+        {
+          "symbol": "R3NK.DE",
+          "name": "RENK Group",
+          "firstSeenAt": "2026-08-19T07:40:13.316Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787132100000,
+            "price": 51.34000015258789,
+            "mode": "NORMAL",
+            "metrics": {
+              "m5": -0.039,
+              "m20": -0.019,
+              "accel": 0.155,
+              "draw": -0.233,
+              "day": 2.711,
+              "rsi": 53.3
+            },
+            "forward": {
+              "f15": 0.935,
+              "f30": 0.623,
+              "f60": 0.467,
+              "f120": 0.058,
+              "mfe120": 0.935,
+              "mae120": 0.039
+            },
+            "quality": 1.013
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787128200000,
+            "price": 51.34000015258789,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.156,
+              "m20": 0.489,
+              "accel": 0.254,
+              "draw": 0.058,
+              "day": 2.711,
+              "rsi": 55.8
+            },
+            "forward": {
+              "f15": 0.623,
+              "f30": 0.37,
+              "f60": 0.039,
+              "f120": 0.351,
+              "mfe120": 0.935,
+              "mae120": 0
+            },
+            "quality": 0.496
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE"
+          ]
+        },
+        {
+          "symbol": "SKHY",
+          "name": "SK hynix Inc.",
+          "firstSeenAt": "2026-08-19T14:06:17.727Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787147700000,
+            "price": 158.99000549316406,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "m5": 1.235,
+              "m20": 0.856,
+              "accel": 1.836,
+              "draw": -0.668,
+              "day": 2.166,
+              "rsi": 50
+            },
+            "forward": {
+              "f15": -1.756,
+              "f30": -0.088,
+              "f60": 1.346,
+              "f120": 0.176,
+              "mfe120": 1.425,
+              "mae120": -1.756
+            },
+            "quality": 0.848
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787151000000,
+            "price": 159.80999755859375,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "m5": 0.69,
+              "m20": 0.371,
+              "accel": 1.493,
+              "draw": -0.622,
+              "day": 2.692,
+              "rsi": 49.2
+            },
+            "forward": {
+              "f15": 0.501,
+              "f30": -0.294,
+              "f60": -0.706,
+              "f120": -0.426,
+              "mfe120": 0.904,
+              "mae120": -0.706
+            },
+            "quality": -0.881
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE"
+          ]
         }
       ],
       "worstEntries": []
     }
   },
   "depot": {
-    "cash": 10000.0,
-    "equity": 10000.0,
-    "displayMarketValue": 0.0,
+    "cash": 8398.448297401768,
+    "equity": 9700.8849562844,
+    "displayMarketValue": 1302.4366588826322,
     "displayAccountingDelta": 0.0,
-    "positions": []
+    "positions": [
+      {
+        "symbol": "SCHO.CO",
+        "invested": 763.822576,
+        "ratioValue": 759.880101831502,
+        "quantityValue": 759.880101831502,
+        "displayValue": 759.880101831502,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "LOGI-B.ST",
+        "invested": 534.375803,
+        "ratioValue": 542.5565570511302,
+        "quantityValue": 542.5565570511302,
+        "displayValue": 542.5565570511302,
+        "quantityUsed": true
+      }
+    ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: wed, 19 aug 2026 21:08:23 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=1f3wja6b6kmafejtgs6hvzc5o23fettqyuiwg3zbt4twjhvwkad6cpjqbdf%2fhwzrzrjjgrfacmktcafbesuihfrikjuc9xg9olm4o7erhbfh4cpllzn8my%2fxnxb9jqzonmewevip4dqgu%2bbt5253yfxqftd%2bd8teyivhtxy%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2dc221c8cea4b1f-lax\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: wed, 19 aug 2026 21:13:26 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=rhj6fku2xfw6ayaqtbizvwjaj%2behqczo4dk%2fsn8r%2bxvllbxxmzdr%2brzdgacia0zqzofz%2f3tyfjxclxf1o0njdodfv4oon720e4gkiotaqwmtig5nexl8bcxrvaurupiejzf9i4uzws31n6t4xquvexppbwcs2wxpmqw3isq%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2dc29868a07c9b8-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
