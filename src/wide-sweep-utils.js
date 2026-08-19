@@ -37,7 +37,14 @@ export function normalizeWideSweepEntries(input,now=Date.now()){
   const score=num(x?.wideScore,NaN),last=num(x?.last,NaN);if(!Number.isFinite(score)||!Number.isFinite(last)||last<=0)continue;
   const row={symbol,wideScore:+score.toFixed(4),m5Pct:+num(x?.m5Pct).toFixed(4),m20Pct:+num(x?.m20Pct).toFixed(4),accelerationPct:+num(x?.accelerationPct).toFixed(4),sessionPct:+num(x?.sessionPct).toFixed(4),last:+last.toFixed(8),observedAt:new Date(observed).toISOString(),ageSeconds:+Math.max(0,(now-observed)/1000).toFixed(1),source:String(x?.source||'WINDOWS_PC_WIDE_SWEEP').slice(0,80)};
   const dip=dipDiscovery(row);row.dipDiscovery=dip.eligible;row.dipDiscoveryScore=dip.eligible?dip.score:0;
-  const old=bySymbol.get(symbol);if(!old||row.wideScore>old.wideScore||(row.dipDiscovery&&!old.dipDiscovery))bySymbol.set(symbol,row);
+  const old=bySymbol.get(symbol),oldAt=old?Date.parse(old.observedAt):0;
+  // Bei zusammengefuehrten C#- und Fast-Radar-Daten gewinnt zuerst die frischere
+  // Beobachtung. Nur nahezu zeitgleiche Messungen werden nach Dip-/Wide-Qualitaet
+  // entschieden. So kann ein 70-Sekunden-alter hoher Score keinen neuen Kurs verdraengen.
+  const clearlyNewer=!old||observed>oldAt+5000;
+  const nearlySame=!old||Math.abs(observed-oldAt)<=5000;
+  const betterSameTime=nearlySame&&(row.dipDiscovery&&!old?.dipDiscovery||row.wideScore>num(old?.wideScore,-Infinity));
+  if(clearlyNewer||betterSameTime)bySymbol.set(symbol,row);
  }
  const all=[...bySymbol.values()];
  const dips=all.filter(x=>x.dipDiscovery).sort((a,b)=>b.dipDiscoveryScore-a.dipDiscoveryScore||b.accelerationPct-a.accelerationPct||b.wideScore-a.wideScore);
