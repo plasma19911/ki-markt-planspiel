@@ -1,0 +1,93 @@
+{
+  "checkedAt": "2026-08-19T19:24:46.281273+00:00",
+  "commit": "b04492eb219a7997c404abe4fcfafb35932b1600",
+  "patch": {
+    "ok": true,
+    "tail": "tranche-safe scale-up integrated in R2 and ZERO accounting\n"
+  },
+  "install": {
+    "ok": true,
+    "tail": "\nadded 38 packages, and audited 39 packages in 6s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+  },
+  "checks": {
+    "syntax_scale": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_profit_v2": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_r2": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "syntax_zero": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": ""
+    },
+    "scale_helper": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"valuationPreserved\": true,\n  \"fxValuationPreserved\": true,\n  \"hysteresisMinutes\": 10,\n  \"qualifiedMaxCashPct\": 6,\n  \"secondChanceMaxCashPct\": 10,\n  \"qualifiedTargetPct\": 14,\n  \"secondChanceTargetPct\": 20,\n  \"noBlindAverageDown\": true\n}\n"
+    },
+    "zero_accounting": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"blockedCash\": 100,\n  \"resizedCash\": 99.5,\n  \"resizedInvested\": 500.5,\n  \"resizedEquity\": 599.5,\n  \"scaleUp\": {\n    \"reconciled\": 1,\n    \"invested\": 798,\n    \"quantity\": 7.706384524566342\n  },\n  \"blockedScaleUpPreserved\": true\n}\n"
+    },
+    "opportunity_cost": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"timeExit\": true,\n  \"rotationBuy\": {\n    \"symbol\": \"MELI\",\n    \"action\": \"BUY\",\n    \"confidence\": 0.8567910000000001,\n    \"allocation_pct\": 62,\n    \"reason\": \"PROFIT-OPTIMIZER: Erwartungswert 9.62 · Ruecksetzer/Re-Test bestaetigt · PROFIT-SCORE 9.62 · Ruecksetzer/Re-Test · Kapital 62.0%\"\n  },\n  \"protectedWinner\": true\n}\n"
+    },
+    "capital_motion": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"capitalFloor\": {\n    \"confirmed\": true,\n    \"expected\": 5.335,\n    \"liveScore\": 3.6,\n    \"confidence\": 0.68,\n    \"nearHigh\": false,\n    \"m5\": 0.06,\n    \"m20\": 0.18,\n    \"acceleration\": 0.02,\n    \"day\": 1.2,\n    \"rsi\": 61,\n    \"volumeRatio\": 1.05,\n    \"breakoutScore\": 0.4,\n    \"state\": \"BUILDING\",\n    \"sell\": \"NONE\",\n    \"hardSafe\": true,\n    \"blockers\": []\n  },\n  \"allocation\": [\n    {\n      \"symbol\": \"BEST\",\n      \"pct\": 100,\n      \"expected\": 5.335,\n      \"tier\": \"QUALIFIED\"\n    }\n  ],\n  \"rotation\": true,\n  \"hardSafety\": true,\n  \"pullbackFirst\": {\n    \"pullback\": {\n      \"confirmed\": true,\n      \"expected\": 5.882,\n      \"liveScore\": 4,\n      \"confidence\": 0.73,\n      \"nearHigh\": false,\n      \"m5\": 0.09,\n      \"m20\": 0.22,\n      \"acceleration\": 0.06,\n      \"day\": 2.4,\n      \"rsi\": 59,\n      \"volumeRatio\": 1.05,\n      \"breakoutScore\": 0.4,\n      \"state\": \"BUILDING\",\n      \"sell\": \"NONE\",\n      \"hardSafe\": true,\n      \"blockers\": [],\n      \"buyable\": true,\n      \"mode\": \"PULLBACK_RETEST\",\n      \"pullbackConfirmed\": true,\n      \"earlyBreakout\": false,\n      \"normalEntry\": true,\n      \"peakRisk\": false,\n      \"hardPeak\": false,\n      \"overextended\": false,\n      \"drawKnown\": true,\n      \"drawdownFrom20mHighPct\": -0.82,\n      \"adjustedExpected\": 7.232,\n      \"replayAdjustment\": {\n        \"bucket\": \"PULLBACK_RETEST\",\n        \"count\": 0,\n        \"scoreDelta\": 0,\n        \"sizeMultiplier\": 1,\n        \"block\": false,\n        \"avg30\": 0,\n        \"avg60\": 0,\n        \"win30\": null,\n        \"win60\": null,\n        \"reason\": \"\"\n      },\n      \"reason\": \"Ruecksetzer -0.82% vom 20m-Hoch, 1m/5m drehen wieder hoch\"\n    },\n    \"peakBlocked\": true,\n    \"earlyBreakout\": true,\n    \"fallingKnifeBlocked\": true,\n    \"allocation\": [\n      {\n        \"symbol\": \"PULLBACK\",\n        \"pct\": 100,\n        \"mode\": \"PULLBACK_RETEST\",\n        \"score\": 7.232\n      }\n    ]\n  }\n}\n"
+    },
+    "core_paths": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"directMomentumSellBypass\": false,\n  \"aiFailureScoreSellBypass\": false,\n  \"aiFailureForcedBuy\": false,\n  \"hardEventExit\": true,\n  \"requestGlobalFetchMutation\": false,\n  \"requestLocalGoogleNewsDisable\": true,\n  \"shockNewsPriority\": true,\n  \"legalNameNewsQuery\": true\n}\n"
+    },
+    "cash_aware": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"stocksOnly\": true,\n  \"cashMayRemain\": true,\n  \"best\": {\n    \"symbol\": \"HIGH.DE\",\n    \"action\": \"BUY\",\n    \"confidence\": 0.7,\n    \"allocation_pct\": 22,\n    \"reason\": \"BEST-VALIDATED-BUY: FAST-BUY HIGH\",\n    \"fastScore\": 5.2,\n    \"buyScore\": 5.2,\n    \"sellScore\": 0.2,\n    \"liveScore\": 5.5\n  },\n  \"cashAllowed\": \"KI bleibt vorsichtig · kein bestätigter BUY – Cash bleibt verfügbar.\",\n  \"preserved\": [\n    {\n      \"symbol\": \"HIGH.DE\",\n      \"action\": \"BUY\",\n      \"confidence\": 0.72,\n      \"allocation_pct\": 30,\n      \"reason\": \"stärker\",\n      \"fastScore\": 5.2,\n      \"buyScore\": 5.2,\n      \"sellScore\": 0.2,\n      \"liveScore\": 5.5\n    },\n    {\n      \"symbol\": \"LOW.DE\",\n      \"action\": \"BUY\",\n      \"confidence\": 0.78,\n      \"allocation_pct\": 20,\n      \"reason\": \"gut\",\n      \"fastScore\": 4.8,\n      \"buyScore\": 4.8,\n      \"sellScore\": 0.2,\n      \"liveScore\": 2.5\n    }\n  ],\n  \"capped\": [\n    {\n      \"symbol\": \"HIGH.DE\",\n      \"action\": \"BUY\",\n      \"confidence\": 0.72,\n      \"allocation_pct\": 57.1429,\n      \"reason\": \"A · Positionssumme auf max. 100% gekappt\",\n      \"fastScore\": 5.2,\n      \"buyScore\": 5.2,\n      \"sellScore\": 0.2,\n      \"liveScore\": 5.5\n    },\n    {\n      \"symbol\": \"LOW.DE\",\n      \"action\": \"BUY\",\n      \"confidence\": 0.78,\n      \"allocation_pct\": 42.8571,\n      \"reason\": \"B · Positionssumme auf max. 100% gekappt\",\n      \"fastScore\": 4.8,\n      \"buyScore\": 4.8,\n      \"sellScore\": 0.2,\n      \"liveScore\": 2.5\n    }\n  ]\n}\n"
+    },
+    "adaptive_ai": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"highCashMinutes\": 3,\n  \"mediumCashMinutes\": 5,\n  \"normalMinutes\": 10,\n  \"noForcedBuy\": true,\n  \"highChaseDoesNotAccelerate\": true\n}\n"
+    },
+    "balanced_deep": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"unchangedDeepRequests\": 6,\n  \"pullbackSlots\": 2,\n  \"breakoutSlots\": 2,\n  \"regularSlots\": 2,\n  \"symbols\": [\n    \"PULLBACK:DIP1\",\n    \"PULLBACK:DIP2\",\n    \"REGULAR:MOON1\",\n    \"BREAKOUT:MOON2\",\n    \"BREAKOUT:MOON3\",\n    \"REGULAR:UP4\"\n  ]\n}\n"
+    },
+    "trade_day": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "trade-day-lessons V2.1 smoke: OK\n"
+    },
+    "free_tier": {
+      "ok": false,
+      "exitCode": 1,
+      "tail": "range',range);q.searchParams.set('interval',interval);q.searchParams.set('includePrePost','false');q.searchParams.set('events','div,splits');\\n\" +\n    \" const r=await fetch(q,{headers:{'accept':'application/json','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/TradeChart)'}});if(!r.ok)return{error:`Kurschart derzeit nicht verfügbar (HTTP ${r.status}).`,status:502};\\n\" +\n    \" const j=await r.json(),res=j?.chart?.result?.[0];if(!res)return{error:'Kurschart enthält keine Daten.',status:502};\\n\" +\n    ' const ts=res.timestamp||[],close=res?.indicators?.quote?.[0]?.close||[],bars=[];for(let i=0;i<ts.length;i++){const c=Number(close[i]);if(Number.isFinite(c)&&c>0)bars.push({ts:Number(ts[i])*1000,close:c})}\\n' +\n    \" if(!bars.length)return{error:'Für den gewählten Zeitraum liegen keine Kursbalken vor.',status:502};\\n\" +\n    \" const name=pos?.name||events.find(x=>x?.name)?.name||res?.meta?.longName||res?.meta?.shortName||symbol,entryPrice=Number(pos?.entry_price||0),openedAt=pos?.opened_at||events.find(x=>['KAUF','BUY'].includes(String(x?.action||'').toUpperCase()))?.ts||null;\\n\" +\n    \" const normalizedEvents=events.map(x=>{const action=['KAUF','BUY'].includes(String(x?.action||'').toUpperCase())?'KAUF':'VERKAUF';let price=Number(x?.price||x?.execution_price||0)||null;if(action==='KAUF'&&entryPrice>0&&openedAt&&Math.abs(Date.parse(x.ts)-Date.parse(openedAt))<10*60*1000)price=entryPrice;return{ts:x.ts,action,price,amount:Number(x?.amount||0),reason:String(x?.reason||'').slice(0,240)}}).filter(x=>x.ts);\\n\" +\n    \" if(pos&&openedAt&&entryPrice>0&&!normalizedEvents.some(x=>x.action==='KAUF'&&Math.abs(Date.parse(x.ts)-Date.parse(openedAt))<10*60*1000))normalizedEvents.push({ts:openedAt,action:'KAUF',price:entryPrice,amount:Number(pos?.invested||0),reason:'Aktueller Einstieg'});\\n\" +\n    ' normalizedEvents.sort((a,b)=>Date.parse(a.ts)-Date.parse(b.ts));\\n' +\n    ' return{ok:true,symbol,name,range,interval,bars,events:normalizedEvents,position:pos?{open:true,entryPrice,openedAt,invested:Number(pos?.invested||0),lastPrice:Number(pos?.last_price||res?.meta?.regularMarketPrice||bars.at(-1)?.close||0)}:{open:false,entryPrice:0,openedAt:null,invested:0},currency:res?.meta?.currency||pos?.currency||null,exchange:res?.meta?.exchangeName||null};\\n' +\n    '}\\n' +\n    '\\n' +\n    'export default{\\n' +\n    ' async fetch(request,env){\\n' +\n    '  const u=new URL(request.url);\\n' +\n    \"  if(!u.pathname.startsWith('/api/'))return env.ASSETS.fetch(request);\\n\" +\n    '  try{\\n' +\n    \"   const p=portfolio(env);let sessionAuth=null;const agentPath=u.pathname.startsWith('/api/agent/');\\n\" +\n    \"   if(approvalMode(env)&&u.pathname!=='/api/order-approval-status'&&!agentPath){\\n\" +\n    '    sessionAuth=await verifyCloudflareAccess(request,env);if(!sessionAuth.ok)return reply({error:sessionAuth.error,approvalAuth:false},sessionAuth.status||403);\\n' +\n    '   }\\n' +\n    \"   if(u.pathname==='/api/status'&&(request.method==='GET'||request.method==='HEAD'))return statusResponse(request,p,u);\\n\" +\n    \"   if(u.pathname==='/api/day-replay-report'&&request.method==='GET'){const s=await p.status();return reply({ok:true,dayReplayLearning:s?.dayReplayLearning||null,pcDayReplayImport:s?.pcDayReplayImport||null,entryPriceTiming:s?.entryPriceTiming||null,profitOptimizer:s?.profitOptimizer||null})}\\n\" +\n    \"   if(u.pathname==='/api/position-chart'&\"... 3859 more characters,\n  expected: /compact-portfolio-v10\\.js/,\n  operator: 'match',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
+    },
+    "wrangler": {
+      "ok": true,
+      "exitCode": 0,
+      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 45 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 828.88 KiB / gzip: 211.97 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
+    }
+  },
+  "failedChecks": [
+    "free_tier"
+  ],
+  "allPassed": false
+}
