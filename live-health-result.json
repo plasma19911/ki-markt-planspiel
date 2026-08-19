@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T07:55:00.930982+00:00",
+  "checkedAt": "2026-08-19T08:07:26.712191+00:00",
   "http": {
     "home": "200",
     "appJs": "200",
@@ -37,38 +37,16 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 32,
-  "lastScan": "2026-08-19T07:53:19.925Z",
+  "scanCount": 40,
+  "lastScan": "2026-08-19T08:05:20.358Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 5 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 1/12 möglichen Checks. Beste HOLD · PU · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
-  "cash": 23.774053288816447,
-  "equity": 982.9578411388218,
-  "pnl": -17.042158861178223,
-  "universeCount": 170,
-  "positions": 3,
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 1 SELL / 0 BUY aus 5 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen Checks.  · PULLBACK-FIR · BALANCED-ADAPTIVE: Replay-Balance 1 Tag(e) · Missed 0.32 · Late 0.14 · Peak 0.08. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.",
+  "cash": 104.6975216638229,
+  "equity": 974.4223986822592,
+  "pnl": -25.5776013177408,
+  "universeCount": 172,
+  "positions": 2,
   "positionRows": [
-    {
-      "symbol": "HAG.DE",
-      "name": "Hensoldt",
-      "instrument_type": "EQUITY",
-      "theme": "DEFENSE_TECH",
-      "company_key": "HENSOLDT",
-      "invested": 344.836749,
-      "entry_fee": 2,
-      "entry_price": 94.97487725067137,
-      "last_price": 95.27999877929688,
-      "entry_fx": 1,
-      "last_fx": 1,
-      "currency": "EUR",
-      "opened_at": "2026-08-19T07:46:19.734Z",
-      "score": 4.1000000000000005,
-      "signal_confidence": 0.71406,
-      "zero_quantity": 3.6308206873586477,
-      "zero_whole_shares": 3,
-      "zero_fractional_shares": 0.6308206873586477,
-      "zero_uses_fractional": true,
-      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
-    },
     {
       "symbol": "ASELS.IS",
       "name": "Aselsan",
@@ -78,13 +56,13 @@
       "invested": 544.029177,
       "entry_fee": 1,
       "entry_price": 385.38499999999993,
-      "last_price": 385.25,
+      "last_price": 386.75,
       "entry_fx": 0.0175,
       "last_fx": 0.0175,
       "currency": "TRY",
       "opened_at": "2026-08-19T07:46:19.734Z",
-      "score": 2.9,
-      "signal_confidence": 0.5700000000000001,
+      "score": 3.9,
+      "signal_confidence": 0.63,
       "zero_quantity": 80.66577980962994,
       "zero_whole_shares": 80,
       "zero_fractional_shares": 0.6657798096299388,
@@ -92,24 +70,24 @@
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     },
     {
-      "symbol": "R3NK.DE",
-      "name": "RENK Group",
+      "symbol": "OTKAR.IS",
+      "name": "Otokar",
       "instrument_type": "EQUITY",
       "theme": "DEFENSE",
-      "company_key": "RENK",
-      "invested": 69.322161,
+      "company_key": "OTOKAR",
+      "invested": 324.092565,
       "entry_fee": 2,
-      "entry_price": 51.631581832885736,
-      "last_price": 51.689998626708984,
-      "entry_fx": 1,
-      "last_fx": 1,
-      "currency": "EUR",
-      "opened_at": "2026-08-19T07:50:25.893Z",
-      "score": 1.4,
-      "signal_confidence": 0.5244000000000001,
-      "zero_quantity": 1.3426309684058317,
-      "zero_whole_shares": 1,
-      "zero_fractional_shares": 0.34263096840583174,
+      "entry_price": 326.57624999999996,
+      "last_price": 326.25,
+      "entry_fx": 0.0175,
+      "last_fx": 0.0175,
+      "currency": "TRY",
+      "opened_at": "2026-08-19T08:05:20.358Z",
+      "score": 4.1000000000000005,
+      "signal_confidence": 0.63,
+      "zero_quantity": 56.70827300740721,
+      "zero_whole_shares": 56,
+      "zero_fractional_shares": 0.7082730074072074,
       "zero_uses_fractional": true,
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     }
@@ -117,14 +95,14 @@
   "candidates": 5,
   "topCandidates": [
     {
-      "symbol": "OTKAR.IS",
-      "name": "Otokar",
-      "score": 4.9,
+      "symbol": "DYVOX.ST",
+      "name": "Dynavox Group AB (publ)",
+      "score": 6.45,
       "confidence": 0.63,
-      "day_change": 1.0903426791277315,
+      "day_change": 1.0197186291744709,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 5m +0.54% · 20m +1.17%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 54 konstruktiv · 5m +0.47% · 20m +0.75% · Momentum baut sich auf · Beschleunigung +0.81%",
       "contra": ""
     },
     {
@@ -132,47 +110,107 @@
       "name": "Hensoldt",
       "score": 4.1000000000000005,
       "confidence": 0.71406,
-      "day_change": 1.2109610997417475,
+      "day_change": 1.1897197113134306,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.55%",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +0.68%",
+      "contra": ""
+    },
+    {
+      "symbol": "OTKAR.IS",
+      "name": "Otokar",
+      "score": 4.1000000000000005,
+      "confidence": 0.63,
+      "day_change": 1.6355140186915973,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · 20m +1.71%",
       "contra": ""
     },
     {
       "symbol": "ASELS.IS",
       "name": "ASELSAN Elektronik Sanayi ve Ticaret Anonim Sirketi",
-      "score": 2.9,
-      "confidence": 0.5700000000000001,
-      "day_change": 1.0491803278688483,
+      "score": 3.9,
+      "confidence": 0.63,
+      "day_change": 1.442622950819672,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21",
-      "contra": ""
-    },
-    {
-      "symbol": "AM.PA",
-      "name": "Dassault Aviation",
-      "score": 2.5,
-      "confidence": 0.53,
-      "day_change": 0.32237659801137575,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 60 konstruktiv",
       "contra": ""
     },
     {
       "symbol": "R3NK.DE",
       "name": "RENK Group",
-      "score": 1.4,
-      "confidence": 0.5244000000000001,
-      "day_change": 3.4110205595858423,
+      "score": 2.1000000000000005,
+      "confidence": 0.5944000000000002,
+      "day_change": 3.7311162831271227,
       "news_score": 0,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21",
-      "contra": "RSI 79 überhitzt"
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 56 konstruktiv · 20m +0.74%",
+      "contra": "MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
+    {
+      "ts": "2026-08-19T08:05:20.358Z",
+      "action": "KAUF",
+      "symbol": "OTKAR.IS",
+      "amount": -326.092565,
+      "fee": 2,
+      "trade_pnl": null,
+      "reason": "KI BUY 76%: PULLBACK-FIRST NORMAL: neutraler Einstieg abseits des lokalen Hochs · Preis-Timing 5.98 (Basis 5.88) · Zielanteil 100.0% · STATE-DIVERSIFIKATION: DEFENSE bereits 100% des investierten Depots; neue Position nur 25% kleiner statt hart blockiert. · Order 326.09 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 4.1000000000000005
+    },
+    {
+      "ts": "2026-08-19T08:05:20.358Z",
+      "action": "VERKAUF",
+      "symbol": "R3NK.DE",
+      "amount": 67.54579853378884,
+      "fee": 2,
+      "trade_pnl": -3.776362466211154,
+      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.21%, Rücklauf vom 20m-Hoch -0.33%· Trade P/L netto -1.78 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 2.1000000000000005
+    },
+    {
+      "ts": "2026-08-19T08:05:20.358Z",
+      "action": "VERKAUF",
+      "symbol": "HAG.DE",
+      "amount": 343.5261143463326,
+      "fee": 2,
+      "trade_pnl": -3.310634653667421,
+      "reason": "KI SELL 81%: CAPITAL-MOTION-ROTATION: DYVOX.ST Erwartungswert 8.28 ist besser als HAG.DE 5.32 · Differenz 2.96 · P/L 0.30% · Kapital aktiv zum staerkeren Setup verschieben· Trade P/L netto -1.31 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 4.1000000000000005
+    },
+    {
+      "ts": "2026-08-19T08:04:11.892Z",
+      "action": "VERKAUF",
+      "symbol": "OTKAR.IS",
+      "amount": 13.774660494885008,
+      "fee": 2,
+      "trade_pnl": -4.055879505114991,
+      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.54%, Rücklauf vom 20m-Hoch -0.54%· Trade P/L netto -2.06 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 0.19999999999999973
+    },
+    {
+      "ts": "2026-08-19T08:02:22.388Z",
+      "action": "HALTEN",
+      "symbol": "",
+      "amount": 0,
+      "fee": 0,
+      "trade_pnl": null,
+      "reason": "Kein Trade. Bestes Signal OTKAR.IS: Score 6.45, Konfidenz 63%.",
+      "score": null
+    },
+    {
+      "ts": "2026-08-19T08:01:13.493Z",
+      "action": "KAUF",
+      "symbol": "OTKAR.IS",
+      "amount": -17.83054,
+      "fee": 2,
+      "trade_pnl": null,
+      "reason": "KI BUY 81%: PULLBACK-FIRST NORMAL: neutraler Einstieg abseits des lokalen Hochs · Preis-Timing 7.22 (Basis 7.12) · Zielanteil 100.0% · STATE-DIVERSIFIKATION: DEFENSE bereits 100% des investierten Depots; neue Position nur 25% kleiner statt hart blockiert. · Order 17.83 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "score": 4.9
+    },
     {
       "ts": "2026-08-19T07:52:12.547Z",
       "action": "HALTEN",
@@ -180,7 +218,7 @@
       "amount": 0,
       "fee": 0,
       "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal OTKAR.IS: Score 4.90, Konfidenz 63%.",
+      "reason": "Kein Trade. Bestes Signal ASELS.IS: Score 5.45, Konfidenz 63%.",
       "score": null
     },
     {
@@ -232,69 +270,49 @@
       "trade_pnl": -4.95804641068645,
       "reason": "KI SELL 90%: OPPORTUNITY-COST-ROTATION: ASELS.IS Score 7.58 vs. DATAPATTNS.NS -6.50 · Haltedauer 32 Min. · P/L -0.33% · Kapital zum klar hoeheren Erwartungswert umschichten· Trade P/L netto -2.96 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
       "score": -1.6
-    },
-    {
-      "ts": "2026-08-19T07:46:19.734Z",
-      "action": "VERKAUF",
-      "symbol": "9618.HK",
-      "amount": 345.6134058787892,
-      "fee": 2,
-      "trade_pnl": -4.3865941212108055,
-      "reason": "KI SELL 80%: CAPITAL-MOTION-ROTATION: ASELS.IS Erwartungswert 7.58 ist besser als 9618.HK 4.71 · Differenz 2.87 · P/L -0.01% · Kapital aktiv zum staerkeren Setup verschieben· Trade P/L netto -2.39 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 3.9
-    },
-    {
-      "ts": "2026-08-19T07:43:13.150Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal KOG.OL: Score 3.55, Konfidenz 63%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T07:41:19.736Z",
-      "action": "VERKAUF",
-      "symbol": "SAAB-B.ST",
-      "amount": 144.1817808207138,
-      "fee": 2,
-      "trade_pnl": -3.6932191792861886,
-      "reason": "Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.10%, Rücklauf vom 20m-Hoch -0.23%· Trade P/L netto -1.69 EUR · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 0.7000000000000002
-    },
-    {
-      "ts": "2026-08-19T07:26:22.730Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal SAAB-B.ST: Score 2.20, Konfidenz 50%.",
-      "score": null
-    },
-    {
-      "ts": "2026-08-19T07:25:20.174Z",
-      "action": "KAUF",
-      "symbol": "SAAB-B.ST",
-      "amount": -147.875,
-      "fee": 2,
-      "trade_pnl": null,
-      "reason": "KI BUY 70%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag +0.15%, 5m +0.36%, noch nicht ueberhitzt · Preis-Timing 4.55 (Basis 4.11) · Zielanteil 45.0% · RESEARCH-CONFIRM: 5m 0.36%, 20m 0.29% · volle Breakout-Bestaetigung max. 35% · Order 147.88 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
-      "score": 3.3
-    },
-    {
-      "ts": "2026-08-19T07:16:14.386Z",
-      "action": "HALTEN",
-      "symbol": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "reason": "Kein Trade. Bestes Signal 9618.HK: Score 3.90, Konfidenz 63%.",
-      "score": null
     }
   ],
   "recentAiLog": [
+    {
+      "ts": "2026-08-19T08:05:20.358Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "OTKAR.IS",
+      "message": "OTKAR.IS: KI BUY 76%: PULLBACK-FIRST NORMAL: neutraler Einstieg abseits des lokalen Hochs · Preis-Timing 5.98 (Basis 5.88) · Zielanteil 100.0% · STATE-DIVERSIFIKATION: DEFENSE bereits 100% des investierten Depots; neue Position nur 25% kleiner statt hart blockiert.",
+      "confidence": 0.63
+    },
+    {
+      "ts": "2026-08-19T08:05:20.358Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "R3NK.DE",
+      "message": "R3NK.DE: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.21%, Rücklauf vom 20m-Hoch -0.33%",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T08:05:20.358Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "HAG.DE",
+      "message": "HAG.DE: KI SELL 81%: CAPITAL-MOTION-ROTATION: DYVOX.ST Erwartungswert 8.28 ist besser als HAG.DE 5.32 · Differenz 2.96 · P/L 0.30% · Kapital aktiv zum staerkeren Setup verschieben",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T08:04:11.892Z",
+      "kind": "TRADE",
+      "title": "Verkauf ausgeführt",
+      "symbol": "OTKAR.IS",
+      "message": "OTKAR.IS: Momentum-Risk-Exit: starker Lauf kippt (3.0), 5m -0.54%, Rücklauf vom 20m-Hoch -0.54%",
+      "confidence": null
+    },
+    {
+      "ts": "2026-08-19T08:01:13.493Z",
+      "kind": "TRADE",
+      "title": "Kauf ausgeführt",
+      "symbol": "OTKAR.IS",
+      "message": "OTKAR.IS: KI BUY 81%: PULLBACK-FIRST NORMAL: neutraler Einstieg abseits des lokalen Hochs · Preis-Timing 7.22 (Basis 7.12) · Zielanteil 100.0% · STATE-DIVERSIFIKATION: DEFENSE bereits 100% des investierten Depots; neue Position nur 25% kleiner statt hart blockiert.",
+      "confidence": 0.63
+    },
     {
       "ts": "2026-08-19T07:50:25.893Z",
       "kind": "TRADE",
@@ -350,38 +368,6 @@
       "symbol": "SAAB-B.ST",
       "message": "SAAB-B.ST: Kein Trade. Bestes Signal SAAB-B.ST: Score 3.55, Konfidenz 63%.",
       "confidence": 0.63
-    },
-    {
-      "ts": "2026-08-19T07:25:20.174Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "SAAB-B.ST",
-      "message": "SAAB-B.ST: KI BUY 70%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag +0.15%, 5m +0.36%, noch nicht ueberhitzt · Preis-Timing 4.55 (Basis 4.11) · Zielanteil 45.0% · RESEARCH-CONFIRM: 5m 0.36%, 20m 0.29% · volle Breakout-Bestaetigung max. 35%",
-      "confidence": 0.61
-    },
-    {
-      "ts": "2026-08-19T07:16:14.386Z",
-      "kind": "IDEA",
-      "title": "Beobachtungskandidat",
-      "symbol": "9618.HK",
-      "message": "9618.HK: Kein Trade. Bestes Signal 9618.HK: Score 5.25, Konfidenz 63%.",
-      "confidence": 0.63
-    },
-    {
-      "ts": "2026-08-19T07:14:30.071Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "DATAPATTNS.NS",
-      "message": "DATAPATTNS.NS: KI BUY 70%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag +0.16%, 5m +0.11%, noch nicht ueberhitzt · Preis-Timing 4.53 (Basis 4.08) · Zielanteil 45.0% · RESEARCH-CONFIRM: 5m 0.11%, 20m 0.15% · volle Breakout-Bestaetigung max. 35%",
-      "confidence": 0.63
-    },
-    {
-      "ts": "2026-08-19T07:05:20.069Z",
-      "kind": "TRADE",
-      "title": "Kauf ausgeführt",
-      "symbol": "9618.HK",
-      "message": "9618.HK: KI BUY 72%: PULLBACK-FIRST EARLY_BREAKOUT: frueher Breakout: Tag +1.35%, 5m +0.18%, noch nicht ueberhitzt · Preis-Timing 5.00 (Basis 4.55) · Zielanteil 45.0% · RESEARCH-CONFIRM: 5m 0.18%, 20m 0.18% · volle Breakout-Bestaetigung max. 35%",
-      "confidence": 0.63
     }
   ],
   "sourceHealth": [
@@ -391,8 +377,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1289,
-      "updated_at": "2026-08-19T07:53:19.227Z"
+      "latency_ms": 598,
+      "updated_at": "2026-08-19T08:05:19.824Z"
     },
     {
       "source": "Yahoo FX",
@@ -400,8 +386,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 112,
-      "updated_at": "2026-08-19T07:53:19.227Z"
+      "latency_ms": 132,
+      "updated_at": "2026-08-19T08:05:19.824Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -409,8 +395,8 @@
       "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 110,
-      "updated_at": "2026-08-19T07:53:19.227Z"
+      "latency_ms": 114,
+      "updated_at": "2026-08-19T08:05:19.824Z"
     },
     {
       "source": "Yahoo Events",
@@ -418,44 +404,17 @@
       "ok_count": 0,
       "fail_count": 1,
       "last_error": "Error: HTTP 401",
-      "latency_ms": 204,
-      "updated_at": "2026-08-19T07:53:19.227Z"
+      "latency_ms": 209,
+      "updated_at": "2026-08-19T08:05:19.824Z"
     },
     {
       "source": "Yahoo News",
       "status": "OK",
-      "ok_count": 6,
+      "ok_count": 7,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 776,
-      "updated_at": "2026-08-19T07:53:19.227Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 509,
-      "updated_at": "2026-08-19T07:53:19.227Z"
-    },
-    {
-      "source": "FinanzNachrichten",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1004,
-      "updated_at": "2026-08-19T07:53:19.227Z"
-    },
-    {
-      "source": "BörsenNews",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 1027,
-      "updated_at": "2026-08-19T07:53:19.227Z"
+      "latency_ms": 1474,
+      "updated_at": "2026-08-19T08:05:19.824Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -463,14 +422,41 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 1053,
-      "updated_at": "2026-08-19T07:53:19.227Z"
+      "latency_ms": 302,
+      "updated_at": "2026-08-19T08:05:19.824Z"
+    },
+    {
+      "source": "BörsenNews",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 332,
+      "updated_at": "2026-08-19T08:05:19.824Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 479,
+      "updated_at": "2026-08-19T08:05:19.824Z"
+    },
+    {
+      "source": "FinanzNachrichten",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 963,
+      "updated_at": "2026-08-19T08:05:19.824Z"
     }
   ],
   "risk": {
-    "equity": 982.9578411388218,
-    "dailyPct": -1.7042158861178214,
-    "availableCash": 23.774053288816447,
+    "equity": 974.4223986822592,
+    "dailyPct": -2.5577601317740783,
+    "availableCash": 104.6975216638229,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
@@ -524,7 +510,7 @@
     "enabled": true,
     "target": 10,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T07:53:15.338Z",
+    "updatedAt": "2026-08-19T08:05:15.963Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -546,7 +532,7 @@
     "enabled": true,
     "target": 12,
     "candidateCount": 6,
-    "updatedAt": "2026-08-19T07:53:15.338Z",
+    "updatedAt": "2026-08-19T08:05:15.963Z",
     "source": "WINDOWS_PC_AGENT",
     "sourceStats": [
       {
@@ -571,11 +557,11 @@
     "enabled": true,
     "target": 24,
     "candidateCount": 0,
-    "updatedAt": "2026-08-19T07:54:08.350Z",
+    "updatedAt": "2026-08-19T08:07:08.488Z",
     "fresh": true,
     "source": "WINDOWS_PC_WIDE_SWEEP",
     "masterCount": 8530,
-    "scannedCount": 657,
+    "scannedCount": 658,
     "cycleMinutes": 8,
     "batchCount": 14,
     "coreCount": 1800,
@@ -598,8 +584,8 @@
   "secondChanceWatch": {
     "enabled": true,
     "target": 12,
-    "candidateCount": 4,
-    "updatedAt": "2026-08-19T07:53:19.925Z",
+    "candidateCount": 3,
+    "updatedAt": "2026-08-19T08:05:20.358Z",
     "fresh": true,
     "retentionMinutes": 12,
     "recheckPerScan": 4,
@@ -689,10 +675,10 @@
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 3,
+    "activePositions": 2,
     "pendingEntries": 0,
-    "completedTradeOutcomes": 34,
-    "timedCheckpoints": 16,
+    "completedTradeOutcomes": 37,
+    "timedCheckpoints": 18,
     "horizonsMinutes": [
       15,
       30,
@@ -715,12 +701,12 @@
     "buckets": [
       {
         "bucket": "CHASE_NEAR_HIGH",
-        "samples15": 9,
-        "totalCheckpoints": 13,
-        "qualityPct": -0.102,
-        "winRatePct": 21.1,
+        "samples15": 11,
+        "totalCheckpoints": 15,
+        "qualityPct": -0.051,
+        "winRatePct": 28.2,
         "block": false,
-        "scoreDelta": -0.8911833333333333
+        "scoreDelta": -0.7167363636363636
       },
       {
         "bucket": "PULLBACK_RETEST",
@@ -733,6 +719,24 @@
       }
     ],
     "recentTiming": [
+      {
+        "at": 1787126542388,
+        "symbol": "ASELS.IS",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 15,
+        "pnlPct": 0.55,
+        "maePct": -0.1,
+        "mfePct": 0.55
+      },
+      {
+        "at": 1787126542388,
+        "symbol": "HAG.DE",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 15,
+        "pnlPct": 0.36,
+        "maePct": 0.11,
+        "mfePct": 0.47
+      },
       {
         "at": 1787125101879,
         "symbol": "9618.HK",
@@ -822,24 +826,6 @@
         "pnlPct": -0.24,
         "maePct": -0.24,
         "mfePct": -0.06
-      },
-      {
-        "at": 1787078109512,
-        "symbol": "ESLT",
-        "bucket": "PULLBACK_RETEST",
-        "horizonMin": 60,
-        "pnlPct": -0.04,
-        "maePct": -0.55,
-        "mfePct": 0.08
-      },
-      {
-        "at": 1787076429429,
-        "symbol": "ESLT",
-        "bucket": "PULLBACK_RETEST",
-        "horizonMin": 30,
-        "pnlPct": -0.4,
-        "maePct": -0.55,
-        "mfePct": -0.06
       }
     ],
     "pendingOnlyForExecutedPositions": true,
@@ -866,14 +852,19 @@
     "maxScheduledScansPerDay": 930,
     "browserStatusRefreshSeconds": 60,
     "extraScansWithinIntervalBlocked": true,
-    "nextScanAt": "2026-08-19T07:54:19.925Z",
+    "nextScanAt": "2026-08-19T08:06:20.358Z",
     "externalTopPoolSize": 25,
     "externalTopPoolHealthy": true,
     "externalLeaderRefreshMinutes": 5,
     "persistentLeaderCache": true,
     "statusNetworkFetches": 0,
     "externalFetchSoftCap": 36,
-    "lastFetchBudget": null,
+    "lastFetchBudget": {
+      "actual": 36,
+      "cacheHits": 0,
+      "blocked": 10,
+      "cap": 36
+    },
     "note": "Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. Cloudflare-Free-Schlafmodus: nachts, am Wochenende und an gettex-Handelsfeiertagen keine Markt-/News-Scans. 07:25 einmal Overnight-Vorbereitung, 07:30-23:00 Top-25-Minutenbetrieb. Bis zu vier Finalisten werden tief geprueft. Sehr starke Kandidaten duerfen nach strengem Live-Zweitcheck erneut antreten; gekauft wird erst nach Live-Bestaetigung und allen Safety-/Venue-Pruefungen. Freies Cash darf bei fehlendem positivem Erwartungswert liegen bleiben. Separater Rebound-Radar beobachtet bis zu 10 Tagesverlierer; fallende Messer bleiben gesperrt, bis eine Umkehr live bestaetigt ist. Vierter Pool: bis zu 12 aufkommende Gewinner/Breakout-Kandidaten werden zusaetzlich entdeckt. Tagesplus allein ist kein BUY; der Live-Scanner muss frische Beschleunigung ohne Ueberhitzung bestaetigen. Windows-PC durchsucht zusaetzlich das Volluniversum dynamisch in Kurs-Batches. HOT/WARM werden minuetlich priorisiert; der liquide Kern rotiert schneller und der lange Rest wird als beschleunigter Backstop vollstaendig durchlaufen. Nur die bis zu 24 auffaelligsten Werte werden in die teure Cloudflare-Entscheidung hochgezogen; dadurch steigt die Abdeckung ohne mehr Deep-Checks zu erzwingen. Tages-Replay kann auf dem PC lokal laufen und spaeter synchronisiert werden; morgens werden die aktuellen News-/Forward-Signale neu geladen.",
     "activeWindowLocal": "07:25 Vorbereitung · 07:30-23:00 Handel",
     "sleepOutsideGettexHours": true,
@@ -914,10 +905,10 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-19T07:54:08.350Z",
-    "ageSeconds": 52,
+    "lastSeenAt": "2026-08-19T08:07:08.488Z",
+    "ageSeconds": 18,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-19T07:53:15.338Z",
+    "prefetchAt": "2026-08-19T08:05:15.963Z",
     "resolvedLeaderCount": 6,
     "leaderHealthy": false,
     "futureCandidates": 0,
@@ -926,18 +917,18 @@
     "wideSweepCandidates": 0,
     "wideSweepFresh": true,
     "wideSweepMasterCount": 8530,
-    "wideSweepScannedCount": 657,
+    "wideSweepScannedCount": 658,
     "metrics": {
-      "lastSeenAt": "2026-08-19T07:54:08.350Z",
+      "lastSeenAt": "2026-08-19T08:07:08.488Z",
       "version": "2.0.13-csharp-keyless-multisou",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 7485286,
+      "storageBytes": 7697564,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0,
-      "ramMb": 88.9,
-      "downloadedBytes": 211509280,
-      "uploadedBytes": 1132652,
+      "ramMb": 54.4,
+      "downloadedBytes": 249525650,
+      "uploadedBytes": 1342365,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_KEYLESS_MULTISOURCE_LOW_L",
       "lastLocalCleanupAt": "2026-08-19T07:51:08.5333817Z",
