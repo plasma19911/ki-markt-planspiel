@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-19T19:03:12.441905+00:00",
+  "checkedAt": "2026-08-19T19:03:23.374656+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -28,16 +28,16 @@
   "allRequiredChecksPassed": true,
   "failedChecks": [],
   "running": 1,
-  "scanCount": 336,
-  "lastScan": "2026-08-19T19:01:21.629Z",
+  "scanCount": 337,
+  "lastScan": "2026-08-19T19:03:15.202Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 7 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen au · EARLY-D · CANDLE-FLOW V2.1: FFN.TO wartet auf bessere Bodenbildung. Keine Minutenregel fuer SELL.",
+  "aiLastSummary": "KI-Wartefenster; Fast-Decision: 0 SELL / 0 BUY aus 7 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen au · EARLY-DIP: 0 unge · SELECTIVE-CAPITAL: FFN.TO FX fehlt. Cash ist erlaubt; BUY/SELL final per Candle-Flow.",
   "cash": 8412.067513123307,
   "equity": 9714.50417200594,
   "pnl": -285.49582799406016,
   "marketValue": 1302.4366588826322,
   "accountingDelta": 0.0,
-  "universeCount": 230,
+  "universeCount": 233,
   "positions": 2,
   "positionRows": [
     {
@@ -113,70 +113,70 @@
       "contra": ""
     },
     {
+      "symbol": "BBAI",
+      "name": "BigBear.ai",
+      "score": 4.85,
+      "confidence": 0.63,
+      "day_change": 0.3205164884909628,
+      "news_score": 0,
+      "event_risk": "NONE",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 57 konstruktiv · 5m +0.32% · Momentum baut sich auf · Beschleunigung +0.48%",
+      "contra": ""
+    },
+    {
       "symbol": "MRK",
       "name": "Merck & Co., Inc.",
       "score": 3.98792281626506,
       "confidence": 0.7695,
-      "day_change": 12.96516040853648,
+      "day_change": 12.917071008960956,
       "news_score": 0.07319277108433732,
       "event_risk": "NONE",
-      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 64 konstruktiv",
+      "pro": "EMA9 über EMA21 · Kurs über EMA21 · RSI 61 konstruktiv",
       "contra": ""
-    },
-    {
-      "symbol": "MELI",
-      "name": "MercadoLibre",
-      "score": -0.20000000000000007,
-      "confidence": 0.30000000000000004,
-      "day_change": 6.751131175473124,
-      "news_score": 0,
-      "event_risk": "NONE",
-      "pro": "RSI 53 konstruktiv",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21"
     },
     {
       "symbol": "MSTR",
       "name": "Strategy Inc",
-      "score": -1.1271044151455016,
-      "confidence": 0.5277104415145502,
-      "day_change": 11.900128382292351,
+      "score": 1.0728955848544985,
+      "confidence": 0.5222895584854499,
+      "day_change": 12.029833037050274,
       "news_score": 0.07476470241487042,
       "event_risk": "NONE",
-      "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21"
+      "pro": "Kurs über EMA21 · 5m +0.18%",
+      "contra": "EMA-Trend schwach"
     },
     {
-      "symbol": "COIN",
-      "name": "Coinbase Global, Inc.",
-      "score": -1.2000000000000002,
-      "confidence": 0.4,
-      "day_change": 9.095260055595222,
+      "symbol": "EXE.TO",
+      "name": "Extendicare Inc.",
+      "score": -2.1,
+      "confidence": 0.49000000000000005,
+      "day_change": -2.1210256994179666,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
       "contra": "EMA-Trend schwach · Kurs unter EMA21"
     },
     {
-      "symbol": "MARA.MX",
-      "name": "MARA Holdings, Inc.",
-      "score": -4.450000000000001,
-      "confidence": 0.63,
-      "day_change": 5.814253998596652,
+      "symbol": "HON",
+      "name": "Honeywell International Inc.",
+      "score": -2.1,
+      "confidence": 0.49000000000000005,
+      "day_change": -2.156250032164686,
       "news_score": 0,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 24 sehr schwach · 20m -2.57% · Momentum erschöpft (2.0): nach starkem Lauf Reversal-Risiko erhöht"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21"
     },
     {
       "symbol": "MRNA",
       "name": "Moderna, Inc.",
-      "score": -5.846745771513353,
+      "score": -7.046745771513352,
       "confidence": 0.7695,
-      "day_change": 144.45680378352824,
+      "day_change": 142.72569707267016,
       "news_score": 0.04433234421364983,
       "event_risk": "NONE",
       "pro": "",
-      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 30 sehr schwach · 5m -0.51% · MOMENTUM-REVERSAL stark (3.0): Lauf kippt · Verkauf/Absicherung prüfen"
+      "contra": "EMA-Trend schwach · Kurs unter EMA21 · RSI 22 sehr schwach · 5m -1.33% · 20m -1.56% · MOMENTUM-REVERSAL stark (4.0): Lauf kippt · Verkauf/Absicherung prüfen"
     }
   ],
   "recentHistory": [
@@ -866,7 +866,7 @@
     "configured": true,
     "online": true,
     "lastSeenAt": "2026-08-19T19:03:10.633Z",
-    "ageSeconds": 1,
+    "ageSeconds": 12,
     "metrics": {
       "lastSeenAt": "2026-08-19T19:03:10.633Z",
       "version": "2.1.5-csharp-single-super-scan",
@@ -908,7 +908,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": 93,
-      "updated_at": "2026-08-19T19:01:21.358Z"
+      "updated_at": "2026-08-19T19:03:14.888Z"
     },
     {
       "source": "Yahoo FX",
@@ -916,8 +916,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 8,
-      "updated_at": "2026-08-19T19:01:21.358Z"
+      "latency_ms": 102,
+      "updated_at": "2026-08-19T19:03:14.888Z"
     },
     {
       "source": "Yahoo 1m Chart",
@@ -925,8 +925,8 @@
       "ok_count": 6,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 259,
-      "updated_at": "2026-08-19T19:01:21.358Z"
+      "latency_ms": 255,
+      "updated_at": "2026-08-19T19:03:14.888Z"
     },
     {
       "source": "Yahoo News",
@@ -934,17 +934,8 @@
       "ok_count": 5,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 312,
-      "updated_at": "2026-08-19T19:01:21.358Z"
-    },
-    {
-      "source": "Börse Frankfurt",
-      "status": "OK",
-      "ok_count": 1,
-      "fail_count": 0,
-      "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T19:01:21.358Z"
+      "latency_ms": 395,
+      "updated_at": "2026-08-19T19:03:14.888Z"
     },
     {
       "source": "FinanzNachrichten",
@@ -952,8 +943,17 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T19:01:21.358Z"
+      "latency_ms": 961,
+      "updated_at": "2026-08-19T19:03:14.888Z"
+    },
+    {
+      "source": "Börse Frankfurt",
+      "status": "OK",
+      "ok_count": 1,
+      "fail_count": 0,
+      "last_error": "",
+      "latency_ms": 999,
+      "updated_at": "2026-08-19T19:03:14.888Z"
     },
     {
       "source": "wallstreetONLINE",
@@ -961,8 +961,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T19:01:21.358Z"
+      "latency_ms": 1189,
+      "updated_at": "2026-08-19T19:03:14.888Z"
     },
     {
       "source": "Unternehmenstermine (Nasdaq-Fallback)",
@@ -971,7 +971,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:01:21.358Z"
+      "updated_at": "2026-08-19T19:03:14.888Z"
     },
     {
       "source": "finanzen.net News (Fallback)",
@@ -979,8 +979,8 @@
       "ok_count": 1,
       "fail_count": 0,
       "last_error": "",
-      "latency_ms": 0,
-      "updated_at": "2026-08-19T19:01:21.358Z"
+      "latency_ms": 705,
+      "updated_at": "2026-08-19T19:03:14.888Z"
     },
     {
       "source": "Early-Dip 1m",
@@ -989,7 +989,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:01:21.358Z"
+      "updated_at": "2026-08-19T19:03:14.888Z"
     },
     {
       "source": "Second-Chance 1m",
@@ -998,7 +998,7 @@
       "fail_count": 0,
       "last_error": "",
       "latency_ms": null,
-      "updated_at": "2026-08-19T19:01:21.358Z"
+      "updated_at": "2026-08-19T19:03:14.888Z"
     }
   ]
 }
