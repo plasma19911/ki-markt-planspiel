@@ -20,23 +20,20 @@ jobs:
       - name: Allow Cloudflare build to publish
         run: sleep 90
 
-      - name: Probe live Worker without hiding failures
+      - name: Probe current production stack
         run: |
           BASE='https://ki-markt-planspiel.orkimperium.workers.dev'
-          curl -sS --retry 2 --retry-delay 2 -o /tmp/home.html -w '%{http_code}' "$BASE/" > /tmp/home-code.txt || echo 000 > /tmp/home-code.txt
-          curl -sS --retry 2 --retry-delay 2 -o /tmp/app.js -w '%{http_code}' "$BASE/app.js?v=health" > /tmp/app-code.txt || echo 000 > /tmp/app-code.txt
-          curl -sS --retry 2 --retry-delay 2 -o /tmp/status.json -w '%{http_code}' "$BASE/api/status" > /tmp/status-code.txt || echo 000 > /tmp/status-code.txt
-          curl -sS --retry 2 --retry-delay 2 -o /tmp/agent.json -w '%{http_code}' "$BASE/api/agent/status" > /tmp/agent-code.txt || echo 000 > /tmp/agent-code.txt
-          curl -sS -o /tmp/stable-ui.css -w '%{http_code}' "$BASE/stable-ui.css?v=health" > /tmp/stable-ui-code.txt || echo 000 > /tmp/stable-ui-code.txt
-          curl -sS -o /tmp/layout-fix.css -w '%{http_code}' "$BASE/layout-fix.css?v=health" > /tmp/layout-fix-code.txt || echo 000 > /tmp/layout-fix-code.txt
-          curl -sS -o /tmp/analysis-ui.js -w '%{http_code}' "$BASE/analysis-ui.js?v=health" > /tmp/analysis-ui-code.txt || echo 000 > /tmp/analysis-ui-code.txt
-          curl -sS -o /tmp/quota-guard.js -w '%{http_code}' "$BASE/quota-guard.js?v=health" > /tmp/quota-code.txt || echo 000 > /tmp/quota-code.txt
+          curl -sS --retry 2 --retry-delay 2 -o /tmp/home.html -w '%{http_code}' "$BASE/?health=$(date +%s)" > /tmp/home-code.txt || echo 000 > /tmp/home-code.txt
+          curl -sS --retry 2 --retry-delay 2 -o /tmp/status.json -w '%{http_code}' "$BASE/api/status?health=$(date +%s)" > /tmp/status-code.txt || echo 000 > /tmp/status-code.txt
+          curl -sS --retry 2 --retry-delay 2 -o /tmp/agent.json -w '%{http_code}' "$BASE/api/agent/status?health=$(date +%s)" > /tmp/agent-code.txt || echo 000 > /tmp/agent-code.txt
+          curl -sS --retry 2 --retry-delay 2 -o /tmp/candle.js -w '%{http_code}' "$BASE/candle-flow-ai-guard.js?health=$(date +%s)" > /tmp/candle-code.txt || echo 000 > /tmp/candle-code.txt
+          curl -sS --retry 2 --retry-delay 2 -o /tmp/single.js -w '%{http_code}' "$BASE/single-scanner-ui.js?health=$(date +%s)" > /tmp/single-code.txt || echo 000 > /tmp/single-code.txt
 
-      - name: Build diagnostic result
+      - name: Build current diagnostic result
         if: always()
         run: |
           python - <<'PY'
-          import json, datetime, pathlib
+          import json, datetime, pathlib, math
           def code(name):
               try:return pathlib.Path(name).read_text().strip().splitlines()[-1]
               except:return '000'
@@ -46,48 +43,69 @@ jobs:
           def obj(name):
               try:return json.loads(text(name))
               except:return {}
+          def n(v,d=0.0):
+              try:return float(v)
+              except:return d
           s=obj('/tmp/status.json'); a=obj('/tmp/agent.json'); c=s.get('config') or {}
-          home=text('/tmp/home.html'); app=text('/tmp/app.js'); stable=text('/tmp/stable-ui.css'); layout=text('/tmp/layout-fix.css'); analysis=text('/tmp/analysis-ui.js'); quota=text('/tmp/quota-guard.js')
-          def cand(x): return {k:x.get(k) for k in ['symbol','name','score','liveScore','confidence','liveConfidence','day_change','news_score','event_risk','fastScore','buyScore','sellScore','earlyBreakoutWatch','earlyBreakoutRank','pcWideSweep','pcWideScore','pro','contra'] if k in x}
-          def hist(x): return {k:x.get(k) for k in ['ts','action','symbol','amount','fee','trade_pnl','reason','score'] if k in x}
-          def log(x): return {k:x.get(k) for k in ['ts','kind','title','symbol','message','confidence'] if k in x}
-          execution=s.get('executionModel') or {}; profit=s.get('profitOptimizer') or {}; forward=s.get('forwardScan') or {}; rebound=s.get('reboundScan') or {}; breakout=s.get('earlyBreakoutScan') or {}; wide=s.get('pcWideSweep') or {}; second=s.get('secondChanceWatch') or {}; learning=s.get('entryTimingLearning') or {}; venue=s.get('targetVenueSanity') or {}; fast=s.get('fastInfoProfile') or {}
+          policy=s.get('selectiveCapitalPolicy') or {}
+          candle=s.get('candleFlowPolicy') or {}
+          execution=s.get('executionModel') or {}
+          profit=s.get('profitOptimizer') or {}
+          learning=s.get('entryTimingLearning') or {}
+          venue=s.get('targetVenueSanity') or {}
+          positions=s.get('positions') or []
+          home=text('/tmp/home.html'); candle_js=text('/tmp/candle.js'); single_js=text('/tmp/single.js')
+
+          market_value=0.0
+          for p in positions:
+              invested=n(p.get('invested'))
+              ep=n(p.get('entry_price')); lp=n(p.get('last_price'),ep)
+              ef=n(p.get('entry_fx'),1); lf=n(p.get('last_fx'),ef)
+              market_value += invested*(lp/ep)*(lf/ef) if ep>0 and ef>0 else invested
+          cash=n(c.get('cash')); equity=n(s.get('equity')); accounting_delta=equity-(cash+market_value)
+
+          metrics=a.get('metrics') or {}
+          profile=str((s.get('pcWideSweep') or {}).get('profile') or metrics.get('agentMode') or metrics.get('version') or '')
+          scanner_online=a.get('online') is not False and a.get('configured') is True
+          single_scanner=('SINGLE_SUPER_SCANNER' in profile.upper() or 'SINGLE-SUPER-SCANNER' in profile.upper() or '2.1.5' in profile)
+
           checks={
-            'homepage': code('/tmp/home-code.txt')=='200' and ('KI-Markt-Planspiel' in home or 'KI-Markt' in home),
-            'appJs': code('/tmp/app-code.txt')=='200' and 'async function load' in app,
+            'homepage': code('/tmp/home-code.txt')=='200' and 'KI-Markt' in home,
             'apiStatus': code('/tmp/status-code.txt')=='200' and bool(c),
             'agentEndpoint': code('/tmp/agent-code.txt')=='200',
-            'pcSecretConfigured': a.get('configured') is True,
-            'stableUi': code('/tmp/stable-ui-code.txt')=='200' and 'one authoritative layout layer' in stable,
-            'cleanLayout': code('/tmp/layout-fix-code.txt')=='200' and '.positionTradeChart{display:none' in layout and '.dashboardChart{display:none' in layout,
-            'legacyUiDisabled': code('/tmp/quota-code.txt')=='200' and "import('./ui-v2.js')" not in quota and "position-chart-ui.js" not in quota and code('/tmp/analysis-ui-code.txt')=='200' and "./macro-ui.js" not in analysis and "./exposure-ui.js" not in analysis,
-            'profitOptimizer': profit.get('enabled') is True,
-            'opportunityCapture': profit.get('secondChanceCapture') is True and profit.get('deepFinalists')==6 and profit.get('strongCandidateRetentionMinutes')==12 and profit.get('secondChancePoolTarget')==16 and profit.get('secondChanceRecheckPerScan')==4,
-            'dipFirstEntryPolicy': profit.get('dipFirst') is True and profit.get('fallingDipStarterAllowed') is True and profit.get('dipStarterMaxPct')==18 and profit.get('deepDipStarterMaxPct')==14 and profit.get('dipReboundMaxPct')==30 and profit.get('earlyBreakoutInitialCapPct')==8 and profit.get('finalHighEntryCapPct')==5 and profit.get('cashMayRemainForBetterEntry') is True and profit.get('alwaysInvested') is False,
-            'capitalDeploymentPolicy': execution.get('fullCashPolicy') is False and execution.get('capitalInMotion') is False and execution.get('alwaysInvested') is False and execution.get('cashMayRemain') is True and execution.get('dipFirst') is True and execution.get('fallingDipStarterAllowed') is True and execution.get('nearHighBuyCapPct')==5,
-            'secondChanceWatch': second.get('enabled') is True and second.get('target')==16 and second.get('retentionMinutes')==12 and second.get('recheckPerScan')==4 and second.get('requiresFreshOneMinuteRecheck') is True and second.get('forcedBuy') is False,
-            'fastInfoProfile': fast.get('enabled') is True and fast.get('deepFinalists')==6 and fast.get('deepChecksParallel')==6 and fast.get('newsFinalists')==4 and fast.get('newsRadarPerScan')==2 and fast.get('secondChancePoolTarget')==16 and fast.get('secondChanceRecheckPerScan')==4 and fast.get('pcWideSweepTarget')==32 and fast.get('pcWideDipReserve')==20 and fast.get('reboundRadarTarget')==16,
-            'forwardScanner': forward.get('enabled') is True,
-            'reboundScanner': rebound.get('enabled') is True and rebound.get('target')==16,
-            'fallingKnifeProtection': rebound.get('fallingKnifeBuysBlocked') is True,
-            'earlyBreakoutScanner': breakout.get('enabled') is True and breakout.get('target')==12,
-            'earlyBreakoutGuard': breakout.get('guardActive') is True and breakout.get('lateChaseBlocked') is True and breakout.get('forcedBuys') is False,
-            'pcWideSweep': wide.get('enabled') is True and wide.get('target')==32 and wide.get('forcedBuy') is False and wide.get('confirmationRequired') is True,
-            'targetVenueSanity': venue.get('enabled') is True and venue.get('unverifiedVentureOtcAutoBuyBlocked') is True,
-            'entryTimingLearning': learning.get('mode')=='15/30/60-minute-entry-timing-learning' and learning.get('horizonsMinutes')==[15,30,60],
-            'legacyFullCashFailsafe': profit.get('legacyFullCashFailsafe') is True or execution.get('legacyFullCashFailsafe') is True,
+            'pcSuperscannerOnline': scanner_online,
+            'candleFlowAsset': code('/tmp/candle-code.txt')=='200' and 'sellerConfirmed' in candle_js and 'CandleFlowV2.1' in candle_js,
+            'scannerUiAsset': code('/tmp/single-code.txt')=='200' and 'EIN-SCANNER' in single_js,
+            'candleFlowV21': candle.get('enabled') is True and n(candle.get('version'))>=2.1,
+            'noMinuteSellRule': candle.get('sellAgeRule') is False and policy.get('timeBasedSellProposalsBlocked') is True and execution.get('timeBasedSell') is False,
+            'sellerDominanceRequired': candle.get('ordinarySellerDominanceRequired') is True and candle.get('mixedBaseTopSellBlocked') is True and candle.get('buyerMajoritySoftSellBlocked') is True,
+            'selectiveCapital': policy.get('enabled') is True and policy.get('cashAllowed') is True and policy.get('alwaysInvested') is False and policy.get('legacyFullCashBuysBlocked') is True,
+            'noForcedSizingFloor': policy.get('forcedMinimumBuyPct') is None and execution.get('forcedMinimumBuyPct') is None,
+            'riskAdjustedSizing': all(policy.get(k) is True for k in ['volatilityAdjustedSizing','marketCapAdjustedSizing','currencyConcentrationAdjusted','regionalConcentrationAdjusted','themeConcentrationAdjusted']),
+            'candleFinalDecision': policy.get('finalBuyByCandleFlow') is True and policy.get('finalSellByCandleFlow') is True,
+            'fxSafety': candle.get('foreignFxBuyRequiresRealFx') is True and execution.get('foreignFxBuyRequiresRealFx') is True,
+            'accountingConsistent': abs(accounting_delta)<=0.05,
+            'lastErrorClear': not c.get('last_error'),
+            'targetVenueSanity': venue.get('enabled') is True,
+            'entryTimingLearning': learning.get('mode')=='15/30/60-minute-entry-timing-learning',
           }
+
+          def cand(x):return {k:x.get(k) for k in ['symbol','name','score','liveScore','confidence','liveConfidence','day_change','news_score','event_risk','pro','contra'] if k in x}
+          def hist(x):return {k:x.get(k) for k in ['ts','action','symbol','amount','fee','trade_pnl','reason','score'] if k in x}
+          def log(x):return {k:x.get(k) for k in ['ts','kind','title','symbol','message','confidence'] if k in x}
+
           out={
             'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),
-            'http':{'home':code('/tmp/home-code.txt'),'appJs':code('/tmp/app-code.txt'),'status':code('/tmp/status-code.txt'),'agent':code('/tmp/agent-code.txt'),'stableUi':code('/tmp/stable-ui-code.txt'),'layoutFix':code('/tmp/layout-fix-code.txt'),'analysisUi':code('/tmp/analysis-ui-code.txt'),'quotaGuard':code('/tmp/quota-code.txt')},
+            'http':{'home':code('/tmp/home-code.txt'),'status':code('/tmp/status-code.txt'),'agent':code('/tmp/agent-code.txt'),'candleFlow':code('/tmp/candle-code.txt'),'scannerUi':code('/tmp/single-code.txt')},
             'checks':checks,'allRequiredChecksPassed':all(checks.values()),'failedChecks':[k for k,v in checks.items() if not v],
             'running':c.get('running'),'scanCount':c.get('scan_count'),'lastScan':c.get('last_scan'),'lastError':c.get('last_error'),'aiLastSummary':c.get('ai_last_summary'),
-            'cash':c.get('cash'),'equity':s.get('equity'),'pnl':s.get('pnl'),'universeCount':c.get('universe_count'),'positions':len(s.get('positions') or []),'positionRows':(s.get('positions') or [])[:8],
-            'candidates':len(s.get('candidates') or []),'topCandidates':[cand(x) for x in (s.get('candidates') or [])[:8]],'recentHistory':[hist(x) for x in (s.get('history') or [])[:12]],'recentAiLog':[log(x) for x in (s.get('aiLog') or [])[:12]],
-            'sourceHealth':(s.get('sourceHealth') or [])[:20],'risk':s.get('risk'),'executionModel':execution,'fastInfoProfile':fast,'forwardScan':forward,'reboundScan':rebound,'earlyBreakoutScan':breakout,'pcWideSweep':wide,'secondChanceWatch':second,'targetVenueSanity':venue,'profitOptimizer':profit,'entryTimingLearning':learning,
-            'futureWatch':{'candidateCount':(s.get('futureWatch') or {}).get('candidateCount'),'monitoredUniverseCount':(s.get('futureWatch') or {}).get('monitoredUniverseCount'),'activeThemes':(s.get('futureWatch') or {}).get('activeThemes'),'scheduledEvents':(s.get('futureWatch') or {}).get('scheduledEvents')},
-            'freeTierBudget':s.get('freeTierBudget'),
-            'pcAgent':{'configured':a.get('configured'),'online':a.get('online'),'lastSeenAt':a.get('lastSeenAt'),'ageSeconds':a.get('ageSeconds'),'prefetchFresh':a.get('prefetchFresh'),'prefetchAt':a.get('prefetchAt'),'resolvedLeaderCount':a.get('resolvedLeaderCount'),'leaderHealthy':a.get('leaderHealthy'),'futureCandidates':a.get('futureCandidates'),'reboundCandidates':a.get('reboundCandidates'),'earlyBreakoutCandidates':a.get('earlyBreakoutCandidates'),'wideSweepCandidates':wide.get('candidateCount'),'wideSweepFresh':wide.get('fresh'),'wideSweepMasterCount':wide.get('masterCount'),'wideSweepScannedCount':wide.get('scannedCount'),'metrics':a.get('metrics')}
+            'cash':c.get('cash'),'equity':s.get('equity'),'pnl':s.get('pnl'),'marketValue':market_value,'accountingDelta':accounting_delta,
+            'universeCount':c.get('universe_count'),'positions':len(positions),'positionRows':positions[:10],
+            'candidates':len(s.get('candidates') or []),'topCandidates':[cand(x) for x in (s.get('candidates') or [])[:10]],
+            'recentHistory':[hist(x) for x in (s.get('history') or [])[:15]],'recentAiLog':[log(x) for x in (s.get('aiLog') or [])[:15]],
+            'candleFlowPolicy':candle,'selectiveCapitalPolicy':policy,'executionModel':execution,'profitOptimizer':profit,'entryTimingLearning':learning,
+            'pcAgent':{'configured':a.get('configured'),'online':a.get('online'),'lastSeenAt':a.get('lastSeenAt'),'ageSeconds':a.get('ageSeconds'),'metrics':metrics,'singleScannerProfileDetected':single_scanner},
+            'risk':s.get('risk'),'learningSanity':s.get('learningSanity'),'sourceHealth':(s.get('sourceHealth') or [])[:20]
           }
           pathlib.Path('live-health-result.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
           pathlib.Path('/tmp/live-health-result.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
@@ -104,22 +122,14 @@ jobs:
             git reset --hard origin/main
             cp /tmp/live-health-result.json live-health-result.json
             git add live-health-result.json
-            if git diff --cached --quiet; then
-              echo 'Health result unchanged'
-              exit 0
-            fi
+            if git diff --cached --quiet; then exit 0; fi
             git commit -m 'Update live health result [skip ci]'
-            if git push origin HEAD:main; then
-              echo 'Health result published'
-              exit 0
-            fi
-            echo "Concurrent main update detected; retry $attempt"
+            if git push origin HEAD:main; then exit 0; fi
             sleep 3
           done
-          echo 'Could not publish live health after retries'
           exit 1
 
-      - name: Enforce required production features
+      - name: Enforce current production features
         if: always()
         run: |
           python - <<'PY'
@@ -127,5 +137,5 @@ jobs:
           x=json.load(open('/tmp/live-health-result.json',encoding='utf-8'))
           failed=x.get('failedChecks') or []
           if failed: raise SystemExit('Live health failed: '+', '.join(failed))
-          print('All required live checks passed')
+          print('Current selective Candle-Flow production stack healthy')
           PY
