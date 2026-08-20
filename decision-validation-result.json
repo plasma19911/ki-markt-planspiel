@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-20T10:15:28.915700+00:00",
-  "commit": "3d9b1f036beee7f7198c39463846bdbaa6b62a62",
+  "checkedAt": "2026-08-20T10:17:40.143189+00:00",
+  "commit": "10bf9f0b63af731df56bad29fc42fea4d51e3af1",
   "installOk": true,
-  "decisionTestsOk": false,
+  "decisionTestsOk": true,
   "dryRunOk": true,
-  "allPassed": false,
-  "testTail": "\n> ki-markt-planspiel-cloudflare@2.0.0 test:decisions\n> node tests/final-decision-controller-v26.test.mjs && node tests/run-reset-hygiene-v262.test.mjs && node tests/v27-risk-learning.test.mjs && node tests/v271-anti-flipflop.test.mjs && node tests/v272-forward-curve.test.mjs && node tests/v273-loss-sell-invariant.test.mjs\n\nV26.3 final decision regression tests: OK\nV26.2 restart isolation tests: OK\nV27 risk/calibration/quarantine regression tests: OK\nV27.1 anti-flip-flop regression tests: OK\nV27.2 forward curve learning regression tests: OK\nnode:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: The input did not match the regular expression /LOSS-SELL-INVARIANT V27\\.3/. Input:\n\n'LOSS-SELL-INVARIANT V27.4: Verlustverkauf blockiert · Netto-P/L bei Exit ca. -2.25 € (-2.23%) · Verkäufer 45% · tiefere Prüfung fordert ausdrücklich HOLD · kein externer Hard-Risk. Position weiter beobachten statt Kosten/Marktrauschen als Verlust zu realisieren.'\n\n    at file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/tests/v273-loss-sell-invariant.test.mjs:14:9\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: 'LOSS-SELL-INVARIANT V27.4: Verlustverkauf blockiert · Netto-P/L bei Exit ca. -2.25 € (-2.23%) · Verkäufer 45% · tiefere Prüfung fordert ausdrücklich HOLD · kein externer Hard-Risk. Position weiter beobachten statt Kosten/Marktrauschen als Verlust zu realisieren.',\n  expected: /LOSS-SELL-INVARIANT V27\\.3/,\n  operator: 'match',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
+  "allPassed": true,
+  "testTail": "\n> ki-markt-planspiel-cloudflare@2.0.0 test:decisions\n> node tests/final-decision-controller-v26.test.mjs && node tests/run-reset-hygiene-v262.test.mjs && node tests/v27-risk-learning.test.mjs && node tests/v271-anti-flipflop.test.mjs && node tests/v272-forward-curve.test.mjs && node tests/v273-loss-sell-invariant.test.mjs && node tests/v274-net-edge-regime.test.mjs\n\nV26.3 final decision regression tests: OK\nV26.2 restart isolation tests: OK\nV27 risk/calibration/quarantine regression tests: OK\nV27.1 anti-flip-flop regression tests: OK\nV27.2 forward curve learning regression tests: OK\nV27.3/V27.4 loss sell invariant regression tests: OK\nV27.4 net edge / market regime regression tests: OK\n"
 }
