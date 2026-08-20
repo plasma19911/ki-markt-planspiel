@@ -30,4 +30,10 @@ const now=Date.parse('2026-08-20T17:20:00Z');
  const p={summary:'x',actions:[{symbol:'BLOCK.DE',action:'HOLD',reason:'hard'},{symbol:'WEAK.DE',action:'HOLD',reason:'hold'}]};
  const r=enforceComprehensiveOpportunityV286(p,state,s,now);assert.equal(r.plan.actions[0].action,'HOLD');assert.equal(r.plan.actions[1].action,'HOLD');
 }
+{
+ const s=storage({'state/comprehensive-opportunity-v286':{version:1,snapshots:{'HOT.DE':{at:now-60000,score:80}},recent:[],lastRotationAt:0,stats:{}}});
+ const state={config:{cash:6000},candidates:[{symbol:'HOT.DE',price:50,score:7,confidence:.85,day_change:14}],positions:[{symbol:'WEAK.DE',invested:900,entry_price:100,last_price:97,score:-1.2,signal_confidence:.4,opened_at:new Date(now-2*3600e3).toISOString()}]};
+ const p={summary:'x',actions:[{symbol:'HOT.DE',action:'HOLD',reason:'too hot'},{symbol:'WEAK.DE',action:'HOLD',reason:'hold'}]};
+ const r=enforceComprehensiveOpportunityV286(p,state,s,now);assert.equal(r.plan.actions.find(x=>x.symbol==='HOT.DE').action,'HOLD');assert.equal(r.plan.actions.find(x=>x.symbol==='WEAK.DE').action,'HOLD');assert.equal(r.counters.betterOpportunityRotations,0);
+}
 console.log('V28.6 comprehensive opportunity regression tests: OK');
