@@ -1,5 +1,6 @@
 name: Apply final decision suite to modern validation
 
+# Second commit triggers the already-registered one-shot workflow.
 on:
   push:
     branches: [main]
