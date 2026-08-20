@@ -5,16 +5,19 @@ const now=Date.parse('2026-08-20T19:30:00Z');
 const h=(score,min=1)=>[{at:now-min*60_000,score}];
 const row=(buyScore,coverage=.9,extra={})=>({buyScore,coverage,hardBlocked:false,overextended:false,day:1.2,parts:{momentum:2.6,news:4.5,volume:2.2,scanner:7,confidence:3,...(extra.parts||{})},...extra});
 
-let d=entryDecisionV290(row(60,.90),h(52),now);
-assert.equal(d.action,'BUY_SCOUT','60 darf als Scout starten, wenn Score und echte Marktstruktur sehr stark steigen');
+let d=entryDecisionV290(row(62,.90),h(54),now);
+assert.equal(d.action,'WATCH','unter 63 darf trotz starker Beschleunigung noch kein Kauf entstehen');
+
+d=entryDecisionV290(row(63,.90),h(55),now);
+assert.equal(d.action,'BUY_SCOUT','63 darf als Scout starten, wenn Score und echte Marktstruktur sehr stark steigen');
 assert.equal(d.tier,'SCOUT');
 assert.ok(entryAllocationPctV290(6000,d)>=3&&entryAllocationPctV290(6000,d)<=4.5,'Scout muss klein bleiben');
 
-d=entryDecisionV290(row(60,.90),h(59),now);
-assert.equal(d.action,'WATCH','60 ohne starke Score-Beschleunigung darf nicht blind gekauft werden');
+d=entryDecisionV290(row(63,.90),h(62),now);
+assert.equal(d.action,'WATCH','63 ohne starke Score-Beschleunigung darf nicht blind gekauft werden');
 
-d=entryDecisionV290(row(61,.90,{parts:{momentum:0,news:7,volume:0,scanner:8,confidence:4}}),h(52),now);
-assert.equal(d.action,'WATCH','nur mehr Daten/News ohne positive Marktstruktur darf keinen 60er Scout erzeugen');
+d=entryDecisionV290(row(64,.90,{parts:{momentum:0,news:7,volume:0,scanner:8,confidence:4}}),h(55),now);
+assert.equal(d.action,'WATCH','nur mehr Daten/News ohne positive Marktstruktur darf keinen Scout erzeugen');
 
 d=entryDecisionV290(row(65,.80),h(59),now);
 assert.equal(d.action,'BUY_MICRO','65 mit stark steigender Richtung und positiver Marktstruktur soll Mikro-Starter erlauben');
@@ -58,7 +61,7 @@ assert.equal(p.action,'HOLD','Teilscore/unvollständige Daten dürfen keinen Gew
 p=profitDecisionV290({pnlPct:3.0,peakPnlPct:3.6,holdScore:70,peakHoldScore:82,lastHoldScore:76,coverage:.9,partial:false,ageMinutes:5,m5:-.2,m20:-.3,acc:-.05});
 assert.equal(p.action,'HOLD','junge Gewinner sollen nicht bei erster Abkühlung verkauft werden');
 
-assert.equal(ENTRY_PROFIT_V290.entry.scoutMin,60);
+assert.equal(ENTRY_PROFIT_V290.entry.scoutMin,63);
 assert.equal(ENTRY_PROFIT_V290.entry.regularMin,72);
 assert.ok(ENTRY_PROFIT_V290.profit.tiers.some(x=>x.maxExitScore>=75),'Gewinn-Lock muss Ausstieg bei noch hohem Score erlauben');
-console.log('V29.0 staged entry + dynamic profit lock regression tests: OK');
+console.log('V29.0 staged entry from 63 + dynamic profit lock regression tests: OK');
