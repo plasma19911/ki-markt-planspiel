@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T13:46:15.754100+00:00",
+  "checkedAt": "2026-08-20T13:48:29.160602+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -30,19 +30,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T13:45:10.685Z",
-    "ageSeconds": 65,
+    "lastSeenAt": "2026-08-20T13:48:10.826Z",
+    "ageSeconds": 18,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 188,
-  "lastScan": "2026-08-20T13:45:13.729Z",
+  "scanCount": 190,
+  "lastScan": "2026-08-20T13:48:14.769Z",
   "lastError": null,
-  "aiLastSummary": "KI-Fallback: kein JSON",
+  "aiLastSummary": "Keine frischen handelbaren Kurse – keine Orderentscheidung.",
   "cash": 1476.2217081333488,
-  "equity": 9948.830998942047,
-  "pnl": -51.16900105795321,
-  "marketValue": 8472.609290808698,
+  "equity": 9949.450990027128,
+  "pnl": -50.54900997287223,
+  "marketValue": 8473.229281893779,
   "accountingDelta": 0.0,
   "positions": 6,
   "positionRows": [
@@ -55,15 +55,15 @@
       "invested": 3898.934957,
       "entry_fee": 1,
       "entry_price": 14.334319694519042,
-      "last_price": 14.479999542236328,
+      "last_price": 14.5,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-20T08:17:07.062Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": -0.19999999999999996,
-      "signal_confidence": 0.30000000000000004,
+      "score": 5.05,
+      "signal_confidence": 0.63,
       "zero_quantity": 271.9999999930237,
       "zero_whole_shares": 271,
       "zero_fractional_shares": 0.9999999930237209,
@@ -84,14 +84,14 @@
       "invested": 2129.14636,
       "entry_fee": 1,
       "entry_price": 8.710701663970946,
-      "last_price": 8.583999633789062,
+      "last_price": 8.555999755859375,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-20T08:39:12.347Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": -5.1,
+      "score": -7.2,
       "signal_confidence": 0.63,
       "zero_quantity": 244.42880057366253,
       "zero_whole_shares": 244,
@@ -113,7 +113,7 @@
       "invested": 869.096941,
       "entry_fee": 1,
       "entry_price": 214.7145,
-      "last_price": 211.1999969482422,
+      "last_price": 211.6999969482422,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
@@ -215,10 +215,10 @@
     {
       "id": 36,
       "ts": "2026-08-20T12:02:11.549Z",
-      "end_ts": "2026-08-20T13:45:13.729Z",
-      "event_count": 62,
+      "end_ts": "2026-08-20T13:48:14.769Z",
+      "event_count": 64,
       "start_scan": 127,
-      "end_scan": 188,
+      "end_scan": 190,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -228,10 +228,10 @@
       "trade_pnl": null,
       "cash_before": 1476.2217081333488,
       "cash_after": 1476.2217081333488,
-      "equity": 9948.830998942047,
-      "total_pnl": -51.16900105795321,
+      "equity": 9949.450990027128,
+      "total_pnl": -50.54900997287223,
       "score": null,
-      "reason": "Kein Trade. Bestes Signal BAS.DE: Score 3.80, Konfidenz 63%."
+      "reason": "Keine frischen handelbaren Signale."
     },
     {
       "id": 35,
@@ -909,7 +909,8 @@
     "minuteScanConfirmationSafe": true,
     "lateImpulseRecheck": true,
     "tinyProfitChurnBlocked": true,
-    "heldFxFallbackSafe": true
+    "heldFxFallbackSafe": true,
+    "aiPlanJsonRepair": true
   },
   "entryTimingLearning": {
     "version": 3,
@@ -1081,8 +1082,8 @@
     "proposalContaminationFixed": true
   },
   "risk": {
-    "equity": 9948.830998942047,
-    "dailyPct": -0.47987538532809904,
+    "equity": 9949.450990027128,
+    "dailyPct": -0.47367349185399865,
     "availableCash": 1476.2217081333488,
     "hardLimits": true,
     "budgetOnly": false,
@@ -1095,17 +1096,17 @@
         {
           "type": "SINGLE_POSITION_OVER_CAP",
           "symbol": "REG1V.HE",
-          "pct": 39.59,
+          "pct": 39.64,
           "limitPct": 25
         },
         {
           "type": "REGION_OVER_CAP",
           "region": "NORDICS",
-          "pct": 60.68,
+          "pct": 60.66,
           "limitPct": 55
         }
       ],
-      "equity": 9948.83,
+      "equity": 9949.45,
       "rule": "Bestehende Altpositionen über dem aktuellen Cap werden gemeldet und für weitere Käufe gesperrt, aber nicht allein wegen des Caps zwangsverkauft."
     },
     "rule": "Finale V27.6-Grenzen gelten nach dem inneren R2-Plan und auch für AGM_PREVIEW."
@@ -1202,8 +1203,8 @@
     "agmRequiresFreshTechnicalConfirmation": true,
     "agmNeverBypassesNormalSafetyGates": true,
     "maxCandidatesPerDecision": 4,
-    "regressionTests": "V26.3 + V26.2 + V27 + V27.1 + V27.2 + V27.3 + V27.4 + V27.5 audit + V27.6 AGM preview invariants + V27.7 behavior invariants",
-    "rule": "V27.7 verbessert das Handelsverhalten oberhalb aller bestehenden Sicherheitsstufen: normale Einstiege brauchen zwei zeitlich getrennte Bestätigungen, wobei 1-Minuten-Scans den Timer nicht zurücksetzen. Extreme 5m-Impulse werden nicht gejagt, bei hoher Depotauslastung bleibt Restcash für starke Setups reserviert und reine PROFIT-EXITs werden nicht für Cent-Nettoerträge gedreht. Für Fremdwährungs-Bestände bleibt bei fehlendem aktuellem FX der letzte verifizierte Positions-FX maßgeblich. Harte Risiken und echte Strukturbrüche bleiben handlungsfähig.",
+    "regressionTests": "V26.3 + V26.2 + V27 + V27.1 + V27.2 + V27.3 + V27.4 + V27.5 audit + V27.6 AGM preview invariants + V27.7 behavior + AI-JSON repair invariants",
+    "rule": "V27.7 verbessert das Handelsverhalten oberhalb aller bestehenden Sicherheitsstufen: normale Einstiege brauchen zwei zeitlich getrennte Bestätigungen, wobei 1-Minuten-Scans den Timer nicht zurücksetzen. Extreme 5m-Impulse werden nicht gejagt, bei hoher Depotauslastung bleibt Restcash für starke Setups reserviert und reine PROFIT-EXITs werden nicht für Cent-Nettoerträge gedreht. Abgeschnittene KI-JSON-Antworten dürfen nur vollständig lesbare Aktionen retten und laufen danach weiterhin durch den Final Controller. Für Fremdwährungs-Bestände bleibt bei fehlendem aktuellem FX der letzte verifizierte Positions-FX maßgeblich.",
     "agmScoreEvaluationOnceDaily": true,
     "agmScoreLockedUntilNextDailyRefresh": true,
     "agmDailyInputs": [
@@ -1221,6 +1222,9 @@
     "meaningfulProfitExit": true,
     "tinyProfitChurnBlocked": true,
     "heldFxFallbackSafe": true,
+    "aiPlanJsonRepair": true,
+    "aiPlanCompactOutput": true,
+    "aiPlanJsonRepairVersion": 27.7,
     "convictionSizing": true,
     "behaviorVersion": 27.7
   },
@@ -1250,9 +1254,18 @@
     "saturationThresholdPct": 85,
     "meaningfulProfitFloorEuro": 2.5,
     "meaningfulProfitFloorPctOfInvested": 0.35,
+    "aiPlanJsonRepair": {
+      "enabled": true,
+      "version": 27.7,
+      "maxSalvagedActions": 8,
+      "partialObjectsNeverUsed": true,
+      "finalControllerStillRequired": true,
+      "rule": "Nur vollständig parsebare Action-Objekte werden aus einer abgeschnittenen Modellantwort gerettet. Unvollständige Objekte werden verworfen; anschließend läuft der normale FinalDecisionController mit allen Safety-Gates."
+    },
+    "aiPlanCompactOutput": true,
     "automaticScaleUp": false,
     "doesNotCreateNewSellSignals": true,
-    "note": "Die V27.7-Schicht blockiert oder verkleinert schlechte Aktionen. Sie erzeugt keine aggressiven Zusatz-SELLs, setzt den Bestätigungstimer bei 1-Minuten-Scans nicht zurück und benutzt bei Fremdwährungs-Beständen keinen Fake-FX."
+    "note": "Die V27.7-Schicht blockiert oder verkleinert schlechte Aktionen. Sie erzeugt keine aggressiven Zusatz-SELLs, setzt den Bestätigungstimer bei 1-Minuten-Scans nicht zurück, benutzt bei Fremdwährungs-Beständen keinen Fake-FX und lässt reparierte KI-Aktionen erneut durch alle finalen Safety-Gates laufen."
   },
   "agmCalendarPolicy": {
     "enabled": true,
@@ -1274,7 +1287,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T13:45:44.235Z",
+      "cachedAt": "2026-08-20T13:48:28.240Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
