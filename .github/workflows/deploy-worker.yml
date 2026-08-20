@@ -1,4 +1,4 @@
-name: Deploy / Verify Cloudflare Worker V27.8
+name: Deploy / Verify Cloudflare Worker V28.2
 
 on:
   push:
@@ -71,18 +71,27 @@ jobs:
         if: steps.tests.outcome == 'success' && steps.dryrun.outcome == 'success'
         run: |
           node --input-type=module <<'NODE'
-          const url='https://ki-markt-planspiel.orkimperium.workers.dev/api/status';
+          const statusUrl='https://ki-markt-planspiel.orkimperium.workers.dev/api/status';
+          const scoreUiUrl='https://ki-markt-planspiel.orkimperium.workers.dev/research-score-ui.js';
           let last='';
           for(let i=0;i<36;i++){
             try{
-              const r=await fetch(`${url}?deploy_check=${Date.now()}`,{headers:{'cache-control':'no-cache'}});
+              const stamp=Date.now();
+              const r=await fetch(`${statusUrl}?deploy_check=${stamp}`,{headers:{'cache-control':'no-cache'}});
               const j=await r.json();
+              const ui=await fetch(`${scoreUiUrl}?deploy_check=${stamp}`,{headers:{'cache-control':'no-cache'}});
+              const uiText=await ui.text();
+              const scoreUiOk=ui.ok&&/researchScoreBadge/.test(uiText)&&/Research-Score 0–100/.test(uiText);
               const o=(j?.positions||[]).find(x=>String(x?.symbol||'').toUpperCase()==='OCDOL.XC');
               const ocdolOk=!o||(String(o?.currency||'').toUpperCase()==='GBP'&&Number(o?.entry_price)>0&&Number(o?.entry_price)<20&&Number(o?.last_price)>0&&Number(o?.last_price)<20&&Number(o?.entry_fx)>.5&&Number(o?.entry_fx)<2&&Number(o?.zero_quantity)>20);
               const agmOk=j?.finalDecisionPolicy?.agmPreview===true&&j?.finalDecisionPolicy?.agmCalendarDailyRefresh===true&&j?.finalDecisionPolicy?.agmScoreEvaluationOnceDaily===true&&j?.finalDecisionPolicy?.agmLiveReevaluationEveryScan===false&&Array.isArray(j?.agmCalendar?.events);
               const behaviorOk=j?.tradingBehaviorPolicy?.enabled===true&&Number(j?.tradingBehaviorPolicy?.version)===27.8&&j?.finalDecisionPolicy?.heldBuyPromptSuppression===true&&j?.finalDecisionPolicy?.heldPromptPlanOnly===true&&j?.finalDecisionPolicy?.pullbackReclaimAware===true&&j?.finalDecisionPolicy?.summaryMetricClarity===true&&j?.finalDecisionPolicy?.adaptiveEntryConfirmation===true&&j?.finalDecisionPolicy?.softSellNeedsRepeatScan===true&&j?.finalDecisionPolicy?.timeAloneCannotCreateSell===true&&j?.finalDecisionPolicy?.hardRiskImmediate===true&&j?.finalDecisionPolicy?.minuteScanConfirmationSafe===true&&j?.finalDecisionPolicy?.lateImpulseRecheck===true&&j?.finalDecisionPolicy?.tinyProfitChurnBlocked===true&&j?.finalDecisionPolicy?.heldFxFallbackSafe===true&&j?.finalDecisionPolicy?.aiPlanJsonRepair===true&&j?.finalDecisionPolicy?.cloudflareAiWrapperSignatureSafe===true;
-              last=`HTTP ${r.status}, version=${j?.finalDecisionPolicy?.version ?? 'missing'}, behavior=${j?.tradingBehaviorPolicy?.version ?? 'missing'}, AGM=${j?.agmCalendar?.events?.length ?? 'missing'}`;
-              if(r.ok&&Number(j?.finalDecisionPolicy?.version)===27.8&&j?.finalDecisionPolicy?.minorQuoteUnitNormalization===true&&j?.finalDecisionPolicy?.unnormalizedMinorUnitTradeFailSafe===true&&j?.finalDecisionPolicy?.executionScaleUpHardBlocked===true&&j?.finalDecisionPolicy?.broadMarketRegime===true&&j?.finalDecisionPolicy?.lossSellInvariant===true&&j?.finalDecisionPolicy?.profitExitCannotCloseNetLoss===true&&j?.finalDecisionPolicy?.orderEconomicsInvariant===true&&j?.finalDecisionPolicy?.netExpectedEdgeGate===true&&j?.finalDecisionPolicy?.marketRegimeEntryGate===true&&j?.finalDecisionPolicy?.automaticScaleUp===false&&j?.portfolioRiskPolicy?.enabled===true&&j?.forwardCurveLearningPolicy?.enabled===true&&agmOk&&behaviorOk&&ocdolOk){console.log(`Live verification OK: ${last}`);process.exit(0)}
+              const opportunityOk=j?.opportunityLearningPolicy?.enabled===true&&Number(j?.opportunityLearningPolicy?.version)===27.9&&j?.finalDecisionPolicy?.opportunityMemory===true&&j?.finalDecisionPolicy?.missedOpportunityLearning===true;
+              const maturityOk=j?.tradeMaturityPolicy?.enabled===true&&Number(j?.tradeMaturityPolicy?.version)===28&&j?.finalDecisionPolicy?.learnedMinimumHold===true&&j?.finalDecisionPolicy?.earlyLossNoiseProtection===true;
+              const researchOk=j?.researchSignalFusionPolicy?.enabled===true&&Number(j?.researchSignalFusionPolicy?.version)===28.1&&j?.finalDecisionPolicy?.weightedResearchSignalFusion===true&&j?.finalDecisionPolicy?.fewerSoftHardBlocks===true;
+              const relativeOk=j?.relativeOpportunityLearningPolicy?.enabled===true&&Number(j?.relativeOpportunityLearningPolicy?.version)===28.2&&j?.finalDecisionPolicy?.pairwiseOpportunityCostLearning===true&&j?.finalDecisionPolicy?.bestAlternativeFirst===true&&j?.finalDecisionPolicy?.profitWinnerProtection===true;
+              last=`HTTP ${r.status}, version=${j?.finalDecisionPolicy?.version ?? 'missing'}, behavior=${j?.tradingBehaviorPolicy?.version ?? 'missing'}, scoreUI=${scoreUiOk}, AGM=${j?.agmCalendar?.events?.length ?? 'missing'}`;
+              if(r.ok&&Number(j?.finalDecisionPolicy?.version)===28.2&&j?.finalDecisionPolicy?.minorQuoteUnitNormalization===true&&j?.finalDecisionPolicy?.unnormalizedMinorUnitTradeFailSafe===true&&j?.finalDecisionPolicy?.executionScaleUpHardBlocked===true&&j?.finalDecisionPolicy?.broadMarketRegime===true&&j?.finalDecisionPolicy?.lossSellInvariant===true&&j?.finalDecisionPolicy?.profitExitCannotCloseNetLoss===true&&j?.finalDecisionPolicy?.orderEconomicsInvariant===true&&j?.finalDecisionPolicy?.netExpectedEdgeGate===true&&j?.finalDecisionPolicy?.marketRegimeEntryGate===true&&j?.finalDecisionPolicy?.automaticScaleUp===false&&j?.portfolioRiskPolicy?.enabled===true&&j?.forwardCurveLearningPolicy?.enabled===true&&agmOk&&behaviorOk&&opportunityOk&&maturityOk&&researchOk&&relativeOk&&scoreUiOk&&ocdolOk){console.log(`Live verification OK: ${last}`);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
