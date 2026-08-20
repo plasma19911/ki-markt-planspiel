@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T14:29:42.654023+00:00",
+  "checkedAt": "2026-08-20T14:31:52.323421+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -31,8 +31,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T14:29:09.402Z",
-    "ageSeconds": 33,
+    "lastSeenAt": "2026-08-20T14:31:19.693Z",
+    "ageSeconds": 32,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
@@ -849,6 +849,9 @@
     "finalDecisionControllerV278": true,
     "tradingBehaviorV278": true,
     "heldBuyPromptSuppression": true,
+    "heldPromptPlanOnly": true,
+    "pullbackReclaimAware": true,
+    "summaryMetricClarity": true,
     "adaptiveEntryConfirmation": true,
     "softSellNeedsRepeatScan": true,
     "timeAloneCannotCreateSell": true,
@@ -1136,8 +1139,8 @@
     "agmRequiresFreshTechnicalConfirmation": true,
     "agmNeverBypassesNormalSafetyGates": true,
     "maxCandidatesPerDecision": 4,
-    "regressionTests": "V26.3 + V26.2 + V27 + V27.1 + V27.2 + V27.3 + V27.4 + V27.5 audit + V27.6 AGM preview invariants + V27.8 adaptive-entry / held-BUY suppression / repeated-soft-SELL invariants",
-    "rule": "V27.8 reduziert unnötige KI-Aktionen und Whipsaw: Gehaltene Titel sind schon im KI-Prompt BUY-gesperrt. Normale Einstiege müssen je nach Intraday-Volatilität 2, 3 oder 4 Minuten stabil bleiben; außergewöhnlich starke, nicht überhitzte Setups dürfen weiterhin sofort handeln. Ein normaler Soft-SELL wird nur ausgeführt, wenn er in einem getrennten Folgescan erneut entsteht. Zeit allein erzeugt keinen SELL. Harte Risiken und schwere Strukturbrüche bleiben sofort ausführbar. Alle FX-, Kosten-, Verlust-SELL-, Marktregime-, Depotrisiko-, AGM- und No-Scale-up-Regeln bleiben aktiv.",
+    "regressionTests": "V26.3 + V26.2 + V27 + V27.1 + V27.2 + V27.3 + V27.4 + V27.5 audit + V27.6 AGM preview invariants + V27.8 adaptive-entry / held-BUY plan-only suppression / pullback-reclaim / repeated-soft-SELL / metric-clarity invariants",
+    "rule": "V27.8 reduziert unnötige KI-Aktionen und Whipsaw: Gehaltene Titel sind nur im echten Handelsplan schon im KI-Prompt BUY-gesperrt; News- und andere KI-Aufrufe bleiben unverändert. Pullback/Reclaim darf einen noch moderat negativen 20-Minuten-Trend besitzen, wenn 5-Minuten-Reaktion und Beschleunigung die Erholung bestätigen. Normale Einstiege müssen je nach Intraday-Volatilität 2, 3 oder 4 Minuten stabil bleiben; außergewöhnlich starke, nicht überhitzte Setups dürfen weiterhin sofort handeln. Ein normaler Soft-SELL wird nur ausgeführt, wenn er in einem getrennten Folgescan erneut entsteht. Zeit allein erzeugt keinen SELL. Harte Risiken und schwere Strukturbrüche bleiben sofort ausführbar. Alle FX-, Kosten-, Verlust-SELL-, Marktregime-, Depotrisiko-, AGM- und No-Scale-up-Regeln bleiben aktiv.",
     "agmScoreEvaluationOnceDaily": true,
     "agmScoreLockedUntilNextDailyRefresh": true,
     "agmDailyInputs": [
@@ -1156,6 +1159,9 @@
     "exceptionalSetupMayEnterImmediately": true,
     "minuteScanConfirmationSafe": true,
     "heldBuyPromptSuppression": true,
+    "heldPromptPlanOnly": true,
+    "pullbackReclaimAware": true,
+    "summaryMetricClarity": true,
     "softSellNeedsRepeatScan": true,
     "timeAloneCannotCreateSell": true,
     "hardRiskImmediate": true,
@@ -1220,7 +1226,7 @@
     "cloudflareAiWrapperSignatureSafe": true,
     "automaticScaleUp": false,
     "doesNotCreateNewSellSignals": true,
-    "note": "V27.8 blockiert Bestands-BUYs bereits vor der KI-Ausgabe, passt die Entry-Reife an die Volatilität an und verlangt für normale Soft-SELLs eine echte Folgescan-Bestätigung. Zeit allein ist niemals ein Exit-Grund."
+    "note": "V27.8 blockiert Bestands-BUYs nur im Handelsplan vor der KI-Ausgabe, lässt News-Prompts unangetastet, behandelt Pullback/Reclaim getrennt von Breakouts, passt die Entry-Reife an die Volatilität an und verlangt für normale Soft-SELLs eine echte Folgescan-Bestätigung. Zeit allein ist niemals ein Exit-Grund."
   },
   "agmCalendarPolicy": {
     "enabled": true,
@@ -1242,7 +1248,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T14:28:45.307Z",
+      "cachedAt": "2026-08-20T14:31:27.022Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
