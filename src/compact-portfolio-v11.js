@@ -1,8 +1,9 @@
 // Production compatibility entry for the PAPER-TRADING planspiel.
 // V29.0 adds earlier staged entries and dynamic profit locking on top of V28.9/V28.8:
-// 60-64 scout only on exceptional score acceleration, 65-67 micro, 68-71 early,
-// 72+ regular entry; profitable winners may exit at still-high hold scores when peak,
-// score direction and momentum jointly confirm exhaustion.
+// 50-52 watch, 53-55 scout, 56-57 micro, 58-61 early, 62+ regular.
+// Lower-score entries require progressively stronger data coverage, score acceleration and
+// real momentum/catalyst confirmation. Profitable winners may exit at still-high hold scores
+// when peak giveback, score direction and momentum jointly confirm exhaustion.
 // Compatibility chain: compact-portfolio-v290-entry-profit.js -> compact-portfolio-v289-score-hysteresis.js ->
 // compact-portfolio-v288-pc-first.js -> compact-portfolio-v287-calibrated-breadth.js ->
 // compact-portfolio-v286-comprehensive-opportunity.js -> compact-portfolio-v282-relative-opportunity.js ->
