@@ -1,4 +1,4 @@
-name: Validate Final Decision Engine
+name: Validate Final Decision Engine V27.5
 
 on:
   workflow_dispatch:
@@ -31,12 +31,13 @@ jobs:
           npm run check > /tmp/dryrun.log 2>&1; DRYRUN=$?
           python3 - <<PY
           import json,datetime,pathlib
-          def tail(p,n=7000):
+          def tail(p,n=9000):
               try:return pathlib.Path(p).read_text(encoding='utf-8',errors='replace')[-n:]
               except:return ''
           out={
             'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),
             'commit':'${GITHUB_SHA}',
+            'validationTarget':'V27.5_FULL_AUDIT',
             'installOk':${INSTALL}==0,
             'decisionTestsOk':${TESTS}==0,
             'dryRunOk':${DRYRUN}==0,
