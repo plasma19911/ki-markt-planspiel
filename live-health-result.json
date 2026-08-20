@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T13:21:24.383812+00:00",
+  "checkedAt": "2026-08-20T13:22:08.730161+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -30,7 +30,7 @@
     "configured": true,
     "online": true,
     "lastSeenAt": "2026-08-20T13:21:07.546Z",
-    "ageSeconds": 17,
+    "ageSeconds": 61,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
@@ -903,7 +903,12 @@
     "marketRegimeEntryGate": true,
     "minorQuoteUnitNormalization": true,
     "agmPreview": true,
-    "agmMaximumAllocationPct": 18
+    "agmMaximumAllocationPct": 18,
+    "finalDecisionControllerV277": true,
+    "tradingBehaviorV277": true,
+    "entryConfirmationHysteresis": true,
+    "lateImpulseRecheck": true,
+    "tinyProfitChurnBlocked": true
   },
   "entryTimingLearning": {
     "version": 3,
@@ -1106,9 +1111,9 @@
   },
   "finalDecisionPolicy": {
     "enabled": true,
-    "version": 27.6,
+    "version": 27.7,
     "paperTradingOnly": true,
-    "mode": "SINGLE_AUTHORITATIVE_FINAL_CONTROLLER_PLUS_DETERMINISTIC_TRADE_INVARIANTS_PLUS_AGM_PREVIEW",
+    "mode": "SINGLE_AUTHORITATIVE_FINAL_CONTROLLER_PLUS_DETERMINISTIC_TRADE_INVARIANTS_PLUS_AGM_PREVIEW_PLUS_TRADING_BEHAVIOR",
     "oneFinalActionPerSymbol": true,
     "entryTypes": [
       "EARLY_BREAKOUT",
@@ -1196,15 +1201,25 @@
     "agmRequiresFreshTechnicalConfirmation": true,
     "agmNeverBypassesNormalSafetyGates": true,
     "maxCandidatesPerDecision": 4,
-    "regressionTests": "V26.3 + V26.2 + V27 + V27.1 + V27.2 + V27.3 + V27.4 + V27.5 audit + V27.6 AGM preview invariants",
-    "rule": "V27.6 AGM-PREVIEW: HV-Termine und der 0-100-Score werden einmal taeglich als Tages-Snapshot aus Zahlen, 1-Jahres-Chart und frischen News aktualisiert. Der Score bleibt danach bis zum naechsten Tageslauf unveraendert. Aktuelle Markt-/Risikosignale duerfen einen Kauf weiterhin blockieren, veraendern aber den gespeicherten HV-Score nicht. Alle V27.5-Audit-Sicherungen bleiben aktiv.",
+    "regressionTests": "V26.3 + V26.2 + V27 + V27.1 + V27.2 + V27.3 + V27.4 + V27.5 audit + V27.6 AGM preview invariants + V27.7 behavior invariants",
+    "rule": "V27.7 verbessert das Handelsverhalten oberhalb aller bestehenden Sicherheitsstufen: normale Einstiege brauchen zwei zeitlich getrennte Bestätigungen, extreme 5m-Impulse werden nicht gejagt, bei hoher Depotauslastung bleibt Restcash für starke Setups reserviert und reine PROFIT-EXITs werden nicht für Cent-Nettoerträge gedreht. Harte Risiken und echte Strukturbrüche bleiben handlungsfähig.",
     "agmScoreEvaluationOnceDaily": true,
     "agmScoreLockedUntilNextDailyRefresh": true,
     "agmDailyInputs": [
       "ZAHLEN",
       "CHART",
       "NEWS"
-    ]
+    ],
+    "entryConfirmationHysteresis": true,
+    "normalEntryNeedsTwoScans": true,
+    "exceptionalSetupMayEnterImmediately": true,
+    "lateImpulseRecheck": true,
+    "fomoImpulseBuyBlocked": true,
+    "portfolioSaturationSelectivity": true,
+    "meaningfulProfitExit": true,
+    "tinyProfitChurnBlocked": true,
+    "convictionSizing": true,
+    "behaviorVersion": 27.7
   },
   "agmCalendarPolicy": {
     "enabled": true,
@@ -1226,7 +1241,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T13:20:54.271Z",
+      "cachedAt": "2026-08-20T13:22:07.993Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
