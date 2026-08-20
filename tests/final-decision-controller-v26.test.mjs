@@ -26,10 +26,21 @@ const strong=symbol=>({symbol,liveScore:5.4,liveConfidence:.75,day:1.2,intraday5
 }
 
 {
- const c={...strong('EXIT'),intraday5m:-.32,intraday20m:-.24,momentumAcceleration5:-.06,day:-1.3,drawdownFrom20mHighPct:-1.8};
- const held=[{symbol:'EXIT',pnlPct:-.7,invested:2000,opened_at:'2026-08-20T07:00:00.000Z'}];
- const p=await run({candidates:[c],held,actions:[{symbol:'EXIT',action:'HOLD',confidence:.6,allocation_pct:0,reason:'inner hold'}],state:{config:{cash:8000,start_capital:10000},positions:held,candidates:[]}});
- assert.equal(p.actions.find(x=>x.symbol==='EXIT')?.action,'SELL','reife Position mit bestätigter Mehrsignal-Schwäche darf verkauft werden');
+ // OTKAR-artiger Fehlerfall: ca. 13 Minuten gehalten, leicht im Minus und mehrere
+ // korrelierte Momentumwerte negativ. Allein das Alter darf KEIN SELL freigeben.
+ const opened=new Date(Date.now()-13*60_000).toISOString();
+ const c={...strong('OTKAR.IS'),intraday5m:-.18,intraday20m:-.22,momentumAcceleration5:-.04,day:-.25,drawdownFrom20mHighPct:-.75,buyerShare:-1,sellerShare:-1};
+ const held=[{symbol:'OTKAR.IS',pnlPct:-.65,invested:2199,opened_at:opened}];
+ const p=await run({candidates:[c],held,actions:[{symbol:'OTKAR.IS',action:'SELL',confidence:.73,allocation_pct:0,reason:'kurzfristiges Momentum schwach'}],state:{config:{cash:7800,start_capital:10000},positions:held,candidates:[]}});
+ assert.equal(p.actions.find(x=>x.symbol==='OTKAR.IS')?.action,'HOLD','13 Minuten plus korrelierte Kurzfrist-Schwäche dürfen keinen Verlustverkauf auslösen');
+}
+
+{
+ const opened=new Date(Date.now()-40*60_000).toISOString();
+ const c={...strong('EXIT'),intraday5m:-.32,intraday20m:-.27,momentumAcceleration5:-.06,day:-1.3,drawdownFrom20mHighPct:-1.8,sellerShare:68};
+ const held=[{symbol:'EXIT',pnlPct:-.9,invested:2000,opened_at:opened}];
+ const p=await run({candidates:[c],held,actions:[{symbol:'EXIT',action:'SELL',confidence:.76,allocation_pct:0,reason:'SELLER DOMINANCE bestätigt'}],state:{config:{cash:8000,start_capital:10000},positions:held,candidates:[]}});
+ assert.equal(p.actions.find(x=>x.symbol==='EXIT')?.action,'SELL','echter Strukturbruch plus Verkäuferdominanz darf Verlustposition schließen');
 }
 
 {
@@ -63,4 +74,4 @@ const strong=symbol=>({symbol,liveScore:5.4,liveConfidence:.75,day:1.2,intraday5
  assert.deepEqual(scale,[],'automatische Aufstockung muss vollständig deaktiviert bleiben');
 }
 
-console.log('V26.1 final decision regression tests: OK');
+console.log('V26.3 final decision regression tests: OK');
