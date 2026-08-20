@@ -5,7 +5,8 @@ import {clearOrderApprovals} from './order-approval.js';
 // Runtime-Konfiguration bleiben absichtlich erhalten.
 export const RUN_SCOPED_KV_KEYS=[
   'quota/zero-ai-v1',
-  'state/zero-fast-profit-peaks-v1'
+  'state/zero-fast-profit-peaks-v1',
+  'state/trading-behavior-v277'
 ];
 
 export const PRESERVED_ACROSS_RESTART=[
@@ -43,6 +44,6 @@ export function clearRunScopedDecisionState({storage=null,freeAiGuard=null}={}){
     ok:true,
     cleared,
     preserved:[...PRESERVED_ACROSS_RESTART],
-    rule:'Neuer Lauf übernimmt Lernen und Konfiguration, aber niemals alte Positions-Peaks, Plan-/News-Cooldowns, Second-Chance-Watchlist oder Ordervorschläge.'
+    rule:'Neuer Lauf übernimmt Lernen und Konfiguration, aber niemals alte Positions-Peaks, Entry-Bestätigungen, Plan-/News-Cooldowns, Second-Chance-Watchlist oder Ordervorschläge.'
   };
 }
