@@ -65,22 +65,13 @@ jobs:
             'targetVenueSanity':venue.get('enabled') is True,
             'entryTimingLearning':learning.get('mode')=='15/30/60-minute-entry-timing-learning',
             'finalDecisionV277':n(final.get('version'))>=27.7,
-            'tradingBehaviorV277':behavior.get('enabled') is True and n(behavior.get('version'))>=27.7 and final.get('entryConfirmationHysteresis') is True and final.get('lateImpulseRecheck') is True and final.get('tinyProfitChurnBlocked') is True,
+            'tradingBehaviorV277':behavior.get('enabled') is True and n(behavior.get('version'))>=27.7 and final.get('entryConfirmationHysteresis') is True and final.get('minuteScanConfirmationSafe') is True and final.get('lateImpulseRecheck') is True and final.get('tinyProfitChurnBlocked') is True and final.get('heldFxFallbackSafe') is True,
+            'aiPlanJsonRepair':final.get('aiPlanJsonRepair') is True and final.get('aiPlanCompactOutput') is True and n(final.get('aiPlanJsonRepairVersion'))>=27.7 and isinstance(behavior.get('aiPlanJsonRepair'),dict) and behavior.get('aiPlanJsonRepair',{}).get('partialObjectsNeverUsed') is True,
             'agmPreviewEnabled':final.get('agmPreview') is True and agm_policy.get('enabled') is True,
             'agmDailyOnlyScore':final.get('agmCalendarDailyRefresh') is True and final.get('agmLiveReevaluationEveryScan') is False and final.get('agmScoreEvaluationOnceDaily') is True and final.get('agmScoreLockedUntilNextDailyRefresh') is True and agm_policy.get('scoreEvaluationCadence')=='daily' and agm_policy.get('scoreReevaluation')=='once daily only',
             'agmCalendarPayload':isinstance(agm.get('events'),list) and agm.get('scoreEvaluationCadence')=='daily' and agm.get('scoreReevaluation')=='once daily only',
           }
-          out={
-            'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),
-            'http':{'home':code('/tmp/home-code.txt'),'status':code('/tmp/status-code.txt'),'agent':code('/tmp/agent-code.txt'),'scannerUi':code('/tmp/single-code.txt')},
-            'checks':checks,'failedChecks':[k for k,v in checks.items() if not v],'allRequiredChecksPassed':all(checks.values()),
-            'pcAgent':{'configured':a.get('configured'),'online':a.get('online'),'lastSeenAt':a.get('lastSeenAt'),'ageSeconds':a.get('ageSeconds'),'intentionallyOfflineAllowed':True},
-            'running':c.get('running'),'scanCount':c.get('scan_count'),'lastScan':c.get('last_scan'),'lastError':c.get('last_error'),'aiLastSummary':c.get('ai_last_summary'),
-            'cash':cash,'equity':equity,'pnl':s.get('pnl'),'marketValue':market,'accountingDelta':delta,'positions':len(positions),'positionRows':positions[:10],
-            'recentHistory':(s.get('history') or [])[:15],'recentAiLog':(s.get('aiLog') or [])[:15],
-            'candleFlowPolicy':candle,'selectiveCapitalPolicy':policy,'executionModel':execution,'entryTimingLearning':learning,'risk':s.get('risk'),
-            'finalDecisionPolicy':final,'tradingBehaviorPolicy':behavior,'agmCalendarPolicy':agm_policy,'agmCalendar':agm
-          }
+          out={'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'http':{'home':code('/tmp/home-code.txt'),'status':code('/tmp/status-code.txt'),'agent':code('/tmp/agent-code.txt'),'scannerUi':code('/tmp/single-code.txt')},'checks':checks,'failedChecks':[k for k,v in checks.items() if not v],'allRequiredChecksPassed':all(checks.values()),'pcAgent':{'configured':a.get('configured'),'online':a.get('online'),'lastSeenAt':a.get('lastSeenAt'),'ageSeconds':a.get('ageSeconds'),'intentionallyOfflineAllowed':True},'running':c.get('running'),'scanCount':c.get('scan_count'),'lastScan':c.get('last_scan'),'lastError':c.get('last_error'),'aiLastSummary':c.get('ai_last_summary'),'cash':cash,'equity':equity,'pnl':s.get('pnl'),'marketValue':market,'accountingDelta':delta,'positions':len(positions),'positionRows':positions[:10],'recentHistory':(s.get('history') or [])[:15],'recentAiLog':(s.get('aiLog') or [])[:15],'candleFlowPolicy':candle,'selectiveCapitalPolicy':policy,'executionModel':execution,'entryTimingLearning':learning,'risk':s.get('risk'),'finalDecisionPolicy':final,'tradingBehaviorPolicy':behavior,'agmCalendarPolicy':agm_policy,'agmCalendar':agm}
           raw=json.dumps(out,ensure_ascii=False,indent=2)+'\n';pathlib.Path('/tmp/live-health-result.json').write_text(raw,encoding='utf-8');print(raw)
           PY
       - name: Publish diagnostic
@@ -102,5 +93,5 @@ jobs:
           import json
           x=json.load(open('/tmp/live-health-result.json'))
           if x.get('failedChecks'): raise SystemExit('Live health failed: '+', '.join(x['failedChecks']))
-          print('Worker healthy; V27.7 trading behavior + daily AGM score active.')
+          print('Worker healthy; V27.7 behavior + AI JSON repair + daily AGM score active.')
           PY
