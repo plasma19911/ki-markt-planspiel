@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T13:38:55.640505+00:00",
+  "checkedAt": "2026-08-20T13:39:23.932209+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -30,19 +30,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T13:38:10.435Z",
-    "ageSeconds": 45,
+    "lastSeenAt": "2026-08-20T13:39:09.665Z",
+    "ageSeconds": 14,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 183,
-  "lastScan": "2026-08-20T13:37:24.266Z",
+  "scanCount": 184,
+  "lastScan": "2026-08-20T13:39:12.575Z",
   "lastError": null,
   "aiLastSummary": "KI-Fallback: kein JSON",
   "cash": 1476.2217081333488,
-  "equity": 9918.521059299335,
-  "pnl": -81.47894070066468,
-  "marketValue": 8442.299351165986,
+  "equity": 9922.882656444435,
+  "pnl": -77.11734355556473,
+  "marketValue": 8446.660948311086,
   "accountingDelta": 0.0,
   "positions": 6,
   "positionRows": [
@@ -84,15 +84,15 @@
       "invested": 2129.14636,
       "entry_fee": 1,
       "entry_price": 8.710701663970946,
-      "last_price": 8.600000381469727,
+      "last_price": 8.618000030517578,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-20T08:39:12.347Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 0.30000000000000004,
-      "signal_confidence": 0.31000000000000005,
+      "score": 1.1,
+      "signal_confidence": 0.39,
       "zero_quantity": 244.42880057366253,
       "zero_whole_shares": 244,
       "zero_fractional_shares": 0.428800573662528,
@@ -120,8 +120,8 @@
       "opened_at": "2026-08-20T08:42:11.798Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 1.1,
-      "signal_confidence": 0.39,
+      "score": -1.6,
+      "signal_confidence": 0.44000000000000006,
       "zero_quantity": 4.04768630574851,
       "zero_whole_shares": 4,
       "zero_fractional_shares": 0.04768630574850974,
@@ -190,7 +190,7 @@
       "invested": 70.201497,
       "entry_fee": 2,
       "entry_price": 55.375319694519035,
-      "last_price": 55.040000915527344,
+      "last_price": 55.0099983215332,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
@@ -215,10 +215,10 @@
     {
       "id": 36,
       "ts": "2026-08-20T12:02:11.549Z",
-      "end_ts": "2026-08-20T13:37:24.266Z",
-      "event_count": 57,
+      "end_ts": "2026-08-20T13:39:12.575Z",
+      "event_count": 58,
       "start_scan": 127,
-      "end_scan": 183,
+      "end_scan": 184,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -228,10 +228,10 @@
       "trade_pnl": null,
       "cash_before": 1476.2217081333488,
       "cash_after": 1476.2217081333488,
-      "equity": 9918.521059299335,
-      "total_pnl": -81.47894070066468,
+      "equity": 9922.882656444435,
+      "total_pnl": -77.11734355556473,
       "score": null,
-      "reason": "Kein Trade. Bestes Signal IFX.DE: Score 2.50, Konfidenz 53%."
+      "reason": "Kein Trade. Bestes Signal BAYN.DE: Score 3.00, Konfidenz 58%."
     },
     {
       "id": 35,
@@ -1081,8 +1081,8 @@
     "proposalContaminationFixed": true
   },
   "risk": {
-    "equity": 9918.521059299335,
-    "dailyPct": -0.7830717076524607,
+    "equity": 9922.882656444435,
+    "dailyPct": -0.7394417885749793,
     "availableCash": 1476.2217081333488,
     "hardLimits": true,
     "budgetOnly": false,
@@ -1095,17 +1095,17 @@
         {
           "type": "SINGLE_POSITION_OVER_CAP",
           "symbol": "REG1V.HE",
-          "pct": 39.38,
+          "pct": 39.36,
           "limitPct": 25
         },
         {
           "type": "REGION_OVER_CAP",
           "region": "NORDICS",
-          "pct": 60.57,
+          "pct": 60.59,
           "limitPct": 55
         }
       ],
-      "equity": 9918.52,
+      "equity": 9922.88,
       "rule": "Bestehende Altpositionen über dem aktuellen Cap werden gemeldet und für weitere Käufe gesperrt, aber nicht allein wegen des Caps zwangsverkauft."
     },
     "rule": "Finale V27.6-Grenzen gelten nach dem inneren R2-Plan und auch für AGM_PREVIEW."
