@@ -5,7 +5,7 @@ const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=null)=>Number.isFinite(Number(v))?Number(v):d;
 const key=v=>String(v?.symbol||v||'').toUpperCase().trim();
 const responseText=r=>String(r?.response||r?.result?.response||'');
-const v274=s=>String(s??'').replace(/FINAL-CONTROLLER V27\.(?:1|2|3)/g,'FINAL-CONTROLLER V27.4');
+const v275=s=>String(s??'').replace(/FINAL-CONTROLLER V27\.(?:1|2|3|4)/g,'FINAL-CONTROLLER V27.5');
 const MAX_ROUNDTRIP_COST_PCT=1.5;
 const MIN_NET_EDGE_MARGIN_PCT=.05;
 
@@ -73,11 +73,11 @@ function marketRegimeGate(candidate={},action={}){
  const ff=candidate?.forwardForecast||{},reg=String(ff?.marketRegime?.regime||'UNKNOWN').toUpperCase(),m=metrics(candidate),type=String(action?.reason||'').match(/BUY\s+([A-Z_]+)/i)?.[1]||'';
  if(reg==='RISK_OFF'){
   const relativeStrength=m.m20>=.35&&m.m5>=.08&&m.accel>=.03&&m.score>=4.6&&m.confidence>=.60;
-  if(!relativeStrength)return{block:true,multiplier:0,reason:'MARKET-REGIME V27.4: breiter Markt RISK_OFF; kein normaler BUY ohne klar bestätigte relative Stärke.'};
-  return{block:false,multiplier:.55,reason:'MARKET-REGIME V27.4: RISK_OFF, aber klare relative Stärke; Positionsgröße vorsorglich 45% reduziert.'};
+  if(!relativeStrength)return{block:true,multiplier:0,reason:'MARKET-REGIME V27.5: breiter Markt RISK_OFF; kein normaler BUY ohne klar bestätigte relative Stärke.'};
+  return{block:false,multiplier:.55,reason:'MARKET-REGIME V27.5: RISK_OFF, aber klare relative Stärke; Positionsgröße vorsorglich 45% reduziert.'};
  }
- if(reg==='REVERSAL_DOWN')return{block:false,multiplier:.70,reason:'MARKET-REGIME V27.4: breiter Markt dreht ab; Positionsgröße 30% reduziert.'};
- if(reg==='RANGE'&&type==='EARLY_BREAKOUT')return{block:false,multiplier:.75,reason:'MARKET-REGIME V27.4: Range-Markt; Breakout-Größe 25% reduziert.'};
+ if(reg==='REVERSAL_DOWN')return{block:false,multiplier:.70,reason:'MARKET-REGIME V27.5: breiter Markt dreht ab; Positionsgröße 30% reduziert.'};
+ if(reg==='RANGE'&&type==='EARLY_BREAKOUT')return{block:false,multiplier:.75,reason:'MARKET-REGIME V27.5: Range-Markt; Breakout-Größe 25% reduziert.'};
  return{block:false,multiplier:1,reason:''};
 }
 function matureExpectedMove(candidate={}){
@@ -93,30 +93,30 @@ export function enforceLossSellInvariant(plan,state={}){
  const candidates=new Map(arr(state?.candidates).map(c=>[key(c),c]));
  let blocked=0,uneconomicBuys=0,netEdgeBlocks=0,marketRegimeBlocks=0,minorUnitBlocks=0;
  const actions=plan.actions.map(a=>{
-  const s=key(a),normalized={...a,reason:v274(a?.reason)},action=String(a?.action||'').toUpperCase();
+  const s=key(a),normalized={...a,reason:v275(a?.reason)},action=String(a?.action||'').toUpperCase();
   if(action==='BUY'){
    const c=candidates.get(s)||{},unit=candidateQuoteUnit(c);
-   if(unit.minorUnit&&!c?.quoteUnitNormalized&&!c?.quote_unit_normalized){minorUnitBlocks++;return{symbol:s,action:'HOLD',confidence:Math.max(.72,num(a?.confidence,.72)),allocation_pct:0,reason:`QUOTE-UNIT-SAFETY V27.4: BUY blockiert, weil ${unit.rawCurrency} noch nicht auf ${unit.majorCurrency}-Haupteinheit normalisiert ist. Kein Handel auf potenziell 100x falscher Preisbasis.`};}
+   if(unit.minorUnit&&!c?.quoteUnitNormalized&&!c?.quote_unit_normalized){minorUnitBlocks++;return{symbol:s,action:'HOLD',confidence:Math.max(.72,num(a?.confidence,.72)),allocation_pct:0,reason:`QUOTE-UNIT-SAFETY V27.5: BUY blockiert, weil ${unit.rawCurrency} noch nicht auf ${unit.majorCurrency}-Haupteinheit normalisiert ist. Kein Handel auf potenziell 100x falscher Preisbasis.`};}
    const eco=buyEconomics(a,c,state);
-   if(!eco.ok){uneconomicBuys++;return{symbol:s,action:'HOLD',confidence:Math.max(.66,num(a?.confidence,.66)),allocation_pct:0,reason:`ORDER-ECONOMICS V27.4: BUY blockiert · vorgesehenes Budget ${eco.budget.toFixed(2)} € · ${eco.reason} · Limit ${MAX_ROUNDTRIP_COST_PCT.toFixed(2)}%. Keine Mini-Order, deren Gebühren/Slippage den erwarteten Vorteil auffressen.`};}
-   const edge=matureExpectedMove(c);if(edge.mature&&edge.expectedPct!==null&&edge.expectedPct<=eco.costPct+MIN_NET_EDGE_MARGIN_PCT){netEdgeBlocks++;return{symbol:s,action:'HOLD',confidence:Math.max(.68,num(a?.confidence,.68)),allocation_pct:0,reason:`NET-EDGE V27.4: BUY blockiert · reifer erwarteter Move ${edge.expectedPct>=0?'+':''}${edge.expectedPct.toFixed(3)}% (${edge.source}, n=${edge.samples}) reicht nicht über erwartete Roundtrip-Kosten ${eco.costPct.toFixed(2)}% + Sicherheitsmarge ${MIN_NET_EDGE_MARGIN_PCT.toFixed(2)}%.`};}
+   if(!eco.ok){uneconomicBuys++;return{symbol:s,action:'HOLD',confidence:Math.max(.66,num(a?.confidence,.66)),allocation_pct:0,reason:`ORDER-ECONOMICS V27.5: BUY blockiert · vorgesehenes Budget ${eco.budget.toFixed(2)} € · ${eco.reason} · Limit ${MAX_ROUNDTRIP_COST_PCT.toFixed(2)}%. Keine Mini-Order, deren Gebühren/Slippage den erwarteten Vorteil auffressen.`};}
+   const edge=matureExpectedMove(c);if(edge.mature&&edge.expectedPct!==null&&edge.expectedPct<=eco.costPct+MIN_NET_EDGE_MARGIN_PCT){netEdgeBlocks++;return{symbol:s,action:'HOLD',confidence:Math.max(.68,num(a?.confidence,.68)),allocation_pct:0,reason:`NET-EDGE V27.5: BUY blockiert · reifer erwarteter Move ${edge.expectedPct>=0?'+':''}${edge.expectedPct.toFixed(3)}% (${edge.source}, n=${edge.samples}) reicht nicht über erwartete Roundtrip-Kosten ${eco.costPct.toFixed(2)}% + Sicherheitsmarge ${MIN_NET_EDGE_MARGIN_PCT.toFixed(2)}%.`};}
    const gate=marketRegimeGate(c,a);if(gate.block){marketRegimeBlocks++;return{symbol:s,action:'HOLD',confidence:Math.max(.70,num(a?.confidence,.70)),allocation_pct:0,reason:gate.reason};}
    if(gate.multiplier<1)return{...normalized,allocation_pct:+(Math.max(0,num(a?.allocation_pct,0))*gate.multiplier).toFixed(2),reason:`${normalized.reason} · ${gate.reason}`};
    return normalized;
   }
   if(action!=='SELL')return normalized;
   const p=positions.get(s);if(!p)return normalized;
-  const pUnit=positionQuoteUnit(p);if(pUnit.minorUnit&&!p?.minor_unit_repaired_at&&!p?.quote_unit_repaired_at){minorUnitBlocks++;return{symbol:s,action:'HOLD',confidence:Math.max(.80,num(a?.confidence,.80)),allocation_pct:0,reason:`QUOTE-UNIT-SAFETY V27.4: SELL blockiert, weil die Bestandsposition noch rohe ${pUnit.rawCurrency}-Preise enthalten kann. Erst ${pUnit.majorCurrency}-Preis/FX-Basis reparieren; kein automatischer Verkauf auf potenziell 100x falscher Bewertung.`};}
+  const pUnit=positionQuoteUnit(p);if(pUnit.minorUnit&&!p?.minor_unit_repaired_at&&!p?.quote_unit_repaired_at){minorUnitBlocks++;return{symbol:s,action:'HOLD',confidence:Math.max(.80,num(a?.confidence,.80)),allocation_pct:0,reason:`QUOTE-UNIT-SAFETY V27.5: SELL blockiert, weil die Bestandsposition noch rohe ${pUnit.rawCurrency}-Preise enthalten kann. Erst ${pUnit.majorCurrency}-Preis/FX-Basis reparieren; kein automatischer Verkauf auf potenziell 100x falscher Bewertung.`};}
   const c={...p,...(candidates.get(s)||{})},net=netExitSnapshot(p,c,state?.config||{});if(net.pct===null||net.pct>0)return normalized;
   const reason=String(a?.reason||''),m=metrics(c),external=hardExternal(c,reason),contradiction=explicitExitHold(reason),independent=strongIndependentBreak(m),profitExitNetLoss=/PROFIT EXIT/i.test(reason);
   const buyerSideStronger=m.sellers!==null&&m.sellers<50,shallowPriceDamage=net.priceMovePct===null||net.priceMovePct>-1.25,mustHold=!external&&(contradiction||profitExitNetLoss||buyerSideStronger||(shallowPriceDamage&&!independent));
   if(!mustHold)return normalized;
   blocked++;
   const sellerText=m.sellers===null?'Verkäuferanteil nicht bestätigt':`Verkäufer ${m.sellers.toFixed(0)}%`,netText=net.euro===null?`Netto-P/L ${net.pct.toFixed(2)}%`:`Netto-P/L bei Exit ca. ${net.euro>=0?'+':''}${net.euro.toFixed(2)} € (${net.pct.toFixed(2)}%)`,why=profitExitNetLoss?'„PROFIT EXIT“ wäre nach echten ZERO-Gebühren tatsächlich ein Verlust':contradiction?'tiefere Prüfung fordert ausdrücklich HOLD':'keine ausreichend unabhängige bestätigte Verkäufer-/Strukturinvaliderung';
-  return{symbol:s,action:'HOLD',confidence:Math.max(.70,num(a?.confidence,.70)),allocation_pct:0,reason:`LOSS-SELL-INVARIANT V27.4: Verlustverkauf blockiert · ${netText} · ${sellerText} · ${why} · kein externer Hard-Risk. Position weiter beobachten statt Kosten/Marktrauschen als Verlust zu realisieren.`};
+  return{symbol:s,action:'HOLD',confidence:Math.max(.70,num(a?.confidence,.70)),allocation_pct:0,reason:`LOSS-SELL-INVARIANT V27.5: Verlustverkauf blockiert · ${netText} · ${sellerText} · ${why} · kein externer Hard-Risk. Position weiter beobachten statt Kosten/Marktrauschen als Verlust zu realisieren.`};
  });
  const suffix=`${blocked?` · LOSS-SELL-INVARIANT: ${blocked} unnötige(n) Verlust-SELL(s) blockiert.`:''}${uneconomicBuys?` · ORDER-ECONOMICS: ${uneconomicBuys} unwirtschaftliche Mini-BUY(s) blockiert.`:''}${netEdgeBlocks?` · NET-EDGE: ${netEdgeBlocks} nach Kosten negative/zu schwache BUY(s) blockiert.`:''}${marketRegimeBlocks?` · MARKET-REGIME: ${marketRegimeBlocks} BUY(s) im Risk-off blockiert.`:''}${minorUnitBlocks?` · QUOTE-UNIT-SAFETY: ${minorUnitBlocks} Handel auf unnormalisierter Minor-Unit-Basis blockiert.`:''}`;
- return{plan:{...plan,actions,summary:v274(plan.summary)+suffix},blocked,uneconomicBuys,netEdgeBlocks,marketRegimeBlocks,minorUnitBlocks};
+ return{plan:{...plan,actions,summary:v275(plan.summary)+suffix},blocked,uneconomicBuys,netEdgeBlocks,marketRegimeBlocks,minorUnitBlocks};
 }
 export class LossSellInvariant{
  constructor(base,{getState=null}={}){this.base=base;this.getState=getState;}
