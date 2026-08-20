@@ -1,5 +1,6 @@
 const LIVE_KEY='state/zero-live-signal-learning-v1';
 const DECISION_KEY='state/trade-decision-learning-v1';
+const CLEAN_EPOCH='V27_CLEAN_2026-08-20';
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const key=v=>String(v||'').toUpperCase().trim();
@@ -51,14 +52,23 @@ function decrementTimingStat(state,r){
  const pnl=num(r.pnlPct),mae=num(r.maePct),mfe=num(r.mfePct);st.count=Math.max(0,num(st.count)-1);st.wins=Math.max(0,num(st.wins)-(pnl>0?1:0));st.sumPnl=num(st.sumPnl)-pnl;st.sumAbsPnl=Math.max(0,num(st.sumAbsPnl)-Math.abs(pnl));st.sumMae=num(st.sumMae)-mae;st.sumMfe=num(st.sumMfe)-mfe;
 }
 
+function archiveLegacyAggregate(live){
+ if(live?.learningEpoch===CLEAN_EPOCH)return false;
+ live.legacyBeforeV27={
+  archivedAt:new Date().toISOString(),completed:num(live?.completed),timedCompleted:num(live?.timedCompleted),
+  stats:live?.stats||{},timingStats:live?.timingStats||{},recentTiming:arr(live?.recentTiming),
+  reason:'Vor V27 enthielten Aggregate sowohl Marktbeobachtungen als auch Phasen mit nachgewiesenen Entscheidungsbugs; ohne Einzelprovenienz nicht sauber trennbar.'
+ };
+ live.stats={};live.timingStats={};live.recentTiming=[];live.completed=0;live.timedCompleted=0;live.open={};live.pending={};live.learningEpoch=CLEAN_EPOCH;return true;
+}
+
 export function sanitizeBugContaminatedLearning(storage,history=[]){
- const windows=contaminatedWindows(history);if(!windows.length)return{changed:false,knownBugTradeWindows:0,decisionSamplesRemoved:0,timingSamplesRemoved:0,openRowsRemoved:0,pendingRowsRemoved:0};
- let changed=false,decisionSamplesRemoved=0,timingSamplesRemoved=0,openRowsRemoved=0,pendingRowsRemoved=0;
+ const windows=contaminatedWindows(history);let changed=false,decisionSamplesRemoved=0,timingSamplesRemoved=0,openRowsRemoved=0,pendingRowsRemoved=0,legacyAggregateArchived=false;
  const decision=read(storage,DECISION_KEY);
  if(decision&&typeof decision==='object'){
   const before=arr(decision.samples),removed=before.filter(s=>windows.some(w=>sampleMatchesWindow(s,w))),keep=before.filter(s=>!windows.some(w=>sampleMatchesWindow(s,w)));
   if(removed.length){decision.samples=keep;decisionSamplesRemoved=removed.length;changed=true;decision.seen=decision.seen||{};for(const s of removed)if(s?.id)decision.seen[s.id]='QUARANTINED_CODE_BUG'}
-  decision.learningQuarantine={version:1,updatedAt:new Date().toISOString(),knownBugTradeWindows:windows.length,removedSamples:decisionSamplesRemoved,blockedFromReentry:true,rule:'Nur nachgewiesene Codefehler werden ausgeschlossen; normale schlechte Trades bleiben Lernmaterial.'};
+  decision.learningQuarantine={version:2,updatedAt:new Date().toISOString(),knownBugTradeWindows:windows.length,removedSamples:decisionSamplesRemoved,blockedFromReentry:true,rule:'Nur nachgewiesene Codefehler werden selektiv ausgeschlossen; normale schlechte Trades bleiben Lernmaterial.'};
   write(storage,DECISION_KEY,decision);
  }
  const live=read(storage,LIVE_KEY);
@@ -69,8 +79,9 @@ export function sanitizeBugContaminatedLearning(storage,history=[]){
   for(const bucket of Object.values(live.timingStats||{}))for(const [h,st] of Object.entries(bucket||{}))if(num(st?.count)<=0)delete bucket[h];
   for(const s of Object.keys(live.open||{}))if(windows.some(w=>w.symbol===key(s))){delete live.open[s];openRowsRemoved++;changed=true}
   for(const s of Object.keys(live.pending||{}))if(windows.some(w=>w.symbol===key(s))){delete live.pending[s];pendingRowsRemoved++;changed=true}
-  live.learningQuarantine={version:1,updatedAt:new Date().toISOString(),knownBugTradeWindows:windows.length,timingSamplesRemoved,openRowsRemoved,pendingRowsRemoved,rule:'Bekannte Implementierungsfehler werden nicht als Marktlektion gewertet.'};
+  legacyAggregateArchived=archiveLegacyAggregate(live);if(legacyAggregateArchived)changed=true;
+  live.learningQuarantine={version:2,updatedAt:new Date().toISOString(),cleanEpoch:CLEAN_EPOCH,knownBugTradeWindows:windows.length,timingSamplesRemoved,openRowsRemoved,pendingRowsRemoved,legacyAggregateArchived,legacyAggregateActive:false,rule:'Alte nicht sauber zuordenbare Live-Aggregate sind archiviert, aber ab V27 nicht mehr entscheidungswirksam. Neue Live-Samples starten sauber.'};
   write(storage,LIVE_KEY,live);
  }
- return{changed,knownBugTradeWindows:windows.length,decisionSamplesRemoved,timingSamplesRemoved,openRowsRemoved,pendingRowsRemoved,windows:windows.slice(-8)};
+ return{changed,cleanEpoch:CLEAN_EPOCH,knownBugTradeWindows:windows.length,decisionSamplesRemoved,timingSamplesRemoved,openRowsRemoved,pendingRowsRemoved,legacyAggregateArchived,legacyAggregateActive:false,windows:windows.slice(-8)};
 }
