@@ -64,7 +64,7 @@ function sellDecision(h,inner=null){
  const innerConfirmed=inner?.action==='SELL'&&num(inner?.confidence)>=.70&&confirmedSellReason(reason);
  const explicitHardEvent=m.event==='HIGH'&&Boolean(m.eventText.trim()),externalHard=m.news<=-.65||explicitHardEvent||hardSellReason(reason);
  const strongMarketHard=!holdConflict&&m.sell==='STRONG'&&(sellerControl||(m.m20<=-.35&&m.accel<=-.05));
- const reversalHard=!holdConflict&&m.state==='REVERSAL'&&sellerControl&&m.m20<=-.18&&m.accel<=-.03;
+ const reversalHard=!holdConflict&&m.state==='REVERSAL'&&((sellerControl&&m.m20<=-.18&&m.accel<=-.03)||(m.m5<=-.25&&m.m20<=-.30&&m.accel<=-.05));
  const hard=externalHard||strongMarketHard||reversalHard;
  const trendBreak=m.m20<=-.22&&m.accel<=-.035;
  const fastBreak=m.m5<=-.30&&m.m20<=-.15&&m.accel<=-.03;
