@@ -1,4 +1,4 @@
-name: Validate Final Decision Engine V27.6 - AGM Preview
+name: Validate Final Decision Engine V27.7 - Trading Behavior
 
 on:
   workflow_dispatch:
@@ -22,7 +22,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Run final-decision regression suite and persist result
+      - name: Run final-decision and behavior regression suite and persist result
         shell: bash
         run: |
           set +e
@@ -37,7 +37,7 @@ jobs:
           out={
             'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),
             'commit':'${GITHUB_SHA}',
-            'validationTarget':'V27.6_AGM_PREVIEW_FINAL',
+            'validationTarget':'V27.7_TRADING_BEHAVIOR_FINAL',
             'installOk':${INSTALL}==0,
             'decisionTestsOk':${TESTS}==0,
             'dryRunOk':${DRYRUN}==0,
