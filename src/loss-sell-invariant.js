@@ -41,8 +41,8 @@ function metrics(c={}){
  };
 }
 function priceFx(c={},p={}){
- const price=num(c?.price??c?.last_price??p?.last_price??p?.lastPrice,null),fx=num(c?.fxRate??c?.fx_rate??c?.last_fx??p?.last_fx??p?.lastFx,1)||1;
- return{price,fx,priceEur:price===null?null:price*fx};
+ const price=num(c?.price??c?.last_price??p?.last_price??p?.lastPrice,null),candidateFx=num(c?.fxRate??c?.fx_rate,0),positionFx=num(c?.last_fx??c?.lastFx??p?.last_fx??p?.lastFx,0),entryFx=num(c?.entry_fx??p?.entry_fx,0),fx=candidateFx>0?candidateFx:positionFx>0?positionFx:entryFx>0?entryFx:0;
+ return{price,fx,priceEur:price===null||!(fx>0)?null:price*fx};
 }
 function netExitSnapshot(position={},candidate={},config={}){
  const invested=num(position?.invested,null),entryFee=num(position?.entry_fee,0)||0,{price,fx,priceEur}=priceFx(candidate,position);
