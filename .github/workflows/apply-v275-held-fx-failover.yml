@@ -1,0 +1,81 @@
+name: Fix V27.5 Held FX Failover
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/apply-v275-held-fx-failover.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Preserve last trusted FX for existing holdings only
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('src/r2-portfolio.js')
+          s=p.read_text(encoding='utf-8')
+
+          old="const positionValue=(p,price=p.last_price,fx=p.last_fx)=>!num(p?.entry_price)?num(p?.invested):num(p.invested)*(num(price)/num(p.entry_price))*(num(fx,1)/num(p.entry_fx,1));"
+          new="const positionValue=(p,price=p.last_price,fx=p.last_fx)=>{const ep=num(p?.entry_price),px=num(price,ep),entryFx=num(p?.entry_fx,1),markFx=num(fx,0)>0?num(fx):entryFx;return !ep?num(p?.invested):num(p.invested)*(px/ep)*(markFx/entryFx)};"
+          if old not in s: raise SystemExit('positionValue target not found')
+          s=s.replace(old,new,1)
+
+          marker="function repairLegacyMinorUnitPosition(p,q,baseCurrency='EUR'){"
+          helper="""function trustedHeldQuote(p,candidate=null,held=null,baseCurrency='EUR'){const q=candidate||held;if(!q)return null;const base=normalizedCurrency(baseCurrency||'EUR'),currency=normalizedCurrency(q?.currency||p?.currency||base),candidateFx=num(candidate?.fxRate,0),candidateVerified=candidate?.fxVerified===true||candidate?.fx_verified===true||currency===base,heldFx=num(held?.fxRate,0),heldVerified=held?.fxVerified===true||held?.fx_verified===true||currency===base,prevFx=num(p?.last_fx,0),prevTrusted=currency===base||p?.fx_verified===true||Boolean(p?.fx_basis_repaired_at||p?.minor_unit_repaired_at||p?.quote_unit_repaired_at)||(prevFx>0&&Math.abs(prevFx-1)>.001);let fx=currency===base?1:0,fxVerified=currency===base,fxStale=false;if(currency!==base){if(candidateVerified&&candidateFx>0){fx=candidateFx;fxVerified=true}else if(heldVerified&&heldFx>0){fx=heldFx;fxVerified=true}else if(prevTrusted&&prevFx>0){fx=prevFx;fxStale=true}}return{...(held||{}),...(candidate||{}),fxRate:fx,fxVerified,fxStale,currency};}\n\n"""
+          if marker not in s: raise SystemExit('helper insertion marker not found')
+          s=s.replace(marker,helper+marker,1)
+
+          # fetchHeldQuotes must expose whether the rate is fresh or only last-known.
+          old="const rawCurrency=q.quoteCurrencyRaw||p.quote_currency_raw||p.quoteCurrencyRaw||p.currency,unit=quoteCurrencyInfo(rawCurrency),cur=unit.majorCurrency||normalizedCurrency(p.currency),rate=cur===base?1:(num(fx[cur],0)>0?num(fx[cur]):num(p.last_fx,1)),price=normalizeQuotePrice(q.price,unit.rawCurrency);out.set(p.symbol,{symbol:p.symbol,name:p.name,type:p.instrument_type,price,fxRate:rate,currency:cur,quoteCurrencyRaw:unit.rawCurrency,quotePriceScale:unit.priceScale,quoteUnitNormalized:true,score:q.score,confidence:num(p.signal_confidence,.5),fresh:q.fresh,dayChange:q.dayChange,momentum5:q.momentum,momentum20:q.momentum,newsScore:0})"
+          new="const rawCurrency=q.quoteCurrencyRaw||p.quote_currency_raw||p.quoteCurrencyRaw||p.currency,unit=quoteCurrencyInfo(rawCurrency),cur=unit.majorCurrency||normalizedCurrency(p.currency),liveRate=cur===base?1:num(fx[cur],0),prevRate=num(p.last_fx,0),prevTrusted=p?.fx_verified===true||Boolean(p?.fx_basis_repaired_at||p?.minor_unit_repaired_at||p?.quote_unit_repaired_at)||(prevRate>0&&Math.abs(prevRate-1)>.001),rate=cur===base?1:(liveRate>0?liveRate:(prevTrusted?prevRate:0)),fxVerified=cur===base||liveRate>0,price=normalizeQuotePrice(q.price,unit.rawCurrency);out.set(p.symbol,{symbol:p.symbol,name:p.name,type:p.instrument_type,price,fxRate:rate,fxVerified,fxStale:!fxVerified&&rate>0,currency:cur,quoteCurrencyRaw:unit.rawCurrency,quotePriceScale:unit.priceScale,quoteUnitNormalized:true,score:q.score,confidence:num(p.signal_confidence,.5),fresh:q.fresh,dayChange:q.dayChange,momentum5:q.momentum,momentum20:q.momentum,newsScore:0})"
+          if old not in s: raise SystemExit('fetchHeldQuotes rate block not found')
+          s=s.replace(old,new,1)
+
+          # New positions must persist verified FX state; foreign buys cannot fall back to 1.
+          old="const market=num(cand.price),fx=num(cand.fxRate,1);if(!(market>0&&fx>0))return false;"
+          new="const market=num(cand.price),base=normalizedCurrency(c.currency||'EUR'),cur=normalizedCurrency(cand.currency||base),rawFx=num(cand.fxRate,0),fx=cur===base?(rawFx>0?rawFx:1):rawFx,fxVerified=cur===base||cand?.fxVerified===true||cand?.fx_verified===true;if(!(market>0&&fx>0&&fxVerified))return false;"
+          if old not in s: raise SystemExit('openPosition fx block not found')
+          s=s.replace(old,new,1)
+          old="entry_fx:fx,last_fx:fx,currency:normalizeQuoteCurrency(cand.currency)||cand.currency||null,"
+          new="entry_fx:fx,last_fx:fx,fx_verified:fxVerified,currency:normalizeQuoteCurrency(cand.currency)||cand.currency||null,"
+          if old not in s: raise SystemExit('new-position metadata target not found')
+          s=s.replace(old,new,1)
+
+          # Existing holdings use current price with current verified FX; if FX feed is missing, keep last trusted FX, never 0.
+          old="const heldMap=ms.mode==='NEWS_ONLY'?new Map():await fetchHeldQuotes(s.positions,cfg.currency);let minorUnitRepairs=0;for(const p of s.positions){const q=candidates.find(x=>x.symbol===p.symbol)||heldMap.get(p.symbol);if(q?.fresh){if(repairLegacyMinorUnitPosition(p,q,cfg.currency))minorUnitRepairs++;p.last_price=num(q.price,p.last_price);p.last_fx=num(q.fxRate,p.last_fx);p.score=num(q.score,p.score);p.signal_confidence=num(q.confidence,p.signal_confidence);"
+          new="const heldMap=ms.mode==='NEWS_ONLY'?new Map():await fetchHeldQuotes(s.positions,cfg.currency);let minorUnitRepairs=0;for(const p of s.positions){const q=trustedHeldQuote(p,candidates.find(x=>x.symbol===p.symbol)||null,heldMap.get(p.symbol)||null,cfg.currency);if(q?.fresh){if(repairLegacyMinorUnitPosition(p,q,cfg.currency))minorUnitRepairs++;p.last_price=num(q.price,p.last_price);if(num(q.fxRate,0)>0)p.last_fx=num(q.fxRate);if(q.fxVerified===true)p.fx_verified=true;p.fx_stale=Boolean(q.fxStale);p.score=num(q.score,p.score);p.signal_confidence=num(q.confidence,p.signal_confidence);"
+          if old not in s: raise SystemExit('held mark update target not found')
+          s=s.replace(old,new,1)
+
+          # Sell loop uses same protected quote construction.
+          old="for(const p of [...s.positions]){const q=candidates.find(x=>x.symbol===p.symbol)||heldMap.get(p.symbol);if(!q?.fresh)continue;"
+          new="for(const p of [...s.positions]){const q=trustedHeldQuote(p,candidates.find(x=>x.symbol===p.symbol)||null,heldMap.get(p.symbol)||null,cfg.currency);if(!q?.fresh||!(num(q.fxRate,0)>0))continue;"
+          if old not in s: raise SystemExit('sell loop quote target not found')
+          s=s.replace(old,new,1)
+
+          # closePosition rejects zero but may use the last trusted position FX if a caller supplies missing FX.
+          old="const p=s.positions[i],c=s.config,market=num(marketPrice),fx=num(fxRate,p.last_fx);if(!(market>0&&fx>0))return false;"
+          new="const p=s.positions[i],c=s.config,market=num(marketPrice),requestedFx=num(fxRate,0),fx=requestedFx>0?requestedFx:num(p.last_fx,0);if(!(market>0&&fx>0))return false;"
+          if old not in s: raise SystemExit('closePosition fx target not found')
+          s=s.replace(old,new,1)
+
+          p.write_text(s,encoding='utf-8')
+          PY
+          node --check src/r2-portfolio.js
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/r2-portfolio.js
+          git commit -m 'Protect held positions from transient FX feed failures' || exit 0
+          git pull --rebase origin main
+          git push origin HEAD:main
