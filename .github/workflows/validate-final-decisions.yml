@@ -1,4 +1,4 @@
-name: Validate Final Decision Engine V27.5
+name: Validate Final Decision Engine V27.5 - Post Audit
 
 on:
   workflow_dispatch:
@@ -37,7 +37,7 @@ jobs:
           out={
             'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),
             'commit':'${GITHUB_SHA}',
-            'validationTarget':'V27.5_FULL_AUDIT',
+            'validationTarget':'V27.5_FULL_AUDIT_POST_HARDENING',
             'installOk':${INSTALL}==0,
             'decisionTestsOk':${TESTS}==0,
             'dryRunOk':${DRYRUN}==0,
