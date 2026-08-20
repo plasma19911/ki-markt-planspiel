@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T09:58:20.105880+00:00",
+  "checkedAt": "2026-08-20T09:58:41.366254+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -26,7 +26,7 @@
     "configured": true,
     "online": true,
     "lastSeenAt": "2026-08-20T09:58:16.422Z",
-    "ageSeconds": 4,
+    "ageSeconds": 25,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
@@ -898,7 +898,7 @@
     "catalystGapDiscoveryV2": true,
     "sourceBudgetVersion": 21.4,
     "runtimeTradeConfig": true,
-    "finalDecisionControllerV272": true,
+    "finalDecisionControllerV273": true,
     "oneFinalActionPerSymbol": true,
     "automaticScaleUp": false,
     "automaticRepeatScaleUpBlocked": true,
@@ -908,15 +908,16 @@
     "lossExitNeedsIndependentThesisInvalidation": true,
     "portfolioRiskCaps": true,
     "antiFlipFlop": true,
-    "forwardCurveForecasting": true
+    "forwardCurveForecasting": true,
+    "lossSellInvariant": true
   },
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 0,
+    "activePositions": 6,
     "pendingEntries": 0,
-    "completedTradeOutcomes": 0,
-    "timedCheckpoints": 0,
+    "completedTradeOutcomes": 3,
+    "timedCheckpoints": 17,
     "horizonsMinutes": [
       15,
       30,
@@ -936,8 +937,136 @@
       "scoreDelta": 0
     },
     "matureTimingBuckets": 0,
-    "buckets": [],
-    "recentTiming": [],
+    "buckets": [
+      {
+        "bucket": "CHASE_NEAR_HIGH",
+        "samples15": 5,
+        "totalCheckpoints": 14,
+        "qualityPct": 0.006,
+        "winRatePct": 74,
+        "block": false,
+        "scoreDelta": 0
+      },
+      {
+        "bucket": "NORMAL_ENTRY",
+        "samples15": 1,
+        "totalCheckpoints": 3,
+        "qualityPct": -0.066,
+        "winRatePct": 30,
+        "block": false,
+        "scoreDelta": 0
+      }
+    ],
+    "recentTiming": [
+      {
+        "at": 1787219721445,
+        "symbol": "BULL.JK",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 60,
+        "pnlPct": -1.02,
+        "maePct": -1.02,
+        "mfePct": -0.08
+      },
+      {
+        "at": 1787219721445,
+        "symbol": "COCHINSHIP.NS",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 60,
+        "pnlPct": -0.05,
+        "maePct": -0.13,
+        "mfePct": 0.28
+      },
+      {
+        "at": 1787219721445,
+        "symbol": "BESI.AS",
+        "bucket": "NORMAL_ENTRY",
+        "horizonMin": 60,
+        "pnlPct": -0.05,
+        "maePct": -0.38,
+        "mfePct": 0.13
+      },
+      {
+        "at": 1787219721445,
+        "symbol": "NOKIA.HE",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 60,
+        "pnlPct": 0.29,
+        "maePct": -0.1,
+        "mfePct": 0.57
+      },
+      {
+        "at": 1787219721445,
+        "symbol": "REG1V.HE",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 60,
+        "pnlPct": 0.04,
+        "maePct": -0.24,
+        "mfePct": 0.32
+      },
+      {
+        "at": 1787218031126,
+        "symbol": "PARAS.NS",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 30,
+        "pnlPct": 0.49,
+        "maePct": -0.16,
+        "mfePct": 1.05
+      },
+      {
+        "at": 1787217925038,
+        "symbol": "BULL.JK",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 30,
+        "pnlPct": -1.02,
+        "maePct": -1.02,
+        "mfePct": -0.08
+      },
+      {
+        "at": 1787217925038,
+        "symbol": "COCHINSHIP.NS",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 30,
+        "pnlPct": 0.17,
+        "maePct": -0.13,
+        "mfePct": 0.28
+      },
+      {
+        "at": 1787217925038,
+        "symbol": "BESI.AS",
+        "bucket": "NORMAL_ENTRY",
+        "horizonMin": 30,
+        "pnlPct": 0.13,
+        "maePct": -0.38,
+        "mfePct": 0.13
+      },
+      {
+        "at": 1787217925038,
+        "symbol": "NOKIA.HE",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 30,
+        "pnlPct": 0.01,
+        "maePct": -0.1,
+        "mfePct": 0.34
+      },
+      {
+        "at": 1787217925038,
+        "symbol": "REG1V.HE",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 30,
+        "pnlPct": 0.32,
+        "maePct": 0.18,
+        "mfePct": 0.32
+      },
+      {
+        "at": 1787217201499,
+        "symbol": "PARAS.NS",
+        "bucket": "CHASE_NEAR_HIGH",
+        "horizonMin": 15,
+        "pnlPct": 0.13,
+        "maePct": -0.16,
+        "mfePct": 0.24
+      }
+    ],
     "pendingOnlyForExecutedPositions": true,
     "pendingExecutionTtlMinutes": 8,
     "proposalContaminationFixed": true
