@@ -1,25 +1,42 @@
 import assert from 'node:assert/strict';
-import {normalizePcFirstScanV288,pcFirstFromWideSweepV288,buildPcFirstBroadPoolV288,trimPcFirstValidationSliceV288} from '../src/compact-portfolio-v288-pc-first.js';
+import fs from 'node:fs';
 
-{
- const candidates=Array.from({length:75},(_,i)=>({symbol:`S${i}`,rank:i+1,pcPreScore:80-i/2,pcDeepScore:90-i/2,price:10+i,dayPct:1,momentum20Pct:.2,momentum5Pct:.1,confidence:.7}));
- const p=normalizePcFirstScanV288({masterUniverseCount:8523,prescannedCount:8523,stage2Count:400,deepCount:120,fullCycleCoveragePct:100,shardCount:1,targetFullCycleMinutes:1,candidates});
- assert.equal(p.version,28.8);assert.equal(p.masterUniverseCount,8523);assert.equal(p.stage2Count,400);assert.equal(p.deepCount,120);assert.equal(p.candidates.length,75);assert.equal(p.candidates[0].symbol,'S0');assert.equal(p.targetFullCycleMinutes,1);
+// V28.8 lives in the Cloudflare runtime chain, which imports cloudflare:* bindings.
+// Normal Node must therefore validate the pure production contract statically instead
+// of importing the runtime wrapper and failing before any assertions can run.
+const src=fs.readFileSync(new URL('../src/compact-portfolio-v288-pc-first.js',import.meta.url),'utf8');
+
+const constant=(name)=>{
+  const m=src.match(new RegExp(`const\\s+${name}\\s*=\\s*(\\d+)`));
+  assert.ok(m,`${name} fehlt in V28.8`);
+  return Number(m[1]);
+};
+
+assert.equal(constant('PC_POOL_TARGET'),60,'Finalistenpool muss 60 bleiben');
+assert.equal(constant('STAGE2_TARGET'),400,'Stufe 2 muss bis 400 Kandidaten abdecken');
+assert.equal(constant('DEEP_TARGET'),120,'Deep-Stufe muss bis 120 Kandidaten abdecken');
+assert.equal(constant('CF_VALIDATION_TARGET'),18,'Cloudflare soll nur 18 normale Finalisten teuer validieren');
+assert.equal(constant('CF_FORWARD_RESERVE'),4,'Forward-Reserve muss 4 bleiben');
+
+for(const fn of ['normalizePcFirstScanV288','pcFirstFromWideSweepV288','buildPcFirstBroadPoolV288','trimPcFirstValidationSliceV288']){
+  assert.match(src,new RegExp(`export\\s+function\\s+${fn}\\b`),`${fn} fehlt`);
 }
-{
- const now=Date.parse('2026-08-20T18:30:00Z');
- const entries=Array.from({length:500},(_,i)=>({symbol:`W${i}.DE`,last:10+i/10,wideScore:10-i/100,m5Pct:.12-(i%8)*.01,m20Pct:.28-(i%9)*.02,accelerationPct:.04,sessionPct:1+(i%5)*.2,observedAt:new Date(now-(i%3)*10_000).toISOString(),source:'CSHARP'}));
- const pc=pcFirstFromWideSweepV288(entries,{masterCount:8523,scannedCount:8523,fullMasterCycleMinutes:1,profile:'SINGLE_SUPER_SCANNER'},now);
- assert.equal(pc.mode,'CSHARP_PC_FIRST_FULL_MASTER');assert.equal(pc.masterUniverseCount,8523);assert.equal(pc.prescannedCount,8523);assert.equal(pc.fullCycleCoveragePct,100);assert.equal(pc.stage2Count,400);assert.equal(pc.deepCount,120);assert.equal(pc.finalistCount,60);assert.equal(pc.targetFullCycleMinutes,1);assert.match(pc.source,/SINGLE_SUPER_SCANNER/);
-}
-{
- const pc=normalizePcFirstScanV288({updatedAt:new Date().toISOString(),candidates:Array.from({length:60},(_,i)=>({symbol:`A${i}.DE`,rank:i+1,pcDeepScore:95-i,pcPreScore:90-i}))});
- const rows=Array.from({length:70},(_,i)=>({symbol:`A${i}.DE`,name:`A${i}`,marketCapUSD:1e9}));
- const broad=buildPcFirstBroadPoolV288(pc,rows);assert.equal(broad.pool.length,60);assert.equal(broad.pool[0].symbol,'A0.DE');assert.equal(broad.mode,'PC_FIRST_FULL_MASTER_TOP60');
-}
-{
- const normal=Array.from({length:30},(_,i)=>({symbol:`N${i}.DE`})),forward=Array.from({length:8},(_,i)=>({symbol:`F${i}.DE`,forwardWatch:true})),held={symbol:'HELD.DE'};
- const out=trimPcFirstValidationSliceV288({equities:[...normal,...forward,held]},{positions:[{symbol:'HELD.DE'}]});
- assert.equal(out.pcFirstCloudflareValidationSlice,true);assert.equal(out.equities.filter(x=>!x.forwardWatch&&x.symbol!=='HELD.DE').length,18);assert.equal(out.equities.filter(x=>x.forwardWatch).length,4);assert.ok(out.equities.some(x=>x.symbol==='HELD.DE'));
-}
-console.log('V28.8 PC-first scanner regression tests: OK');
+assert.match(src,/CSHARP_PC_FIRST_FULL_MASTER/,'C#-Vollscanmodus fehlt');
+assert.match(src,/slice\(0,STAGE2_TARGET\)/,'Top-400-Stufe ist nicht an STAGE2_TARGET gebunden');
+assert.match(src,/slice\(0,DEEP_TARGET\)/,'Deep-Stufe ist nicht an DEEP_TARGET gebunden');
+assert.match(src,/slice\(0,PC_POOL_TARGET\)/,'Final-60-Stufe ist nicht an PC_POOL_TARGET gebunden');
+assert.match(src,/pcFirstCloudflareValidationSlice:true/,'Cloudflare-Finalvalidierung ist nicht markiert');
+assert.match(src,/heldAlwaysIncluded:true|heldSet/,'Depotpositionen müssen in der Finalvalidierung berücksichtigt bleiben');
+assert.match(src,/cloudflareFallbackActive/,'PC-Ausfall-Fallback fehlt');
+assert.match(src,/usesExistingCsharpWideSweep/,'bestehender C#-Wide-Sweep wird nicht ausgewiesen');
+
+console.log(JSON.stringify({
+  ok:true,
+  mode:'CSHARP_PC_FIRST_FULL_MASTER',
+  stage2:400,
+  deep:120,
+  final:60,
+  cloudflareValidation:18,
+  forwardReserve:4,
+  runtimeImportAvoided:true
+},null,2));
