@@ -1,0 +1,56 @@
+name: Update Hauptversammlungs-Kalender
+
+on:
+  schedule:
+    - cron: '25 4 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/update-agm-calendar.mjs'
+      - 'src/agm-opportunity-scoring.js'
+      - '.github/workflows/update-agm-calendar.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: agm-calendar-daily
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build current AGM calendar and profit-outlook base scores
+        run: node scripts/update-agm-calendar.mjs
+      - name: Validate generated calendar
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const j=JSON.parse(fs.readFileSync('public/agm-calendar.json','utf8'));
+          if(!Array.isArray(j.events))throw new Error('agm-calendar.json events fehlt');
+          for(const x of j.events){
+            if(!/^\d{4}-\d{2}-\d{2}$/.test(String(x.date||'')))throw new Error(`Ungültiges HV-Datum: ${x.date}`);
+            if(!x.symbol||!x.name)throw new Error('Gematchter HV-Eintrag ohne Symbol/Name');
+            const s=Number(x.baseScore);if(!Number.isFinite(s)||s<0||s>100)throw new Error(`Ungültiger HV-Score ${s}`);
+          }
+          console.log(`HV-Kalender OK: ${j.events.length} gematchte kommende Termine`);
+          NODE
+      - name: Commit daily calendar when changed
+        run: |
+          if git diff --quiet -- public/agm-calendar.json; then
+            echo 'Keine Kalenderänderung.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/agm-calendar.json
+          git commit -m 'Daily AGM calendar refresh'
+          git pull --rebase origin main
+          git push origin HEAD:main
