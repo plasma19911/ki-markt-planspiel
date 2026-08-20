@@ -4,7 +4,7 @@ const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
 const key=x=>String(x?.symbol||x||'').toUpperCase();
 const responseText=r=>String(r?.response||r?.result?.response||'');
-const HEADERS={'accept':'application/json','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/CandleFlowV2.1)'};
+const HEADERS={'accept':'application/json','user-agent':'Mozilla/5.0 (compatible; KI-Markt-Planspiel/CandleFlowV2.2)'};
 const MAX_CHECKS=5;
 
 function parsePlan(r){const raw=responseText(r),a=raw.indexOf('{'),b=raw.lastIndexOf('}');if(a<0||b<=a)return null;try{const j=JSON.parse(raw.slice(a,b+1));return Array.isArray(j.actions)?j:null}catch{return null}}
@@ -67,12 +67,17 @@ function flowReason(f){if(!f)return'kein frischer Kerzencheck';return`Käufer ${
 function sellerConfirmed(f,x,{proactive=false}={}){
  if(!f)return false;
  const ambiguousBase=f.baseFormed&&f.buyerShare>=f.sellerShare&&!f.bearEngulf;
- const dominant=f.sellerShare>=.56&&f.sellerShare>f.buyerShare*1.10;
- const reversal=f.bearEngulf&&(f.fallingCloses>=2||f.lowerHighs>=3);
- const structural=f.topFormed&&f.redVolumeLead&&f.lowerHighs>=3&&f.fallingCloses>=2&&f.sellerShare>=.49;
+ const dominant=f.sellerShare>=.54&&f.sellerShare>f.buyerShare*1.07;
+ const reversal=f.bearEngulf&&(f.fallingCloses>=2||f.lowerHighs>=2);
+ const structural=f.topFormed&&f.redVolumeLead&&f.lowerHighs>=2&&f.fallingCloses>=2&&f.sellerShare>=.48;
  const tapeWeak=f.structureUp<0||x.accel<0||['EXHAUSTION','REVERSAL'].includes(x.state);
- const quality=f.exitQuality>(proactive?4.0:3.0);
- return !ambiguousBase&&f.sellerTakeover&&quality&&tapeWeak&&(dominant||reversal||structural);
+ const quality=f.exitQuality>(proactive?2.2:2.8);
+ return !ambiguousBase&&quality&&tapeWeak&&((f.sellerTakeover&&(dominant||reversal||structural))||(proactive&&f.buyerWeakening&&f.sellerShare>=.50&&f.lowerHighs>=2));
+}
+function earlyBuyAllowed(f,x,dip){
+ if(!f||f.sellerTakeover||x.state==='REVERSAL'||x.sell==='STRONG')return false;
+ const tapeUp=x.accel>=0&&x.m5>=.02&&(x.m20>=0||dip),buyersNotLosing=f.buyerShare>=.46&&f.bear3<3;
+ return tapeUp&&buyersNotLosing&&(f.higherLows>=1||f.risingCloses>=2||f.sellerWeakening||f.greenVolumeLead);
 }
 
 async function postProcess(r,input){
@@ -85,27 +90,28 @@ async function postProcess(r,input){
   const act=String(a?.action||'').toUpperCase(),s=key(a);actionSymbols.add(s);if(!['BUY','SELL'].includes(act)||!checks.has(s)){out.push(a);continue}
   const c={...(cMap.get(s)||{}),...(hMap.get(s)||{})},check=checks.get(s),f=check?.flow,hard=classifyHardExit(c,a).hard;
   if(act==='SELL'){
-   if(hard){out.push({...a,reason:`${String(a?.reason||'').slice(0,270)} · CANDLE-FLOW V2.1: harter Risikoexit; keine Minutenregel.`});continue}
-   if(!f){out.push({symbol:s,action:'HOLD',confidence:clamp(num(a?.confidence,.65),.56,.82),allocation_pct:0,reason:`CANDLE-FLOW HOLD: Verkauf ohne frische Käufer-/Verkäuferkerzen wird nicht ausgeführt (${check?.error||'keine Daten'}).`});notes.push(`${s} SELL ohne Kerzendaten gestoppt`);continue}
-   const x=tape(c),confirmed=sellerConfirmed(f,x);
-   if(!confirmed){out.push({symbol:s,action:'HOLD',confidence:clamp(num(a?.confidence,.68),.58,.84),allocation_pct:0,reason:`CANDLE-FLOW HOLD: Verkäuferdominanz noch nicht eindeutig. ${flowReason(f)} · Exit-Qualität ${f.exitQuality.toFixed(1)}. Gemischte Boden-/Topbilder werden nicht vorschnell verkauft.`});notes.push(`${s} gehalten – Verkäufer nicht eindeutig dominant`);continue}
-   out.push({...a,confidence:clamp(Math.max(num(a?.confidence,.65),.70+Math.max(0,f.sellerShare-f.buyerShare)*.35),.58,.92),reason:`${String(a?.reason||'').slice(0,225)} · CANDLE-FLOW SELL V2.1: Verkäuferdominanz eindeutig, Exit-Qualität ${f.exitQuality.toFixed(1)}. ${flowReason(f)} · Haltedauer irrelevant.`});continue
+   if(hard){out.push({...a,reason:`${String(a?.reason||'').slice(0,270)} · CANDLE-FLOW V2.2: harter Risikoexit; keine Minutenregel.`});continue}
+   if(!f){out.push({...a,confidence:clamp(num(a?.confidence,.66),.58,.82),reason:`${String(a?.reason||'').slice(0,260)} · CANDLE-FLOW V2.2: keine frischen Kerzen (${check?.error||'keine Daten'}); vorhandenes SELL wird nicht blind blockiert.`});notes.push(`${s} SELL trotz fehlender Kerzendaten nicht blockiert`);continue}
+   const x=tape(c),confirmed=sellerConfirmed(f,x),earlyWeak=f.buyerWeakening&&f.sellerShare>=.49&&x.accel<0&&(f.lowerHighs>=2||f.fallingCloses>=2);
+   if(!confirmed&&!earlyWeak){const buyersClearlyStrong=f.buyerTakeover&&f.buyerShare>=.56&&f.structureUp>0;if(buyersClearlyStrong){out.push({symbol:s,action:'HOLD',confidence:clamp(num(a?.confidence,.68),.58,.84),allocation_pct:0,reason:`CANDLE-FLOW HOLD: SELL wird nur gestoppt, weil Käufer aktuell klar dominieren. ${flowReason(f)}.`});notes.push(`${s} SELL wegen klarer Käuferdominanz gestoppt`);continue}}
+   out.push({...a,confidence:clamp(Math.max(num(a?.confidence,.65),earlyWeak?.70:.72+Math.max(0,f.sellerShare-f.buyerShare)*.30),.58,.92),reason:`${String(a?.reason||'').slice(0,225)} · CANDLE-FLOW SELL V2.2: ${confirmed?'Verkäuferstruktur bestätigt':'frühe kombinierte Schwäche – nicht auf Vollbestätigung warten'} · Exit-Qualität ${f.exitQuality.toFixed(1)} · ${flowReason(f)}.`});continue
   }
   if(act==='BUY'){
-   if(!f){out.push({symbol:s,action:'HOLD',confidence:.64,allocation_pct:0,reason:`CANDLE-FLOW WAIT: Einstieg wartet auf frische Käufer-/Verkäuferkerzen (${check?.error||'keine Daten'}).`});notes.push(`${s} BUY ohne Kerzendaten gestoppt`);continue}
-   const dip=dipContext(c),x=tape(c),buyersConfirmed=f.buyerTakeover&&!f.sellerTakeover&&f.dipQuality>1.9,earlyAbsorption=dip&&f.sellerWeakening&&f.buyerAbsorption&&f.dipQuality>1.3&&x.accel>=0;
-   if(!(buyersConfirmed||earlyAbsorption)){out.push({symbol:s,action:'HOLD',confidence:.65,allocation_pct:0,reason:`CANDLE-FLOW DIP-WAIT: Boden noch nicht gut genug bestätigt. ${flowReason(f)} · Dip-Qualität ${f.dipQuality.toFixed(1)}. Nicht nur wegen gefallenem Kurs kaufen.`});notes.push(`${s} wartet auf bessere Bodenbildung`);continue}
-   const strength=clamp(.62+Math.max(0,f.net)*.75+Math.max(0,f.dipQuality)*.055+(f.sellerWeakening?.10:0)+(f.bullEngulf?.10:0),.58,1.12),old=Math.max(1,num(a?.allocation_pct)),scaled=dip?old*strength:old*Math.min(.55,strength*.55);
-   out.push({...a,allocation_pct:+clamp(scaled,1,35).toFixed(2),confidence:clamp(Math.max(num(a?.confidence,.62),.62+Math.max(0,f.net)*.28+Math.max(0,f.dipQuality)*.018),.58,.89),reason:`${String(a?.reason||'').slice(0,205)} · CANDLE-FLOW BUY: ${dip?'Dip/Boden mit Käuferübernahme':'kein klassischer Dip, deshalb klein'} · Dip-Qualität ${f.dipQuality.toFixed(1)} · ${flowReason(f)}.`});continue
+   const x=tape(c),dip=dipContext(c),old=Math.max(1,num(a?.allocation_pct));
+   if(!f){const starter=clamp(old*.55,6,14);out.push({...a,allocation_pct:+starter.toFixed(2),confidence:clamp(num(a?.confidence,.64),.58,.78),reason:`${String(a?.reason||'').slice(0,220)} · CANDLE-FLOW V2.2: keine frischen Kerzen (${check?.error||'keine Daten'}); starker Modell-BUY bleibt als kleine Starterposition ${starter.toFixed(1)}% bestehen.`});notes.push(`${s} BUY ohne Kerzendaten als Starter beibehalten`);continue}
+   const buyersConfirmed=f.buyerTakeover&&!f.sellerTakeover&&f.dipQuality>1.7,earlyAbsorption=dip&&f.sellerWeakening&&f.buyerAbsorption&&f.dipQuality>1.1&&x.accel>=0,early=earlyBuyAllowed(f,x,dip);
+   if(!(buyersConfirmed||earlyAbsorption||early)){out.push({symbol:s,action:'HOLD',confidence:.64,allocation_pct:0,reason:`CANDLE-FLOW WAIT: nur bei echter Gegenstruktur gestoppt. ${flowReason(f)} · Dip-Qualität ${f.dipQuality.toFixed(1)}.`});notes.push(`${s} BUY wegen echter Gegenstruktur gestoppt`);continue}
+   const strength=clamp(.62+Math.max(0,f.net)*.75+Math.max(0,f.dipQuality)*.055+(f.sellerWeakening?.10:0)+(f.bullEngulf?.10:0),.52,1.12),scaled=(buyersConfirmed||earlyAbsorption)?old*strength:old*.55;
+   out.push({...a,allocation_pct:+clamp(scaled,6,35).toFixed(2),confidence:clamp(Math.max(num(a?.confidence,.62),early?.64:.62+Math.max(0,f.net)*.28+Math.max(0,f.dipQuality)*.018),.58,.89),reason:`${String(a?.reason||'').slice(0,205)} · CANDLE-FLOW BUY V2.2: ${buyersConfirmed||earlyAbsorption?'Bestätigung vorhanden':'früher Einstieg vor Vollbestätigung'} · ${flowReason(f)}.`});continue
   }
  }
  for(const s of riskHeld){
   if(actionSymbols.has(s))continue;const h=hMap.get(s)||{},f=checks.get(s)?.flow,x=tape(h);if(!f)continue;
-  const hard=classifyHardExit(h,{}).hard,confirmed=sellerConfirmed(f,x,{proactive:true});
-  if(hard||confirmed){out.push({symbol:s,action:'SELL',confidence:hard?.88:clamp(.72+Math.max(0,f.sellerShare-f.buyerShare)*.35,.72,.91),allocation_pct:0,reason:hard?`CANDLE-FLOW PROACTIVE HARD-SELL: echter harter Event-/Kursbruch; Haltedauer irrelevant.`:`CANDLE-FLOW PROACTIVE SELL V2.1: eindeutige Verkäuferdominanz unabhängig von der Haltedauer · Exit-Qualität ${f.exitQuality.toFixed(1)} · ${flowReason(f)}.`});notes.push(`${s} proaktiv wegen eindeutiger Verkäuferdominanz zum SELL`)}
+  const hard=classifyHardExit(h,{}).hard,confirmed=sellerConfirmed(f,x,{proactive:true}),earlyWeak=f.buyerWeakening&&f.sellerShare>=.50&&x.accel<0&&(f.lowerHighs>=2||f.fallingCloses>=2);
+  if(hard||confirmed||earlyWeak){out.push({symbol:s,action:'SELL',confidence:hard?.88:clamp(earlyWeak?.70:.72+Math.max(0,f.sellerShare-f.buyerShare)*.35,.68,.91),allocation_pct:0,reason:hard?`CANDLE-FLOW PROACTIVE HARD-SELL: echter harter Event-/Kursbruch; Haltedauer irrelevant.`:`CANDLE-FLOW PROACTIVE SELL V2.2: ${confirmed?'Verkäuferdominanz bestätigt':'frühe kombinierte Schwäche erkannt'} · Exit-Qualität ${f.exitQuality.toFixed(1)} · ${flowReason(f)}.`});notes.push(`${s} proaktiv zum SELL – nicht auf Vollbestätigung warten`)}
  }
  plan.actions=out;
- if(notes.length)plan.summary=`${String(plan.summary||'').slice(0,140)} · CANDLE-FLOW V2.1: ${notes.slice(0,3).join(' · ')}. Keine Minutenregel fuer SELL.`;
+ if(notes.length)plan.summary=`${String(plan.summary||'').slice(0,140)} · CANDLE-FLOW V2.2: ${notes.slice(0,3).join(' · ')}. Frühe valide Einstiege/Exits dürfen handeln.`;
  return{...r,response:JSON.stringify(plan)};
 }
 
