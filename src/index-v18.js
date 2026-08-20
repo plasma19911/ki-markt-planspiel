@@ -26,7 +26,7 @@ const json=(x,status=200)=>Response.json(x,{status,headers:{'cache-control':'no-
 // Fremde Cross-Site-Browseraufrufe werden blockiert. Start/Reset sind zusaetzlich
 // destruktiv und akzeptieren ohne Passwort nur echte Same-Origin-Browser-Metadaten;
 // fuer bewusstes CLI gibt es den expliziten, nicht geheimen Bestaetigungsheader.
-const GUARDED_PATHS=new Set(['/api/start','/api/stop','/api/reset','/api/scan','/api/migrate-from-old-sql']);
+const GUARDED_PATHS=new Set(['/api/start','/api/stop','/api/reset','/api/scan','/api/migrate-from-old-sql','/api/runtime-trade-config','/api/runtime-trade-config/reset']);
 const DESTRUCTIVE_PATHS=new Set(['/api/start','/api/reset']);
 function needsGuard(url,method){return method==='POST'&&GUARDED_PATHS.has(url.pathname)}
 function browserOriginAllowed(request,url){
@@ -56,6 +56,15 @@ export default{
   const url=new URL(request.url);
   const blocked=controlGuard(request,url);
   if(blocked)return blocked;
+  if(url.pathname==='/api/runtime-trade-config'&&request.method==='GET'){
+   try{return json({ok:true,config:await portfolio(env).runtimeTradeConfig(),deployRequired:false,applies:'next AI decision / next scan'})}catch(e){return json({error:String(e?.message||e)},500)}
+  }
+  if(url.pathname==='/api/runtime-trade-config'&&request.method==='POST'){
+   try{const body=await request.json().catch(()=>({})),result=await portfolio(env).setRuntimeTradeConfig(body);return json(result,result?.ok===false?500:200)}catch(e){return json({error:String(e?.message||e)},500)}
+  }
+  if(url.pathname==='/api/runtime-trade-config/reset'&&request.method==='POST'){
+   try{const result=await portfolio(env).resetRuntimeTradeConfig();return json(result,result?.ok===false?500:200)}catch(e){return json({error:String(e?.message||e)},500)}
+  }
   if(url.pathname==='/api/position-chart'&&request.method==='GET'){
    try{const data=await positionChartHistoryData(portfolio(env),url);return json(data,data.status||200)}catch(e){return json({error:String(e?.message||e)},500)}
   }
