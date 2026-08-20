@@ -31,6 +31,8 @@ function sellerShare(c={}){
 }
 function metrics(c={}){
  return{
+  score:num(c?.liveScore??c?.score,0),
+  confidence:num(c?.liveConfidence??c?.confidence,0),
   m5:num(c?.intraday5m??c?.momentum5,0),
   m20:num(c?.intraday20m??c?.momentum20,0),
   accel:num(c?.momentumAcceleration5??c?.momentum_acceleration5,0),
