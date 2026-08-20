@@ -2,6 +2,7 @@ const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=null)=>Number.isFinite(Number(v))?Number(v):d;
 const key=v=>String(v?.symbol||v||'').toUpperCase().trim();
 const responseText=r=>String(r?.response||r?.result?.response||'');
+const v273=s=>String(s??'').replace(/FINAL-CONTROLLER V27\.(?:1|2)/g,'FINAL-CONTROLLER V27.3');
 
 function parsePlan(r){
  const raw=responseText(r),a=raw.indexOf('{'),b=raw.lastIndexOf('}');
@@ -52,20 +53,21 @@ export function enforceLossSellInvariant(plan,state={}){
  const candidates=new Map(arr(state?.candidates).map(c=>[key(c),c]));
  let blocked=0;
  const actions=plan.actions.map(a=>{
-  if(String(a?.action||'').toUpperCase()!=='SELL')return a;
-  const s=key(a),p=positions.get(s);if(!p)return a;
-  const c={...p,...(candidates.get(s)||{})},pl=pnlPct(p,c);if(pl===null||pl>0)return a;
+  const normalized={...a,reason:v273(a?.reason)};
+  if(String(a?.action||'').toUpperCase()!=='SELL')return normalized;
+  const s=key(a),p=positions.get(s);if(!p)return normalized;
+  const c={...p,...(candidates.get(s)||{})},pl=pnlPct(p,c);if(pl===null||pl>0)return normalized;
   const reason=String(a?.reason||''),m=metrics(c),external=hardExternal(c,reason),contradiction=explicitExitHold(reason),independent=strongIndependentBreak(m);
   const buyerSideStronger=m.sellers!==null&&m.sellers<50;
   const shallowLoss=pl>-1.25;
   const mustHold=!external&&(contradiction||buyerSideStronger||(shallowLoss&&!independent));
-  if(!mustHold)return a;
+  if(!mustHold)return normalized;
   blocked++;
   const sellerText=m.sellers===null?'Verkäuferanteil nicht bestätigt':`Verkäufer ${m.sellers.toFixed(0)}%`;
   return{symbol:s,action:'HOLD',confidence:Math.max(.70,num(a?.confidence,.70)),allocation_pct:0,reason:`LOSS-SELL-INVARIANT V27.3: Verlustverkauf blockiert · P/L ${pl.toFixed(2)}% · ${sellerText} · ${contradiction?'tiefere Prüfung fordert ausdrücklich HOLD':'keine ausreichend unabhängige bestätigte Verkäufer-/Strukturinvaliderung'} · kein externer Hard-Risk. Position weiter beobachten statt normalen Rücksetzer im Minus zu realisieren.`};
  });
  const suffix=blocked?` · LOSS-SELL-INVARIANT: ${blocked} unnötige(n) Verlust-SELL(s) blockiert.`:'';
- return{plan:{...plan,actions,summary:String(plan.summary||'')+suffix},blocked};
+ return{plan:{...plan,actions,summary:v273(plan.summary)+suffix},blocked};
 }
 export class LossSellInvariant{
  constructor(base,{getState=null}={}){this.base=base;this.getState=getState;}
