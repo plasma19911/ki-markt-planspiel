@@ -1,0 +1,38 @@
+name: Apply V27.5 Edge Parser Fix
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/apply-v275-edge-parser-fix.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Fix E[Move] parser against real final-controller reason format
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('src/loss-sell-invariant.js')
+          s=p.read_text(encoding='utf-8')
+          old="reason.match(/E\\[Move\\]\\s*([+-]?\\d+(?:[.,]\\d+)?)%[^·]*·[^·]*n=(\\d+)/i)"
+          new="reason.match(/E\\[Move\\]\\s*([+-]?\\d+(?:[.,]\\d+)?)%.*?n=(\\d+)/i)"
+          if old not in s: raise SystemExit('old E[Move] parser not found')
+          p.write_text(s.replace(old,new,1),encoding='utf-8')
+          PY
+          node --check src/loss-sell-invariant.js
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/loss-sell-invariant.js
+          git commit -m 'Fix V27.5 EMove sample parser' || exit 0
+          git pull --rebase origin main
+          git push origin HEAD:main
