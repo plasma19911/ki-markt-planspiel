@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T18:13:25.559212+00:00",
+  "checkedAt": "2026-08-20T18:13:40.987393+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -32,7 +32,7 @@
     "configured": true,
     "online": true,
     "lastSeenAt": "2026-08-20T18:13:14.288Z",
-    "ageSeconds": 11,
+    "ageSeconds": 26,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
@@ -921,7 +921,9 @@
     "allDecisionCandidatesScored": true,
     "controlledBetterOpportunityRotation": true,
     "calibratedActionScoreV287": true,
-    "breadthRotationV287": true
+    "breadthRotationV287": true,
+    "pcFirstFullUniverseV288": true,
+    "cloudflareFinalValidationOnlyWhenPcFresh": true
   },
   "entryTimingLearning": {
     "version": 3,
@@ -1111,7 +1113,7 @@
   },
   "finalDecisionPolicy": {
     "enabled": true,
-    "version": 28.7,
+    "version": 28.8,
     "paperTradingOnly": true,
     "mode": "SINGLE_AUTHORITATIVE_FINAL_CONTROLLER_PLUS_DETERMINISTIC_TRADE_INVARIANTS_PLUS_AGM_PREVIEW_PLUS_ADAPTIVE_TRADING_BEHAVIOR_PLUS_OPPORTUNITY_LEARNING",
     "oneFinalActionPerSymbol": true,
@@ -1202,7 +1204,7 @@
     "agmNeverBypassesNormalSafetyGates": true,
     "maxCandidatesPerDecision": 4,
     "regressionTests": "V26.3 + V26.2 + V27 + V27.1 + V27.2 + V27.3 + V27.4 + V27.5 audit + V27.6 AGM preview invariants + V27.8 adaptive-entry / held-BUY plan-only suppression / pullback-reclaim / repeated-soft-SELL / metric-clarity invariants + V27.9 fresh-news / catalyst-starter / late-impulse-memory / reclaim / missed-opportunity-learning invariants + V28.0 accelerating-setup / thesis-maturity / recovery-window / hard-risk invariants + V28.1 weighted-signal / novel-news / hard-safety / stock-only invariants",
-    "rule": "V28.7 trennt Chancenqualität von Einstiegs-Timing: fehlende Daten sind neutral, reduzieren aber die Sicherheit extremer Scores; Überdehnung wird nicht mehr von Momentum überstimmt. BUY ab 75 nach Bestätigung. SELL/Rotation nur mit frischen vollständigen Positionsdaten; Teilscore allein verkauft nie.",
+    "rule": "V28.7 trennt Chancenqualität von Einstiegs-Timing: fehlende Daten sind neutral, reduzieren aber die Sicherheit extremer Scores; Überdehnung wird nicht mehr von Momentum überstimmt. BUY ab 75 nach Bestätigung. SELL/Rotation nur mit frischen vollständigen Positionsdaten; Teilscore allein verkauft nie. V28.8 erweitert die Suche auf den gesamten PC-vorgescannten Aktien-Master; die finale Kauf/Verkauf-Entscheidung bleibt bei den kalibrierten Scores und Safety-Guards.",
     "agmScoreEvaluationOnceDaily": true,
     "agmScoreLockedUntilNextDailyRefresh": true,
     "agmDailyInputs": [
@@ -1283,7 +1285,9 @@
     "coverageShrinkage": true,
     "nonlinearChasePenalty": true,
     "partialScoresCannotAutoSell": true,
-    "broadScannerRotation": true
+    "broadScannerRotation": true,
+    "calibratedActionScoreVersion": 28.7,
+    "pcFirstScannerV288": true
   },
   "tradingBehaviorPolicy": {
     "enabled": true,
@@ -1354,7 +1358,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T18:13:24.201Z",
+      "cachedAt": "2026-08-20T18:13:35.574Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
