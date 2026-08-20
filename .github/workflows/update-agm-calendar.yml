@@ -1,18 +1,9 @@
-name: Update Hauptversammlungs-Kalender V27.6
+name: Update Hauptversammlungs-Kalender - einmal taeglich
 
 on:
   schedule:
     - cron: '25 4 * * *'
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - 'scripts/update-agm-calendar.mjs'
-      - 'scripts/enrich-agm-calendar-estimates.mjs'
-      - 'src/agm-opportunity-scoring.js'
-      - 'src/agm-runtime.js'
-      - 'tests/v276-agm-preview.test.mjs'
-      - '.github/workflows/update-agm-calendar.yml'
 
 permissions:
   contents: write
@@ -24,36 +15,48 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Verify V27.6 AGM scoring rules
+      - name: Verify AGM scoring rules
         run: node tests/v276-agm-preview.test.mjs
-      - name: Build current AGM calendar and profit-outlook base scores
+      - name: Build current AGM calendar
         run: node scripts/update-agm-calendar.mjs
       - name: Enrich matched AGM firms with finanzen.net earnings estimates
         run: node scripts/enrich-agm-calendar-estimates.mjs
-      - name: Validate generated calendar
+      - name: Evaluate AGM calendar exactly once for this daily run
+        run: node scripts/score-agm-calendar-daily.mjs
+      - name: Validate generated daily calendar
         run: |
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const j=JSON.parse(fs.readFileSync('public/agm-calendar.json','utf8'));
           if(!Array.isArray(j.events))throw new Error('agm-calendar.json events fehlt');
           if(Number(j.modelVersion)!==27.6)throw new Error(`Falsche AGM-Modellversion ${j.modelVersion}`);
+          if(j.scoreEvaluationCadence!=='daily')throw new Error(`Falsche Bewertungsfrequenz ${j.scoreEvaluationCadence}`);
+          if(j.scoreReevaluation!=='once daily only')throw new Error(`Score wird nicht als Tages-Snapshot markiert: ${j.scoreReevaluation}`);
           for(const x of j.events){
-            if(!/^\d{4}-\d{2}-\d{2}$/.test(String(x.date||'')))throw new Error(`Ungültiges HV-Datum: ${x.date}`);
+            if(!/^\d{4}-\d{2}-\d{2}$/.test(String(x.date||'')))throw new Error(`Ungueltiges HV-Datum: ${x.date}`);
             if(!x.symbol||!x.name)throw new Error('Gematchter HV-Eintrag ohne Symbol/Name');
-            const s=Number(x.baseScore);if(!Number.isFinite(s)||s<0||s>100)throw new Error(`Ungültiger HV-Score ${s}`);
+            const s=Number(x.baseScore);if(!Number.isFinite(s)||s<0||s>100)throw new Error(`Ungueltiger HV-Score ${s}`);
+            if(!x.scoreEvaluatedAt)throw new Error(`Kein Tages-Bewertungszeitpunkt fuer ${x.symbol}`);
           }
-          console.log(`HV-Kalender OK: raw=${j.rawUpcomingCount||0}, gematcht=${j.events.length}, Schätzungen=${j.fundamentalEstimateCount||0}, Stand=${j.updatedAt}`);
+          if(j.events.length>=3){
+            const scores=j.events.map(x=>Number(x.baseScore));
+            if(scores.every(s=>s===scores[0]))throw new Error(`Alle HV-Termine tragen denselben Score ${scores[0]} - Tagesdaten pruefen`);
+            const covered=j.events.filter(x=>x.dataQuality&&(x.dataQuality.zahlen||x.dataQuality.chart||x.dataQuality.news)).length;
+            if(covered<Math.ceil(j.events.length*.5))throw new Error(`Zu wenige HV-Termine mit echten Tagessignalen (${covered}/${j.events.length})`);
+          }
+          const sc=j.events.map(x=>Number(x.baseScore));
+          console.log(`HV-Kalender Tagesbewertung OK: raw=${j.rawUpcomingCount||0}, gematcht=${j.events.length}, Zahlen=${j.fundamentalEstimateCount||0}, Charts=${j.chartProfileCount||0}, News=${j.newsProfileCount||0}, Score ${sc.length?Math.min(...sc):'-'}-${sc.length?Math.max(...sc):'-'}, Stand=${j.updatedAt}`);
           NODE
       - name: Commit daily calendar when changed
         run: |
           if git diff --quiet -- public/agm-calendar.json; then
-            echo 'Keine Kalenderänderung.'
+            echo 'Keine Kalenderaenderung.'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
