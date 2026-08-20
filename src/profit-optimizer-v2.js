@@ -1,20 +1,17 @@
 import {ProfitOptimizerAiGuard} from './profit-optimizer.js';
 import {getEntryTimingAdjustment} from './live-signal-learning.js';
 import {targetVenueIssue} from './target-venue-ai-guard.js';
-import {scaleUpAllocation} from './position-scale-up.js';
 
-// V2 sitzt direkt um den bestehenden Profit-Optimizer. Der Capital-in-Motion-Modus
-// haelt verfuegbares Paper-Cash grundsaetzlich investiert und rotiert schwache
-// Positionen aktiv in bessere Setups. Harte Event-/Reversal-/Venue-/Daten-/Lern-
-// Sperren bleiben bestehen; "immer investiert" ist kein Freibrief fuer unsichere Trades.
+// V2 sitzt direkt um den bestehenden Profit-Optimizer. Automatische Aufstockungen
+// bestehender Positionen sind bewusst komplett deaktiviert. Bestandspositionen duerfen
+// nur HOLD oder SELL werden; neues Paper-Cash wird nur auf neue, separat validierte
+// Kandidaten verteilt. Harte Event-/Reversal-/Venue-/Daten-/Lern-Sperren bleiben bestehen.
 
 export const SECOND_CHANCE_MIN_EXPECTED=5.7;
 export const QUALIFIED_MIN_EXPECTED=4.7;
 export const CAPITAL_MOTION_MIN_EXPECTED=3.0;
 export const ROTATION_MIN_GAP=0.8;
 const LOSS_ROTATION_MIN_GAP=0.45;
-const MAX_SCALE_UP_CASH_PER_DECISION_PCT=15;
-const MAX_PARALLEL_SCALE_UP_CASH_PCT=6;
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
@@ -27,7 +24,6 @@ function findPlanMessage(input){for(let i=0;i<arr(input?.messages).length;i++){c
 function badEvidence(c){return/(?:Infinity|NaN|undefined)/i.test([...arr(c?.pro),...arr(c?.contra),c?.reason].join(' '))}
 function promptCash(text){const m=String(text||'').match(/\bCash\s+([0-9]+(?:[.,][0-9]+)?)/i);return m?num(String(m[1]).replace(',','.')):0}
 function heldAgeMinutes(h={}){if(Number.isFinite(Number(h?.ageMinutes)))return Math.max(0,Number(h.ageMinutes));const t=Date.parse(String(h?.opened_at||h?.openedAt||''));return Number.isFinite(t)?Math.max(0,(Date.now()-t)/60000):999}
-function heldScaleAgeMinutes(h={}){if(Number.isFinite(Number(h?.minutesSinceAdd)))return Math.max(0,Number(h.minutesSinceAdd));const t=Date.parse(String(h?.last_added_at||h?.lastAddedAt||h?.opened_at||h?.openedAt||''));return Number.isFinite(t)?Math.max(0,(Date.now()-t)/60000):999}
 function heldPnlPct(h={}){for(const v of [h?.pnlPct,h?.pnl_pct,h?.pnl])if(Number.isFinite(Number(v)))return Number(v);return 0}
 
 function metrics(c={},storage=null){
@@ -79,22 +75,7 @@ export function shouldRotateCapital({current={},alternative={},ageMinutes=999,pn
  return num(alternative?.expected)>=CAPITAL_MOTION_MIN_EXPECTED&&(gap>=threshold||(degrading&&gap>=.55));
 }
 
-function scaleUpActions(held,cMap,{cash,storage,sellSet}={}){
- const capital=Math.max(.01,num(cash)+arr(held).reduce((a,h)=>a+Math.max(0,num(h?.invested)),0)),raw=[];
- for(const h of arr(held)){
-  const symbol=key(h);if(!symbol||sellSet?.has(symbol))continue;const c=cMap.get(symbol);if(!c)continue;
-  const qualified=evaluateQualifiedBest(c,storage),second=evaluateSecondChance(c,storage),p=scaleUpAllocation({cash,capital,invested:num(h?.invested),pnlPct:heldPnlPct(h),minutesSinceAdd:heldScaleAgeMinutes(h),qualified:qualified.confirmed,secondChance:second.confirmed});
-  if(!p.allowed)continue;const tier=second.confirmed?'SECOND_CHANCE':'QUALIFIED',expected=Math.max(second.confirmed?second.expected:0,qualified.confirmed?qualified.expected:0);
-  raw.push({symbol,allocation_pct:p.allocationPct,confidence:clamp(.54+expected*.045,.58,.88),reason:`STARTER-AUSBAU ${tier}: Position erneut bestätigt · Erwartungswert ${expected.toFixed(2)} · ${p.reason} · neue Tranche max. ${p.allocationPct.toFixed(1)}% des freien Cashs`,expected,targetPositionPct:p.targetPositionPct});
- }
- raw.sort((a,b)=>b.expected-a.expected);const sum=raw.reduce((a,x)=>a+num(x.allocation_pct),0),scale=sum>MAX_SCALE_UP_CASH_PER_DECISION_PCT?MAX_SCALE_UP_CASH_PER_DECISION_PCT/sum:1;
- return raw.map(x=>({symbol:x.symbol,action:'BUY',confidence:x.confidence,allocation_pct:+(x.allocation_pct*scale).toFixed(4),reason:x.reason})).filter(x=>x.allocation_pct>=2);
-}
-
-export function buildConfirmedScaleUpActions(held=[],candidates=[],{cash=0,storage=null,sellSymbols=[]}={}){
- const cMap=new Map(arr(candidates).map(c=>[key(c),c])),sellSet=new Set(arr(sellSymbols).map(key));
- return scaleUpActions(held,cMap,{cash,storage,sellSet});
-}
+export function buildConfirmedScaleUpActions(){return[]}
 
 function postProcess(r,input,storage){
  const plan=parsePlan(r),hit=findPlanMessage(input);if(!plan||!hit)return r;
@@ -116,20 +97,17 @@ function postProcess(r,input,storage){
   return{...r,response:JSON.stringify(plan)};
  }
 
- const availableScaleUps=scaleUpActions(held,cMap,{cash,storage,sellSet});
  const alloc=buildCapitalMotionAllocations(candidates.filter(c=>!heldSet.has(key(c))),storage);
  if(!alloc.length){
-  if(availableScaleUps.length){const buySymbols=new Set(availableScaleUps.map(key)),total=availableScaleUps.reduce((a,b)=>a+num(b.allocation_pct),0);plan.actions=[...sells,...availableScaleUps,...holds.filter(h=>!sellSet.has(key(h))&&!buySymbols.has(key(h)))];plan.summary=`${String(plan.summary||'').slice(0,165)} · STARTER-AUSBAU: ${availableScaleUps.length} erneut bestätigte Position(en), zusammen max. ${total.toFixed(1)}% des freien Cashs; neue Kandidaten hatten keinen Vorrang-Setup.`;return{...r,response:JSON.stringify(plan)}}
   plan.actions=[...sells,...holds.filter(h=>!sellSet.has(key(h)))];
-  plan.summary=`${String(plan.summary||'').slice(0,180)} · CAPITAL-IN-MOTION: weder neuer Kandidat noch bestehender Starter bestand die harten Ausbau-/Mindest-Sicherheitsregeln; Cash bleibt frei.`;
+  plan.summary=`${String(plan.summary||'').slice(0,180)} · AUTOMATISCHE AUFSTOCKUNG AUS: kein neuer Kandidat bestand die harten Mindest-Sicherheitsregeln; bestehende Positionen werden nicht vergrößert und Cash bleibt frei.`;
   return{...r,response:JSON.stringify(plan)};
  }
- const buys=alloc.map(a=>({symbol:a.symbol,action:'BUY',confidence:clamp(.50+a.expected*.045,.54,.86),allocation_pct:a.allocation_pct,reason:`CAPITAL-IN-MOTION ${a.tier}: bestes aktuell hart-sicheres Setup · Erwartungswert ${a.expected.toFixed(2)} · verfuegbares Cash aktiv eingesetzt · Zielanteil ${a.allocation_pct.toFixed(1)}%`}));
- const parallelScaleUps=availableScaleUps.slice(0,1).map(a=>({...a,allocation_pct:+Math.min(MAX_PARALLEL_SCALE_UP_CASH_PCT,num(a.allocation_pct)).toFixed(4),reason:`${a.reason} · PARALLEL-AUSBAU: neuer Kandidat hat Vorrang; bestehender Starter erhaelt daneben hoechstens ${MAX_PARALLEL_SCALE_UP_CASH_PCT}% des freien Cashs.`})).filter(a=>a.allocation_pct>=2);
- const buySymbols=new Set([...buys,...parallelScaleUps].map(key));
- plan.actions=[...sells,...buys,...parallelScaleUps,...holds.filter(h=>!sellSet.has(key(h))&&!buySymbols.has(key(h)))];
- const total=buys.reduce((a,b)=>a+num(b.allocation_pct),0),scaleTotal=parallelScaleUps.reduce((a,b)=>a+num(b.allocation_pct),0),top=alloc[0];
- plan.summary=`${String(plan.summary||'').slice(0,150)} · CAPITAL-IN-MOTION: ${total.toFixed(0)}% Plan-Cash auf ${buys.length} neue hart-sichere Aktie(n); Top ${top.symbol} ${top.expected.toFixed(2)}${scaleTotal?` · parallel ${scaleTotal.toFixed(1)}% bestätigter Starter-Ausbau`:''}; aktive Rotation=${sells.length>0?'ja':'nein'}.`;
+ const buys=alloc.map(a=>({symbol:a.symbol,action:'BUY',confidence:clamp(.50+a.expected*.045,.54,.86),allocation_pct:a.allocation_pct,reason:`CAPITAL-IN-MOTION ${a.tier}: bestes aktuell hart-sicheres neues Setup · Erwartungswert ${a.expected.toFixed(2)} · Zielanteil ${a.allocation_pct.toFixed(1)}%`}));
+ const buySymbols=new Set(buys.map(key));
+ plan.actions=[...sells,...buys,...holds.filter(h=>!sellSet.has(key(h))&&!buySymbols.has(key(h)))];
+ const total=buys.reduce((a,b)=>a+num(b.allocation_pct),0),top=alloc[0];
+ plan.summary=`${String(plan.summary||'').slice(0,150)} · CAPITAL-IN-MOTION: ${total.toFixed(0)}% Plan-Cash auf ${buys.length} neue hart-sichere Aktie(n); Top ${top.symbol} ${top.expected.toFixed(2)} · automatische Aufstockung bestehender Positionen AUS; aktive Rotation=${sells.length>0?'ja':'nein'}.`;
  return{...r,response:JSON.stringify(plan)};
 }
 
