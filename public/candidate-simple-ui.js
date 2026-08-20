@@ -1,5 +1,3 @@
-import './research-score-ui.js';
-
 // Vereinfacht die Kandidaten-Tabelle fuer die normale Nutzung.
 // Alte interne Scanner-Scores bleiben verborgen; der V28.1 Research-Fusion-Score
 // wird separat sichtbar angezeigt und von dieser Kurzansicht nicht entfernt.
@@ -79,5 +77,4 @@ function simplify(){
 }
 
 installStyle();simplify();
-if(body){const obs=new MutationObserver(()=>requestAnimationFrame(simplify));obs.observe(body,{childList:true,subtree:true,characterData:true})}
 document.addEventListener('planspiel:status',()=>requestAnimationFrame(simplify));

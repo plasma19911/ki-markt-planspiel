@@ -30,7 +30,7 @@ function policyMaps(status={}){
 }
 
 function scoreHtml(row,{compact=false}={}){
- const score=num(row?.fusionScore),t=tier(score,Boolean(row?.hardBlocked));
+ const score=num(row?.fusionScore),t=tier(score,Boolean(row?.hardBlocked));if(row?.partial)t.label='Teilscore';
  const shown=Number.isFinite(score)?Math.round(score):'–';
  const title=Number.isFinite(score)?`Research-Fusion ${score.toFixed(1)}/100. Der Wert bündelt Qualität, Sicherheit, Momentum, Reclaim, Volumen, News, Multi-Scan, Marktregime und Forward-Lernen.`:'Für diesen Wert wurde im aktuellen/letzten Research-Lauf noch kein Research-Score gespeichert.';
  return `<span class="v283Research ${t.cls}${compact?' compact':''}" title="${esc(title)}"><b>Research ${shown}</b><small>${esc(t.label)}</small></span>`;
@@ -103,6 +103,7 @@ function updateHours(){
 }
 
 const changelogEntries=[
+ {at:'20.08.2026 · 18:55',title:'V28.5 · Live-Score, Minutentakt & Chart-Transparenz',items:['Research-Score ist Bestandteil der schlanken Dashboard-Antwort; kein zweiter Statusabruf nötig.','Bereits vor V28.1 eröffnete Positionen zeigen einen gekennzeichneten Teilscore statt dauerhaft Research –. Vollständige Research-Werte ersetzen ihn automatisch, sobald vorhanden.','Cloudflare prüft nun jede Minute und füllt Scan-Lücken nach etwa 95 Sekunden, falls der PC-Agent hängt.','Dashboard-Polling und Cache wurden verkürzt; globale DOM-Beobachter entfernt.','Kapitalchart zeigt Scan-Punkte auch bei unverändertem Depotwert und erklärt eine flache Kursphase statt sie wie einen ausgefallenen Scanner wirken zu lassen.']},
  {at:'20.08.2026 · 18:25',title:'V28.3 · Score-Anzeige, Börsenzeiten und Main=Live abgesichert',items:['Die sichtbare Kandidaten-Bewertung verwendet jetzt den Research-Fusion-Score statt des alten Scanner-Rohscores. Dadurch entsteht nicht mehr fälschlich überall „Schwach“.','Research-Score steht sichtbar direkt bei Kandidaten und offenen Positionen; fehlt noch eine Research-Messung, steht „Noch kein Score“ statt einer falschen Schwach-Bewertung.','Neue UI-Legende: 72+ Kaufbereit, 64–71 Bestätigen, 58–63 Beobachten, 40–57 Aufbau, 0–39 Schwach. Die Kaufgrenzen selbst werden dadurch nicht gelockert.','gettex-Handelszeit wird im Kopfbereich angezeigt: Mo–Fr 07:30–23:00 Europe/Berlin, Voranalyse ab 07:25; während der Börsenzeit steht LIVE bis 23:00.','Ein zusätzlicher Main-Live-Enforcer kontrolliert künftig auch Main-Änderungen außerhalb der bisherigen Deploy-Pfade, damit GitHub-Stand und Cloudflare-Live-Stand nicht wieder auseinanderlaufen.']},
  {at:'20.08.2026',title:'V28.2 · Relative Opportunity Learning',items:['Jeder geplante Kauf wird mit der besten gleichzeitig verfügbaren Alternative verglichen.','Wiederholt bessere ausgelassene Setups erzeugen Selection-Regret-Lernen und werden künftig höher priorisiert.','Profitable Positionen mit weiterhin starkem Research-Setup werden gegen weiche/noisy Profit-Exits geschützt.']},
  {at:'20.08.2026',title:'V28.1 · Research Signal Fusion',items:['Momentum, Volumen, Pullback/Reclaim, frische News, 52-Wochen-Hoch, Multi-Scan, Marktregime und Forward-Lernen werden in einem 0–100 Research-Score zusammengeführt.','Weiche Einzelbedingungen blockieren gute Chancen nicht mehr allein; echte Daten-, Venue-, Event-, starke Negativ- und Kostenrisiken bleiben Hard-Blocks.','Research-Score wird für potenzielle Käufe und aktive Positionen gespeichert.']},
@@ -117,8 +118,10 @@ function injectChangelog(){
 
 document.addEventListener('planspiel:status',e=>{latestStatus=e.detail||latestStatus;requestAnimationFrame(()=>requestAnimationFrame(applyScores));});
 document.addEventListener('click',e=>{if(e.target.closest('#changelogToggle'))setTimeout(injectChangelog,0);});
-const observer=new MutationObserver(()=>{if(applying)return;requestAnimationFrame(()=>{applyScores();injectChangelog();updateHours();});});
-observer.observe(document.documentElement,{childList:true,subtree:true});
-ensureStyles();updateHours();ensureLegends();injectChangelog();setInterval(updateHours,30_000);
+function initV285(){ensureStyles();updateHours();ensureLegends();injectChangelog();}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initV285,{once:true});else initV285();
+setInterval(updateHours,60_000);
 
-window.__V283_UI_LIVE__={version:28.3,scoreDisplay:'research-fusion',gettex:'Mo-Fr 07:30-23:00 Europe/Berlin',preopen:'07:25'};
+window.__V283_UI_LIVE__={version:28.5,scoreDisplay:'research-fusion',gettex:'Mo-Fr 07:30-23:00 Europe/Berlin',preopen:'07:25'};
+
+window.__V285_UI_LIVE__={version:28.5,eventDriven:true,scorePayload:true};

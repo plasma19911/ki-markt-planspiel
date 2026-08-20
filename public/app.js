@@ -11,7 +11,7 @@
    - Andere Module bekommen den Status per Event 'planspiel:status' statt eigenem Fetch.
 */
 
-const POLL_MS = 60_000;          // Cloudflare-Cron läuft alle 5 Min. – 60 s reichen dicke
+const POLL_MS = 30_000;          // Cloudflare-Cron läuft alle 5 Min. – 60 s reichen dicke
 const POLL_MAX_MS = 300_000;     // Obergrenze nach wiederholten Fehlern
 const STALE_SCAN_MS = 20 * 60_000;
 
@@ -130,9 +130,12 @@ function drawChart(rows, startCapital) {
   pts.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
   ctx.strokeStyle = line; ctx.lineWidth = 2.5; ctx.lineJoin = 'round'; ctx.stroke();
 
+  const step=Math.max(1,Math.ceil(pts.length/36));
+  ctx.fillStyle=line;for(let i=0;i<pts.length;i+=step){ctx.beginPath();ctx.arc(pts[i].x,pts[i].y,1.7,0,Math.PI*2);ctx.fill()}
   const end = pts.at(-1);
   ctx.beginPath(); ctx.arc(end.x, end.y, 3.5, 0, Math.PI * 2);
   ctx.fillStyle = line; ctx.fill();
+  if(Math.abs(hi0-lo0)<0.02&&values.length>1){ctx.fillStyle='#7890a6';ctx.font='10px Inter, system-ui, sans-serif';ctx.fillText(`Depotwert unverändert · ${values.length} Scanpunkte vorhanden`,left+2,bottom-3)}
 
   ctx.fillStyle = '#8fa5ba';
   ctx.font = '10px Inter, system-ui, sans-serif';

@@ -2,7 +2,7 @@
 // During gettex trading hours the UI stays minute-current; outside that window one
 // open browser tab performs at most one real status request every 10 minutes.
 // The archive loads older history only on demand instead of on every dashboard poll.
-const ACTIVE_STATUS_TTL_MS=55_000;
+const ACTIVE_STATUS_TTL_MS=25_000;
 const SLEEP_STATUS_TTL_MS=10*60*1000;
 const CLOSED_2026=new Set(['2026-01-01','2026-04-03','2026-04-06','2026-05-01','2026-12-24','2026-12-25','2026-12-31']);
 const MUTATION_PATHS=new Set(['/api/start','/api/stop','/api/reset','/api/scan','/api/migrate-from-old-sql']);

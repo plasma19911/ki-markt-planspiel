@@ -69,7 +69,7 @@ function Get-Metrics([string]$Phase){
   [ordered]@{version=$AgentVersion;hostName=$env:COMPUTERNAME;storagePath=$Root;storageBytes=(Get-DataBytes);maxStorageBytes=$MaxStorageBytes;cpuPct=(Get-CpuPercent);ramMb=[math]::Round($p.WorkingSet64/1MB,1);downloadedBytes=$script:DownloadedBytes;uploadedBytes=$script:UploadedBytes;localPhase=$Phase;agentMode='WINDOWS_HYBRID';lastLocalCleanupAt=if($script:LastCleanupAt){$script:LastCleanupAt.ToString('o')}else{$null};lastError=$script:LastError}
 }
 function Invoke-TrackedGet([string]$Url){
-  $r=Invoke-WebRequest -Uri $Url -UseBasicParsing -TimeoutSec 25 -Headers @{'User-Agent'='Mozilla/5.0 (Windows NT 10.0; Win64; x64) KI-Markt-Agent/1.0';'Accept'='text/html,application/json'}
+  $r=Invoke-WebRequest -Uri $Url -UseBasicParsing -TimeoutSec 10 -Headers @{'User-Agent'='Mozilla/5.0 (Windows NT 10.0; Win64; x64) KI-Markt-Agent/1.0';'Accept'='text/html,application/json'}
   $text=[string]$r.Content;$script:DownloadedBytes+=[Text.Encoding]::UTF8.GetByteCount($text);return $text
 }
 function Invoke-AgentPost([string]$Path,$Body){
@@ -126,15 +126,15 @@ while($true){
   try{
     $now=Get-BerlinNow;$session=Get-Session $now
     if(-not $session.trading -or $session.minute -lt 440 -or $session.minute -ge 1385){Start-Sleep -Seconds 60;continue}
-    if(([DateTime]::UtcNow-$script:LastLeaderAt).TotalMinutes -ge [double]$cfg.leaderMinutes){$script:LeaderEntries=Get-Leaders;$script:LastLeaderAt=[DateTime]::UtcNow}
-    if(([DateTime]::UtcNow-$script:LastFutureAt).TotalMinutes -ge [double]$cfg.futureMinutes){$script:FutureWatch=Build-FutureWatch;$script:LastFutureAt=[DateTime]::UtcNow}
     $metrics=Get-Metrics $session.phase
-    if($script:LeaderEntries.Count -or $script:FutureWatch){
-      $prefetch=[ordered]@{leaderUpdatedAt=$script:LastLeaderAt.ToString('o');leaderEntries=$script:LeaderEntries;futureWatch=$script:FutureWatch;metrics=$metrics};Invoke-AgentPost '/api/agent/prefetch' $prefetch|Out-Null;Save-PrefetchSnapshot $prefetch
-    }
     if($session.preopen -and $session.minute-eq 445){Invoke-AgentPost '/api/agent/scan' $metrics|Out-Null;Write-AgentLog '07:25 Vorbereitungs-Scan ausgelöst.'}
     elseif($session.preopen){Invoke-AgentPost '/api/agent/heartbeat' $metrics|Out-Null}
     elseif($session.open){$r=Invoke-AgentPost '/api/agent/scan' $metrics;Write-AgentLog "Scan: $($r.scanSource) · $($r.ok)"}
+    if(([DateTime]::UtcNow-$script:LastLeaderAt).TotalMinutes -ge [double]$cfg.leaderMinutes){$script:LeaderEntries=Get-Leaders;$script:LastLeaderAt=[DateTime]::UtcNow}
+    if(([DateTime]::UtcNow-$script:LastFutureAt).TotalMinutes -ge [double]$cfg.futureMinutes){$script:FutureWatch=Build-FutureWatch;$script:LastFutureAt=[DateTime]::UtcNow}
+    if($script:LeaderEntries.Count -or $script:FutureWatch){
+      $prefetch=[ordered]@{leaderUpdatedAt=$script:LastLeaderAt.ToString('o');leaderEntries=$script:LeaderEntries;futureWatch=$script:FutureWatch;metrics=$metrics};Invoke-AgentPost '/api/agent/prefetch' $prefetch|Out-Null;Save-PrefetchSnapshot $prefetch
+    }
     if(-not $script:LastCleanupAt -or ([DateTime]::UtcNow-$script:LastCleanupAt).TotalMinutes-ge 30){Invoke-LocalCleanup}
     $script:LastError=$null
   }catch{
