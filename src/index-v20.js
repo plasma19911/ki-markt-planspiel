@@ -22,7 +22,7 @@ export default{
    return Response.json(j,{headers:{'cache-control':'no-store','x-pc-scanner':'v28.8'}})
   }
   if(u.pathname==='/api/status'&&request.method==='GET'&&u.searchParams.get('view')==='dashboard'&&String(env?.ORDER_APPROVAL_MODE||'disabled').toLowerCase()!=='enabled'){
-   try{const status=await portfolio(env).status(),payload=dashboardView(status);return Response.json(payload,{headers:{'cache-control':'private, no-cache','x-planspiel-ui':'v29.0','x-scan-cadence':'pc-minute+cloudflare-gap-fill','x-action-score':'buy-hold-sell-v29.0','x-entry-model':'scout-63+micro-65+early-68+regular-72','x-profit-model':'dynamic-peak-lock-v29.0','x-scanner-breadth':'pc-first-full-master-v288'}})}catch(e){return Response.json({error:String(e?.message||e)},{status:500,headers:{'cache-control':'no-store'}})}
+   try{const status=await portfolio(env).status(),payload=dashboardView(status);return Response.json(payload,{headers:{'cache-control':'private, no-cache','x-planspiel-ui':'v29.0','x-scan-cadence':'pc-minute+cloudflare-gap-fill','x-action-score':'buy-hold-sell-v29.0','x-entry-model':'watch-50+scout-53+micro-56+early-58+regular-62','x-profit-model':'dynamic-peak-lock-v29.0','x-scanner-breadth':'pc-first-full-master-v288'}})}catch(e){return Response.json({error:String(e?.message||e)},{status:500,headers:{'cache-control':'no-store'}})}
   }
   return base.fetch(request,env,ctx)
  },
