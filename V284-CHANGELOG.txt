@@ -1,0 +1,10 @@
+V28.4 · Page Performance & Research-Score Pipeline · 20.08.2026
+
+- Globalen DOM-MutationObserver aus der V28.3-UI entfernt.
+- Kandidaten-Kurzansicht arbeitet nicht mehr mit einem zweiten DOM-MutationObserver.
+- Doppelten Legacy-Research-Score-Renderer entfernt; V28.3/V28.4 ist die einzige sichtbare Score-UI.
+- researchSignalFusionPolicy wird in der schlanken Dashboard-Statusantwort mitgeliefert.
+- Kein zweiter grosser /api/status-Aufruf fuer sichtbare Research-Scores erforderlich.
+- Cache-Bust fuer die geaenderten UI-Module.
+- Live-Verifikation prueft jetzt Dashboard-Research-Payload plus echten HTML-Bootstrap.
+- Handelslogik bleibt V28.2; V28.4 aendert Performance/Anzeige, nicht die Risk-/BUY-/SELL-Regeln.
