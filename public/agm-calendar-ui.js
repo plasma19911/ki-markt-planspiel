@@ -6,12 +6,14 @@ const fmtUpdated=v=>{const t=Date.parse(v||'');return Number.isFinite(t)?new Int
 const scoreClass=s=>s>=82?'agmScoreHot':s>=72?'agmScoreGood':s>=58?'agmScoreWatch':s>=43?'agmScoreNeutral':'agmScoreBad';
 let lastPayload=null;
 
+function ensureCss(){if(document.querySelector('link[data-agm-calendar-css]'))return;const l=document.createElement('link');l.rel='stylesheet';l.href='/agm-calendar.css?v=20260820-1353';l.dataset.agmCalendarCss='1';document.head.appendChild(l)}
 function ensureUi(){
+ ensureCss();
  if(!document.getElementById('agmMiniCalendar')){
-  const side=document.querySelector('.sidebar');if(side){const box=document.createElement('section');box.id='agmMiniCalendar';box.className='agmMiniCalendar';box.innerHTML='<div class="agmMiniHead"><div><span>HV-KALENDER</span><b>Hauptversammlungen</b></div><small>Score 0–100</small></div><div class="agmMiniScale">100 = sehr positiver Vorab-Ausblick</div><div class="agmMiniRows"><div class="agmEmpty">Kalender lädt …</div></div><div class="agmMiniFoot">Täglich aktualisiert · live neu bewertet</div>';side.appendChild(box)}
+  const side=document.querySelector('.sidebar');if(side){const box=document.createElement('section');box.id='agmMiniCalendar';box.className='agmMiniCalendar';box.innerHTML='<div class="agmMiniHead"><div><span>HV-KALENDER</span><b>Hauptversammlungen</b></div><small>Score 0–100</small></div><div class="agmMiniScale">100 = sehr positiver Vorab-Ausblick</div><div class="agmMiniRows"><div class="agmEmpty">Kalender lädt …</div></div><div class="agmMiniFoot">Täglich aktualisiert · bei News/Zahlen live neu bewertet</div>';side.appendChild(box)}
  }
  if(!document.getElementById('agmCalendarMobile')){
-  const grid=document.querySelector('.dashboardGrid');if(grid){const box=document.createElement('section');box.id='agmCalendarMobile';box.className='card agmCalendarMobile';box.innerHTML='<div class="cardTitle"><div><span class="sectionEyebrow">VORAUSBLICK</span><h2>HV-Kalender</h2></div><span class="tag">0–100</span></div><div class="agmMobileHint">Hauptversammlungen der nächsten Tage. 100 = sehr positiver Vorab-Ausblick; kein Gewinngarant.</div><div class="agmMobileRows"><div class="agmEmpty">Kalender lädt …</div></div><div class="agmMobileMeta muted"></div>';grid.prepend(box)}
+  const grid=document.querySelector('.dashboardGrid');if(grid){const box=document.createElement('section');box.id='agmCalendarMobile';box.className='card agmCalendarMobile';box.innerHTML='<div class="cardTitle"><div><span class="sectionEyebrow">VORAUSBLICK</span><h2>HV-Kalender</h2></div><span class="tag">0–100</span></div><div class="agmMobileHint">Hauptversammlungen der nächsten Tage. 100 = sehr positiver Vorab-Ausblick. Ein hoher Score ist keine Gewinnwahrscheinlichkeit.</div><div class="agmMobileRows"><div class="agmEmpty">Kalender lädt …</div></div><div class="agmMobileMeta muted"></div>';grid.prepend(box)}
  }
 }
 function rowHtml(x){
@@ -23,12 +25,12 @@ function render(payload){
  const top=rows.slice(0,7),html=top.length?top.map(rowHtml).join(''):'<div class="agmEmpty">Aktuell keine gematchte Hauptversammlung im beobachteten Aktienuniversum.</div>';
  const side=document.querySelector('#agmMiniCalendar .agmMiniRows');if(side)side.innerHTML=html;
  const mobile=document.querySelector('#agmCalendarMobile .agmMobileRows');if(mobile)mobile.innerHTML=html;
- const updated=lastPayload?.generatedAt||lastPayload?.sourceUpdatedAt||lastPayload?.updatedAt;const meta=`Quelle: ${esc(lastPayload?.source||'finanzen.net Hauptversammlung')} · Stand ${esc(fmtUpdated(updated))} · Scores werden bei neuen News/Kursdaten neu berechnet.`;
+ const updated=lastPayload?.generatedAt||lastPayload?.sourceUpdatedAt||lastPayload?.updatedAt;const meta=`Quelle: ${esc(lastPayload?.source||'finanzen.net Hauptversammlung')} · Stand ${esc(fmtUpdated(updated))} · Terminliste täglich; Score bei jedem neuen Markt-/News-Status neu bewertet.`;
  const foot=document.querySelector('#agmMiniCalendar .agmMiniFoot');if(foot)foot.innerHTML=meta;
  const mm=document.querySelector('#agmCalendarMobile .agmMobileMeta');if(mm)mm.innerHTML=meta;
 }
 async function loadStatic(){try{const r=await fetch(`/agm-calendar.json?v=${new Date().toISOString().slice(0,10)}`,{cache:'no-store'});if(!r.ok)return;const j=await r.json();render({...j,events:arr(j.events).map(x=>({...x,score:num(x.baseScore,50),confidence:num(x.fundamentalConfidence),label:x.baseLabel||'',tradeEligible:false,reasons:x.fundamentalReasons||[]}))})}catch{}}
 
 document.addEventListener('DOMContentLoaded',()=>{ensureUi();loadStatic()});
-document.addEventListener('planspiel:status',e=>{const s=e.detail||{},live=s?.agmCalendar;if(live&&arr(live.events).length)render(live);else if(!lastPayload)loadStatic()});
+document.addEventListener('planspiel:status',e=>{const s=e.detail||{},live=s?.agmCalendar;if(live)render(live);else if(!lastPayload)loadStatic()});
 setInterval(loadStatic,6*60*60*1000);
