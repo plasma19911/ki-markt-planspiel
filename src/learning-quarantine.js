@@ -6,6 +6,7 @@ const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const key=v=>String(v||'').toUpperCase().trim();
 const read=(storage,k)=>{try{return storage?.kv?.get(k)||null}catch{return null}};
 const write=(storage,k,v)=>{try{storage?.kv?.put(k,v);return true}catch{return false}};
+const exitHoldConflict=reason=>/FINAL-CONTROLLER HARD EXIT/i.test(String(reason||''))&&/(?:ADAPTIVE\s+EXIT[- ]?HOLD|EXIT[- ]?HOLD|VERKÄUFERSTRUKTUR[^.]{0,90}(?:NICHT|NOCH NICHT)[^.]{0,90}(?:STARK|AUSREICHEND)|WEITER BEOBACHTEN)/i.test(String(reason||''));
 
 export function isKnownBugHistoryRow(row={}){
  const reason=String(row?.reason||'');
@@ -13,22 +14,29 @@ export function isKnownBugHistoryRow(row={}){
  if(/AUFSTOCKUNG:|STARTER-AUSBAU/i.test(reason))return true;
  if(/FINAL-CONTROLLER INVALIDATION EXIT:[\s\S]*Alter\s+\d+(?:[.,]\d+)?\s*Min/i.test(reason))return true;
  if(/ZERO_MINIMUM_NOT_AFFORDABLE/i.test(reason))return true;
+ if(exitHoldConflict(reason))return true;
  return false;
 }
 
 function contaminatedWindows(history=[]){
  const rows=arr(history).filter(x=>key(x?.symbol)&&['KAUF','BUY','VERKAUF','SELL'].includes(String(x?.action||'').toUpperCase())).sort((a,b)=>Date.parse(a.ts)-Date.parse(b.ts));
- const open=new Map(),out=[];
- for(const r of rows){
-  const s=key(r.symbol),a=String(r.action||'').toUpperCase();
-  if(['KAUF','BUY'].includes(a)){open.set(s,r);continue}
-  if(['VERKAUF','SELL'].includes(a)&&open.has(s)){
-   const buy=open.get(s),bad=isKnownBugHistoryRow(buy)||isKnownBugHistoryRow(r);
-   if(bad)out.push({symbol:s,buyAt:buy.ts,sellAt:r.ts,buyBad:isKnownBugHistoryRow(buy),sellBad:isKnownBugHistoryRow(r)});
-   open.delete(s);
+ const open=new Map(),lastBugSell=new Map(),out=[];
+ for(const r0 of rows){
+  const s=key(r0.symbol),a=String(r0.action||'').toUpperCase(),r={...r0};
+  if(['KAUF','BUY'].includes(a)){
+   const bugSell=lastBugSell.get(s),bt=Date.parse(String(bugSell?.ts||'')),rt=Date.parse(String(r?.ts||''));
+   if(Number.isFinite(bt)&&Number.isFinite(rt)&&rt-bt>=0&&rt-bt<=30*60000)r.__bugReentry=true;
+   open.set(s,r);continue;
   }
+  if(['VERKAUF','SELL'].includes(a)&&open.has(s)){
+   const buy=open.get(s),sellBad=isKnownBugHistoryRow(r),buyBad=isKnownBugHistoryRow(buy)||Boolean(buy.__bugReentry),bad=buyBad||sellBad;
+   if(bad)out.push({symbol:s,buyAt:buy.ts,sellAt:r.ts,buyBad,sellBad,bugReentry:Boolean(buy.__bugReentry)});
+   if(sellBad)lastBugSell.set(s,r);
+   open.delete(s);continue;
+  }
+  if(['VERKAUF','SELL'].includes(a)&&isKnownBugHistoryRow(r))lastBugSell.set(s,r);
  }
- for(const [s,buy] of open)if(isKnownBugHistoryRow(buy))out.push({symbol:s,buyAt:buy.ts,sellAt:null,buyBad:true,sellBad:false});
+ for(const [s,buy] of open)if(isKnownBugHistoryRow(buy)||buy.__bugReentry)out.push({symbol:s,buyAt:buy.ts,sellAt:null,buyBad:true,sellBad:false,bugReentry:Boolean(buy.__bugReentry)});
  return out;
 }
 
@@ -68,7 +76,7 @@ export function sanitizeBugContaminatedLearning(storage,history=[]){
  if(decision&&typeof decision==='object'){
   const before=arr(decision.samples),removed=before.filter(s=>windows.some(w=>sampleMatchesWindow(s,w))),keep=before.filter(s=>!windows.some(w=>sampleMatchesWindow(s,w)));
   if(removed.length){decision.samples=keep;decisionSamplesRemoved=removed.length;changed=true;decision.seen=decision.seen||{};for(const s of removed)if(s?.id)decision.seen[s.id]='QUARANTINED_CODE_BUG'}
-  decision.learningQuarantine={version:2,updatedAt:new Date().toISOString(),knownBugTradeWindows:windows.length,removedSamples:decisionSamplesRemoved,blockedFromReentry:true,rule:'Nur nachgewiesene Codefehler werden selektiv ausgeschlossen; normale schlechte Trades bleiben Lernmaterial.'};
+  decision.learningQuarantine={version:3,updatedAt:new Date().toISOString(),knownBugTradeWindows:windows.length,removedSamples:decisionSamplesRemoved,blockedFromReentry:true,antiFlipFlop:true,rule:'Nachgewiesene Codefehler und unmittelbare Reentries nach solchen Fehler-Sells werden ausgeschlossen; normale schlechte Trades bleiben Lernmaterial.'};
   write(storage,DECISION_KEY,decision);
  }
  const live=read(storage,LIVE_KEY);
@@ -80,8 +88,8 @@ export function sanitizeBugContaminatedLearning(storage,history=[]){
   for(const s of Object.keys(live.open||{}))if(windows.some(w=>w.symbol===key(s))){delete live.open[s];openRowsRemoved++;changed=true}
   for(const s of Object.keys(live.pending||{}))if(windows.some(w=>w.symbol===key(s))){delete live.pending[s];pendingRowsRemoved++;changed=true}
   legacyAggregateArchived=archiveLegacyAggregate(live);if(legacyAggregateArchived)changed=true;
-  live.learningQuarantine={version:2,updatedAt:new Date().toISOString(),cleanEpoch:CLEAN_EPOCH,knownBugTradeWindows:windows.length,timingSamplesRemoved,openRowsRemoved,pendingRowsRemoved,legacyAggregateArchived,legacyAggregateActive:false,rule:'Alte nicht sauber zuordenbare Live-Aggregate sind archiviert, aber ab V27 nicht mehr entscheidungswirksam. Neue Live-Samples starten sauber.'};
+  live.learningQuarantine={version:3,updatedAt:new Date().toISOString(),cleanEpoch:CLEAN_EPOCH,knownBugTradeWindows:windows.length,timingSamplesRemoved,openRowsRemoved,pendingRowsRemoved,legacyAggregateArchived,legacyAggregateActive:false,antiFlipFlop:true,rule:'Alte nicht sauber zuordenbare Live-Aggregate sind archiviert. Widersprüchliche HARD-EXIT/EXIT-HOLD-Fälle und direkte Reentries danach werden nicht als Marktlektion gewertet.'};
   write(storage,LIVE_KEY,live);
  }
- return{changed,cleanEpoch:CLEAN_EPOCH,knownBugTradeWindows:windows.length,decisionSamplesRemoved,timingSamplesRemoved,openRowsRemoved,pendingRowsRemoved,legacyAggregateArchived,legacyAggregateActive:false,windows:windows.slice(-8)};
+ return{changed,cleanEpoch:CLEAN_EPOCH,knownBugTradeWindows:windows.length,decisionSamplesRemoved,timingSamplesRemoved,openRowsRemoved,pendingRowsRemoved,legacyAggregateArchived,legacyAggregateActive:false,antiFlipFlop:true,windows:windows.slice(-8)};
 }
