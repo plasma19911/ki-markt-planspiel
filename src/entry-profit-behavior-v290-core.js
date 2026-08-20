@@ -4,7 +4,7 @@ const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
 export const ENTRY_PROFIT_V290={
   version:29.0,
   entry:{
-    scoutMin:60,
+    scoutMin:63,
     microMin:65,
     earlyMin:68,
     regularMin:72,
@@ -74,7 +74,7 @@ export function entryDecisionV290(row={},history=[],now=Date.now()){
   if(score>=cfg.microMin&&coverage>=cfg.microCoverage&&((trend.strongRising&&pulse.positiveStructure)||(coverage>=.82&&pulse.strong))&&!trend.falling&&pulse.safeDay)return{action:'BUY_MICRO',tier:'MICRO',score,coverage,trend,pulse,label:'Mikro-Früheinstieg'};
   if(score>=cfg.scoutMin&&coverage>=cfg.scoutCoverage&&trend.scoutRising&&pulse.positiveStructure&&pulse.catalyst&&!trend.falling&&trend.samples>=2&&pulse.safeDay)return{action:'BUY_SCOUT',tier:'SCOUT',score,coverage,trend,pulse,label:'Scout-Einstieg'};
   if(score>=cfg.microMin)return{action:'WAIT',tier:'WAIT_65',score,coverage,trend,pulse,label:trend.rising?'65+ · Bestätigung läuft':'65+ · noch keine saubere Beschleunigung'};
-  if(score>=cfg.scoutMin)return{action:'WATCH',tier:'WATCH_60',score,coverage,trend,pulse,label:trend.rising?'60+ · möglicher Starter':'60+ · beobachten'};
+  if(score>=cfg.scoutMin)return{action:'WATCH',tier:'WATCH_63',score,coverage,trend,pulse,label:trend.rising?'63+ · möglicher Starter':'63+ · beobachten'};
   if(score>=58)return{action:'WATCH',tier:'WATCH',score,coverage,trend,pulse,label:trend.rising?'Beobachten · verbessert sich':'Beobachten'};
   return{action:'AVOID',tier:'WEAK',score,coverage,trend,pulse,label:'Schwach'};
 }
@@ -86,7 +86,7 @@ export function entryAllocationPctV290(cash=0,decision={}){
   else if(tier==='EARLY'){lo=5;hi=8;pct=5+Math.max(0,score-68)*.35}
   else if(tier==='REGULAR'){lo=7;hi=11;pct=7+Math.max(0,score-72)*.30}
   else if(tier==='STRONG'||tier==='EXCEPTIONAL'){lo=8;hi=12;pct=8+Math.max(0,score-76)*.22}
-  else pct=3+Math.max(0,score-60)*.20;
+  else pct=3+Math.max(0,score-63)*.30;
   if(cash>=500&&(tier==='REGULAR'||tier==='STRONG'||tier==='EXCEPTIONAL'))pct=Math.max(pct,500/cash*100);
   return +clamp(pct,lo,hi).toFixed(2);
 }
