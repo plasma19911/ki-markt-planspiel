@@ -1,10 +1,10 @@
 import base,{MarketPortfolio} from './index-v18.js';
 export {MarketPortfolio};
 
-// V28.3 UI bootstrap: quota-guard.js is already worker-first + no-store.
-// Appending this import guarantees that stale browser caches cannot hide the
-// current Research-Score / trading-hours / changelog UI after a deploy.
-const UI_BOOTSTRAP="\nimport('/ui-v283-fix.js?v=20260820-1825').catch(e=>console.warn('V28.3 UI bootstrap failed',e));\n";
+// V28.5 UI bootstrap: quota-guard.js is already worker-first + no-store.
+// Keep the production overlay event-driven; do not re-enable the old whole-page
+// MutationObserver from V28.3.
+const UI_BOOTSTRAP="\nimport('/v285-live-ui.js?v=20260820-1900').catch(e=>console.warn('V28.5 UI bootstrap failed',e));\n";
 
 function noStore(response){
  const h=new Headers(response.headers);h.set('Cache-Control','no-store, no-cache, must-revalidate, max-age=0');h.set('Pragma','no-cache');h.set('Expires','0');
