@@ -11,7 +11,7 @@ const eurState=(symbol,position={},candidate={})=>({config:{cash:1500,slippage_p
  const out=enforceLossSellInvariant(sellPlan(symbol,reason),eurState(symbol,{last_price:99.85},{sellerShare:45}));
  assert.equal(out.blocked,1,'SAGILITY-artiger Verlust-Sell gegen stärkere Käuferseite muss blockiert werden');
  assert.equal(out.plan.actions[0].action,'HOLD');
- assert.match(out.plan.actions[0].reason,/LOSS-SELL-INVARIANT V27\.3/);
+ assert.match(out.plan.actions[0].reason,/LOSS-SELL-INVARIANT V27\.4/);
 }
 
 {
@@ -57,7 +57,7 @@ const eurState=(symbol,position={},candidate={})=>({config:{cash:1500,slippage_p
  const out=enforceLossSellInvariant(buyPlan(symbol,5.3),state);
  assert.equal(out.uneconomicBuys,1,'kleine PARAS-artige Order mit rund 80 EUR und hoher Gebührenlast muss blockiert werden');
  assert.equal(out.plan.actions[0].action,'HOLD');
- assert.match(out.plan.actions[0].reason,/ORDER-ECONOMICS V27\.3/);
+ assert.match(out.plan.actions[0].reason,/ORDER-ECONOMICS V27\.4/);
 }
 
 {
@@ -66,8 +66,8 @@ const eurState=(symbol,position={},candidate={})=>({config:{cash:1500,slippage_p
  const out=enforceLossSellInvariant(buyPlan(symbol,40),state);
  assert.equal(out.uneconomicBuys,0,'wirtschaftlich große Order darf nicht von der Kostenregel blockiert werden');
  assert.equal(out.plan.actions[0].action,'BUY');
- assert.match(out.plan.actions[0].reason,/V27\.3/,'Versionslabel muss live auf V27.3 normalisiert werden');
- assert.match(out.plan.summary,/V27\.3/);
+ assert.match(out.plan.actions[0].reason,/V27\.4/,'Versionslabel muss live auf V27.4 normalisiert werden');
+ assert.match(out.plan.summary,/V27\.4/);
 }
 
-console.log('V27.3 loss sell invariant regression tests: OK');
+console.log('V27.3/V27.4 loss sell invariant regression tests: OK');
