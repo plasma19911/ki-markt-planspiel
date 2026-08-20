@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T12:12:47.485637+00:00",
+  "checkedAt": "2026-08-20T12:16:28.987395+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -25,19 +25,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T12:12:07.641Z",
-    "ageSeconds": 40,
+    "lastSeenAt": "2026-08-20T12:16:17.179Z",
+    "ageSeconds": 12,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 134,
-  "lastScan": "2026-08-20T12:12:12.381Z",
+  "scanCount": 137,
+  "lastScan": "2026-08-20T12:16:22.110Z",
   "lastError": null,
   "aiLastSummary": "KI-Fallback: kein JSON",
   "cash": 1476.2217081333488,
-  "equity": 9944.716089527596,
-  "pnl": -55.283910472404386,
-  "marketValue": 8468.494381394246,
+  "equity": 9937.715593492323,
+  "pnl": -62.28440650767698,
+  "marketValue": 8461.493885358974,
   "accountingDelta": 0.0,
   "positions": 6,
   "positionRows": [
@@ -50,7 +50,7 @@
       "invested": 3898.934957,
       "entry_fee": 1,
       "entry_price": 14.334319694519042,
-      "last_price": 14.460000038146973,
+      "last_price": 14.4399995803833,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
@@ -79,15 +79,15 @@
       "invested": 2129.14636,
       "entry_fee": 1,
       "entry_price": 8.710701663970946,
-      "last_price": 8.567999839782715,
+      "last_price": 8.569999694824219,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-20T08:39:12.347Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": -5,
-      "signal_confidence": 0.63,
+      "score": -2.9000000000000004,
+      "signal_confidence": 0.5700000000000001,
       "zero_quantity": 244.42880057366253,
       "zero_whole_shares": 244,
       "zero_fractional_shares": 0.428800573662528,
@@ -108,7 +108,7 @@
       "invested": 869.096941,
       "entry_fee": 1,
       "entry_price": 214.7145,
-      "last_price": 212.60000610351562,
+      "last_price": 212.10000610351562,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
@@ -185,7 +185,7 @@
       "invested": 70.201497,
       "entry_fee": 2,
       "entry_price": 55.375319694519035,
-      "last_price": 54.66999816894531,
+      "last_price": 54.650001525878906,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
@@ -210,10 +210,10 @@
     {
       "id": 36,
       "ts": "2026-08-20T12:02:11.549Z",
-      "end_ts": "2026-08-20T12:12:12.381Z",
-      "event_count": 8,
+      "end_ts": "2026-08-20T12:16:22.110Z",
+      "event_count": 11,
       "start_scan": 127,
-      "end_scan": 134,
+      "end_scan": 137,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -223,10 +223,10 @@
       "trade_pnl": null,
       "cash_before": 1476.2217081333488,
       "cash_after": 1476.2217081333488,
-      "equity": 9944.716089527596,
-      "total_pnl": -55.283910472404386,
+      "equity": 9937.715593492323,
+      "total_pnl": -62.28440650767698,
       "score": null,
-      "reason": "Kein Trade. Bestes Signal OVZON.ST: Score 5.05, Konfidenz 63%."
+      "reason": "Kein Trade. Bestes Signal OVZON.ST: Score 4.50, Konfidenz 63%."
     },
     {
       "id": 35,
@@ -1076,8 +1076,8 @@
     "proposalContaminationFixed": true
   },
   "risk": {
-    "equity": 9944.716089527596,
-    "dailyPct": -0.5210376382347781,
+    "equity": 9937.715593492323,
+    "dailyPct": -0.5910649849520833,
     "availableCash": 1476.2217081333488,
     "hardLimits": true,
     "budgetOnly": false,
@@ -1090,17 +1090,17 @@
         {
           "type": "SINGLE_POSITION_OVER_CAP",
           "symbol": "REG1V.HE",
-          "pct": 39.55,
+          "pct": 39.52,
           "limitPct": 25
         },
         {
           "type": "REGION_OVER_CAP",
           "region": "NORDICS",
-          "pct": 60.61,
+          "pct": 60.6,
           "limitPct": 55
         }
       ],
-      "equity": 9944.72,
+      "equity": 9937.72,
       "rule": "Bestehende Altpositionen über dem aktuellen Cap werden gemeldet und für weitere Käufe gesperrt, aber nicht allein wegen des Caps zwangsverkauft."
     },
     "rule": "Finale V27.6-Grenzen gelten nach dem inneren R2-Plan und auch für AGM_PREVIEW."
