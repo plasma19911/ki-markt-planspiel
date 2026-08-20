@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-20T09:42:12.830935+00:00",
-  "commit": "43964020855a0ed358188b9a66bf59de31598711",
+  "checkedAt": "2026-08-20T09:43:09.458818+00:00",
+  "commit": "c2e36bceaaf9acb124cd1bb6c6fad5f20b8e6d31",
   "installOk": true,
-  "decisionTestsOk": false,
+  "decisionTestsOk": true,
   "dryRunOk": true,
-  "allPassed": false,
-  "testTail": "\n> ki-markt-planspiel-cloudflare@2.0.0 test:decisions\n> node tests/final-decision-controller-v26.test.mjs && node tests/run-reset-hygiene-v262.test.mjs && node tests/v27-risk-learning.test.mjs && node tests/v271-anti-flipflop.test.mjs && node tests/v272-forward-curve.test.mjs\n\nV26.3 final decision regression tests: OK\nV26.2 restart isolation tests: OK\nV27 risk/calibration/quarantine regression tests: OK\nV27.1 anti-flip-flop regression tests: OK\nnode:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Test muss viele überlappende Rohbeobachtungen derselben Aktie enthalten\n    at file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/tests/v272-forward-curve.test.mjs:41:9\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: '==',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
+  "allPassed": true,
+  "testTail": "\n> ki-markt-planspiel-cloudflare@2.0.0 test:decisions\n> node tests/final-decision-controller-v26.test.mjs && node tests/run-reset-hygiene-v262.test.mjs && node tests/v27-risk-learning.test.mjs && node tests/v271-anti-flipflop.test.mjs && node tests/v272-forward-curve.test.mjs\n\nV26.3 final decision regression tests: OK\nV26.2 restart isolation tests: OK\nV27 risk/calibration/quarantine regression tests: OK\nV27.1 anti-flip-flop regression tests: OK\nV27.2 forward curve learning regression tests: OK\n"
 }
