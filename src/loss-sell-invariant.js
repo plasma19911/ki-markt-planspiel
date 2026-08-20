@@ -1,5 +1,5 @@
 import {zeroOrderFee,zeroRoundTripBrokerFees} from './zero-fee-model.js';
-import {candidateQuoteUnit,positionQuoteUnit} from './quote-currency-units.js';
+import {candidateQuoteUnit,positionQuoteUnit,normalizeQuoteCurrency} from './quote-currency-units.js';
 
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=null)=>Number.isFinite(Number(v))?Number(v):d;
@@ -99,8 +99,10 @@ export function enforceLossSellInvariant(plan,state={}){
  const actions=plan.actions.map(a=>{
   const s=key(a),normalized={...a,reason:v275(a?.reason)},action=String(a?.action||'').toUpperCase();
   if(action==='BUY'){
-   const c=candidates.get(s)||{},unit=candidateQuoteUnit(c);
-   if(unit.minorUnit&&!c?.quoteUnitNormalized&&!c?.quote_unit_normalized){minorUnitBlocks++;return{symbol:s,action:'HOLD',confidence:Math.max(.72,num(a?.confidence,.72)),allocation_pct:0,reason:`QUOTE-UNIT-SAFETY V27.5: BUY blockiert, weil ${unit.rawCurrency} noch nicht auf ${unit.majorCurrency}-Haupteinheit normalisiert ist. Kein Handel auf potenziell 100x falscher Preisbasis.`};}
+   const c=candidates.get(s)||{},unit=candidateQuoteUnit(c),baseCurrency=normalizeQuoteCurrency(state?.config?.currency||'EUR'),quoteCurrency=normalizeQuoteCurrency(c?.currency||unit.majorCurrency),fx=num(c?.fxRate??c?.fx_rate,null),fxVerified=c?.fxVerified===true||c?.fx_verified===true||quoteCurrency===baseCurrency;
+   if(quoteCurrency&&quoteCurrency!==baseCurrency&&!(fxVerified&&fx>0)){return{symbol:s,action:'HOLD',confidence:Math.max(.78,num(a?.confidence,.78)),allocation_pct:0,reason:`FX-SAFETY V27.5: BUY blockiert · ${quoteCurrency}/${baseCurrency} aktuell nicht verifiziert. Kein Ersatzkurs 1 und keine Fremdwährungsorder ohne belastbaren FX-Kurs.`};}
+   const unitCheck=unit;
+   if(unitCheck.minorUnit&&!c?.quoteUnitNormalized&&!c?.quote_unit_normalized){minorUnitBlocks++;return{symbol:s,action:'HOLD',confidence:Math.max(.72,num(a?.confidence,.72)),allocation_pct:0,reason:`QUOTE-UNIT-SAFETY V27.5: BUY blockiert, weil ${unitCheck.rawCurrency} noch nicht auf ${unitCheck.majorCurrency}-Haupteinheit normalisiert ist. Kein Handel auf potenziell 100x falscher Preisbasis.`};}
    const eco=buyEconomics(a,c,state);
    if(!eco.ok){uneconomicBuys++;return{symbol:s,action:'HOLD',confidence:Math.max(.66,num(a?.confidence,.66)),allocation_pct:0,reason:`ORDER-ECONOMICS V27.5: BUY blockiert · vorgesehenes Budget ${eco.budget.toFixed(2)} € · ${eco.reason} · Limit ${MAX_ROUNDTRIP_COST_PCT.toFixed(2)}%. Keine Mini-Order, deren Gebühren/Slippage den erwarteten Vorteil auffressen.`};}
    const edge=matureExpectedMove(c,a);if(edge.mature&&edge.expectedPct!==null&&edge.expectedPct<=eco.costPct+MIN_NET_EDGE_MARGIN_PCT){netEdgeBlocks++;return{symbol:s,action:'HOLD',confidence:Math.max(.68,num(a?.confidence,.68)),allocation_pct:0,reason:`NET-EDGE V27.5: BUY blockiert · reifer erwarteter Move ${edge.expectedPct>=0?'+':''}${edge.expectedPct.toFixed(3)}% (${edge.source}, n=${edge.samples}) reicht nicht über erwartete Roundtrip-Kosten ${eco.costPct.toFixed(2)}% + Sicherheitsmarge ${MIN_NET_EDGE_MARGIN_PCT.toFixed(2)}%.`};}
