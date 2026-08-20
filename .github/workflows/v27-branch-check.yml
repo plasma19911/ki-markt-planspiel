@@ -6,26 +6,45 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   v27-check:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 6
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Install dependencies
-        run: npm install --no-audit --no-fund --ignore-scripts
-      - name: Syntax V27 modules
+      - name: Run and record V27 checks
+        shell: bash
         run: |
-          node --check src/portfolio-risk-calibration.js
-          node --check src/learning-quarantine.js
-          node --check src/final-decision-controller.js
-          node --check src/compact-portfolio-v22-active-learning.js
-      - name: V27 regression suite
-        run: npm run test:decisions
-      - name: Wrangler dry run
-        run: npm run check
+          set +e
+          npm install --no-audit --no-fund --ignore-scripts > /tmp/install.log 2>&1; INSTALL=$?
+          {
+            node --check src/portfolio-risk-calibration.js &&
+            node --check src/learning-quarantine.js &&
+            node --check src/final-decision-controller.js &&
+            node --check src/compact-portfolio-v22-active-learning.js
+          } > /tmp/syntax.log 2>&1; SYNTAX=$?
+          npm run test:decisions > /tmp/tests.log 2>&1; TESTS=$?
+          npm run check > /tmp/dryrun.log 2>&1; DRYRUN=$?
+          python3 - <<PY
+          import json,datetime
+          x={'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'commit':'${GITHUB_SHA}','installOk':${INSTALL}==0,'syntaxOk':${SYNTAX}==0,'testsOk':${TESTS}==0,'dryRunOk':${DRYRUN}==0,'allPassed':all(v==0 for v in [${INSTALL},${SYNTAX},${TESTS},${DRYRUN}])}
+          open('v27-branch-result.json','w').write(json.dumps(x,indent=2)+'\n')
+          print(json.dumps(x,indent=2))
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add v27-branch-result.json
+          git commit -m 'Update V27 branch validation result [skip ci]' || true
+          git push origin HEAD:agent/v27-risk-calibrated-learning
+          if [ "$INSTALL" -ne 0 ] || [ "$SYNTAX" -ne 0 ] || [ "$TESTS" -ne 0 ] || [ "$DRYRUN" -ne 0 ]; then
+            echo '--- install ---'; tail -100 /tmp/install.log
+            echo '--- syntax ---'; tail -100 /tmp/syntax.log
+            echo '--- tests ---'; tail -160 /tmp/tests.log
+            echo '--- dryrun ---'; tail -100 /tmp/dryrun.log
+            exit 1
+          fi
