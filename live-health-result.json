@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T17:33:06.067719+00:00",
+  "checkedAt": "2026-08-20T17:33:22.617181+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -31,15 +31,15 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T17:32:07.076Z",
-    "ageSeconds": 59,
+    "lastSeenAt": "2026-08-20T17:33:06.326Z",
+    "ageSeconds": 16,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 315,
-  "lastScan": "2026-08-20T17:31:17.954Z",
+  "scanCount": 316,
+  "lastScan": "2026-08-20T17:33:10.213Z",
   "lastError": null,
-  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 4 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefangen · 0 Flip-Flop-Reentry(s) blockiert · 0 Safety-HOLD(s) · 0 empirisch schlechte · RELATIVE V28.2: 0 staerkere Alternative(n) priorisiert · 0 Gewinner-SELL(s) geschuetzt · 0 gelernte Auswahl-Regret(s).",
+  "aiLastSummary": "FINAL-CONTROLLER V27.8: 1 BUY · 0 SELL · 4 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefangen · 0 Flip-Flop-Reentry(s) blockiert · 0 Safety-HOLD(s) · 0 empirisch · COMPREHENSIVE V28.6: 6 Kandidaten + 4 Positionen bewertet · 0 Score-BUY(s) · 0 Rotation(en) zu deutlich besserer Chance.",
   "cash": 6229.217058348477,
   "equity": 9942.360226246452,
   "pnl": -57.63977375354807,
@@ -158,10 +158,10 @@
     {
       "id": 40,
       "ts": "2026-08-20T14:24:14.942Z",
-      "end_ts": "2026-08-20T17:31:17.954Z",
-      "event_count": 104,
+      "end_ts": "2026-08-20T17:33:10.213Z",
+      "event_count": 105,
       "start_scan": 212,
-      "end_scan": 315,
+      "end_scan": 316,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -174,7 +174,7 @@
       "equity": 9942.360226246452,
       "total_pnl": -57.63977375354807,
       "score": null,
-      "reason": "Kein Trade. Bestes Signal BX: Score 3.04, Konfidenz 71%."
+      "reason": "Kein Trade. Bestes Signal BDT.TO: Score 4.30, Konfidenz 70%."
     },
     {
       "id": 39,
@@ -1304,7 +1304,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T17:32:53.500Z",
+      "cachedAt": "2026-08-20T17:33:21.328Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
