@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T12:03:05.348576+00:00",
+  "checkedAt": "2026-08-20T12:03:48.723618+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -25,19 +25,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T12:02:06.906Z",
-    "ageSeconds": 58,
+    "lastSeenAt": "2026-08-20T12:03:07.201Z",
+    "ageSeconds": 41,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 127,
-  "lastScan": "2026-08-20T12:02:11.549Z",
+  "scanCount": 128,
+  "lastScan": "2026-08-20T12:03:12.242Z",
   "lastError": null,
   "aiLastSummary": "KI-Fallback: kein JSON",
   "cash": 1476.2217081333488,
-  "equity": 9941.023594279384,
-  "pnl": -58.97640572061573,
-  "marketValue": 8464.801886146035,
+  "equity": 9940.129745669217,
+  "pnl": -59.8702543307827,
+  "marketValue": 8463.908037535868,
   "accountingDelta": 0.0,
   "positions": 6,
   "positionRows": [
@@ -79,7 +79,7 @@
       "invested": 2129.14636,
       "entry_fee": 1,
       "entry_price": 8.710701663970946,
-      "last_price": 8.612000465393066,
+      "last_price": 8.609999656677246,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
@@ -108,7 +108,7 @@
       "invested": 869.096941,
       "entry_fee": 1,
       "entry_price": 214.7145,
-      "last_price": 213,
+      "last_price": 212.89999389648438,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
@@ -210,10 +210,10 @@
     {
       "id": 36,
       "ts": "2026-08-20T12:02:11.549Z",
-      "end_ts": "2026-08-20T12:02:11.549Z",
-      "event_count": 1,
+      "end_ts": "2026-08-20T12:03:12.242Z",
+      "event_count": 2,
       "start_scan": 127,
-      "end_scan": 127,
+      "end_scan": 128,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -223,8 +223,8 @@
       "trade_pnl": null,
       "cash_before": 1476.2217081333488,
       "cash_after": 1476.2217081333488,
-      "equity": 9941.023594279384,
-      "total_pnl": -58.97640572061573,
+      "equity": 9940.129745669217,
+      "total_pnl": -59.8702543307827,
       "score": null,
       "reason": "Kein Trade. Bestes Signal ADYEN.AS: Score 2.50, Konfidenz 53%."
     },
@@ -1076,8 +1076,8 @@
     "proposalContaminationFixed": true
   },
   "risk": {
-    "equity": 9941.023594279384,
-    "dailyPct": -0.5579743986722674,
+    "equity": 9940.129745669217,
+    "dailyPct": -0.5669157431458016,
     "availableCash": 1476.2217081333488,
     "hardLimits": true,
     "budgetOnly": false,
@@ -1100,7 +1100,7 @@
           "limitPct": 55
         }
       ],
-      "equity": 9941.02,
+      "equity": 9940.13,
       "rule": "Bestehende Altpositionen über dem aktuellen Cap werden gemeldet und für weitere Käufe gesperrt, aber nicht allein wegen des Caps zwangsverkauft."
     },
     "rule": "Finale V27.6-Grenzen gelten nach dem inneren R2-Plan und auch für AGM_PREVIEW."
