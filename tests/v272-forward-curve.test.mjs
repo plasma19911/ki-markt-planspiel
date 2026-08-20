@@ -11,11 +11,11 @@ const storage=()=>{const data=new Map();return{data,kv:{get:k=>data.get(k),put:(
  assert.equal(r.regime,'BROAD_UP');
 }
 
-function scenario(finalPrice,symbols=['A.DE','B.DE','C.DE','D.DE','E.DE']){
+function scenario(finalPrice,symbols=['A.DE','B.DE','C.DE','D.DE','E.DE'],repeatsPerSymbol=4){
  const s=storage(),initial=symbols.map(x=>candidate(x,100));
  updateForwardCurveLearning(s,{candidates:initial});
  let state=s.data.get(KEY),bases=state.pending.filter(p=>symbols.includes(p.symbol));
- state.pending=bases.flatMap(p=>Array.from({length:4},()=>({...structuredClone(p),at:Date.now()-6*60000,done:{}})));s.data.set(KEY,state);
+ state.pending=bases.flatMap(p=>Array.from({length:repeatsPerSymbol},()=>({...structuredClone(p),at:Date.now()-6*60000,done:{}})));s.data.set(KEY,state);
  const finals=symbols.map(x=>candidate(x,finalPrice));
  updateForwardCurveLearning(s,{candidates:finals});
  state=s.data.get(KEY);state.pending=state.pending.filter(x=>x.price===100).map(x=>({...x,at:Date.now()-16*60000}));s.data.set(KEY,state);
@@ -36,7 +36,7 @@ function scenario(finalPrice,symbols=['A.DE','B.DE','C.DE','D.DE','E.DE']){
 }
 
 {
- const {forecast}=scenario(99,['ONLY.DE']);
+ const {forecast}=scenario(99,['ONLY.DE'],20);
  assert.equal(forecast.uniqueSymbols,1);
  assert.ok(forecast.rawSamples>=18,'Test muss viele überlappende Rohbeobachtungen derselben Aktie enthalten');
  assert.ok(forecast.samples<=4,'eine Aktie darf höchstens begrenzte effektive Evidenz beitragen');
