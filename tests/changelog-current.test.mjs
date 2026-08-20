@@ -18,7 +18,8 @@ for(const version of uiVersions)assert.ok(changelog.includes(version),`${version
 assert.ok(changelog.includes('8.523 von 8.523 Aktien'),'V28.8 muss den bestätigten C#-Vollscan beschreiben');
 assert.ok(changelog.includes('PC-Agent 2.2.0'),'PC-Agent-Update 2.2.0 fehlt im sichtbaren Änderungsverlauf');
 assert.ok(changelog.includes('Score-Hysterese'),'V28.9 muss die getrennten Ein-/Ausstiegszonen dokumentieren');
-assert.ok(changelog.includes('60–64'),'V29.0 muss den Scout-Einstieg ab 60 dokumentieren');
+assert.ok(changelog.includes('63–64'),'V29.0 muss den frühesten qualifizierten Scout-Einstieg ab 63 dokumentieren');
+assert.ok(changelog.includes('60–62 bleibt Beobachtungszone'),'V29.0 muss klarstellen, dass unter 63 nicht gekauft wird');
 assert.ok(changelog.includes('70–75'),'V29.0 muss Gewinnsicherung bei noch hohem Haltescore dokumentieren');
 assert.ok(changelog.includes('dynamischen Peak-Schutz'),'V29.0 dynamischer Gewinnschutz fehlt');
 assert.ok(!changelog.includes('pro Minute ein Viertel des Masters'),'veraltete V28.8-PowerShell-Beschreibung ist noch im sichtbaren Änderungsverlauf');
