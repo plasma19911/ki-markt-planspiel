@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-20T07:35:09.766290+00:00",
-  "berlinNow": "2026-08-20T09:35:09.766136+02:00",
+  "checkedAt": "2026-08-20T07:59:24.196018+00:00",
+  "berlinNow": "2026-08-20T09:59:24.195860+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 69460,
-    "dashboard": 23960
+    "full": 114426,
+    "dashboard": 68881
   },
   "checks": {
     "fullStatus200": true,
@@ -24,13 +24,13 @@
     "date": "2026-08-20",
     "status": "CAPTURING",
     "processed": 0,
-    "total": 110,
+    "total": 120,
     "provisional": true,
     "completedAt": null,
     "capture": {
       "date": "2026-08-20",
-      "symbolCount": 110,
-      "updatedAt": "2026-08-20T07:34:20.407Z"
+      "symbolCount": 120,
+      "updatedAt": "2026-08-20T07:58:19.751Z"
     },
     "summary": {
       "provisional": true,
@@ -46,11 +46,68 @@
     }
   },
   "depot": {
-    "cash": 10000.0,
-    "equity": 10000.0,
-    "displayMarketValue": 0.0,
-    "displayAccountingDelta": 0.0,
-    "positions": []
+    "cash": 0.006326000000100862,
+    "equity": 9884.155692917364,
+    "displayMarketValue": 9884.14936758139,
+    "displayAccountingDelta": -6.640275387326255e-07,
+    "positions": [
+      {
+        "symbol": "OTKAR.IS",
+        "invested": 5126.593042,
+        "ratioValue": 5027.751854326633,
+        "quantityValue": 5027.751854523273,
+        "displayValue": 5027.751854523273,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "ADYEN.AS",
+        "invested": 2652.79412,
+        "ratioValue": 2652.9007540512966,
+        "quantityValue": 2652.9007540031635,
+        "displayValue": 2652.9007540031635,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "BULL.JK",
+        "invested": 1724.7336489999998,
+        "ratioValue": 1717.0604563052168,
+        "quantityValue": 1717.0604570436794,
+        "displayValue": 1717.0604570436794,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "SAMMAANCAP.NS",
+        "invested": 371.626059,
+        "ratioValue": 373.96614773460294,
+        "quantityValue": 373.9661477346029,
+        "displayValue": 373.9661477346029,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "BESI.AS",
+        "invested": 40.406771,
+        "ratioValue": 40.53522492168961,
+        "quantityValue": 40.5352247708115,
+        "displayValue": 40.5352247708115,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "RBREW.CO",
+        "invested": 37.543211,
+        "ratioValue": 37.54011367360719,
+        "quantityValue": 37.54011355691684,
+        "displayValue": 37.54011355691684,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "ASM.AS",
+        "invested": 34.296822,
+        "ratioValue": 34.39481590431568,
+        "quantityValue": 34.394815948942856,
+        "displayValue": 34.394815948942856,
+        "quantityUsed": true
+      }
+    ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: thu, 20 aug 2026 07:35:09 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=ys4tpxhcmwbf3b6n8rmrcq3n%2fisa2h3dxazfa1etp84qyyakxxllq6talmhyt%2bwz77hmtq7qcgtqzekbalu29nzvkpbmwvbzuhstrhuvdu01zj7u85te8vrwyv1iovt29ywmlfyae%2bcnecwnirzhs6mil4t3licaszyh%2bc8%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2dfb83cbd6c2ab4-lax\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: thu, 20 aug 2026 07:59:24 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=hvasfywq23rcw7wx2qjlubbpf9h48ypwbyu2u3wfgmyyx6xggioxcblgnp6v9p0ektwtesrvmsfjcqfnyaciocmha4yk%2fxgxuqrcfushxajltqz%2b2frmtjbti7p66ogzycz%2bfwryc3brwq0i2kc7f9bgadsksnvuiammvrq%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2dfdbbf98b2583a-lax\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
