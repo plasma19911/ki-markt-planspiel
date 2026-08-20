@@ -1,0 +1,18 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const read=p=>readFileSync(new URL(`../${p}`,import.meta.url),'utf8');
+const ui=read('public/ui-v283-fix.js');
+const entry=read('src/index-v19.js');
+const wrangler=read('wrangler.jsonc');
+assert.match(ui,/Research \$\{shown\}/);
+assert.match(ui,/72–100 Kaufbereit/);
+assert.match(ui,/40–57 Aufbau/);
+assert.match(ui,/Mo–Fr 07:30–23:00/);
+assert.match(ui,/V28\.2 · Relative Opportunity Learning/);
+assert.match(ui,/V28\.1 · Research Signal Fusion/);
+assert.match(ui,/V28\.0 · Trade Maturity/);
+assert.match(ui,/V27\.9 · Opportunity Learning/);
+assert.match(entry,/ui-v283-fix\.js/);
+assert.match(entry,/quota-guard\.js/);
+assert.match(wrangler,/"main"\s*:\s*"src\/index-v19\.js"/);
+console.log('V28.3 UI/live integration regression tests: OK');
