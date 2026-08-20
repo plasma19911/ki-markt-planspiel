@@ -1,4 +1,4 @@
-name: Live Worker Health V27.6
+name: Live Worker Health V27.7
 
 on:
   workflow_dispatch:
@@ -45,7 +45,7 @@ jobs:
             try:return float(v)
             except:return d
           s=obj('/tmp/status.json'); a=obj('/tmp/agent.json'); c=s.get('config') or {}; positions=s.get('positions') or []
-          policy=s.get('selectiveCapitalPolicy') or {}; candle=s.get('candleFlowPolicy') or {}; execution=s.get('executionModel') or {}; learning=s.get('entryTimingLearning') or {}; venue=s.get('targetVenueSanity') or {}; final=s.get('finalDecisionPolicy') or {}; agm_policy=s.get('agmCalendarPolicy') or {}; agm=s.get('agmCalendar') or {}
+          policy=s.get('selectiveCapitalPolicy') or {}; candle=s.get('candleFlowPolicy') or {}; execution=s.get('executionModel') or {}; learning=s.get('entryTimingLearning') or {}; venue=s.get('targetVenueSanity') or {}; final=s.get('finalDecisionPolicy') or {}; agm_policy=s.get('agmCalendarPolicy') or {}; agm=s.get('agmCalendar') or {}; behavior=s.get('tradingBehaviorPolicy') or {}
           market=0.0
           for p in positions:
             inv=n(p.get('invested')); ep=n(p.get('entry_price')); lp=n(p.get('last_price'),ep); ef=n(p.get('entry_fx'),1); lf=n(p.get('last_fx'),ef)
@@ -64,7 +64,8 @@ jobs:
             'lastErrorClear':not c.get('last_error'),
             'targetVenueSanity':venue.get('enabled') is True,
             'entryTimingLearning':learning.get('mode')=='15/30/60-minute-entry-timing-learning',
-            'finalDecisionV276':n(final.get('version'))>=27.6,
+            'finalDecisionV277':n(final.get('version'))>=27.7,
+            'tradingBehaviorV277':behavior.get('enabled') is True and n(behavior.get('version'))>=27.7 and final.get('entryConfirmationHysteresis') is True and final.get('lateImpulseRecheck') is True and final.get('tinyProfitChurnBlocked') is True,
             'agmPreviewEnabled':final.get('agmPreview') is True and agm_policy.get('enabled') is True,
             'agmDailyOnlyScore':final.get('agmCalendarDailyRefresh') is True and final.get('agmLiveReevaluationEveryScan') is False and final.get('agmScoreEvaluationOnceDaily') is True and final.get('agmScoreLockedUntilNextDailyRefresh') is True and agm_policy.get('scoreEvaluationCadence')=='daily' and agm_policy.get('scoreReevaluation')=='once daily only',
             'agmCalendarPayload':isinstance(agm.get('events'),list) and agm.get('scoreEvaluationCadence')=='daily' and agm.get('scoreReevaluation')=='once daily only',
@@ -78,10 +79,9 @@ jobs:
             'cash':cash,'equity':equity,'pnl':s.get('pnl'),'marketValue':market,'accountingDelta':delta,'positions':len(positions),'positionRows':positions[:10],
             'recentHistory':(s.get('history') or [])[:15],'recentAiLog':(s.get('aiLog') or [])[:15],
             'candleFlowPolicy':candle,'selectiveCapitalPolicy':policy,'executionModel':execution,'entryTimingLearning':learning,'risk':s.get('risk'),
-            'finalDecisionPolicy':final,'agmCalendarPolicy':agm_policy,'agmCalendar':agm
+            'finalDecisionPolicy':final,'tradingBehaviorPolicy':behavior,'agmCalendarPolicy':agm_policy,'agmCalendar':agm
           }
-          raw=json.dumps(out,ensure_ascii=False,indent=2)+'\n'
-          pathlib.Path('/tmp/live-health-result.json').write_text(raw,encoding='utf-8'); print(raw)
+          raw=json.dumps(out,ensure_ascii=False,indent=2)+'\n';pathlib.Path('/tmp/live-health-result.json').write_text(raw,encoding='utf-8');print(raw)
           PY
       - name: Publish diagnostic
         run: |
@@ -102,5 +102,5 @@ jobs:
           import json
           x=json.load(open('/tmp/live-health-result.json'))
           if x.get('failedChecks'): raise SystemExit('Live health failed: '+', '.join(x['failedChecks']))
-          print('Worker healthy; V27.6 AGM daily score active; PC-Agent online/offline is informational only.')
+          print('Worker healthy; V27.7 trading behavior + daily AGM score active.')
           PY
