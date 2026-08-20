@@ -7,7 +7,7 @@
     "dev": "wrangler dev --test-scheduled",
     "deploy": "wrangler deploy",
     "check": "wrangler deploy --dry-run",
-    "test:decisions": "node tests/final-decision-controller-v26.test.mjs && node tests/run-reset-hygiene-v262.test.mjs && node tests/v27-risk-learning.test.mjs && node tests/v271-anti-flipflop.test.mjs && node tests/v272-forward-curve.test.mjs && node tests/v273-loss-sell-invariant.test.mjs && node tests/v274-net-edge-regime.test.mjs && node tests/v275-audit-invariants.test.mjs && node tests/v276-agm-preview.test.mjs && node tests/v277-trading-behavior.test.mjs && node tests/v277-ai-json-repair.test.mjs"
+    "test:decisions": "node tests/final-decision-controller-v26.test.mjs && node tests/run-reset-hygiene-v262.test.mjs && node tests/v27-risk-learning.test.mjs && node tests/v271-anti-flipflop.test.mjs && node tests/v272-forward-curve.test.mjs && node tests/v273-loss-sell-invariant.test.mjs && node tests/v274-net-edge-regime.test.mjs && node tests/v275-audit-invariants.test.mjs && node tests/v276-agm-preview.test.mjs && node tests/v277-trading-behavior.test.mjs && node tests/v277-ai-json-repair.test.mjs && node tests/v277-ai-wrapper-signature.test.mjs"
   },
   "devDependencies": {
     "wrangler": "^4.45.0"
