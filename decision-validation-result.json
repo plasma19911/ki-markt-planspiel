@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-08-20T12:00:02.225856+00:00",
-  "commit": "a7db9803444e2e61016fc9a9ec02841bb203105b",
-  "validationTarget": "V27.5_FULL_AUDIT_FINAL_STABLE",
+  "checkedAt": "2026-08-20T12:04:31.130730+00:00",
+  "commit": "ea07fd1540e96b1a9cfade4df4ea0af583f4cd97",
+  "validationTarget": "V27.6_AGM_PREVIEW_FINAL",
   "installOk": true,
   "decisionTestsOk": true,
   "dryRunOk": true,
   "allPassed": true,
-  "testTail": "\n> ki-markt-planspiel-cloudflare@2.0.0 test:decisions\n> node tests/final-decision-controller-v26.test.mjs && node tests/run-reset-hygiene-v262.test.mjs && node tests/v27-risk-learning.test.mjs && node tests/v271-anti-flipflop.test.mjs && node tests/v272-forward-curve.test.mjs && node tests/v273-loss-sell-invariant.test.mjs && node tests/v274-net-edge-regime.test.mjs && node tests/v275-audit-invariants.test.mjs\n\nV26.3 final decision regression tests: OK\nV26.2 restart isolation tests: OK\nV27 risk/calibration/quarantine regression tests: OK\nV27.1 anti-flip-flop regression tests: OK\nV27.2 forward curve learning regression tests: OK\nV27.3/V27.4/V27.5 loss sell invariant regression tests: OK\nV27.4/V27.5 net edge / market regime regression tests: OK\nV27.5 full-audit invariant regression tests: OK\n"
+  "testTail": "\n> ki-markt-planspiel-cloudflare@2.0.0 test:decisions\n> node tests/final-decision-controller-v26.test.mjs && node tests/run-reset-hygiene-v262.test.mjs && node tests/v27-risk-learning.test.mjs && node tests/v271-anti-flipflop.test.mjs && node tests/v272-forward-curve.test.mjs && node tests/v273-loss-sell-invariant.test.mjs && node tests/v274-net-edge-regime.test.mjs && node tests/v275-audit-invariants.test.mjs && node tests/v276-agm-preview.test.mjs\n\nV26.3 final decision regression tests: OK\nV26.2 restart isolation tests: OK\nV27 risk/calibration/quarantine regression tests: OK\nV27.1 anti-flip-flop regression tests: OK\nV27.2 forward curve learning regression tests: OK\nV27.3/V27.4/V27.5 loss sell invariant regression tests: OK\nV27.4/V27.5 net edge / market regime regression tests: OK\nV27.5 full-audit invariant regression tests: OK\nV27.6 AGM preview/calendar regression tests: OK\n"
 }
