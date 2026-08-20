@@ -1,5 +1,6 @@
 name: Validate Final Decision Engine V27.7 - Trading Behavior
 
+# Includes behavior, AI JSON repair and Cloudflare run(model,input) wrapper-signature regressions.
 on:
   workflow_dispatch:
   push:
