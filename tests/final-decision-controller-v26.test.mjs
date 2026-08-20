@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {FinalDecisionController} from '../src/final-decision-controller.js';
+import {buildConfirmedScaleUpActions} from '../src/profit-optimizer-v2.js';
 
 const planInput=(candidates=[],held=[])=>({messages:[{role:'user',content:`PAPER-TRADING ONLY. JSON-only. Kandidaten=${JSON.stringify(candidates)} Gehalten=${JSON.stringify(held)}`} ]});
 const baseWith=actions=>({async run(){return{response:JSON.stringify({summary:'inner',actions})}}});
@@ -26,9 +27,23 @@ const strong=symbol=>({symbol,liveScore:5.4,liveConfidence:.75,day:1.2,intraday5
 
 {
  const c={...strong('EXIT'),intraday5m:-.32,intraday20m:-.24,momentumAcceleration5:-.06,day:-1.3,drawdownFrom20mHighPct:-1.8};
- const held=[{symbol:'EXIT',pnlPct:-.7,invested:2000}];
+ const held=[{symbol:'EXIT',pnlPct:-.7,invested:2000,opened_at:'2026-08-20T07:00:00.000Z'}];
  const p=await run({candidates:[c],held,actions:[{symbol:'EXIT',action:'HOLD',confidence:.6,allocation_pct:0,reason:'inner hold'}],state:{config:{cash:8000,start_capital:10000},positions:held,candidates:[]}});
- assert.equal(p.actions.find(x=>x.symbol==='EXIT')?.action,'SELL','frische bestätigte Schwäche muss beim Exit berücksichtigt werden');
+ assert.equal(p.actions.find(x=>x.symbol==='EXIT')?.action,'SELL','reife Position mit bestätigter Mehrsignal-Schwäche darf verkauft werden');
+}
+
+{
+ const now=new Date().toISOString(),c={...strong('FRESH'),intraday5m:-.16,intraday20m:-.20,momentumAcceleration5:-.03,day:-.4,drawdownFrom20mHighPct:-.9};
+ const held=[{symbol:'FRESH',pnlPct:-.45,invested:1800,opened_at:now}];
+ const p=await run({candidates:[c],held,actions:[{symbol:'FRESH',action:'SELL',confidence:.75,allocation_pct:0,reason:'Momentum schwach; REVERSAL nicht bestätigt'}],state:{config:{cash:8200,start_capital:10000},positions:held,candidates:[]}});
+ assert.equal(p.actions.find(x=>x.symbol==='FRESH')?.action,'HOLD','frische kleine Verlustposition darf nicht wegen negiertem Reversal-Text sofort verkauft werden');
+}
+
+{
+ const now=new Date().toISOString(),c={...strong('HARD'),momentumState:'REVERSAL',intraday5m:-.4,intraday20m:-.35,momentumAcceleration5:-.08};
+ const held=[{symbol:'HARD',pnlPct:-.3,invested:1500,opened_at:now}];
+ const p=await run({candidates:[c],held,actions:[],state:{config:{cash:8500,start_capital:10000},positions:held,candidates:[]}});
+ assert.equal(p.actions.find(x=>x.symbol==='HARD')?.action,'SELL','strukturierter echter REVERSAL darf auch frisch sofort als Hard-Exit raus');
 }
 
 {
@@ -43,4 +58,9 @@ const strong=symbol=>({symbol,liveScore:5.4,liveConfidence:.75,day:1.2,intraday5
  assert.equal(p.actions.some(x=>x.symbol==='LOWVOL'&&x.action==='BUY'),false,'aktuelles Scanner-Volumen desselben Symbols muss die finale BUY-Prüfung erreichen');
 }
 
-console.log('V26 final decision regression tests: OK');
+{
+ const scale=buildConfirmedScaleUpActions([{symbol:'ABC',invested:1000}],[strong('ABC')],{cash:5000});
+ assert.deepEqual(scale,[],'automatische Aufstockung muss vollständig deaktiviert bleiben');
+}
+
+console.log('V26.1 final decision regression tests: OK');
