@@ -4,20 +4,21 @@ const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
 export const ENTRY_PROFIT_V290={
   version:29.0,
   entry:{
-    scoutMin:63,
-    microMin:65,
-    earlyMin:68,
-    regularMin:72,
-    strongMin:76,
-    exceptionalMin:82,
-    scoutCoverage:.82,
-    microCoverage:.75,
-    earlyCoverage:.70,
-    regularCoverage:.67,
+    watchMin:50,
+    scoutMin:53,
+    microMin:56,
+    earlyMin:58,
+    regularMin:62,
+    strongMin:68,
+    exceptionalMin:76,
+    scoutCoverage:.90,
+    microCoverage:.84,
+    earlyCoverage:.78,
+    regularCoverage:.72,
     trendWindowMinutes:6,
-    risingDelta:3,
-    strongRisingDelta:5,
-    scoutDelta:7,
+    risingDelta:2.5,
+    strongRisingDelta:4,
+    scoutDelta:6,
     maxNewBuysPerDecision:2,
     maxScoutBuysPerDecision:1
   },
@@ -44,14 +45,14 @@ export function trendV290(history=[],score=0,now=Date.now()){
   const prev=rows.at(-1)||null,oldest=rows[0]||null;
   const delta1=prev?score-num(prev.score,score):0;
   const deltaWindow=oldest?score-num(oldest.score,score):0;
-  const rising=delta1>=2||deltaWindow>=cfg.risingDelta;
-  const strongRising=delta1>=3.5||deltaWindow>=cfg.strongRisingDelta;
-  const scoutRising=delta1>=4.5||deltaWindow>=cfg.scoutDelta;
+  const rising=delta1>=1.8||deltaWindow>=cfg.risingDelta;
+  const strongRising=delta1>=3||deltaWindow>=cfg.strongRisingDelta;
+  const scoutRising=delta1>=4||deltaWindow>=cfg.scoutDelta;
   const falling=delta1<=-2||deltaWindow<=-3;
   const strongFalling=delta1<=-5||deltaWindow<=-7;
-  const confirmed68=rows.some(x=>num(x?.score)<score&&num(x?.score)>=68);
-  const confirmed72=rows.some(x=>num(x?.score)>=72);
-  return{delta1:+delta1.toFixed(1),deltaWindow:+deltaWindow.toFixed(1),rising,strongRising,scoutRising,falling,strongFalling,confirmed68,confirmed72,samples:rows.length+1};
+  const confirmed58=rows.some(x=>num(x?.score)<score&&num(x?.score)>=58);
+  const confirmed62=rows.some(x=>num(x?.score)>=62);
+  return{delta1:+delta1.toFixed(1),deltaWindow:+deltaWindow.toFixed(1),rising,strongRising,scoutRising,falling,strongFalling,confirmed58,confirmed62,samples:rows.length+1};
 }
 
 function starterPulse(row={}){
@@ -60,7 +61,8 @@ function starterPulse(row={}){
   const positiveStructure=mom>=1.2||reclaim;
   const catalyst=(news>=4&&mom>=.5)||(vol>=2&&mom>=1.2)||(scanner>=5&&conf>=2&&mom>=1.2)||reclaim;
   const strong=(mom>=2.2&&((news>=4)||(vol>=2)||(scanner>=6&&conf>=2)))||reclaim;
-  return{safeDay,positiveStructure,catalyst,strong,momentum:mom,news,volume:vol,scanner,confidence:conf};
+  const exceptional=(mom>=3&&((news>=5)||(vol>=3)||(scanner>=7&&conf>=2.5)))||Boolean(reclaim&&mom>=1.5);
+  return{safeDay,positiveStructure,catalyst,strong,exceptional,momentum:mom,news,volume:vol,scanner,confidence:conf};
 }
 
 export function entryDecisionV290(row={},history=[],now=Date.now()){
@@ -68,25 +70,27 @@ export function entryDecisionV290(row={},history=[],now=Date.now()){
   if(blocked)return{action:'AVOID',tier:'BLOCK',score,coverage,trend,pulse,label:'Blockiert'};
   if(over&&!reclaim)return{action:'WAIT',tier:'OVEREXTENDED',score,coverage,trend,pulse,label:'Warten auf Rücksetzer/Reclaim'};
   if(score>=cfg.exceptionalMin&&coverage>=cfg.regularCoverage&&!trend.falling&&pulse.safeDay)return{action:'BUY',tier:'EXCEPTIONAL',score,coverage,trend,pulse,label:'Sehr stark · kaufen'};
-  if(score>=cfg.strongMin&&coverage>=cfg.regularCoverage&&!trend.falling&&pulse.safeDay)return{action:'BUY',tier:'STRONG',score,coverage,trend,pulse,label:'Stark bestätigt · kaufen'};
-  if(score>=cfg.regularMin&&coverage>=cfg.regularCoverage&&(trend.rising||trend.confirmed68||pulse.catalyst)&&!trend.falling&&pulse.safeDay&&pulse.positiveStructure)return{action:'BUY',tier:'REGULAR',score,coverage,trend,pulse,label:'Kaufen'};
+  if(score>=cfg.strongMin&&coverage>=cfg.regularCoverage&&!trend.falling&&pulse.safeDay&&pulse.positiveStructure)return{action:'BUY',tier:'STRONG',score,coverage,trend,pulse,label:'Stark bestätigt · kaufen'};
+  if(score>=cfg.regularMin&&coverage>=cfg.regularCoverage&&(trend.rising||trend.confirmed58||pulse.strong)&&!trend.falling&&pulse.safeDay&&pulse.positiveStructure)return{action:'BUY',tier:'REGULAR',score,coverage,trend,pulse,label:'Kaufen'};
   if(score>=cfg.earlyMin&&coverage>=cfg.earlyCoverage&&((trend.rising&&pulse.positiveStructure)||pulse.strong)&&!trend.falling&&pulse.safeDay)return{action:'BUY_EARLY',tier:'EARLY',score,coverage,trend,pulse,label:'Früher Einstieg'};
-  if(score>=cfg.microMin&&coverage>=cfg.microCoverage&&((trend.strongRising&&pulse.positiveStructure)||(coverage>=.82&&pulse.strong))&&!trend.falling&&pulse.safeDay)return{action:'BUY_MICRO',tier:'MICRO',score,coverage,trend,pulse,label:'Mikro-Früheinstieg'};
-  if(score>=cfg.scoutMin&&coverage>=cfg.scoutCoverage&&trend.scoutRising&&pulse.positiveStructure&&pulse.catalyst&&!trend.falling&&trend.samples>=2&&pulse.safeDay)return{action:'BUY_SCOUT',tier:'SCOUT',score,coverage,trend,pulse,label:'Scout-Einstieg'};
-  if(score>=cfg.microMin)return{action:'WAIT',tier:'WAIT_65',score,coverage,trend,pulse,label:trend.rising?'65+ · Bestätigung läuft':'65+ · noch keine saubere Beschleunigung'};
-  if(score>=cfg.scoutMin)return{action:'WATCH',tier:'WATCH_63',score,coverage,trend,pulse,label:trend.rising?'63+ · möglicher Starter':'63+ · beobachten'};
-  if(score>=58)return{action:'WATCH',tier:'WATCH',score,coverage,trend,pulse,label:trend.rising?'Beobachten · verbessert sich':'Beobachten'};
+  if(score>=cfg.microMin&&coverage>=cfg.microCoverage&&((trend.strongRising&&pulse.positiveStructure)||(coverage>=.90&&pulse.exceptional))&&!trend.falling&&pulse.safeDay)return{action:'BUY_MICRO',tier:'MICRO',score,coverage,trend,pulse,label:'Mikro-Früheinstieg'};
+  if(score>=cfg.scoutMin&&coverage>=cfg.scoutCoverage&&trend.scoutRising&&pulse.positiveStructure&&pulse.strong&&!trend.falling&&trend.samples>=2&&pulse.safeDay)return{action:'BUY_SCOUT',tier:'SCOUT',score,coverage,trend,pulse,label:'Scout-Einstieg'};
+  if(score>=cfg.earlyMin)return{action:'WAIT',tier:'WAIT_58',score,coverage,trend,pulse,label:trend.rising?'58+ · frühe Bestätigung läuft':'58+ · Richtung noch nicht sauber'};
+  if(score>=cfg.microMin)return{action:'WAIT',tier:'WAIT_56',score,coverage,trend,pulse,label:trend.strongRising?'56+ · Mikro-Setup bildet sich':'56+ · noch nicht stark genug'};
+  if(score>=cfg.scoutMin)return{action:'WATCH',tier:'WATCH_53',score,coverage,trend,pulse,label:trend.rising?'53+ · möglicher Scout':'53+ · beobachten'};
+  if(score>=cfg.watchMin)return{action:'WATCH',tier:'WATCH_50',score,coverage,trend,pulse,label:trend.rising?'50–52 · verbessert sich':'50–52 · beobachten'};
   return{action:'AVOID',tier:'WEAK',score,coverage,trend,pulse,label:'Schwach'};
 }
 
 export function entryAllocationPctV290(cash=0,decision={}){
   const score=num(decision?.score),tier=String(decision?.tier||'');
-  let lo=3,hi=4.5,pct=3;
-  if(tier==='MICRO'){lo=4;hi=6;pct=4+Math.max(0,score-65)*.30}
-  else if(tier==='EARLY'){lo=5;hi=8;pct=5+Math.max(0,score-68)*.35}
-  else if(tier==='REGULAR'){lo=7;hi=11;pct=7+Math.max(0,score-72)*.30}
-  else if(tier==='STRONG'||tier==='EXCEPTIONAL'){lo=8;hi=12;pct=8+Math.max(0,score-76)*.22}
-  else pct=3+Math.max(0,score-63)*.30;
+  let lo=2,hi=3,pct=2;
+  if(tier==='MICRO'){lo=3;hi=4.5;pct=3+Math.max(0,score-56)*.35}
+  else if(tier==='EARLY'){lo=4.5;hi=7;pct=4.5+Math.max(0,score-58)*.38}
+  else if(tier==='REGULAR'){lo=6;hi=9.5;pct=6+Math.max(0,score-62)*.28}
+  else if(tier==='STRONG'){lo=7;hi=11;pct=7+Math.max(0,score-68)*.28}
+  else if(tier==='EXCEPTIONAL'){lo=8;hi=12;pct=8+Math.max(0,score-76)*.20}
+  else pct=2+Math.max(0,score-53)*.40;
   if(cash>=500&&(tier==='REGULAR'||tier==='STRONG'||tier==='EXCEPTIONAL'))pct=Math.max(pct,500/cash*100);
   return +clamp(pct,lo,hi).toFixed(2);
 }
