@@ -85,7 +85,7 @@ function matureExpectedMove(candidate={},action={}){
  if(samples>=8&&symbols>=3&&h15!==null&&h30!==null)return{mature:true,samples,symbols,expectedPct:h15*.60+h30*.40,source:'forward-15/30'};
  const e=candidate?.calibratedExpectation||candidate?.entryExpectation||null,n=Math.max(0,num(e?.samples15,0)||0),p=num(e?.posteriorExpectedMovePct,null);
  if(n>=12&&p!==null)return{mature:true,samples:n,symbols:null,expectedPct:p,source:'timing-calibration'};
- const reason=String(action?.reason||''),match=reason.match(/E\[Move\]\s*([+-]?\d+(?:[.,]\d+)?)%[^·]*·[^·]*n=(\d+)/i);
+ const reason=String(action?.reason||''),match=reason.match(/E\[Move\]\s*([+-]?\d+(?:[.,]\d+)?)%.*?n=(\d+)/i);
  if(match){const parsed=Number(match[1].replace(',','.')),rn=Number(match[2]);if(Number.isFinite(parsed)&&rn>=12)return{mature:true,samples:rn,symbols:null,expectedPct:parsed,source:'final-controller-calibration'};}
  return{mature:false,samples,symbols,expectedPct:null,source:'insufficient'};
 }
