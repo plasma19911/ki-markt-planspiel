@@ -21,6 +21,9 @@ function metrics(c={}){
 }
 function hardUnsafe(c,m){return m.event==='HIGH'||m.state==='REVERSAL'||m.sell==='STRONG'||targetVenueIssue(c)}
 function obviousPeakChase(m){const near=m.draw!==null&&m.draw>-0.08;return near&&(m.day>4.5||m.rsi>=78)||m.day>8||m.rsi>=84}
+function protectedHold(reason=''){
+ return /(?:NEWS-IMPACT BLOCK|NEWS-SHOCK WAIT|CATALYST WATCH|EVENT[- ]?RISK|REVERSAL|STRONG SELL|PEAK[- ]?CHASE|HIGH[- ]?CHASE|OVERHEAT|VENUE|GETTEX|FX[- ]?SAFETY|MULTI[- ]?TIMEFRAME.*BLOCK|MTF.*BLOCK|FALLING KNIFE|VERKÄUFERDOMINANZ)/i.test(String(reason));
+}
 function learningCandidate(c){
  const m=metrics(c);if(hardUnsafe(c,m)||obviousPeakChase(m))return{allow:false,m,quality:0};
  const tapeOk=m.m5>=-0.08||m.accel>=0.01;
@@ -29,21 +32,32 @@ function learningCandidate(c){
  const quality=clamp(scoreQ*.40+confQ*.25+tapeQ*.25+newsQ*.10,0,1);
  return{allow:broad,m,quality};
 }
-function allocate100(rows){
- const n=rows.length;if(!n)return[];const cap=n===1?100:n===2?60:n===3?45:35;
- const out=rows.map(x=>({...x,allocation:0,weight:.55+x.quality}));let remaining=100,active=out.slice();
+function targetDeployment(rows){
+ if(!rows.length)return 0;
+ const top=rows[0].quality,avg=rows.reduce((a,x)=>a+x.quality,0)/rows.length,n=rows.length;
+ if(n>=4&&top>=.62&&avg>=.48)return 100;
+ if(n>=3&&top>=.52)return 90;
+ if(n>=2&&top>=.45)return 72;
+ if(n>=2)return 55;
+ if(top>=.70)return 55;
+ if(top>=.52)return 40;
+ return 28;
+}
+function allocate(rows,targetPct){
+ const n=rows.length;if(!n||targetPct<=0)return[];
+ const singleCap=n===1?targetPct:n===2?Math.min(48,targetPct):n===3?Math.min(38,targetPct):Math.min(32,targetPct);
+ const out=rows.map(x=>({...x,allocation:0,weight:.55+x.quality}));let remaining=targetPct,active=out.slice();
  for(let pass=0;pass<10&&remaining>.01&&active.length;pass++){
   const ws=active.reduce((a,x)=>a+x.weight,0)||active.length;let used=0;
-  for(const x of active){const room=Math.max(0,cap-x.allocation),share=remaining*(x.weight/ws),add=Math.min(room,share);x.allocation+=add;used+=add}
-  remaining-=used;active=active.filter(x=>cap-x.allocation>.01);if(used<.001)break;
+  for(const x of active){const room=Math.max(0,singleCap-x.allocation),share=remaining*(x.weight/ws),add=Math.min(room,share);x.allocation+=add;used+=add}
+  remaining-=used;active=active.filter(x=>singleCap-x.allocation>.01);if(used<.001)break;
  }
- const total=out.reduce((a,x)=>a+x.allocation,0),rest=Math.max(0,100-total);if(rest>.001)out[0].allocation+=rest;
- return out;
+ return out.filter(x=>x.allocation>=1);
 }
-function uniqueBestCandidates(candidates,sellKeys){
+function uniqueBestCandidates(candidates,sellKeys,blockedKeys){
  const best=new Map();
  for(const c of candidates){
-  const s=key(c);if(!s||sellKeys.has(s))continue;
+  const s=key(c);if(!s||sellKeys.has(s)||blockedKeys.has(s))continue;
   const q=learningCandidate(c);if(!q.allow)continue;
   const row={c,...q},old=best.get(s);
   if(!old||row.quality>old.quality||row.quality===old.quality&&row.m.score>old.m.score)best.set(s,row);
@@ -51,17 +65,25 @@ function uniqueBestCandidates(candidates,sellKeys){
  return[...best.values()].sort((a,b)=>b.quality-a.quality||b.m.score-a.m.score||b.m.confidence-a.m.confidence||b.m.accel-a.m.accel).slice(0,4);
 }
 
-function postProcess(r,input){
+function postProcess(r,input,getState){
  const plan=parsePlan(r),prompt=findPrompt(input);if(!plan||!prompt)return r;
- const candidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]);if(!candidates.length)return r;
+ const state=typeof getState==='function'?(getState()||{}):{},cash=Math.max(0,num(state?.config?.cash)),start=Math.max(cash,num(state?.config?.start_capital,cash));
+ const minMeaningfulCash=Math.max(5,start*.001);
  let actions=arr(plan.actions).slice();
+ if(cash<minMeaningfulCash){
+  actions=actions.filter(a=>String(a?.action||'').toUpperCase()!=='BUY');
+  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,135)} · INTELLIGENT-CASH: Restcash ${cash.toFixed(2)} € unter sinnvoller Ordergröße ${minMeaningfulCash.toFixed(2)} €; keine Cent-/Miniorders.`;
+  return{...r,response:JSON.stringify(plan)};
+ }
+ const candidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]);if(!candidates.length)return r;
  const sellKeys=new Set(actions.filter(a=>String(a?.action||'').toUpperCase()==='SELL').map(key));
- const ranked=uniqueBestCandidates(candidates,sellKeys);if(!ranked.length)return r;
- const allocation=allocate100(ranked),selected=new Set(allocation.map(x=>key(x.c)));
- // V22.1: Der aktive Lernplan ist der EINZIGE BUY-Plan der finalen Entscheidung.
- // Alte BUYs aus inneren Guards werden komplett entfernt, sonst koennen nach 100%-
- // Kapitalverteilung noch Doppel-/Restorders mit Cent-Budget uebrig bleiben.
- // SELLs bleiben unangetastet; HOLDs fuer nicht ausgewaehlte Symbole duerfen bleiben.
+ const blockedKeys=new Set(actions.filter(a=>String(a?.action||'').toUpperCase()==='HOLD'&&protectedHold(a?.reason)).map(key));
+ const ranked=uniqueBestCandidates(candidates,sellKeys,blockedKeys);if(!ranked.length){
+  plan.actions=actions.filter(a=>String(a?.action||'').toUpperCase()!=='BUY');
+  plan.summary=`${String(plan.summary||'').slice(0,135)} · INTELLIGENT-CASH: kein sicher freigegebener Kandidat; News/Event/Peak/MTF-HOLD wird nicht überstimmt.`;
+  return{...r,response:JSON.stringify(plan)};
+ }
+ const target=targetDeployment(ranked),allocation=allocate(ranked,target),selected=new Set(allocation.map(x=>key(x.c)));
  actions=actions.filter(a=>{
   const type=String(a?.action||'').toUpperCase();
   if(type==='BUY')return false;
@@ -72,13 +94,13 @@ function postProcess(r,input){
  for(const x of allocation){
   const s=key(x.c);if(!s||emitted.has(s))continue;emitted.add(s);
   const pct=+x.allocation.toFixed(2);if(pct<1)continue;
-  actions.push({symbol:s,action:'BUY',confidence:clamp(Math.max(.58,x.m.confidence),.58,.88),allocation_pct:pct,reason:`ACTIVE-LEARNING-CASH V22.1: ${pct.toFixed(1)}% des freien Cashs · genau eine finale BUY-Aktion pro Symbol · Qualität ${x.quality.toFixed(2)} · Score ${x.m.score.toFixed(2)} · 5m ${x.m.m5.toFixed(2)} · 20m ${x.m.m20.toFixed(2)} · Beschleunigung ${x.m.accel.toFixed(2)}. Harte Safety und offensichtlicher Peak-Chase wurden vorher ausgeschlossen.`});
+  actions.push({symbol:s,action:'BUY',confidence:clamp(Math.max(.58,x.m.confidence),.58,.88),allocation_pct:pct,reason:`INTELLIGENT-CASH V23: ${pct.toFixed(1)}% des freien Cashs · Zielauslastung ${target.toFixed(0)}% · Qualität ${x.quality.toFixed(2)} · Score ${x.m.score.toFixed(2)} · 5m ${x.m.m5.toFixed(2)} · 20m ${x.m.m20.toFixed(2)} · Beschleunigung ${x.m.accel.toFixed(2)}. News-/Event-/Peak-/MTF-Sperren bleiben bindend.`});
  }
- plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,115)} · ACTIVE-LEARNING V22.1: ${emitted.size} eindeutige BUY(s), 100% Cash verplant; keine Doppel-/Cent-Restorders.`;
+ plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,115)} · INTELLIGENT-CASH V23: ${emitted.size} BUY(s), ${target.toFixed(0)}% des freien Cashs gezielt verplant; Safety-HOLDs bleiben bindend.`;
  return{...r,response:JSON.stringify(plan)};
 }
 
 export class ActiveLearningCashAiGuard{
- constructor(base){this.base=base}
- async run(model,input){const r=await this.base.run(model,input);return postProcess(r,input)}
+ constructor(base,{getState=null}={}){this.base=base;this.getState=getState}
+ async run(model,input){const r=await this.base.run(model,input);return postProcess(r,input,this.getState)}
 }
