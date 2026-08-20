@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T17:53:30.979404+00:00",
+  "checkedAt": "2026-08-20T17:53:51.561978+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -32,7 +32,7 @@
     "configured": true,
     "online": true,
     "lastSeenAt": "2026-08-20T17:53:06.895Z",
-    "ageSeconds": 24,
+    "ageSeconds": 44,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
@@ -1246,19 +1246,7 @@
     "enabled": true,
     "version": 27.8,
     "stateVersion": 3,
-    "latest": {
-      "entryConfirmationWaits": 0,
-      "adaptiveEntryWaits": 0,
-      "lateImpulseBlocks": 0,
-      "deteriorationBlocks": 0,
-      "saturationBlocks": 0,
-      "convictionSizeCaps": 0,
-      "tinyProfitHolds": 0,
-      "confirmationResets": 0,
-      "softSellConfirmationWaits": 0,
-      "softSellConfirmed": 0,
-      "heldBuyBlocks": 0
-    },
+    "latest": null,
     "heldBuyPromptSuppression": true,
     "heldPromptPlanOnly": true,
     "pullbackReclaimAware": true,
@@ -1323,7 +1311,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T17:53:03.845Z",
+      "cachedAt": "2026-08-20T17:53:37.958Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
