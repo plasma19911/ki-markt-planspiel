@@ -1,5 +1,6 @@
 name: Apply V27.7 final hardening
 
+# Second commit intentionally triggers this already-registered one-shot workflow.
 on:
   push:
     branches: [main]
@@ -19,10 +20,11 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           reps={
-            'public/index.html':[('changelog-optimization.js?v=20260820-1532','changelog-optimization.js?v=20260820-1546')],
-            'public/changelog-optimization.js':[('changelog-v276-bottom.js?v=20260820-1532','changelog-v276-bottom.js?v=20260820-1546')],
-            'public/changelog-v276-bottom.js':[('changelog-v277.js?v=20260820-1532','changelog-v277.js?v=20260820-1546')],
-            'public/changelog-v277.js':[('changelog-v277-hotfix.js?v=20260820-1532','changelog-v277-hotfix.js?v=20260820-1546')]
+            'public/index.html':[('changelog-optimization.js?v=20260820-1532','changelog-optimization.js?v=20260820-1555'),('changelog-optimization.js?v=20260820-1546','changelog-optimization.js?v=20260820-1555')],
+            'public/changelog-optimization.js':[('changelog-v276-bottom.js?v=20260820-1532','changelog-v276-bottom.js?v=20260820-1555'),('changelog-v276-bottom.js?v=20260820-1546','changelog-v276-bottom.js?v=20260820-1555')],
+            'public/changelog-v276-bottom.js':[('changelog-v277.js?v=20260820-1532','changelog-v277.js?v=20260820-1555'),('changelog-v277.js?v=20260820-1546','changelog-v277.js?v=20260820-1555')],
+            'public/changelog-v277.js':[('changelog-v277-hotfix.js?v=20260820-1532','changelog-v277-hotfix.js?v=20260820-1555'),('changelog-v277-hotfix.js?v=20260820-1546','changelog-v277-hotfix.js?v=20260820-1555')],
+            'public/changelog-v277-hotfix.js':[('changelog-v277-json-repair.js?v=20260820-1546','changelog-v277-json-repair.js?v=20260820-1555')]
           }
           for fn,pairs in reps.items():
             p=Path(fn);s=p.read_text(encoding='utf-8')
@@ -30,7 +32,7 @@ jobs:
             p.write_text(s,encoding='utf-8')
           p=Path('.github/workflows/deploy-worker.yml');s=p.read_text(encoding='utf-8')
           old="const behaviorOk=j?.tradingBehaviorPolicy?.enabled===true&&Number(j?.tradingBehaviorPolicy?.version)===27.7&&j?.finalDecisionPolicy?.entryConfirmationHysteresis===true&&j?.finalDecisionPolicy?.lateImpulseRecheck===true&&j?.finalDecisionPolicy?.tinyProfitChurnBlocked===true;"
-          new="const behaviorOk=j?.tradingBehaviorPolicy?.enabled===true&&Number(j?.tradingBehaviorPolicy?.version)===27.7&&j?.finalDecisionPolicy?.entryConfirmationHysteresis===true&&j?.finalDecisionPolicy?.minuteScanConfirmationSafe===true&&j?.finalDecisionPolicy?.lateImpulseRecheck===true&&j?.finalDecisionPolicy?.tinyProfitChurnBlocked===true&&j?.finalDecisionPolicy?.heldFxFallbackSafe===true&&j?.finalDecisionPolicy?.aiPlanJsonRepair===true&&j?.finalDecisionPolicy?.aiPlanCompactOutput===true&&j?.tradingBehaviorPolicy?.aiPlanJsonRepair?.partialObjectsNeverUsed===true;"
+          new="const behaviorOk=j?.tradingBehaviorPolicy?.enabled===true&&Number(j?.tradingBehaviorPolicy?.version)===27.7&&j?.finalDecisionPolicy?.entryConfirmationHysteresis===true&&j?.finalDecisionPolicy?.minuteScanConfirmationSafe===true&&j?.finalDecisionPolicy?.lateImpulseRecheck===true&&j?.finalDecisionPolicy?.tinyProfitChurnBlocked===true&&j?.finalDecisionPolicy?.heldFxFallbackSafe===true&&j?.finalDecisionPolicy?.aiPlanJsonRepair===true&&j?.finalDecisionPolicy?.aiPlanCompactOutput===true&&j?.finalDecisionPolicy?.cloudflareAiWrapperSignatureSafe===true&&j?.tradingBehaviorPolicy?.aiPlanJsonRepair?.partialObjectsNeverUsed===true;"
           if old in s:s=s.replace(old,new,1)
           elif new not in s:raise SystemExit('deploy behavior verification marker missing')
           p.write_text(s,encoding='utf-8')
@@ -38,7 +40,7 @@ jobs:
           git rm .github/workflows/apply-v277-final-hardening.yml
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add public/index.html public/changelog-optimization.js public/changelog-v276-bottom.js public/changelog-v277.js .github/workflows/deploy-worker.yml
+          git add public/index.html public/changelog-optimization.js public/changelog-v276-bottom.js public/changelog-v277.js public/changelog-v277-hotfix.js .github/workflows/deploy-worker.yml
           git commit -m 'Finish V27.7 behavior and AI-plan hardening [skip ci]'
           git pull --rebase origin main
           git push origin HEAD:main
