@@ -18,6 +18,7 @@ const finite=v=>Number.isFinite(Number(v))?Number(v):null;
 const decode=s=>String(s||'').replace(/&nbsp;|&#160;/gi,' ').replace(/&amp;/gi,'&').replace(/&quot;/gi,'"').replace(/&#39;|&apos;/gi,"'").replace(/&auml;/gi,'ä').replace(/&ouml;/gi,'ö').replace(/&uuml;/gi,'ü').replace(/&Auml;/g,'Ä').replace(/&Ouml;/g,'Ö').replace(/&Uuml;/g,'Ü').replace(/&szlig;/gi,'ß').replace(/&#(\d+);/g,(_,n)=>String.fromCharCode(Number(n))).replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
 const dayIso=(d,m,y)=>`${String(y<100?2000+y:y).padStart(4,'0')}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 const dayDiff=iso=>Math.round((Date.parse(`${iso}T12:00:00Z`)-Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate(),12))/86400000);
+const localeNum=s=>{const x=String(s??'').replace(/[^0-9,.-]/g,'').trim();if(!x)return null;const normalized=x.includes(',')?x.replace(/\./g,'').replace(',','.') : x;const n=Number(normalized);return Number.isFinite(n)?n:null};
 
 function normalizeName(s){
  return decode(s).normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/\([^)]*(?:EX |SPONS|ADR|GDR|REGISTERED|CLASS|SHS|SHARE)[^)]*\)/g,' ').replace(/&/g,' AND ').replace(/[^A-Z0-9]+/g,' ').split(/\s+/).filter(Boolean).filter(x=>!new Set(['AG','SE','NV','SA','SPA','PLC','LTD','LIMITED','INC','INCORPORATED','CORP','CORPORATION','CO','COMPANY','KGAA','GMBH','HOLDING','HOLDINGS','GROUP','REGISTERED','SHS','SHARE','SHARES','SPONS','SPONSORED','ADR','ADRS','GDR','ADSS','ORD','ORDINARY','CLASS','THE']).has(x)).join(' ').trim();
@@ -31,10 +32,12 @@ function matchScore(a,b){
 }
 function parseRows(html,source){
  const out=[];for(const m of String(html).matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi)){
-  const cells=[...m[1].matchAll(/<t[dh]\b[^>]*>([\s\S]*?)<\/t[dh]>/gi)].map(x=>decode(x[1]));if(cells.length<2||!/Hauptversammlung/i.test(cells.join(' | ')))continue;
+  const rowHtml=m[1],cells=[...rowHtml.matchAll(/<t[dh]\b[^>]*>([\s\S]*?)<\/t[dh]>/gi)].map(x=>decode(x[1]));if(cells.length<2||!/Hauptversammlung/i.test(cells.join(' | ')))continue;
   const dateCell=cells.find(x=>/\b\d{1,2}\.\d{1,2}\.\d{2,4}\b/.test(x)),dm=dateCell?.match(/\b(\d{1,2})\.(\d{1,2})\.(\d{2,4})\b/);if(!dm)continue;
   const eventIdx=cells.findIndex(x=>/Hauptversammlung/i.test(x));let company=cells.slice(0,eventIdx<0?cells.length:eventIdx).find((x,i)=>i>0&&!/\b\d{1,2}\.\d{1,2}\.\d{2,4}\b/.test(x)&&x.length>2&&!/^[-–—]$/.test(x));if(!company)company=cells[1];
-  const date=dayIso(Number(dm[1]),Number(dm[2]),Number(dm[3]));out.push({date,sourceCompanyName:company,source});
+  const anchors=[...rowHtml.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)].map(a=>({href:a[1],text:decode(a[2])}));
+  const companyAnchor=anchors.sort((a,b)=>matchScore(company,b.text)-matchScore(company,a.text))[0],sourceHref=companyAnchor?.href?new URL(companyAnchor.href,source).toString():null;
+  const date=dayIso(Number(dm[1]),Number(dm[2]),Number(dm[3]));out.push({date,sourceCompanyName:company,source,sourceHref});
  }
  return out;
 }
@@ -48,6 +51,21 @@ async function quoteBatch(symbols){
  }
  return[];
 }
+function estimateUrl(sourceHref){
+ try{const p=new URL(sourceHref).pathname,m=p.match(/\/aktien\/([^/?#]+?)(?:-aktie)?$/i);if(!m)return null;return`https://www.finanzen.net/schaetzungen/${m[1].replace(/-aktie$/i,'')}`}catch{return null}
+}
+function fundamentalFromEstimateHtml(html){
+ const text=decode(html),pairs=[...text.matchAll(/Gewinn\/Aktie(?!\s*\(reported\))\s+(-?\d[\d.,]*)\s+(-?\d[\d.,]*)/gi)];
+ if(!pairs.length)return null;
+ const epsCurrent=localeNum(pairs.at(-1)?.[1]),epsNext=localeNum(pairs.at(-1)?.[2]);if(epsCurrent===null||epsNext===null)return null;
+ let score=50,positive=null,reasons=[],conf=.62;
+ if(epsCurrent<=0&&epsNext>0){score+=18;positive=true;reasons.push(`Analysten-EPS dreht von ${epsCurrent.toFixed(2)} auf ${epsNext.toFixed(2)}`)}
+ else if(epsCurrent>0){const g=(epsNext/epsCurrent-1)*100;if(g>=30){score+=16;positive=true;reasons.push(`Analysten erwarten EPS-Wachstum ca. ${g.toFixed(0)}%`)}else if(g>=12){score+=11;positive=true;reasons.push(`Analysten erwarten EPS-Wachstum ca. ${g.toFixed(0)}%`)}else if(g>=3){score+=6;positive=true;reasons.push(`Analysten erwarten leicht höheres EPS (+${g.toFixed(0)}%)`)}else if(g<=-15){score-=13;positive=false;reasons.push(`Analysten erwarten EPS-Rückgang ca. ${Math.abs(g).toFixed(0)}%`)}else if(g<0){score-=6;positive=false;reasons.push('Analysten erwarten leicht rückläufiges EPS')}}
+ const rev=[...text.matchAll(/Umsatzerlöse in Mio\.\s+(-?\d[\d.,]*)\s+(-?\d[\d.,]*)/gi)].at(-1);const revCurrent=localeNum(rev?.[1]),revNext=localeNum(rev?.[2]);
+ if(revCurrent>0&&revNext>0){const g=(revNext/revCurrent-1)*100;if(g>=5){score+=5;reasons.push(`Umsatzschätzung nächstes Jahr +${g.toFixed(0)}%`)}else if(g>=2){score+=3;reasons.push(`Umsatzschätzung nächstes Jahr +${g.toFixed(0)}%`)}else if(g<=-5){score-=5;reasons.push(`Umsatzschätzung nächstes Jahr ${g.toFixed(0)}%`)}}
+ return{baseScore:Math.round(clamp(score,0,100)),fundamentalScore:Math.round(clamp(score,0,100)),fundamentalConfidence:+conf.toFixed(3),profitForecastPositive:positive,fundamentalReasons:reasons.slice(0,4),fundamentals:{source:'finanzen.net Schätzungen',epsCurrentYearEstimate:epsCurrent,epsNextYearEstimate:epsNext,revenueCurrentYearEstimate:revCurrent,revenueNextYearEstimate:revNext}};
+}
+async function estimateFundamentals(row){const url=estimateUrl(row?.sourceHref);if(!url)return null;try{const html=await getText(url),f=fundamentalFromEstimateHtml(html);return f?{...f,estimateUrl:url}:null}catch{return null}}
 function fundamentalFromQuote(q={},old=null){
  const ttm=finite(q.epsTrailingTwelveMonths),forward=finite(q.epsForward),current=finite(q.epsCurrentYear),rating=String(q.averageAnalystRating||''),week=finite(q.fiftyTwoWeekChange),forwardPE=finite(q.forwardPE),trailingPE=finite(q.trailingPE);let score=50,conf=.18,positive=null,reasons=[];
  if(ttm!==null&&forward!==null){conf+=.34;if(ttm<=0&&forward>0){score+=18;positive=true;reasons.push('Forward-EPS dreht gegenüber negativem TTM in den Gewinn')}else if(ttm>0){const g=(forward/ttm-1)*100;if(g>=25){score+=14;positive=true;reasons.push(`Forward-EPS ca. ${g.toFixed(0)}% über TTM`)}else if(g>=8){score+=9;positive=true;reasons.push(`Forward-EPS ca. ${g.toFixed(0)}% über TTM`)}else if(g>0){score+=4;positive=true;reasons.push('Forward-EPS leicht über TTM')}else if(g<=-15){score-=12;positive=false;reasons.push(`Forward-EPS ca. ${Math.abs(g).toFixed(0)}% unter TTM`)}else if(g<0){score-=5;positive=false;reasons.push('Forward-EPS unter TTM')}}}
@@ -56,8 +74,9 @@ function fundamentalFromQuote(q={},old=null){
  if(week!==null){conf+=.06;if(week>-.05&&week<.35)score+=3;if(week>.65)score-=3;if(week<-.35)score-=4}
  if(forwardPE!==null&&trailingPE!==null&&forwardPE>0&&trailingPE>0){conf+=.05;if(forwardPE<trailingPE*.82)score+=3;else if(forwardPE>trailingPE*1.22)score-=2}
  if(ttm===null&&forward===null&&old){return{baseScore:old.baseScore??old.fundamentalScore??50,fundamentalScore:old.fundamentalScore??old.baseScore??50,fundamentalConfidence:old.fundamentalConfidence??.2,profitForecastPositive:old.profitForecastPositive??null,fundamentalReasons:old.fundamentalReasons||['Fundamentaldaten zuletzt verfügbar'],fundamentals:old.fundamentals||null}}
- return{baseScore:Math.round(clamp(score,0,100)),fundamentalScore:Math.round(clamp(score,0,100)),fundamentalConfidence:+clamp(conf,.15,.85).toFixed(3),profitForecastPositive:positive,fundamentalReasons:reasons.slice(0,4),fundamentals:{epsTrailingTwelveMonths:ttm,epsForward:forward,epsCurrentYear:current,averageAnalystRating:rating||null,fiftyTwoWeekChange:week,forwardPE,trailingPE,marketCap:finite(q.marketCap)}};
+ return{baseScore:Math.round(clamp(score,0,100)),fundamentalScore:Math.round(clamp(score,0,100)),fundamentalConfidence:+clamp(conf,.15,.85).toFixed(3),profitForecastPositive:positive,fundamentalReasons:reasons.slice(0,4),fundamentals:{source:'Yahoo quote',epsTrailingTwelveMonths:ttm,epsForward:forward,epsCurrentYear:current,averageAnalystRating:rating||null,fiftyTwoWeekChange:week,forwardPE,trailingPE,marketCap:finite(q.marketCap)}};
 }
+function bestFundamental(yahoo,estimate,old){const y=fundamentalFromQuote(yahoo||{},null);if(estimate&&estimate.fundamentalConfidence>y.fundamentalConfidence+.08)return estimate;if(y.fundamentalConfidence>=.35)return y;if(old&&Number(old.fundamentalConfidence)>.30)return{baseScore:old.baseScore??50,fundamentalScore:old.fundamentalScore??old.baseScore??50,fundamentalConfidence:old.fundamentalConfidence,profitForecastPositive:old.profitForecastPositive??null,fundamentalReasons:old.fundamentalReasons||[],fundamentals:old.fundamentals||null};return estimate||y}
 
 const old=fs.existsSync(OUT)?JSON.parse(fs.readFileSync(OUT,'utf8')):{events:[]},sourceResults=await Promise.allSettled(SOURCES.map(async url=>({url,rows:parseRows(await getText(url),url)}))),raw=[];const errors=[];
 for(const x of sourceResults){if(x.status==='fulfilled')raw.push(...x.value.rows);else errors.push(String(x.reason?.message||x.reason))}
@@ -72,7 +91,8 @@ for(const ev of dedup.values()){
 const byKey=new Map();for(const x of matched){const k=`${x.date}|${x.companyKey||x.symbol}`;const oldx=byKey.get(k);if(!oldx||x.matchConfidence>oldx.matchConfidence)byKey.set(k,x)}
 const rows=[...byKey.values()].sort((a,b)=>a.date.localeCompare(b.date)||a.name.localeCompare(b.name)).slice(0,80),quotes=new Map();
 for(let i=0;i<rows.length;i+=35)for(const q of await quoteBatch(rows.slice(i,i+35).map(x=>x.symbol)))quotes.set(String(q.symbol||'').toUpperCase(),q);
-const oldMap=new Map((old?.events||[]).map(x=>[`${x.date}|${x.symbol}`,x])),events=rows.map(x=>{const f=fundamentalFromQuote(quotes.get(x.symbol)||{},oldMap.get(`${x.date}|${x.symbol}`));const seeded=scoreAgmOpportunity({...x,...f},{now:Date.now()});return{...x,...f,daysUntil:dayDiff(x.date),baseLabel:seeded.label,source:'finanzen.net Hauptversammlung'}});
-const out={version:1,modelVersion:27.6,updatedAt:new Date().toISOString(),nextRefreshAfter:new Date(Date.now()+23*3600000).toISOString(),refreshCadence:'daily',source:'finanzen.net Hauptversammlung',sourceUrls:SOURCES,sourceErrors:errors,rawUpcomingCount:dedup.size,matchedUpcomingCount:events.length,universeGeneratedAt:universe?.generated_at||null,scoreMeaning:'0-100 interner Vorab-Chancen-Score; keine Gewinnwahrscheinlichkeit',events};
+const estimateMap=new Map();for(let i=0;i<rows.length;i+=6){const part=rows.slice(i,i+6),vals=await Promise.all(part.map(estimateFundamentals));vals.forEach((v,j)=>{if(v)estimateMap.set(part[j].symbol,v)})}
+const oldMap=new Map((old?.events||[]).map(x=>[`${x.date}|${x.symbol}`,x])),events=rows.map(x=>{const f=bestFundamental(quotes.get(x.symbol)||{},estimateMap.get(x.symbol)||null,oldMap.get(`${x.date}|${x.symbol}`));const seeded=scoreAgmOpportunity({...x,...f},{now:Date.now()});return{...x,...f,daysUntil:dayDiff(x.date),baseLabel:seeded.label,source:'finanzen.net Hauptversammlung'}});
+const out={version:1,modelVersion:27.6,updatedAt:new Date().toISOString(),nextRefreshAfter:new Date(Date.now()+23*3600000).toISOString(),refreshCadence:'daily',source:'finanzen.net Hauptversammlung + finanzen.net Schätzungen + Yahoo Fallback',sourceUrls:SOURCES,sourceErrors:errors,rawUpcomingCount:dedup.size,matchedUpcomingCount:events.length,fundamentalEstimateCount:estimateMap.size,universeGeneratedAt:universe?.generated_at||null,scoreMeaning:'0-100 interner Vorab-Chancen-Score; keine Gewinnwahrscheinlichkeit',events};
 fs.writeFileSync(OUT,JSON.stringify(out,null,2)+'\n');
-console.log(JSON.stringify({ok:true,updatedAt:out.updatedAt,rawUpcomingCount:out.rawUpcomingCount,matchedUpcomingCount:out.matchedUpcomingCount,sourceErrors:errors.length},null,2));
+console.log(JSON.stringify({ok:true,updatedAt:out.updatedAt,rawUpcomingCount:out.rawUpcomingCount,matchedUpcomingCount:out.matchedUpcomingCount,fundamentalEstimateCount:out.fundamentalEstimateCount,sourceErrors:errors.length},null,2));
