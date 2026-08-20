@@ -1,0 +1,75 @@
+name: Fix V27.5 FX Fail Closed
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/apply-v275-fx-failclosed.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Remove fake FX=1 fallback and make final BUY fail closed
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p=Path('src/market-v3-base.js'); s=p.read_text(encoding='utf-8')
+          old="out[c]=direct>0?direct:inverse>0?1/inverse:1}return out}"
+          new="out[c]=direct>0?direct:inverse>0?1/inverse:null}return out}"
+          if old not in s: raise SystemExit('fxRates fallback target not found')
+          s=s.replace(old,new,1)
+          old="for(const x of coarse){x.currency=inferCurrency(x);x.fxRate=fx[x.currency]||1}"
+          new="for(const x of coarse){x.currency=inferCurrency(x);const rate=x.currency===base?1:fx[x.currency];x.fxRate=Number.isFinite(Number(rate))&&Number(rate)>0?Number(rate):0;x.fxVerified=x.currency===base||x.fxRate>0}"
+          if old not in s: raise SystemExit('coarse fx assignment not found')
+          s=s.replace(old,new,1)
+          old="selected.push({...x,fxRate:fx[inferCurrency(x)]||1})"
+          new="selected.push({...x,fxRate:Number(fx[inferCurrency(x)])>0?Number(fx[inferCurrency(x)]):0,fxVerified:inferCurrency(x)===base||Number(fx[inferCurrency(x)])>0})"
+          if old not in s: raise SystemExit('held selected fx assignment not found')
+          s=s.replace(old,new,1)
+          old="for(const c of deep){c.fxRate=fx[c.currency]||1}"
+          new="for(const c of deep){const rate=c.currency===base?1:fx[c.currency];c.fxRate=Number.isFinite(Number(rate))&&Number(rate)>0?Number(rate):0;c.fxVerified=c.currency===base||c.fxRate>0}"
+          if old not in s: raise SystemExit('deep fx assignment not found')
+          s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+
+          p=Path('src/r2-portfolio.js'); s=p.read_text(encoding='utf-8')
+          old="price:num(c.price),fx_rate:num(c.fxRate,1),currency:normalizeQuoteCurrency(c.currency)||null,"
+          new="price:num(c.price),fx_rate:num(c.fxRate,0),fx_verified:Boolean(c.fxVerified),currency:normalizeQuoteCurrency(c.currency)||null,"
+          if old not in s: raise SystemExit('normalizeCandidate fx target not found')
+          s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+
+          p=Path('src/loss-sell-invariant.js'); s=p.read_text(encoding='utf-8')
+          old="import {candidateQuoteUnit,positionQuoteUnit} from './quote-currency-units.js';"
+          new="import {candidateQuoteUnit,positionQuoteUnit,normalizeQuoteCurrency} from './quote-currency-units.js';"
+          if old not in s: raise SystemExit('quote import target not found')
+          s=s.replace(old,new,1)
+          old="if(action==='BUY'){\n   const c=candidates.get(s)||{},unit=candidateQuoteUnit(c);"
+          new="if(action==='BUY'){\n   const c=candidates.get(s)||{},unit=candidateQuoteUnit(c),baseCurrency=normalizeQuoteCurrency(state?.config?.currency||'EUR'),quoteCurrency=normalizeQuoteCurrency(c?.currency||unit.majorCurrency),fx=num(c?.fxRate??c?.fx_rate,null),fxVerified=c?.fxVerified===true||c?.fx_verified===true||quoteCurrency===baseCurrency;\n   if(quoteCurrency&&quoteCurrency!==baseCurrency&&!(fxVerified&&fx>0)){return{symbol:s,action:'HOLD',confidence:Math.max(.78,num(a?.confidence,.78)),allocation_pct:0,reason:`FX-SAFETY V27.5: BUY blockiert · ${quoteCurrency}/${baseCurrency} aktuell nicht verifiziert. Kein Ersatzkurs 1 und keine Fremdwährungsorder ohne belastbaren FX-Kurs.`};}\n   const unitCheck=unit;"
+          if old not in s: raise SystemExit('BUY fx safety insertion target not found')
+          s=s.replace(old,new,1)
+          s=s.replace("if(unit.minorUnit&&!c?.quoteUnitNormalized", "if(unitCheck.minorUnit&&!c?.quoteUnitNormalized",1)
+          s=s.replace("weil ${unit.rawCurrency} noch nicht auf ${unit.majorCurrency}", "weil ${unitCheck.rawCurrency} noch nicht auf ${unitCheck.majorCurrency}",1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Syntax check
+        run: |
+          node --check src/market-v3-base.js
+          node --check src/r2-portfolio.js
+          node --check src/loss-sell-invariant.js
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/market-v3-base.js src/r2-portfolio.js src/loss-sell-invariant.js
+          git commit -m 'Make V27.5 foreign FX handling fail closed' || exit 0
+          git pull --rebase origin main
+          git push origin HEAD:main
