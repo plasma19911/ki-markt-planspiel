@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T11:14:49.356906+00:00",
+  "checkedAt": "2026-08-20T11:15:23.495468+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -25,19 +25,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T11:14:07.077Z",
-    "ageSeconds": 42,
+    "lastSeenAt": "2026-08-20T11:15:07.761Z",
+    "ageSeconds": 16,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 106,
-  "lastScan": "2026-08-20T11:12:12.693Z",
+  "scanCount": 107,
+  "lastScan": "2026-08-20T11:15:12.730Z",
   "lastError": null,
   "aiLastSummary": "FINAL-CONTROLLER V27.5: 0 BUY · 0 SELL · 7 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefangen · 0 Flip-Flop-Reentry(s) blockiert · 0 Safety-HOLD(s) · 0 empirisch schlechte Setup(s) blockiert · 0 Allokation(en) durch Depotrisiko gekappt · 4 Bestands-BUY(s) verhindert.",
   "cash": 950.0719944036448,
-  "equity": 9981.773949075101,
-  "pnl": -18.226050924899027,
-  "marketValue": 9031.701954671456,
+  "equity": 9978.031258046452,
+  "pnl": -21.96874195354758,
+  "marketValue": 9027.959263642808,
   "accountingDelta": 0.0,
   "positions": 7,
   "positionRows": [
@@ -77,7 +77,7 @@
       "invested": 2129.14636,
       "entry_fee": 1,
       "entry_price": 8.710701663970946,
-      "last_price": 8.685999870300293,
+      "last_price": 8.673999786376953,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
@@ -104,15 +104,15 @@
       "invested": 869.096941,
       "entry_fee": 1,
       "entry_price": 214.7145,
-      "last_price": 215.1999969482422,
+      "last_price": 215,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-20T08:42:11.798Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": -1.2000000000000002,
-      "signal_confidence": 0.4792,
+      "score": -2.0000000000000004,
+      "signal_confidence": 0.5592000000000001,
       "zero_quantity": 4.04768630574851,
       "zero_whole_shares": 4,
       "zero_fractional_shares": 0.04768630574850974,
@@ -231,10 +231,10 @@
     {
       "id": 34,
       "ts": "2026-08-20T10:13:21.265Z",
-      "end_ts": "2026-08-20T11:12:12.693Z",
-      "event_count": 33,
+      "end_ts": "2026-08-20T11:15:12.730Z",
+      "event_count": 34,
       "start_scan": 74,
-      "end_scan": 106,
+      "end_scan": 107,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -244,10 +244,10 @@
       "trade_pnl": null,
       "cash_before": 950.0719944036448,
       "cash_after": 950.0719944036448,
-      "equity": 9981.773949075101,
-      "total_pnl": -18.226050924899027,
+      "equity": 9978.031258046452,
+      "total_pnl": -21.96874195354758,
       "score": null,
-      "reason": "Kein Trade. Bestes Signal CHEMM.CO: Score 4.85, Konfidenz 63%."
+      "reason": "Kein Trade. Bestes Signal ENR.DE: Score 4.25, Konfidenz 63%."
     },
     {
       "id": 33,
@@ -938,7 +938,7 @@
     "activePositions": 7,
     "pendingEntries": 0,
     "completedTradeOutcomes": 3,
-    "timedCheckpoints": 22,
+    "timedCheckpoints": 23,
     "horizonsMinutes": [
       15,
       30,
@@ -951,8 +951,8 @@
     "reboundTiming": {
       "bucket": "REBOUND_REVERSAL",
       "samples15": 1,
-      "totalCheckpoints": 2,
-      "qualityPct": 0.304,
+      "totalCheckpoints": 3,
+      "qualityPct": 0.419,
       "winRatePct": 100,
       "block": false,
       "scoreDelta": 0
@@ -980,14 +980,23 @@
       {
         "bucket": "REBOUND_REVERSAL",
         "samples15": 1,
-        "totalCheckpoints": 2,
-        "qualityPct": 0.304,
+        "totalCheckpoints": 3,
+        "qualityPct": 0.419,
         "winRatePct": 100,
         "block": false,
         "scoreDelta": 0
       }
     ],
     "recentTiming": [
+      {
+        "at": 1787224512674,
+        "symbol": "OCDOL.XC",
+        "bucket": "REBOUND_REVERSAL",
+        "horizonMin": 60,
+        "pnlPct": 0.88,
+        "maePct": -0.69,
+        "mfePct": 1.4
+      },
       {
         "at": 1787222712939,
         "symbol": "OCDOL.XC",
@@ -1086,15 +1095,6 @@
         "pnlPct": 0.49,
         "maePct": -0.16,
         "mfePct": 1.05
-      },
-      {
-        "at": 1787217925038,
-        "symbol": "BULL.JK",
-        "bucket": "CHASE_NEAR_HIGH",
-        "horizonMin": 30,
-        "pnlPct": -1.02,
-        "maePct": -1.02,
-        "mfePct": -0.08
       }
     ],
     "pendingOnlyForExecutedPositions": true,
@@ -1102,8 +1102,8 @@
     "proposalContaminationFixed": true
   },
   "risk": {
-    "equity": 9981.773949075101,
-    "dailyPct": -0.1503405381922729,
+    "equity": 9978.031258046452,
+    "dailyPct": -0.18777941695149458,
     "availableCash": 950.0719944036448,
     "hardLimits": true,
     "budgetOnly": false,
@@ -1116,17 +1116,17 @@
         {
           "type": "SINGLE_POSITION_OVER_CAP",
           "symbol": "REG1V.HE",
-          "pct": 39.35,
+          "pct": 39.36,
           "limitPct": 25
         },
         {
           "type": "REGION_OVER_CAP",
           "region": "NORDICS",
-          "pct": 60.62,
+          "pct": 60.61,
           "limitPct": 55
         }
       ],
-      "equity": 9981.77,
+      "equity": 9978.03,
       "rule": "Bestehende Altpositionen über dem aktuellen Cap werden gemeldet und für weitere Käufe gesperrt, aber nicht allein wegen des Caps zwangsverkauft."
     },
     "rule": "Finale V27.5-Grenzen gelten nach dem inneren R2-Plan; alte Core-Felder hardLimits=false/positionLimit=null sind nicht die produktive Endregel."
