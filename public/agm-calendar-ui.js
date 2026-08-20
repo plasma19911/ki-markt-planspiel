@@ -6,28 +6,27 @@ const fmtUpdated=v=>{const t=Date.parse(v||'');return Number.isFinite(t)?new Int
 const scoreClass=s=>s>=82?'agmScoreHot':s>=72?'agmScoreGood':s>=58?'agmScoreWatch':s>=43?'agmScoreNeutral':'agmScoreBad';
 let lastPayload=null;
 
-function ensureCss(){if(document.querySelector('link[data-agm-calendar-css]'))return;const l=document.createElement('link');l.rel='stylesheet';l.href='/agm-calendar.css?v=20260820-1428';l.dataset.agmCalendarCss='1';document.head.appendChild(l)}
+function ensureCss(){if(document.querySelector('link[data-agm-calendar-css]'))return;const l=document.createElement('link');l.rel='stylesheet';l.href='/agm-calendar.css?v=20260820-1447';l.dataset.agmCalendarCss='1';document.head.appendChild(l)}
+function removeOldPlacements(){document.getElementById('agmMiniCalendar')?.remove();document.getElementById('agmCalendarMobile')?.remove()}
 function ensureUi(){
- ensureCss();
- if(!document.getElementById('agmMiniCalendar')){
-  const side=document.querySelector('.sidebar');if(side){const box=document.createElement('section');box.id='agmMiniCalendar';box.className='agmMiniCalendar';box.innerHTML='<div class="agmMiniHead"><div><span>HV-KALENDER</span><b>Hauptversammlungen</b></div><small>Score 0–100</small></div><div class="agmMiniScale">100 = sehr positiver Vorab-Ausblick</div><div class="agmMiniRows"><div class="agmEmpty">Kalender lädt …</div></div><div class="agmMiniFoot">Einmal täglich aktualisiert und neu bewertet</div>';side.appendChild(box)}
- }
- if(!document.getElementById('agmCalendarMobile')){
-  const grid=document.querySelector('.dashboardGrid');if(grid){const box=document.createElement('section');box.id='agmCalendarMobile';box.className='card agmCalendarMobile';box.innerHTML='<div class="cardTitle"><div><span class="sectionEyebrow">VORAUSBLICK</span><h2>HV-Kalender</h2></div><span class="tag">0–100</span></div><div class="agmMobileHint">Hauptversammlungen der nächsten Tage. Der Score wird einmal täglich aus Zahlen, Chart und News neu berechnet und bleibt dann bis zum nächsten Tageslauf fest.</div><div class="agmMobileRows"><div class="agmEmpty">Kalender lädt …</div></div><div class="agmMobileMeta muted"></div>';grid.prepend(box)}
- }
+ ensureCss();removeOldPlacements();
+ if(document.getElementById('agmCalendarBottom'))return;
+ const live=document.getElementById('livePanel'),grid=live?.querySelector('.dashboardGrid');if(!live||!grid)return;
+ const box=document.createElement('section');
+ box.id='agmCalendarBottom';box.className='card agmCalendarBottom';
+ box.innerHTML='<div class="cardTitle"><div><span class="sectionEyebrow">VORAUSBLICK</span><h2>HV-Kalender</h2></div><span class="tag">Score 0–100</span></div><div class="agmBottomHint">Kommende Hauptversammlungen. Der Score wird einmal täglich aus Zahlen, 1-Jahres-Chart und News neu berechnet und bleibt bis zum nächsten Tageslauf fest.</div><div class="agmBottomRows"><div class="agmEmpty">Kalender lädt …</div></div><div class="agmBottomMeta muted"></div>';
+ grid.insertAdjacentElement('afterend',box);
 }
 function rowHtml(x){
- const score=Math.round(num(x?.score,x?.baseScore??50)),eligible=Boolean(x?.tradeEligible),days=Number.isFinite(Number(x?.daysUntil))?Number(x.daysUntil):null,reasons=arr(x?.reasons?.length?x.reasons:x?.fundamentalReasons).join(' · '),label=x?.label||x?.baseLabel||'',name=String(x?.name||x?.sourceCompanyName||x?.symbol||'').replace(/ Registered Shs.*$/i,'').slice(0,34);
+ const score=Math.round(num(x?.score,x?.baseScore??50)),eligible=Boolean(x?.tradeEligible),days=Number.isFinite(Number(x?.daysUntil))?Number(x.daysUntil):null,reasons=arr(x?.reasons?.length?x.reasons:x?.fundamentalReasons).join(' · '),label=x?.label||x?.baseLabel||'',name=String(x?.name||x?.sourceCompanyName||x?.symbol||'').replace(/ Registered Shs.*$/i,'').slice(0,40);
  return `<div class="agmRow${eligible?' agmEligible':''}" title="${esc(reasons)}"><time>${esc(fmtDate(x?.date))}</time><div class="agmCompany"><b>${esc(name)}</b><small>${days===0?'heute':days===1?'morgen':days!=null?`in ${days} Tagen`:''}${label?` · ${esc(label)}`:''}</small></div><span class="agmScore ${scoreClass(score)}">${score}</span>${eligible?'<i class="agmBuyHint">Vorab-Kauf prüfbar</i>':''}</div>`;
 }
 function render(payload){
  ensureUi();lastPayload=payload||lastPayload||{};const rows=arr(lastPayload?.events).filter(x=>{const d=Number(x?.daysUntil);return !Number.isFinite(d)||d>=0}).sort((a,b)=>String(a.date||'').localeCompare(String(b.date||''))||num(b.score,b.baseScore)-num(a.score,a.baseScore));
  const top=rows.slice(0,7),html=top.length?top.map(rowHtml).join(''):'<div class="agmEmpty">Aktuell keine gematchte Hauptversammlung im beobachteten Aktienuniversum.</div>';
- const side=document.querySelector('#agmMiniCalendar .agmMiniRows');if(side)side.innerHTML=html;
- const mobile=document.querySelector('#agmCalendarMobile .agmMobileRows');if(mobile)mobile.innerHTML=html;
+ const bottom=document.querySelector('#agmCalendarBottom .agmBottomRows');if(bottom)bottom.innerHTML=html;
  const updated=lastPayload?.scoreEvaluatedAt||lastPayload?.updatedAt||lastPayload?.generatedAt||lastPayload?.sourceUpdatedAt;const meta=`Quelle: ${esc(lastPayload?.source||'finanzen.net Hauptversammlung')} · Tagesbewertung ${esc(fmtUpdated(updated))} · nächste automatische Neubewertung: täglich.`;
- const foot=document.querySelector('#agmMiniCalendar .agmMiniFoot');if(foot)foot.innerHTML=meta;
- const mm=document.querySelector('#agmCalendarMobile .agmMobileMeta');if(mm)mm.innerHTML=meta;
+ const mm=document.querySelector('#agmCalendarBottom .agmBottomMeta');if(mm)mm.innerHTML=meta;
 }
 async function loadStatic(){try{const r=await fetch(`/agm-calendar.json?v=${new Date().toISOString().slice(0,10)}`,{cache:'no-store'});if(!r.ok)return;const j=await r.json();render({...j,events:arr(j.events).map(x=>({...x,score:num(x.baseScore,50),confidence:num(x.fundamentalConfidence),label:x.baseLabel||'',tradeEligible:false,reasons:x.fundamentalReasons||[]}))})}catch{}}
 
