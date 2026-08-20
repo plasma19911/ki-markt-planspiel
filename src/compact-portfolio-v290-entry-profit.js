@@ -3,8 +3,9 @@ import {EntryProfitGuardV290} from './entry-profit-guard-v290.js';
 import {ENTRY_PROFIT_V290} from './entry-profit-behavior-v290-core.js';
 
 // PAPER-TRADING ONLY. V29.0 sits on top of V28.9/V28.8.
-// It moves the earliest qualified entry to score 63 with tiny scout sizing and adds
-// dynamic profit locking so winners can be realized while the hold score is still high.
+// Entry bands: 50-52 watch, 53-55 scout, 56-57 micro, 58-61 early, 62+ regular.
+// Lower-score entries require progressively stronger coverage + market confirmation.
+// Dynamic profit locking can realize winners while hold score is still high.
 export class MarketPortfolio extends BasePortfolio{
   constructor(ctx,env){
     super(ctx,env);this.ctx=ctx;this.env=env;
@@ -18,9 +19,9 @@ export class MarketPortfolio extends BasePortfolio{
   async status(){
     const s=await super.status(),policy=this.entryProfitV290?.status?.()||{enabled:true,version:29.0,thresholds:ENTRY_PROFIT_V290,candidateBehaviors:[],profitBehaviors:[]};
     s.entryProfitPolicy=policy;
-    s.researchSignalFusionPolicy={...(s.researchSignalFusionPolicy||{}),behaviorVersion:29.0,entryProfitThresholds:ENTRY_PROFIT_V290,candidateBehaviorsV290:policy.candidateBehaviors||[],profitBehaviors:policy.profitBehaviors||[],scoreLegend:[{min:82,label:'Sehr stark'},{min:76,label:'Stark bestätigt'},{min:72,label:'Kaufen'},{min:68,label:'Früher Einstieg'},{min:65,label:'Mikro-Starter'},{min:63,label:'Scout bei starker Beschleunigung'},{min:58,label:'Beobachten'},{min:0,label:'Schwach'}],behaviorNote:'V29.0: Einstieg bewusst früh gestaffelt. 63–64 nur Scout mit hoher Datenabdeckung, echter Marktbestätigung und sehr starker Score-Beschleunigung; 65–67 Mikro, 68–71 früh, 72+ regulär. Überdehnung/FOMO/Hard-Blocks bleiben gesperrt. Gewinne können bei nachlassendem Trend auch bei Haltescore 70–75 gesichert werden.'};
+    s.researchSignalFusionPolicy={...(s.researchSignalFusionPolicy||{}),behaviorVersion:29.0,entryProfitThresholds:ENTRY_PROFIT_V290,candidateBehaviorsV290:policy.candidateBehaviors||[],profitBehaviors:policy.profitBehaviors||[],scoreLegend:[{min:76,label:'Sehr stark'},{min:68,label:'Stark bestätigt'},{min:62,label:'Kaufen'},{min:58,label:'Früher Einstieg'},{min:56,label:'Mikro-Starter'},{min:53,label:'Scout'},{min:50,label:'Beobachten'},{min:0,label:'Schwach'}],behaviorNote:'V29.0: 50–52 beobachten, 53–55 Scout, 56–57 Mikro, 58–61 früh, 62+ regulär. Je niedriger der Einstiegsscore, desto höher die Anforderungen an Datenabdeckung, Score-Beschleunigung und echte Momentum/Katalysator-Bestätigung. Überdehnung/FOMO/Hard-Blocks bleiben gesperrt. Gewinne können bei nachlassendem Trend auch bei Haltescore 70–75 gesichert werden.'};
     s.dynamicProfitLockPolicy={enabled:true,version:29.0,thresholds:ENTRY_PROFIT_V290.profit,behaviors:policy.profitBehaviors||[],rule:'Kein starres Gewinnziel. Peak seit Einstieg, Rücklauf vom Peak, Haltescore-Richtung und Momentum werden gemeinsam bewertet. Ein Score 70–75 kann SELL sein, wenn ein zuvor stärkerer Gewinner sichtbar ausläuft; derselbe Score bleibt HOLD, wenn Trend/Momentum wieder anziehen.'};
-    if(s?.finalDecisionPolicy)s.finalDecisionPolicy={...s.finalDecisionPolicy,version:29.0,scoreHysteresis:true,directionalScoreBehavior:true,pcFirstScannerV288:true,earlyScoutEntryV290:true,scoutEntryFrom63:true,microEntryFrom65:true,earlyEntryFrom68:true,regularEntryFrom72:true,dynamicProfitLockV290:true,highScoreProfitExit:true,profitPeakGivebackAware:true,hardRiskImmediate:true,rule:'V29.0: früher staffelweise in saubere Starter einsteigen, statt bis 76+ zu warten. Scout 63–64 nur bei außergewöhnlich schneller Verbesserung, hoher Datenabdeckung und echter Marktbestätigung; 65–67 Mikro, 68–71 früh, 72+ regulär. Gewinner laufen weiter, solange Trend intakt ist; bei Peak-Rücklauf plus fallendem Score/Momentum wird Gewinn auch bei Haltescore 70–75 gesichert.'};
+    if(s?.finalDecisionPolicy)s.finalDecisionPolicy={...s.finalDecisionPolicy,version:29.0,scoreHysteresis:true,directionalScoreBehavior:true,pcFirstScannerV288:true,earlyScoutEntryV290:true,watchFrom50:true,scoutEntryFrom53:true,microEntryFrom56:true,earlyEntryFrom58:true,regularEntryFrom62:true,dynamicProfitLockV290:true,highScoreProfitExit:true,profitPeakGivebackAware:true,hardRiskImmediate:true,rule:'V29.0: 50–52 beobachten; 53–55 nur kleiner Scout mit sehr starker Bestätigung; 56–57 Mikro; 58–61 früher Einstieg; 62+ regulär. Gewinner laufen weiter, solange Trend intakt ist; bei Peak-Rücklauf plus fallendem Score/Momentum wird Gewinn auch bei Haltescore 70–75 gesichert.'};
     if(s?.executionModel)s.executionModel={...s.executionModel,entryProfitV290:true,dynamicProfitLockV290:true};
     return s
   }
