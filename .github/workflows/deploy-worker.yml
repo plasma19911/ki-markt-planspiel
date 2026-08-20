@@ -62,9 +62,10 @@ jobs:
             try{
               const q=Date.now(),r=await fetch(`${base}/api/status?view=dashboard&deploy=${q}`,{headers:{'cache-control':'no-cache'}}),s=await r.json();
               const ui=await fetch(`${base}/v287-live-ui.js?deploy=${q}`,{headers:{'cache-control':'no-cache'}}),txt=await ui.text();
+              const ch=await fetch(`${base}/changelog-master-v290.js?deploy=${q}`,{headers:{'cache-control':'no-cache'}}),cht=await ch.text();
               const e=s?.entryProfitPolicy||{},p=s?.dynamicProfitLockPolicy||{},f=s?.finalDecisionPolicy||{},pc=s?.pcFirstScannerPolicy||{};
-              const ok=r.ok&&Number(f.version)>=29&&f.scoutEntryFrom60===true&&f.regularEntryFrom72===true&&f.dynamicProfitLockV290===true&&f.highScoreProfitExit===true&&Number(e?.thresholds?.entry?.scoutMin)===60&&Number(e?.thresholds?.entry?.regularMin)===72&&Number(p.version)>=29&&Number(pc.version)>=28.8&&ui.ok&&/version:29\.0/.test(txt)&&/stagedEntryFrom60:true/.test(txt)&&/dynamicProfitLock:true/.test(txt);
-              last=`HTTP ${r.status} final=${f.version} entry=${e.version} profit=${p.version} pc=${pc.version} ui=${ui.status}`;
+              const ok=r.ok&&Number(f.version)>=29&&f.scoutEntryFrom63===true&&f.regularEntryFrom72===true&&f.dynamicProfitLockV290===true&&f.highScoreProfitExit===true&&Number(e?.thresholds?.entry?.scoutMin)===63&&Number(e?.thresholds?.entry?.regularMin)===72&&Number(p.version)>=29&&Number(pc.version)>=28.8&&ui.ok&&/version:29\.0/.test(txt)&&/stagedEntryFrom63:true/.test(txt)&&/dynamicProfitLock:true/.test(txt)&&ch.ok&&/currentAlwaysFirst:true/.test(cht);
+              last=`HTTP ${r.status} final=${f.version} entry=${e.version} profit=${p.version} pc=${pc.version} ui=${ui.status} changelog=${ch.status}`;
               if(ok){console.log('Live verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}await new Promise(r=>setTimeout(r,5000));
           }
