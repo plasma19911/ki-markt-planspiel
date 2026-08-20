@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T13:26:42.857350+00:00",
+  "checkedAt": "2026-08-20T13:28:27.144736+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -30,19 +30,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T13:26:08.650Z",
-    "ageSeconds": 34,
+    "lastSeenAt": "2026-08-20T13:28:17.574Z",
+    "ageSeconds": 9,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 176,
-  "lastScan": "2026-08-20T13:22:23.607Z",
+  "scanCount": 177,
+  "lastScan": "2026-08-20T13:28:21.903Z",
   "lastError": null,
   "aiLastSummary": "KI-Fallback: kein JSON",
   "cash": 1476.2217081333488,
-  "equity": 9949.673771952857,
-  "pnl": -50.32622804714265,
-  "marketValue": 8473.452063819508,
+  "equity": 9948.864247044541,
+  "pnl": -51.135752955458884,
+  "marketValue": 8472.642538911192,
   "accountingDelta": 0.0,
   "positions": 6,
   "positionRows": [
@@ -62,8 +62,8 @@
       "opened_at": "2026-08-20T08:17:07.062Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 3.5011062674418603,
-      "signal_confidence": 0.75276,
+      "score": 1.2011062674418607,
+      "signal_confidence": 0.522870626744186,
       "zero_quantity": 271.9999999930237,
       "zero_whole_shares": 271,
       "zero_fractional_shares": 0.9999999930237209,
@@ -113,15 +113,15 @@
       "invested": 869.096941,
       "entry_fee": 1,
       "entry_price": 214.7145,
-      "last_price": 211,
+      "last_price": 210.8000030517578,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-20T08:42:11.798Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 3.5,
-      "signal_confidence": 0.7092,
+      "score": -0.6000000000000001,
+      "signal_confidence": 0.4192,
       "zero_quantity": 4.04768630574851,
       "zero_whole_shares": 4,
       "zero_fractional_shares": 0.04768630574850974,
@@ -215,10 +215,10 @@
     {
       "id": 36,
       "ts": "2026-08-20T12:02:11.549Z",
-      "end_ts": "2026-08-20T13:22:23.607Z",
-      "event_count": 50,
+      "end_ts": "2026-08-20T13:28:21.903Z",
+      "event_count": 51,
       "start_scan": 127,
-      "end_scan": 176,
+      "end_scan": 177,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -228,10 +228,10 @@
       "trade_pnl": null,
       "cash_before": 1476.2217081333488,
       "cash_after": 1476.2217081333488,
-      "equity": 9949.673771952857,
-      "total_pnl": -50.32622804714265,
+      "equity": 9948.864247044541,
+      "total_pnl": -51.135752955458884,
       "score": null,
-      "reason": "Kein Trade. Bestes Signal FCT.MI: Score 6.05, Konfidenz 63%."
+      "reason": "Kein Trade. Bestes Signal VWS.CO: Score 5.05, Konfidenz 70%."
     },
     {
       "id": 35,
@@ -1081,8 +1081,8 @@
     "proposalContaminationFixed": true
   },
   "risk": {
-    "equity": 9949.673771952857,
-    "dailyPct": -0.4714449601789794,
+    "equity": 9948.864247044541,
+    "dailyPct": -0.47954279798152477,
     "availableCash": 1476.2217081333488,
     "hardLimits": true,
     "budgetOnly": false,
@@ -1101,11 +1101,11 @@
         {
           "type": "REGION_OVER_CAP",
           "region": "NORDICS",
-          "pct": 60.69,
+          "pct": 60.7,
           "limitPct": 55
         }
       ],
-      "equity": 9949.67,
+      "equity": 9948.86,
       "rule": "Bestehende Altpositionen über dem aktuellen Cap werden gemeldet und für weitere Käufe gesperrt, aber nicht allein wegen des Caps zwangsverkauft."
     },
     "rule": "Finale V27.6-Grenzen gelten nach dem inneren R2-Plan und auch für AGM_PREVIEW."
@@ -1268,7 +1268,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T13:26:01.376Z",
+      "cachedAt": "2026-08-20T13:28:26.480Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
