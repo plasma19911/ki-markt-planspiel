@@ -1,0 +1,18 @@
+V28.8 · PC-FIRST FULL-UNIVERSE SCANNER
+20.08.2026
+
+- Der Windows-PC übernimmt den breiten Aktien-Vorscan statt Cloudflare.
+- Der Server liefert dem autorisierten PC-Agent den deduplizierten, liquiden Aktien-Master dynamisch aus universe.json; die reale Anzahl wird nicht hart auf 8.200 festgelegt.
+- Rolling Voll-Master: Standardmäßig 4 Shards. Pro Minute wird etwa 1/4 des Masters in Yahoo-Spark-Batches aktualisiert, sodass ein kompletter Master-Zyklus ungefähr 4 Minuten dauert.
+- Stufe 1: alle frischen Masterwerte erhalten einen billigen Pre-Score aus Tagesbewegung, 20m-/5m-Momentum, Beschleunigung und Datenalter.
+- Stufe 2: Top 400 des rollierenden Masters.
+- Stufe 3: Top 120 werden mit 1-Minuten-Daten erneut tief bewertet.
+- Stufe 4: Top 60 Finalisten werden an Cloudflare übergeben.
+- Cloudflare validiert bei frischen PC-Daten nur noch einen kleinen Final-Slice (Ziel 18) plus bis zu 4 Forward-Werte und alle offenen Positionen. Safety, Venue, Kosten, kalibrierter Kauf/Halte/Verkauf-Score und Paper-Ausführung bleiben serverseitig.
+- Ist der PC-Agent offline oder sind die PC-Daten älter als ca. 3 Minuten, fällt das System automatisch auf den bestehenden V28.7-Cloudflare-Scanner zurück.
+- Stale Heimatmarkt-Kurse werden bereits im PC-Vorscan abgewertet; die serverseitige Quote-/Venue-Safety bleibt zusätzlich bindend.
+- Dashboard/Status melden Mastergröße, bereits vorgescannten Umfang, Stage-2/Deep/Finalisten, Vollzyklus-Abdeckung, Datenalter und ob Cloudflare-Fallback aktiv ist.
+- PC-Agent V1.2/V28.8 kann sich nach einmaliger Aktualisierung vor jedem Neustart aus dem eigenen Cloudflare-Projekt aktualisieren.
+
+Ziel:
+Mehr Aktien in derselben Zeit abdecken, ohne den Cloudflare-Free-Worker mit einem 8k+-Vollscan pro Minute zu belasten. Der PC macht Breite und Vorselektion; Cloudflare bleibt die sichere finale Entscheidungs-/Ausführungsinstanz.
