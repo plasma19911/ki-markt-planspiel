@@ -1,0 +1,31 @@
+name: V27 Branch Check
+
+on:
+  push:
+    branches: [agent/v27-risk-calibrated-learning]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  v27-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund --ignore-scripts
+      - name: Syntax V27 modules
+        run: |
+          node --check src/portfolio-risk-calibration.js
+          node --check src/learning-quarantine.js
+          node --check src/final-decision-controller.js
+          node --check src/compact-portfolio-v22-active-learning.js
+      - name: V27 regression suite
+        run: npm run test:decisions
+      - name: Wrangler dry run
+        run: npm run check
