@@ -10,8 +10,8 @@ const prod=read('src/compact-portfolio-v11.js');
 const dashboard=read('src/index-v20.js');
 const wrangler=read('wrangler.jsonc');
 assert.match(compat,/compatibilityOnly:true/);assert.match(compat,/scoreRenderer:false/);
-assert.match(ui,/Kaufscore 0–100/);assert.match(ui,/75\+ Kaufbereit/);assert.match(ui,/Haltescore/);assert.match(ui,/Verkaufsscore/);assert.match(ui,/Mo–Fr 07:30–23:00/);assert.match(ui,/singleScoreRenderer:true/);
-assert.match(entry,/v287-live-ui\.js/);assert.match(prod,/compact-portfolio-v288-pc-first\.js/);assert.match(dashboard,/pc-first-full-master-v288/);assert.match(wrangler,/"main"\s*:\s*"src\/index-v20\.js"/);
+assert.match(ui,/Kaufscore 0–100/);assert.match(ui,/50–52 beobachten/);assert.match(ui,/53–55 Scout/);assert.match(ui,/56–57 Mikro-Starter/);assert.match(ui,/58–61 früher Einstieg/);assert.match(ui,/62–67 regulärer Kauf/);assert.match(ui,/Haltescore/);assert.match(ui,/Verkaufsscore/);assert.match(ui,/Mo–Fr 07:30–23:00/);assert.match(ui,/singleScoreRenderer:true/);assert.match(ui,/stagedEntryFrom53:true/);assert.match(ui,/regularFrom62:true/);assert.match(ui,/dynamicProfitLock:true/);
+assert.match(entry,/v287-live-ui\.js/);assert.match(prod,/compact-portfolio-v290-entry-profit\.js/);assert.match(prod,/compact-portfolio-v288-pc-first\.js/);assert.match(dashboard,/pc-first-full-master-v288/);assert.match(dashboard,/watch-50\+scout-53\+micro-56\+early-58\+regular-62/);assert.match(wrangler,/"main"\s*:\s*"src\/index-v20\.js"/);
 
 const now=Date.parse('2026-08-20T17:40:00Z');
 function storage(seed={}){const m=new Map(Object.entries(seed));return{kv:{get:k=>m.get(k),put:(k,v)=>m.set(k,structuredClone(v))},_m:m}}
@@ -29,4 +29,4 @@ function storage(seed={}){const m=new Map(Object.entries(seed));return{kv:{get:k
 {
  const master=Array.from({length:80},(_,i)=>({symbol:`S${i+1}`,marketCapUSD:1_000_000_000})),entries=[];for(let i=0;i<70;i++){entries.push({symbol:`S${i+1}`,market:'GLOBAL',source:'A',rank:i+1});if(i<30)entries.push({symbol:`S${i+1}`,market:'GLOBAL',source:'B',rank:i+1})};const b=buildBroadLeaderPool(entries,master);assert.equal(b.pool.length,60);const base={equities:[...b.pool.slice(0,25),{...master[70],forwardWatch:true}]};const a=applyRotatingBreadth(base,b,{config:{scan_count:1},positions:[]}),c=applyRotatingBreadth(base,b,{config:{scan_count:2},positions:[]});assert.ok(a.breadthRotationApplied);assert.notDeepEqual(a.equities.map(x=>x.symbol),c.equities.map(x=>x.symbol));
 }
-console.log('V28.7 score + V28.8 production-entry regression tests: OK');
+console.log('V29.0 score UI + V28.8 production-entry regression tests: OK');
