@@ -66,8 +66,8 @@ jobs:
             'entryTimingLearning':learning.get('mode')=='15/30/60-minute-entry-timing-learning',
             'finalDecisionV276':n(final.get('version'))>=27.6,
             'agmPreviewEnabled':final.get('agmPreview') is True and agm_policy.get('enabled') is True,
-            'agmDailyAndLiveReevaluation':final.get('agmCalendarDailyRefresh') is True and final.get('agmLiveReevaluationEveryScan') is True,
-            'agmCalendarPayload':isinstance(agm.get('events'),list),
+            'agmDailyOnlyScore':final.get('agmCalendarDailyRefresh') is True and final.get('agmLiveReevaluationEveryScan') is False and final.get('agmScoreEvaluationOnceDaily') is True and final.get('agmScoreLockedUntilNextDailyRefresh') is True and agm_policy.get('scoreEvaluationCadence')=='daily' and agm_policy.get('scoreReevaluation')=='once daily only',
+            'agmCalendarPayload':isinstance(agm.get('events'),list) and agm.get('scoreEvaluationCadence')=='daily' and agm.get('scoreReevaluation')=='once daily only',
           }
           out={
             'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),
@@ -102,5 +102,5 @@ jobs:
           import json
           x=json.load(open('/tmp/live-health-result.json'))
           if x.get('failedChecks'): raise SystemExit('Live health failed: '+', '.join(x['failedChecks']))
-          print('Worker healthy; V27.6 AGM preview active; PC-Agent online/offline is informational only.')
+          print('Worker healthy; V27.6 AGM daily score active; PC-Agent online/offline is informational only.')
           PY
