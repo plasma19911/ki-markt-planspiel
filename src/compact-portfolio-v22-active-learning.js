@@ -1,15 +1,15 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v21-source-budget.js';
 import {ActiveLearningCashAiGuard} from './active-learning-cash-guard.js';
 
-// PAPER-TRADING ONLY. V22 is intentionally the outermost decision layer.
-// It converts persistent soft HOLD behaviour into executed learning trades whenever
-// at least one candidate survives hard safety and obvious peak-chase checks.
+// PAPER-TRADING ONLY. V23 keeps learning active, but capital deployment is no longer
+// allowed to overrule structural News/Event/Peak/MTF safety. The guard also reads
+// live cash so residual cents never create meaningless follow-up orders.
 export class MarketPortfolio extends BasePortfolio{
  constructor(ctx,env){
   super(ctx,env);
   const ai=this.engine?.env?.AI;
   if(ai?.run&&!ai.__activeLearningCashGuard){
-   const wrapped=new ActiveLearningCashAiGuard(ai);
+   const wrapped=new ActiveLearningCashAiGuard(ai,{getState:()=>{try{return this._actualState?.()||{}}catch{return{}}}});
    wrapped.__activeLearningCashGuard=true;
    this.engine.env.AI=wrapped;
   }
@@ -18,18 +18,21 @@ export class MarketPortfolio extends BasePortfolio{
   const s=await super.status();
   s.activeLearningCapitalPolicy={
    enabled:true,
-   version:22,
+   version:23,
    paperTradingOnly:true,
-   mode:'DEPLOY_FREE_CASH_FOR_LEARNING',
-   targetFreeCashDeploymentPct:100,
+   mode:'INTELLIGENT_CAPITAL_DEPLOYMENT',
+   targetFreeCashDeploymentPct:'28–100 dynamisch',
    maxCandidatesPerDecision:4,
    hardSafetyPreserved:true,
-   obviousPeakChaseBlocked:true,
-   softHoldMayBeOverridden:true,
-   rule:'Wenn der Markt offen ist und mindestens ein handelbarer Kandidat harte Safety sowie den offensichtlichen Peak-Chase-Filter besteht, wird das freie Cash auf bis zu vier der besten Kandidaten verteilt. Dadurch entstehen ausgeführte Paper-Trades für Replay/Lernen statt dauerhaftem Cash-HOLD. Harte Event-/Reversal-/STRONG-SELL-/Venue-Sperren bleiben unangetastet.'
+   newsEventWaitPreserved:true,
+   peakChaseBlocked:true,
+   mtfSafetyPreserved:true,
+   residualCashOrderBlocked:true,
+   singleMediocreCandidateAllInBlocked:true,
+   rule:'Freies Cash wird nur auf bereits sicher freigegebene Chancen verteilt. Eine einzelne mittelmäßige Chance bekommt keine 100%-All-in-Zuweisung. Mit Qualität und Chancenbreite steigt die Zielauslastung bis 100%. News-/Event-/Peak-/MTF-HOLDs werden niemals vom Lernmodus überstimmt. Restcash unter sinnvoller Ordergröße erzeugt keine Mini-/Centorders.'
   };
-  if(s.executionModel)s.executionModel={...s.executionModel,activeLearningCashDeployment:true,targetFreeCashDeploymentPct:100};
-  if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,activeLearningCashDeployment:true,learningRequiresExecutedTrades:true};
+  if(s.executionModel)s.executionModel={...s.executionModel,activeLearningCashDeployment:true,targetFreeCashDeploymentPct:'dynamic 28-100',residualCashOrderBlocked:true,safetyHoldBinding:true};
+  if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,activeLearningCashDeployment:true,learningRequiresExecutedTrades:true,singleMediocreAllInBlocked:true};
   return s;
  }
 }
