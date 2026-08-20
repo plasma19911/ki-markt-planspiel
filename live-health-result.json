@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T18:12:14.801949+00:00",
+  "checkedAt": "2026-08-20T18:12:44.126393+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -32,20 +32,20 @@
     "configured": true,
     "online": true,
     "lastSeenAt": "2026-08-20T18:12:06.242Z",
-    "ageSeconds": 8,
+    "ageSeconds": 38,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 339,
-  "lastScan": "2026-08-20T18:10:20.160Z",
+  "scanCount": 340,
+  "lastScan": "2026-08-20T18:12:20.832Z",
   "lastError": null,
-  "aiLastSummary": "FINAL-CONTROLLER V27.8: 1 BUY · 0 SELL · 4 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefangen · 0 Flip-Flop-Reentry(s) blockiert · 0 Safety-HOLD(s) · 1 empi · CALIBRATED V28.7: 6 Kandidaten bewertet · 0 BUY · 0 Score-SELL · 0 Rotation · 0 Chase-BUY gebremst.",
-  "cash": 6229.217058348477,
-  "equity": 9942.360226246452,
-  "pnl": -57.63977375354807,
-  "marketValue": 3713.143167897976,
+  "aiLastSummary": "FINAL-CONTROLLER V27.8: 2 BUY · 0 SELL · 4 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefangen · 0 Flip-Flop-Reentry(s) blockiert · 0 Safety-HOLD(s) · 1 empi · CALIBRATED V28.7: 6 Kandidaten bewertet · 0 BUY · 0 Score-SELL · 0 Rotation · 0 Chase-BUY gebremst.",
+  "cash": 5712.192042348477,
+  "equity": 9939.84571574096,
+  "pnl": -60.15428425904065,
+  "marketValue": 4227.653673392482,
   "accountingDelta": 0.0,
-  "positions": 4,
+  "positions": 5,
   "positionRows": [
     {
       "symbol": "NOKIA.HE",
@@ -152,9 +152,72 @@
       "quote_unit_normalized": true,
       "fx_verified": true,
       "fx_stale": false
+    },
+    {
+      "symbol": "BABA",
+      "name": "Alibaba Group Holding Limited",
+      "instrument_type": "EQUITY",
+      "theme": null,
+      "company_key": "ALIBABA",
+      "invested": 515.025016,
+      "entry_fee": 2,
+      "entry_price": 129.81978408813475,
+      "last_price": 129.69009399414062,
+      "entry_fx": 0.8564,
+      "last_fx": 0.8564,
+      "fx_verified": true,
+      "currency": "USD",
+      "quote_currency_raw": "USD",
+      "quote_price_scale": 1,
+      "quote_unit_normalized": true,
+      "opened_at": "2026-08-20T18:12:20.832Z",
+      "last_added_at": null,
+      "add_count": 0,
+      "score": 5.11001975088968,
+      "signal_confidence": 0.7695,
+      "zero_quantity": 4.63245045375474,
+      "zero_whole_shares": 4,
+      "zero_fractional_shares": 0.63245045375474,
+      "zero_uses_fractional": true,
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
     }
   ],
   "recentHistory": [
+    {
+      "id": 41,
+      "ts": "2026-08-20T18:12:20.832Z",
+      "end_ts": null,
+      "event_count": 1,
+      "start_scan": 340,
+      "end_scan": 340,
+      "action": "KAUF",
+      "symbol": "BABA",
+      "name": "Alibaba Group Holding Limited",
+      "instrument_type": "EQUITY",
+      "amount": -517.025016,
+      "fee": 2,
+      "trade_pnl": null,
+      "cash_before": 6229.217058348477,
+      "cash_after": 5712.192042348477,
+      "equity": 9939.84571574096,
+      "total_pnl": -60.15428425904065,
+      "score": 5.11001975088968,
+      "reason": "KI BUY 78%: COMPREHENSIVE V28.6 BUY: BABA ist nach einheitlicher Bewertung aller aktuellen Entscheidungskandidaten die staerkste bestaetigte Chance (73.2/100). Fehlende optionale Daten werden neutral statt als Nullsignal behandelt; Hard-Blocks bleiben bindend. · Order 517.03 EUR· Slippage 0.10% · ZERO Brokergebühr 2.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash",
+      "zero_fee_details": {
+        "total": 2,
+        "wholeOrderFee": 1,
+        "fractionalFee": 1,
+        "wholeQuantity": 4,
+        "fractionalQuantity": 0.63245045375474,
+        "usesFractional": true,
+        "wholeOrderValue": 444.710652,
+        "fractionalOrderValue": 70.314363,
+        "fractionalMeetsMinimum": true,
+        "model": "zero-securities-2026-08-v4-stock-full-cash",
+        "scaleUp": false
+      }
+    },
     {
       "id": 40,
       "ts": "2026-08-20T14:24:14.942Z",
@@ -541,30 +604,22 @@
         "fractionalMeetsMinimum": true,
         "model": "zero-securities-2026-08-v4-stock-full-cash"
       }
-    },
-    {
-      "id": 26,
-      "ts": "2026-08-20T09:04:25.471Z",
-      "end_ts": "2026-08-20T09:15:10.568Z",
-      "event_count": 8,
-      "start_scan": 33,
-      "end_scan": 40,
-      "action": "HALTEN",
-      "symbol": "",
-      "name": "",
-      "instrument_type": "",
-      "amount": 0,
-      "fee": 0,
-      "trade_pnl": null,
-      "cash_before": 1395.6539282950632,
-      "cash_after": 1395.6539282950632,
-      "equity": 9975.135027482742,
-      "total_pnl": -24.86497251725814,
-      "score": null,
-      "reason": "Kein Trade. Bestes Signal REG1V.HE: Score 5.55, Konfidenz 77%."
     }
   ],
   "recentAiLog": [
+    {
+      "id": 54,
+      "ts": "2026-08-20T18:12:20.832Z",
+      "kind": "TRADE",
+      "symbol": "BABA",
+      "title": "Kauf ausgeführt",
+      "message": "BABA: KI BUY 78%: COMPREHENSIVE V28.6 BUY: BABA ist nach einheitlicher Bewertung aller aktuellen Entscheidungskandidaten die staerkste bestaetigte Chance (73.2/100). Fehlende optionale Daten werden neutral statt als Nullsignal behandelt; Hard-Blocks bleiben bindend.",
+      "confidence": 0.7695,
+      "meta": {
+        "score": 5.11001975088968,
+        "amount": 517.0250158429236
+      }
+    },
     {
       "id": 53,
       "ts": "2026-08-20T17:55:18.602Z",
@@ -706,18 +761,6 @@
       "message": "NOKIA.HE: Kein Trade. Bestes Signal NOKIA.HE: Score 5.55, Konfidenz 63%.",
       "confidence": 0.63,
       "meta": null
-    },
-    {
-      "id": 39,
-      "ts": "2026-08-20T14:07:23.903Z",
-      "kind": "TRADE",
-      "symbol": "BESI.AS",
-      "title": "Verkauf ausgeführt",
-      "message": "BESI.AS: KI SELL 84%: FINAL-CONTROLLER THESIS-INVALIDATION EXIT: Verlustposition hat unabhängige Bestätigung für echten Strukturbruch · Alter 325.2 Min. · P/L -2.38% · Verkäufer nicht gemessen.",
-      "confidence": null,
-      "meta": {
-        "pnl": -22.55026197269342
-      }
     }
   ],
   "candleFlowPolicy": {
@@ -1050,9 +1093,9 @@
     "proposalContaminationFixed": true
   },
   "risk": {
-    "equity": 9942.360226246452,
-    "dailyPct": -0.5446038046858392,
-    "availableCash": 6229.217058348477,
+    "equity": 9939.84571574096,
+    "dailyPct": -0.5697569507065237,
+    "availableCash": 5712.192042348477,
     "hardLimits": true,
     "budgetOnly": false,
     "positionLimit": 25,
@@ -1061,7 +1104,7 @@
     "existingRiskAlerts": {
       "hasAlerts": false,
       "alerts": [],
-      "equity": 9942.36,
+      "equity": 9939.85,
       "rule": "Bestehende Altpositionen über dem aktuellen Cap werden gemeldet und für weitere Käufe gesperrt, aber nicht allein wegen des Caps zwangsverkauft."
     },
     "rule": "Finale V27.6-Grenzen gelten nach dem inneren R2-Plan und auch für AGM_PREVIEW."
@@ -1311,7 +1354,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T18:11:51.728Z",
+      "cachedAt": "2026-08-20T18:12:34.409Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
