@@ -10,12 +10,11 @@ function parsePlan(r){const raw=responseText(r),a=raw.indexOf('{'),b=raw.lastInd
 function findPrompt(input){for(const m of arr(input?.messages)){const t=String(m?.content||'');if(t.includes('Kandidaten=')&&t.includes(' Gehalten='))return t}return''}
 function parseBlock(text,start,end=null){const a=text.indexOf(start);if(a<0)return null;const from=a+start.length,b=end?text.indexOf(end,from):-1;try{return JSON.parse(text.slice(from,b>=0?b:text.length).trim())}catch{return null}}
 
-function metrics(c={}){return{
+function metrics(c={}){const rawVol=c?.volumeRatio??c?.volume_ratio,vol=Number.isFinite(Number(rawVol))&&Number(rawVol)>0?Number(rawVol):null;return{
  score:num(c?.liveScore,c?.score),confidence:num(c?.liveConfidence,c?.confidence),day:num(c?.day,c?.day_change),
  m5:num(c?.intraday5m,c?.momentum5),m20:num(c?.intraday20m,c?.momentum20),accel:num(c?.momentumAcceleration5,c?.momentum_acceleration5),
  rsi:num(c?.intradayRsi,c?.rsi??50),draw:Number.isFinite(Number(c?.drawdownFrom20mHighPct??c?.drawdown_from_20m_high_pct))?Number(c?.drawdownFrom20mHighPct??c?.drawdown_from_20m_high_pct):null,
- vol:Number.isFinite(Number(c?.volumeRatio??c?.volume_ratio))?Number(c?.volumeRatio??c?.volume_ratio):null,
- news:num(c?.news,c?.newsScore??c?.news_score),event:String(c?.eventRisk||c?.event_risk||'NONE').toUpperCase(),
+ vol,news:num(c?.news,c?.newsScore??c?.news_score),event:String(c?.eventRisk||c?.event_risk||'NONE').toUpperCase(),
  state:String(c?.momentumState||c?.momentum_state||'NORMAL').toUpperCase(),sell:String(c?.momentumSellSignal||c?.momentum_sell_signal||'NONE').toUpperCase(),
  buyers:num(c?.buyerShare??c?.buyer_share??c?.buyerPct??c?.buyer_pct,-1),sellers:num(c?.sellerShare??c?.seller_share??c?.sellerPct??c?.seller_pct,-1)
 }}
@@ -69,14 +68,15 @@ function innerActionMap(actions){const out=new Map();for(const a of arr(actions)
 function postProcess(r,input,getState){
  const plan=parsePlan(r),prompt=findPrompt(input);if(!plan||!prompt)return r;
  const state=typeof getState==='function'?(getState()||{}):{},cash=Math.max(0,num(state?.config?.cash)),start=Math.max(cash,num(state?.config?.start_capital,cash));
- const candidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]),promptHeld=arr(parseBlock(prompt,' Gehalten=')||[]),stateHeld=arr(state?.positions),cMap=new Map(candidates.map(c=>[key(c),c])),heldMap=new Map();
+ const promptCandidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]),promptHeld=arr(parseBlock(prompt,' Gehalten=')||[]),stateHeld=arr(state?.positions),stateCandidateMap=new Map(arr(state?.candidates).map(c=>[key(c),c]));
+ const candidates=promptCandidates.map(c=>({...stateCandidateMap.get(key(c)),...c})),cMap=new Map(candidates.map(c=>[key(c),c])),heldMap=new Map();
  for(const h of [...stateHeld,...promptHeld]){const s=key(h);if(s)heldMap.set(s,{...(heldMap.get(s)||{}),...h})}
  const heldSet=new Set(heldMap.keys()),inner=innerActionMap(plan.actions),finalMap=new Map();let safetyBlocks=0,repeatBuyBlocks=0;
- for(const [s,h0] of heldMap){const fresh=cMap.get(s)||{},h={...h0,...fresh,pnlPct:h0?.pnlPct??h0?.pnl_pct??h0?.pnl},d=sellDecision(h,inner.get(s));finalMap.set(s,d.sell?{symbol:s,action:'SELL',confidence:d.confidence,allocation_pct:0,reason:d.reason}:{symbol:s,action:'HOLD',confidence:.70,allocation_pct:0,reason:'FINAL-CONTROLLER HOLD: keine bestätigte Invalidation; normales Rauschen wird ausgesessen.'})}
+ for(const [s,h0] of heldMap){const fresh=cMap.get(s)||stateCandidateMap.get(s)||{},h={...h0,...fresh,pnlPct:h0?.pnlPct??h0?.pnl_pct??h0?.pnl},d=sellDecision(h,inner.get(s));finalMap.set(s,d.sell?{symbol:s,action:'SELL',confidence:d.confidence,allocation_pct:0,reason:d.reason}:{symbol:s,action:'HOLD',confidence:.70,allocation_pct:0,reason:'FINAL-CONTROLLER HOLD: keine bestätigte Invalidation; normales Rauschen wird ausgesessen.'})}
  const sold=new Set([...finalMap.values()].filter(a=>a.action==='SELL').map(key)),best=new Map();
  for(const c of candidates){const s=key(c);if(!s||sold.has(s))continue;if(heldSet.has(s)){repeatBuyBlocks++;continue}const ia=inner.get(s);if(ia?.action==='SELL')continue;if(ia?.action==='HOLD'&&protectedHold(ia?.reason)){safetyBlocks++;continue}const q=candidateQuality(c);if(!q)continue;const old=best.get(s);if(!old||q.quality>old.quality)best.set(s,q)}
  const ranked=[...best.values()].sort((a,b)=>b.quality-a.quality||b.m.score-a.m.score).slice(0,4),minCash=Math.max(5,start*.001);
- if(cash>=minCash&&ranked.length){const target=targetDeployment(ranked);for(const x of allocate(ranked,target)){const pct=+x.allocation.toFixed(2);if(cash*pct/100<minCash)continue;finalMap.set(key(x.c),{symbol:key(x.c),action:'BUY',confidence:clamp(Math.max(.58,x.m.confidence),.58,.88),allocation_pct:pct,reason:`FINAL-CONTROLLER V26 BUY ${x.type}: Qualität ${x.quality.toFixed(2)} · Score ${x.m.score.toFixed(2)} · 5m ${x.m.m5.toFixed(2)} · 20m ${x.m.m20.toFixed(2)} · Beschleunigung ${x.m.accel.toFixed(2)} · Zielkapital ${target}% des freien Cashs. Harte Safety-HOLDs und automatische Wiederholungs-Aufstockungen wurden ausgeschlossen.`})}}
+ if(cash>=minCash&&ranked.length){const target=targetDeployment(ranked);for(const x of allocate(ranked,target)){const pct=+x.allocation.toFixed(2);if(cash*pct/100<minCash)continue;finalMap.set(key(x.c),{symbol:key(x.c),action:'BUY',confidence:clamp(Math.max(.58,x.m.confidence),.58,.88),allocation_pct:pct,reason:`FINAL-CONTROLLER V26 BUY ${x.type}: Qualität ${x.quality.toFixed(2)} · Score ${x.m.score.toFixed(2)} · 5m ${x.m.m5.toFixed(2)} · 20m ${x.m.m20.toFixed(2)} · Beschleunigung ${x.m.accel.toFixed(2)}${x.m.vol===null?'':` · Volumen ${x.m.vol.toFixed(2)}x`} · Zielkapital ${target}% des freien Cashs. Harte Safety-HOLDs und automatische Wiederholungs-Aufstockungen wurden ausgeschlossen.`})}}
  const actions=[...finalMap.values()];plan.actions=actions;plan.summary=`FINAL-CONTROLLER V26: ${actions.filter(a=>a.action==='BUY').length} BUY · ${actions.filter(a=>a.action==='SELL').length} SELL · ${actions.filter(a=>a.action==='HOLD').length} HOLD · ${safetyBlocks} harte Safety-HOLD(s) respektiert · ${repeatBuyBlocks} Bestands-BUY(s) verhindert.`;return{...r,response:JSON.stringify(plan)}
 }
 
