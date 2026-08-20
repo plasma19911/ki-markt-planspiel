@@ -1,3 +1,4 @@
+import './changelog-v276-bottom.js?v=20260820-1447';
 import './collection-status-ui.js';
 import './trade-history-ui-augment.js';
 import './trade-chart-closed-marker-fix.js?v=20260819-1654';
