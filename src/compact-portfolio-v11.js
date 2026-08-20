@@ -1,5 +1,7 @@
 // Production compatibility entry for the PAPER-TRADING planspiel.
-// V29.1 makes one canonical score scale authoritative over older V28.x soft thresholds.
+// V29.2 repairs the score pipeline: every received fresh PC full-scan row is lightly
+// pre-scored 0-100, then Top400 -> Deep240 -> Final60 -> Cloudflare Research/Safety.
+// It also keeps V29.1 as the authoritative trading-score behavior:
 // Entry: 50-52 watch, 53-55 scout, 56-57 micro, 58-61 early, 62+ regular.
 // Position: 62+ strong hold, 58-61 hold, 53-57 hold/watch, 50-52 caution,
 // 46-49 sell-watch, <=45 confirmed exit, <=32 urgent score exit after minimum age.
