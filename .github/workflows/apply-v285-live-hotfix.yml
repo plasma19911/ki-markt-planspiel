@@ -1,0 +1,138 @@
+name: Apply V28.5 live score and cadence hotfix
+
+on:
+  push:
+    branches: [main]
+    paths: ['V285-APPLY.txt']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-v285-live-hotfix
+  cancel-in-progress: true
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply V28.5
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          # Dashboard payload: visible score must be present in the slim status response.
+          p=Path('src/index.js'); s=p.read_text(encoding='utf-8')
+          old="'orderApproval','accounting'];"
+          if "'researchSignalFusionPolicy'" not in s.split('const DASHBOARD_FIELDS=',1)[1].split('];',1)[0]:
+              if old not in s: raise SystemExit('dashboard field anchor missing')
+              s=s.replace(old,"'orderApproval','accounting','researchSignalFusionPolicy'];",1)
+
+          # Server cron runs every minute. If the PC scan stream falls behind, Cloudflare fills
+          # the gap after ~95 seconds instead of waiting for the old 5-minute fallback.
+          old_block="""if(session.open){ctx.waitUntil((async()=>{const p=portfolio(env),agent=await p.agentStatus();if(!agent?.online&&session.localMinute>=21*60+55)await p.dailyReplay(8);if(!agent?.online)await p.scan()})().catch(e=>console.error('Compact DO scan/replay failed',e)));return}"""
+          new_block="""if(session.open){ctx.waitUntil((async()=>{const p=portfolio(env),agent=await p.agentStatus();if(!agent?.online&&session.localMinute>=21*60+55)await p.dailyReplay(8);const st=await p.status(),last=Date.parse(String(st?.config?.last_scan||'')),age=Number.isFinite(last)?Date.now()-last:Infinity;if(!agent?.online||age>95_000)await p.scan()})().catch(e=>console.error('Compact DO scan/replay failed',e)));return}"""
+          if old_block in s: s=s.replace(old_block,new_block,1)
+          elif 'age>95_000' not in s: raise SystemExit('scheduled scan anchor missing')
+          p.write_text(s,encoding='utf-8')
+
+          # One-minute Cloudflare trigger; heavy fallback scan only fills gaps per logic above.
+          p=Path('wrangler.jsonc'); s=p.read_text(encoding='utf-8')
+          s=s.replace('"triggers": {"crons": ["*/5 5-22 * * 1-5"]}', '"triggers": {"crons": ["* 5-22 * * 1-5"]}')
+          p.write_text(s,encoding='utf-8')
+
+          # Research status: old positions pre-dating V28.1 must not stay blank forever.
+          p=Path('src/research-signal-fusion-v281.js'); s=p.read_text(encoding='utf-8')
+          if 'function partialPositionScore' not in s:
+              anchor="function scoreStage(score){const n=num(score);return n>=72?'BUY_READY':n>=64?'CONFIRM':n>=58?'WATCH':'WEAK'}\n"
+              add="""function partialPositionScore(p={}){\n const raw=clamp(num(p?.score),-3,3),conf=clamp(num(p?.signal_confidence,.5),0,1),entry=num(p?.entry_price),last=num(p?.last_price,entry),pnl=entry>0?(last/entry-1)*100:0;\n return +clamp(50+raw*4+(conf-.5)*16+clamp(pnl,-4,4)*1.1,30,66).toFixed(1);\n}\n"""
+              if anchor not in s: raise SystemExit('scoreStage anchor missing')
+              s=s.replace(anchor,anchor+add,1)
+          old="""status(){const s=this.latest?.state||{...defaults(),...read(this.storage,defaults())},current=typeof this.getState==='function'?(this.getState()||{}):{},active=new Set(arr(current?.positions).map(key).filter(Boolean)),savedPositions=Object.values(s?.positionScores||{}),positionScores=this.latest?.positionScores||savedPositions.filter(x=>!active.size||active.has(key(x)));return{"""
+          new="""status(){const s=this.latest?.state||{...defaults(),...read(this.storage,defaults())},current=typeof this.getState==='function'?(this.getState()||{}):{},activeRows=arr(current?.positions),active=new Set(activeRows.map(key).filter(Boolean)),savedPositions=Object.values(s?.positionScores||{}),basePositions=this.latest?.positionScores||savedPositions.filter(x=>!active.size||active.has(key(x))),byPos=new Map(arr(basePositions).map(x=>[key(x),x])),positionScores=activeRows.map(p=>byPos.get(key(p))||{symbol:key(p),fusionScore:partialPositionScore(p),stage:'PARTIAL',source:'POSITION_PARTIAL',partial:true,parts:{},at:Date.now()}).filter(x=>x.symbol);return{"""
+          if old in s: s=s.replace(old,new,1)
+          elif 'POSITION_PARTIAL' not in s: raise SystemExit('research status anchor missing')
+          p.write_text(s,encoding='utf-8')
+
+          # Candidate UI: status event is enough. No duplicate research renderer / DOM observer.
+          p=Path('public/candidate-simple-ui.js'); s=p.read_text(encoding='utf-8')
+          s=s.replace("import './research-score-ui.js';\n\n",'',1)
+          s=re.sub(r"\nif\(body\)\{const obs=new MutationObserver\(.*?obs\.observe\(body,\{childList:true,subtree:true,characterData:true\}\)\}\n",'\n',s,flags=re.S)
+          p.write_text(s,encoding='utf-8')
+
+          # Central score UI: no whole-document observer. Mark partial legacy position scores honestly.
+          p=Path('public/ui-v283-fix.js'); s=p.read_text(encoding='utf-8')
+          s=s.replace("const score=num(row?.fusionScore),t=tier(score,Boolean(row?.hardBlocked));", "const score=num(row?.fusionScore),t=tier(score,Boolean(row?.hardBlocked));if(row?.partial)t.label='Teilscore';")
+          s=re.sub(r"const observer=new MutationObserver\(.*?observer\.observe\(document\.documentElement,\{childList:true,subtree:true\}\);\nensureStyles\(\);updateHours\(\);ensureLegends\(\);injectChangelog\(\);setInterval\(updateHours,30_000\);",
+                   "function initV285(){ensureStyles();updateHours();ensureLegends();injectChangelog();}\nif(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initV285,{once:true});else initV285();\nsetInterval(updateHours,60_000);",s,flags=re.S)
+          if "title:'V28.5" not in s:
+              marker='const changelogEntries=[\n'
+              entry=" {at:'20.08.2026 · 18:55',title:'V28.5 · Live-Score, Minutentakt & Chart-Transparenz',items:['Research-Score ist Bestandteil der schlanken Dashboard-Antwort; kein zweiter Statusabruf nötig.','Bereits vor V28.1 eröffnete Positionen zeigen einen gekennzeichneten Teilscore statt dauerhaft Research –. Vollständige Research-Werte ersetzen ihn automatisch, sobald vorhanden.','Cloudflare prüft nun jede Minute und füllt Scan-Lücken nach etwa 95 Sekunden, falls der PC-Agent hängt.','Dashboard-Polling und Cache wurden verkürzt; globale DOM-Beobachter entfernt.','Kapitalchart zeigt Scan-Punkte auch bei unverändertem Depotwert und erklärt eine flache Kursphase statt sie wie einen ausgefallenen Scanner wirken zu lassen.']},\n"
+              s=s.replace(marker,marker+entry,1)
+          s=s.replace("window.__V283_UI_LIVE__={version:28.3", "window.__V283_UI_LIVE__={version:28.5")
+          if 'window.__V285_UI_LIVE__' not in s: s += "\nwindow.__V285_UI_LIVE__={version:28.5,eventDriven:true,scorePayload:true};\n"
+          p.write_text(s,encoding='utf-8')
+
+          # Faster visible refresh without hammering the endpoint.
+          p=Path('public/quota-guard.js'); s=p.read_text(encoding='utf-8')
+          s=s.replace('const ACTIVE_STATUS_TTL_MS=55_000;','const ACTIVE_STATUS_TTL_MS=25_000;')
+          p.write_text(s,encoding='utf-8')
+
+          p=Path('public/app.js'); s=p.read_text(encoding='utf-8')
+          s=s.replace('const POLL_MS = 60_000;', 'const POLL_MS = 30_000;')
+          # Show scan dots. Values may be identical when held-market quotes are unchanged.
+          needle="""const end = pts.at(-1);\n  ctx.beginPath(); ctx.arc(end.x, end.y, 3.5, 0, Math.PI * 2);\n  ctx.fillStyle = line; ctx.fill();\n"""
+          repl="""const step=Math.max(1,Math.ceil(pts.length/36));\n  ctx.fillStyle=line;for(let i=0;i<pts.length;i+=step){ctx.beginPath();ctx.arc(pts[i].x,pts[i].y,1.7,0,Math.PI*2);ctx.fill()}\n  const end = pts.at(-1);\n  ctx.beginPath(); ctx.arc(end.x, end.y, 3.5, 0, Math.PI * 2);\n  ctx.fillStyle = line; ctx.fill();\n  if(Math.abs(hi0-lo0)<0.02&&values.length>1){ctx.fillStyle='#7890a6';ctx.font='10px Inter, system-ui, sans-serif';ctx.fillText(`Depotwert unverändert · ${values.length} Scanpunkte vorhanden`,left+2,bottom-3)}\n"""
+          if needle in s: s=s.replace(needle,repl,1)
+          p.write_text(s,encoding='utf-8')
+
+          # Ensure central UI is directly in HTML and cache-busted.
+          p=Path('public/index.html'); s=p.read_text(encoding='utf-8')
+          s=re.sub(r'<script src="/candidate-simple-ui\.js\?v=[^"]+" type="module"></script>', '<script src="/candidate-simple-ui.js?v=20260820-1855" type="module"></script>', s, count=1)
+          if '/ui-v283-fix.js?' not in s:
+              anchor='<script src="/candidate-simple-ui.js?v=20260820-1855" type="module"></script>'
+              s=s.replace(anchor,anchor+'\n<script src="/ui-v283-fix.js?v=20260820-1855" type="module"></script>',1)
+          else:
+              s=re.sub(r'/ui-v283-fix\.js\?v=[^"\']+', '/ui-v283-fix.js?v=20260820-1855', s, count=1)
+          p.write_text(s,encoding='utf-8')
+
+          # PC agent: start scan before slow discovery and shorten source timeout for next restart/update.
+          p=Path('pc-agent/pc-agent.ps1'); s=p.read_text(encoding='utf-8')
+          s=s.replace('-TimeoutSec 25', '-TimeoutSec 10')
+          old="""    if(([DateTime]::UtcNow-$script:LastLeaderAt).TotalMinutes -ge [double]$cfg.leaderMinutes){$script:LeaderEntries=Get-Leaders;$script:LastLeaderAt=[DateTime]::UtcNow}\n    if(([DateTime]::UtcNow-$script:LastFutureAt).TotalMinutes -ge [double]$cfg.futureMinutes){$script:FutureWatch=Build-FutureWatch;$script:LastFutureAt=[DateTime]::UtcNow}\n    $metrics=Get-Metrics $session.phase\n    if($script:LeaderEntries.Count -or $script:FutureWatch){\n      $prefetch=[ordered]@{leaderUpdatedAt=$script:LastLeaderAt.ToString('o');leaderEntries=$script:LeaderEntries;futureWatch=$script:FutureWatch;metrics=$metrics};Invoke-AgentPost '/api/agent/prefetch' $prefetch|Out-Null;Save-PrefetchSnapshot $prefetch\n    }\n    if($session.preopen -and $session.minute-eq 445){Invoke-AgentPost '/api/agent/scan' $metrics|Out-Null;Write-AgentLog '07:25 Vorbereitungs-Scan ausgelöst.'}\n    elseif($session.preopen){Invoke-AgentPost '/api/agent/heartbeat' $metrics|Out-Null}\n    elseif($session.open){$r=Invoke-AgentPost '/api/agent/scan' $metrics;Write-AgentLog \"Scan: $($r.scanSource) · $($r.ok)\"}\n"""
+          new="""    $metrics=Get-Metrics $session.phase\n    if($session.preopen -and $session.minute-eq 445){Invoke-AgentPost '/api/agent/scan' $metrics|Out-Null;Write-AgentLog '07:25 Vorbereitungs-Scan ausgelöst.'}\n    elseif($session.preopen){Invoke-AgentPost '/api/agent/heartbeat' $metrics|Out-Null}\n    elseif($session.open){$r=Invoke-AgentPost '/api/agent/scan' $metrics;Write-AgentLog \"Scan: $($r.scanSource) · $($r.ok)\"}\n    if(([DateTime]::UtcNow-$script:LastLeaderAt).TotalMinutes -ge [double]$cfg.leaderMinutes){$script:LeaderEntries=Get-Leaders;$script:LastLeaderAt=[DateTime]::UtcNow}\n    if(([DateTime]::UtcNow-$script:LastFutureAt).TotalMinutes -ge [double]$cfg.futureMinutes){$script:FutureWatch=Build-FutureWatch;$script:LastFutureAt=[DateTime]::UtcNow}\n    if($script:LeaderEntries.Count -or $script:FutureWatch){\n      $prefetch=[ordered]@{leaderUpdatedAt=$script:LastLeaderAt.ToString('o');leaderEntries=$script:LeaderEntries;futureWatch=$script:FutureWatch;metrics=$metrics};Invoke-AgentPost '/api/agent/prefetch' $prefetch|Out-Null;Save-PrefetchSnapshot $prefetch\n    }\n"""
+          if old in s: s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+
+          # Basic invariants
+          assert "'researchSignalFusionPolicy'" in Path('src/index.js').read_text(encoding='utf-8')
+          assert 'POSITION_PARTIAL' in Path('src/research-signal-fusion-v281.js').read_text(encoding='utf-8')
+          assert 'observer.observe(document.documentElement' not in Path('public/ui-v283-fix.js').read_text(encoding='utf-8')
+          assert '/ui-v283-fix.js?v=20260820-1855' in Path('public/index.html').read_text(encoding='utf-8')
+          assert 'ACTIVE_STATUS_TTL_MS=25_000' in Path('public/quota-guard.js').read_text(encoding='utf-8')
+          assert 'const POLL_MS = 30_000;' in Path('public/app.js').read_text(encoding='utf-8')
+          assert '"* 5-22 * * 1-5"' in Path('wrangler.jsonc').read_text(encoding='utf-8')
+          print('V28.5 invariants OK')
+          PY
+      - name: Syntax checks
+        run: |
+          node --check src/index.js
+          node --check src/research-signal-fusion-v281.js
+          node --check public/app.js
+          node --check public/candidate-simple-ui.js
+          node --check public/ui-v283-fix.js
+      - name: Commit and push
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/index.js src/research-signal-fusion-v281.js wrangler.jsonc public/index.html public/app.js public/quota-guard.js public/candidate-simple-ui.js public/ui-v283-fix.js pc-agent/pc-agent.ps1
+          git commit -m 'Fix V28.5 live scores scan cadence and chart status'
+          git pull --rebase origin main
+          git push origin HEAD:main
