@@ -1,5 +1,6 @@
 import {targetVenueIssue} from './target-venue-ai-guard.js';
 import {calibratedEntryExpectation,applyPortfolioRiskCaps} from './portfolio-risk-calibration.js';
+import {repairAiPlanResponse} from './ai-plan-json-repair.js';
 
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
@@ -120,4 +121,4 @@ function postProcess(r,input,getState,getLearning){
  const actions=[...finalMap.values()];plan.actions=actions;plan.summary=`FINAL-CONTROLLER V27.1: ${actions.filter(a=>a.action==='BUY').length} BUY · ${actions.filter(a=>a.action==='SELL').length} SELL · ${actions.filter(a=>a.action==='HOLD').length} HOLD · ${exitHoldConflicts} widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefangen · ${reentryBlocks} Flip-Flop-Reentry(s) blockiert · ${safetyBlocks} Safety-HOLD(s) · ${calibrationBlocks} empirisch schlechte Setup(s) blockiert · ${riskCaps} Allokation(en) durch Depotrisiko gekappt · ${repeatBuyBlocks} Bestands-BUY(s) verhindert.`;return{...r,response:JSON.stringify(plan)}
 }
 
-export class FinalDecisionController{constructor(base,{getState=null,getLearning=null}={}){this.base=base;this.getState=getState;this.getLearning=getLearning}async run(model,input){const r=await this.base.run(model,input);return postProcess(r,input,this.getState,this.getLearning)}}
+export class FinalDecisionController{constructor(base,{getState=null,getLearning=null}={}){this.base=base;this.getState=getState;this.getLearning=getLearning}async run(model,input){const raw=await this.base.run(model,input),r=repairAiPlanResponse(raw,input);return postProcess(r,input,this.getState,this.getLearning)}}
