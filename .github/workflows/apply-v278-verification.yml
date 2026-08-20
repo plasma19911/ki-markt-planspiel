@@ -1,0 +1,59 @@
+name: Apply V27.8 verification
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-v278-verification.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Upgrade V27.8 validation and live checks
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          p=Path('.github/workflows/live-health.yml');s=p.read_text(encoding='utf-8')
+          s=s.replace('name: Live Worker Health V27.7','name: Live Worker Health V27.8')
+          s=s.replace("'finalDecisionV277':n(final.get('version'))>=27.7,","'finalDecisionV278':n(final.get('version'))>=27.8,")
+          s=re.sub(r"\s*'tradingBehaviorV277':behavior\.get\('enabled'\) is True[^\n]*,", "\n            'tradingBehaviorV278':behavior.get('enabled') is True and n(behavior.get('version'))>=27.8 and final.get('heldBuyPromptSuppression') is True and final.get('adaptiveEntryConfirmation') is True and final.get('softSellNeedsRepeatScan') is True and final.get('timeAloneCannotCreateSell') is True and final.get('hardRiskImmediate') is True and final.get('tinyProfitChurnBlocked') is True,", s)
+          s=s.replace("print('Worker healthy; V27.7 trading behavior + daily AGM score active.')","print('Worker healthy; V27.8 adaptive trading behavior + daily AGM score active.')")
+          p.write_text(s,encoding='utf-8')
+
+          p=Path('.github/workflows/deploy-worker.yml');s=p.read_text(encoding='utf-8')
+          s=s.replace('Deploy / Verify Cloudflare Worker V27.7','Deploy / Verify Cloudflare Worker V27.8')
+          s=s.replace('Number(j?.tradingBehaviorPolicy?.version)===27.7','Number(j?.tradingBehaviorPolicy?.version)===27.8')
+          s=s.replace('Number(j?.finalDecisionPolicy?.version)===27.7','Number(j?.finalDecisionPolicy?.version)===27.8')
+          old_re=r"const behaviorOk=j\?\.tradingBehaviorPolicy\?\.enabled===true&&[^\n]*;"
+          new="const behaviorOk=j?.tradingBehaviorPolicy?.enabled===true&&Number(j?.tradingBehaviorPolicy?.version)===27.8&&j?.finalDecisionPolicy?.heldBuyPromptSuppression===true&&j?.finalDecisionPolicy?.adaptiveEntryConfirmation===true&&j?.finalDecisionPolicy?.softSellNeedsRepeatScan===true&&j?.finalDecisionPolicy?.timeAloneCannotCreateSell===true&&j?.finalDecisionPolicy?.hardRiskImmediate===true&&j?.finalDecisionPolicy?.minuteScanConfirmationSafe===true&&j?.finalDecisionPolicy?.lateImpulseRecheck===true&&j?.finalDecisionPolicy?.tinyProfitChurnBlocked===true&&j?.finalDecisionPolicy?.heldFxFallbackSafe===true&&j?.finalDecisionPolicy?.aiPlanJsonRepair===true&&j?.finalDecisionPolicy?.cloudflareAiWrapperSignatureSafe===true;"
+          s,n=re.subn(old_re,new,s,count=1)
+          if n!=1: raise SystemExit('deploy behaviorOk marker not patched')
+          p.write_text(s,encoding='utf-8')
+
+          p=Path('.github/workflows/validate-final-decisions.yml');s=p.read_text(encoding='utf-8')
+          s=s.replace('V27.7 - Trading Behavior','V27.8 - Adaptive Trading Discipline')
+          s=s.replace("'V27.7_TRADING_BEHAVIOR_FINAL'","'V27.8_ADAPTIVE_TRADING_DISCIPLINE_FINAL'")
+          p.write_text(s,encoding='utf-8')
+
+          p=Path('.github/workflows/validate-modern-stack.yml');s=p.read_text(encoding='utf-8')
+          marker='          runcheck free_tier node scripts/smoke-free-tier-24h.mjs\n'
+          add='          runcheck final_decision_suite npm run test:decisions\n'
+          if add not in s:
+            if marker not in s: raise SystemExit('modern validation marker missing')
+            s=s.replace(marker,marker+add,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+          git rm .github/workflows/apply-v278-verification.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .github/workflows/live-health.yml .github/workflows/deploy-worker.yml .github/workflows/validate-final-decisions.yml .github/workflows/validate-modern-stack.yml
+          git commit -m 'Verify V27.8 adaptive trading discipline [skip ci]'
+          git pull --rebase origin main
+          git push origin HEAD:main
