@@ -1,0 +1,61 @@
+name: V28.8 PC-first Live Health
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'v288-live-result.json'
+      - 'live-health-result.json'
+      - 'replay-depot-health-result.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: v288-live-health
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for Cloudflare publish
+        run: sleep 90
+      - name: Probe V28.8 production
+        run: |
+          BASE='https://ki-markt-planspiel.orkimperium.workers.dev'
+          curl -fsS --retry 3 "$BASE/api/status?view=dashboard&v288=$(date +%s)" -o /tmp/status.json
+          curl -fsS --retry 3 "$BASE/pc-agent-latest.ps1?v288=$(date +%s)" -o /tmp/agent.ps1
+          curl -fsS --retry 3 "$BASE/pc-first-scanner.ps1?v288=$(date +%s)" -o /tmp/scanner.ps1
+          python3 - <<'PY'
+          import json,datetime,pathlib
+          s=json.load(open('/tmp/status.json')); pc=s.get('pcFirstScannerPolicy') or {}; score=s.get('researchSignalFusionPolicy') or {}; breadth=s.get('scannerBreadthPolicy') or {}; final=s.get('finalDecisionPolicy') or {}
+          checks={
+            'pcFirstPolicyV288':float(pc.get('version') or 0)>=28.8 and pc.get('enabled') is True,
+            'calibratedScoreV287':float(score.get('version') or 0)>=28.7,
+            'finalPolicyV288':float(final.get('version') or 0)>=28.8 and final.get('pcFirstScannerV288') is True,
+            'breadthPcFirst':breadth.get('pcFirstFullMaster') is True,
+            'cloudflareValidationSmall':int(pc.get('cloudflareValidationTarget') or 0)==18,
+            'agentAssetV288':'1.2.0-v28.8' in pathlib.Path('/tmp/agent.ps1').read_text(errors='replace'),
+            'scannerAssetV288':'PcFirstVersion' in pathlib.Path('/tmp/scanner.ps1').read_text(errors='replace'),
+          }
+          out={'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'checks':checks,'allPassed':all(checks.values()),'failed':[k for k,v in checks.items() if not v],'pcFirstScannerPolicy':pc,'scannerBreadthPolicy':breadth,'finalDecisionPolicy':final,'scoreVersion':score.get('version'),'pcAgent':s.get('pcAgent'),'scanCount':(s.get('config') or {}).get('scan_count'),'lastScan':(s.get('config') or {}).get('last_scan')}
+          pathlib.Path('/tmp/v288-live-result.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8');print(json.dumps(out,ensure_ascii=False,indent=2))
+          if not out['allPassed']: raise SystemExit('V28.8 live checks failed: '+', '.join(out['failed']))
+          PY
+      - name: Publish V28.8 live proof
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main; git reset --hard origin/main
+            cp /tmp/v288-live-result.json v288-live-result.json; git add v288-live-result.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m 'Update V28.8 live proof [skip ci]'
+            if git push origin HEAD:main; then exit 0; fi
+            sleep 3
+          done
+          exit 1
