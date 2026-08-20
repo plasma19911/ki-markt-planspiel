@@ -1,0 +1,41 @@
+name: Apply V27.5 Audit Patch
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-v275-audit.yml'
+      - 'scripts/apply-v275-audit.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Apply exact audited replacements
+        run: python3 scripts/apply-v275-audit.py
+      - name: Syntax check patched core files
+        run: |
+          node --check src/market-v3-base.js
+          node --check src/market-v3.js
+          node --check src/r2-portfolio.js
+          node --check src/portfolio-risk-calibration.js
+          node --check src/forward-curve-learning.js
+          node --check src/fx-safety-overlay.js
+          node --check src/regional-benchmark-overlay.js
+      - name: Commit patched source
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/market-v3-base.js src/market-v3.js src/r2-portfolio.js src/portfolio-risk-calibration.js src/forward-curve-learning.js src/fx-safety-overlay.js src/regional-benchmark-overlay.js
+          git commit -m 'Apply V27.5 full audit fixes' || exit 0
+          git pull --rebase origin main
+          git push origin HEAD:main
