@@ -14,9 +14,12 @@ const storage=()=>{const data=new Map();return{data,kv:{get:k=>data.get(k),put:(
 function matureScenario(finalPrice){
  const s=storage(),c=candidate();
  updateForwardCurveLearning(s,{candidates:[c]});
- const state=s.data.get(KEY),p=state.pending[0];
- state.pending=Array.from({length:20},(_,i)=>({...structuredClone(p),at:Date.now()-(31+i*.01)*60000,done:{}}));
- s.data.set(KEY,state);
+ let state=s.data.get(KEY),p=state.pending[0];
+ state.pending=Array.from({length:20},()=>({...structuredClone(p),at:Date.now()-6*60000,done:{}}));s.data.set(KEY,state);
+ updateForwardCurveLearning(s,{candidates:[candidate('CURVE.DE',finalPrice)]});
+ state=s.data.get(KEY);state.pending=state.pending.filter(x=>x.price===100).map(x=>({...x,at:Date.now()-16*60000}));s.data.set(KEY,state);
+ updateForwardCurveLearning(s,{candidates:[candidate('CURVE.DE',finalPrice)]});
+ state=s.data.get(KEY);state.pending=state.pending.filter(x=>x.price===100).map(x=>({...x,at:Date.now()-31*60000}));s.data.set(KEY,state);
  updateForwardCurveLearning(s,{candidates:[candidate('CURVE.DE',finalPrice)]});
  return{s,forecast:getForwardCurveForecast(s,candidate('CURVE.DE',finalPrice),[candidate('CURVE.DE',finalPrice)])};
 }
