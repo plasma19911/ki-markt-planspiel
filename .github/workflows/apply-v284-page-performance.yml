@@ -1,0 +1,120 @@
+name: Apply V28.4 page performance and score payload
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: apply-v284-page-performance
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Apply V28.4 performance and score fixes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          # 1) Keep the dashboard payload slim, but include the one policy the visible score needs.
+          p=Path('src/index.js')
+          s=p.read_text(encoding='utf-8')
+          if "'researchSignalFusionPolicy'" not in s.split('const DASHBOARD_FIELDS=',1)[1].split('];',1)[0]:
+              old="'orderApproval','accounting'];"
+              new="'orderApproval','accounting','researchSignalFusionPolicy'];"
+              if old not in s:
+                  raise SystemExit('DASHBOARD_FIELDS anchor not found')
+              s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+
+          # 2) Candidate UI is already refreshed by planspiel:status. Remove the redundant DOM observer
+          #    and the old duplicate research-score renderer.
+          p=Path('public/candidate-simple-ui.js')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace("import './research-score-ui.js';\n\n",'',1)
+          s=re.sub(r"\nif\(body\)\{const obs=new MutationObserver\(.*?obs\.observe\(body,\{childList:true,subtree:true,characterData:true\}\)\}\n",'\n',s,flags=re.S)
+          p.write_text(s,encoding='utf-8')
+
+          # 3) V28.3 score/hours UI: remove the whole-document MutationObserver. One render per
+          #    planspiel:status event is sufficient because app.js dispatches it after rebuilding the DOM.
+          p=Path('public/ui-v283-fix.js')
+          s=p.read_text(encoding='utf-8')
+          pattern=r"const observer=new MutationObserver\(.*?observer\.observe\(document\.documentElement,\{childList:true,subtree:true\}\);\nensureStyles\(\);updateHours\(\);ensureLegends\(\);injectChangelog\(\);setInterval\(updateHours,30_000\);"
+          repl="""function initV284(){ensureStyles();updateHours();ensureLegends();injectChangelog();}\nif(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initV284,{once:true});else initV284();\nsetInterval(updateHours,60_000);"""
+          s2,n=re.subn(pattern,repl,s,flags=re.S)
+          if n!=1 and 'initV284' not in s:
+              raise SystemExit(f'V28.3 global observer anchor not found: {n}')
+          s=s2
+          if "title:'V28.4" not in s:
+              marker='const changelogEntries=[\n'
+              entry=" {at:'20.08.2026 · 18:48',title:'V28.4 · Seiten-Performance & Research-Score-Pipeline',items:['Globaler DOM-MutationObserver entfernt: Score, Legende und Börsenzeit werden nur noch nach einem echten Statusupdate aktualisiert.','Doppelter Research-Score-Renderer entfernt; dadurch weniger DOM-Arbeit und kein gegenseitiges Anstoßen mehr.','Die schlanke Dashboard-API liefert jetzt researchSignalFusionPolicy direkt mit. Scores brauchen keinen zweiten großen Statusabruf und erscheinen bei Kandidaten/Positionen, sobald Backend-Daten vorhanden sind.']},\n"
+              if marker not in s: raise SystemExit('changelog marker missing')
+              s=s.replace(marker,marker+entry,1)
+          s=s.replace("window.__V283_UI_LIVE__={version:28.3,scoreDisplay:'research-fusion',gettex:'Mo-Fr 07:30-23:00 Europe/Berlin',preopen:'07:25'};",
+                      "window.__V283_UI_LIVE__={version:28.4,scoreDisplay:'research-fusion',gettex:'Mo-Fr 07:30-23:00 Europe/Berlin',preopen:'07:25',performance:'event-driven'};\nwindow.__V284_UI_LIVE__={version:28.4,eventDriven:true,noGlobalMutationObserver:true};")
+          p.write_text(s,encoding='utf-8')
+
+          # Legacy file stays as a tiny compatibility asset for old browser caches, but does no DOM work.
+          Path('public/research-score-ui.js').write_text("""// V28.4 compatibility shim.\n// Visible Research scores are rendered centrally by ui-v283-fix.js to avoid duplicate DOM work.\nwindow.__RESEARCH_SCORE_UI_LEGACY__={delegatedTo:'V28.4',domObserver:false};\n""",encoding='utf-8')
+
+          # 4) Explicitly load the central score UI and bust caches for the changed candidate module.
+          p=Path('public/index.html')
+          s=p.read_text(encoding='utf-8')
+          s=re.sub(r'<script src="/candidate-simple-ui\.js\?v=[^"]+" type="module"></script>',
+                   '<script src="/candidate-simple-ui.js?v=20260820-1848" type="module"></script>',s,count=1)
+          if '/ui-v283-fix.js?' not in s:
+              anchor='<script src="/candidate-simple-ui.js?v=20260820-1848" type="module"></script>'
+              if anchor not in s: raise SystemExit('candidate script anchor missing')
+              s=s.replace(anchor,anchor+'\n<script src="/ui-v283-fix.js?v=20260820-1848" type="module"></script>',1)
+          else:
+              s=re.sub(r'/ui-v283-fix\.js\?v=[^"\']+', '/ui-v283-fix.js?v=20260820-1848', s, count=1)
+          p.write_text(s,encoding='utf-8')
+
+          # 5) Production verification must test the real HTML bootstrap and the slim score payload.
+          p=Path('.github/workflows/main-live-enforcer.yml')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace("`${base}/api/status?main_live=${q}`","`${base}/api/status?view=dashboard&main_live=${q}`")
+          s=s.replace("const qr=await fetch(`${base}/quota-guard.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const qjs=await qr.text();",
+                      "const hr=await fetch(`${base}/?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const html=await hr.text();")
+          s=s.replace("&&qr.ok&&/ui-v283-fix\\.js/.test(qjs)","&&s?.researchSignalFusionPolicy?.enabled===true&&hr.ok&&/ui-v283-fix\\.js/.test(html)")
+          s=s.replace("bootstrap=${qr.status}","home=${hr.status} research=${s?.researchSignalFusionPolicy?.version}")
+          p.write_text(s,encoding='utf-8')
+
+          # Static invariants before committing.
+          idx=Path('src/index.js').read_text(encoding='utf-8')
+          ui=Path('public/ui-v283-fix.js').read_text(encoding='utf-8')
+          html=Path('public/index.html').read_text(encoding='utf-8')
+          cand=Path('public/candidate-simple-ui.js').read_text(encoding='utf-8')
+          assert "'researchSignalFusionPolicy'" in idx
+          assert 'observer.observe(document.documentElement' not in ui
+          assert 'new MutationObserver' not in cand
+          assert '/ui-v283-fix.js?v=20260820-1848' in html
+          assert 'V28.4' in ui
+          print('V28.4 static invariants OK')
+          PY
+      - name: Install and test
+        run: |
+          npm install --no-audit --no-fund --ignore-scripts
+          npm run test:decisions
+          npm run check
+      - name: Commit V28.4 if needed
+        run: |
+          if git diff --quiet; then
+            echo 'V28.4 already applied.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/index.js public/index.html public/candidate-simple-ui.js public/research-score-ui.js public/ui-v283-fix.js .github/workflows/main-live-enforcer.yml
+          git commit -m 'Fix V28.4 dashboard performance and score payload'
+          git push origin HEAD:main
