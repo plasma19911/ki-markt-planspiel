@@ -1,4 +1,4 @@
-name: Deploy / Verify Cloudflare Worker V28.2
+name: Deploy / Verify Cloudflare Worker V29.0
 
 on:
   push:
@@ -10,6 +10,7 @@ on:
       - 'wrangler.jsonc'
       - 'package.json'
       - '.github/workflows/deploy-worker.yml'
+      - '.github/workflows/main-live-enforcer.yml'
   workflow_dispatch:
 
 concurrency:
@@ -21,114 +22,51 @@ permissions:
 
 jobs:
   deploy:
+    if: ${{ !contains(github.event.head_commit.message || '', '[skip ci]') }}
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
+          cache: npm
           cache-dependency-path: package.json
-      - name: Detect optional Wrangler deployment credentials
-        id: secrets
+      - name: Install
+        run: npm install --no-audit --no-fund --ignore-scripts
+      - name: Regression tests
+        run: npm run test:decisions
+      - name: Cloudflare dry run
+        run: npm run check
+      - name: Detect Cloudflare credentials
+        id: cf
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          if [ -n "$CLOUDFLARE_API_TOKEN" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; then
-            echo 'available=true' >> "$GITHUB_OUTPUT"
-          else
-            echo 'available=false' >> "$GITHUB_OUTPUT"
-          fi
-      - name: Install
-        id: install
-        continue-on-error: true
-        run: npm install --no-audit --no-fund --ignore-scripts
-      - name: Test all final decisions and behavior regressions
-        id: tests
-        continue-on-error: true
-        if: steps.install.outcome == 'success'
-        run: npm run test:decisions
-      - name: Cloudflare dry run
-        id: dryrun
-        continue-on-error: true
-        if: steps.install.outcome == 'success'
-        run: npm run check
-      - name: Deploy with Wrangler when credentials are available
-        id: deploy_worker
-        continue-on-error: true
-        if: steps.secrets.outputs.available == 'true' && steps.tests.outcome == 'success' && steps.dryrun.outcome == 'success'
+          if [ -n "$CLOUDFLARE_API_TOKEN" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; then echo 'direct=true' >> "$GITHUB_OUTPUT"; else echo 'direct=false' >> "$GITHUB_OUTPUT"; fi
+      - name: Deploy directly
+        if: steps.cf.outputs.direct == 'true'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npx wrangler deploy --config wrangler.jsonc
-      - name: Verify repository-connected Cloudflare production
-        id: live_verify
-        continue-on-error: true
-        if: steps.tests.outcome == 'success' && steps.dryrun.outcome == 'success'
+      - name: Wait for Cloudflare Git integration
+        if: steps.cf.outputs.direct != 'true'
+        run: sleep 75
+      - name: Verify V29.0 production
         run: |
           node --input-type=module <<'NODE'
-          const statusUrl='https://ki-markt-planspiel.orkimperium.workers.dev/api/status';
-          const scoreUiUrl='https://ki-markt-planspiel.orkimperium.workers.dev/research-score-ui.js';
-          let last='';
+          const base='https://ki-markt-planspiel.orkimperium.workers.dev';let last='';
           for(let i=0;i<36;i++){
             try{
-              const stamp=Date.now();
-              const r=await fetch(`${statusUrl}?deploy_check=${stamp}`,{headers:{'cache-control':'no-cache'}});
-              const j=await r.json();
-              const ui=await fetch(`${scoreUiUrl}?deploy_check=${stamp}`,{headers:{'cache-control':'no-cache'}});
-              const uiText=await ui.text();
-              const scoreUiOk=ui.ok&&/researchScoreBadge/.test(uiText)&&/Research-Score 0–100/.test(uiText);
-              const o=(j?.positions||[]).find(x=>String(x?.symbol||'').toUpperCase()==='OCDOL.XC');
-              const ocdolOk=!o||(String(o?.currency||'').toUpperCase()==='GBP'&&Number(o?.entry_price)>0&&Number(o?.entry_price)<20&&Number(o?.last_price)>0&&Number(o?.last_price)<20&&Number(o?.entry_fx)>.5&&Number(o?.entry_fx)<2&&Number(o?.zero_quantity)>20);
-              const agmOk=j?.finalDecisionPolicy?.agmPreview===true&&j?.finalDecisionPolicy?.agmCalendarDailyRefresh===true&&j?.finalDecisionPolicy?.agmScoreEvaluationOnceDaily===true&&j?.finalDecisionPolicy?.agmLiveReevaluationEveryScan===false&&Array.isArray(j?.agmCalendar?.events);
-              const behaviorOk=j?.tradingBehaviorPolicy?.enabled===true&&Number(j?.tradingBehaviorPolicy?.version)===27.8&&j?.finalDecisionPolicy?.heldBuyPromptSuppression===true&&j?.finalDecisionPolicy?.heldPromptPlanOnly===true&&j?.finalDecisionPolicy?.pullbackReclaimAware===true&&j?.finalDecisionPolicy?.summaryMetricClarity===true&&j?.finalDecisionPolicy?.adaptiveEntryConfirmation===true&&j?.finalDecisionPolicy?.softSellNeedsRepeatScan===true&&j?.finalDecisionPolicy?.timeAloneCannotCreateSell===true&&j?.finalDecisionPolicy?.hardRiskImmediate===true&&j?.finalDecisionPolicy?.minuteScanConfirmationSafe===true&&j?.finalDecisionPolicy?.lateImpulseRecheck===true&&j?.finalDecisionPolicy?.tinyProfitChurnBlocked===true&&j?.finalDecisionPolicy?.heldFxFallbackSafe===true&&j?.finalDecisionPolicy?.aiPlanJsonRepair===true&&j?.finalDecisionPolicy?.cloudflareAiWrapperSignatureSafe===true;
-              const opportunityOk=j?.opportunityLearningPolicy?.enabled===true&&Number(j?.opportunityLearningPolicy?.version)===27.9&&j?.finalDecisionPolicy?.opportunityMemory===true&&j?.finalDecisionPolicy?.missedOpportunityLearning===true;
-              const maturityOk=j?.tradeMaturityPolicy?.enabled===true&&Number(j?.tradeMaturityPolicy?.version)===28&&j?.finalDecisionPolicy?.learnedMinimumHold===true&&j?.finalDecisionPolicy?.earlyLossNoiseProtection===true;
-              const researchOk=j?.researchSignalFusionPolicy?.enabled===true&&Number(j?.researchSignalFusionPolicy?.version)===28.1&&j?.finalDecisionPolicy?.weightedResearchSignalFusion===true&&j?.finalDecisionPolicy?.fewerSoftHardBlocks===true;
-              const relativeOk=j?.relativeOpportunityLearningPolicy?.enabled===true&&Number(j?.relativeOpportunityLearningPolicy?.version)===28.2&&j?.finalDecisionPolicy?.pairwiseOpportunityCostLearning===true&&j?.finalDecisionPolicy?.bestAlternativeFirst===true&&j?.finalDecisionPolicy?.profitWinnerProtection===true;
-              last=`HTTP ${r.status}, version=${j?.finalDecisionPolicy?.version ?? 'missing'}, behavior=${j?.tradingBehaviorPolicy?.version ?? 'missing'}, scoreUI=${scoreUiOk}, AGM=${j?.agmCalendar?.events?.length ?? 'missing'}`;
-              if(r.ok&&Number(j?.finalDecisionPolicy?.version)===28.2&&j?.finalDecisionPolicy?.minorQuoteUnitNormalization===true&&j?.finalDecisionPolicy?.unnormalizedMinorUnitTradeFailSafe===true&&j?.finalDecisionPolicy?.executionScaleUpHardBlocked===true&&j?.finalDecisionPolicy?.broadMarketRegime===true&&j?.finalDecisionPolicy?.lossSellInvariant===true&&j?.finalDecisionPolicy?.profitExitCannotCloseNetLoss===true&&j?.finalDecisionPolicy?.orderEconomicsInvariant===true&&j?.finalDecisionPolicy?.netExpectedEdgeGate===true&&j?.finalDecisionPolicy?.marketRegimeEntryGate===true&&j?.finalDecisionPolicy?.automaticScaleUp===false&&j?.portfolioRiskPolicy?.enabled===true&&j?.forwardCurveLearningPolicy?.enabled===true&&agmOk&&behaviorOk&&opportunityOk&&maturityOk&&researchOk&&relativeOk&&scoreUiOk&&ocdolOk){console.log(`Live verification OK: ${last}`);process.exit(0)}
-            }catch(e){last=String(e?.message||e)}
-            await new Promise(r=>setTimeout(r,5000));
+              const q=Date.now(),r=await fetch(`${base}/api/status?view=dashboard&deploy=${q}`,{headers:{'cache-control':'no-cache'}}),s=await r.json();
+              const ui=await fetch(`${base}/v287-live-ui.js?deploy=${q}`,{headers:{'cache-control':'no-cache'}}),txt=await ui.text();
+              const e=s?.entryProfitPolicy||{},p=s?.dynamicProfitLockPolicy||{},f=s?.finalDecisionPolicy||{},pc=s?.pcFirstScannerPolicy||{};
+              const ok=r.ok&&Number(f.version)>=29&&f.scoutEntryFrom60===true&&f.regularEntryFrom72===true&&f.dynamicProfitLockV290===true&&f.highScoreProfitExit===true&&Number(e?.thresholds?.entry?.scoutMin)===60&&Number(e?.thresholds?.entry?.regularMin)===72&&Number(p.version)>=29&&Number(pc.version)>=28.8&&ui.ok&&/version:29\.0/.test(txt)&&/stagedEntryFrom60:true/.test(txt)&&/dynamicProfitLock:true/.test(txt);
+              last=`HTTP ${r.status} final=${f.version} entry=${e.version} profit=${p.version} pc=${pc.version} ui=${ui.status}`;
+              if(ok){console.log('Live verification OK:',last);process.exit(0)}
+            }catch(e){last=String(e?.message||e)}await new Promise(r=>setTimeout(r,5000));
           }
-          console.error(`Live verification failed: ${last}`);process.exit(1);
+          throw new Error('V29.0 not live: '+last);
           NODE
-      - name: Persist deployment diagnostic
-        if: always()
-        env:
-          WRANGLER_AVAILABLE: ${{ steps.secrets.outputs.available }}
-          INSTALL_OUTCOME: ${{ steps.install.outcome }}
-          TESTS_OUTCOME: ${{ steps.tests.outcome }}
-          DRYRUN_OUTCOME: ${{ steps.dryrun.outcome }}
-          DEPLOY_OUTCOME: ${{ steps.deploy_worker.outcome }}
-          VERIFY_OUTCOME: ${{ steps.live_verify.outcome }}
-        run: |
-          node --input-type=module <<'NODE'
-          import fs from 'node:fs';
-          const url='https://ki-markt-planspiel.orkimperium.workers.dev/api/status';
-          let live={http:null,version:null,behaviorVersion:null,agmPreview:null,agmEvents:null,summary:null,error:null};
-          try{const r=await fetch(`${url}?deploy_diag=${Date.now()}`,{headers:{'cache-control':'no-cache'}});const j=await r.json();live={http:r.status,version:j?.finalDecisionPolicy?.version??null,behaviorVersion:j?.tradingBehaviorPolicy?.version??null,agmPreview:j?.finalDecisionPolicy?.agmPreview??null,agmEvents:Array.isArray(j?.agmCalendar?.events)?j.agmCalendar.events.length:null,summary:j?.config?.ai_last_summary??j?.aiLastSummary??null,error:null}}catch(e){live.error=String(e?.message||e)}
-          const direct=process.env.WRANGLER_AVAILABLE==='true';const out={checkedAt:new Date().toISOString(),commit:process.env.GITHUB_SHA,deployMode:direct?'GITHUB_WRANGLER':'CLOUDFLARE_GIT_INTEGRATION',wranglerCredentialsAvailable:direct,install:process.env.INSTALL_OUTCOME,tests:process.env.TESTS_OUTCOME,dryRun:process.env.DRYRUN_OUTCOME,wranglerDeploy:process.env.DEPLOY_OUTCOME,verify:process.env.VERIFY_OUTCOME,live};fs.writeFileSync('deploy-result.json',JSON.stringify(out,null,2)+'\n');console.log(JSON.stringify(out,null,2));
-          NODE
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git pull --rebase origin main
-          git add deploy-result.json
-          git commit -m 'Update Cloudflare deploy diagnostic [skip ci]' || true
-          git push origin HEAD:main
-      - name: Enforce deploy result
-        if: always()
-        env:
-          INSTALL_OUTCOME: ${{ steps.install.outcome }}
-          TESTS_OUTCOME: ${{ steps.tests.outcome }}
-          DRYRUN_OUTCOME: ${{ steps.dryrun.outcome }}
-          VERIFY_OUTCOME: ${{ steps.live_verify.outcome }}
-        run: |
-          test "$INSTALL_OUTCOME" = success
-          test "$TESTS_OUTCOME" = success
-          test "$DRYRUN_OUTCOME" = success
-          test "$VERIFY_OUTCOME" = success
