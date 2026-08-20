@@ -23,9 +23,6 @@ function hardUnsafe(c,m){return m.event==='HIGH'||m.state==='REVERSAL'||m.sell==
 function obviousPeakChase(m){const near=m.draw!==null&&m.draw>-0.08;return near&&(m.day>4.5||m.rsi>=78)||m.day>8||m.rsi>=84}
 function learningCandidate(c){
  const m=metrics(c);if(hardUnsafe(c,m)||obviousPeakChase(m))return{allow:false,m,quality:0};
- // Bewusst lockerer Paper-Lernfilter: nicht perfekt, aber noch handelbar. Damit entstehen
- // echte Lernproben statt endloser HOLDs. Ein klar weiter beschleunigendes fallendes Messer
- // bleibt trotzdem draussen.
  const tapeOk=m.m5>=-0.08||m.accel>=0.01;
  const broad=m.score>=3.4&&m.confidence>=.50&&m.m20>=-.25&&m.rsi<84&&m.day>=-12&&m.day<=8&&tapeOk&&(m.vol===null||m.vol>=.45);
  const scoreQ=clamp((m.score-3.4)/2.8,0,1),confQ=clamp((m.confidence-.50)/.30,0,1),tapeQ=clamp((m.m5+.08)/.35,0,1)*.45+clamp((m.m20+.25)/.55,0,1)*.35+clamp((m.accel+.02)/.18,0,1)*.20,newsQ=clamp((m.news+.30)/.90,0,1);
@@ -40,9 +37,18 @@ function allocate100(rows){
   for(const x of active){const room=Math.max(0,cap-x.allocation),share=remaining*(x.weight/ws),add=Math.min(room,share);x.allocation+=add;used+=add}
   remaining-=used;active=active.filter(x=>cap-x.allocation>.01);if(used<.001)break;
  }
- // Rundungsrest auf den besten Titel, solange 100% nicht überschritten werden.
  const total=out.reduce((a,x)=>a+x.allocation,0),rest=Math.max(0,100-total);if(rest>.001)out[0].allocation+=rest;
  return out;
+}
+function uniqueBestCandidates(candidates,sellKeys){
+ const best=new Map();
+ for(const c of candidates){
+  const s=key(c);if(!s||sellKeys.has(s))continue;
+  const q=learningCandidate(c);if(!q.allow)continue;
+  const row={c,...q},old=best.get(s);
+  if(!old||row.quality>old.quality||row.quality===old.quality&&row.m.score>old.m.score)best.set(s,row);
+ }
+ return[...best.values()].sort((a,b)=>b.quality-a.quality||b.m.score-a.m.score||b.m.confidence-a.m.confidence||b.m.accel-a.m.accel).slice(0,4);
 }
 
 function postProcess(r,input){
@@ -50,14 +56,25 @@ function postProcess(r,input){
  const candidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]);if(!candidates.length)return r;
  let actions=arr(plan.actions).slice();
  const sellKeys=new Set(actions.filter(a=>String(a?.action||'').toUpperCase()==='SELL').map(key));
- const ranked=candidates.map(c=>({c,...learningCandidate(c)})).filter(x=>x.allow&&!sellKeys.has(key(x.c))).sort((a,b)=>b.quality-a.quality||b.m.score-a.m.score||b.m.confidence-a.m.confidence||b.m.accel-a.m.accel).slice(0,4);
- if(!ranked.length)return r;
+ const ranked=uniqueBestCandidates(candidates,sellKeys);if(!ranked.length)return r;
  const allocation=allocate100(ranked),selected=new Set(allocation.map(x=>key(x.c)));
- // Alle weichen BUY/HOLD-Entscheidungen fuer die gewaehlten Lernkandidaten werden durch
- // den finalen Kapitalplan ersetzt. SELLs und harte Sicherheitsentscheidungen bleiben stehen.
- actions=actions.filter(a=>String(a?.action||'').toUpperCase()==='SELL'||!selected.has(key(a)));
- for(const x of allocation){const s=key(x.c),pct=+x.allocation.toFixed(2);actions.push({symbol:s,action:'BUY',confidence:clamp(Math.max(.58,x.m.confidence),.58,.88),allocation_pct:pct,reason:`ACTIVE-LEARNING-CASH: ${pct.toFixed(1)}% des freien Cashs · Paper-Lernmodus nutzt handelbare Chancen statt Cash liegenzulassen · Qualität ${x.quality.toFixed(2)} · Score ${x.m.score.toFixed(2)} · 5m ${x.m.m5.toFixed(2)} · 20m ${x.m.m20.toFixed(2)} · Beschleunigung ${x.m.accel.toFixed(2)}. Harte Safety und offensichtlicher Peak-Chase wurden vorher ausgeschlossen.`})}
- plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,125)} · ACTIVE-LEARNING: ${allocation.length} Kandidat(en), 100% des freien Cashs verplant; harte Safety/Peak-Chase bleiben gesperrt.`;
+ // V22.1: Der aktive Lernplan ist der EINZIGE BUY-Plan der finalen Entscheidung.
+ // Alte BUYs aus inneren Guards werden komplett entfernt, sonst koennen nach 100%-
+ // Kapitalverteilung noch Doppel-/Restorders mit Cent-Budget uebrig bleiben.
+ // SELLs bleiben unangetastet; HOLDs fuer nicht ausgewaehlte Symbole duerfen bleiben.
+ actions=actions.filter(a=>{
+  const type=String(a?.action||'').toUpperCase();
+  if(type==='BUY')return false;
+  if(type==='SELL')return true;
+  return !selected.has(key(a));
+ });
+ const emitted=new Set();
+ for(const x of allocation){
+  const s=key(x.c);if(!s||emitted.has(s))continue;emitted.add(s);
+  const pct=+x.allocation.toFixed(2);if(pct<1)continue;
+  actions.push({symbol:s,action:'BUY',confidence:clamp(Math.max(.58,x.m.confidence),.58,.88),allocation_pct:pct,reason:`ACTIVE-LEARNING-CASH V22.1: ${pct.toFixed(1)}% des freien Cashs · genau eine finale BUY-Aktion pro Symbol · Qualität ${x.quality.toFixed(2)} · Score ${x.m.score.toFixed(2)} · 5m ${x.m.m5.toFixed(2)} · 20m ${x.m.m20.toFixed(2)} · Beschleunigung ${x.m.accel.toFixed(2)}. Harte Safety und offensichtlicher Peak-Chase wurden vorher ausgeschlossen.`});
+ }
+ plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,115)} · ACTIVE-LEARNING V22.1: ${emitted.size} eindeutige BUY(s), 100% Cash verplant; keine Doppel-/Cent-Restorders.`;
  return{...r,response:JSON.stringify(plan)};
 }
 
