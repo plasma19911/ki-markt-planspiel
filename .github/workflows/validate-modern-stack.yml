@@ -104,6 +104,7 @@ jobs:
           runcheck core_trade_paths node scripts/smoke-core-trade-paths.mjs
           runcheck trade_day_lessons node scripts/smoke-trade-day-lessons.mjs
           runcheck free_tier node scripts/smoke-free-tier-24h.mjs
+          runcheck final_decision_suite npm run test:decisions
           runcheck wrangler_dryrun npx wrangler deploy --dry-run
 
       - name: Build validation report
