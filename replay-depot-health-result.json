@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-20T08:01:32.908649+00:00",
-  "berlinNow": "2026-08-20T10:01:32.908477+02:00",
+  "checkedAt": "2026-08-20T08:08:15.131469+00:00",
+  "berlinNow": "2026-08-20T10:08:15.131321+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 113925,
-    "dashboard": 68380
+    "full": 60536,
+    "dashboard": 14885
   },
   "checks": {
     "fullStatus200": true,
@@ -30,7 +30,7 @@
     "capture": {
       "date": "2026-08-20",
       "symbolCount": 120,
-      "updatedAt": "2026-08-20T08:00:24.436Z"
+      "updatedAt": "2026-08-20T08:06:20.169Z"
     },
     "summary": {
       "provisional": true,
@@ -46,68 +46,11 @@
     }
   },
   "depot": {
-    "cash": 0.006326000000100862,
-    "equity": 9911.493609441819,
-    "displayMarketValue": 9911.487284110017,
-    "displayAccountingDelta": -6.681984814349562e-07,
-    "positions": [
-      {
-        "symbol": "OTKAR.IS",
-        "invested": 5126.593042,
-        "ratioValue": 5050.974726632992,
-        "quantityValue": 5050.97472683054,
-        "displayValue": 5050.97472683054,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "ADYEN.AS",
-        "invested": 2652.79412,
-        "ratioValue": 2650.4111699532937,
-        "quantityValue": 2650.4111699052055,
-        "displayValue": 2650.4111699052055,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "BULL.JK",
-        "invested": 1724.7336489999998,
-        "ratioValue": 1724.0658432766486,
-        "quantityValue": 1724.065844018124,
-        "displayValue": 1724.065844018124,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "SAMMAANCAP.NS",
-        "invested": 371.626059,
-        "ratioValue": 373.67037847965616,
-        "quantityValue": 373.67037847965616,
-        "displayValue": 373.67037847965616,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "BESI.AS",
-        "invested": 40.406771,
-        "ratioValue": 40.49770738550216,
-        "quantityValue": 40.49770723476371,
-        "displayValue": 40.49770723476371,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "RBREW.CO",
-        "invested": 37.543211,
-        "ratioValue": 37.505705294705294,
-        "quantityValue": 37.50570517812191,
-        "displayValue": 37.50570517812191,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "ASM.AS",
-        "invested": 34.296822,
-        "ratioValue": 34.36175241902218,
-        "quantityValue": 34.36175246360646,
-        "displayValue": 34.36175246360646,
-        "quantityUsed": true
-      }
-    ]
+    "cash": 10000.0,
+    "equity": 10000.0,
+    "displayMarketValue": 0.0,
+    "displayAccountingDelta": 0.0,
+    "positions": []
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: thu, 20 aug 2026 08:01:32 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=ust4mzkq1r%2fzuyewzbdg7fourgrmcqxijvud4fyhactjt9l1p%2bbl5oc1ra8vdnmhvczk172vxgonvaj9eqjit4luag5bhbyfg7ropldtfjlmv8o3xj2kqhbzsbl%2b1tziqyiifvaq5ups9mhiel%2bkkmeihaoo98pjdnzlysy%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2dfdee3b985f082-dfw\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: thu, 20 aug 2026 08:08:15 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=klth5sgljceazhwvgfqkcncasmybq6hso7elsuo%2b9dynlguoon2n1mle5kngj4xldfru2qa3mgod2fltuv4zqzuqffgexj7cohrruzurwmx%2fkvm%2bc%2biic6hv5z9wbxw8pcqvxqpveu3rwmeafwygmuwwvjbpqzzwyobspt0%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2dfe8b5fbc3b58e-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
