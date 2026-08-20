@@ -25,20 +25,20 @@ export class MarketPortfolio extends BasePortfolio{
     mode:'SINGLE_AUTHORITATIVE_FINAL_CONTROLLER_PLUS_DETERMINISTIC_TRADE_INVARIANTS_PLUS_AGM_PREVIEW_PLUS_TRADING_BEHAVIOR',
     entryConfirmationHysteresis:true,normalEntryNeedsTwoScans:true,exceptionalSetupMayEnterImmediately:true,minuteScanConfirmationSafe:true,
     lateImpulseRecheck:true,fomoImpulseBuyBlocked:true,portfolioSaturationSelectivity:true,meaningfulProfitExit:true,tinyProfitChurnBlocked:true,heldFxFallbackSafe:true,
-    aiPlanJsonRepair:true,aiPlanCompactOutput:true,aiPlanJsonRepairVersion:27.7,
+    aiPlanJsonRepair:true,aiPlanCompactOutput:true,aiPlanJsonRepairVersion:27.7,cloudflareAiWrapperSignatureSafe:true,
     convictionSizing:true,behaviorVersion:27.7,
-    regressionTests:`${String(s.finalDecisionPolicy.regressionTests||'').replace(/\s*$/,'')} + V27.7 behavior + AI-JSON repair invariants`,
-    rule:'V27.7 verbessert das Handelsverhalten oberhalb aller bestehenden Sicherheitsstufen: normale Einstiege brauchen zwei zeitlich getrennte Bestätigungen, wobei 1-Minuten-Scans den Timer nicht zurücksetzen. Extreme 5m-Impulse werden nicht gejagt, bei hoher Depotauslastung bleibt Restcash für starke Setups reserviert und reine PROFIT-EXITs werden nicht für Cent-Nettoerträge gedreht. Abgeschnittene KI-JSON-Antworten dürfen nur vollständig lesbare Aktionen retten und laufen danach weiterhin durch den Final Controller. Für Fremdwährungs-Bestände bleibt bei fehlendem aktuellem FX der letzte verifizierte Positions-FX maßgeblich.'};
+    regressionTests:`${String(s.finalDecisionPolicy.regressionTests||'').replace(/\s*$/,'')} + V27.7 behavior + AI-JSON repair + Cloudflare AI wrapper-signature invariants`,
+    rule:'V27.7 verbessert das Handelsverhalten oberhalb aller bestehenden Sicherheitsstufen: normale Einstiege brauchen zwei zeitlich getrennte Bestätigungen, wobei 1-Minuten-Scans den Timer nicht zurücksetzen. Extreme 5m-Impulse werden nicht gejagt, bei hoher Depotauslastung bleibt Restcash für starke Setups reserviert und reine PROFIT-EXITs werden nicht für Cent-Nettoerträge gedreht. Abgeschnittene KI-JSON-Antworten dürfen nur vollständig lesbare Aktionen retten und laufen danach weiterhin durch den Final Controller. Alle äußeren KI-Wrapper reichen Cloudflares run(model,input)-Signatur vollständig weiter.'};
   }
   s.tradingBehaviorPolicy={...behavior,enabled:true,version:27.7,paperTradingOnly:true,
    normalEntryConfirmationScans:2,confirmationWindowMinutes:[2,20],confirmationMaxChasePct:.8,minuteScanConfirmationSafe:true,
    lateImpulse5mPct:1.0,lateImpulseAcceleration:.8,
    saturationThresholdPct:85,meaningfulProfitFloorEuro:2.5,meaningfulProfitFloorPctOfInvested:.35,heldFxFallbackSafe:true,
-   aiPlanJsonRepair:AI_PLAN_JSON_REPAIR_POLICY,aiPlanCompactOutput:true,
+   aiPlanJsonRepair:AI_PLAN_JSON_REPAIR_POLICY,aiPlanCompactOutput:true,cloudflareAiWrapperSignatureSafe:true,
    automaticScaleUp:false,doesNotCreateNewSellSignals:true,
-   note:'Die V27.7-Schicht blockiert oder verkleinert schlechte Aktionen. Sie erzeugt keine aggressiven Zusatz-SELLs, setzt den Bestätigungstimer bei 1-Minuten-Scans nicht zurück, benutzt bei Fremdwährungs-Beständen keinen Fake-FX und lässt reparierte KI-Aktionen erneut durch alle finalen Safety-Gates laufen.'};
-  if(s?.executionModel)s.executionModel={...s.executionModel,finalDecisionControllerV277:true,tradingBehaviorV277:true,entryConfirmationHysteresis:true,minuteScanConfirmationSafe:true,lateImpulseRecheck:true,tinyProfitChurnBlocked:true,heldFxFallbackSafe:true,aiPlanJsonRepair:true,automaticScaleUp:false};
-  if(s?.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,finalDecisionControllerV277:true,tradingBehaviorV277:true,entryConfirmationHysteresis:true,minuteScanConfirmationSafe:true,lateImpulseRecheck:true,tinyProfitChurnBlocked:true,heldFxFallbackSafe:true,aiPlanJsonRepair:true,automaticScaleUp:false};
+   note:'Die V27.7-Schicht blockiert oder verkleinert schlechte Aktionen. Sie setzt den Bestätigungstimer bei 1-Minuten-Scans nicht zurück, benutzt bei Fremdwährungs-Beständen keinen Fake-FX, lässt reparierte KI-Aktionen erneut durch alle finalen Safety-Gates laufen und reicht model + input korrekt durch die AI-Wrapperkette.'};
+  if(s?.executionModel)s.executionModel={...s.executionModel,finalDecisionControllerV277:true,tradingBehaviorV277:true,entryConfirmationHysteresis:true,minuteScanConfirmationSafe:true,lateImpulseRecheck:true,tinyProfitChurnBlocked:true,heldFxFallbackSafe:true,aiPlanJsonRepair:true,cloudflareAiWrapperSignatureSafe:true,automaticScaleUp:false};
+  if(s?.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,finalDecisionControllerV277:true,tradingBehaviorV277:true,entryConfirmationHysteresis:true,minuteScanConfirmationSafe:true,lateImpulseRecheck:true,tinyProfitChurnBlocked:true,heldFxFallbackSafe:true,aiPlanJsonRepair:true,cloudflareAiWrapperSignatureSafe:true,automaticScaleUp:false};
   return s;
  }
 }
