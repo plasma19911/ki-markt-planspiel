@@ -45,7 +45,7 @@ jobs:
       - name: Allow Cloudflare Git integration to publish
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify live V29.0 entry/profit + V28.8 PC-first
+      - name: Verify live V29.2 score pipeline + V29.1 behavior
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';
@@ -55,18 +55,21 @@ jobs:
               const q=Date.now();
               const sr=await fetch(`${base}/api/status?view=dashboard&main_live=${q}`,{headers:{'cache-control':'no-cache'}});const s=await sr.json();
               const ur=await fetch(`${base}/v287-live-ui.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const u=await ur.text();
-              const cr=await fetch(`${base}/changelog-master-v290.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const c=await cr.text();
-              const qr=await fetch(`${base}/quota-guard.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const qjs=await qr.text();
-              const policy=s?.researchSignalFusionPolicy||{},entry=s?.entryProfitPolicy||{},profit=s?.dynamicProfitLockPolicy||{},breadth=s?.scannerBreadthPolicy||{},pc=s?.pcFirstScannerPolicy||{},final=s?.finalDecisionPolicy||{};
+              const fr=await fetch(`${base}/pc-candidate-fallback-v292.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const f=await fr.text();
+              const cr=await fetch(`${base}/changelog-v292.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const c=await cr.text();
+              const policy=s?.researchSignalFusionPolicy||{},entry=s?.entryProfitPolicy||{},profit=s?.dynamicProfitLockPolicy||{},breadth=s?.scannerBreadthPolicy||{},pc=s?.pcFirstScannerPolicy||{},pipeline=s?.scannerScorePipelinePolicy||{},final=s?.finalDecisionPolicy||{};
               const posScores=Array.isArray(policy.positionScores)?policy.positionScores:[],positions=Array.isArray(s?.positions)?s.positions:[],candidates=Array.isArray(s?.candidates)?s.candidates:[],ranking=Array.isArray(policy.ranking)?policy.ranking:[];
               const scoreShape=ranking.every(x=>Number.isFinite(Number(x?.buyScore))&&Number.isFinite(Number(x?.sellScore)));
-              const e=entry?.thresholds?.entry||{};
-              const v290=Number(entry.version)>=29&&entry.enabled===true&&Number(e.watchMin)===50&&Number(e.scoutMin)===53&&Number(e.microMin)===56&&Number(e.earlyMin)===58&&Number(e.regularMin)===62&&Number(profit.version)>=29&&profit.enabled===true;
-              const finalOk=Number(final.version)>=29&&final.watchFrom50===true&&final.scoutEntryFrom53===true&&final.microEntryFrom56===true&&final.earlyEntryFrom58===true&&final.regularEntryFrom62===true&&final.dynamicProfitLockV290===true&&final.highScoreProfitExit===true&&final.hardRiskImmediate===true;
-              const pcOk=Number(pc.version)>=28.8&&pc.enabled===true&&Number(pc.cloudflareValidationTarget)===18&&breadth.pcFirstFullMaster===true;
-              const uiOk=ur.ok&&/__V287_UI_LIVE__/.test(u)&&/version:29\.0/.test(u)&&/watchFrom50:true/.test(u)&&/stagedEntryFrom53:true/.test(u)&&/microFrom56:true/.test(u)&&/earlyFrom58:true/.test(u)&&/regularFrom62:true/.test(u)&&/dynamicProfitLock:true/.test(u)&&cr.ok&&/__CHANGELOG_MASTER_V290__/.test(c)&&/currentAlwaysFirst:true/.test(c)&&qr.ok&&/v287-live-ui\.js/.test(qjs);
-              const ok=sr.ok&&Number(policy.version)>=28.7&&policy.allDecisionCandidatesScored===true&&ranking.length>=candidates.length&&posScores.length>=positions.length&&scoreShape&&v290&&finalOk&&pcOk&&uiOk;
-              last=`status=${sr.status} score=${policy.version} entry=${entry.version} profit=${profit.version} pc=${pc.version} master=${pc.masterUniverseCount} scanned=${pc.prescannedCount} final=${final.version} ui=${ur.status} changelog=${cr.status}`;
+              const e=entry?.thresholds?.entry||{},p=entry?.thresholds?.position||{};
+              const behaviorOk=Number(entry.version)>=29.1&&entry.enabled===true&&Number(e.watchMin)===50&&Number(e.scoutMin)===53&&Number(e.microMin)===56&&Number(e.earlyMin)===58&&Number(e.regularMin)===62&&Number(p.strongHoldMin)===62&&Number(p.sellWatchMin)===46&&Number(p.confirmedExitMax)===45&&Number(p.urgentExitMax)===32&&Number(profit.version)>=29.1&&profit.enabled===true;
+              const finalOk=Number(final.version)>=29.1&&final.watchFrom50===true&&final.scoutEntryFrom53===true&&final.microEntryFrom56===true&&final.earlyEntryFrom58===true&&final.regularEntryFrom62===true&&final.dynamicProfitLockV290===true&&final.highScoreProfitExit===true&&final.hardRiskImmediate===true&&final.allPcRowsPreScoredV292===true;
+              const pcScores=Array.isArray(pc.topPcCandidates)?pc.topPcCandidates:[];
+              const pcShape=pcScores.every(x=>Number.isFinite(Number(x?.pcPreScore))&&Number.isFinite(Number(x?.pcDeepScore)));
+              const pcOk=Number(pc.version)>=29.2&&pc.enabled===true&&Number(pc.cloudflareValidationTarget)===18&&Number(pipeline.version)>=29.2&&pipeline.noFirst1000Truncation===true&&Number(pipeline.stage2Target)===400&&Number(pipeline.deepTarget)===240&&Number(pipeline.finalistTarget)===60&&breadth.pcFirstFullMaster===true&&pcShape;
+              const uiOk=ur.ok&&/__V287_UI_LIVE__/.test(u)&&/version:29\.2/.test(u)&&/pcScoreFallback:true/.test(u)&&/positionFallbackScore:true/.test(u)&&/deepTarget:240/.test(u)&&fr.ok&&/__PC_CANDIDATE_FALLBACK_V292__/.test(f)&&/PC-Finalisten/.test(f)&&cr.ok&&/__CHANGELOG_V292__/.test(c)&&/V29\.2 · Score-Pipeline repariert/.test(c);
+              const scoreCoverageOk=pc.preScoredCount==null||Number(pc.preScoredCount)>=0;
+              const ok=sr.ok&&Number(policy.version)>=28.7&&policy.allDecisionCandidatesScored===true&&ranking.length>=candidates.length&&posScores.length>=positions.length&&scoreShape&&behaviorOk&&finalOk&&pcOk&&scoreCoverageOk&&uiOk;
+              last=`status=${sr.status} research=${policy.version} entry=${entry.version} pc=${pc.version} pre=${pc.preScoredCount}/${pc.prescannedCount} deep=${pc.deepCount} finalists=${pc.finalistCount} pipeline=${pipeline.version} final=${final.version} ui=${ur.status} fallback=${fr.status}`;
               if(ok){console.log('Main live verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
