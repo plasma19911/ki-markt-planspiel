@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T13:28:27.144736+00:00",
+  "checkedAt": "2026-08-20T13:30:31.081868+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -30,13 +30,13 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T13:28:17.574Z",
-    "ageSeconds": 9,
+    "lastSeenAt": "2026-08-20T13:30:12.948Z",
+    "ageSeconds": 18,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 177,
-  "lastScan": "2026-08-20T13:28:21.903Z",
+  "scanCount": 178,
+  "lastScan": "2026-08-20T13:30:16.837Z",
   "lastError": null,
   "aiLastSummary": "KI-Fallback: kein JSON",
   "cash": 1476.2217081333488,
@@ -62,8 +62,8 @@
       "opened_at": "2026-08-20T08:17:07.062Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 1.2011062674418607,
-      "signal_confidence": 0.522870626744186,
+      "score": 1.2000000000000002,
+      "signal_confidence": 0.4,
       "zero_quantity": 271.9999999930237,
       "zero_whole_shares": 271,
       "zero_fractional_shares": 0.9999999930237209,
@@ -215,10 +215,10 @@
     {
       "id": 36,
       "ts": "2026-08-20T12:02:11.549Z",
-      "end_ts": "2026-08-20T13:28:21.903Z",
-      "event_count": 51,
+      "end_ts": "2026-08-20T13:30:16.837Z",
+      "event_count": 52,
       "start_scan": 127,
-      "end_scan": 177,
+      "end_scan": 178,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -231,7 +231,7 @@
       "equity": 9948.864247044541,
       "total_pnl": -51.135752955458884,
       "score": null,
-      "reason": "Kein Trade. Bestes Signal VWS.CO: Score 5.05, Konfidenz 70%."
+      "reason": "Kein Trade. Bestes Signal REG1V.HE: Score 1.20, Konfidenz 40%."
     },
     {
       "id": 35,
@@ -1268,7 +1268,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T13:28:26.480Z",
+      "cachedAt": "2026-08-20T13:30:29.672Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
