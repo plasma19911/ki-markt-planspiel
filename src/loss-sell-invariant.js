@@ -1,4 +1,5 @@
 import {zeroOrderFee,zeroRoundTripBrokerFees} from './zero-fee-model.js';
+import {candidateQuoteUnit,positionQuoteUnit} from './quote-currency-units.js';
 
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=null)=>Number.isFinite(Number(v))?Number(v):d;
@@ -6,9 +7,7 @@ const key=v=>String(v?.symbol||v||'').toUpperCase().trim();
 const responseText=r=>String(r?.response||r?.result?.response||'');
 const v274=s=>String(s??'').replace(/FINAL-CONTROLLER V27\.(?:1|2|3)/g,'FINAL-CONTROLLER V27.4');
 const MAX_ROUNDTRIP_COST_PCT=1.5;
-const NET_EDGE_SAFETY_PCT=.05;
-const MIN_EDGE_SAMPLES=8;
-const MIN_EDGE_SYMBOLS=3;
+const MIN_NET_EDGE_MARGIN_PCT=.05;
 
 function parsePlan(r){
  const raw=responseText(r),a=raw.indexOf('{'),b=raw.lastIndexOf('}');
@@ -70,54 +69,44 @@ function buyEconomics(action,candidate,state={}){
  const slip=Math.max(0,num(state?.config?.slippage_percent,.10)||0),costPct=(num(fees.total,0)/fees.tradeNotional*100)+2*slip;
  return{ok:costPct<=MAX_ROUNDTRIP_COST_PCT,budget,costPct,fees,reason:`erwartete Roundtrip-Kosten ${costPct.toFixed(2)}%`};
 }
-function setupType(action={}){
- const explicit=String(action?.setup_type||'').toUpperCase();if(explicit)return explicit;
- const m=String(action?.reason||'').match(/\bBUY\s+(EARLY_BREAKOUT|PULLBACK_RECLAIM|BASE_RECLAIM)\b/i);return String(m?.[1]||'').toUpperCase();
-}
-function marketRegimePolicy(action,candidate={}){
- const reg=candidate?.forwardForecast?.marketRegime||{},regime=String(reg?.regime||'UNKNOWN').toUpperCase(),type=setupType(action),m=metrics(candidate),score=num(candidate?.liveScore??candidate?.score,0)||0,confidence=num(candidate?.liveConfidence??candidate?.confidence,0)||0,news=num(candidate?.news??candidate?.newsScore??candidate?.news_score,0)||0,rel20=m.m20-(num(reg?.median20,0)||0),rel5=m.m5-(num(reg?.median5,0)||0);
- if(regime==='RISK_OFF'){
-  const strongBreakout=score>=5.1&&confidence>=.66&&m.m20>=.35&&m.m5>=.10&&m.accel>=.04&&rel20>=.25&&rel5>=.12&&news>=-.05;
-  const strongReclaim=['PULLBACK_RECLAIM','BASE_RECLAIM'].includes(type)&&score>=4.4&&confidence>=.58&&m.m5>=.04&&m.accel>=.03&&rel20>=.15;
-  if(type==='EARLY_BREAKOUT'&&!strongBreakout)return{block:true,multiplier:0,regime,reason:`RISK_OFF: EARLY_BREAKOUT nicht stark genug relativ zum Markt (rel20 ${rel20.toFixed(2)}, rel5 ${rel5.toFixed(2)})`};
-  if(type!=='EARLY_BREAKOUT'&&!strongReclaim)return{block:true,multiplier:0,regime,reason:`RISK_OFF: kein ausreichend bestätigter Reclaim relativ zum Markt`};
-  return{block:false,multiplier:.55,regime,reason:'RISK_OFF: nur relative Stärke erlaubt; Positionsgröße auf 55% reduziert'};
+function marketRegimeGate(candidate={},action={}){
+ const ff=candidate?.forwardForecast||{},reg=String(ff?.marketRegime?.regime||'UNKNOWN').toUpperCase(),m=metrics(candidate),type=String(action?.reason||'').match(/BUY\s+([A-Z_]+)/i)?.[1]||'';
+ if(reg==='RISK_OFF'){
+  const relativeStrength=m.m20>=.35&&m.m5>=.08&&m.accel>=.03&&m.score>=4.6&&m.confidence>=.60;
+  if(!relativeStrength)return{block:true,multiplier:0,reason:'MARKET-REGIME V27.4: breiter Markt RISK_OFF; kein normaler BUY ohne klar bestätigte relative Stärke.'};
+  return{block:false,multiplier:.55,reason:'MARKET-REGIME V27.4: RISK_OFF, aber klare relative Stärke; Positionsgröße vorsorglich 45% reduziert.'};
  }
- if(regime==='REVERSAL_DOWN'){
-  const strongBreakout=score>=4.8&&confidence>=.62&&m.m20>=.25&&m.m5>=.08&&m.accel>=.035&&rel20>=.18;
-  const reclaim=['PULLBACK_RECLAIM','BASE_RECLAIM'].includes(type)&&m.m5>=.03&&m.accel>=.025&&rel20>=.10;
-  if(type==='EARLY_BREAKOUT'&&!strongBreakout)return{block:true,multiplier:0,regime,reason:'REVERSAL_DOWN: schwacher Breakout gegen drehenden Gesamtmarkt'};
-  if(type!=='EARLY_BREAKOUT'&&!reclaim)return{block:true,multiplier:0,regime,reason:'REVERSAL_DOWN: Reclaim noch nicht bestätigt'};
-  return{block:false,multiplier:.70,regime,reason:'REVERSAL_DOWN: neue Long-Position vorsichtiger dimensioniert'};
- }
- if(regime==='RANGE'&&type==='EARLY_BREAKOUT'&&!(score>=5&&confidence>=.65))return{block:false,multiplier:.75,regime,reason:'RANGE: normaler Breakout auf 75% Größe gekappt'};
- return{block:false,multiplier:1,regime,reason:null};
+ if(reg==='REVERSAL_DOWN')return{block:false,multiplier:.70,reason:'MARKET-REGIME V27.4: breiter Markt dreht ab; Positionsgröße 30% reduziert.'};
+ if(reg==='RANGE'&&type==='EARLY_BREAKOUT')return{block:false,multiplier:.75,reason:'MARKET-REGIME V27.4: Range-Markt; Breakout-Größe 25% reduziert.'};
+ return{block:false,multiplier:1,reason:''};
 }
-function expectedEdgePolicy(action,candidate={},economics={}){
- const reason=String(action?.reason||''),em=reason.match(/E\[Move\]\s*([+-]?\d+(?:\.\d+)?)%/i),nm=reason.match(/\bn=(\d+)\b/i),ff=candidate?.forwardForecast||{},expectedFromReason=em?Number(em[1]):null,ff15=num(ff?.horizons?.[15]?.expectedPct,null),ff30=num(ff?.horizons?.[30]?.expectedPct,null),ffExpected=ff15!==null&&ff30!==null?ff15*.60+ff30*.40:null,expected=expectedFromReason!==null?expectedFromReason:ffExpected,n=nm?Number(nm[1]):0,ffSamples=Math.max(0,num(ff?.samples,0)||0),ffSymbols=Math.max(0,num(ff?.uniqueSymbols,0)||0),mature=n>=MIN_EDGE_SAMPLES||(ffSamples>=MIN_EDGE_SAMPLES&&ffSymbols>=MIN_EDGE_SYMBOLS),cost=num(economics?.costPct,0)||0,netEdge=expected===null?null:expected-cost,minimum=cost+NET_EDGE_SAFETY_PCT,block=mature&&expected!==null&&expected<minimum;
- return{block,mature,expected,cost,netEdge,n,ffSamples,ffSymbols,minimum,reason:block?`reifer Erwartungswert ${expected.toFixed(3)}% deckt Roundtrip-Kosten ${cost.toFixed(2)}% plus ${NET_EDGE_SAFETY_PCT.toFixed(2)}% Sicherheitsmarge nicht`:`${mature&&expected!==null?`erwarteter Netto-Vorteil ${netEdge>=0?'+':''}${netEdge.toFixed(3)}%`:'Erwartungswert noch nicht reif genug für einen Kosten-Hardblock'}`};
+function matureExpectedMove(candidate={}){
+ const ff=candidate?.forwardForecast||{},samples=Math.max(0,num(ff?.samples,0)||0),symbols=Math.max(0,num(ff?.uniqueSymbols,0)||0),h15=num(ff?.horizons?.[15]?.expectedPct,null),h30=num(ff?.horizons?.[30]?.expectedPct,null);
+ if(samples>=8&&symbols>=3&&h15!==null&&h30!==null)return{mature:true,samples,symbols,expectedPct:h15*.60+h30*.40,source:'forward-15/30'};
+ const e=candidate?.calibratedExpectation||candidate?.entryExpectation||null,n=Math.max(0,num(e?.samples15,0)||0),p=num(e?.posteriorExpectedMovePct,null);
+ if(n>=12&&p!==null)return{mature:true,samples:n,symbols:null,expectedPct:p,source:'timing-calibration'};
+ return{mature:false,samples,symbols,expectedPct:null,source:'insufficient'};
 }
 export function enforceLossSellInvariant(plan,state={}){
- if(!plan||!Array.isArray(plan.actions))return{plan,blocked:0,uneconomicBuys:0,edgeBlocks:0,regimeBlocks:0,regimeCaps:0};
+ if(!plan||!Array.isArray(plan.actions))return{plan,blocked:0,uneconomicBuys:0,netEdgeBlocks:0,marketRegimeBlocks:0,minorUnitBlocks:0};
  const positions=new Map(arr(state?.positions).map(p=>[key(p),p]));
  const candidates=new Map(arr(state?.candidates).map(c=>[key(c),c]));
- let blocked=0,uneconomicBuys=0,edgeBlocks=0,regimeBlocks=0,regimeCaps=0;
+ let blocked=0,uneconomicBuys=0,netEdgeBlocks=0,marketRegimeBlocks=0,minorUnitBlocks=0;
  const actions=plan.actions.map(a=>{
   const s=key(a),normalized={...a,reason:v274(a?.reason)},action=String(a?.action||'').toUpperCase();
   if(action==='BUY'){
-   const c=candidates.get(s)||{},regime=marketRegimePolicy(normalized,c);
-   if(regime.block){regimeBlocks++;return{symbol:s,action:'HOLD',confidence:Math.max(.68,num(a?.confidence,.68)),allocation_pct:0,reason:`MARKET-REGIME V27.4: BUY blockiert · ${regime.reason}. Kein Long-Trade nur weil der Einzelchart kurzfristig grün aussieht.`};}
-   let adjusted=normalized;
-   if(regime.multiplier<1){regimeCaps++;adjusted={...normalized,allocation_pct:+(Math.max(0,num(normalized?.allocation_pct,0)||0)*regime.multiplier).toFixed(2),reason:`${normalized.reason} · MARKET-REGIME V27.4: ${regime.reason}.`};}
-   const eco=buyEconomics(adjusted,c,state);
+   const c=candidates.get(s)||{},unit=candidateQuoteUnit(c);
+   if(unit.minorUnit&&!c?.quoteUnitNormalized&&!c?.quote_unit_normalized){minorUnitBlocks++;return{symbol:s,action:'HOLD',confidence:Math.max(.72,num(a?.confidence,.72)),allocation_pct:0,reason:`QUOTE-UNIT-SAFETY V27.4: BUY blockiert, weil ${unit.rawCurrency} noch nicht auf ${unit.majorCurrency}-Haupteinheit normalisiert ist. Kein Handel auf potenziell 100x falscher Preisbasis.`};}
+   const eco=buyEconomics(a,c,state);
    if(!eco.ok){uneconomicBuys++;return{symbol:s,action:'HOLD',confidence:Math.max(.66,num(a?.confidence,.66)),allocation_pct:0,reason:`ORDER-ECONOMICS V27.4: BUY blockiert · vorgesehenes Budget ${eco.budget.toFixed(2)} € · ${eco.reason} · Limit ${MAX_ROUNDTRIP_COST_PCT.toFixed(2)}%. Keine Mini-Order, deren Gebühren/Slippage den erwarteten Vorteil auffressen.`};}
-   const edge=expectedEdgePolicy(adjusted,c,eco);
-   if(edge.block){edgeBlocks++;return{symbol:s,action:'HOLD',confidence:Math.max(.68,num(a?.confidence,.68)),allocation_pct:0,reason:`NET-EDGE V27.4: BUY blockiert · ${edge.reason}. Ein positives Rohsignal reicht nicht, wenn der statistische Vorteil nach Kosten negativ ist.`};}
-   if(edge.mature&&edge.expected!==null)adjusted={...adjusted,reason:`${adjusted.reason} · NET-EDGE V27.4: E[Move] ${edge.expected>=0?'+':''}${edge.expected.toFixed(3)}% vs. Kosten ${edge.cost.toFixed(2)}% => netto ${edge.netEdge>=0?'+':''}${edge.netEdge.toFixed(3)}%.`};
-   return adjusted;
+   const edge=matureExpectedMove(c);if(edge.mature&&edge.expectedPct!==null&&edge.expectedPct<=eco.costPct+MIN_NET_EDGE_MARGIN_PCT){netEdgeBlocks++;return{symbol:s,action:'HOLD',confidence:Math.max(.68,num(a?.confidence,.68)),allocation_pct:0,reason:`NET-EDGE V27.4: BUY blockiert · reifer erwarteter Move ${edge.expectedPct>=0?'+':''}${edge.expectedPct.toFixed(3)}% (${edge.source}, n=${edge.samples}) reicht nicht über erwartete Roundtrip-Kosten ${eco.costPct.toFixed(2)}% + Sicherheitsmarge ${MIN_NET_EDGE_MARGIN_PCT.toFixed(2)}%.`};}
+   const gate=marketRegimeGate(c,a);if(gate.block){marketRegimeBlocks++;return{symbol:s,action:'HOLD',confidence:Math.max(.70,num(a?.confidence,.70)),allocation_pct:0,reason:gate.reason};}
+   if(gate.multiplier<1)return{...normalized,allocation_pct:+(Math.max(0,num(a?.allocation_pct,0))*gate.multiplier).toFixed(2),reason:`${normalized.reason} · ${gate.reason}`};
+   return normalized;
   }
   if(action!=='SELL')return normalized;
   const p=positions.get(s);if(!p)return normalized;
+  const pUnit=positionQuoteUnit(p);if(pUnit.minorUnit&&!p?.minor_unit_repaired_at&&!p?.quote_unit_repaired_at){minorUnitBlocks++;return{symbol:s,action:'HOLD',confidence:Math.max(.80,num(a?.confidence,.80)),allocation_pct:0,reason:`QUOTE-UNIT-SAFETY V27.4: SELL blockiert, weil die Bestandsposition noch rohe ${pUnit.rawCurrency}-Preise enthalten kann. Erst ${pUnit.majorCurrency}-Preis/FX-Basis reparieren; kein automatischer Verkauf auf potenziell 100x falscher Bewertung.`};}
   const c={...p,...(candidates.get(s)||{})},net=netExitSnapshot(p,c,state?.config||{});if(net.pct===null||net.pct>0)return normalized;
   const reason=String(a?.reason||''),m=metrics(c),external=hardExternal(c,reason),contradiction=explicitExitHold(reason),independent=strongIndependentBreak(m),profitExitNetLoss=/PROFIT EXIT/i.test(reason);
   const buyerSideStronger=m.sellers!==null&&m.sellers<50,shallowPriceDamage=net.priceMovePct===null||net.priceMovePct>-1.25,mustHold=!external&&(contradiction||profitExitNetLoss||buyerSideStronger||(shallowPriceDamage&&!independent));
@@ -126,8 +115,8 @@ export function enforceLossSellInvariant(plan,state={}){
   const sellerText=m.sellers===null?'Verkäuferanteil nicht bestätigt':`Verkäufer ${m.sellers.toFixed(0)}%`,netText=net.euro===null?`Netto-P/L ${net.pct.toFixed(2)}%`:`Netto-P/L bei Exit ca. ${net.euro>=0?'+':''}${net.euro.toFixed(2)} € (${net.pct.toFixed(2)}%)`,why=profitExitNetLoss?'„PROFIT EXIT“ wäre nach echten ZERO-Gebühren tatsächlich ein Verlust':contradiction?'tiefere Prüfung fordert ausdrücklich HOLD':'keine ausreichend unabhängige bestätigte Verkäufer-/Strukturinvaliderung';
   return{symbol:s,action:'HOLD',confidence:Math.max(.70,num(a?.confidence,.70)),allocation_pct:0,reason:`LOSS-SELL-INVARIANT V27.4: Verlustverkauf blockiert · ${netText} · ${sellerText} · ${why} · kein externer Hard-Risk. Position weiter beobachten statt Kosten/Marktrauschen als Verlust zu realisieren.`};
  });
- const suffix=`${blocked?` · LOSS-SELL-INVARIANT: ${blocked} unnötige(n) Verlust-SELL(s) blockiert.`:''}${uneconomicBuys?` · ORDER-ECONOMICS: ${uneconomicBuys} unwirtschaftliche Mini-BUY(s) blockiert.`:''}${edgeBlocks?` · NET-EDGE: ${edgeBlocks} nach Kosten unattraktive BUY(s) blockiert.`:''}${regimeBlocks?` · MARKET-REGIME: ${regimeBlocks} Long-BUY(s) gegen schwachen Gesamtmarkt blockiert.`:''}${regimeCaps?` · MARKET-REGIME: ${regimeCaps} Positionsgröße(n) risikoadaptiv reduziert.`:''}`;
- return{plan:{...plan,actions,summary:v274(plan.summary)+suffix},blocked,uneconomicBuys,edgeBlocks,regimeBlocks,regimeCaps};
+ const suffix=`${blocked?` · LOSS-SELL-INVARIANT: ${blocked} unnötige(n) Verlust-SELL(s) blockiert.`:''}${uneconomicBuys?` · ORDER-ECONOMICS: ${uneconomicBuys} unwirtschaftliche Mini-BUY(s) blockiert.`:''}${netEdgeBlocks?` · NET-EDGE: ${netEdgeBlocks} nach Kosten negative/zu schwache BUY(s) blockiert.`:''}${marketRegimeBlocks?` · MARKET-REGIME: ${marketRegimeBlocks} BUY(s) im Risk-off blockiert.`:''}${minorUnitBlocks?` · QUOTE-UNIT-SAFETY: ${minorUnitBlocks} Handel auf unnormalisierter Minor-Unit-Basis blockiert.`:''}`;
+ return{plan:{...plan,actions,summary:v274(plan.summary)+suffix},blocked,uneconomicBuys,netEdgeBlocks,marketRegimeBlocks,minorUnitBlocks};
 }
 export class LossSellInvariant{
  constructor(base,{getState=null}={}){this.base=base;this.getState=getState;}
