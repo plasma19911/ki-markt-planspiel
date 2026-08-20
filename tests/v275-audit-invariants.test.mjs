@@ -55,9 +55,25 @@ assert.equal(normalizedOut.minorUnitBlocks,0,'properly normalized pence quote mu
 const r2=fs.readFileSync(new URL('../src/r2-portfolio.js',import.meta.url),'utf8');
 assert.match(r2,/const existing=s\.positions\.find\(p=>entityKey\(p\)===entityKey\(cand\)\);if\(existing\)return false;/,'execution must fail closed before any scale-up cash mutation');
 assert.match(r2,/existingKeys\.has\(entityKey\(cand\)\)/,'candidate collection must exclude already-held entity keys');
-assert.doesNotMatch(r2,/recheckForesight\(x,1\)/,'foreign foresight must not silently default to FX=1');
+assert.doesNotMatch(r2,/AUFSTOCKUNG:/,'unreachable historic automatic scale-up implementation must be removed, not merely hidden behind a guard');
+assert.doesNotMatch(r2,/mergePositionTranche/,'R2 execution must no longer carry the old scale-up helper');
+assert.doesNotMatch(r2,/Einzige harte Portfoliogrenze: Cash inklusive Kosten/,'inner prompt must not contradict the productive final risk caps');
 
+// 7) Foreign foresight must use loaded FX; 1m checks must not silently fall back to FX=1.
 const market=fs.readFileSync(new URL('../src/market-v3.js',import.meta.url),'utf8');
+assert.doesNotMatch(market,/recheckForesight\(x,1\)/,'foreign foresight must not silently default to FX=1');
 assert.match(market,/result\?\.fxRates\?\.\[normalizeQuoteCurrency\(x\?\.currency\)\]/,'foresight must use the already-loaded FX map');
+
+// 8) Yahoo live metadata is the final quote-unit source of truth, protecting against stale universe metadata.
+const marketBase=fs.readFileSync(new URL('../src/market-v3-base.js',import.meta.url),'utf8');
+assert.match(marketBase,/liveRawCurrency=m\.currency\|\|rawCurrency\(info\)/,'Spark metadata currency must override universe currency for quote-unit scaling');
+assert.match(marketBase,/liveRawCurrency=res\.meta\?\.currency\|\|rawCurrency\(info\)/,'1m chart metadata currency must override universe currency');
+
+// 9) Quote-sanity and outer risk status must use the canonical production rules.
+const sanity=fs.readFileSync(new URL('../src/quote-sanity.js',import.meta.url),'utf8');
+assert.match(sanity,/normalizeQuoteCurrency/,'quote sanity must use canonical minor/major currency mapping');
+const outer=fs.readFileSync(new URL('../src/compact-portfolio-v22-active-learning.js',import.meta.url),'utf8');
+assert.match(outer,/s\.risk=\{\.\.\.\(s\.risk\|\|\{\}\),hardLimits:true,budgetOnly:false,positionLimit:V27_RISK_LIMITS\.maxSinglePositionPct/,'outer production status must override obsolete core risk metadata');
+assert.match(outer,/executionScaleUpHardBlocked:true/);
 
 console.log('V27.5 full-audit invariant regression tests: OK');
