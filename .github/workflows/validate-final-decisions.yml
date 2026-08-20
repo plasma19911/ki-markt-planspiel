@@ -1,6 +1,6 @@
-name: Validate Final Decision Engine V27.7 - Trading Behavior
+name: Validate Final Decision Engine V27.8 - Adaptive Trading Discipline
 
-# Includes behavior, AI JSON repair and Cloudflare run(model,input) wrapper-signature regressions.
+# Includes V27.8 adaptive-entry, repeated-soft-SELL, behavior, AI JSON repair and Cloudflare run(model,input) regressions.
 on:
   workflow_dispatch:
   push:
@@ -32,13 +32,13 @@ jobs:
           npm run check > /tmp/dryrun.log 2>&1; DRYRUN=$?
           python3 - <<PY
           import json,datetime,pathlib
-          def tail(p,n=9000):
+          def tail(p,n=11000):
               try:return pathlib.Path(p).read_text(encoding='utf-8',errors='replace')[-n:]
               except:return ''
           out={
             'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),
             'commit':'${GITHUB_SHA}',
-            'validationTarget':'V27.7_TRADING_BEHAVIOR_FINAL',
+            'validationTarget':'V27.8_ADAPTIVE_TRADING_DISCIPLINE_FINAL',
             'installOk':${INSTALL}==0,
             'decisionTestsOk':${TESTS}==0,
             'dryRunOk':${DRYRUN}==0,
