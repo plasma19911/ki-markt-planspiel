@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T12:09:03.875358+00:00",
+  "checkedAt": "2026-08-20T12:09:25.009408+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -25,19 +25,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T12:08:07.570Z",
-    "ageSeconds": 56,
+    "lastSeenAt": "2026-08-20T12:09:07.526Z",
+    "ageSeconds": 17,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 131,
-  "lastScan": "2026-08-20T12:07:19.652Z",
+  "scanCount": 132,
+  "lastScan": "2026-08-20T12:09:12.158Z",
   "lastError": null,
   "aiLastSummary": "KI-Fallback: kein JSON",
   "cash": 1476.2217081333488,
-  "equity": 9950.713849453496,
-  "pnl": -49.28615054650436,
-  "marketValue": 8474.492141320146,
+  "equity": 9950.645812627352,
+  "pnl": -49.354187372648084,
+  "marketValue": 8474.424104494003,
   "accountingDelta": 0.0,
   "positions": 6,
   "positionRows": [
@@ -79,15 +79,15 @@
       "invested": 2129.14636,
       "entry_fee": 1,
       "entry_price": 8.710701663970946,
-      "last_price": 8.59000015258789,
+      "last_price": 8.592000007629395,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-20T08:39:12.347Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": -4.2,
-      "signal_confidence": 0.63,
+      "score": -2.1,
+      "signal_confidence": 0.49000000000000005,
       "zero_quantity": 244.42880057366253,
       "zero_whole_shares": 244,
       "zero_fractional_shares": 0.428800573662528,
@@ -108,7 +108,7 @@
       "invested": 869.096941,
       "entry_fee": 1,
       "entry_price": 214.7145,
-      "last_price": 212.6999969482422,
+      "last_price": 212.60000610351562,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
@@ -185,7 +185,7 @@
       "invested": 70.201497,
       "entry_fee": 2,
       "entry_price": 55.375319694519035,
-      "last_price": 54.84000015258789,
+      "last_price": 54.720001220703125,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
@@ -210,10 +210,10 @@
     {
       "id": 36,
       "ts": "2026-08-20T12:02:11.549Z",
-      "end_ts": "2026-08-20T12:07:19.652Z",
-      "event_count": 5,
+      "end_ts": "2026-08-20T12:09:12.158Z",
+      "event_count": 6,
       "start_scan": 127,
-      "end_scan": 131,
+      "end_scan": 132,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -223,10 +223,10 @@
       "trade_pnl": null,
       "cash_before": 1476.2217081333488,
       "cash_after": 1476.2217081333488,
-      "equity": 9950.713849453496,
-      "total_pnl": -49.28615054650436,
+      "equity": 9950.645812627352,
+      "total_pnl": -49.354187372648084,
       "score": null,
-      "reason": "Kein Trade. Bestes Signal GUBRA.CO: Score 4.95, Konfidenz 47%."
+      "reason": "Kein Trade. Bestes Signal REG1V.HE: Score 3.50, Konfidenz 76%."
     },
     {
       "id": 35,
@@ -1076,8 +1076,8 @@
     "proposalContaminationFixed": true
   },
   "risk": {
-    "equity": 9950.713849453496,
-    "dailyPct": -0.461040859186268,
+    "equity": 9950.645812627352,
+    "dailyPct": -0.46172144501760437,
     "availableCash": 1476.2217081333488,
     "hardLimits": true,
     "budgetOnly": false,
@@ -1100,7 +1100,7 @@
           "limitPct": 55
         }
       ],
-      "equity": 9950.71,
+      "equity": 9950.65,
       "rule": "Bestehende Altpositionen über dem aktuellen Cap werden gemeldet und für weitere Käufe gesperrt, aber nicht allein wegen des Caps zwangsverkauft."
     },
     "rule": "Finale V27.6-Grenzen gelten nach dem inneren R2-Plan und auch für AGM_PREVIEW."
