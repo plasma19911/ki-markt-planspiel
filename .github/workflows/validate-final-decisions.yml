@@ -1,4 +1,4 @@
-name: Validate Final Decision Engine V27.5 - Final Stable Audit
+name: Validate Final Decision Engine V27.6 - AGM Preview
 
 on:
   workflow_dispatch:
@@ -37,7 +37,7 @@ jobs:
           out={
             'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),
             'commit':'${GITHUB_SHA}',
-            'validationTarget':'V27.5_FULL_AUDIT_FINAL_STABLE',
+            'validationTarget':'V27.6_AGM_PREVIEW_FINAL',
             'installOk':${INSTALL}==0,
             'decisionTestsOk':${TESTS}==0,
             'dryRunOk':${DRYRUN}==0,
