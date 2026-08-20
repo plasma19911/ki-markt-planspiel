@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T17:01:13.109995+00:00",
+  "checkedAt": "2026-08-20T17:01:58.936169+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -31,13 +31,13 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T17:00:09.651Z",
-    "ageSeconds": 63,
+    "lastSeenAt": "2026-08-20T17:01:15.829Z",
+    "ageSeconds": 43,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 297,
-  "lastScan": "2026-08-20T17:00:12.894Z",
+  "scanCount": 298,
+  "lastScan": "2026-08-20T17:01:20.057Z",
   "lastError": null,
   "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 4 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefangen · 0 Flip-Flop-Reentry(s) blockiert · 0 Safety-HOLD(s) · 0 empirisch schlechte · RELATIVE V28.2: 0 staerkere Alternative(n) priorisiert · 0 Gewinner-SELL(s) geschuetzt · 0 gelernte Auswahl-Regret(s).",
   "cash": 6229.217058348477,
@@ -158,10 +158,10 @@
     {
       "id": 40,
       "ts": "2026-08-20T14:24:14.942Z",
-      "end_ts": "2026-08-20T17:00:12.894Z",
-      "event_count": 86,
+      "end_ts": "2026-08-20T17:01:20.057Z",
+      "event_count": 87,
       "start_scan": 212,
-      "end_scan": 297,
+      "end_scan": 298,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -174,7 +174,7 @@
       "equity": 9942.360226246452,
       "total_pnl": -57.63977375354807,
       "score": null,
-      "reason": "Kein Trade. Bestes Signal SHOP: Score 3.51, Konfidenz 77%."
+      "reason": "Kein Trade. Bestes Signal MARA.MX: Score 6.45, Konfidenz 63%."
     },
     {
       "id": 39,
@@ -1233,7 +1233,19 @@
     "enabled": true,
     "version": 27.8,
     "stateVersion": 3,
-    "latest": null,
+    "latest": {
+      "entryConfirmationWaits": 0,
+      "adaptiveEntryWaits": 0,
+      "lateImpulseBlocks": 0,
+      "deteriorationBlocks": 0,
+      "saturationBlocks": 0,
+      "convictionSizeCaps": 0,
+      "tinyProfitHolds": 0,
+      "confirmationResets": 0,
+      "softSellConfirmationWaits": 0,
+      "softSellConfirmed": 0,
+      "heldBuyBlocks": 0
+    },
     "heldBuyPromptSuppression": true,
     "heldPromptPlanOnly": true,
     "pullbackReclaimAware": true,
