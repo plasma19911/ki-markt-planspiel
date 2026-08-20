@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-20T18:12:14.105851+00:00",
-  "berlinNow": "2026-08-20T20:12:14.105729+02:00",
+  "checkedAt": "2026-08-20T18:12:47.216097+00:00",
+  "berlinNow": "2026-08-20T20:12:47.215938+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 224628,
-    "dashboard": 141285
+    "full": 229947,
+    "dashboard": 146011
   },
   "checks": {
     "fullStatus200": true,
@@ -30,7 +30,7 @@
     "capture": {
       "date": "2026-08-20",
       "symbolCount": 120,
-      "updatedAt": "2026-08-20T18:10:20.160Z"
+      "updatedAt": "2026-08-20T18:12:20.906Z"
     },
     "summary": {
       "provisional": true,
@@ -46,10 +46,10 @@
     }
   },
   "depot": {
-    "cash": 6229.217058348477,
-    "equity": 9942.360226246452,
-    "displayMarketValue": 3713.1431678117788,
-    "displayAccountingDelta": 8.61964508658275e-08,
+    "cash": 5712.192042348477,
+    "equity": 9939.84571574096,
+    "displayMarketValue": 4227.653673149365,
+    "displayAccountingDelta": 2.4311702873092145e-07,
     "positions": [
       {
         "symbol": "NOKIA.HE",
@@ -82,8 +82,16 @@
         "quantityValue": 70.46098068689476,
         "displayValue": 70.46098068689476,
         "quantityUsed": true
+      },
+      {
+        "symbol": "BABA",
+        "invested": 515.025016,
+        "ratioValue": 514.5105054945057,
+        "quantityValue": 514.5105053375861,
+        "displayValue": 514.5105053375861,
+        "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: thu, 20 aug 2026 18:12:14 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=ivkjks6fehrsvgkx25y2w5kf8kas27q1sreslre6ktqmtvgtdvbswqi3cwnz%2f9iivwzju8qkchvwuv%2bk%2bjbu%2b7zyyh%2f6ltweivovtheqr8qknocbvfoixg6i6okdjmjinbrrn8z6oksttbvrb1h4jbj9zqhnk0a3saoeedw%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2e35d733bf712f2-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: thu, 20 aug 2026 18:12:47 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=ua5cnvfos2mfemtumvofre610mwuqvqr3wargheqgg36mvmczk4ynya7e%2b8i2%2f35jdty8oyyk2hx7cwnd5udqnftrrrb14lecf8rqbq4inmrcrvdgsam7ccmhfls887r7pd3jah%2b3r3rg70glyqy9q8g7dwanpucx4wehri%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2e35e420f51638c-den\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
