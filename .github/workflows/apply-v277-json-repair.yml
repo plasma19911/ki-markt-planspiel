@@ -1,0 +1,46 @@
+name: Apply V27.7 AI JSON repair integration
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-v277-json-repair.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch final controller and compact AI prompt
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('src/final-decision-controller.js'); s=p.read_text(encoding='utf-8')
+          imp="import {repairAiPlanResponse} from './ai-plan-json-repair.js';\n"
+          if imp not in s:
+            marker="import {calibratedEntryExpectation,applyPortfolioRiskCaps} from './portfolio-risk-calibration.js';\n"
+            if marker not in s: raise SystemExit('final controller import marker missing')
+            s=s.replace(marker,marker+imp,1)
+          old="export class FinalDecisionController{constructor(base,{getState=null,getLearning=null}={}){this.base=base;this.getState=getState;this.getLearning=getLearning}async run(model,input){const r=await this.base.run(model,input);return postProcess(r,input,this.getState,this.getLearning)}}"
+          new="export class FinalDecisionController{constructor(base,{getState=null,getLearning=null}={}){this.base=base;this.getState=getState;this.getLearning=getLearning}async run(model,input){const raw=await this.base.run(model,input),r=repairAiPlanResponse(raw,input);return postProcess(r,input,this.getState,this.getLearning)}}"
+          if old in s:s=s.replace(old,new,1)
+          elif new not in s: raise SystemExit('final controller run marker missing')
+          p.write_text(s,encoding='utf-8')
+
+          p=Path('src/r2-portfolio.js'); s=p.read_text(encoding='utf-8')
+          old='JSON-only {"summary":"kurz"'
+          new='JSON-only. Antworte extrem kompakt: summary maximal 120 Zeichen, höchstens 6 actions, reason maximal 90 Zeichen; normale HOLDs ohne besonderen Safety-Grund dürfen entfallen. Format {"summary":"kurz"'
+          if old in s:s=s.replace(old,new,1)
+          elif new not in s: raise SystemExit('R2 JSON-only prompt marker missing')
+          p.write_text(s,encoding='utf-8')
+          PY
+          git rm .github/workflows/apply-v277-json-repair.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/final-decision-controller.js src/r2-portfolio.js
+          git commit -m 'Integrate V27.7 safe AI JSON repair [skip ci]'
+          git pull --rebase origin main
+          git push origin HEAD:main
