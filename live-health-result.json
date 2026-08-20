@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T12:35:22.075892+00:00",
+  "checkedAt": "2026-08-20T12:35:55.143945+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -30,7 +30,7 @@
     "configured": true,
     "online": true,
     "lastSeenAt": "2026-08-20T12:35:07.577Z",
-    "ageSeconds": 14,
+    "ageSeconds": 47,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
@@ -1222,8 +1222,10 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T12:35:17.124Z",
+      "cachedAt": "2026-08-20T12:35:51.663Z",
       "lastError": null,
+      "scoreEvaluationCadence": "daily",
+      "scoreReevaluation": "once daily only",
       "rules": {
         "version": 27.6,
         "horizonDays": 14,
@@ -1238,12 +1240,25 @@
   },
   "agmCalendar": {
     "version": 27.6,
-    "source": "finanzen.net Hauptversammlung + finanzen.net Schätzungen + Yahoo Fallback",
-    "sourceUpdatedAt": "2026-08-20T12:11:38.507Z",
-    "generatedAt": "2026-08-20T12:35:20.926Z",
+    "modelVersion": 27.6,
+    "updatedAt": "2026-08-20T12:11:38.507Z",
+    "nextRefreshAfter": "2026-08-21T11:11:38.507Z",
     "refreshCadence": "daily",
-    "scoreReevaluation": "every market/news scan",
-    "scoreMeaning": "0-100 interner Chancen-Score; keine Gewinnwahrscheinlichkeit",
+    "source": "finanzen.net Hauptversammlung + finanzen.net Schätzungen + Yahoo Fallback",
+    "sourceUrls": [
+      "https://www.finanzen.net/termine/unternehmen/hauptversammlung",
+      "https://www.finanzen.net/index/cdax/hv-termine",
+      "https://www.finanzen.net/index/dax/hv-termine",
+      "https://www.finanzen.net/index/mdax/hv-termine",
+      "https://www.finanzen.net/index/sdax/hv-termine",
+      "https://www.finanzen.net/index/tecdax/hv-termine"
+    ],
+    "sourceErrors": [],
+    "rawUpcomingCount": 17,
+    "matchedUpcomingCount": 7,
+    "fundamentalEstimateCount": 0,
+    "universeGeneratedAt": "2026-08-20T05:07:22.997910Z",
+    "scoreMeaning": "0-100 interner Vorab-Chancen-Score; keine Gewinnwahrscheinlichkeit",
     "events": [
       {
         "date": "2026-08-20",
@@ -1274,15 +1289,12 @@
         "daysUntil": 0,
         "baseLabel": "NEUTRAL",
         "score": 50,
-        "confidence": 0.398,
+        "confidence": 0.18,
         "label": "NEUTRAL",
         "profitOutlookPositive": false,
         "tradeEligible": false,
-        "preBuyWindow": false,
-        "maximumAllocationPct": 18,
-        "reasons": [],
-        "updatedAt": "2026-08-20T12:35:20.926Z",
-        "alreadyHeld": false
+        "alreadyHeld": false,
+        "scoreLocked": true
       },
       {
         "date": "2026-08-20",
@@ -1313,15 +1325,12 @@
         "daysUntil": 0,
         "baseLabel": "NEUTRAL",
         "score": 50,
-        "confidence": 0.398,
+        "confidence": 0.18,
         "label": "NEUTRAL",
         "profitOutlookPositive": false,
         "tradeEligible": false,
-        "preBuyWindow": false,
-        "maximumAllocationPct": 18,
-        "reasons": [],
-        "updatedAt": "2026-08-20T12:35:20.926Z",
-        "alreadyHeld": false
+        "alreadyHeld": false,
+        "scoreLocked": true
       },
       {
         "date": "2026-08-21",
@@ -1352,15 +1361,12 @@
         "daysUntil": 1,
         "baseLabel": "NEUTRAL",
         "score": 50,
-        "confidence": 0.398,
+        "confidence": 0.18,
         "label": "NEUTRAL",
         "profitOutlookPositive": false,
         "tradeEligible": false,
-        "preBuyWindow": true,
-        "maximumAllocationPct": 18,
-        "reasons": [],
-        "updatedAt": "2026-08-20T12:35:20.926Z",
-        "alreadyHeld": false
+        "alreadyHeld": false,
+        "scoreLocked": true
       },
       {
         "date": "2026-08-26",
@@ -1391,15 +1397,12 @@
         "daysUntil": 6,
         "baseLabel": "NEUTRAL",
         "score": 50,
-        "confidence": 0.398,
+        "confidence": 0.18,
         "label": "NEUTRAL",
         "profitOutlookPositive": false,
         "tradeEligible": false,
-        "preBuyWindow": true,
-        "maximumAllocationPct": 18,
-        "reasons": [],
-        "updatedAt": "2026-08-20T12:35:20.926Z",
-        "alreadyHeld": false
+        "alreadyHeld": false,
+        "scoreLocked": true
       },
       {
         "date": "2026-08-26",
@@ -1430,15 +1433,12 @@
         "daysUntil": 6,
         "baseLabel": "NEUTRAL",
         "score": 50,
-        "confidence": 0.398,
+        "confidence": 0.18,
         "label": "NEUTRAL",
         "profitOutlookPositive": false,
         "tradeEligible": false,
-        "preBuyWindow": true,
-        "maximumAllocationPct": 18,
-        "reasons": [],
-        "updatedAt": "2026-08-20T12:35:20.926Z",
-        "alreadyHeld": false
+        "alreadyHeld": false,
+        "scoreLocked": true
       },
       {
         "date": "2026-08-27",
@@ -1469,15 +1469,12 @@
         "daysUntil": 7,
         "baseLabel": "NEUTRAL",
         "score": 50,
-        "confidence": 0.398,
+        "confidence": 0.18,
         "label": "NEUTRAL",
         "profitOutlookPositive": false,
         "tradeEligible": false,
-        "preBuyWindow": true,
-        "maximumAllocationPct": 18,
-        "reasons": [],
-        "updatedAt": "2026-08-20T12:35:20.926Z",
-        "alreadyHeld": false
+        "alreadyHeld": false,
+        "scoreLocked": true
       },
       {
         "date": "2026-08-28",
@@ -1508,17 +1505,18 @@
         "daysUntil": 8,
         "baseLabel": "NEUTRAL",
         "score": 50,
-        "confidence": 0.398,
+        "confidence": 0.18,
         "label": "NEUTRAL",
         "profitOutlookPositive": false,
         "tradeEligible": false,
-        "preBuyWindow": true,
-        "maximumAllocationPct": 18,
-        "reasons": [],
-        "updatedAt": "2026-08-20T12:35:20.926Z",
-        "alreadyHeld": false
+        "alreadyHeld": false,
+        "scoreLocked": true
       }
     ],
+    "generatedAt": "2026-08-20T12:11:38.507Z",
+    "scoreEvaluationCadence": "daily",
+    "scoreReevaluation": "once daily only",
+    "scoreLockedUntilNextDailyRefresh": true,
     "error": null,
     "rules": {
       "version": 27.6,
