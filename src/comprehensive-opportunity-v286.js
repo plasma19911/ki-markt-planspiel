@@ -62,7 +62,7 @@ export function enforceComprehensiveOpportunityV286(plan,state={},storage=null,n
  if(top&&stable(before,top,now)&&top.fusionScore>=72&&!(top.day>=12&&top.fusionScore<78)){
    let a=findAction(top.symbol);if(a&&String(a.action||'').toUpperCase()==='HOLD'){a.action='BUY';a.allocation_pct=allocationPct(cash,top.fusionScore);a.confidence=clamp(Math.max(num(a.confidence,.62),.62+(top.fusionScore-72)/100),.62,.88);a.reason=`COMPREHENSIVE V28.6 BUY: ${top.symbol} ist nach einheitlicher Bewertung aller aktuellen Entscheidungskandidaten die staerkste bestaetigte Chance (${top.fusionScore.toFixed(1)}/100). Fehlende optionale Daten werden neutral statt als Nullsignal behandelt; Hard-Blocks bleiben bindend.`;counters.scoreBuys++}
  }
- const selected=actions.find(a=>String(a?.action||'').toUpperCase()==='BUY'&&byCand.has(key(a)))||null,selectedScore=selected?byCand.get(key(selected)):top;
+ const selected=actions.find(a=>String(a?.action||'').toUpperCase()==='BUY'&&byCand.has(key(a)))||null,selectedScore=selected?byCand.get(key(selected)):null;
  const meaningful=arr(state?.positions).filter(meaningfulPosition).map(p=>({p,row:byPos.get(key(p))})).filter(x=>x.row).sort((a,b)=>a.row.fusionScore-b.row.fusionScore),weak=meaningful[0];
  if(selectedScore&&weak&&!selectedScore.hardBlocked&&stable(before,selectedScore,now)&&positionAgeMin(weak.p,now)>=30){
    const gap=selectedScore.fusionScore-weak.row.fusionScore,lowCash=cash<500,rotate=(selectedScore.fusionScore>=72&&((lowCash&&weak.row.fusionScore<=50&&gap>=20)||(weak.row.fusionScore<=42&&gap>=30)))&&now-num(before.lastRotationAt,0)>=20*60000;
