@@ -37,9 +37,7 @@ export function regionOf(symbol='',currency=''){
  return'OTHER';
 }
 
-function themeOf(x={}){
- return key(x.theme||x.sector||x.industry||'');
-}
+function themeOf(x={}){return key(x.theme||x.sector||x.industry||'');}
 
 export function portfolioSnapshot(state={}){
  const cash=Math.max(0,num(state?.config?.cash)),positions=arr(state?.positions),rows=positions.map(p=>({
@@ -54,12 +52,17 @@ export function calibratedEntryExpectation(candidate={},learningStatus=null){
  const bucket=classifyEntryTiming(candidate),buckets=arr(learningStatus?.buckets),row=buckets.find(x=>String(x?.bucket||'')===bucket)||null;
  const priorN=12,priorMean=num(FAST_CALIBRATION?.validation?.holdoutBuyMeanPct,.046),priorWin=clamp(num(FAST_CALIBRATION?.validation?.holdoutBuyHitRate,.45),0,1);
  const n=Math.max(0,num(row?.samples15)),empMean=n?num(row?.qualityPct):priorMean,empWin=n&&row?.winRatePct!=null?clamp(num(row.winRatePct)/100,0,1):priorWin;
- const posteriorMean=(priorMean*priorN+empMean*n)/(priorN+n||1),posteriorWin=(priorWin*priorN+empWin*n)/(priorN+n||1),reliability=clamp(n/24,0,1);
- const block=n>=12&&posteriorMean<-.10&&posteriorWin<.43;
- const sizeMultiplier=block?0:clamp(.86+(posteriorMean-.02)*.65+(posteriorWin-.45)*.80,.68,1.16);
- const confidenceDelta=clamp((posteriorWin-priorWin)*.35,-.08,.06);
+ const baseMean=(priorMean*priorN+empMean*n)/(priorN+n||1),baseWin=(priorWin*priorN+empWin*n)/(priorN+n||1);
+ const ff=candidate?.forwardForecast&&num(candidate?.forwardForecast?.version)>0?candidate.forwardForecast:null,ffSamples=Math.max(0,num(ff?.samples)),ffMature=ffSamples>=8;
+ const ffMean=ffMature?(num(ff?.horizons?.[15]?.expectedPct)*.60+num(ff?.horizons?.[30]?.expectedPct)*.40):0;
+ const ffWin=ffMature?(num(ff?.horizons?.[15]?.upProbability,.5)*.60+num(ff?.horizons?.[30]?.upProbability,.5)*.40):.5;
+ const posteriorMean=baseMean+clamp(ffMean*.35,-.18,.18),posteriorWin=clamp(baseWin+(ffWin-.5)*.25,0,1),reliability=Math.max(clamp(n/24,0,1),clamp(ffSamples/30,0,1));
+ const block=(n>=12&&posteriorMean<-.10&&posteriorWin<.43)||Boolean(ff?.block);
+ const baseSize=clamp(.86+(posteriorMean-.02)*.65+(posteriorWin-.45)*.80,.68,1.16),sizeMultiplier=block?0:clamp(baseSize*(ffMature?num(ff?.sizeMultiplier,1):1),.60,1.18);
+ const confidenceDelta=clamp((posteriorWin-priorWin)*.35+(ffMature?num(ff?.scoreDelta)*.035:0),-.09,.065);
  return{
   bucket,samples15:n,posteriorExpectedMovePct:+posteriorMean.toFixed(3),posteriorWinRate:+posteriorWin.toFixed(3),reliability:+reliability.toFixed(3),sizeMultiplier:+sizeMultiplier.toFixed(3),confidenceDelta:+confidenceDelta.toFixed(3),block,
+  forwardForecast:ff?{samples:ffSamples,marketRegime:ff?.marketRegime?.regime||null,reliability:num(ff?.reliability),sizeMultiplier:num(ff?.sizeMultiplier,1),block:Boolean(ff?.block),horizons:ff?.horizons||null,reason:String(ff?.reason||'')} : null,
   prior:{sampleCount:num(FAST_CALIBRATION?.validation?.holdoutBuySamples),meanPct:priorMean,hitRate:priorWin,version:FAST_CALIBRATION?.version||'unknown'}
  };
 }
