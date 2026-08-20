@@ -19,13 +19,13 @@ function candidateTechnicalSafe(c={}){
  return score>=AGM_PREVIEW_RULES.minimumTechnicalScore&&confidence>=AGM_PREVIEW_RULES.minimumTechnicalConfidence&&m20>=-.25&&m5>=-.12&&accel>=-.01&&state!=='REVERSAL'&&state!=='EXHAUSTION'&&sell!=='STRONG'&&day<5.5&&rsi<78;
 }
 function sizeFor(score){return Math.min(AGM_PREVIEW_RULES.maximumAllocationPct,Math.max(8,8+(num(score)-AGM_PREVIEW_RULES.minimumScore)*.42))}
+function callArgs(model,input){const legacy=input===undefined&&model&&typeof model==='object';return{payload:legacy?model:input,legacy}}
 
 export class AgmPreviewAiGuard{
  constructor(inner,{env,getState}={}){this.inner=inner;this.env=env;this.getState=getState;this.latest=null;}
- async run(input){
-  const r=await this.inner.run(input),plan=parsePlan(r),prompt=findPrompt(input);if(!plan||!prompt)return r;
+ async run(model,input){
+  const {payload,legacy}=callArgs(model,input),r=legacy?await this.inner.run(model):await this.inner.run(model,input),plan=parsePlan(r),prompt=findPrompt(payload);if(!plan||!prompt)return r;
   const state=typeof this.getState==='function'?(this.getState()||{}):{},promptCandidates=parseCandidates(prompt),stateMap=new Map(arr(state?.candidates).map(x=>[key(x),x])),candidates=promptCandidates.map(x=>({...stateMap.get(key(x)),...x})),candidateMap=new Map(candidates.map(x=>[key(x),x]));
-  // Wichtig: evaluateAgmCalendar liefert den FESTEN Tages-Score. Live-Daten duerfen ihn nicht mehr veraendern.
   const calendar=await evaluateAgmCalendar(this.env,state,null,Date.now());this.latest=calendar;
   const held=new Set(arr(state?.positions).map(key)),actions=arr(plan.actions).map(x=>({...x})),actionMap=new Map(actions.map(x=>[key(x),x]));
   let normalBuyPct=actions.filter(x=>String(x?.action||'').toUpperCase()==='BUY').reduce((a,x)=>a+Math.max(0,num(x?.allocation_pct)),0),residual=Math.max(0,100-normalBuyPct),added=0;
