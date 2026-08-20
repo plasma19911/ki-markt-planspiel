@@ -1,0 +1,49 @@
+name: Apply V27.5 Edge Fix
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/apply-v275-edge-fix.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Patch deterministic invariant
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('src/loss-sell-invariant.js')
+          s=p.read_text(encoding='utf-8')
+          old="""function matureExpectedMove(candidate={}){\n const ff=candidate?.forwardForecast||{},samples=Math.max(0,num(ff?.samples,0)||0),symbols=Math.max(0,num(ff?.uniqueSymbols,0)||0),h15=num(ff?.horizons?.[15]?.expectedPct,null),h30=num(ff?.horizons?.[30]?.expectedPct,null);\n if(samples>=8&&symbols>=3&&h15!==null&&h30!==null)return{mature:true,samples,symbols,expectedPct:h15*.60+h30*.40,source:'forward-15/30'};\n const e=candidate?.calibratedExpectation||candidate?.entryExpectation||null,n=Math.max(0,num(e?.samples15,0)||0),p=num(e?.posteriorExpectedMovePct,null);\n if(n>=12&&p!==null)return{mature:true,samples:n,symbols:null,expectedPct:p,source:'timing-calibration'};\n return{mature:false,samples,symbols,expectedPct:null,source:'insufficient'};\n}"""
+          new="""function matureExpectedMove(candidate={},action={}){\n const ff=candidate?.forwardForecast||{},samples=Math.max(0,num(ff?.samples,0)||0),symbols=Math.max(0,num(ff?.uniqueSymbols,0)||0),h15=num(ff?.horizons?.[15]?.expectedPct,null),h30=num(ff?.horizons?.[30]?.expectedPct,null);\n if(samples>=8&&symbols>=3&&h15!==null&&h30!==null)return{mature:true,samples,symbols,expectedPct:h15*.60+h30*.40,source:'forward-15/30'};\n const e=candidate?.calibratedExpectation||candidate?.entryExpectation||null,n=Math.max(0,num(e?.samples15,0)||0),p=num(e?.posteriorExpectedMovePct,null);\n if(n>=12&&p!==null)return{mature:true,samples:n,symbols:null,expectedPct:p,source:'timing-calibration'};\n const reason=String(action?.reason||''),match=reason.match(/E\\[Move\\]\\s*([+-]?\\d+(?:[.,]\\d+)?)%[^·]*·[^·]*n=(\\d+)/i);\n if(match){const parsed=Number(match[1].replace(',','.')),rn=Number(match[2]);if(Number.isFinite(parsed)&&rn>=12)return{mature:true,samples:rn,symbols:null,expectedPct:parsed,source:'final-controller-calibration'};}\n return{mature:false,samples,symbols,expectedPct:null,source:'insufficient'};\n}"""
+          if old not in s: raise SystemExit('matureExpectedMove block not found')
+          s=s.replace(old,new,1)
+          s=s.replace("if(!plan||!Array.isArray(plan.actions))return{plan,blocked:0,uneconomicBuys:0,netEdgeBlocks:0,marketRegimeBlocks:0,minorUnitBlocks:0};","if(!plan||!Array.isArray(plan.actions))return{plan,blocked:0,uneconomicBuys:0,netEdgeBlocks:0,edgeBlocks:0,marketRegimeBlocks:0,regimeBlocks:0,marketRegimeCaps:0,regimeCaps:0,minorUnitBlocks:0};",1)
+          s=s.replace("let blocked=0,uneconomicBuys=0,netEdgeBlocks=0,marketRegimeBlocks=0,minorUnitBlocks=0;","let blocked=0,uneconomicBuys=0,netEdgeBlocks=0,marketRegimeBlocks=0,marketRegimeCaps=0,minorUnitBlocks=0;",1)
+          s=s.replace("const edge=matureExpectedMove(c);","const edge=matureExpectedMove(c,a);",1)
+          s=s.replace("if(gate.multiplier<1)return{...normalized,allocation_pct:","if(gate.multiplier<1){marketRegimeCaps++;return{...normalized,allocation_pct:",1)
+          s=s.replace(".toFixed(2),reason:`${normalized.reason} · ${gate.reason}`};\n   return normalized;",".toFixed(2),reason:`${normalized.reason} · ${gate.reason}`};}\n   return normalized;",1)
+          s=s.replace("${marketRegimeBlocks?` · MARKET-REGIME: ${marketRegimeBlocks} BUY(s) im Risk-off blockiert.`:''}${minorUnitBlocks?", "${marketRegimeBlocks?` · MARKET-REGIME: ${marketRegimeBlocks} BUY(s) im Risk-off blockiert.`:''}${marketRegimeCaps?` · MARKET-REGIME-CAP: ${marketRegimeCaps} BUY-Größe(n) reduziert.`:''}${minorUnitBlocks?",1)
+          oldret="return{plan:{...plan,actions,summary:v275(plan.summary)+suffix},blocked,uneconomicBuys,netEdgeBlocks,marketRegimeBlocks,minorUnitBlocks};"
+          newret="return{plan:{...plan,actions,summary:v275(plan.summary)+suffix},blocked,uneconomicBuys,netEdgeBlocks,edgeBlocks:netEdgeBlocks,marketRegimeBlocks,regimeBlocks:marketRegimeBlocks,marketRegimeCaps,regimeCaps:marketRegimeCaps,minorUnitBlocks};"
+          if oldret not in s: raise SystemExit('return block not found')
+          s=s.replace(oldret,newret,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+          node --check src/loss-sell-invariant.js
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/loss-sell-invariant.js
+          git commit -m 'Fix V27.5 calibrated net edge fallback and regime cap stats' || exit 0
+          git pull --rebase origin main
+          git push origin HEAD:main
