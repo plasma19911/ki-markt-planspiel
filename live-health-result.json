@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T18:25:01.060428+00:00",
+  "checkedAt": "2026-08-20T18:26:38.884756+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -31,19 +31,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T18:24:06.499Z",
-    "ageSeconds": 54,
+    "lastSeenAt": "2026-08-20T18:26:06.262Z",
+    "ageSeconds": 32,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 346,
-  "lastScan": "2026-08-20T18:22:19.613Z",
+  "scanCount": 347,
+  "lastScan": "2026-08-20T18:25:18.353Z",
   "lastError": null,
   "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 5 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefangen · 0 Flip-Flop-Reentry(s) blockiert · 0 Safety-HOLD(s) · 0 empi · CALIBRATED V28.7: 7 Kandidaten bewertet · 0 BUY · 0 Score-SELL · 0 Rotation · 0 Chase-BUY gebremst.",
   "cash": 5712.192042348477,
-  "equity": 9937.782375684015,
-  "pnl": -62.21762431598472,
-  "marketValue": 4225.590333335538,
+  "equity": 9938.89319540075,
+  "pnl": -61.10680459925061,
+  "marketValue": 4226.701153052273,
   "accountingDelta": 0.0,
   "positions": 5,
   "positionRows": [
@@ -162,7 +162,7 @@
       "invested": 515.025016,
       "entry_fee": 2,
       "entry_price": 129.81978408813475,
-      "last_price": 129.1699981689453,
+      "last_price": 129.4499969482422,
       "entry_fx": 0.8564,
       "last_fx": 0.8564,
       "fx_verified": true,
@@ -173,8 +173,8 @@
       "opened_at": "2026-08-20T18:12:20.832Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 2.151894,
-      "signal_confidence": 0.6346894,
+      "score": 3.3518939999999997,
+      "signal_confidence": 0.7546894,
       "zero_quantity": 4.63245045375474,
       "zero_whole_shares": 4,
       "zero_fractional_shares": 0.63245045375474,
@@ -187,10 +187,10 @@
     {
       "id": 42,
       "ts": "2026-08-20T18:14:11.114Z",
-      "end_ts": "2026-08-20T18:22:19.613Z",
-      "event_count": 6,
+      "end_ts": "2026-08-20T18:25:18.353Z",
+      "event_count": 7,
       "start_scan": 341,
-      "end_scan": 346,
+      "end_scan": 347,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -200,10 +200,10 @@
       "trade_pnl": null,
       "cash_before": 5712.192042348477,
       "cash_after": 5712.192042348477,
-      "equity": 9937.782375684015,
-      "total_pnl": -62.21762431598472,
+      "equity": 9938.89319540075,
+      "total_pnl": -61.10680459925061,
       "score": null,
-      "reason": "Kein Trade. Bestes Signal MARA.MX: Score 4.32, Konfidenz 76%."
+      "reason": "Kein Trade. Bestes Signal BABA: Score 3.35, Konfidenz 75%."
     },
     {
       "id": 41,
@@ -1083,8 +1083,8 @@
     "proposalContaminationFixed": true
   },
   "risk": {
-    "equity": 9937.782375684015,
-    "dailyPct": -0.5903969494773675,
+    "equity": 9938.89319540075,
+    "dailyPct": -0.5792852001024307,
     "availableCash": 5712.192042348477,
     "hardLimits": true,
     "budgetOnly": false,
@@ -1094,7 +1094,7 @@
     "existingRiskAlerts": {
       "hasAlerts": false,
       "alerts": [],
-      "equity": 9937.78,
+      "equity": 9938.89,
       "rule": "Bestehende Altpositionen über dem aktuellen Cap werden gemeldet und für weitere Käufe gesperrt, aber nicht allein wegen des Caps zwangsverkauft."
     },
     "rule": "Finale V27.6-Grenzen gelten nach dem inneren R2-Plan und auch für AGM_PREVIEW."
@@ -1281,19 +1281,7 @@
     "enabled": true,
     "version": 27.8,
     "stateVersion": 3,
-    "latest": {
-      "entryConfirmationWaits": 0,
-      "adaptiveEntryWaits": 0,
-      "lateImpulseBlocks": 0,
-      "deteriorationBlocks": 0,
-      "saturationBlocks": 0,
-      "convictionSizeCaps": 0,
-      "tinyProfitHolds": 0,
-      "confirmationResets": 0,
-      "softSellConfirmationWaits": 0,
-      "softSellConfirmed": 0,
-      "heldBuyBlocks": 0
-    },
+    "latest": null,
     "heldBuyPromptSuppression": true,
     "heldPromptPlanOnly": true,
     "pullbackReclaimAware": true,
@@ -1358,7 +1346,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T18:24:10.781Z",
+      "cachedAt": "2026-08-20T18:26:03.921Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
