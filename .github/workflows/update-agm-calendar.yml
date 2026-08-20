@@ -4,10 +4,6 @@ on:
   schedule:
     - cron: '25 4 * * *'
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - 'scripts/score-agm-calendar-daily.mjs'
 
 permissions:
   contents: write
