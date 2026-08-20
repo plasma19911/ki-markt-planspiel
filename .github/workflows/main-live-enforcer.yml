@@ -1,0 +1,66 @@
+name: Main always live on Cloudflare
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: main-always-live-production
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-and-verify:
+    if: ${{ !contains(github.event.head_commit.message || '', '[skip ci]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: package.json
+      - run: npm install --no-audit --no-fund --ignore-scripts
+      - name: Regression tests
+        run: npm run test:decisions
+      - name: Worker dry run
+        run: npm run check
+      - name: Detect direct Cloudflare credentials
+        id: cf
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$CLOUDFLARE_API_TOKEN" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; then echo 'direct=true' >> "$GITHUB_OUTPUT"; else echo 'direct=false' >> "$GITHUB_OUTPUT"; fi
+      - name: Direct Wrangler deploy when credentials exist
+        if: steps.cf.outputs.direct == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler deploy --config wrangler.jsonc
+      - name: Allow Cloudflare Git integration to publish
+        if: steps.cf.outputs.direct != 'true'
+        run: sleep 75
+      - name: Verify live V28.3 UI + V28.2 trading stack
+        run: |
+          node --input-type=module <<'NODE'
+          const base='https://ki-markt-planspiel.orkimperium.workers.dev';
+          let last='';
+          for(let i=0;i<36;i++){
+            try{
+              const q=Date.now();
+              const sr=await fetch(`${base}/api/status?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const s=await sr.json();
+              const ur=await fetch(`${base}/ui-v283-fix.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const u=await ur.text();
+              const qr=await fetch(`${base}/quota-guard.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const qjs=await qr.text();
+              const ok=sr.ok&&Number(s?.finalDecisionPolicy?.version)>=28.2&&s?.finalDecisionPolicy?.pairwiseOpportunityCostLearning===true&&ur.ok&&/__V283_UI_LIVE__/.test(u)&&/Mo–Fr 07:30–23:00/.test(u)&&qr.ok&&/ui-v283-fix\.js/.test(qjs);
+              last=`status=${sr.status} version=${s?.finalDecisionPolicy?.version} ui=${ur.status} bootstrap=${qr.status}`;
+              if(ok){console.log('Main live verification OK:',last);process.exit(0)}
+            }catch(e){last=String(e?.message||e)}
+            await new Promise(r=>setTimeout(r,5000));
+          }
+          throw new Error('Main did not become live: '+last);
+          NODE
