@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T11:15:51.055881+00:00",
+  "checkedAt": "2026-08-20T11:19:41.046485+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -25,19 +25,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T11:15:07.761Z",
-    "ageSeconds": 43,
+    "lastSeenAt": "2026-08-20T11:19:15.173Z",
+    "ageSeconds": 26,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 107,
-  "lastScan": "2026-08-20T11:15:12.730Z",
+  "scanCount": 109,
+  "lastScan": "2026-08-20T11:19:20.727Z",
   "lastError": null,
   "aiLastSummary": "FINAL-CONTROLLER V27.5: 0 BUY · 0 SELL · 7 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefangen · 0 Flip-Flop-Reentry(s) blockiert · 0 Safety-HOLD(s) · 0 empirisch schlechte Setup(s) blockiert · 0 Allokation(en) durch Depotrisiko gekappt · 4 Bestands-BUY(s) verhindert.",
   "cash": 950.0719944036448,
-  "equity": 9978.031258046452,
-  "pnl": -21.96874195354758,
-  "marketValue": 9027.959263642808,
+  "equity": 9978.059684628091,
+  "pnl": -21.940315371908582,
+  "marketValue": 9027.987690224447,
   "accountingDelta": 0.0,
   "positions": 7,
   "positionRows": [
@@ -66,7 +66,9 @@
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash",
       "quote_currency_raw": "EUR",
       "quote_price_scale": 1,
-      "quote_unit_normalized": true
+      "quote_unit_normalized": true,
+      "fx_verified": true,
+      "fx_stale": false
     },
     {
       "symbol": "NOKIA.HE",
@@ -77,15 +79,15 @@
       "invested": 2129.14636,
       "entry_fee": 1,
       "entry_price": 8.710701663970946,
-      "last_price": 8.673999786376953,
+      "last_price": 8.67199993133545,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-20T08:39:12.347Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": -1.1,
-      "signal_confidence": 0.39,
+      "score": -2.1,
+      "signal_confidence": 0.49000000000000005,
       "zero_quantity": 244.42880057366253,
       "zero_whole_shares": 244,
       "zero_fractional_shares": 0.428800573662528,
@@ -93,7 +95,9 @@
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash",
       "quote_currency_raw": "EUR",
       "quote_price_scale": 1,
-      "quote_unit_normalized": true
+      "quote_unit_normalized": true,
+      "fx_verified": true,
+      "fx_stale": false
     },
     {
       "symbol": "BESI.AS",
@@ -111,8 +115,8 @@
       "opened_at": "2026-08-20T08:42:11.798Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": -2.0000000000000004,
-      "signal_confidence": 0.5592000000000001,
+      "score": -1.2000000000000002,
+      "signal_confidence": 0.4792,
       "zero_quantity": 4.04768630574851,
       "zero_whole_shares": 4,
       "zero_fractional_shares": 0.04768630574850974,
@@ -120,7 +124,9 @@
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash",
       "quote_currency_raw": "EUR",
       "quote_price_scale": 1,
-      "quote_unit_normalized": true
+      "quote_unit_normalized": true,
+      "fx_verified": true,
+      "fx_stale": false
     },
     {
       "symbol": "COCHINSHIP.NS",
@@ -179,7 +185,7 @@
       "invested": 70.201497,
       "entry_fee": 2,
       "entry_price": 55.375319694519035,
-      "last_price": 55.11000061035156,
+      "last_price": 55.099998474121094,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
@@ -195,7 +201,9 @@
       "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash",
       "quote_currency_raw": "EUR",
       "quote_price_scale": 1,
-      "quote_unit_normalized": true
+      "quote_unit_normalized": true,
+      "fx_verified": true,
+      "fx_stale": false
     },
     {
       "symbol": "OCDOL.XC",
@@ -206,14 +214,14 @@
       "invested": 524.111962,
       "entry_fee": 2,
       "entry_price": 2.3863839389038084,
-      "last_price": 2.408000030517578,
+      "last_price": 2.41,
       "entry_fx": 1.1659,
-      "last_fx": 1.1656,
+      "last_fx": 1.1658,
       "currency": "GBP",
       "opened_at": "2026-08-20T10:12:19.941Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 1.5499999999999998,
+      "score": -0.37541254125412815,
       "signal_confidence": 0.51078,
       "zero_quantity": 188.3746472866545,
       "zero_whole_shares": 188,
@@ -231,10 +239,10 @@
     {
       "id": 34,
       "ts": "2026-08-20T10:13:21.265Z",
-      "end_ts": "2026-08-20T11:15:12.730Z",
-      "event_count": 34,
+      "end_ts": "2026-08-20T11:19:20.727Z",
+      "event_count": 36,
       "start_scan": 74,
-      "end_scan": 107,
+      "end_scan": 109,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -244,10 +252,10 @@
       "trade_pnl": null,
       "cash_before": 950.0719944036448,
       "cash_after": 950.0719944036448,
-      "equity": 9978.031258046452,
-      "total_pnl": -21.96874195354758,
+      "equity": 9978.059684628091,
+      "total_pnl": -21.940315371908582,
       "score": null,
-      "reason": "Kein Trade. Bestes Signal ENR.DE: Score 4.25, Konfidenz 63%."
+      "reason": "Kein Trade. Bestes Signal ADYEN.AS: Score 4.85, Konfidenz 63%."
     },
     {
       "id": 33,
@@ -1102,8 +1110,8 @@
     "proposalContaminationFixed": true
   },
   "risk": {
-    "equity": 9978.031258046452,
-    "dailyPct": -0.18777941695149458,
+    "equity": 9978.059684628091,
+    "dailyPct": -0.18749506023185702,
     "availableCash": 950.0719944036448,
     "hardLimits": true,
     "budgetOnly": false,
@@ -1126,7 +1134,7 @@
           "limitPct": 55
         }
       ],
-      "equity": 9978.03,
+      "equity": 9978.06,
       "rule": "Bestehende Altpositionen über dem aktuellen Cap werden gemeldet und für weitere Käufe gesperrt, aber nicht allein wegen des Caps zwangsverkauft."
     },
     "rule": "Finale V27.5-Grenzen gelten nach dem inneren R2-Plan; alte Core-Felder hardLimits=false/positionLimit=null sind nicht die produktive Endregel."
