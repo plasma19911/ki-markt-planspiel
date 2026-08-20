@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-20T09:38:12.493366+00:00",
-  "commit": "92db521df479480e6d07e86408763488ef860bde",
+  "checkedAt": "2026-08-20T09:38:38.318691+00:00",
+  "commit": "a1fe206bdf460d1c2276579d376f5220d00646b2",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 6s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 7s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -304,7 +304,7 @@
     "pc_wide_sweep": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"target\": 64,\n  \"dipReserve\": 44,\n  \"selected\": 64,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-20T09:37:50.402Z\",\n    \"ageSeconds\": 20,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"freshMerge\": {\n    \"symbol\": \"FRESH.DE\",\n    \"wideScore\": 29.8,\n    \"m5Pct\": 0.02,\n    \"m20Pct\": 0.1,\n    \"accelerationPct\": 0.02,\n    \"sessionPct\": 0.2,\n    \"last\": 10.1,\n    \"observedAt\": \"2026-08-20T09:38:00.402Z\",\n    \"ageSeconds\": 10,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"liveWave\": {\n    \"priority\": \"DIPBEST.DE\",\n    \"rotating\": [\n      \"ROTATE.DE\",\n      \"HIGH.DE\"\n    ]\n  },\n  \"forcedBuy\": false\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"target\": 64,\n  \"dipReserve\": 44,\n  \"selected\": 64,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-20T09:38:16.079Z\",\n    \"ageSeconds\": 20,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"freshMerge\": {\n    \"symbol\": \"FRESH.DE\",\n    \"wideScore\": 29.8,\n    \"m5Pct\": 0.02,\n    \"m20Pct\": 0.1,\n    \"accelerationPct\": 0.02,\n    \"sessionPct\": 0.2,\n    \"last\": 10.1,\n    \"observedAt\": \"2026-08-20T09:38:26.079Z\",\n    \"ageSeconds\": 10,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"liveWave\": {\n    \"priority\": \"DIPBEST.DE\",\n    \"rotating\": [\n      \"ROTATE.DE\",\n      \"HIGH.DE\"\n    ]\n  },\n  \"forcedBuy\": false\n}\n"
     },
     "yahoo_sanity": {
       "ok": true,
