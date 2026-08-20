@@ -1,0 +1,78 @@
+name: Apply V27.5 Final Hardening
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/apply-v275-hardening.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Apply exact final-audit fixes
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          # 1) Yahoo live metadata is quote-unit source of truth.
+          p=Path('src/market-v3-base.js'); s=p.read_text(encoding='utf-8')
+          old="out.push({...info,currency:inferCurrency(info),quoteCurrencyRaw:rawCurrency(info),quotePriceScale:quoteCurrencyInfo(rawCurrency(info)).priceScale,quoteUnitNormalized:true,price:normalizeQuotePrice(price,rawCurrency(info)),dayChange:day"
+          new="const liveRawCurrency=m.currency||rawCurrency(info),liveUnit=quoteCurrencyInfo(liveRawCurrency);out.push({...info,currency:liveUnit.majorCurrency||inferCurrency(info),quoteCurrencyRaw:liveRawCurrency,quotePriceScale:liveUnit.priceScale,quoteUnitNormalized:true,price:normalizeQuotePrice(price,liveRawCurrency),dayChange:day"
+          if old not in s: raise SystemExit('spark live quote-unit target not found')
+          s=s.replace(old,new,1)
+          old="markHealth(h,'Yahoo 1m Chart',true,'',started);return{...info,currency:inferCurrency(info),quoteCurrencyRaw:rawCurrency(info),quotePriceScale:quoteCurrencyInfo(rawCurrency(info)).priceScale,quoteUnitNormalized:true,price:normalizeQuotePrice(price,rawCurrency(info)),score"
+          new="const liveRawCurrency=res.meta?.currency||rawCurrency(info),liveUnit=quoteCurrencyInfo(liveRawCurrency);markHealth(h,'Yahoo 1m Chart',true,'',started);return{...info,currency:liveUnit.majorCurrency||inferCurrency(info),quoteCurrencyRaw:liveRawCurrency,quotePriceScale:liveUnit.priceScale,quoteUnitNormalized:true,price:normalizeQuotePrice(price,liveRawCurrency),score"
+          if old not in s: raise SystemExit('deep live quote-unit target not found')
+          s=s.replace(old,new,1); p.write_text(s,encoding='utf-8')
+
+          # 2) Quote sanity uses the same canonical currency mapping.
+          p=Path('src/quote-sanity.js'); s=p.read_text(encoding='utf-8')
+          if "import {normalizeQuoteCurrency}" not in s:
+            s="import {normalizeQuoteCurrency} from './quote-currency-units.js';\n"+s
+          s=s.replace("const key=v=>String(v||'').trim().toUpperCase();","const key=v=>normalizeQuoteCurrency(v);",1)
+          p.write_text(s,encoding='utf-8')
+
+          # 3) Remove unreachable historic scale-up implementation from R2 engine.
+          p=Path('src/r2-portfolio.js'); s=p.read_text(encoding='utf-8')
+          s=s.replace("import {mergePositionTranche} from './position-scale-up.js';\n",'',1)
+          pattern=r"if\(existing\)\{const quantity=.*?return true\}s\.positions\.push\("
+          s,n=re.subn(pattern,"s.positions.push(",s,count=1,flags=re.S)
+          if n!=1: raise SystemExit(f'dead scale-up branch removal count={n}')
+          old='Keine feste Positionszahl, Haltedauer, Branchenquote oder Reserve. Einzige harte Portfoliogrenze: Cash inklusive Kosten.'
+          new='Der innere Plan schlägt nur Aktionen vor. Die nachgelagerte finale V27.5-Schicht erzwingt zusätzlich Positions-, Themen-, Regionen-, Währungs-, Kosten-, Marktregime- und No-Scale-up-Grenzen; diese dürfen im inneren Plan nicht als aufgehoben interpretiert werden.'
+          if old not in s: raise SystemExit('legacy risk prompt sentence not found')
+          s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+
+          # 4) Outer status must override legacy riskState contradictions too.
+          p=Path('src/compact-portfolio-v22-active-learning.js'); s=p.read_text(encoding='utf-8')
+          anchor="  if(s.executionModel)s.executionModel={...s.executionModel,finalDecisionControllerV275:true"
+          inject="  s.risk={...(s.risk||{}),hardLimits:true,budgetOnly:false,positionLimit:V27_RISK_LIMITS.maxSinglePositionPct,holdingLimit:null,automaticScaleUp:false,existingRiskAlerts:riskAlerts,rule:'Finale V27.5-Grenzen gelten nach dem inneren R2-Plan; alte Core-Felder hardLimits=false/positionLimit=null sind nicht die produktive Endregel.'};\n"
+          if inject not in s:
+            if anchor not in s: raise SystemExit('outer risk status anchor not found')
+            s=s.replace(anchor,inject+anchor,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Syntax check
+        run: |
+          node --check src/market-v3-base.js
+          node --check src/quote-sanity.js
+          node --check src/r2-portfolio.js
+          node --check src/compact-portfolio-v22-active-learning.js
+      - name: Commit source hardening
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/market-v3-base.js src/quote-sanity.js src/r2-portfolio.js src/compact-portfolio-v22-active-learning.js
+          git commit -m 'Apply final V27.5 audit hardening' || exit 0
+          git pull --rebase origin main
+          git push origin HEAD:main
