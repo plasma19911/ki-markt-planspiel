@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T17:52:36.597842+00:00",
+  "checkedAt": "2026-08-20T17:53:05.629344+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -32,7 +32,7 @@
     "configured": true,
     "online": true,
     "lastSeenAt": "2026-08-20T17:52:15.967Z",
-    "ageSeconds": 20,
+    "ageSeconds": 49,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
@@ -876,7 +876,9 @@
     "bestAlternativeFirst": true,
     "comprehensiveOpportunityV286": true,
     "allDecisionCandidatesScored": true,
-    "controlledBetterOpportunityRotation": true
+    "controlledBetterOpportunityRotation": true,
+    "calibratedActionScoreV287": true,
+    "breadthRotationV287": true
   },
   "entryTimingLearning": {
     "version": 3,
@@ -1066,7 +1068,7 @@
   },
   "finalDecisionPolicy": {
     "enabled": true,
-    "version": 28.6,
+    "version": 28.7,
     "paperTradingOnly": true,
     "mode": "SINGLE_AUTHORITATIVE_FINAL_CONTROLLER_PLUS_DETERMINISTIC_TRADE_INVARIANTS_PLUS_AGM_PREVIEW_PLUS_ADAPTIVE_TRADING_BEHAVIOR_PLUS_OPPORTUNITY_LEARNING",
     "oneFinalActionPerSymbol": true,
@@ -1157,7 +1159,7 @@
     "agmNeverBypassesNormalSafetyGates": true,
     "maxCandidatesPerDecision": 4,
     "regressionTests": "V26.3 + V26.2 + V27 + V27.1 + V27.2 + V27.3 + V27.4 + V27.5 audit + V27.6 AGM preview invariants + V27.8 adaptive-entry / held-BUY plan-only suppression / pullback-reclaim / repeated-soft-SELL / metric-clarity invariants + V27.9 fresh-news / catalyst-starter / late-impulse-memory / reclaim / missed-opportunity-learning invariants + V28.0 accelerating-setup / thesis-maturity / recovery-window / hard-risk invariants + V28.1 weighted-signal / novel-news / hard-safety / stock-only invariants",
-    "rule": "V28.6 bewertet alle vom Scanner an die Entscheidung übergebenen Aktien und alle offenen Positionen auf derselben 0–100-Skala. Eine schwache Position darf nur bei großem Score-Abstand, bestätigter besserer Alternative, Mindesthaltezeit und Cooldown ersetzt werden.",
+    "rule": "V28.7 trennt Chancenqualität von Einstiegs-Timing: fehlende Daten sind neutral, reduzieren aber die Sicherheit extremer Scores; Überdehnung wird nicht mehr von Momentum überstimmt. BUY ab 75 nach Bestätigung. SELL/Rotation nur mit frischen vollständigen Positionsdaten; Teilscore allein verkauft nie.",
     "agmScoreEvaluationOnceDaily": true,
     "agmScoreLockedUntilNextDailyRefresh": true,
     "agmDailyInputs": [
@@ -1233,7 +1235,12 @@
     "profitWinnerProtection": true,
     "allDecisionCandidatesScored": true,
     "relativeRotationForBetterOpportunity": true,
-    "maxBetterOpportunityRotationsPerDecision": 1
+    "maxBetterOpportunityRotationsPerDecision": 1,
+    "calibratedActionScore": true,
+    "coverageShrinkage": true,
+    "nonlinearChasePenalty": true,
+    "partialScoresCannotAutoSell": true,
+    "broadScannerRotation": true
   },
   "tradingBehaviorPolicy": {
     "enabled": true,
@@ -1304,7 +1311,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T17:52:09.034Z",
+      "cachedAt": "2026-08-20T17:53:03.845Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
