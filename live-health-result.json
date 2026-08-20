@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T13:49:03.720462+00:00",
+  "checkedAt": "2026-08-20T13:49:49.381907+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -31,19 +31,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T13:48:10.826Z",
-    "ageSeconds": 53,
+    "lastSeenAt": "2026-08-20T13:49:19.387Z",
+    "ageSeconds": 30,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 190,
-  "lastScan": "2026-08-20T13:48:14.769Z",
+  "scanCount": 191,
+  "lastScan": "2026-08-20T13:49:22.419Z",
   "lastError": null,
-  "aiLastSummary": "Keine frischen handelbaren Kurse – keine Orderentscheidung.",
+  "aiLastSummary": "KI-Fallback: kein JSON",
   "cash": 1476.2217081333488,
-  "equity": 9949.450990027128,
-  "pnl": -50.54900997287223,
-  "marketValue": 8473.229281893779,
+  "equity": 9946.686176442236,
+  "pnl": -53.31382355776441,
+  "marketValue": 8470.464468308886,
   "accountingDelta": 0.0,
   "positions": 6,
   "positionRows": [
@@ -85,14 +85,14 @@
       "invested": 2129.14636,
       "entry_fee": 1,
       "entry_price": 8.710701663970946,
-      "last_price": 8.555999755859375,
+      "last_price": 8.54800033569336,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-20T08:39:12.347Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": -7.2,
+      "score": -4.2,
       "signal_confidence": 0.63,
       "zero_quantity": 244.42880057366253,
       "zero_whole_shares": 244,
@@ -114,14 +114,14 @@
       "invested": 869.096941,
       "entry_fee": 1,
       "entry_price": 214.7145,
-      "last_price": 211.6999969482422,
+      "last_price": 211.5,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-20T08:42:11.798Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 3.5,
+      "score": 4.3,
       "signal_confidence": 0.63,
       "zero_quantity": 4.04768630574851,
       "zero_whole_shares": 4,
@@ -216,10 +216,10 @@
     {
       "id": 36,
       "ts": "2026-08-20T12:02:11.549Z",
-      "end_ts": "2026-08-20T13:48:14.769Z",
-      "event_count": 64,
+      "end_ts": "2026-08-20T13:49:22.419Z",
+      "event_count": 65,
       "start_scan": 127,
-      "end_scan": 190,
+      "end_scan": 191,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -229,10 +229,10 @@
       "trade_pnl": null,
       "cash_before": 1476.2217081333488,
       "cash_after": 1476.2217081333488,
-      "equity": 9949.450990027128,
-      "total_pnl": -50.54900997287223,
+      "equity": 9946.686176442236,
+      "total_pnl": -53.31382355776441,
       "score": null,
-      "reason": "Keine frischen handelbaren Signale."
+      "reason": "Kein Trade. Bestes Signal REG1V.HE: Score 5.05, Konfidenz 63%."
     },
     {
       "id": 35,
@@ -1083,8 +1083,8 @@
     "proposalContaminationFixed": true
   },
   "risk": {
-    "equity": 9949.450990027128,
-    "dailyPct": -0.47367349185399865,
+    "equity": 9946.686176442236,
+    "dailyPct": -0.5013304690942411,
     "availableCash": 1476.2217081333488,
     "hardLimits": true,
     "budgetOnly": false,
@@ -1097,7 +1097,7 @@
         {
           "type": "SINGLE_POSITION_OVER_CAP",
           "symbol": "REG1V.HE",
-          "pct": 39.64,
+          "pct": 39.65,
           "limitPct": 25
         },
         {
@@ -1107,7 +1107,7 @@
           "limitPct": 55
         }
       ],
-      "equity": 9949.45,
+      "equity": 9946.69,
       "rule": "Bestehende Altpositionen über dem aktuellen Cap werden gemeldet und für weitere Käufe gesperrt, aber nicht allein wegen des Caps zwangsverkauft."
     },
     "rule": "Finale V27.6-Grenzen gelten nach dem inneren R2-Plan und auch für AGM_PREVIEW."
@@ -1288,7 +1288,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T13:48:28.240Z",
+      "cachedAt": "2026-08-20T13:49:47.862Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
