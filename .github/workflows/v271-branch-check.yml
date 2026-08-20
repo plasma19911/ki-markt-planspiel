@@ -17,6 +17,25 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Apply narrowly scoped V27.1 reversal correction
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('src/final-decision-controller.js')
+          s=p.read_text(encoding='utf-8')
+          old="const reversalHard=!holdConflict&&m.state==='REVERSAL'&&sellerControl&&m.m20<=-.18&&m.accel<=-.03;"
+          new="const reversalHard=!holdConflict&&m.state==='REVERSAL'&&((sellerControl&&m.m20<=-.18&&m.accel<=-.03)||(m.m5<=-.25&&m.m20<=-.30&&m.accel<=-.05));"
+          if old in s:
+              p.write_text(s.replace(old,new),encoding='utf-8')
+          elif new not in s:
+              raise SystemExit('Expected reversalHard line not found')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/final-decision-controller.js
+          git commit -m 'Fix V27.1 strong reversal exception without GUBRA conflict' || true
+          git push origin HEAD:agent/v271-anti-flipflop || true
       - name: Run V27.1 checks, live trade reconstruction and persist result
         shell: bash
         run: |
@@ -26,6 +45,7 @@ jobs:
             node --check src/final-decision-controller.js &&
             node --check src/learning-quarantine.js &&
             node --check src/compact-portfolio-v22-active-learning.js &&
+            node --check src/forward-curve-learning.js &&
             node --check tests/v271-anti-flipflop.test.mjs &&
             node --check scripts/audit-recent-trades.mjs &&
             node --check public/changelog-v271.js
