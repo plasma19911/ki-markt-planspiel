@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-20T11:00:16.488068+00:00",
-  "berlinNow": "2026-08-20T13:00:16.487947+02:00",
+  "checkedAt": "2026-08-20T11:03:17.104028+00:00",
+  "berlinNow": "2026-08-20T13:03:17.103867+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 160026,
-    "dashboard": 100241
+    "full": 161151,
+    "dashboard": 101302
   },
   "checks": {
     "fullStatus200": true,
@@ -30,7 +30,7 @@
     "capture": {
       "date": "2026-08-20",
       "symbolCount": 120,
-      "updatedAt": "2026-08-20T10:57:11.345Z"
+      "updatedAt": "2026-08-20T11:03:12.803Z"
     },
     "summary": {
       "provisional": true,
@@ -47,9 +47,9 @@
   },
   "depot": {
     "cash": 950.0719944036448,
-    "equity": 9978.599593698707,
-    "displayMarketValue": 9028.527599314506,
-    "displayAccountingDelta": -1.944317773450166e-08,
+    "equity": 9979.03738777182,
+    "displayMarketValue": 9028.965393387361,
+    "displayAccountingDelta": -1.9186700228601694e-08,
     "positions": [
       {
         "symbol": "REG1V.HE",
@@ -62,17 +62,17 @@
       {
         "symbol": "NOKIA.HE",
         "invested": 2129.14636,
-        "ratioValue": 2121.642063693291,
-        "quantityValue": 2121.642063573141,
-        "displayValue": 2121.642063573141,
+        "ratioValue": 2123.5973523698663,
+        "quantityValue": 2123.5973522496047,
+        "displayValue": 2123.5973522496047,
         "quantityUsed": true
       },
       {
         "symbol": "BESI.AS",
         "invested": 869.096941,
-        "ratioValue": 873.0859235004,
-        "quantityValue": 873.0859237973953,
-        "displayValue": 873.0859237973953,
+        "ratioValue": 872.6811919276378,
+        "quantityValue": 872.6811922244954,
+        "displayValue": 872.6811922244954,
         "quantityUsed": true
       },
       {
@@ -94,20 +94,20 @@
       {
         "symbol": "IFX.DE",
         "invested": 70.201497,
-        "ratioValue": 69.7256892835991,
-        "quantityValue": 69.7256892786553,
-        "displayValue": 69.7256892786553,
+        "ratioValue": 69.83978605950492,
+        "quantityValue": 69.83978605455302,
+        "displayValue": 69.83978605455302,
         "quantityUsed": true
       },
       {
         "symbol": "OCDOL.XC",
         "invested": 524.111962,
-        "ratioValue": 530.5709211609425,
-        "quantityValue": 530.5709211609425,
-        "displayValue": 530.5709211609425,
+        "ratioValue": 529.3440613543363,
+        "quantityValue": 529.3440613543363,
+        "displayValue": 529.3440613543363,
         "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: thu, 20 aug 2026 11:00:16 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=hdqkij5anvbwvqb1c6e4bfa2vwkdsdbr%2bdu5npqdb6nzolyxdd4txoq2xinnfgdfjfszztdca%2b4qmpgwtaa22e610%2bv%2ba1htmsdtt8f2rkw7df1piayllhafp%2bdnlnadi0zh5dh9is4dnlrzyfapvkxjs7vcdr%2b7mgf9x7g%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2e0e4b27cb2b4c4-lax\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: thu, 20 aug 2026 11:03:17 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=qpcvswuzpxjnwzp5rclhhqjcjhdpdjpeo7siypcsh69yjxsqt5pjw9aos7qod%2f6aovvotcd8tznukxzmeziafku%2fjirntgim3xs2jhwzl8tmt5kr4fsthljd58atna7a8zknncmlat7vvykmwh9hkoollr1sp7p83%2bvdedu%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2e0e91af8cf69a2-sjc\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
