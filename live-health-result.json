@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T13:55:18.599707+00:00",
+  "checkedAt": "2026-08-20T13:57:04.363669+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -31,19 +31,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T13:54:10.152Z",
-    "ageSeconds": 68,
+    "lastSeenAt": "2026-08-20T13:56:12.508Z",
+    "ageSeconds": 52,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 194,
-  "lastScan": "2026-08-20T13:54:13.740Z",
+  "scanCount": 195,
+  "lastScan": "2026-08-20T13:55:46.035Z",
   "lastError": null,
-  "aiLastSummary": "KI-Fallback: kein JSON",
+  "aiLastSummary": "FINAL-CONTROLLER V27.7: 0 BUY · 0 SELL · 6 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefangen · 0 Flip-Flop-Reentry(s) blockiert · 0 Safety-HOLD(s) · 0 empirisch schlechte Setup(s) blockiert · 0 Allokation(en) durch Depotrisiko gekappt · 3 Bestands-BUY(s) verhindert. · AGM-PREVIEW: Tages-Score bleibt bis zum naechsten taeglichen Kalenderlauf fix · 2 positiv bewertete HV-Kandidat(en), 0 Vorab-BUY zur normalen Sicherheitspruefung weitergereicht. · BEHAVIOR V27.7: 0 Entry-Bestätigung(en) a",
   "cash": 1476.2217081333488,
-  "equity": 9942.390300438607,
-  "pnl": -57.60969956139343,
-  "marketValue": 8466.168592305257,
+  "equity": 9925.84921986035,
+  "pnl": -74.15078013964921,
+  "marketValue": 8449.627511727002,
   "accountingDelta": 0.0,
   "positions": 6,
   "positionRows": [
@@ -56,15 +56,15 @@
       "invested": 3898.934957,
       "entry_fee": 1,
       "entry_price": 14.334319694519042,
-      "last_price": 14.5,
+      "last_price": 14.4399995803833,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-20T08:17:07.062Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 5.05,
-      "signal_confidence": 0.63,
+      "score": -0.8,
+      "signal_confidence": 0.36000000000000004,
       "zero_quantity": 271.9999999930237,
       "zero_whole_shares": 271,
       "zero_fractional_shares": 0.9999999930237209,
@@ -85,7 +85,7 @@
       "invested": 2129.14636,
       "entry_fee": 1,
       "entry_price": 8.710701663970946,
-      "last_price": 8.517999649047852,
+      "last_price": 8.531999588012695,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
@@ -114,15 +114,15 @@
       "invested": 869.096941,
       "entry_fee": 1,
       "entry_price": 214.7145,
-      "last_price": 212.10000610351562,
+      "last_price": 211.1999969482422,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-20T08:42:11.798Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 2.25,
-      "signal_confidence": 0.505,
+      "score": 0.20000000000000007,
+      "signal_confidence": 0.30000000000000004,
       "zero_quantity": 4.04768630574851,
       "zero_whole_shares": 4,
       "zero_fractional_shares": 0.04768630574850974,
@@ -216,10 +216,10 @@
     {
       "id": 36,
       "ts": "2026-08-20T12:02:11.549Z",
-      "end_ts": "2026-08-20T13:54:13.740Z",
-      "event_count": 68,
+      "end_ts": "2026-08-20T13:55:46.035Z",
+      "event_count": 69,
       "start_scan": 127,
-      "end_scan": 194,
+      "end_scan": 195,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -229,8 +229,8 @@
       "trade_pnl": null,
       "cash_before": 1476.2217081333488,
       "cash_after": 1476.2217081333488,
-      "equity": 9942.390300438607,
-      "total_pnl": -57.60969956139343,
+      "equity": 9925.84921986035,
+      "total_pnl": -74.15078013964921,
       "score": null,
       "reason": "Kein Trade. Bestes Signal DE: Score 6.45, Konfidenz 63%."
     },
@@ -911,14 +911,15 @@
     "lateImpulseRecheck": true,
     "tinyProfitChurnBlocked": true,
     "heldFxFallbackSafe": true,
-    "aiPlanJsonRepair": true
+    "aiPlanJsonRepair": true,
+    "cloudflareAiWrapperSignatureSafe": true
   },
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 7,
+    "activePositions": 6,
     "pendingEntries": 0,
-    "completedTradeOutcomes": 3,
+    "completedTradeOutcomes": 4,
     "timedCheckpoints": 23,
     "horizonsMinutes": [
       15,
@@ -1083,8 +1084,8 @@
     "proposalContaminationFixed": true
   },
   "risk": {
-    "equity": 9942.390300438607,
-    "dailyPct": -0.5443029665922694,
+    "equity": 9925.84921986035,
+    "dailyPct": -0.7097666678637427,
     "availableCash": 1476.2217081333488,
     "hardLimits": true,
     "budgetOnly": false,
@@ -1097,17 +1098,17 @@
         {
           "type": "SINGLE_POSITION_OVER_CAP",
           "symbol": "REG1V.HE",
-          "pct": 39.67,
+          "pct": 39.57,
           "limitPct": 25
         },
         {
           "type": "REGION_OVER_CAP",
           "region": "NORDICS",
-          "pct": 60.61,
+          "pct": 60.58,
           "limitPct": 55
         }
       ],
-      "equity": 9942.39,
+      "equity": 9925.85,
       "rule": "Bestehende Altpositionen über dem aktuellen Cap werden gemeldet und für weitere Käufe gesperrt, aber nicht allein wegen des Caps zwangsverkauft."
     },
     "rule": "Finale V27.6-Grenzen gelten nach dem inneren R2-Plan und auch für AGM_PREVIEW."
@@ -1204,8 +1205,8 @@
     "agmRequiresFreshTechnicalConfirmation": true,
     "agmNeverBypassesNormalSafetyGates": true,
     "maxCandidatesPerDecision": 4,
-    "regressionTests": "V26.3 + V26.2 + V27 + V27.1 + V27.2 + V27.3 + V27.4 + V27.5 audit + V27.6 AGM preview invariants + V27.7 behavior + AI-JSON repair invariants",
-    "rule": "V27.7 verbessert das Handelsverhalten oberhalb aller bestehenden Sicherheitsstufen: normale Einstiege brauchen zwei zeitlich getrennte Bestätigungen, wobei 1-Minuten-Scans den Timer nicht zurücksetzen. Extreme 5m-Impulse werden nicht gejagt, bei hoher Depotauslastung bleibt Restcash für starke Setups reserviert und reine PROFIT-EXITs werden nicht für Cent-Nettoerträge gedreht. Abgeschnittene KI-JSON-Antworten dürfen nur vollständig lesbare Aktionen retten und laufen danach weiterhin durch den Final Controller. Für Fremdwährungs-Bestände bleibt bei fehlendem aktuellem FX der letzte verifizierte Positions-FX maßgeblich.",
+    "regressionTests": "V26.3 + V26.2 + V27 + V27.1 + V27.2 + V27.3 + V27.4 + V27.5 audit + V27.6 AGM preview invariants + V27.7 behavior + AI-JSON repair + Cloudflare AI wrapper-signature invariants",
+    "rule": "V27.7 verbessert das Handelsverhalten oberhalb aller bestehenden Sicherheitsstufen: normale Einstiege brauchen zwei zeitlich getrennte Bestätigungen, wobei 1-Minuten-Scans den Timer nicht zurücksetzen. Extreme 5m-Impulse werden nicht gejagt, bei hoher Depotauslastung bleibt Restcash für starke Setups reserviert und reine PROFIT-EXITs werden nicht für Cent-Nettoerträge gedreht. Abgeschnittene KI-JSON-Antworten dürfen nur vollständig lesbare Aktionen retten und laufen danach weiterhin durch den Final Controller. Alle äußeren KI-Wrapper reichen Cloudflares run(model,input)-Signatur vollständig weiter.",
     "agmScoreEvaluationOnceDaily": true,
     "agmScoreLockedUntilNextDailyRefresh": true,
     "agmDailyInputs": [
@@ -1226,6 +1227,7 @@
     "aiPlanJsonRepair": true,
     "aiPlanCompactOutput": true,
     "aiPlanJsonRepairVersion": 27.7,
+    "cloudflareAiWrapperSignatureSafe": true,
     "convictionSizing": true,
     "behaviorVersion": 27.7
   },
@@ -1264,9 +1266,10 @@
       "rule": "Nur vollständig parsebare Action-Objekte werden aus einer abgeschnittenen Modellantwort gerettet. Unvollständige Objekte werden verworfen; anschließend läuft der normale FinalDecisionController mit allen Safety-Gates."
     },
     "aiPlanCompactOutput": true,
+    "cloudflareAiWrapperSignatureSafe": true,
     "automaticScaleUp": false,
     "doesNotCreateNewSellSignals": true,
-    "note": "Die V27.7-Schicht blockiert oder verkleinert schlechte Aktionen. Sie erzeugt keine aggressiven Zusatz-SELLs, setzt den Bestätigungstimer bei 1-Minuten-Scans nicht zurück, benutzt bei Fremdwährungs-Beständen keinen Fake-FX und lässt reparierte KI-Aktionen erneut durch alle finalen Safety-Gates laufen."
+    "note": "Die V27.7-Schicht blockiert oder verkleinert schlechte Aktionen. Sie setzt den Bestätigungstimer bei 1-Minuten-Scans nicht zurück, benutzt bei Fremdwährungs-Beständen keinen Fake-FX, lässt reparierte KI-Aktionen erneut durch alle finalen Safety-Gates laufen und reicht model + input korrekt durch die AI-Wrapperkette."
   },
   "agmCalendarPolicy": {
     "enabled": true,
@@ -1288,7 +1291,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T13:55:17.468Z",
+      "cachedAt": "2026-08-20T13:56:42.507Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
