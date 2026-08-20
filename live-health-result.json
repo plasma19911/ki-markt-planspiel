@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T17:37:38.891592+00:00",
+  "checkedAt": "2026-08-20T17:52:04.159845+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -31,15 +31,15 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T17:37:15.948Z",
-    "ageSeconds": 23,
+    "lastSeenAt": "2026-08-20T17:51:06.145Z",
+    "ageSeconds": 57,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 318,
-  "lastScan": "2026-08-20T17:37:28.794Z",
+  "scanCount": 327,
+  "lastScan": "2026-08-20T17:51:57.498Z",
   "lastError": null,
-  "aiLastSummary": "FINAL-CONTROLLER V27.8: 1 BUY · 0 SELL · 4 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefangen · 0 Flip-Flop-Reentry(s) blockiert · 0 Safety-HOLD(s) · 0 empirisch · COMPREHENSIVE V28.6: 6 Kandidaten + 4 Positionen bewertet · 0 Score-BUY(s) · 0 Rotation(en) zu deutlich besserer Chance.",
+  "aiLastSummary": "FINAL-CONTROLLER V27.8: 1 BUY · 0 SELL · 4 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefangen · 0 Flip-Flop-Reentry(s) blockiert · 0 Safety-HOLD(s) · 0 empirisch · COMPREHENSIVE V28.6: 5 Kandidaten + 4 Positionen bewertet · 0 Score-BUY(s) · 0 Rotation(en) zu deutlich besserer Chance.",
   "cash": 6229.217058348477,
   "equity": 9942.360226246452,
   "pnl": -57.63977375354807,
@@ -158,10 +158,10 @@
     {
       "id": 40,
       "ts": "2026-08-20T14:24:14.942Z",
-      "end_ts": "2026-08-20T17:37:28.794Z",
-      "event_count": 107,
+      "end_ts": "2026-08-20T17:51:57.498Z",
+      "event_count": 116,
       "start_scan": 212,
-      "end_scan": 318,
+      "end_scan": 327,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -174,7 +174,7 @@
       "equity": 9942.360226246452,
       "total_pnl": -57.63977375354807,
       "score": null,
-      "reason": "Kein Trade. Bestes Signal AVGO: Score 4.33, Konfidenz 77%."
+      "reason": "Kein Trade. Bestes Signal MARA.MX: Score 6.52, Konfidenz 76%."
     },
     {
       "id": 39,
@@ -566,6 +566,16 @@
   ],
   "recentAiLog": [
     {
+      "id": 52,
+      "ts": "2026-08-20T17:40:45.502Z",
+      "kind": "IDEA",
+      "symbol": "BDT.TO",
+      "title": "Beobachtungskandidat",
+      "message": "BDT.TO: Kein Trade. Bestes Signal BDT.TO: Score 4.30, Konfidenz 70%.",
+      "confidence": 0.7038,
+      "meta": null
+    },
+    {
       "id": 51,
       "ts": "2026-08-20T17:21:12.661Z",
       "kind": "IDEA",
@@ -706,16 +716,6 @@
       "symbol": "COIN",
       "title": "Beobachtungskandidat",
       "message": "COIN: Kein Trade. Bestes Signal COIN: Score 4.70, Konfidenz 63%.",
-      "confidence": 0.63,
-      "meta": null
-    },
-    {
-      "id": 37,
-      "ts": "2026-08-20T13:33:13.487Z",
-      "kind": "IDEA",
-      "symbol": "BESI.AS",
-      "title": "Beobachtungskandidat",
-      "message": "BESI.AS: Kein Trade. Bestes Signal BESI.AS: Score 4.30, Konfidenz 63%.",
       "confidence": 0.63,
       "meta": null
     }
@@ -1240,8 +1240,8 @@
     "version": 27.8,
     "stateVersion": 3,
     "latest": {
-      "entryConfirmationWaits": 1,
-      "adaptiveEntryWaits": 1,
+      "entryConfirmationWaits": 0,
+      "adaptiveEntryWaits": 0,
       "lateImpulseBlocks": 0,
       "deteriorationBlocks": 0,
       "saturationBlocks": 0,
@@ -1316,7 +1316,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T17:36:41.890Z",
+      "cachedAt": "2026-08-20T17:51:29.064Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
