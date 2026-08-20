@@ -1,6 +1,6 @@
 name: Validate Final Decision Engine V27.8 - Adaptive Trading Discipline
 
-# Includes V27.8 adaptive-entry, repeated-soft-SELL, behavior, AI JSON repair and Cloudflare run(model,input) regressions.
+# Re-run after V27.8 architecture-path regression alignment. Includes adaptive-entry, repeated-soft-SELL, pullback-reclaim, plan-only prompt, AI JSON repair and Cloudflare run(model,input) regressions.
 on:
   workflow_dispatch:
   push:
