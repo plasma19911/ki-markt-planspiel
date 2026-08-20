@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T07:16:18.265460+00:00",
+  "checkedAt": "2026-08-20T07:22:37.473057+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -25,15 +25,15 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T07:16:15.871Z",
-    "ageSeconds": 2,
+    "lastSeenAt": "2026-08-20T07:22:16.281Z",
+    "ageSeconds": 21,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 1,
-  "lastScan": "2026-08-20T07:15:12.593Z",
+  "scanCount": 4,
+  "lastScan": "2026-08-20T07:21:11.733Z",
   "lastError": null,
-  "aiLastSummary": "Keine frischen handelbaren Kurse – keine Orderentscheidung.",
+  "aiLastSummary": "KI-Wartefenster 10m; Fast-Decision: 0 SELL / 0 BUY aus 3 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap · Multi-T · INTELLIGENT-CASH: kein sicher freigegebener Kandidat; News/Event/Peak/MTF-HOLD wird nicht überstimmt.",
   "cash": 10000.0,
   "equity": 10000.0,
   "pnl": 0,
@@ -45,10 +45,10 @@
     {
       "id": 2,
       "ts": "2026-08-20T07:15:12.593Z",
-      "end_ts": "2026-08-20T07:15:12.593Z",
-      "event_count": 1,
+      "end_ts": "2026-08-20T07:21:11.733Z",
+      "event_count": 4,
       "start_scan": 1,
-      "end_scan": 1,
+      "end_scan": 4,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -61,7 +61,7 @@
       "equity": 10000,
       "total_pnl": 0,
       "score": null,
-      "reason": "Keine frischen handelbaren Signale."
+      "reason": "Kein Trade. Bestes Signal PFC.NS: Score 3.00, Konfidenz 68%."
     },
     {
       "id": 1,
@@ -196,9 +196,9 @@
   "entryTimingLearning": {
     "version": 3,
     "mode": "15/30/60-minute-entry-timing-learning",
-    "activePositions": 3,
+    "activePositions": 0,
     "pendingEntries": 0,
-    "completedTradeOutcomes": 97,
+    "completedTradeOutcomes": 100,
     "timedCheckpoints": 63,
     "horizonsMinutes": [
       15,
