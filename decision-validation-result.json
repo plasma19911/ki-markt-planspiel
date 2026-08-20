@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-20T09:43:09.458818+00:00",
-  "commit": "c2e36bceaaf9acb124cd1bb6c6fad5f20b8e6d31",
+  "checkedAt": "2026-08-20T09:58:13.010175+00:00",
+  "commit": "ffa841138749002c480602b4d791d3a9dd3832b2",
   "installOk": true,
   "decisionTestsOk": true,
   "dryRunOk": true,
   "allPassed": true,
-  "testTail": "\n> ki-markt-planspiel-cloudflare@2.0.0 test:decisions\n> node tests/final-decision-controller-v26.test.mjs && node tests/run-reset-hygiene-v262.test.mjs && node tests/v27-risk-learning.test.mjs && node tests/v271-anti-flipflop.test.mjs && node tests/v272-forward-curve.test.mjs\n\nV26.3 final decision regression tests: OK\nV26.2 restart isolation tests: OK\nV27 risk/calibration/quarantine regression tests: OK\nV27.1 anti-flip-flop regression tests: OK\nV27.2 forward curve learning regression tests: OK\n"
+  "testTail": "\n> ki-markt-planspiel-cloudflare@2.0.0 test:decisions\n> node tests/final-decision-controller-v26.test.mjs && node tests/run-reset-hygiene-v262.test.mjs && node tests/v27-risk-learning.test.mjs && node tests/v271-anti-flipflop.test.mjs && node tests/v272-forward-curve.test.mjs && node tests/v273-loss-sell-invariant.test.mjs\n\nV26.3 final decision regression tests: OK\nV26.2 restart isolation tests: OK\nV27 risk/calibration/quarantine regression tests: OK\nV27.1 anti-flip-flop regression tests: OK\nV27.2 forward curve learning regression tests: OK\nV27.3 loss sell invariant regression tests: OK\n"
 }
