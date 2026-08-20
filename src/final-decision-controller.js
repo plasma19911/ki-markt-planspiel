@@ -13,13 +13,16 @@ function parseBlock(text,start,end=null){const a=text.indexOf(start);if(a<0)retu
 function metrics(c={}){return{
  score:num(c?.liveScore,c?.score),confidence:num(c?.liveConfidence,c?.confidence),day:num(c?.day,c?.day_change),
  m5:num(c?.intraday5m,c?.momentum5),m20:num(c?.intraday20m,c?.momentum20),accel:num(c?.momentumAcceleration5,c?.momentum_acceleration5),
- rsi:num(c?.intradayRsi,c?.rsi||50),draw:Number.isFinite(Number(c?.drawdownFrom20mHighPct??c?.drawdown_from_20m_high_pct))?Number(c?.drawdownFrom20mHighPct??c?.drawdown_from_20m_high_pct):null,
+ rsi:num(c?.intradayRsi,c?.rsi??50),draw:Number.isFinite(Number(c?.drawdownFrom20mHighPct??c?.drawdown_from_20m_high_pct))?Number(c?.drawdownFrom20mHighPct??c?.drawdown_from_20m_high_pct):null,
  vol:Number.isFinite(Number(c?.volumeRatio??c?.volume_ratio))?Number(c?.volumeRatio??c?.volume_ratio):null,
  news:num(c?.news,c?.newsScore??c?.news_score),event:String(c?.eventRisk||c?.event_risk||'NONE').toUpperCase(),
  state:String(c?.momentumState||c?.momentum_state||'NORMAL').toUpperCase(),sell:String(c?.momentumSellSignal||c?.momentum_sell_signal||'NONE').toUpperCase(),
  buyers:num(c?.buyerShare??c?.buyer_share??c?.buyerPct??c?.buyer_pct,-1),sellers:num(c?.sellerShare??c?.seller_share??c?.sellerPct??c?.seller_pct,-1)
 }}
-function hardBuyBlock(c,m){return targetVenueIssue(c)||m.event==='HIGH'||m.state==='REVERSAL'||m.sell==='STRONG'||m.news<=-.55}
+function protectedHold(reason=''){return/(?:TARGET-VENUE-BLOCK|NEWS-IMPACT BLOCK|NEWS-SHOCK WAIT|CATALYST WATCH|EVENT[- ]?RISK|REGULATORY_REJECTION|SEVERE_NEGATIVE|DILUTION_FINANCING|REVERSAL|STRONG SELL|PEAK[- ]?CHASE|HIGH[- ]?CHASE|OVERHEAT|GETTEX|FX[- ]?SAFETY|QUOTE[- ]?SANITY|BAD QUOTE|STALE QUOTE|FALLING KNIFE|MULTI[- ]?TIMEFRAME.*BLOCK|MTF.*BLOCK)/i.test(String(reason))}
+function hardSellReason(reason=''){return/(?:HARD[- ]?EVENT[- ]?EXIT|NOTAUSSTIEG|STOP[- ]?LOSS|REGULATORY_REJECTION|SEVERE_NEGATIVE|DILUTION_FINANCING|HARD EXIT|STRONG[- ]?SELL|REVERSAL)/i.test(String(reason))}
+function confirmedSellReason(reason=''){return/(?:INVALIDATION|VERKÄUFER(?:DOMINANZ|ÜBERNAHME|ANTEIL)|SELLER|BÄRISCH|BEARISH|RED[- ]?VOLUME|TOPBILDUNG|MOMENTUM[- ]?REVERSAL)/i.test(String(reason))}
+function hardBuyBlock(c,m){return targetVenueIssue(c)||c?.targetVenueVerified===false||Boolean(c?.targetVenueIssue)||m.event==='HIGH'||m.state==='REVERSAL'||m.sell==='STRONG'||m.news<=-.55}
 function peakRisk(m){
  if(m.day>=10||m.rsi>=84)return true;
  if(m.draw===null)return m.day>=5.5&&m.rsi>=72;
@@ -41,66 +44,40 @@ function candidateQuality(c){
  const type=entryType(m);if(!type)return null;
  if(m.score<3.55||m.confidence<.50||m.m20<-.35||m.m5<-.12)return null;
  if(m.vol!==null&&m.vol<.40)return null;
- const q=clamp((m.score-3.3)/2.7,0,1)*.34+clamp((m.confidence-.48)/.32,0,1)*.20+clamp((m.m5+.08)/.45,0,1)*.16+clamp((m.m20+.20)/.65,0,1)*.12+clamp((m.accel+.01)/.20,0,1)*.12+clamp((m.news+.35)/1.0,0,1)*.06;
+ const q=clamp((m.score-3.3)/2.7,0,1)*.34+clamp((m.confidence-.48)/.32,0,1)*.20+clamp((m.m5+.08)/.35,0,1)*.16+clamp((m.m20+.20)/.65,0,1)*.12+clamp((m.accel+.01)/.20,0,1)*.12+clamp((m.news+.35)/1.0,0,1)*.06;
  return{c,m,type,quality:clamp(q,0,1)};
 }
 function targetDeployment(rows){
- if(!rows.length)return 0;
- const top=rows[0].quality,avg=rows.reduce((a,x)=>a+x.quality,0)/rows.length,n=rows.length;
- if(n>=4&&top>=.68&&avg>=.52)return 100;
- if(n>=3&&top>=.60)return 85;
- if(n>=2&&top>=.55)return 65;
- if(top>=.72)return 50;
- if(top>=.58)return 35;
- return 22;
+ if(!rows.length)return 0;const top=rows[0].quality,avg=rows.reduce((a,x)=>a+x.quality,0)/rows.length,n=rows.length;
+ if(n>=4&&top>=.68&&avg>=.52)return 100;if(n>=3&&top>=.60)return 85;if(n>=2&&top>=.55)return 65;if(top>=.72)return 50;if(top>=.58)return 35;return 22;
 }
-function allocate(rows,target){
- if(!rows.length||target<=0)return[];
- const weights=rows.map(x=>.5+x.quality),sum=weights.reduce((a,b)=>a+b,0)||1;
- return rows.map((x,i)=>({...x,allocation:target*weights[i]/sum})).filter(x=>x.allocation>=2);
-}
+function allocate(rows,target){if(!rows.length||target<=0)return[];const weights=rows.map(x=>.5+x.quality),sum=weights.reduce((a,b)=>a+b,0)||1;return rows.map((x,i)=>({...x,allocation:target*weights[i]/sum})).filter(x=>x.allocation>=2)}
 function heldPnl(h={}){for(const v of [h?.pnlPct,h?.pnl_pct,h?.pnl])if(Number.isFinite(Number(v)))return Number(v);return 0}
-function sellDecision(h){
- const m=metrics(h),pl=heldPnl(h);
- const hard=m.event==='HIGH'||m.state==='REVERSAL'||m.sell==='STRONG'||m.news<=-.65;
+function sellDecision(h,inner=null){
+ const m=metrics(h),pl=heldPnl(h),reason=String(inner?.reason||''),hard=m.event==='HIGH'||m.state==='REVERSAL'||m.sell==='STRONG'||m.news<=-.65||hardSellReason(reason);
  const sellers=m.sellers>=0?m.sellers:(m.buyers>=0?100-m.buyers:-1);
  const confirmedWeak=(m.m5<=-.12&&m.m20<=-.18&&m.accel<=-.02)||(sellers>=62&&m.m20<0)||(m.m5<=-.25&&m.accel<0);
  const winnerBroken=pl>0&&((m.m5<=-.18&&m.m20<=-.10)||(sellers>=65&&m.accel<0));
- if(hard)return{sell:true,confidence:.84,reason:'FINAL-CONTROLLER HARD EXIT: harte News/Event/Reversal/STRONG-SELL-Invaliderung.'};
- if(pl<=0&&confirmedWeak)return{sell:true,confidence:.72,reason:'FINAL-CONTROLLER INVALIDATION EXIT: Verlustposition zeigt bestätigte Schwäche auf mehreren Signalen.'};
- if(pl>0&&winnerBroken)return{sell:true,confidence:.70,reason:'FINAL-CONTROLLER PROFIT EXIT: Gewinnerstruktur ist auf mehreren Signalen gebrochen.'};
+ if(hard)return{sell:true,confidence:Math.max(.84,num(inner?.confidence)),reason:`FINAL-CONTROLLER HARD EXIT: ${reason||'harte News/Event/Reversal/STRONG-SELL-Invaliderung.'}`};
+ if(pl<=0&&confirmedWeak)return{sell:true,confidence:Math.max(.72,num(inner?.confidence)),reason:'FINAL-CONTROLLER INVALIDATION EXIT: Verlustposition zeigt bestätigte Schwäche auf mehreren frischen Signalen.'};
+ if(pl>0&&winnerBroken)return{sell:true,confidence:Math.max(.70,num(inner?.confidence)),reason:'FINAL-CONTROLLER PROFIT EXIT: Gewinnerstruktur ist auf mehreren frischen Signalen gebrochen.'};
+ if(inner?.action==='SELL'&&num(inner?.confidence)>=.68&&confirmedSellReason(reason))return{sell:true,confidence:num(inner.confidence),reason:`FINAL-CONTROLLER CONFIRMED EXIT: ${reason}`};
  return{sell:false};
 }
+function innerActionMap(actions){const out=new Map();for(const a of arr(actions)){const s=key(a);if(!s)continue;const old=out.get(s),rank=x=>String(x?.action||'').toUpperCase()==='SELL'?3:String(x?.action||'').toUpperCase()==='HOLD'&&protectedHold(x?.reason)?2:String(x?.action||'').toUpperCase()==='BUY'?1:0;if(!old||rank(a)>rank(old)||rank(a)===rank(old)&&num(a?.confidence)>num(old?.confidence))out.set(s,a)}return out}
 
 function postProcess(r,input,getState){
  const plan=parsePlan(r),prompt=findPrompt(input);if(!plan||!prompt)return r;
- const state=typeof getState==='function'?(getState()||{}):{};
- const cash=Math.max(0,num(state?.config?.cash)),start=Math.max(cash,num(state?.config?.start_capital,cash));
- const candidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]),held=arr(parseBlock(prompt,' Gehalten=')||[]);
- const actions=[];
- for(const h of held){
-  const s=key(h),d=sellDecision(h);if(!s)continue;
-  actions.push(d.sell?{symbol:s,action:'SELL',confidence:d.confidence,allocation_pct:0,reason:d.reason}:{symbol:s,action:'HOLD',confidence:.70,allocation_pct:0,reason:'FINAL-CONTROLLER HOLD: keine bestätigte Invalidation; normales Rauschen wird ausgesessen.'});
- }
- const sold=new Set(actions.filter(a=>a.action==='SELL').map(key));
- const best=new Map();
- for(const c of candidates){
-  const s=key(c);if(!s||sold.has(s))continue;
-  const q=candidateQuality(c);if(!q)continue;
-  const old=best.get(s);if(!old||q.quality>old.quality)best.set(s,q);
- }
- const ranked=[...best.values()].sort((a,b)=>b.quality-a.quality||b.m.score-a.m.score).slice(0,4);
- const minCash=Math.max(5,start*.001);
- if(cash>=minCash&&ranked.length){
-  const target=targetDeployment(ranked);
-  for(const x of allocate(ranked,target))actions.push({symbol:key(x.c),action:'BUY',confidence:clamp(Math.max(.58,x.m.confidence),.58,.88),allocation_pct:+x.allocation.toFixed(2),reason:`FINAL-CONTROLLER BUY ${x.type}: Qualität ${x.quality.toFixed(2)} · Score ${x.m.score.toFixed(2)} · 5m ${x.m.m5.toFixed(2)} · 20m ${x.m.m20.toFixed(2)} · Beschleunigung ${x.m.accel.toFixed(2)} · Zielkapital ${target}% des freien Cashs. Peak-/News-/Event-/Venue-Risiken vorher ausgeschlossen.`});
- }
- plan.actions=actions;
- plan.summary=`FINAL-CONTROLLER V25: ${actions.filter(a=>a.action==='BUY').length} BUY · ${actions.filter(a=>a.action==='SELL').length} SELL · ${actions.filter(a=>a.action==='HOLD').length} HOLD. Eine finale Instanz entscheidet Entry, Sizing und Exit.`;
- return{...r,response:JSON.stringify(plan)};
+ const state=typeof getState==='function'?(getState()||{}):{},cash=Math.max(0,num(state?.config?.cash)),start=Math.max(cash,num(state?.config?.start_capital,cash));
+ const candidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]),promptHeld=arr(parseBlock(prompt,' Gehalten=')||[]),stateHeld=arr(state?.positions),cMap=new Map(candidates.map(c=>[key(c),c])),heldMap=new Map();
+ for(const h of [...stateHeld,...promptHeld]){const s=key(h);if(s)heldMap.set(s,{...(heldMap.get(s)||{}),...h})}
+ const heldSet=new Set(heldMap.keys()),inner=innerActionMap(plan.actions),finalMap=new Map();let safetyBlocks=0,repeatBuyBlocks=0;
+ for(const [s,h0] of heldMap){const fresh=cMap.get(s)||{},h={...h0,...fresh,pnlPct:h0?.pnlPct??h0?.pnl_pct??h0?.pnl},d=sellDecision(h,inner.get(s));finalMap.set(s,d.sell?{symbol:s,action:'SELL',confidence:d.confidence,allocation_pct:0,reason:d.reason}:{symbol:s,action:'HOLD',confidence:.70,allocation_pct:0,reason:'FINAL-CONTROLLER HOLD: keine bestätigte Invalidation; normales Rauschen wird ausgesessen.'})}
+ const sold=new Set([...finalMap.values()].filter(a=>a.action==='SELL').map(key)),best=new Map();
+ for(const c of candidates){const s=key(c);if(!s||sold.has(s))continue;if(heldSet.has(s)){repeatBuyBlocks++;continue}const ia=inner.get(s);if(ia?.action==='SELL')continue;if(ia?.action==='HOLD'&&protectedHold(ia?.reason)){safetyBlocks++;continue}const q=candidateQuality(c);if(!q)continue;const old=best.get(s);if(!old||q.quality>old.quality)best.set(s,q)}
+ const ranked=[...best.values()].sort((a,b)=>b.quality-a.quality||b.m.score-a.m.score).slice(0,4),minCash=Math.max(5,start*.001);
+ if(cash>=minCash&&ranked.length){const target=targetDeployment(ranked);for(const x of allocate(ranked,target)){const pct=+x.allocation.toFixed(2);if(cash*pct/100<minCash)continue;finalMap.set(key(x.c),{symbol:key(x.c),action:'BUY',confidence:clamp(Math.max(.58,x.m.confidence),.58,.88),allocation_pct:pct,reason:`FINAL-CONTROLLER V26 BUY ${x.type}: Qualität ${x.quality.toFixed(2)} · Score ${x.m.score.toFixed(2)} · 5m ${x.m.m5.toFixed(2)} · 20m ${x.m.m20.toFixed(2)} · Beschleunigung ${x.m.accel.toFixed(2)} · Zielkapital ${target}% des freien Cashs. Harte Safety-HOLDs und automatische Wiederholungs-Aufstockungen wurden ausgeschlossen.`})}}
+ const actions=[...finalMap.values()];plan.actions=actions;plan.summary=`FINAL-CONTROLLER V26: ${actions.filter(a=>a.action==='BUY').length} BUY · ${actions.filter(a=>a.action==='SELL').length} SELL · ${actions.filter(a=>a.action==='HOLD').length} HOLD · ${safetyBlocks} harte Safety-HOLD(s) respektiert · ${repeatBuyBlocks} Bestands-BUY(s) verhindert.`;return{...r,response:JSON.stringify(plan)}
 }
 
-export class FinalDecisionController{
- constructor(base,{getState=null}={}){this.base=base;this.getState=getState}
- async run(model,input){const r=await this.base.run(model,input);return postProcess(r,input,this.getState)}
-}
+export class FinalDecisionController{constructor(base,{getState=null}={}){this.base=base;this.getState=getState}async run(model,input){const r=await this.base.run(model,input);return postProcess(r,input,this.getState)}}
