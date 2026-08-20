@@ -2,10 +2,10 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 const entry=fs.readFileSync(new URL('../src/compact-portfolio-v11.js',import.meta.url),'utf8');
-const changelog=fs.readFileSync(new URL('../public/ui-v283-fix.js',import.meta.url),'utf8');
+const changelog=fs.readFileSync(new URL('../public/ui-v283-fix.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-v292.js',import.meta.url),'utf8');
 const publicFiles=fs.readdirSync(new URL('../public/',import.meta.url));
 
-const required=['V27.9','V28.0','V28.1','V28.2','V28.3','V28.4','V28.5','V28.6','V28.7','V28.8','V28.9','V29.0','V29.1'];
+const required=['V27.9','V28.0','V28.1','V28.2','V28.3','V28.4','V28.5','V28.6','V28.7','V28.8','V28.9','V29.0','V29.1','V29.2'];
 for(const version of required)assert.ok(changelog.includes(version),`${version} fehlt im sichtbaren Änderungsverlauf`);
 
 const productionVersion=entry.match(/V(\d+\.\d+)/)?.[1];
@@ -30,6 +30,9 @@ assert.ok(changelog.includes('bis 32 dringender Score-Exit'),'V29.1 muss dringen
 assert.ok(changelog.includes('mindestens 62'),'V29.1 muss Rotation ab regulärer Kaufzone dokumentieren');
 assert.ok(changelog.includes('70–75'),'V29.1 muss Gewinnsicherung bei noch hohem Haltescore dokumentieren');
 assert.ok(changelog.includes('Alte weiche V28.x-Schwellen'),'V29.1 muss das Überschreiben alter weicher Schwellen dokumentieren');
+assert.ok(changelog.includes('ersten 1.000 Aktien'),'V29.2 muss den behobenen 1.000er-Cut dokumentieren');
+assert.ok(changelog.includes('Top 400 → Deep 240 → Final 60'),'V29.2 muss die neue Scanner-Pipeline dokumentieren');
+assert.ok(changelog.includes('PC-Deep-Score'),'V29.2 muss die sichtbare PC-Score-Fallbackanzeige dokumentieren');
 assert.ok(!changelog.includes('pro Minute ein Viertel des Masters'),'veraltete V28.8-PowerShell-Beschreibung ist noch im sichtbaren Änderungsverlauf');
 
-console.log(JSON.stringify({ok:true,productionVersion:`V${productionVersion}`,requiredVersions:required,uiVersions,pcAgent:'2.2.0-prepared'},null,2));
+console.log(JSON.stringify({ok:true,productionVersion:`V${productionVersion}`,requiredVersions:required,uiVersions,pcAgent:'2.2.0-prepared',scorePipeline:'V29.2 all-pre-score/top400/deep240/final60'},null,2));
