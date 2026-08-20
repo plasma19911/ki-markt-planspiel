@@ -8,7 +8,7 @@ function candidatesFromPrompt(prompt){const rows=parseJsonBetween(prompt,'Kandid
 function regionalBenchmark(symbol){
   const s=String(symbol||'').toUpperCase();
   if(/\.(DE|F|SG|MU|HM)$/.test(s))return'^GDAXI';
-  if(/\.L$/.test(s))return'^FTSE';
+  if(/\.(L|XC)$/.test(s))return'^FTSE';
   if(/\.SW$/.test(s))return'^SSMI';
   if(/\.(PA|BR|MI|MC|AS|VI|HE|CO|LS|ST|OL|WA|PR)$/.test(s))return'^STOXX50E';
   if(/\.T$/.test(s))return'^N225';

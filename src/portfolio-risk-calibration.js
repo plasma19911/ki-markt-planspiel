@@ -26,6 +26,7 @@ export function regionOf(symbol='',currency=''){
  const s=key(symbol),cur=key(currency);
  if(/\.(HE|ST|CO|OL)$/.test(s))return'NORDICS';
  if(/\.IS$/.test(s))return'TURKEY';
+ if(/\.(L|XC)$/.test(s)||cur==='GBP')return'UK';
  if(/\.(DE|F|PA|AS|BR|MI|MC|L|SW|VI)$/.test(s))return'EUROPE';
  if(/\.(NS|BO)$/.test(s))return'INDIA';
  if(/\.HK$/.test(s))return'HONG_KONG';
@@ -65,6 +66,15 @@ export function calibratedEntryExpectation(candidate={},learningStatus=null){
   forwardForecast:ff?{samples:ffSamples,marketRegime:ff?.marketRegime?.regime||null,reliability:num(ff?.reliability),sizeMultiplier:num(ff?.sizeMultiplier,1),block:Boolean(ff?.block),horizons:ff?.horizons||null,reason:String(ff?.reason||'')} : null,
   prior:{sampleCount:num(FAST_CALIBRATION?.validation?.holdoutBuySamples),meanPct:priorMean,hitRate:priorWin,version:FAST_CALIBRATION?.version||'unknown'}
  };
+}
+
+
+export function existingPortfolioRiskAlerts(state={}){
+ const snap=portfolioSnapshot(state),eq=snap.equity,alerts=[];
+ for(const r of snap.rows){const pct=100*r.value/eq;if(pct>V27_RISK_LIMITS.maxSinglePositionPct+.01)alerts.push({type:'SINGLE_POSITION_OVER_CAP',symbol:r.symbol,pct:+pct.toFixed(2),limitPct:V27_RISK_LIMITS.maxSinglePositionPct});}
+ for(const [theme,value] of snap.themeExposure){const pct=100*value/eq;if(pct>V27_RISK_LIMITS.maxThemePct+.01)alerts.push({type:'THEME_OVER_CAP',theme,pct:+pct.toFixed(2),limitPct:V27_RISK_LIMITS.maxThemePct});}
+ for(const [region,value] of snap.regionExposure){const pct=100*value/eq;if(pct>V27_RISK_LIMITS.maxRegionPct+.01)alerts.push({type:'REGION_OVER_CAP',region,pct:+pct.toFixed(2),limitPct:V27_RISK_LIMITS.maxRegionPct});}
+ return{hasAlerts:alerts.length>0,alerts,equity:+eq.toFixed(2),rule:'Bestehende Altpositionen über dem aktuellen Cap werden gemeldet und für weitere Käufe gesperrt, aber nicht allein wegen des Caps zwangsverkauft.'};
 }
 
 function capForCandidate(candidate,snapshot,plannedTheme=new Map(),plannedCurrency=new Map(),plannedRegion=new Map()){
