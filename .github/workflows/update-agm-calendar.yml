@@ -8,6 +8,7 @@ on:
     branches: [main]
     paths:
       - 'scripts/update-agm-calendar.mjs'
+      - 'scripts/enrich-agm-calendar-estimates.mjs'
       - 'src/agm-opportunity-scoring.js'
       - 'src/agm-runtime.js'
       - 'tests/v276-agm-preview.test.mjs'
@@ -33,6 +34,8 @@ jobs:
         run: node tests/v276-agm-preview.test.mjs
       - name: Build current AGM calendar and profit-outlook base scores
         run: node scripts/update-agm-calendar.mjs
+      - name: Enrich matched AGM firms with finanzen.net earnings estimates
+        run: node scripts/enrich-agm-calendar-estimates.mjs
       - name: Validate generated calendar
         run: |
           node --input-type=module <<'NODE'
@@ -45,7 +48,7 @@ jobs:
             if(!x.symbol||!x.name)throw new Error('Gematchter HV-Eintrag ohne Symbol/Name');
             const s=Number(x.baseScore);if(!Number.isFinite(s)||s<0||s>100)throw new Error(`Ungültiger HV-Score ${s}`);
           }
-          console.log(`HV-Kalender OK: raw=${j.rawUpcomingCount||0}, gematcht=${j.events.length}, Stand=${j.updatedAt}`);
+          console.log(`HV-Kalender OK: raw=${j.rawUpcomingCount||0}, gematcht=${j.events.length}, Schätzungen=${j.fundamentalEstimateCount||0}, Stand=${j.updatedAt}`);
           NODE
       - name: Commit daily calendar when changed
         run: |
