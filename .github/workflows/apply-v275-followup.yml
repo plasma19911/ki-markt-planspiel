@@ -1,0 +1,39 @@
+name: Apply V27.5 Followup
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/apply-v275-followup.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Normalize final invariant labels to V27.5
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('src/loss-sell-invariant.js')
+          s=p.read_text(encoding='utf-8')
+          old="const v274=s=>String(s??'').replace(/FINAL-CONTROLLER V27\\.(?:1|2|3)/g,'FINAL-CONTROLLER V27.4');"
+          new="const v275=s=>String(s??'').replace(/FINAL-CONTROLLER V27\\.(?:1|2|3|4)/g,'FINAL-CONTROLLER V27.5');"
+          if old not in s: raise SystemExit('v274 normalizer not found exactly once')
+          s=s.replace(old,new,1).replace('v274(', 'v275(').replace('V27.4','V27.5')
+          p.write_text(s,encoding='utf-8')
+          PY
+          node --check src/loss-sell-invariant.js
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/loss-sell-invariant.js
+          git commit -m 'Normalize final trade invariant to V27.5' || exit 0
+          git pull --rebase origin main
+          git push origin HEAD:main
