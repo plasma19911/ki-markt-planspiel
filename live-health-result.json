@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T14:28:00.735476+00:00",
+  "checkedAt": "2026-08-20T14:29:42.654023+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -31,8 +31,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T14:27:11.620Z",
-    "ageSeconds": 49,
+    "lastSeenAt": "2026-08-20T14:29:09.402Z",
+    "ageSeconds": 33,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
@@ -1179,6 +1179,9 @@
     "stateVersion": 3,
     "latest": null,
     "heldBuyPromptSuppression": true,
+    "heldPromptPlanOnly": true,
+    "pullbackReclaimAware": true,
+    "summaryMetricClarity": true,
     "adaptiveEntryConfirmation": true,
     "adaptiveEntryMinutes": [
       2,
@@ -1196,7 +1199,7 @@
     "heldFxFallbackSafe": true,
     "portfolioSaturationSelectivity": true,
     "convictionSizing": true,
-    "rule": "Gehaltene Symbole sind bereits im KI-Prompt BUY-gesperrt. Normale Einstiege brauchen je nach Intraday-Volatilität 2/3/4 Minuten stabile Struktur. Ein normaler Soft-SELL muss in einem getrennten Folgescan erneut entstehen; Zeit allein erzeugt keinen Verkauf. Harte Risiken und schwere Strukturbrüche bleiben sofort ausführbar.",
+    "rule": "Gehaltene Symbole sind nur im echten Handelsplan bereits im KI-Prompt BUY-gesperrt; News-/andere KI-Aufrufe bleiben unverändert. Pullback/Reclaim darf einen noch negativen 20m-Trend haben, wenn die kurzfristige Erholung trägt. Normale Einstiege brauchen je nach Intraday-Volatilität 2/3/4 Minuten stabile Struktur. Ein normaler Soft-SELL muss in einem getrennten Folgescan erneut entstehen; Zeit allein erzeugt keinen Verkauf. Harte Risiken und schwere Strukturbrüche bleiben sofort ausführbar.",
     "paperTradingOnly": true,
     "normalEntryConfirmationScans": 2,
     "confirmationMaxChasePct": 0.8,
@@ -1239,7 +1242,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T14:27:21.991Z",
+      "cachedAt": "2026-08-20T14:28:45.307Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
