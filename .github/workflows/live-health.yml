@@ -1,4 +1,4 @@
-name: Live Worker Health V27.7
+name: Live Worker Health V27.8
 
 on:
   workflow_dispatch:
@@ -64,9 +64,9 @@ jobs:
             'lastErrorClear':not c.get('last_error'),
             'targetVenueSanity':venue.get('enabled') is True,
             'entryTimingLearning':learning.get('mode')=='15/30/60-minute-entry-timing-learning',
-            'finalDecisionV277':n(final.get('version'))>=27.7,
-            'tradingBehaviorV277':behavior.get('enabled') is True and n(behavior.get('version'))>=27.7 and final.get('entryConfirmationHysteresis') is True and final.get('minuteScanConfirmationSafe') is True and final.get('lateImpulseRecheck') is True and final.get('tinyProfitChurnBlocked') is True and final.get('heldFxFallbackSafe') is True,
-            'aiPlanJsonRepair':final.get('aiPlanJsonRepair') is True and final.get('aiPlanCompactOutput') is True and n(final.get('aiPlanJsonRepairVersion'))>=27.7 and isinstance(behavior.get('aiPlanJsonRepair'),dict) and behavior.get('aiPlanJsonRepair',{}).get('partialObjectsNeverUsed') is True,
+            'finalDecisionV278':n(final.get('version'))>=27.8,
+            'tradingBehaviorV278':behavior.get('enabled') is True and n(behavior.get('version'))>=27.8 and final.get('heldBuyPromptSuppression') is True and final.get('adaptiveEntryConfirmation') is True and final.get('softSellNeedsRepeatScan') is True and final.get('timeAloneCannotCreateSell') is True and final.get('hardRiskImmediate') is True and final.get('minuteScanConfirmationSafe') is True and final.get('lateImpulseRecheck') is True and final.get('tinyProfitChurnBlocked') is True and final.get('heldFxFallbackSafe') is True,
+            'aiPlanJsonRepair':final.get('aiPlanJsonRepair') is True and final.get('aiPlanCompactOutput') is True and n(final.get('aiPlanJsonRepairVersion'))>=27.7 and isinstance(behavior.get('aiPlanJsonRepair'),dict) and behavior.get('aiPlanJsonRepair',{}).get('partialObjectsNeverUsed') is True and final.get('cloudflareAiWrapperSignatureSafe') is True,
             'agmPreviewEnabled':final.get('agmPreview') is True and agm_policy.get('enabled') is True,
             'agmDailyOnlyScore':final.get('agmCalendarDailyRefresh') is True and final.get('agmLiveReevaluationEveryScan') is False and final.get('agmScoreEvaluationOnceDaily') is True and final.get('agmScoreLockedUntilNextDailyRefresh') is True and agm_policy.get('scoreEvaluationCadence')=='daily' and agm_policy.get('scoreReevaluation')=='once daily only',
             'agmCalendarPayload':isinstance(agm.get('events'),list) and agm.get('scoreEvaluationCadence')=='daily' and agm.get('scoreReevaluation')=='once daily only',
@@ -93,5 +93,5 @@ jobs:
           import json
           x=json.load(open('/tmp/live-health-result.json'))
           if x.get('failedChecks'): raise SystemExit('Live health failed: '+', '.join(x['failedChecks']))
-          print('Worker healthy; V27.7 behavior + AI JSON repair + daily AGM score active.')
+          print('Worker healthy; V27.8 adaptive behavior + AI JSON repair + daily AGM score active.')
           PY
