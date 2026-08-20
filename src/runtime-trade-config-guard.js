@@ -74,14 +74,14 @@ function earlyExit(h,cfg){const m=metrics(h);if(m.state==='REVERSAL'||m.sell==='
 
 async function postProcess(r,input,cfg){
  const plan=parsePlan(r),prompt=findPrompt(input);if(!plan||!prompt||!cfg.enabled)return r;
- const candidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]),held=arr(parseBlock(prompt,' Gehalten=')||[]),cMap=new Map(candidates.map(c=>[key(c),c])),hMap=new Map(held.map(h=>[key(h),h]));let actions=arr(plan.actions).slice(),notes=[];
+ const candidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]),held=arr(parseBlock(prompt,' Gehalten=')||[]);let actions=arr(plan.actions).slice(),notes=[];
  if(cfg.earlyEntryEnabled&&!actions.some(a=>String(a?.action||'').toUpperCase()==='BUY')){
   const ranked=candidates.map(c=>({c,q:entryQuality(c,cfg)})).filter(x=>x.q.allow).sort((a,b)=>b.q.m.score-a.q.m.score||b.q.m.confidence-a.q.m.confidence||b.q.m.accel-a.q.m.accel);
   const best=ranked[0];if(best){const s=key(best.c),starter=clamp(cfg.starterPct,cfg.starterMinPct,cfg.starterMaxPct);actions=actions.filter(a=>!(key(a)===s&&String(a?.action||'').toUpperCase()==='HOLD'));actions.push({symbol:s,action:'BUY',confidence:clamp(best.q.m.confidence,.62,.86),allocation_pct:+starter.toFixed(2),reason:`RUNTIME-EARLY-ENTRY: starke frühe Struktur ohne harte Safety-Sperre; nicht auf Vollbestätigung warten · Starter ${starter.toFixed(1)}% · Score ${best.q.m.score.toFixed(2)} · 5m ${best.q.m.m5.toFixed(2)} · 20m ${best.q.m.m20.toFixed(2)} · Beschleunigung ${best.q.m.accel.toFixed(2)}${best.q.nearHigh?' · Near-High-Regel zusätzlich bestanden':''}`});notes.push(`${s} früher Runtime-Starter`)}
  }
  if(cfg.earlyExitEnabled){
-  const actionKeys=new Set(actions.map(key));
-  for(const h of held){const s=key(h);if(actionKeys.has(s))continue;const q=earlyExit(h,cfg);if(!q.allow)continue;actions.push({symbol:s,action:'SELL',confidence:q.hard?.88:.72,allocation_pct:0,reason:q.hard?'RUNTIME-HARD-EXIT: harter Reversal/STRONG-SELL bleibt sofort.':`RUNTIME-EARLY-EXIT: kombinierte frühe Schwäche; nicht auf vollständige Verkäuferbestätigung warten · 5m ${q.m.m5.toFixed(2)} · 20m ${q.m.m20.toFixed(2)} · P/L ${q.pnl.toFixed(2)}%.`});notes.push(`${s} früher Runtime-Exit`)}
+  const committedKeys=new Set(actions.filter(a=>['BUY','SELL'].includes(String(a?.action||'').toUpperCase())).map(key));
+  for(const h of held){const s=key(h);if(committedKeys.has(s))continue;const q=earlyExit(h,cfg);if(!q.allow)continue;actions=actions.filter(a=>!(key(a)===s&&String(a?.action||'').toUpperCase()==='HOLD'));actions.push({symbol:s,action:'SELL',confidence:q.hard?.88:.72,allocation_pct:0,reason:q.hard?'RUNTIME-HARD-EXIT: harter Reversal/STRONG-SELL bleibt sofort.':`RUNTIME-EARLY-EXIT: kombinierte frühe Schwäche; nicht auf vollständige Verkäuferbestätigung warten · 5m ${q.m.m5.toFixed(2)} · 20m ${q.m.m20.toFixed(2)} · P/L ${q.pnl.toFixed(2)}%.`});committedKeys.add(s);notes.push(`${s} früher Runtime-Exit`)}
  }
  plan.actions=actions;if(notes.length)plan.summary=`${String(plan.summary||'').slice(0,150)} · LIVE-RUNTIME-CONFIG: ${notes.slice(0,3).join(' · ')}.`;return{...r,response:JSON.stringify(plan)};
 }
