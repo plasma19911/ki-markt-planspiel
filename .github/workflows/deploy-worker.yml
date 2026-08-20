@@ -1,4 +1,4 @@
-name: Deploy Cloudflare Worker (fast)
+name: Deploy / Verify Cloudflare Worker
 
 on:
   push:
@@ -22,7 +22,7 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 7
+    timeout-minutes: 8
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,22 +34,26 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package.json
 
-      - name: Check Cloudflare secrets
+      - name: Detect optional Wrangler deployment credentials
         id: secrets
-        continue-on-error: true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          test -n "$CLOUDFLARE_API_TOKEN" || (echo 'Missing GitHub secret: CLOUDFLARE_API_TOKEN' && exit 1)
-          test -n "$CLOUDFLARE_ACCOUNT_ID" || (echo 'Missing GitHub secret: CLOUDFLARE_ACCOUNT_ID' && exit 1)
+          if [ -n "$CLOUDFLARE_API_TOKEN" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo 'available=true' >> "$GITHUB_OUTPUT"
+            echo 'GitHub Wrangler deployment available.'
+          else
+            echo 'available=false' >> "$GITHUB_OUTPUT"
+            echo 'No GitHub Wrangler credentials: use repository-connected Cloudflare Git deployment and verify production.'
+          fi
 
       - name: Install Wrangler only
         id: install
         continue-on-error: true
         run: npm install --no-audit --no-fund --ignore-scripts
 
-      - name: Test final decisions, restart isolation, risk, anti-flip-flop and forward curve learning
+      - name: Test all final decisions and learning regressions
         id: tests
         continue-on-error: true
         if: steps.install.outcome == 'success'
@@ -61,24 +65,24 @@ jobs:
         if: steps.install.outcome == 'success'
         run: npm run check
 
-      - name: Deploy Worker immediately
+      - name: Deploy with Wrangler when credentials are available
         id: deploy_worker
         continue-on-error: true
-        if: steps.secrets.outcome == 'success' && steps.tests.outcome == 'success' && steps.dryrun.outcome == 'success'
+        if: steps.secrets.outputs.available == 'true' && steps.tests.outcome == 'success' && steps.dryrun.outcome == 'success'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npx wrangler deploy --config wrangler.jsonc
 
-      - name: Verify production really serves V27.2
+      - name: Verify repository-connected Cloudflare production
         id: live_verify
         continue-on-error: true
-        if: steps.deploy_worker.outcome == 'success'
+        if: steps.tests.outcome == 'success' && steps.dryrun.outcome == 'success'
         run: |
           node --input-type=module <<'NODE'
           const url='https://ki-markt-planspiel.orkimperium.workers.dev/api/status';
           let last='';
-          for(let i=0;i<10;i++){
+          for(let i=0;i<30;i++){
             try{
               const r=await fetch(`${url}?deploy_check=${Date.now()}`,{headers:{'cache-control':'no-cache'}});
               const j=await r.json();
@@ -94,7 +98,7 @@ jobs:
       - name: Persist deployment diagnostic
         if: always()
         env:
-          SECRETS_OUTCOME: ${{ steps.secrets.outcome }}
+          WRANGLER_AVAILABLE: ${{ steps.secrets.outputs.available }}
           INSTALL_OUTCOME: ${{ steps.install.outcome }}
           TESTS_OUTCOME: ${{ steps.tests.outcome }}
           DRYRUN_OUTCOME: ${{ steps.dryrun.outcome }}
@@ -110,7 +114,8 @@ jobs:
             const j=await r.json();
             live={http:r.status,version:j?.finalDecisionPolicy?.version??null,forward:j?.forwardCurveLearningPolicy?.enabled??null,summary:j?.config?.ai_last_summary??j?.aiLastSummary??null,error:null};
           }catch(e){live.error=String(e?.message||e)}
-          const out={checkedAt:new Date().toISOString(),commit:process.env.GITHUB_SHA,secrets:process.env.SECRETS_OUTCOME,install:process.env.INSTALL_OUTCOME,tests:process.env.TESTS_OUTCOME,dryRun:process.env.DRYRUN_OUTCOME,deploy:process.env.DEPLOY_OUTCOME,verify:process.env.VERIFY_OUTCOME,live};
+          const direct=process.env.WRANGLER_AVAILABLE==='true';
+          const out={checkedAt:new Date().toISOString(),commit:process.env.GITHUB_SHA,deployMode:direct?'GITHUB_WRANGLER':'CLOUDFLARE_GIT_INTEGRATION',wranglerCredentialsAvailable:direct,install:process.env.INSTALL_OUTCOME,tests:process.env.TESTS_OUTCOME,dryRun:process.env.DRYRUN_OUTCOME,wranglerDeploy:process.env.DEPLOY_OUTCOME,verify:process.env.VERIFY_OUTCOME,live};
           fs.writeFileSync('deploy-result.json',JSON.stringify(out,null,2)+'\n');
           console.log(JSON.stringify(out,null,2));
           NODE
@@ -121,19 +126,15 @@ jobs:
           git commit -m 'Update Cloudflare deploy diagnostic [skip ci]' || true
           git push origin HEAD:main
 
-      - name: Fail workflow when deployment is not fully verified
+      - name: Fail only when tests, dry-run or live production verification fail
         if: always()
         env:
-          SECRETS_OUTCOME: ${{ steps.secrets.outcome }}
           INSTALL_OUTCOME: ${{ steps.install.outcome }}
           TESTS_OUTCOME: ${{ steps.tests.outcome }}
           DRYRUN_OUTCOME: ${{ steps.dryrun.outcome }}
-          DEPLOY_OUTCOME: ${{ steps.deploy_worker.outcome }}
           VERIFY_OUTCOME: ${{ steps.live_verify.outcome }}
         run: |
-          test "$SECRETS_OUTCOME" = success
           test "$INSTALL_OUTCOME" = success
           test "$TESTS_OUTCOME" = success
           test "$DRYRUN_OUTCOME" = success
-          test "$DEPLOY_OUTCOME" = success
           test "$VERIFY_OUTCOME" = success
