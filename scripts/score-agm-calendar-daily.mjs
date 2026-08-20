@@ -1,3 +1,4 @@
+// Einmaliger Bootstrap-Trigger am 20.08.2026; regulaer laeuft dieser Scorer nur im Tagesworkflow.
 import fs from 'node:fs';
 import {chartProfileFromChart,composeAgmBaseScore,scoreHeadlines,AGM_SIGNAL_VERSION} from '../src/agm-signal-model.js';
 
