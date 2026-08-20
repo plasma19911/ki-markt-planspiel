@@ -1,10 +1,10 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-08-20T12:03:31.892Z",
-  "nextRefreshAfter": "2026-08-21T11:03:31.892Z",
+  "updatedAt": "2026-08-20T12:11:38.507Z",
+  "nextRefreshAfter": "2026-08-21T11:11:38.507Z",
   "refreshCadence": "daily",
-  "source": "finanzen.net Hauptversammlung",
+  "source": "finanzen.net Hauptversammlung + finanzen.net Schätzungen + Yahoo Fallback",
   "sourceUrls": [
     "https://www.finanzen.net/termine/unternehmen/hauptversammlung",
     "https://www.finanzen.net/index/cdax/hv-termine",
@@ -16,6 +16,7 @@
   "sourceErrors": [],
   "rawUpcomingCount": 17,
   "matchedUpcomingCount": 7,
+  "fundamentalEstimateCount": 0,
   "universeGeneratedAt": "2026-08-20T05:07:22.997910Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score; keine Gewinnwahrscheinlichkeit",
   "events": [
@@ -23,6 +24,7 @@
       "date": "2026-08-20",
       "sourceCompanyName": "Flugger A-S (B)",
       "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/flugger",
       "symbol": "FLUG-B.CO",
       "name": "Flügger group A/S",
       "companyKey": "FLUGGER",
@@ -34,6 +36,7 @@
       "profitForecastPositive": null,
       "fundamentalReasons": [],
       "fundamentals": {
+        "source": "Yahoo quote",
         "epsTrailingTwelveMonths": null,
         "epsForward": null,
         "epsCurrentYear": null,
@@ -50,6 +53,7 @@
       "date": "2026-08-20",
       "sourceCompanyName": "Modine Manufacturing Co.",
       "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/modine_manufacturing",
       "symbol": "1MOD.MI",
       "name": "MODINE MANUFACTURING CO",
       "companyKey": "MODINE MANUFACTU",
@@ -61,6 +65,7 @@
       "profitForecastPositive": null,
       "fundamentalReasons": [],
       "fundamentals": {
+        "source": "Yahoo quote",
         "epsTrailingTwelveMonths": null,
         "epsForward": null,
         "epsCurrentYear": null,
@@ -77,6 +82,7 @@
       "date": "2026-08-21",
       "sourceCompanyName": "ICICI Bank Ltd. (Spons. ADRS)",
       "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/icici_bank",
       "symbol": "ICICIBANK.NS",
       "name": "ICICI Bank Limited",
       "companyKey": "ICICI BANK",
@@ -88,6 +94,7 @@
       "profitForecastPositive": null,
       "fundamentalReasons": [],
       "fundamentals": {
+        "source": "Yahoo quote",
         "epsTrailingTwelveMonths": null,
         "epsForward": null,
         "epsCurrentYear": null,
@@ -104,6 +111,7 @@
       "date": "2026-08-26",
       "sourceCompanyName": "Prosus N.V.",
       "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/prosus",
       "symbol": "PRX.AS",
       "name": "Prosus N.V.",
       "companyKey": "PROSUS",
@@ -115,6 +123,7 @@
       "profitForecastPositive": null,
       "fundamentalReasons": [],
       "fundamentals": {
+        "source": "Yahoo quote",
         "epsTrailingTwelveMonths": null,
         "epsForward": null,
         "epsCurrentYear": null,
@@ -131,6 +140,7 @@
       "date": "2026-08-26",
       "sourceCompanyName": "Under Armour Inc.",
       "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/under_armour",
       "symbol": "UAA.VI",
       "name": "Under Armour, Inc.",
       "companyKey": "UNDER ARMOUR",
@@ -142,6 +152,7 @@
       "profitForecastPositive": null,
       "fundamentalReasons": [],
       "fundamentals": {
+        "source": "Yahoo quote",
         "epsTrailingTwelveMonths": null,
         "epsForward": null,
         "epsCurrentYear": null,
@@ -158,6 +169,7 @@
       "date": "2026-08-27",
       "sourceCompanyName": "NTPC Ltd.",
       "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/ntpc",
       "symbol": "NTPC.NS",
       "name": "NTPC Limited",
       "companyKey": "NTPC",
@@ -169,6 +181,7 @@
       "profitForecastPositive": null,
       "fundamentalReasons": [],
       "fundamentals": {
+        "source": "Yahoo quote",
         "epsTrailingTwelveMonths": null,
         "epsForward": null,
         "epsCurrentYear": null,
@@ -185,6 +198,7 @@
       "date": "2026-08-28",
       "sourceCompanyName": "Aumann AG",
       "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/aumann",
       "symbol": "AAGG.VI",
       "name": "Aumann AG",
       "companyKey": "AUMANN",
@@ -196,6 +210,7 @@
       "profitForecastPositive": null,
       "fundamentalReasons": [],
       "fundamentals": {
+        "source": "Yahoo quote",
         "epsTrailingTwelveMonths": null,
         "epsForward": null,
         "epsCurrentYear": null,
