@@ -60,11 +60,11 @@ export function calibratedEntryExpectation(candidate={},learningStatus=null){
  const confidenceDelta=clamp((posteriorWin-priorWin)*.35,-.08,.06);
  return{
   bucket,samples15:n,posteriorExpectedMovePct:+posteriorMean.toFixed(3),posteriorWinRate:+posteriorWin.toFixed(3),reliability:+reliability.toFixed(3),sizeMultiplier:+sizeMultiplier.toFixed(3),confidenceDelta:+confidenceDelta.toFixed(3),block,
-  prior:{sampleCount:num(FAST_CALIBRATION?.holdoutSampleCount),meanPct:priorMean,hitRate:priorWin,version:FAST_CALIBRATION?.version||'unknown'}
+  prior:{sampleCount:num(FAST_CALIBRATION?.validation?.holdoutBuySamples),meanPct:priorMean,hitRate:priorWin,version:FAST_CALIBRATION?.version||'unknown'}
  };
 }
 
-function capForCandidate(candidate,snapshot,plannedValue=0,plannedTheme=new Map(),plannedCurrency=new Map(),plannedRegion=new Map()){
+function capForCandidate(candidate,snapshot,plannedTheme=new Map(),plannedCurrency=new Map(),plannedRegion=new Map()){
  const eq=snapshot.equity,theme=themeOf(candidate),currency=key(candidate?.currency||snapshot.baseCurrency),region=regionOf(candidate?.symbol,currency);
  const singleCap=eq*V27_RISK_LIMITS.maxSinglePositionPct/100;
  const themeNow=theme?num(snapshot.themeExposure.get(theme))+num(plannedTheme.get(theme)):0;
@@ -75,22 +75,23 @@ function capForCandidate(candidate,snapshot,plannedValue=0,plannedTheme=new Map(
  const currencyCap=Math.max(0,eq*currencyLimit/100-currencyNow);
  const regionCap=Math.max(0,eq*V27_RISK_LIMITS.maxRegionPct/100-regionNow);
  const capacity=Math.max(0,Math.min(singleCap,themeCap,currencyCap,regionCap));
- return{capacity,theme,currency,region,singleCap,themeCap,currencyCap,regionCap,plannedValue};
+ return{capacity,theme,currency,region,singleCap,themeCap,currencyCap,regionCap};
 }
 
 export function applyPortfolioRiskCaps(rows=[],state={},cashOverride=null){
  const snapshot=portfolioSnapshot(state),cash=cashOverride==null?snapshot.cash:Math.max(0,num(cashOverride));if(cash<=0)return[];
  const plannedTheme=new Map(),plannedCurrency=new Map(),plannedRegion=new Map(),out=[];
  for(const row of rows){
-  const requestedPct=clamp(num(row?.allocation),0,100),requestedValue=cash*requestedPct/100,cap=capForCandidate(row?.c||row,snapshot,0,plannedTheme,plannedCurrency,plannedRegion),allowedValue=Math.min(requestedValue,cap.capacity,cash),allowedPct=100*allowedValue/cash;
+  const requestedPct=clamp(num(row?.allocation),0,100),requestedValue=cash*requestedPct/100,cap=capForCandidate(row?.c||row,snapshot,plannedTheme,plannedCurrency,plannedRegion),allowedValue=Math.min(requestedValue,cap.capacity,cash),allowedPct=100*allowedValue/cash;
   if(allowedPct<V27_RISK_LIMITS.minAllocationPctOfCash)continue;
   const reasons=[];if(allowedValue+1e-6<requestedValue){
-   if(cap.capacity===cap.singleCap)reasons.push(`Einzelposition max. ${V27_RISK_LIMITS.maxSinglePositionPct}% Depot`);
-   if(cap.theme&&cap.capacity===cap.themeCap)reasons.push(`Themencluster ${cap.theme} max. ${V27_RISK_LIMITS.maxThemePct}%`);
-   if(cap.capacity===cap.currencyCap)reasons.push(`Währung ${cap.currency} begrenzt`);
-   if(cap.capacity===cap.regionCap)reasons.push(`Region ${cap.region} begrenzt`);
+   const eps=.01;
+   if(Math.abs(cap.capacity-cap.singleCap)<eps)reasons.push(`Einzelposition max. ${V27_RISK_LIMITS.maxSinglePositionPct}% Depot`);
+   if(cap.theme&&Math.abs(cap.capacity-cap.themeCap)<eps)reasons.push(`Themencluster ${cap.theme} max. ${V27_RISK_LIMITS.maxThemePct}%`);
+   if(Math.abs(cap.capacity-cap.currencyCap)<eps)reasons.push(`Währung ${cap.currency} begrenzt`);
+   if(Math.abs(cap.capacity-cap.regionCap)<eps)reasons.push(`Region ${cap.region} begrenzt`);
   }
-  plannedTheme.set(cap.theme,num(plannedTheme.get(cap.theme))+allowedValue);plannedCurrency.set(cap.currency,num(plannedCurrency.get(cap.currency))+allowedValue);plannedRegion.set(cap.region,num(plannedRegion.get(cap.region))+allowedValue);
+  if(cap.theme)plannedTheme.set(cap.theme,num(plannedTheme.get(cap.theme))+allowedValue);plannedCurrency.set(cap.currency,num(plannedCurrency.get(cap.currency))+allowedValue);plannedRegion.set(cap.region,num(plannedRegion.get(cap.region))+allowedValue);
   out.push({...row,allocation:+allowedPct.toFixed(2),riskCap:{requestedPct:+requestedPct.toFixed(2),allowedPct:+allowedPct.toFixed(2),allowedValue:+allowedValue.toFixed(2),theme:cap.theme||null,currency:cap.currency,region:cap.region,reasons}});
  }
  return out;
