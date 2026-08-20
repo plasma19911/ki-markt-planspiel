@@ -86,4 +86,12 @@ const outer=fs.readFileSync(new URL('../src/compact-portfolio-v22-active-learnin
 assert.match(outer,/s\.risk=\{\.\.\.\(s\.risk\|\|\{\}\),hardLimits:true,budgetOnly:false,positionLimit:V27_RISK_LIMITS\.maxSinglePositionPct/,'outer production status must override obsolete core risk metadata');
 assert.match(outer,/executionScaleUpHardBlocked:true/);
 
+// 11) A transient FX outage for an EXISTING foreign position must never mark its value with FX=0.
+assert.match(r2,/function trustedHeldQuote\(/,'existing holdings need a dedicated last-trusted-FX failover path');
+assert.match(r2,/if\(num\(q\.fxRate,0\)>0\)p\.last_fx=num\(q\.fxRate\)/,'held-position mark update must never persist FX=0');
+assert.match(r2,/markFx=num\(fx,0\)>0\?num\(fx\):entryFx/,'valuation must fall back to entry FX instead of zero if a bad mark slips through');
+assert.match(r2,/fx_stale=Boolean\(q\.fxStale\)/,'stale-but-trusted held FX must be explicitly marked');
+assert.match(r2,/fx_verified:fxVerified/,'new positions must persist the verified-FX fact');
+assert.match(r2,/if\(!q\?\.fresh\|\|!\(num\(q\.fxRate,0\)>0\)\)continue/,'sell execution must never use FX=0');
+
 console.log('V27.5 full-audit invariant regression tests: OK');
