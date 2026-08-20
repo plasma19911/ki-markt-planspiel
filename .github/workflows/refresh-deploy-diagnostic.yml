@@ -1,0 +1,74 @@
+name: Refresh Live Deploy Diagnostic
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'tests/**'
+      - 'package.json'
+      - '.github/workflows/refresh-deploy-diagnostic.yml'
+
+concurrency:
+  group: live-deploy-diagnostic
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait briefly for Cloudflare Git deployment and verify V27.5
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const url='https://ki-markt-planspiel.orkimperium.workers.dev/api/status';
+          let live=null,error=null;
+          for(let i=0;i<18;i++){
+            try{
+              const r=await fetch(`${url}?fast_deploy_diag=${Date.now()}`,{headers:{'cache-control':'no-cache'}});
+              const j=await r.json();
+              const o=(j?.positions||[]).find(x=>String(x?.symbol||'').toUpperCase()==='OCDOL.XC');
+              live={
+                http:r.status,
+                version:j?.finalDecisionPolicy?.version??null,
+                minorQuoteUnitNormalization:j?.finalDecisionPolicy?.minorQuoteUnitNormalization??null,
+                executionScaleUpHardBlocked:j?.finalDecisionPolicy?.executionScaleUpHardBlocked??null,
+                broadMarketRegime:j?.finalDecisionPolicy?.broadMarketRegime??null,
+                broadMarketRegimeSource:j?.finalDecisionPolicy?.broadMarketRegimeSource??null,
+                netExpectedEdgeGate:j?.finalDecisionPolicy?.netExpectedEdgeGate??null,
+                marketRegimeEntryGate:j?.finalDecisionPolicy?.marketRegimeEntryGate??null,
+                lossSellInvariant:j?.finalDecisionPolicy?.lossSellInvariant??null,
+                automaticScaleUp:j?.finalDecisionPolicy?.automaticScaleUp??null,
+                accountingDelta:Number(j?.accounting?.identityDelta??j?.accountingDelta??0),
+                lastError:j?.config?.last_error??j?.lastError??null,
+                ocdol:o?{currency:o.currency,entryPrice:o.entry_price,lastPrice:o.last_price,entryFx:o.entry_fx,lastFx:o.last_fx,quantity:o.zero_quantity,fxVerified:o.fx_verified??null,fxStale:o.fx_stale??null}:null,
+                summary:j?.config?.ai_last_summary??j?.aiLastSummary??null
+              };
+              const ocdolOk=!o||(String(o.currency||'').toUpperCase()==='GBP'&&Number(o.entry_price)>0&&Number(o.entry_price)<20&&Number(o.last_price)>0&&Number(o.last_price)<20&&Number(o.entry_fx)>.5&&Number(o.entry_fx)<2&&Number(o.zero_quantity)>20);
+              const ok=r.ok&&live.version===27.5&&live.minorQuoteUnitNormalization===true&&live.executionScaleUpHardBlocked===true&&live.broadMarketRegime===true&&live.netExpectedEdgeGate===true&&live.marketRegimeEntryGate===true&&live.lossSellInvariant===true&&live.automaticScaleUp===false&&Math.abs(live.accountingDelta)<1e-6&&!live.lastError&&ocdolOk;
+              if(ok){error=null;break}
+              error='Live V27.5 invariants not complete yet';
+            }catch(e){error=String(e?.message||e)}
+            await new Promise(r=>setTimeout(r,5000));
+          }
+          const out={checkedAt:new Date().toISOString(),commit:process.env.GITHUB_SHA,deployMode:'CLOUDFLARE_GIT_INTEGRATION',verify:error?'failure':'success',live,error};
+          fs.writeFileSync('deploy-result.json',JSON.stringify(out,null,2)+'\n');
+          console.log(JSON.stringify(out,null,2));
+          if(error)process.exitCode=1;
+          NODE
+      - name: Persist current diagnostic even on verification failure
+        if: always()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --rebase origin main
+          git add deploy-result.json
+          git commit -m 'Update Cloudflare deploy diagnostic [skip ci]' || true
+          git push origin HEAD:main
