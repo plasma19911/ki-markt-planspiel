@@ -45,7 +45,7 @@ jobs:
       - name: Allow Cloudflare Git integration to publish
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify live V28.8 PC-first + V28.7 action scoring
+      - name: Verify live V28.9 score hysteresis + V28.8 PC-first
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';
@@ -56,11 +56,15 @@ jobs:
               const sr=await fetch(`${base}/api/status?view=dashboard&main_live=${q}`,{headers:{'cache-control':'no-cache'}});const s=await sr.json();
               const ur=await fetch(`${base}/v287-live-ui.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const u=await ur.text();
               const qr=await fetch(`${base}/quota-guard.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const qjs=await qr.text();
-              const policy=s?.researchSignalFusionPolicy||{},breadth=s?.scannerBreadthPolicy||{},pc=s?.pcFirstScannerPolicy||{},final=s?.finalDecisionPolicy||{};
+              const policy=s?.researchSignalFusionPolicy||{},hyst=s?.scoreHysteresisPolicy||{},breadth=s?.scannerBreadthPolicy||{},pc=s?.pcFirstScannerPolicy||{},final=s?.finalDecisionPolicy||{};
               const posScores=Array.isArray(policy.positionScores)?policy.positionScores:[],positions=Array.isArray(s?.positions)?s.positions:[],candidates=Array.isArray(s?.candidates)?s.candidates:[],ranking=Array.isArray(policy.ranking)?policy.ranking:[];
               const scoreShape=ranking.every(x=>Number.isFinite(Number(x?.buyScore))&&Number.isFinite(Number(x?.sellScore)));
-              const ok=sr.ok&&Number(policy.version)>=28.7&&policy.allDecisionCandidatesScored===true&&ranking.length>=candidates.length&&posScores.length>=positions.length&&scoreShape&&Number(final.version)>=28.8&&final.pcFirstScannerV288===true&&Number(pc.version)>=28.8&&pc.enabled===true&&Number(pc.cloudflareValidationTarget)===18&&breadth.pcFirstFullMaster===true&&ur.ok&&/__V287_UI_LIVE__/.test(u)&&/buyHoldSellScores:true/.test(u)&&qr.ok&&/v287-live-ui\.js/.test(qjs);
-              last=`status=${sr.status} score=${policy.version} pc=${pc.version} fresh=${pc.pcDataFresh} fallback=${pc.cloudflareFallbackActive} master=${pc.masterUniverseCount} scanned=${pc.prescannedCount} final=${final.version} ui=${ur.status}`;
+              const hysteresisOk=Number(hyst.version)>=28.9&&hyst.enabled===true&&Number(hyst?.thresholds?.candidate?.earlyRisingBuy)===72&&Number(hyst?.thresholds?.candidate?.confirmedBuy)===76&&Number(hyst?.thresholds?.position?.confirmedExit)===42;
+              const finalOk=Number(final.version)>=28.9&&final.pcFirstScannerV288===true&&final.scoreHysteresis===true&&final.directionalScoreBehavior===true&&final.separateEntryExitBands===true&&final.hardRiskImmediate===true;
+              const pcOk=Number(pc.version)>=28.8&&pc.enabled===true&&Number(pc.cloudflareValidationTarget)===18&&breadth.pcFirstFullMaster===true;
+              const uiOk=ur.ok&&/__V287_UI_LIVE__/.test(u)&&/buyHoldSellScores:true/.test(u)&&qr.ok&&/v287-live-ui\.js/.test(qjs);
+              const ok=sr.ok&&Number(policy.version)>=28.7&&policy.allDecisionCandidatesScored===true&&ranking.length>=candidates.length&&posScores.length>=positions.length&&scoreShape&&hysteresisOk&&finalOk&&pcOk&&uiOk;
+              last=`status=${sr.status} score=${policy.version} hyst=${hyst.version} pc=${pc.version} master=${pc.masterUniverseCount} scanned=${pc.prescannedCount} final=${final.version} ui=${ur.status}`;
               if(ok){console.log('Main live verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
