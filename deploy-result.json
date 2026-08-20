@@ -1,17 +1,36 @@
 {
-  "checkedAt": "2026-08-20T09:31:46.423Z",
-  "commit": "67b7ad8a7be7e9754f2026303eb725b7a3d48821",
-  "secrets": "failure",
-  "install": "success",
-  "tests": "success",
-  "dryRun": "success",
-  "deploy": "skipped",
-  "verify": "skipped",
+  "checkedAt": "2026-08-20T11:32:46.472158Z",
+  "source": "live-health-result.json",
+  "deployMode": "CLOUDFLARE_GIT_INTEGRATION",
+  "verify": "success",
+  "note": "Bootstrap from the independently verified live-health snapshot because the former long deploy workflow was repeatedly cancelled before persisting this file. refresh-deploy-diagnostic.yml now maintains this report independently.",
   "live": {
     "http": 200,
-    "version": 27.2,
-    "forward": true,
-    "summary": "FINAL-CONTROLLER V27.1: 0 BUY · 0 SELL · 6 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefangen · 0 Flip-Flop-Reentry(s) blockiert · 0 Safety-HOLD(s) · 0 empirisch schlechte Setup(s) blockiert · 0 Allokation(en) durch Depotrisiko gekappt · 5 Bestands-BUY(s) verhindert.",
-    "error": null
+    "version": 27.5,
+    "minorQuoteUnitNormalization": true,
+    "executionScaleUpHardBlocked": true,
+    "broadMarketRegime": true,
+    "netExpectedEdgeGate": true,
+    "marketRegimeEntryGate": true,
+    "lossSellInvariant": true,
+    "automaticScaleUp": false,
+    "accountingDelta": 0,
+    "lastError": null,
+    "pcAgentOnline": true,
+    "scanCount": 112,
+    "lastScan": "2026-08-20T11:30:11.299Z",
+    "summary": "FINAL-CONTROLLER V27.5: 0 BUY · 0 SELL · 7 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefangen · 0 Flip-Flop-Reentry(s) blockiert · 0 Safety-HOLD(s) · 0 empirisch schlechte Setup(s) blockiert · 0 Allokation(en) durch Depotrisiko gekappt · 5 Bestands-BUY(s) verhindert.",
+    "ocdol": {
+      "currency": "GBP",
+      "entryPrice": 2.3863839389038084,
+      "lastPrice": 2.401999969482422,
+      "entryFx": 1.1659,
+      "lastFx": 1.1658,
+      "quantity": 188.3746472866545,
+      "fxVerified": true,
+      "fxStale": false,
+      "quoteCurrencyRaw": "GBp",
+      "quotePriceScale": 0.01
+    }
   }
 }
