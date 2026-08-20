@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-08-20T14:28:41.164076+00:00",
-  "commit": "14819b53be925ae6cf480b30f6a2fff7fff229f9",
+  "checkedAt": "2026-08-20T14:30:48.700783+00:00",
+  "commit": "ecf968e1a3725ea2018915d2930e7c5d342eb290",
   "install": {
     "ok": true,
     "tail": "\nadded 38 packages, and audited 39 packages in 7s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
@@ -304,7 +304,7 @@
     "pc_wide_sweep": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"target\": 64,\n  \"dipReserve\": 44,\n  \"selected\": 64,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-20T14:28:18.971Z\",\n    \"ageSeconds\": 20,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"freshMerge\": {\n    \"symbol\": \"FRESH.DE\",\n    \"wideScore\": 29.8,\n    \"m5Pct\": 0.02,\n    \"m20Pct\": 0.1,\n    \"accelerationPct\": 0.02,\n    \"sessionPct\": 0.2,\n    \"last\": 10.1,\n    \"observedAt\": \"2026-08-20T14:28:28.971Z\",\n    \"ageSeconds\": 10,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"liveWave\": {\n    \"priority\": \"DIPBEST.DE\",\n    \"rotating\": [\n      \"ROTATE.DE\",\n      \"HIGH.DE\"\n    ]\n  },\n  \"forcedBuy\": false\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"target\": 64,\n  \"dipReserve\": 44,\n  \"selected\": 64,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-20T14:30:26.112Z\",\n    \"ageSeconds\": 20,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"freshMerge\": {\n    \"symbol\": \"FRESH.DE\",\n    \"wideScore\": 29.8,\n    \"m5Pct\": 0.02,\n    \"m20Pct\": 0.1,\n    \"accelerationPct\": 0.02,\n    \"sessionPct\": 0.2,\n    \"last\": 10.1,\n    \"observedAt\": \"2026-08-20T14:30:36.112Z\",\n    \"ageSeconds\": 10,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"liveWave\": {\n    \"priority\": \"DIPBEST.DE\",\n    \"rotating\": [\n      \"ROTATE.DE\",\n      \"HIGH.DE\"\n    ]\n  },\n  \"forcedBuy\": false\n}\n"
     },
     "yahoo_sanity": {
       "ok": true,
@@ -329,7 +329,7 @@
     "wrangler_dryrun": {
       "ok": true,
       "exitCode": 0,
-      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 67 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 990.86 KiB / gzip: 256.47 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
+      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 67 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 991.59 KiB / gzip: 256.59 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
     }
   },
   "failedChecks": [],
