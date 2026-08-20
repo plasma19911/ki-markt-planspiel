@@ -4,18 +4,22 @@ const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
 export const ENTRY_PROFIT_V290={
   version:29.0,
   entry:{
+    scoutMin:60,
     microMin:65,
     earlyMin:68,
     regularMin:72,
     strongMin:76,
     exceptionalMin:82,
+    scoutCoverage:.82,
     microCoverage:.75,
     earlyCoverage:.70,
     regularCoverage:.67,
     trendWindowMinutes:6,
     risingDelta:3,
     strongRisingDelta:5,
-    maxNewBuysPerDecision:2
+    scoutDelta:7,
+    maxNewBuysPerDecision:2,
+    maxScoutBuysPerDecision:1
   },
   profit:{
     armPeakPct:.8,
@@ -24,10 +28,10 @@ export const ENTRY_PROFIT_V290={
     minAgeLargePeakMinutes:8,
     largePeakPct:3,
     tiers:[
-      {peakMin:6,givebackFraction:.25,minGivebackPoints:.85,maxHoldScore:64},
-      {peakMin:3,givebackFraction:.32,minGivebackPoints:.70,maxHoldScore:60},
-      {peakMin:1.5,givebackFraction:.40,minGivebackPoints:.55,maxHoldScore:56},
-      {peakMin:.8,givebackFraction:.50,minGivebackPoints:.45,maxHoldScore:50}
+      {peakMin:6,givebackFraction:.22,minGivebackPoints:.85,maxExitScore:78},
+      {peakMin:3,givebackFraction:.28,minGivebackPoints:.65,maxExitScore:76},
+      {peakMin:1.5,givebackFraction:.36,minGivebackPoints:.50,maxExitScore:72},
+      {peakMin:.8,givebackFraction:.48,minGivebackPoints:.40,maxExitScore:68}
     ]
   }
 };
@@ -42,11 +46,12 @@ export function trendV290(history=[],score=0,now=Date.now()){
   const deltaWindow=oldest?score-num(oldest.score,score):0;
   const rising=delta1>=2||deltaWindow>=cfg.risingDelta;
   const strongRising=delta1>=3.5||deltaWindow>=cfg.strongRisingDelta;
+  const scoutRising=delta1>=4.5||deltaWindow>=cfg.scoutDelta;
   const falling=delta1<=-2||deltaWindow<=-3;
   const strongFalling=delta1<=-5||deltaWindow<=-7;
   const confirmed68=rows.some(x=>num(x?.score)<score&&num(x?.score)>=68);
   const confirmed72=rows.some(x=>num(x?.score)>=72);
-  return{delta1:+delta1.toFixed(1),deltaWindow:+deltaWindow.toFixed(1),rising,strongRising,falling,strongFalling,confirmed68,confirmed72,samples:rows.length+1};
+  return{delta1:+delta1.toFixed(1),deltaWindow:+deltaWindow.toFixed(1),rising,strongRising,scoutRising,falling,strongFalling,confirmed68,confirmed72,samples:rows.length+1};
 }
 
 export function entryDecisionV290(row={},history=[],now=Date.now()){
@@ -58,18 +63,21 @@ export function entryDecisionV290(row={},history=[],now=Date.now()){
   if(score>=cfg.regularMin&&coverage>=cfg.regularCoverage&&(trend.rising||trend.confirmed68)&&!trend.falling)return{action:'BUY',tier:'REGULAR',score,coverage,trend,label:'Kaufen'};
   if(score>=cfg.earlyMin&&coverage>=cfg.earlyCoverage&&trend.rising&&!trend.falling)return{action:'BUY_EARLY',tier:'EARLY',score,coverage,trend,label:'Früher Einstieg'};
   if(score>=cfg.microMin&&coverage>=cfg.microCoverage&&trend.strongRising&&!trend.falling)return{action:'BUY_MICRO',tier:'MICRO',score,coverage,trend,label:'Mikro-Früheinstieg'};
+  if(score>=cfg.scoutMin&&coverage>=cfg.scoutCoverage&&trend.scoutRising&&!trend.falling&&trend.samples>=2)return{action:'BUY_SCOUT',tier:'SCOUT',score,coverage,trend,label:'Scout-Einstieg'};
   if(score>=cfg.microMin)return{action:'WAIT',tier:'WAIT_65',score,coverage,trend,label:trend.rising?'65+ · Bestätigung läuft':'65+ · noch keine saubere Beschleunigung'};
+  if(score>=cfg.scoutMin)return{action:'WATCH',tier:'WATCH_60',score,coverage,trend,label:trend.rising?'60+ · möglicher Starter':'60+ · beobachten'};
   if(score>=58)return{action:'WATCH',tier:'WATCH',score,coverage,trend,label:trend.rising?'Beobachten · verbessert sich':'Beobachten'};
   return{action:'AVOID',tier:'WEAK',score,coverage,trend,label:'Schwach'};
 }
 
 export function entryAllocationPctV290(cash=0,decision={}){
   const score=num(decision?.score),tier=String(decision?.tier||'');
-  let lo=4,hi=6,pct=4;
-  if(tier==='EARLY'){lo=5;hi=8;pct=5+Math.max(0,score-68)*.35}
+  let lo=3,hi=4.5,pct=3;
+  if(tier==='MICRO'){lo=4;hi=6;pct=4+Math.max(0,score-65)*.30}
+  else if(tier==='EARLY'){lo=5;hi=8;pct=5+Math.max(0,score-68)*.35}
   else if(tier==='REGULAR'){lo=7;hi=11;pct=7+Math.max(0,score-72)*.30}
   else if(tier==='STRONG'||tier==='EXCEPTIONAL'){lo=8;hi=12;pct=8+Math.max(0,score-76)*.22}
-  else pct=4+Math.max(0,score-65)*.30;
+  else pct=3+Math.max(0,score-60)*.20;
   if(cash>=500&&(tier==='REGULAR'||tier==='STRONG'||tier==='EXCEPTIONAL'))pct=Math.max(pct,500/cash*100);
   return +clamp(pct,lo,hi).toFixed(2);
 }
@@ -91,9 +99,9 @@ export function profitDecisionV290({pnlPct=0,peakPnlPct=0,holdScore=50,peakHoldS
   if(rebound)return{...base,action:'HOLD',reason:'rebound',label:'Gewinn laufen lassen · Trend zieht wieder an'};
   if(pnl<cfg.minPositiveExitPct)return{...base,action:'HOLD',reason:'too_small',label:'Kein Mini-Gewinnverkauf'};
   const trailHit=givebackPoints>=tier.minGivebackPoints&&givebackFraction>=tier.givebackFraction;
-  const scoreWeak=score<=tier.maxHoldScore&&(scoreDelta<=-3||scoreFromPeak<=-7);
-  const nearPeakExhaustion=peak>=2.5&&givebackFraction>=.14&&scoreFromPeak<=-9&&momentumWeak&&score<=62;
+  const scoreWeakening=(scoreDelta<=-3||scoreFromPeak<=-7)&&score<=tier.maxExitScore;
+  const nearPeakExhaustion=peak>=2.5&&givebackFraction>=.14&&scoreFromPeak<=-7&&momentumWeak&&score<=78;
   if(nearPeakExhaustion)return{...base,action:'SELL',reason:'near_peak_exhaustion',label:'Gewinn sichern · Anstieg läuft aus'};
-  if(trailHit&&scoreWeak&&momentumWeak)return{...base,action:'SELL',reason:'dynamic_profit_lock',label:'Gewinn sichern · dynamischer Rücklauf'};
+  if(trailHit&&scoreWeakening&&momentumWeak)return{...base,action:'SELL',reason:'dynamic_profit_lock',label:'Gewinn sichern · dynamischer Rücklauf'};
   return{...base,action:'HOLD',reason:trailHit?'trail_unconfirmed':'trend_intact',label:trailHit?'Halten · Rücklauf noch nicht bestätigt':'Gewinn laufen lassen'};
 }
