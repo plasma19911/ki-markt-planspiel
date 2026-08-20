@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T13:33:03.708687+00:00",
+  "checkedAt": "2026-08-20T13:33:50.364276+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -30,19 +30,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T13:32:10.630Z",
-    "ageSeconds": 53,
+    "lastSeenAt": "2026-08-20T13:33:10.583Z",
+    "ageSeconds": 40,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 179,
-  "lastScan": "2026-08-20T13:31:23.256Z",
+  "scanCount": 180,
+  "lastScan": "2026-08-20T13:33:13.487Z",
   "lastError": null,
   "aiLastSummary": "KI-Fallback: kein JSON",
   "cash": 1476.2217081333488,
-  "equity": 9948.595360854642,
-  "pnl": -51.40463914535758,
-  "marketValue": 8472.373652721293,
+  "equity": 9943.91411226105,
+  "pnl": -56.08588773894917,
+  "marketValue": 8467.692404127702,
   "accountingDelta": 0.0,
   "positions": 6,
   "positionRows": [
@@ -55,7 +55,7 @@
       "invested": 3898.934957,
       "entry_fee": 1,
       "entry_price": 14.334319694519042,
-      "last_price": 14.460000038146973,
+      "last_price": 14.4399995803833,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
@@ -91,8 +91,8 @@
       "opened_at": "2026-08-20T08:39:12.347Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": -0.6,
-      "signal_confidence": 0.34,
+      "score": 1.6,
+      "signal_confidence": 0.44000000000000006,
       "zero_quantity": 244.42880057366253,
       "zero_whole_shares": 244,
       "zero_fractional_shares": 0.428800573662528,
@@ -113,15 +113,15 @@
       "invested": 869.096941,
       "entry_fee": 1,
       "entry_price": 214.7145,
-      "last_price": 210.89999389648438,
+      "last_price": 211.10000610351562,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-20T08:42:11.798Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": -0.19999999999999996,
-      "signal_confidence": 0.30000000000000004,
+      "score": 4.3,
+      "signal_confidence": 0.63,
       "zero_quantity": 4.04768630574851,
       "zero_whole_shares": 4,
       "zero_fractional_shares": 0.04768630574850974,
@@ -190,15 +190,15 @@
       "invested": 70.201497,
       "entry_fee": 2,
       "entry_price": 55.375319694519035,
-      "last_price": 55.060001373291016,
+      "last_price": 55.02000045776367,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-20T09:43:19.918Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 5.05,
-      "signal_confidence": 0.72216,
+      "score": 4.3,
+      "signal_confidence": 0.63,
       "zero_quantity": 1.26773980506646,
       "zero_whole_shares": 1,
       "zero_fractional_shares": 0.2677398050664599,
@@ -215,10 +215,10 @@
     {
       "id": 36,
       "ts": "2026-08-20T12:02:11.549Z",
-      "end_ts": "2026-08-20T13:31:23.256Z",
-      "event_count": 53,
+      "end_ts": "2026-08-20T13:33:13.487Z",
+      "event_count": 54,
       "start_scan": 127,
-      "end_scan": 179,
+      "end_scan": 180,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -228,10 +228,10 @@
       "trade_pnl": null,
       "cash_before": 1476.2217081333488,
       "cash_after": 1476.2217081333488,
-      "equity": 9948.595360854642,
-      "total_pnl": -51.40463914535758,
+      "equity": 9943.91411226105,
+      "total_pnl": -56.08588773894917,
       "score": null,
-      "reason": "Kein Trade. Bestes Signal IFX.DE: Score 5.05, Konfidenz 72%."
+      "reason": "Kein Trade. Bestes Signal BESI.AS: Score 4.30, Konfidenz 63%."
     },
     {
       "id": 35,
@@ -624,6 +624,16 @@
   ],
   "recentAiLog": [
     {
+      "id": 37,
+      "ts": "2026-08-20T13:33:13.487Z",
+      "kind": "IDEA",
+      "symbol": "BESI.AS",
+      "title": "Beobachtungskandidat",
+      "message": "BESI.AS: Kein Trade. Bestes Signal BESI.AS: Score 4.30, Konfidenz 63%.",
+      "confidence": 0.63,
+      "meta": null
+    },
+    {
       "id": 36,
       "ts": "2026-08-20T13:12:13.170Z",
       "kind": "IDEA",
@@ -769,18 +779,6 @@
       "message": "REG1V.HE: Kein Trade. Bestes Signal REG1V.HE: Score 6.05, Konfidenz 76%.",
       "confidence": 0.7596,
       "meta": null
-    },
-    {
-      "id": 22,
-      "ts": "2026-08-20T09:52:21.398Z",
-      "kind": "TRADE",
-      "symbol": "PARAS.NS",
-      "title": "Verkauf ausgeführt",
-      "message": "PARAS.NS: KI SELL 72%: FINAL-CONTROLLER PROFIT EXIT: Gewinnerstruktur ist unabhängig bestätigt gebrochen.",
-      "confidence": null,
-      "meta": {
-        "pnl": -1.9675020652445738
-      }
     }
   ],
   "candleFlowPolicy": {
@@ -1081,8 +1079,8 @@
     "proposalContaminationFixed": true
   },
   "risk": {
-    "equity": 9948.595360854642,
-    "dailyPct": -0.48223251973161796,
+    "equity": 9943.91411226105,
+    "dailyPct": -0.529059975483559,
     "availableCash": 1476.2217081333488,
     "hardLimits": true,
     "budgetOnly": false,
@@ -1095,17 +1093,17 @@
         {
           "type": "SINGLE_POSITION_OVER_CAP",
           "symbol": "REG1V.HE",
-          "pct": 39.53,
+          "pct": 39.5,
           "limitPct": 25
         },
         {
           "type": "REGION_OVER_CAP",
           "region": "NORDICS",
-          "pct": 60.69,
+          "pct": 60.66,
           "limitPct": 55
         }
       ],
-      "equity": 9948.6,
+      "equity": 9943.91,
       "rule": "Bestehende Altpositionen über dem aktuellen Cap werden gemeldet und für weitere Käufe gesperrt, aber nicht allein wegen des Caps zwangsverkauft."
     },
     "rule": "Finale V27.6-Grenzen gelten nach dem inneren R2-Plan und auch für AGM_PREVIEW."
