@@ -17,26 +17,23 @@ assert.equal(evaluateCapitalMotion({...base,momentum5:-.4,momentum20:-.35,score:
 const alloc=buildCapitalMotionAllocations([base,alt],null);
 assert.ok(alloc.length>=1,'Mindestens ein hart-sicherer Kandidat muss Kapital erhalten');
 const total=alloc.reduce((a,x)=>a+x.allocation_pct,0);
-assert.ok(Math.abs(total-100)<0.01,`Freies Cash muss auf 100% normalisiert werden, ist ${total}`);
+assert.ok(Math.abs(total-100)<0.01,`Legacy-Capital-Motion-Allokation bleibt intern auf 100% normalisiert, ist ${total}`);
 assert.equal(alloc.some(x=>x.symbol==='BAD'),false,'Unsichere Kandidaten duerfen nie in die Allokation');
 
 const weak=evaluateCapitalMotion({...base,symbol:'HELD',score:2.4,confidence:.55,momentum5:-.05,momentum20:.01},null);
 const strong=evaluateCapitalMotion({...base,symbol:'NEW',score:4.2,confidence:.75,momentum5:.12,momentum20:.3},null);
-assert.equal(shouldRotateCapital({current:weak,alternative:strong,ageMinutes:20,pnlPct:-.2}),true,'Verlierende schwache Position soll frueh in deutlich besseres Setup rotieren');
+assert.equal(shouldRotateCapital({current:weak,alternative:strong,ageMinutes:20,pnlPct:-.2}),true,'Legacy-Rotationsfunktion erkennt deutlichen Erwartungswertvorsprung; finale V26.3-Instanz entscheidet separat über tatsächlichen SELL');
 assert.equal(shouldRotateCapital({current:strong,alternative:{...strong,expected:strong.expected+.4},ageMinutes:30,pnlPct:1.8}),false,'Gesunder Gewinner darf nicht wegen Mini-Vorsprung hektisch rotiert werden');
 
-// Bereits gehaltene Starter duerfen nach erneuter Qualifikation weiter wachsen.
+// Automatische Aufstockung ist auf Nutzerwunsch vollständig deaktiviert.
 const heldCandidate={...base,symbol:'HELDGOOD',score:4.4,confidence:.76,day_change:.8,momentum5:.12,momentum20:.30,momentumAcceleration5:.06,drawdownFrom20mHighPct:-.55,rsi:60,volumeRatio:1.1,momentumBreakoutScore:.7};
 const held=[{symbol:'HELDGOOD',invested:520,pnlPct:.9,opened_at:new Date(Date.now()-35*60_000).toISOString(),last_added_at:new Date(Date.now()-20*60_000).toISOString()}];
 const scaleUps=buildConfirmedScaleUpActions(held,[heldCandidate],{cash:8000,storage:null});
-assert.equal(scaleUps.length,1,'Erneut bestaetigter Starter muss einen Ausbauvorschlag erhalten');
-assert.equal(scaleUps[0].action,'BUY');
-assert.match(scaleUps[0].reason,/STARTER-AUSBAU/);
-assert.ok(scaleUps[0].allocation_pct>=2&&scaleUps[0].allocation_pct<=10,'Starter-Ausbau bleibt klein und begrenzt');
+assert.deepEqual(scaleUps,[],'Automatische Aufstockung muss vollständig deaktiviert bleiben');
 const tooSoon=buildConfirmedScaleUpActions([{...held[0],last_added_at:new Date(Date.now()-5*60_000).toISOString()}],[heldCandidate],{cash:8000});
-assert.equal(tooSoon.length,0,'Innerhalb der 10-Minuten-Hysterese darf nicht erneut aufgestockt werden');
+assert.deepEqual(tooSoon,[],'Auch innerhalb früherer Hysterese darf keine automatische Aufstockung entstehen');
 const losing=buildConfirmedScaleUpActions([{...held[0],pnlPct:-2.6}],[{...heldCandidate,momentumBreakoutScore:.2,drawdownFrom20mHighPct:-.5}],{cash:8000});
-assert.equal(losing.length,0,'Normaler deutlicher Verlust darf nicht blind averaged-down werden');
+assert.deepEqual(losing,[],'Verlustposition darf ebenfalls niemals automatisch aufgestockt werden');
 
 // Preis-Timing: nicht am Peak kaufen, sondern Ruecksetzer + erneutes Hochdrehen bevorzugen.
 const pullback={...base,symbol:'PULLBACK',score:4.0,confidence:.73,day_change:2.4,drawdownFrom20mHighPct:-.82,momentum5:.09,momentum20:.22,momentumAcceleration5:.06,rsi:59};
@@ -57,6 +54,6 @@ const pullbackAlloc=buildPullbackFirstAllocations([peak,pullback],null);
 assert.ok(pullbackAlloc.length>=1,'Ruecksetzer muss Kapital erhalten');
 assert.equal(pullbackAlloc[0].symbol,'PULLBACK','Ruecksetzer muss den bereits weit gelaufenen Peak schlagen');
 assert.equal(pullbackAlloc.some(x=>x.symbol==='PEAK'),false,'Peak darf nicht durch 100%-Cash-Zwang wieder hineinkommen');
-assert.ok(Math.abs(pullbackAlloc.reduce((a,x)=>a+x.allocation_pct,0)-100)<.01,'Wenn ein normaler guter Pullback vorhanden ist, darf das verfuegbare Cash weiterhin voll eingesetzt werden');
+assert.ok(Math.abs(pullbackAlloc.reduce((a,x)=>a+x.allocation_pct,0)-100)<.01,'Wenn ein normaler guter Pullback vorhanden ist, darf die Legacy-Pullback-Funktion intern weiterhin normalisieren; die finale V26.3-Kapitalsteuerung entscheidet die echte Zielquote');
 
-console.log(JSON.stringify({ok:true,capitalFloor:ev,allocation:alloc.map(x=>({symbol:x.symbol,pct:x.allocation_pct,expected:x.expected,tier:x.tier})),rotation:true,hardSafety:true,scaleUp:{enabled:true,count:scaleUps.length,pct:scaleUps[0].allocation_pct,hysteresis:true,noBlindAverageDown:true},pullbackFirst:{pullback:pullbackTiming,peakBlocked:peakTiming.peakRisk,earlyBreakout:earlyTiming.earlyBreakout,fallingKnifeBlocked:!fallingTiming.buyable,allocation:pullbackAlloc.map(x=>({symbol:x.symbol,pct:x.allocation_pct,mode:x.entryMode,score:x.adjustedExpected}))}},null,2));
+console.log(JSON.stringify({ok:true,capitalFloor:ev,allocation:alloc.map(x=>({symbol:x.symbol,pct:x.allocation_pct,expected:x.expected,tier:x.tier})),rotationFunction:true,hardSafety:true,scaleUp:{enabled:false,count:0,automaticScaleUp:false},pullbackFirst:{pullback:pullbackTiming,peakBlocked:peakTiming.peakRisk,earlyBreakout:earlyTiming.earlyBreakout,fallingKnifeBlocked:!fallingTiming.buyable,allocation:pullbackAlloc.map(x=>({symbol:x.symbol,pct:x.allocation_pct,mode:x.entryMode,score:x.adjustedExpected}))}},null,2));
