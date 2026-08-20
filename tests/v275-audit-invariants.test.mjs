@@ -88,10 +88,22 @@ assert.match(outer,/executionScaleUpHardBlocked:true/);
 
 // 11) A transient FX outage for an EXISTING foreign position must never mark its value with FX=0.
 assert.match(r2,/function trustedHeldQuote\(/,'existing holdings need a dedicated last-trusted-FX failover path');
+assert.match(r2,/liveCandidate=candidate\?\.fresh\?candidate:null,liveHeld=held\?\.fresh\?held:null/,'a stale deep candidate must not override a fresh held quote');
 assert.match(r2,/if\(num\(q\.fxRate,0\)>0\)p\.last_fx=num\(q\.fxRate\)/,'held-position mark update must never persist FX=0');
 assert.match(r2,/markFx=num\(fx,0\)>0\?num\(fx\):entryFx/,'valuation must fall back to entry FX instead of zero if a bad mark slips through');
 assert.match(r2,/fx_stale=Boolean\(q\.fxStale\)/,'stale-but-trusted held FX must be explicitly marked');
 assert.match(r2,/fx_verified:fxVerified/,'new positions must persist the verified-FX fact');
 assert.match(r2,/if\(!q\?\.fresh\|\|!\(num\(q\.fxRate,0\)>0\)\)continue/,'sell execution must never use FX=0');
+
+// 12) SELL net-P/L must use the position's last trusted foreign FX when the current candidate carries fx_rate=0.
+const foreignSellPlan={summary:'FINAL-CONTROLLER V27.5',actions:[{symbol:'FOREIGN.NS',action:'SELL',confidence:.8,allocation_pct:0,reason:'FINAL-CONTROLLER PROFIT EXIT: Gewinnerstruktur ist unabhängig bestätigt gebrochen.'}]};
+const foreignSellState={
+ config:{cash:1000,currency:'EUR',slippage_percent:.1},
+ positions:[{symbol:'FOREIGN.NS',invested:100,entry_fee:1,entry_price:1000,last_price:1000,entry_fx:.01,last_fx:.01,zero_quantity:10,currency:'INR',instrument_type:'EQUITY'}],
+ candidates:[{symbol:'FOREIGN.NS',price:1000,fx_rate:0,fx_verified:false,currency:'INR',sellerShare:55,intraday5m:-.05,intraday20m:-.08,momentumAcceleration5:-.01,drawdownFrom20mHighPct:-.3,eventRisk:'NONE',news:0,instrument_type:'EQUITY'}]
+};
+const foreignSellOut=enforceLossSellInvariant(foreignSellPlan,foreignSellState);
+assert.equal(foreignSellOut.plan.actions[0].action,'HOLD','candidate FX=0 must fall back to last trusted position FX, revealing the fee-net loss instead of inventing FX=1');
+assert.match(foreignSellOut.plan.actions[0].reason,/PROFIT EXIT.*ZERO-Gebühren.*Verlust/i);
 
 console.log('V27.5 full-audit invariant regression tests: OK');
