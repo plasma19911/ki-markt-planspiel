@@ -45,7 +45,7 @@ jobs:
       - name: Allow Cloudflare Git integration to publish
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify live V28.6 scoring + rotation + single UI
+      - name: Verify live V28.7 calibrated scoring + breadth + single UI
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';
@@ -54,16 +54,18 @@ jobs:
             try{
               const q=Date.now();
               const sr=await fetch(`${base}/api/status?view=dashboard&main_live=${q}`,{headers:{'cache-control':'no-cache'}});const s=await sr.json();
-              const ur=await fetch(`${base}/v286-live-ui.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const u=await ur.text();
+              const ur=await fetch(`${base}/v287-live-ui.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const u=await ur.text();
               const qr=await fetch(`${base}/quota-guard.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const qjs=await qr.text();
               const policy=s?.researchSignalFusionPolicy||{};
+              const breadth=s?.scannerBreadthPolicy||{};
               const final=s?.finalDecisionPolicy||{};
               const posScores=Array.isArray(policy.positionScores)?policy.positionScores:[];
               const positions=Array.isArray(s?.positions)?s.positions:[];
               const candidates=Array.isArray(s?.candidates)?s.candidates:[];
               const ranking=Array.isArray(policy.ranking)?policy.ranking:[];
-              const ok=sr.ok&&Number(policy.version)>=28.6&&policy.allDecisionCandidatesScored===true&&ranking.length>=candidates.length&&posScores.length>=positions.length&&Number(final.version)>=28.6&&final.relativeRotationForBetterOpportunity===true&&ur.ok&&/__V286_UI_LIVE__/.test(u)&&/singleScoreRenderer:true/.test(u)&&qr.ok&&/v286-live-ui\.js/.test(qjs);
-              last=`status=${sr.status} research=${policy.version} candidates=${candidates.length}/${ranking.length} positions=${positions.length}/${posScores.length} final=${final.version} ui=${ur.status} bootstrap=${qr.status}`;
+              const scoreShape=ranking.every(x=>Number.isFinite(Number(x?.buyScore))&&Number.isFinite(Number(x?.sellScore)));
+              const ok=sr.ok&&Number(policy.version)>=28.7&&policy.allDecisionCandidatesScored===true&&ranking.length>=candidates.length&&posScores.length>=positions.length&&scoreShape&&Number(final.version)>=28.7&&final.calibratedActionScore===true&&breadth.enabled===true&&Number(breadth.broadPoolTarget)===60&&ur.ok&&/__V287_UI_LIVE__/.test(u)&&/buyHoldSellScores:true/.test(u)&&qr.ok&&/v287-live-ui\.js/.test(qjs);
+              last=`status=${sr.status} score=${policy.version} candidates=${candidates.length}/${ranking.length} positions=${positions.length}/${posScores.length} breadth=${breadth.broadPoolSize}/${breadth.broadPoolTarget} final=${final.version} ui=${ur.status} bootstrap=${qr.status}`;
               if(ok){console.log('Main live verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
