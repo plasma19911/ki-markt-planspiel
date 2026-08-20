@@ -24,7 +24,7 @@ jobs:
     timeout-minutes: 3
     steps:
       - uses: actions/checkout@v4
-      - name: Wait briefly for Cloudflare Git deployment and verify V27.5
+      - name: Wait briefly for Cloudflare Git deployment and verify V27.6 AGM Preview
         run: |
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
@@ -41,20 +41,25 @@ jobs:
                 minorQuoteUnitNormalization:j?.finalDecisionPolicy?.minorQuoteUnitNormalization??null,
                 executionScaleUpHardBlocked:j?.finalDecisionPolicy?.executionScaleUpHardBlocked??null,
                 broadMarketRegime:j?.finalDecisionPolicy?.broadMarketRegime??null,
-                broadMarketRegimeSource:j?.finalDecisionPolicy?.broadMarketRegimeSource??null,
                 netExpectedEdgeGate:j?.finalDecisionPolicy?.netExpectedEdgeGate??null,
                 marketRegimeEntryGate:j?.finalDecisionPolicy?.marketRegimeEntryGate??null,
                 lossSellInvariant:j?.finalDecisionPolicy?.lossSellInvariant??null,
                 automaticScaleUp:j?.finalDecisionPolicy?.automaticScaleUp??null,
+                agmPreview:j?.finalDecisionPolicy?.agmPreview??null,
+                agmDailyRefresh:j?.finalDecisionPolicy?.agmCalendarDailyRefresh??null,
+                agmLiveReevaluation:j?.finalDecisionPolicy?.agmLiveReevaluationEveryScan??null,
+                agmEvents:Array.isArray(j?.agmCalendar?.events)?j.agmCalendar.events.length:null,
+                agmSource:j?.agmCalendar?.source??null,
                 accountingDelta:Number(j?.accounting?.identityDelta??j?.accountingDelta??0),
                 lastError:j?.config?.last_error??j?.lastError??null,
                 ocdol:o?{currency:o.currency,entryPrice:o.entry_price,lastPrice:o.last_price,entryFx:o.entry_fx,lastFx:o.last_fx,quantity:o.zero_quantity,fxVerified:o.fx_verified??null,fxStale:o.fx_stale??null}:null,
                 summary:j?.config?.ai_last_summary??j?.aiLastSummary??null
               };
               const ocdolOk=!o||(String(o.currency||'').toUpperCase()==='GBP'&&Number(o.entry_price)>0&&Number(o.entry_price)<20&&Number(o.last_price)>0&&Number(o.last_price)<20&&Number(o.entry_fx)>.5&&Number(o.entry_fx)<2&&Number(o.zero_quantity)>20);
-              const ok=r.ok&&live.version===27.5&&live.minorQuoteUnitNormalization===true&&live.executionScaleUpHardBlocked===true&&live.broadMarketRegime===true&&live.netExpectedEdgeGate===true&&live.marketRegimeEntryGate===true&&live.lossSellInvariant===true&&live.automaticScaleUp===false&&Math.abs(live.accountingDelta)<1e-6&&!live.lastError&&ocdolOk;
+              const agmOk=live.agmPreview===true&&live.agmDailyRefresh===true&&live.agmLiveReevaluation===true&&live.agmEvents!==null;
+              const ok=r.ok&&live.version===27.6&&live.minorQuoteUnitNormalization===true&&live.executionScaleUpHardBlocked===true&&live.broadMarketRegime===true&&live.netExpectedEdgeGate===true&&live.marketRegimeEntryGate===true&&live.lossSellInvariant===true&&live.automaticScaleUp===false&&agmOk&&Math.abs(live.accountingDelta)<1e-6&&!live.lastError&&ocdolOk;
               if(ok){error=null;break}
-              error='Live V27.5 invariants not complete yet';
+              error='Live V27.6 + AGM invariants not complete yet';
             }catch(e){error=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
