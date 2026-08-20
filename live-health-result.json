@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T14:02:24.216977+00:00",
+  "checkedAt": "2026-08-20T14:03:17.789758+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -31,8 +31,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T14:02:09.886Z",
-    "ageSeconds": 14,
+    "lastSeenAt": "2026-08-20T14:03:11.662Z",
+    "ageSeconds": 5,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
@@ -1235,7 +1235,15 @@
     "enabled": true,
     "version": 27.7,
     "stateVersion": 2,
-    "latest": null,
+    "latest": {
+      "entryConfirmationWaits": 0,
+      "lateImpulseBlocks": 0,
+      "deteriorationBlocks": 0,
+      "saturationBlocks": 0,
+      "convictionSizeCaps": 0,
+      "tinyProfitHolds": 0,
+      "confirmationResets": 0
+    },
     "entryConfirmation": true,
     "minuteScanConfirmationSafe": true,
     "exceptionalImmediateEntry": true,
