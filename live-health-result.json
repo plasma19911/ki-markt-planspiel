@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T12:41:11.960710+00:00",
+  "checkedAt": "2026-08-20T12:42:32.982324+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -21,16 +21,18 @@
     "entryTimingLearning": true,
     "finalDecisionV276": true,
     "agmPreviewEnabled": true,
-    "agmDailyAndLiveReevaluation": true,
+    "agmDailyAndLiveReevaluation": false,
     "agmCalendarPayload": true
   },
-  "failedChecks": [],
-  "allRequiredChecksPassed": true,
+  "failedChecks": [
+    "agmDailyAndLiveReevaluation"
+  ],
+  "allRequiredChecksPassed": false,
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T12:41:06.584Z",
-    "ageSeconds": 5,
+    "lastSeenAt": "2026-08-20T12:42:07.211Z",
+    "ageSeconds": 26,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
@@ -1190,7 +1192,7 @@
     "agmPreview": true,
     "agmPreviewVersion": 27.6,
     "agmCalendarDailyRefresh": true,
-    "agmLiveReevaluationEveryScan": true,
+    "agmLiveReevaluationEveryScan": false,
     "agmMinimumScore": 72,
     "agmMinimumConfidence": 0.58,
     "agmMaximumAllocationPct": 18,
@@ -1200,14 +1202,21 @@
     "agmNeverBypassesNormalSafetyGates": true,
     "maxCandidatesPerDecision": 4,
     "regressionTests": "V26.3 + V26.2 + V27 + V27.1 + V27.2 + V27.3 + V27.4 + V27.5 audit + V27.6 AGM preview invariants",
-    "rule": "V27.6 ergänzt Hauptversammlungen als vorsichtigen Vorlauf-Katalysator. Nur ein positiver Gewinn-/Ausblick-Score plus frische technische Bestätigung kann AGM_PREVIEW freigeben; HV allein erzwingt keinen Kauf. Maximal 18% Cash und danach weiterhin dieselben FX-, Kosten-, Depotrisiko-, Marktregime-, Anti-Chase- und No-Scale-up-Regeln. Alle V27.5-Audit-Sicherungen bleiben aktiv."
+    "rule": "V27.6 AGM-PREVIEW: HV-Termine und der 0-100-Score werden einmal taeglich als Tages-Snapshot aus Zahlen, 1-Jahres-Chart und frischen News aktualisiert. Der Score bleibt danach bis zum naechsten Tageslauf unveraendert. Aktuelle Markt-/Risikosignale duerfen einen Kauf weiterhin blockieren, veraendern aber den gespeicherten HV-Score nicht. Alle V27.5-Audit-Sicherungen bleiben aktiv.",
+    "agmScoreEvaluationOnceDaily": true,
+    "agmScoreLockedUntilNextDailyRefresh": true,
+    "agmDailyInputs": [
+      "ZAHLEN",
+      "CHART",
+      "NEWS"
+    ]
   },
   "agmCalendarPolicy": {
     "enabled": true,
     "version": 27.6,
     "refreshCadence": "daily",
-    "liveReevaluation": "every market/news scan",
-    "source": "finanzen.net Hauptversammlung + finanzen.net Schätzungen + Yahoo Fallback",
+    "liveReevaluation": "none",
+    "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
     "scoreRange": [
       0,
       100
@@ -1222,7 +1231,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T12:40:39.841Z",
+      "cachedAt": "2026-08-20T12:42:29.801Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
@@ -1236,15 +1245,23 @@
         "minimumTechnicalConfidence": 0.5,
         "paperTradingOnly": true
       }
-    }
+    },
+    "scoreEvaluationCadence": "daily",
+    "scoreReevaluation": "once daily only",
+    "scoreLockedUntilNextDailyRefresh": true,
+    "dailyInputs": [
+      "ZAHLEN",
+      "CHART",
+      "NEWS"
+    ]
   },
   "agmCalendar": {
     "version": 27.6,
     "modelVersion": 27.6,
-    "updatedAt": "2026-08-20T12:11:38.507Z",
-    "nextRefreshAfter": "2026-08-21T11:11:38.507Z",
+    "updatedAt": "2026-08-20T12:40:08.576Z",
+    "nextRefreshAfter": "2026-08-21T12:40:08.576Z",
     "refreshCadence": "daily",
-    "source": "finanzen.net Hauptversammlung + finanzen.net Schätzungen + Yahoo Fallback",
+    "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
     "sourceUrls": [
       "https://www.finanzen.net/termine/unternehmen/hauptversammlung",
       "https://www.finanzen.net/index/cdax/hv-termine",
@@ -1256,9 +1273,9 @@
     "sourceErrors": [],
     "rawUpcomingCount": 17,
     "matchedUpcomingCount": 7,
-    "fundamentalEstimateCount": 0,
+    "fundamentalEstimateCount": 7,
     "universeGeneratedAt": "2026-08-20T05:07:22.997910Z",
-    "scoreMeaning": "0-100 interner Vorab-Chancen-Score; keine Gewinnwahrscheinlichkeit",
+    "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
     "events": [
       {
         "date": "2026-08-20",
@@ -1270,28 +1287,80 @@
         "companyKey": "FLUGGER",
         "currency": "DKK",
         "matchConfidence": 1,
-        "baseScore": 50,
-        "fundamentalScore": 50,
-        "fundamentalConfidence": 0.18,
-        "profitForecastPositive": null,
-        "fundamentalReasons": [],
+        "baseScore": 79,
+        "fundamentalScore": 79,
+        "fundamentalConfidence": 0.881,
+        "profitForecastPositive": true,
+        "fundamentalReasons": [
+          "Analysten erwarten EPS-Wachstum ca. 17%",
+          "Umsatzschätzung nächstes Jahr +4%",
+          "Chart im Aufwaertstrend (Kurs > 50- > 200-Tage-Linie)",
+          "3-Monats-Trend +16%",
+          "Gesunde Position im 52-Wochen-Band (78%)"
+        ],
         "fundamentals": {
-          "source": "Yahoo quote",
-          "epsTrailingTwelveMonths": null,
-          "epsForward": null,
-          "epsCurrentYear": null,
-          "averageAnalystRating": null,
-          "fiftyTwoWeekChange": null,
-          "forwardPE": null,
-          "trailingPE": null,
-          "marketCap": null
+          "source": "finanzen.net Schätzungen",
+          "epsCurrentYearEstimate": 28.95,
+          "epsNextYearEstimate": 33.85,
+          "revenueCurrentYearEstimate": 2413.5,
+          "revenueNextYearEstimate": 2518.18
         },
         "daysUntil": 0,
-        "baseLabel": "NEUTRAL",
-        "score": 50,
-        "confidence": 0.18,
-        "label": "NEUTRAL",
-        "profitOutlookPositive": false,
+        "baseLabel": "POSITIV",
+        "estimateUrl": "https://www.finanzen.net/schaetzungen/flugger",
+        "scoreParts": [
+          {
+            "key": "ZAHLEN",
+            "delta": 14,
+            "label": "Analystenschaetzungen"
+          },
+          {
+            "key": "CHART",
+            "delta": 14,
+            "label": "Kursstruktur 1 Jahr"
+          },
+          {
+            "key": "NEWS",
+            "delta": 1,
+            "label": "10 frische Meldungen"
+          }
+        ],
+        "chartDelta": 14,
+        "newsDelta": 1,
+        "fundamentalDelta": 14,
+        "newsGuidance": 0,
+        "newsHeadlines": [
+          "Biggest Mover Thursday: Webull Stock Jumps 15% After Record Revenue Crushes Estimates",
+          "Circle, Strategy Lead Crypto Stocks Rally as Bitcoin Surges Above $71,000",
+          "Private Credit Is Wall Street’s Favorite Trade and These 3 ETFs Hand Regular Investors Up to 11 Percent",
+          "Suffescom Solutions Builds AI Tax Filing Software Achieving 70%+ Automation Rate for Business Tax Operations"
+        ],
+        "dataQuality": {
+          "zahlen": true,
+          "chart": true,
+          "news": true
+        },
+        "chart": {
+          "source": "Yahoo chart 1y/1d",
+          "currency": "DKK",
+          "samples": 247,
+          "last": 411,
+          "changeM1": -4,
+          "changeM3": 15.8,
+          "changeM6": 16.8,
+          "sma50": 402.6,
+          "sma200": 353.4,
+          "position52w": 78.3,
+          "drawdownFromHigh": -6.4,
+          "volatility20d": 40,
+          "volumeTrend": -55.7
+        },
+        "scoreEvaluatedAt": "2026-08-20T12:40:08.576Z",
+        "scoreValidUntil": "2026-08-21T12:40:08.576Z",
+        "score": 79,
+        "confidence": 0.881,
+        "label": "POSITIV",
+        "profitOutlookPositive": true,
         "tradeEligible": false,
         "alreadyHeld": false,
         "scoreLocked": true
@@ -1306,28 +1375,81 @@
         "companyKey": "MODINE MANUFACTU",
         "currency": "EUR",
         "matchConfidence": 1,
-        "baseScore": 50,
-        "fundamentalScore": 50,
-        "fundamentalConfidence": 0.18,
-        "profitForecastPositive": null,
-        "fundamentalReasons": [],
+        "baseScore": 58,
+        "fundamentalScore": 58,
+        "fundamentalConfidence": 0.837,
+        "profitForecastPositive": true,
+        "fundamentalReasons": [
+          "Analysten erwarten EPS-Wachstum ca. 46%",
+          "Umsatzschätzung nächstes Jahr +24%",
+          "Kurs unter der 200-Tage-Linie",
+          "3-Monats-Trend -26%",
+          "Kurs faellt kurz vor der HV (-12% in 1 Monat)",
+          "Hohe Schwankung (92% p.a.)"
+        ],
         "fundamentals": {
-          "source": "Yahoo quote",
-          "epsTrailingTwelveMonths": null,
-          "epsForward": null,
-          "epsCurrentYear": null,
-          "averageAnalystRating": null,
-          "fiftyTwoWeekChange": null,
-          "forwardPE": null,
-          "trailingPE": null,
-          "marketCap": null
+          "source": "finanzen.net Schätzungen",
+          "epsCurrentYearEstimate": 7.64,
+          "epsNextYearEstimate": 11.18,
+          "revenueCurrentYearEstimate": 4060.35,
+          "revenueNextYearEstimate": 5050.27
         },
         "daysUntil": 0,
-        "baseLabel": "NEUTRAL",
-        "score": 50,
-        "confidence": 0.18,
-        "label": "NEUTRAL",
-        "profitOutlookPositive": false,
+        "baseLabel": "LEICHT POSITIV",
+        "estimateUrl": "https://www.finanzen.net/schaetzungen/modine_manufacturing",
+        "scoreParts": [
+          {
+            "key": "ZAHLEN",
+            "delta": 21,
+            "label": "Analystenschaetzungen"
+          },
+          {
+            "key": "CHART",
+            "delta": -15,
+            "label": "Kursstruktur 1 Jahr"
+          },
+          {
+            "key": "NEWS",
+            "delta": 2,
+            "label": "9 frische Meldungen"
+          }
+        ],
+        "chartDelta": -15,
+        "newsDelta": 2,
+        "fundamentalDelta": 21,
+        "newsGuidance": 0,
+        "newsHeadlines": [
+          "CYD vs. MOD: Which Stock Is the Better Value Option?",
+          "Watts Raises 2026 Outlook as Data Center Demand Reshapes Its Growth",
+          "MOD vs. VRT: Which Stock Is the Better AI Data Center Play?",
+          "Wall Street Cuts MOD Stock Earnings Outlook: Hold or Sell the Stock?"
+        ],
+        "dataQuality": {
+          "zahlen": true,
+          "chart": true,
+          "news": true
+        },
+        "chart": {
+          "source": "Yahoo chart 1y/1d",
+          "currency": "EUR",
+          "samples": 164,
+          "last": 174.4,
+          "changeM1": -11.7,
+          "changeM3": -26.4,
+          "changeM6": -6,
+          "sma50": 207.2,
+          "sma200": 189.7,
+          "position52w": 40.1,
+          "drawdownFromHigh": -38.6,
+          "volatility20d": 92.2,
+          "volumeTrend": -53.1
+        },
+        "scoreEvaluatedAt": "2026-08-20T12:40:08.576Z",
+        "scoreValidUntil": "2026-08-21T12:40:08.576Z",
+        "score": 58,
+        "confidence": 0.837,
+        "label": "LEICHT POSITIV",
+        "profitOutlookPositive": true,
         "tradeEligible": false,
         "alreadyHeld": false,
         "scoreLocked": true
@@ -1342,28 +1464,166 @@
         "companyKey": "ICICI BANK",
         "currency": "INR",
         "matchConfidence": 1,
-        "baseScore": 50,
-        "fundamentalScore": 50,
-        "fundamentalConfidence": 0.18,
-        "profitForecastPositive": null,
-        "fundamentalReasons": [],
+        "baseScore": 78,
+        "fundamentalScore": 78,
+        "fundamentalConfidence": 0.881,
+        "profitForecastPositive": true,
+        "fundamentalReasons": [
+          "Analysten erwarten EPS-Wachstum ca. 15%",
+          "Umsatzschätzung nächstes Jahr +15%",
+          "Chart im Aufwaertstrend (Kurs > 50- > 200-Tage-Linie)",
+          "Gesunde Position im 52-Wochen-Band (80%)"
+        ],
         "fundamentals": {
-          "source": "Yahoo quote",
-          "epsTrailingTwelveMonths": null,
-          "epsForward": null,
-          "epsCurrentYear": null,
-          "averageAnalystRating": null,
-          "fiftyTwoWeekChange": null,
-          "forwardPE": null,
-          "trailingPE": null,
-          "marketCap": null
+          "source": "finanzen.net Schätzungen",
+          "epsCurrentYearEstimate": 1.68,
+          "epsNextYearEstimate": 1.94,
+          "revenueCurrentYearEstimate": 14165.94,
+          "revenueNextYearEstimate": 16329.04
         },
         "daysUntil": 1,
-        "baseLabel": "NEUTRAL",
-        "score": 50,
-        "confidence": 0.18,
-        "label": "NEUTRAL",
-        "profitOutlookPositive": false,
+        "baseLabel": "POSITIV",
+        "estimateUrl": "https://www.finanzen.net/schaetzungen/icici_bank",
+        "scoreParts": [
+          {
+            "key": "ZAHLEN",
+            "delta": 16,
+            "label": "Analystenschaetzungen"
+          },
+          {
+            "key": "CHART",
+            "delta": 12,
+            "label": "Kursstruktur 1 Jahr"
+          },
+          {
+            "key": "NEWS",
+            "delta": 0,
+            "label": "10 frische Meldungen"
+          }
+        ],
+        "chartDelta": 12,
+        "newsDelta": 0,
+        "fundamentalDelta": 16,
+        "newsGuidance": 0,
+        "newsHeadlines": [
+          "Asian Equities Traded in the US as American Depositary Receipts Edge Higher in Wednesday Trading",
+          "Asian Equities Traded in the US as American Depositary Receipts Track Lower in Tuesday Trading",
+          "Asian Equities Traded in the US as American Depositary Receipts Rise in Friday Trading",
+          "Asian Equities Traded in the US as American Depositary Receipts Marginally Higher in Thursday Trading"
+        ],
+        "dataQuality": {
+          "zahlen": true,
+          "chart": true,
+          "news": true
+        },
+        "chart": {
+          "source": "Yahoo chart 1y/1d",
+          "currency": "INR",
+          "samples": 250,
+          "last": 1411.9,
+          "changeM1": -3.5,
+          "changeM3": 11.7,
+          "changeM6": 0.3,
+          "sma50": 1404.3,
+          "sma200": 1351.4,
+          "position52w": 80.1,
+          "drawdownFromHigh": -3.5,
+          "volatility20d": 16,
+          "volumeTrend": -33.9
+        },
+        "scoreEvaluatedAt": "2026-08-20T12:40:08.576Z",
+        "scoreValidUntil": "2026-08-21T12:40:08.576Z",
+        "score": 78,
+        "confidence": 0.881,
+        "label": "POSITIV",
+        "profitOutlookPositive": true,
+        "tradeEligible": true,
+        "alreadyHeld": false,
+        "scoreLocked": true
+      },
+      {
+        "date": "2026-08-26",
+        "sourceCompanyName": "Under Armour Inc.",
+        "source": "finanzen.net Hauptversammlung",
+        "sourceHref": "https://www.finanzen.net/termine/under_armour",
+        "symbol": "UAA.VI",
+        "name": "Under Armour, Inc.",
+        "companyKey": "UNDER ARMOUR",
+        "currency": "EUR",
+        "matchConfidence": 1,
+        "baseScore": 60,
+        "fundamentalScore": 60,
+        "fundamentalConfidence": 0.881,
+        "profitForecastPositive": true,
+        "fundamentalReasons": [
+          "Analysten erwarten EPS-Wachstum ca. 82%",
+          "Umsatzschätzung nächstes Jahr +2%",
+          "Kurs unter der 200-Tage-Linie",
+          "Kurs faellt kurz vor der HV (-30% in 1 Monat)"
+        ],
+        "fundamentals": {
+          "source": "finanzen.net Schätzungen",
+          "epsCurrentYearEstimate": 0.11,
+          "epsNextYearEstimate": 0.2,
+          "revenueCurrentYearEstimate": 4741.61,
+          "revenueNextYearEstimate": 4845.89
+        },
+        "daysUntil": 6,
+        "baseLabel": "LEICHT POSITIV",
+        "estimateUrl": "https://www.finanzen.net/schaetzungen/under_armour",
+        "scoreParts": [
+          {
+            "key": "ZAHLEN",
+            "delta": 19,
+            "label": "Analystenschaetzungen"
+          },
+          {
+            "key": "CHART",
+            "delta": -9,
+            "label": "Kursstruktur 1 Jahr"
+          },
+          {
+            "key": "NEWS",
+            "delta": 0,
+            "label": "10 frische Meldungen"
+          }
+        ],
+        "chartDelta": -9,
+        "newsDelta": 0,
+        "fundamentalDelta": 19,
+        "newsGuidance": 0,
+        "newsHeadlines": [
+          "Micron Unveils Micron Research Labs, a U.S.-Based Long-Horizon Innovation Hub to Shape the Future of Memory and AI",
+          "Social Buzz: Wallstreetbets Stocks Mostly Higher Pre-Bell Thursday; Webull to Rise, Moderna to Fall",
+          "Why Micron Investors Are Missing Out on the Great Memory Stock Buy Back",
+          "Billionaire Stanley Druckenmiller May Have Just Repeated His \"Big Mistake\" With Nvidia -- This Time With a Chip Stock That Rose 300% in the "
+        ],
+        "dataQuality": {
+          "zahlen": true,
+          "chart": true,
+          "news": true
+        },
+        "chart": {
+          "source": "Yahoo chart 1y/1d",
+          "currency": "EUR",
+          "samples": 254,
+          "last": 4.5,
+          "changeM1": -29.7,
+          "changeM3": -6.6,
+          "changeM6": -32.5,
+          "sma50": 5.5,
+          "sma200": 5.1,
+          "position52w": 28.7,
+          "drawdownFromHigh": -32.6,
+          "volatility20d": 53.8,
+          "volumeTrend": -10.1
+        },
+        "scoreEvaluatedAt": "2026-08-20T12:40:08.576Z",
+        "scoreValidUntil": "2026-08-21T12:40:08.576Z",
+        "score": 60,
+        "confidence": 0.881,
+        "label": "LEICHT POSITIV",
+        "profitOutlookPositive": true,
         "tradeEligible": false,
         "alreadyHeld": false,
         "scoreLocked": true
@@ -1378,64 +1638,77 @@
         "companyKey": "PROSUS",
         "currency": "EUR",
         "matchConfidence": 1,
-        "baseScore": 50,
-        "fundamentalScore": 50,
-        "fundamentalConfidence": 0.18,
-        "profitForecastPositive": null,
-        "fundamentalReasons": [],
+        "baseScore": 51,
+        "fundamentalScore": 51,
+        "fundamentalConfidence": 0.801,
+        "profitForecastPositive": true,
+        "fundamentalReasons": [
+          "Analysten erwarten EPS-Wachstum ca. 17%",
+          "Umsatzschätzung nächstes Jahr +9%",
+          "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
+          "Kurs nahe 52-Wochen-Tief"
+        ],
         "fundamentals": {
-          "source": "Yahoo quote",
-          "epsTrailingTwelveMonths": null,
-          "epsForward": null,
-          "epsCurrentYear": null,
-          "averageAnalystRating": null,
-          "fiftyTwoWeekChange": null,
-          "forwardPE": null,
-          "trailingPE": null,
-          "marketCap": null
+          "source": "finanzen.net Schätzungen",
+          "epsCurrentYearEstimate": 4.28,
+          "epsNextYearEstimate": 5.02,
+          "revenueCurrentYearEstimate": 12469.55,
+          "revenueNextYearEstimate": 13652.03
         },
         "daysUntil": 6,
         "baseLabel": "NEUTRAL",
-        "score": 50,
-        "confidence": 0.18,
-        "label": "NEUTRAL",
-        "profitOutlookPositive": false,
-        "tradeEligible": false,
-        "alreadyHeld": false,
-        "scoreLocked": true
-      },
-      {
-        "date": "2026-08-26",
-        "sourceCompanyName": "Under Armour Inc.",
-        "source": "finanzen.net Hauptversammlung",
-        "sourceHref": "https://www.finanzen.net/termine/under_armour",
-        "symbol": "UAA.VI",
-        "name": "Under Armour, Inc.",
-        "companyKey": "UNDER ARMOUR",
-        "currency": "EUR",
-        "matchConfidence": 1,
-        "baseScore": 50,
-        "fundamentalScore": 50,
-        "fundamentalConfidence": 0.18,
-        "profitForecastPositive": null,
-        "fundamentalReasons": [],
-        "fundamentals": {
-          "source": "Yahoo quote",
-          "epsTrailingTwelveMonths": null,
-          "epsForward": null,
-          "epsCurrentYear": null,
-          "averageAnalystRating": null,
-          "fiftyTwoWeekChange": null,
-          "forwardPE": null,
-          "trailingPE": null,
-          "marketCap": null
+        "estimateUrl": "https://www.finanzen.net/schaetzungen/prosus",
+        "scoreParts": [
+          {
+            "key": "ZAHLEN",
+            "delta": 16,
+            "label": "Analystenschaetzungen"
+          },
+          {
+            "key": "CHART",
+            "delta": -15,
+            "label": "Kursstruktur 1 Jahr"
+          },
+          {
+            "key": "NEWS",
+            "delta": 0,
+            "label": "2 frische Meldungen"
+          }
+        ],
+        "chartDelta": -15,
+        "newsDelta": 0,
+        "fundamentalDelta": 16,
+        "newsGuidance": 0,
+        "newsHeadlines": [
+          "Indian fintech Navi to raise $100 million ahead of planned IPO",
+          "Sachin Bansal’s fintech Navi raises first outside capital with $100M Prosus investment"
+        ],
+        "dataQuality": {
+          "zahlen": true,
+          "chart": true,
+          "news": true
         },
-        "daysUntil": 6,
-        "baseLabel": "NEUTRAL",
-        "score": 50,
-        "confidence": 0.18,
+        "chart": {
+          "source": "Yahoo chart 1y/1d",
+          "currency": "EUR",
+          "samples": 254,
+          "last": 37.6,
+          "changeM1": -2.4,
+          "changeM3": -5.2,
+          "changeM6": -15,
+          "sma50": 38.9,
+          "sma200": 45,
+          "position52w": 4.2,
+          "drawdownFromHigh": -39.8,
+          "volatility20d": 38.2,
+          "volumeTrend": -23.2
+        },
+        "scoreEvaluatedAt": "2026-08-20T12:40:08.576Z",
+        "scoreValidUntil": "2026-08-21T12:40:08.576Z",
+        "score": 51,
+        "confidence": 0.801,
         "label": "NEUTRAL",
-        "profitOutlookPositive": false,
+        "profitOutlookPositive": true,
         "tradeEligible": false,
         "alreadyHeld": false,
         "scoreLocked": true
@@ -1450,28 +1723,78 @@
         "companyKey": "NTPC",
         "currency": "INR",
         "matchConfidence": 1,
-        "baseScore": 50,
-        "fundamentalScore": 50,
-        "fundamentalConfidence": 0.18,
-        "profitForecastPositive": null,
-        "fundamentalReasons": [],
+        "baseScore": 52,
+        "fundamentalScore": 52,
+        "fundamentalConfidence": 0.881,
+        "profitForecastPositive": true,
+        "fundamentalReasons": [
+          "Analysten erwarten leicht höheres EPS (+9%)",
+          "Umsatzschätzung nächstes Jahr +6%",
+          "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)"
+        ],
         "fundamentals": {
-          "source": "Yahoo quote",
-          "epsTrailingTwelveMonths": null,
-          "epsForward": null,
-          "epsCurrentYear": null,
-          "averageAnalystRating": null,
-          "fiftyTwoWeekChange": null,
-          "forwardPE": null,
-          "trailingPE": null,
-          "marketCap": null
+          "source": "finanzen.net Schätzungen",
+          "epsCurrentYearEstimate": 26.16,
+          "epsNextYearEstimate": 28.45,
+          "revenueCurrentYearEstimate": 2108785.09,
+          "revenueNextYearEstimate": 2244350.39
         },
         "daysUntil": 7,
         "baseLabel": "NEUTRAL",
-        "score": 50,
-        "confidence": 0.18,
+        "estimateUrl": "https://www.finanzen.net/schaetzungen/ntpc",
+        "scoreParts": [
+          {
+            "key": "ZAHLEN",
+            "delta": 11,
+            "label": "Analystenschaetzungen"
+          },
+          {
+            "key": "CHART",
+            "delta": -10,
+            "label": "Kursstruktur 1 Jahr"
+          },
+          {
+            "key": "NEWS",
+            "delta": 1,
+            "label": "10 frische Meldungen"
+          }
+        ],
+        "chartDelta": -10,
+        "newsDelta": 1,
+        "fundamentalDelta": 11,
+        "newsGuidance": 0,
+        "newsHeadlines": [
+          "Biggest Mover Thursday: Webull Stock Jumps 15% After Record Revenue Crushes Estimates",
+          "Circle, Strategy Lead Crypto Stocks Rally as Bitcoin Surges Above $71,000",
+          "Private Credit Is Wall Street’s Favorite Trade and These 3 ETFs Hand Regular Investors Up to 11 Percent",
+          "Suffescom Solutions Builds AI Tax Filing Software Achieving 70%+ Automation Rate for Business Tax Operations"
+        ],
+        "dataQuality": {
+          "zahlen": true,
+          "chart": true,
+          "news": true
+        },
+        "chart": {
+          "source": "Yahoo chart 1y/1d",
+          "currency": "INR",
+          "samples": 250,
+          "last": 337.5,
+          "changeM1": -3.2,
+          "changeM3": -13.2,
+          "changeM6": -8.4,
+          "sma50": 349.2,
+          "sma200": 357.8,
+          "position52w": 20.7,
+          "drawdownFromHigh": -17.7,
+          "volatility20d": 17.6,
+          "volumeTrend": -30.6
+        },
+        "scoreEvaluatedAt": "2026-08-20T12:40:08.576Z",
+        "scoreValidUntil": "2026-08-21T12:40:08.576Z",
+        "score": 52,
+        "confidence": 0.881,
         "label": "NEUTRAL",
-        "profitOutlookPositive": false,
+        "profitOutlookPositive": true,
         "tradeEligible": false,
         "alreadyHeld": false,
         "scoreLocked": true
@@ -1486,36 +1809,90 @@
         "companyKey": "AUMANN",
         "currency": "EUR",
         "matchConfidence": 1,
-        "baseScore": 50,
-        "fundamentalScore": 50,
-        "fundamentalConfidence": 0.18,
-        "profitForecastPositive": null,
-        "fundamentalReasons": [],
+        "baseScore": 77,
+        "fundamentalScore": 77,
+        "fundamentalConfidence": 0.737,
+        "profitForecastPositive": true,
+        "fundamentalReasons": [
+          "Analysten erwarten EPS-Wachstum ca. 80%",
+          "Umsatzschätzung nächstes Jahr +20%",
+          "Kurs ueber der 200-Tage-Linie",
+          "Gesunde Position im 52-Wochen-Band (52%)"
+        ],
         "fundamentals": {
-          "source": "Yahoo quote",
-          "epsTrailingTwelveMonths": null,
-          "epsForward": null,
-          "epsCurrentYear": null,
-          "averageAnalystRating": null,
-          "fiftyTwoWeekChange": null,
-          "forwardPE": null,
-          "trailingPE": null,
-          "marketCap": null
+          "source": "finanzen.net Schätzungen",
+          "epsCurrentYearEstimate": 0.5,
+          "epsNextYearEstimate": 0.9,
+          "revenueCurrentYearEstimate": 160.6,
+          "revenueNextYearEstimate": 192.15
         },
         "daysUntil": 8,
-        "baseLabel": "NEUTRAL",
-        "score": 50,
-        "confidence": 0.18,
-        "label": "NEUTRAL",
-        "profitOutlookPositive": false,
-        "tradeEligible": false,
+        "baseLabel": "POSITIV",
+        "estimateUrl": "https://www.finanzen.net/schaetzungen/aumann",
+        "scoreParts": [
+          {
+            "key": "ZAHLEN",
+            "delta": 21,
+            "label": "Analystenschaetzungen"
+          },
+          {
+            "key": "CHART",
+            "delta": 6,
+            "label": "Kursstruktur 1 Jahr"
+          },
+          {
+            "key": "NEWS",
+            "delta": 0,
+            "label": "1 frische Meldungen"
+          }
+        ],
+        "chartDelta": 6,
+        "newsDelta": 0,
+        "fundamentalDelta": 21,
+        "newsGuidance": 0,
+        "newsHeadlines": [
+          "Aumann Q2 Earnings Call Highlights"
+        ],
+        "dataQuality": {
+          "zahlen": true,
+          "chart": true,
+          "news": true
+        },
+        "chart": {
+          "source": "Yahoo chart 1y/1d",
+          "currency": "EUR",
+          "samples": 91,
+          "last": 14.1,
+          "changeM1": 5.6,
+          "changeM3": 4,
+          "changeM6": 8,
+          "sma50": 14.3,
+          "sma200": 13.9,
+          "position52w": 52.4,
+          "drawdownFromHigh": -9.6,
+          "volatility20d": 34.7,
+          "volumeTrend": null
+        },
+        "scoreEvaluatedAt": "2026-08-20T12:40:08.576Z",
+        "scoreValidUntil": "2026-08-21T12:40:08.576Z",
+        "score": 77,
+        "confidence": 0.737,
+        "label": "POSITIV",
+        "profitOutlookPositive": true,
+        "tradeEligible": true,
         "alreadyHeld": false,
         "scoreLocked": true
       }
     ],
-    "generatedAt": "2026-08-20T12:11:38.507Z",
+    "estimateAttemptCount": 7,
+    "scoreModelVersion": 27.7,
     "scoreEvaluationCadence": "daily",
     "scoreReevaluation": "once daily only",
+    "chartProfileCount": 7,
+    "newsProfileCount": 7,
+    "neutralScoreCount": 0,
+    "signalCoveredCount": 7,
+    "generatedAt": "2026-08-20T12:40:08.576Z",
     "scoreLockedUntilNextDailyRefresh": true,
     "error": null,
     "rules": {
