@@ -1,0 +1,67 @@
+import {targetVenueIssue} from './target-venue-ai-guard.js';
+
+const arr=v=>Array.isArray(v)?v:[];
+const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
+const key=x=>String(x?.symbol||x||'').toUpperCase().trim();
+const responseText=r=>String(r?.response||r?.result?.response||'');
+
+function parseBlock(text,start,end=null){const a=text.indexOf(start);if(a<0)return null;const from=a+start.length,b=end?text.indexOf(end,from):-1;try{return JSON.parse(text.slice(from,b>=0?b:text.length).trim())}catch{return null}}
+function parsePlan(r){const raw=responseText(r),a=raw.indexOf('{'),b=raw.lastIndexOf('}');if(a<0||b<=a)return null;try{const j=JSON.parse(raw.slice(a,b+1));return Array.isArray(j.actions)?j:null}catch{return null}}
+function findPrompt(input){for(const m of arr(input?.messages)){const t=String(m?.content||'');if(t.includes('Kandidaten=')&&t.includes(' Gehalten='))return t}return''}
+
+function metrics(c={}){
+ return{
+  score:num(c?.liveScore,c?.score),confidence:num(c?.liveConfidence,c?.confidence),day:num(c?.day,c?.day_change),
+  m5:num(c?.intraday5m,c?.momentum5),m20:num(c?.intraday20m,c?.momentum20),accel:num(c?.momentumAcceleration5,c?.momentum_acceleration5),
+  rsi:num(c?.intradayRsi,c?.rsi||50),draw:Number.isFinite(Number(c?.drawdownFrom20mHighPct??c?.drawdown_from_20m_high_pct))?Number(c?.drawdownFrom20mHighPct??c?.drawdown_from_20m_high_pct):null,
+  vol:Number.isFinite(Number(c?.volumeRatio??c?.volume_ratio))?Number(c?.volumeRatio??c?.volume_ratio):null,news:num(c?.news,c?.newsScore??c?.news_score),
+  event:String(c?.eventRisk||c?.event_risk||'NONE').toUpperCase(),state:String(c?.momentumState||c?.momentum_state||'NORMAL').toUpperCase(),sell:String(c?.momentumSellSignal||c?.momentum_sell_signal||'NONE').toUpperCase()
+ };
+}
+function hardUnsafe(c,m){return m.event==='HIGH'||m.state==='REVERSAL'||m.sell==='STRONG'||targetVenueIssue(c)}
+function obviousPeakChase(m){const near=m.draw!==null&&m.draw>-0.08;return near&&(m.day>4.5||m.rsi>=78)||m.day>8||m.rsi>=84}
+function learningCandidate(c){
+ const m=metrics(c);if(hardUnsafe(c,m)||obviousPeakChase(m))return{allow:false,m,quality:0};
+ // Bewusst lockerer Paper-Lernfilter: nicht perfekt, aber noch handelbar. Damit entstehen
+ // echte Lernproben statt endloser HOLDs. Ein klar weiter beschleunigendes fallendes Messer
+ // bleibt trotzdem draussen.
+ const tapeOk=m.m5>=-0.08||m.accel>=0.01;
+ const broad=m.score>=3.4&&m.confidence>=.50&&m.m20>=-.25&&m.rsi<84&&m.day>=-12&&m.day<=8&&tapeOk&&(m.vol===null||m.vol>=.45);
+ const scoreQ=clamp((m.score-3.4)/2.8,0,1),confQ=clamp((m.confidence-.50)/.30,0,1),tapeQ=clamp((m.m5+.08)/.35,0,1)*.45+clamp((m.m20+.25)/.55,0,1)*.35+clamp((m.accel+.02)/.18,0,1)*.20,newsQ=clamp((m.news+.30)/.90,0,1);
+ const quality=clamp(scoreQ*.40+confQ*.25+tapeQ*.25+newsQ*.10,0,1);
+ return{allow:broad,m,quality};
+}
+function allocate100(rows){
+ const n=rows.length;if(!n)return[];const cap=n===1?100:n===2?60:n===3?45:35;
+ const out=rows.map(x=>({...x,allocation:0,weight:.55+x.quality}));let remaining=100,active=out.slice();
+ for(let pass=0;pass<10&&remaining>.01&&active.length;pass++){
+  const ws=active.reduce((a,x)=>a+x.weight,0)||active.length;let used=0;
+  for(const x of active){const room=Math.max(0,cap-x.allocation),share=remaining*(x.weight/ws),add=Math.min(room,share);x.allocation+=add;used+=add}
+  remaining-=used;active=active.filter(x=>cap-x.allocation>.01);if(used<.001)break;
+ }
+ // Rundungsrest auf den besten Titel, solange 100% nicht überschritten werden.
+ const total=out.reduce((a,x)=>a+x.allocation,0),rest=Math.max(0,100-total);if(rest>.001)out[0].allocation+=rest;
+ return out;
+}
+
+function postProcess(r,input){
+ const plan=parsePlan(r),prompt=findPrompt(input);if(!plan||!prompt)return r;
+ const candidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]);if(!candidates.length)return r;
+ let actions=arr(plan.actions).slice();
+ const sellKeys=new Set(actions.filter(a=>String(a?.action||'').toUpperCase()==='SELL').map(key));
+ const ranked=candidates.map(c=>({c,...learningCandidate(c)})).filter(x=>x.allow&&!sellKeys.has(key(x.c))).sort((a,b)=>b.quality-a.quality||b.m.score-a.m.score||b.m.confidence-a.m.confidence||b.m.accel-a.m.accel).slice(0,4);
+ if(!ranked.length)return r;
+ const allocation=allocate100(ranked),selected=new Set(allocation.map(x=>key(x.c)));
+ // Alle weichen BUY/HOLD-Entscheidungen fuer die gewaehlten Lernkandidaten werden durch
+ // den finalen Kapitalplan ersetzt. SELLs und harte Sicherheitsentscheidungen bleiben stehen.
+ actions=actions.filter(a=>String(a?.action||'').toUpperCase()==='SELL'||!selected.has(key(a)));
+ for(const x of allocation){const s=key(x.c),pct=+x.allocation.toFixed(2);actions.push({symbol:s,action:'BUY',confidence:clamp(Math.max(.58,x.m.confidence),.58,.88),allocation_pct:pct,reason:`ACTIVE-LEARNING-CASH: ${pct.toFixed(1)}% des freien Cashs · Paper-Lernmodus nutzt handelbare Chancen statt Cash liegenzulassen · Qualität ${x.quality.toFixed(2)} · Score ${x.m.score.toFixed(2)} · 5m ${x.m.m5.toFixed(2)} · 20m ${x.m.m20.toFixed(2)} · Beschleunigung ${x.m.accel.toFixed(2)}. Harte Safety und offensichtlicher Peak-Chase wurden vorher ausgeschlossen.`})}
+ plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,125)} · ACTIVE-LEARNING: ${allocation.length} Kandidat(en), 100% des freien Cashs verplant; harte Safety/Peak-Chase bleiben gesperrt.`;
+ return{...r,response:JSON.stringify(plan)};
+}
+
+export class ActiveLearningCashAiGuard{
+ constructor(base){this.base=base}
+ async run(model,input){const r=await this.base.run(model,input);return postProcess(r,input)}
+}
