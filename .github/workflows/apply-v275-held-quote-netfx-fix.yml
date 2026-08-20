@@ -1,0 +1,46 @@
+name: Fix V27.5 Held Quote and Net Sell FX
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/apply-v275-held-quote-netfx-fix.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Patch held quote freshness precedence and sell net-FX fallback
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p=Path('src/r2-portfolio.js'); s=p.read_text(encoding='utf-8')
+          old="function trustedHeldQuote(p,candidate=null,held=null,baseCurrency='EUR'){const q=candidate||held;if(!q)return null;const base=normalizedCurrency(baseCurrency||'EUR'),currency=normalizedCurrency(q?.currency||p?.currency||base),candidateFx=num(candidate?.fxRate,0),candidateVerified=candidate?.fxVerified===true||candidate?.fx_verified===true||currency===base,heldFx=num(held?.fxRate,0),heldVerified=held?.fxVerified===true||held?.fx_verified===true||currency===base,prevFx=num(p?.last_fx,0),prevTrusted=currency===base||p?.fx_verified===true||Boolean(p?.fx_basis_repaired_at||p?.minor_unit_repaired_at||p?.quote_unit_repaired_at)||(prevFx>0&&Math.abs(prevFx-1)>.001);let fx=currency===base?1:0,fxVerified=currency===base,fxStale=false;if(currency!==base){if(candidateVerified&&candidateFx>0){fx=candidateFx;fxVerified=true}else if(heldVerified&&heldFx>0){fx=heldFx;fxVerified=true}else if(prevTrusted&&prevFx>0){fx=prevFx;fxStale=true}}return{...(held||{}),...(candidate||{}),fxRate:fx,fxVerified,fxStale,currency};}"
+          new="function trustedHeldQuote(p,candidate=null,held=null,baseCurrency='EUR'){const liveCandidate=candidate?.fresh?candidate:null,liveHeld=held?.fresh?held:null,q=liveCandidate||liveHeld||candidate||held;if(!q)return null;const base=normalizedCurrency(baseCurrency||'EUR'),currency=normalizedCurrency(q?.currency||p?.currency||base),candidateFx=num(liveCandidate?.fxRate,0),candidateVerified=liveCandidate?.fxVerified===true||liveCandidate?.fx_verified===true||currency===base,heldFx=num(liveHeld?.fxRate,0),heldVerified=liveHeld?.fxVerified===true||liveHeld?.fx_verified===true||currency===base,prevFx=num(p?.last_fx,0),prevTrusted=currency===base||p?.fx_verified===true||Boolean(p?.fx_basis_repaired_at||p?.minor_unit_repaired_at||p?.quote_unit_repaired_at)||(prevFx>0&&Math.abs(prevFx-1)>.001);let fx=currency===base?1:0,fxVerified=currency===base,fxStale=false;if(currency!==base){if(candidateVerified&&candidateFx>0){fx=candidateFx;fxVerified=true}else if(heldVerified&&heldFx>0){fx=heldFx;fxVerified=true}else if(prevTrusted&&prevFx>0){fx=prevFx;fxStale=true}}return{...(liveHeld||held||{}),...(liveCandidate||{}),fresh:Boolean(liveCandidate?.fresh||liveHeld?.fresh),fxRate:fx,fxVerified,fxStale,currency};}"
+          if old not in s: raise SystemExit('trustedHeldQuote block not found')
+          s=s.replace(old,new,1); p.write_text(s,encoding='utf-8')
+
+          p=Path('src/loss-sell-invariant.js'); s=p.read_text(encoding='utf-8')
+          old="function priceFx(c={},p={}){\n const price=num(c?.price??c?.last_price??p?.last_price??p?.lastPrice,null),fx=num(c?.fxRate??c?.fx_rate??c?.last_fx??p?.last_fx??p?.lastFx,1)||1;\n return{price,fx,priceEur:price===null?null:price*fx};\n}"
+          new="function priceFx(c={},p={}){\n const price=num(c?.price??c?.last_price??p?.last_price??p?.lastPrice,null),candidateFx=num(c?.fxRate??c?.fx_rate,0),positionFx=num(c?.last_fx??c?.lastFx??p?.last_fx??p?.lastFx,0),entryFx=num(c?.entry_fx??p?.entry_fx,0),fx=candidateFx>0?candidateFx:positionFx>0?positionFx:entryFx>0?entryFx:0;\n return{price,fx,priceEur:price===null||!(fx>0)?null:price*fx};\n}"
+          if old not in s: raise SystemExit('priceFx block not found')
+          s=s.replace(old,new,1); p.write_text(s,encoding='utf-8')
+          PY
+          node --check src/r2-portfolio.js
+          node --check src/loss-sell-invariant.js
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/r2-portfolio.js src/loss-sell-invariant.js
+          git commit -m 'Fix held quote freshness and net sell FX fallback' || exit 0
+          git pull --rebase origin main
+          git push origin HEAD:main
