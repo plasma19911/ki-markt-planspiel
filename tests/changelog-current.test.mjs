@@ -5,7 +5,7 @@ const entry=fs.readFileSync(new URL('../src/compact-portfolio-v11.js',import.met
 const changelog=fs.readFileSync(new URL('../public/ui-v283-fix.js',import.meta.url),'utf8');
 const publicFiles=fs.readdirSync(new URL('../public/',import.meta.url));
 
-const required=['V27.9','V28.0','V28.1','V28.2','V28.3','V28.4','V28.5','V28.6','V28.7','V28.8'];
+const required=['V27.9','V28.0','V28.1','V28.2','V28.3','V28.4','V28.5','V28.6','V28.7','V28.8','V28.9'];
 for(const version of required)assert.ok(changelog.includes(version),`${version} fehlt im sichtbaren Änderungsverlauf`);
 
 const productionVersion=entry.match(/V(\d+\.\d+)/)?.[1];
@@ -17,6 +17,7 @@ for(const version of uiVersions)assert.ok(changelog.includes(version),`${version
 
 assert.ok(changelog.includes('8.523 von 8.523 Aktien'),'V28.8 muss den bestätigten C#-Vollscan beschreiben');
 assert.ok(changelog.includes('PC-Agent 2.2.0'),'PC-Agent-Update 2.2.0 fehlt im sichtbaren Änderungsverlauf');
+assert.ok(changelog.includes('Score-Hysterese'),'V28.9 muss die getrennten Ein-/Ausstiegszonen dokumentieren');
 assert.ok(!changelog.includes('pro Minute ein Viertel des Masters'),'veraltete V28.8-PowerShell-Beschreibung ist noch im sichtbaren Änderungsverlauf');
 
 console.log(JSON.stringify({ok:true,productionVersion:`V${productionVersion}`,requiredVersions:required,uiVersions,pcAgent:'2.2.0-prepared'},null,2));
