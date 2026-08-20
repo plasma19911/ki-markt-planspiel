@@ -57,8 +57,8 @@ export function sanitizeBugContaminatedLearning(storage,history=[]){
  const decision=read(storage,DECISION_KEY);
  if(decision&&typeof decision==='object'){
   const before=arr(decision.samples),removed=before.filter(s=>windows.some(w=>sampleMatchesWindow(s,w))),keep=before.filter(s=>!windows.some(w=>sampleMatchesWindow(s,w)));
-  if(removed.length){decision.samples=keep;decisionSamplesRemoved=removed.length;changed=true;for(const s of removed)if(s?.id&&decision.seen)delete decision.seen[s.id]}
-  decision.learningQuarantine={version:1,updatedAt:new Date().toISOString(),knownBugTradeWindows:windows.length,removedSamples:decisionSamplesRemoved,rule:'Nur nachgewiesene Codefehler werden ausgeschlossen; normale schlechte Trades bleiben Lernmaterial.'};
+  if(removed.length){decision.samples=keep;decisionSamplesRemoved=removed.length;changed=true;decision.seen=decision.seen||{};for(const s of removed)if(s?.id)decision.seen[s.id]='QUARANTINED_CODE_BUG'}
+  decision.learningQuarantine={version:1,updatedAt:new Date().toISOString(),knownBugTradeWindows:windows.length,removedSamples:decisionSamplesRemoved,blockedFromReentry:true,rule:'Nur nachgewiesene Codefehler werden ausgeschlossen; normale schlechte Trades bleiben Lernmaterial.'};
   write(storage,DECISION_KEY,decision);
  }
  const live=read(storage,LIVE_KEY);
