@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T08:09:54.015857+00:00",
+  "checkedAt": "2026-08-20T08:10:34.798183+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -25,23 +25,83 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T08:09:07.230Z",
-    "ageSeconds": 47,
+    "lastSeenAt": "2026-08-20T08:10:17.205Z",
+    "ageSeconds": 17,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 0,
-  "lastScan": null,
+  "scanCount": 1,
+  "lastScan": "2026-08-20T08:10:21.484Z",
   "lastError": null,
-  "aiLastSummary": null,
-  "cash": 10000.0,
-  "equity": 10000.0,
-  "pnl": 0,
-  "marketValue": 0.0,
+  "aiLastSummary": "FINAL-CONTROLLER V26.1: 1 BUY · 0 SELL · 0 HOLD · 0 harte Safety-HOLD(s) respektiert · 0 Bestands-BUY(s) verhindert · Soft-Verlust-SELLs erst nach Reife/Mehrsignal-Invaliderung.",
+  "cash": 7800.0,
+  "equity": 9996.803196803197,
+  "pnl": -3.196803196802648,
+  "marketValue": 2196.803196803197,
   "accountingDelta": 0.0,
-  "positions": 0,
-  "positionRows": [],
+  "positions": 1,
+  "positionRows": [
+    {
+      "symbol": "OTKAR.IS",
+      "name": "Otokar",
+      "instrument_type": "EQUITY",
+      "theme": "DEFENSE",
+      "company_key": "OTOKAR",
+      "invested": 2199,
+      "entry_fee": 1,
+      "entry_price": 326.32599999999996,
+      "last_price": 326,
+      "entry_fx": 0.0173,
+      "last_fx": 0.0173,
+      "currency": "TRY",
+      "opened_at": "2026-08-20T08:10:21.484Z",
+      "last_added_at": null,
+      "add_count": 0,
+      "score": 4.3,
+      "signal_confidence": 0.63,
+      "zero_quantity": 389.51792560076547,
+      "zero_whole_shares": 389,
+      "zero_fractional_shares": 0.5179256007654658,
+      "zero_uses_fractional": true,
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash"
+    }
+  ],
   "recentHistory": [
+    {
+      "id": 2,
+      "ts": "2026-08-20T08:10:21.484Z",
+      "end_ts": null,
+      "event_count": 1,
+      "start_scan": 1,
+      "end_scan": 1,
+      "action": "KAUF",
+      "symbol": "OTKAR.IS",
+      "name": "Otokar",
+      "instrument_type": "EQUITY",
+      "amount": -2200,
+      "fee": 1,
+      "trade_pnl": null,
+      "cash_before": 10000,
+      "cash_after": 7800,
+      "equity": 9996.803196803197,
+      "total_pnl": -3.196803196802648,
+      "score": 4.3,
+      "reason": "KI BUY 63%: FINAL-CONTROLLER V26.1 BUY EARLY_BREAKOUT: Qualität 0.56 · Score 4.30 · 5m 0.31 · 20m 0.00 · Beschleunigung 0.46 · Zielkapital 22% des freien Cashs. Harte Safety-HOLDs und automatische Wiederholungs-Aufstockungen wurden ausgeschlossen. · Order 2200.00 EUR· Slippage 0.10% · ZERO Brokergebühr 1.00 € inkl. Bruchstück-Zuschlag; Spread/Ausführung separat.",
+      "zero_fee_model_version": "zero-securities-2026-08-v4-stock-full-cash",
+      "zero_fee_details": {
+        "total": 1,
+        "wholeOrderFee": 0,
+        "fractionalFee": 1,
+        "wholeQuantity": 389,
+        "fractionalQuantity": 0.5179256007654658,
+        "usesFractional": true,
+        "wholeOrderValue": 2196.076082,
+        "fractionalOrderValue": 2.923918,
+        "fractionalMeetsMinimum": true,
+        "model": "zero-securities-2026-08-v4-stock-full-cash",
+        "scaleUp": false
+      }
+    },
     {
       "id": 1,
       "ts": "2026-08-20T08:06:21.226Z",
@@ -64,7 +124,21 @@
       "reason": "R2-Planspiel gestartet: 10000.00 EUR, 7 days, Stil offensiv. Aktien + normale ETFs."
     }
   ],
-  "recentAiLog": [],
+  "recentAiLog": [
+    {
+      "id": 1,
+      "ts": "2026-08-20T08:10:21.484Z",
+      "kind": "TRADE",
+      "symbol": "OTKAR.IS",
+      "title": "Kauf ausgeführt",
+      "message": "OTKAR.IS: KI BUY 63%: FINAL-CONTROLLER V26.1 BUY EARLY_BREAKOUT: Qualität 0.56 · Score 4.30 · 5m 0.31 · 20m 0.00 · Beschleunigung 0.46 · Zielkapital 22% des freien Cashs. Harte Safety-HOLDs und automatische Wiederholungs-Aufstockungen wurden ausgeschlossen.",
+      "confidence": 0.63,
+      "meta": {
+        "score": 4.3,
+        "amount": 2200
+      }
+    }
+  ],
   "candleFlowPolicy": {
     "enabled": true,
     "version": 2.1,
@@ -361,9 +435,9 @@
     "proposalContaminationFixed": true
   },
   "risk": {
-    "equity": 10000,
+    "equity": 9996.803196803197,
     "dailyPct": 0,
-    "availableCash": 10000,
+    "availableCash": 7800,
     "hardLimits": false,
     "budgetOnly": true,
     "positionLimit": null,
