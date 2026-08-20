@@ -1,7 +1,7 @@
 import './quota-guard.js';
 import './investment-ui.js?v=20260819-1140';
+import './agm-calendar-ui.js?v=20260820-1353';
 
 // Die sichtbare Oberfläche wird absichtlich nicht mehr per JavaScript umsortiert.
-// Keine versteckten Hauptbereiche, keine konkurrierenden Grid-Wrapper, keine
-// dynamisch nachgeladenen Layout-Hotfixes. rescue-ui.css ist direkt in index.html
-// eingebunden und hat als einzige zusätzliche Layout-Schicht Vorrang vor styles.css.
+// Keine versteckten Hauptbereiche, keine konkurrierenden Grid-Wrapper. Der HV-Mini-
+// kalender ergänzt nur Sidebar/Mobile-Grid und verändert die bestehende Reihenfolge nicht.
