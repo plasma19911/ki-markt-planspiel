@@ -1,11 +1,12 @@
-import {scoreAgmCalendar,AGM_PREVIEW_RULES} from './agm-opportunity-scoring.js';
+import {AGM_PREVIEW_RULES,agmDaysUntil} from './agm-opportunity-scoring.js';
 
 const CACHE_MS=15*60*1000;
 let cached=null,cachedAt=0,lastError=null;
 const arr=v=>Array.isArray(v)?v:[];
+const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const key=v=>String(v?.symbol||v||'').toUpperCase().trim();
 
-function emptyCalendar(){return{version:27.6,source:'finanzen.net Hauptversammlung',sourceUpdatedAt:null,generatedAt:new Date().toISOString(),refreshCadence:'daily',scoreReevaluation:'every market/news scan',scoreMeaning:'0-100 interner Chancen-Score; keine Gewinnwahrscheinlichkeit',events:[],error:lastError};}
+function emptyCalendar(){return{version:27.6,source:'finanzen.net Hauptversammlung',sourceUpdatedAt:null,generatedAt:new Date().toISOString(),refreshCadence:'daily',scoreEvaluationCadence:'daily',scoreReevaluation:'once daily only',scoreMeaning:'0-100 interner Chancen-Score; keine Gewinnwahrscheinlichkeit',events:[],error:lastError};}
 
 export async function loadAgmCalendar(env,force=false){
  if(!force&&cached&&Date.now()-cachedAt<CACHE_MS)return cached;
@@ -19,11 +20,29 @@ export async function loadAgmCalendar(env,force=false){
 }
 
 export function evaluateAgmCalendarData(calendar,state={},candidateOverride=null,now=Date.now()){
- const candidates=arr(candidateOverride?.length?candidateOverride:state?.candidates),newsRadar=arr(state?.newsRadar);
- const scored=scoreAgmCalendar(calendar||emptyCalendar(),{candidates,newsRadar,now});
  const held=new Set(arr(state?.positions).map(key));
- scored.events=scored.events.map(x=>({...x,alreadyHeld:held.has(key(x)),tradeEligible:Boolean(x.tradeEligible&&!held.has(key(x)))}));
- return{...scored,error:lastError,rules:AGM_PREVIEW_RULES};
+ const source=calendar||emptyCalendar();
+ const events=arr(source?.events).map(ev=>{
+  const days=Number.isFinite(Number(ev?.daysUntil))?Number(ev.daysUntil):agmDaysUntil(ev?.date,now);
+  const score=Math.round(num(ev?.baseScore,ev?.fundamentalScore??50));
+  const confidence=Math.max(0,Math.min(1,num(ev?.fundamentalConfidence,0)));
+  const positive=ev?.profitForecastPositive===true;
+  const withinWindow=days!==null&&days>=1&&days<=AGM_PREVIEW_RULES.horizonDays;
+  const dailyEligible=Boolean(withinWindow&&score>=AGM_PREVIEW_RULES.minimumScore&&confidence>=AGM_PREVIEW_RULES.minimumConfidence&&positive);
+  return{...ev,daysUntil:days,score,confidence,label:ev?.baseLabel||ev?.label||'',profitOutlookPositive:positive,tradeEligible:Boolean(dailyEligible&&!held.has(key(ev))),alreadyHeld:held.has(key(ev)),scoreLocked:true};
+ }).filter(x=>x.daysUntil===null||x.daysUntil>=0).sort((a,b)=>String(a.date||'').localeCompare(String(b.date||''))||num(b.score)-num(a.score));
+ return{
+  ...source,
+  version:27.6,
+  generatedAt:source?.updatedAt||source?.generatedAt||new Date(now).toISOString(),
+  refreshCadence:'daily',
+  scoreEvaluationCadence:'daily',
+  scoreReevaluation:'once daily only',
+  scoreLockedUntilNextDailyRefresh:true,
+  events,
+  error:lastError,
+  rules:AGM_PREVIEW_RULES
+ };
 }
 
 export async function evaluateAgmCalendar(env,state={},candidateOverride=null,now=Date.now()){
@@ -31,4 +50,4 @@ export async function evaluateAgmCalendar(env,state={},candidateOverride=null,no
  return evaluateAgmCalendarData(calendar,state,candidateOverride,now);
 }
 
-export function agmRuntimeHealth(){return{cached:Boolean(cached),cachedAt:cachedAt?new Date(cachedAt).toISOString():null,lastError,rules:AGM_PREVIEW_RULES};}
+export function agmRuntimeHealth(){return{cached:Boolean(cached),cachedAt:cachedAt?new Date(cachedAt).toISOString():null,lastError,scoreEvaluationCadence:'daily',scoreReevaluation:'once daily only',rules:AGM_PREVIEW_RULES};}
