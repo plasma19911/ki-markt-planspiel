@@ -27,4 +27,5 @@ function renderPcFinalists(status={}){
   if(help)help.innerHTML=`<b>PC-Vollscan aktiv.</b> ${Math.round(num(policy.preScoredCount,policy.prescannedCount)||0).toLocaleString('de-DE')} Werte vorscored → Top ${Math.round(num(policy.stage2Count,400)||400)} → Deep ${Math.round(num(policy.deepCount,240)||240)} → ${Math.round(num(policy.finalistCount,rows.length)||rows.length)} Finalisten. Der PC-Deep-Score ist eine breite Vorbewertung; Research/Safety entscheidet erst danach über Kauf oder Verkauf.`;
 }
 document.addEventListener('planspiel:status',e=>renderPcFinalists(e.detail));
+if(window.__LAST_PLANSPIEL_STATUS__)queueMicrotask(()=>renderPcFinalists(window.__LAST_PLANSPIEL_STATUS__));
 window.__PC_CANDIDATE_FALLBACK_V292__={version:29.2,pcFinalistsWhenResearchEmpty:true,scorelessFallbackFixed:true};
