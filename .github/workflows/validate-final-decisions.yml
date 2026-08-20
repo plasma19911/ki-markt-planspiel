@@ -1,0 +1,59 @@
+name: Validate Final Decision Engine
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'package.json'
+      - '.github/workflows/validate-final-decisions.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run final-decision regression suite and persist result
+        shell: bash
+        run: |
+          set +e
+          npm install --no-audit --no-fund --ignore-scripts > /tmp/install.log 2>&1; INSTALL=$?
+          npm run test:decisions > /tmp/tests.log 2>&1; TESTS=$?
+          npm run check > /tmp/dryrun.log 2>&1; DRYRUN=$?
+          python3 - <<PY
+          import json,datetime,pathlib
+          def tail(p,n=7000):
+              try:return pathlib.Path(p).read_text(encoding='utf-8',errors='replace')[-n:]
+              except:return ''
+          out={
+            'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            'commit':'${GITHUB_SHA}',
+            'installOk':${INSTALL}==0,
+            'decisionTestsOk':${TESTS}==0,
+            'dryRunOk':${DRYRUN}==0,
+            'allPassed':all(v==0 for v in [${INSTALL},${TESTS},${DRYRUN}]),
+            'testTail':tail('/tmp/tests.log')
+          }
+          pathlib.Path('decision-validation-result.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print(json.dumps(out,ensure_ascii=False,indent=2))
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --rebase origin main
+          git add decision-validation-result.json
+          git commit -m 'Update final decision regression result [skip ci]' || true
+          git push origin HEAD:main
+          if [ "$INSTALL" -ne 0 ] || [ "$TESTS" -ne 0 ] || [ "$DRYRUN" -ne 0 ]; then
+            echo '--- tests ---'; tail -200 /tmp/tests.log
+            echo '--- dryrun ---'; tail -100 /tmp/dryrun.log
+            exit 1
+          fi
