@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T06:53:23.813198+00:00",
+  "checkedAt": "2026-08-20T06:58:21.556362+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -25,15 +25,15 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T06:53:07.342Z",
-    "ageSeconds": 16,
+    "lastSeenAt": "2026-08-20T06:58:15.882Z",
+    "ageSeconds": 5,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 54,
-  "lastScan": "2026-08-20T06:53:11.525Z",
+  "scanCount": 58,
+  "lastScan": "2026-08-20T06:58:19.769Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster 3m; Fast-Decision: 0 SELL / 0 BUY aus 7 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap- · Multi-T · TAGES-REVIEW V2: RUBICON.NS BUY gestoppt.",
+  "aiLastSummary": "KI-Wartefenster 10m; Fast-Decision: 0 SELL / 0 BUY aus 6 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus 0/12 möglichen · CAPITAL-IN-M · PU · BALANCED-ADAPTIVE: Replay-Balance 2 Tag(e) · Missed 0.21 · Late 0.20 · Peak 0.14. Frühe valide Chancen dürfen starten; harte Risiken bleiben hart.",
   "cash": 10000.0,
   "equity": 10000.0,
   "pnl": 0,
@@ -45,10 +45,10 @@
     {
       "id": 2,
       "ts": "2026-08-20T05:30:24.092Z",
-      "end_ts": "2026-08-20T06:53:11.525Z",
-      "event_count": 54,
+      "end_ts": "2026-08-20T06:58:19.769Z",
+      "event_count": 58,
       "start_scan": 1,
-      "end_scan": 54,
+      "end_scan": 58,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -61,7 +61,7 @@
       "equity": 10000,
       "total_pnl": 0,
       "score": null,
-      "reason": "Kein Trade. Bestes Signal RUBICON.NS: Score 5.40, Konfidenz 78%."
+      "reason": "Kein Trade. Bestes Signal MAZDOCK.NS: Score 2.50, Konfidenz 53%."
     },
     {
       "id": 1,
@@ -238,7 +238,9 @@
     "noiseSellBlocked": true,
     "catalystGapDiscoveryV2": true,
     "sourceBudgetVersion": 21.4,
-    "runtimeTradeConfig": true
+    "runtimeTradeConfig": true,
+    "activeLearningCashDeployment": true,
+    "targetFreeCashDeploymentPct": 100
   },
   "entryTimingLearning": {
     "version": 3,
