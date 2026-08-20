@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T13:53:47.211753+00:00",
+  "checkedAt": "2026-08-20T13:54:37.053379+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -31,19 +31,19 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T13:53:09.536Z",
-    "ageSeconds": 37,
+    "lastSeenAt": "2026-08-20T13:54:10.152Z",
+    "ageSeconds": 27,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 193,
-  "lastScan": "2026-08-20T13:52:22.654Z",
+  "scanCount": 194,
+  "lastScan": "2026-08-20T13:54:13.740Z",
   "lastError": null,
   "aiLastSummary": "KI-Fallback: kein JSON",
   "cash": 1476.2217081333488,
-  "equity": 9942.37762033237,
-  "pnl": -57.6223796676295,
-  "marketValue": 8466.155912199021,
+  "equity": 9942.390300438607,
+  "pnl": -57.60969956139343,
+  "marketValue": 8466.168592305257,
   "accountingDelta": 0.0,
   "positions": 6,
   "positionRows": [
@@ -191,15 +191,15 @@
       "invested": 70.201497,
       "entry_fee": 2,
       "entry_price": 55.375319694519035,
-      "last_price": 55.47999954223633,
+      "last_price": 55.4900016784668,
       "entry_fx": 1,
       "last_fx": 1,
       "currency": "EUR",
       "opened_at": "2026-08-20T09:43:19.918Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 2.45,
-      "signal_confidence": 0.525,
+      "score": 5.5,
+      "signal_confidence": 0.63,
       "zero_quantity": 1.26773980506646,
       "zero_whole_shares": 1,
       "zero_fractional_shares": 0.2677398050664599,
@@ -216,10 +216,10 @@
     {
       "id": 36,
       "ts": "2026-08-20T12:02:11.549Z",
-      "end_ts": "2026-08-20T13:52:22.654Z",
-      "event_count": 67,
+      "end_ts": "2026-08-20T13:54:13.740Z",
+      "event_count": 68,
       "start_scan": 127,
-      "end_scan": 193,
+      "end_scan": 194,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -229,10 +229,10 @@
       "trade_pnl": null,
       "cash_before": 1476.2217081333488,
       "cash_after": 1476.2217081333488,
-      "equity": 9942.37762033237,
-      "total_pnl": -57.6223796676295,
+      "equity": 9942.390300438607,
+      "total_pnl": -57.60969956139343,
       "score": null,
-      "reason": "Kein Trade. Bestes Signal REG1V.HE: Score 5.05, Konfidenz 63%."
+      "reason": "Kein Trade. Bestes Signal DE: Score 6.45, Konfidenz 63%."
     },
     {
       "id": 35,
@@ -1083,8 +1083,8 @@
     "proposalContaminationFixed": true
   },
   "risk": {
-    "equity": 9942.37762033237,
-    "dailyPct": -0.5444298082033949,
+    "equity": 9942.390300438607,
+    "dailyPct": -0.5443029665922694,
     "availableCash": 1476.2217081333488,
     "hardLimits": true,
     "budgetOnly": false,
@@ -1107,7 +1107,7 @@
           "limitPct": 55
         }
       ],
-      "equity": 9942.38,
+      "equity": 9942.39,
       "rule": "Bestehende Altpositionen über dem aktuellen Cap werden gemeldet und für weitere Käufe gesperrt, aber nicht allein wegen des Caps zwangsverkauft."
     },
     "rule": "Finale V27.6-Grenzen gelten nach dem inneren R2-Plan und auch für AGM_PREVIEW."
@@ -1288,7 +1288,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-20T13:53:36.734Z",
+      "cachedAt": "2026-08-20T13:54:33.472Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
