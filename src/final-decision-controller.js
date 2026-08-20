@@ -1,4 +1,5 @@
 import {targetVenueIssue} from './target-venue-ai-guard.js';
+import {calibratedEntryExpectation,applyPortfolioRiskCaps} from './portfolio-risk-calibration.js';
 
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
@@ -39,13 +40,15 @@ function entryType(m){
  if(base)return'BASE_RECLAIM';
  return null;
 }
-function candidateQuality(c){
+function candidateQuality(c,learningStatus=null){
  const m=metrics(c);if(hardBuyBlock(c,m)||peakRisk(m))return null;
  const type=entryType(m);if(!type)return null;
  if(m.score<3.55||m.confidence<.50||m.m20<-.35||m.m5<-.12)return null;
  if(m.vol!==null&&m.vol<.40)return null;
- const q=clamp((m.score-3.3)/2.7,0,1)*.34+clamp((m.confidence-.48)/.32,0,1)*.20+clamp((m.m5+.08)/.35,0,1)*.16+clamp((m.m20+.20)/.65,0,1)*.12+clamp((m.accel+.01)/.20,0,1)*.12+clamp((m.news+.35)/1.0,0,1)*.06;
- return{c,m,type,quality:clamp(q,0,1)};
+ const expectation=calibratedEntryExpectation(c,learningStatus);if(expectation.block)return null;
+ const baseQ=clamp((m.score-3.3)/2.7,0,1)*.34+clamp((m.confidence-.48)/.32,0,1)*.20+clamp((m.m5+.08)/.35,0,1)*.16+clamp((m.m20+.20)/.65,0,1)*.12+clamp((m.accel+.01)/.20,0,1)*.12+clamp((m.news+.35)/1.0,0,1)*.06;
+ const quality=clamp(baseQ*expectation.sizeMultiplier,0,1);
+ return{c,m,type,quality,baseQuality:clamp(baseQ,0,1),expectation};
 }
 function targetDeployment(rows){
  if(!rows.length)return 0;const top=rows[0].quality,avg=rows.reduce((a,x)=>a+x.quality,0)/rows.length,n=rows.length;
@@ -58,9 +61,6 @@ function sellDecision(h,inner=null){
  const m=metrics(h),pl=heldPnl(h),age=heldAgeMinutes(h),reason=String(inner?.reason||''),hard=m.event==='HIGH'||m.state==='REVERSAL'||m.sell==='STRONG'||m.news<=-.65||hardSellReason(reason);
  const sellers=m.sellers>=0?m.sellers:(m.buyers>=0?100-m.buyers:-1),sellerControl=sellers>=62;
  const innerConfirmed=inner?.action==='SELL'&&num(inner?.confidence)>=.70&&confirmedSellReason(reason);
- // 5m/20m/Beschleunigung sind eng korreliert und duerfen zusammen NICHT mehr allein
- // als "mehrere unabhaengige Signale" gelten. Ein Soft-Exit braucht zusaetzlich
- // Verkäuferkontrolle, einen separat bestätigten Exit-Grund oder deutlichen Preis-/Strukturschaden.
  const trendBreak=m.m20<=-.22&&m.accel<=-.035;
  const fastBreak=m.m5<=-.30&&m.m20<=-.15&&m.accel<=-.03;
  const materialDamage=pl<=-2.2&&m.draw!==null&&m.draw<=-1.0&&m.m20<=-.20&&m.accel<=-.03;
@@ -74,19 +74,26 @@ function sellDecision(h,inner=null){
 }
 function innerActionMap(actions){const out=new Map();for(const a of arr(actions)){const s=key(a);if(!s)continue;const old=out.get(s),rank=x=>String(x?.action||'').toUpperCase()==='SELL'?3:String(x?.action||'').toUpperCase()==='HOLD'&&protectedHold(x?.reason)?2:String(x?.action||'').toUpperCase()==='BUY'?1:0;if(!old||rank(a)>rank(old)||rank(a)===rank(old)&&num(a?.confidence)>num(old?.confidence))out.set(s,a)}return out}
 
-function postProcess(r,input,getState){
+function postProcess(r,input,getState,getLearning){
  const plan=parsePlan(r),prompt=findPrompt(input);if(!plan||!prompt)return r;
- const state=typeof getState==='function'?(getState()||{}):{},cash=Math.max(0,num(state?.config?.cash)),start=Math.max(cash,num(state?.config?.start_capital,cash));
+ const state=typeof getState==='function'?(getState()||{}):{},learningStatus=typeof getLearning==='function'?(getLearning()||null):null,cash=Math.max(0,num(state?.config?.cash)),start=Math.max(cash,num(state?.config?.start_capital,cash));
  const promptCandidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]),promptHeld=arr(parseBlock(prompt,' Gehalten=')||[]),stateHeld=arr(state?.positions),stateCandidateMap=new Map(arr(state?.candidates).map(c=>[key(c),c]));
  const candidates=promptCandidates.map(c=>({...stateCandidateMap.get(key(c)),...c})),cMap=new Map(candidates.map(c=>[key(c),c])),heldMap=new Map();
  for(const h of [...stateHeld,...promptHeld]){const s=key(h);if(s)heldMap.set(s,{...(heldMap.get(s)||{}),...h})}
- const heldSet=new Set(heldMap.keys()),inner=innerActionMap(plan.actions),finalMap=new Map();let safetyBlocks=0,repeatBuyBlocks=0;
+ const heldSet=new Set(heldMap.keys()),inner=innerActionMap(plan.actions),finalMap=new Map();let safetyBlocks=0,repeatBuyBlocks=0,calibrationBlocks=0,riskCaps=0;
  for(const [s,h0] of heldMap){const fresh=cMap.get(s)||stateCandidateMap.get(s)||{},h={...h0,...fresh,pnlPct:h0?.pnlPct??h0?.pnl_pct??h0?.pnl},d=sellDecision(h,inner.get(s));finalMap.set(s,d.sell?{symbol:s,action:'SELL',confidence:d.confidence,allocation_pct:0,reason:d.reason}:{symbol:s,action:'HOLD',confidence:.70,allocation_pct:0,reason:'FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus.'})}
  const sold=new Set([...finalMap.values()].filter(a=>a.action==='SELL').map(key)),best=new Map();
- for(const c of candidates){const s=key(c);if(!s||sold.has(s))continue;if(heldSet.has(s)){repeatBuyBlocks++;continue}const ia=inner.get(s);if(ia?.action==='SELL')continue;if(ia?.action==='HOLD'&&protectedHold(ia?.reason)){safetyBlocks++;continue}const q=candidateQuality(c);if(!q)continue;const old=best.get(s);if(!old||q.quality>old.quality)best.set(s,q)}
- const ranked=[...best.values()].sort((a,b)=>b.quality-a.quality||b.m.score-a.m.score).slice(0,4),minCash=Math.max(5,start*.001);
- if(cash>=minCash&&ranked.length){const target=targetDeployment(ranked);for(const x of allocate(ranked,target)){const pct=+x.allocation.toFixed(2);if(cash*pct/100<minCash)continue;finalMap.set(key(x.c),{symbol:key(x.c),action:'BUY',confidence:clamp(Math.max(.58,x.m.confidence),.58,.88),allocation_pct:pct,reason:`FINAL-CONTROLLER V26.3 BUY ${x.type}: Qualität ${x.quality.toFixed(2)} · Score ${x.m.score.toFixed(2)} · 5m ${x.m.m5.toFixed(2)} · 20m ${x.m.m20.toFixed(2)} · Beschleunigung ${x.m.accel.toFixed(2)}${x.m.vol===null?'':` · Volumen ${x.m.vol.toFixed(2)}x`} · Zielkapital ${target}% des freien Cashs. Harte Safety-HOLDs und automatische Wiederholungs-Aufstockungen wurden ausgeschlossen.`})}}
- const actions=[...finalMap.values()];plan.actions=actions;plan.summary=`FINAL-CONTROLLER V26.3: ${actions.filter(a=>a.action==='BUY').length} BUY · ${actions.filter(a=>a.action==='SELL').length} SELL · ${actions.filter(a=>a.action==='HOLD').length} HOLD · ${safetyBlocks} harte Safety-HOLD(s) respektiert · ${repeatBuyBlocks} Bestands-BUY(s) verhindert · Verlust-SELL nur bei unabhängiger These-Invaliderung; keine Zeitfreigabe.`;return{...r,response:JSON.stringify(plan)}
+ for(const c of candidates){const s=key(c);if(!s||sold.has(s))continue;if(heldSet.has(s)){repeatBuyBlocks++;continue}const ia=inner.get(s);if(ia?.action==='SELL')continue;if(ia?.action==='HOLD'&&protectedHold(ia?.reason)){safetyBlocks++;continue}const q=candidateQuality(c,learningStatus);if(!q){const exp=calibratedEntryExpectation(c,learningStatus);if(exp.block)calibrationBlocks++;continue}const old=best.get(s);if(!old||q.quality>old.quality)best.set(s,q)}
+ const ranked=[...best.values()].sort((a,b)=>b.quality-a.quality||b.expectation.posteriorExpectedMovePct-a.expectation.posteriorExpectedMovePct||b.m.score-a.m.score).slice(0,4),minCash=Math.max(5,start*.001);
+ if(cash>=minCash&&ranked.length){
+  const target=targetDeployment(ranked),raw=allocate(ranked,target),riskAdjusted=applyPortfolioRiskCaps(raw,state,cash);
+  for(const x of riskAdjusted){
+   const pct=+x.allocation.toFixed(2);if(cash*pct/100<minCash)continue;if(x.riskCap?.requestedPct>pct+.01)riskCaps++;
+   const e=x.expectation,capText=x.riskCap?.reasons?.length?` · Risiko-Cap: ${x.riskCap.reasons.join(', ')}`:'';
+   finalMap.set(key(x.c),{symbol:key(x.c),action:'BUY',confidence:clamp(Math.max(.58,x.m.confidence)+num(e?.confidenceDelta),.55,.88),allocation_pct:pct,reason:`FINAL-CONTROLLER V27 BUY ${x.type}: Qualität ${x.quality.toFixed(2)} · Score ${x.m.score.toFixed(2)} · 5m ${x.m.m5.toFixed(2)} · 20m ${x.m.m20.toFixed(2)} · Beschleunigung ${x.m.accel.toFixed(2)}${x.m.vol===null?'':` · Volumen ${x.m.vol.toFixed(2)}x`} · Setup-Kalibrierung ${e.bucket}: E[Move] ${e.posteriorExpectedMovePct>=0?'+':''}${e.posteriorExpectedMovePct.toFixed(3)}% · Trefferbasis ${(e.posteriorWinRate*100).toFixed(1)}% · n=${e.samples15} · Zielkapital ${target}% vor Depotrisiko${capText}. Keine automatische Aufstockung.`});
+  }
+ }
+ const actions=[...finalMap.values()];plan.actions=actions;plan.summary=`FINAL-CONTROLLER V27: ${actions.filter(a=>a.action==='BUY').length} BUY · ${actions.filter(a=>a.action==='SELL').length} SELL · ${actions.filter(a=>a.action==='HOLD').length} HOLD · ${safetyBlocks} Safety-HOLD(s) · ${calibrationBlocks} empirisch schlechte Setup(s) blockiert · ${riskCaps} Allokation(en) durch Depotrisiko gekappt · ${repeatBuyBlocks} Bestands-BUY(s) verhindert.`;return{...r,response:JSON.stringify(plan)}
 }
 
-export class FinalDecisionController{constructor(base,{getState=null}={}){this.base=base;this.getState=getState}async run(model,input){const r=await this.base.run(model,input);return postProcess(r,input,this.getState)}}
+export class FinalDecisionController{constructor(base,{getState=null,getLearning=null}={}){this.base=base;this.getState=getState;this.getLearning=getLearning}async run(model,input){const r=await this.base.run(model,input);return postProcess(r,input,this.getState,this.getLearning)}}
