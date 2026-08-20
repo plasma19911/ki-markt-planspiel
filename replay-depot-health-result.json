@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-20T08:10:36.175607+00:00",
-  "berlinNow": "2026-08-20T10:10:36.175488+02:00",
+  "checkedAt": "2026-08-20T08:30:01.783281+00:00",
+  "berlinNow": "2026-08-20T10:30:01.783009+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 69779,
-    "dashboard": 24008
+    "full": 90140,
+    "dashboard": 43243
   },
   "checks": {
     "fullStatus200": true,
@@ -30,7 +30,7 @@
     "capture": {
       "date": "2026-08-20",
       "symbolCount": 120,
-      "updatedAt": "2026-08-20T08:10:21.484Z"
+      "updatedAt": "2026-08-20T08:28:19.704Z"
     },
     "summary": {
       "provisional": true,
@@ -46,20 +46,36 @@
     }
   },
   "depot": {
-    "cash": 7800.0,
-    "equity": 9996.803196803197,
-    "displayMarketValue": 2196.803196803197,
-    "displayAccountingDelta": 0.0,
+    "cash": 3456.2527935168087,
+    "equity": 9984.12499336298,
+    "displayMarketValue": 6527.872199631468,
+    "displayAccountingDelta": 2.1470441424753517e-07,
     "positions": [
       {
-        "symbol": "OTKAR.IS",
-        "invested": 2199.0,
-        "ratioValue": 2196.803196803197,
-        "quantityValue": 2196.803196803197,
-        "displayValue": 2196.803196803197,
+        "symbol": "REG1V.HE",
+        "invested": 3898.934957,
+        "ratioValue": 3884.1599274586406,
+        "quantityValue": 3884.159927268543,
+        "displayValue": 3884.159927268543,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "VISC.ST",
+        "invested": 1363.674361,
+        "ratioValue": 1370.4266344101181,
+        "quantityValue": 1370.4266343855122,
+        "displayValue": 1370.4266343855122,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "GUBRA.CO",
+        "invested": 1266.695341,
+        "ratioValue": 1273.2856379774125,
+        "quantityValue": 1273.2856379774128,
+        "displayValue": 1273.2856379774128,
         "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: thu, 20 aug 2026 08:10:36 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=xgcsogzvt%2fnwylhth6vf8yqttqlmt0j7kvnluwriojyyaaqa3nl1cqdrzauhpburb%2fwfavdbho0tf3mqxqdh4pkbakzfjbqpatz0vra7q8qfots3v3a1y1vkourrirkibqb7fukckgywh3ksuoi5qslqcm%2fhndh2zdafr7a%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2dfec27381ef591-sjc\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: thu, 20 aug 2026 08:30:01 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=uwdy%2fketnp17a2%2f29bffulsvqlbtekbmrjkdoxurxqbp7pnfgv5sw4wghrwwvvsv2p9ff%2fsbmioqgdz10cwtlxowoxwepfyhjvbi%2fnpa8xsj9he8z8e0eaadqdhd8bjsjiwa1nu7tg73g%2fdux0st7zwbnueuuof%2bjkjisee%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2e0089c48967c74-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
