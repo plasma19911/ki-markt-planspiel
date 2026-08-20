@@ -54,20 +54,29 @@ export function trendV290(history=[],score=0,now=Date.now()){
   return{delta1:+delta1.toFixed(1),deltaWindow:+deltaWindow.toFixed(1),rising,strongRising,scoutRising,falling,strongFalling,confirmed68,confirmed72,samples:rows.length+1};
 }
 
+function starterPulse(row={}){
+  const parts=row?.parts||{},mom=num(parts?.momentum),news=num(parts?.news),vol=num(parts?.volume),scanner=num(parts?.scanner),conf=num(parts?.confidence),day=num(row?.day,0),reclaim=Boolean(row?.reclaim);
+  const safeDay=day<=6.5&&day>=-4.5;
+  const positiveStructure=mom>=1.2||reclaim;
+  const catalyst=(news>=4&&mom>=.5)||(vol>=2&&mom>=1.2)||(scanner>=5&&conf>=2&&mom>=1.2)||reclaim;
+  const strong=(mom>=2.2&&((news>=4)||(vol>=2)||(scanner>=6&&conf>=2)))||reclaim;
+  return{safeDay,positiveStructure,catalyst,strong,momentum:mom,news,volume:vol,scanner,confidence:conf};
+}
+
 export function entryDecisionV290(row={},history=[],now=Date.now()){
-  const cfg=ENTRY_PROFIT_V290.entry,score=num(row?.buyScore,row?.fusionScore),coverage=num(row?.coverage),trend=trendV290(history,score,now),over=Boolean(row?.overextended),reclaim=Boolean(row?.reclaim),blocked=Boolean(row?.hardBlocked);
-  if(blocked)return{action:'AVOID',tier:'BLOCK',score,coverage,trend,label:'Blockiert'};
-  if(over&&!reclaim)return{action:'WAIT',tier:'OVEREXTENDED',score,coverage,trend,label:'Warten auf Rücksetzer/Reclaim'};
-  if(score>=cfg.exceptionalMin&&coverage>=cfg.regularCoverage&&!trend.falling)return{action:'BUY',tier:'EXCEPTIONAL',score,coverage,trend,label:'Sehr stark · kaufen'};
-  if(score>=cfg.strongMin&&coverage>=cfg.regularCoverage&&!trend.falling)return{action:'BUY',tier:'STRONG',score,coverage,trend,label:'Stark bestätigt · kaufen'};
-  if(score>=cfg.regularMin&&coverage>=cfg.regularCoverage&&(trend.rising||trend.confirmed68)&&!trend.falling)return{action:'BUY',tier:'REGULAR',score,coverage,trend,label:'Kaufen'};
-  if(score>=cfg.earlyMin&&coverage>=cfg.earlyCoverage&&trend.rising&&!trend.falling)return{action:'BUY_EARLY',tier:'EARLY',score,coverage,trend,label:'Früher Einstieg'};
-  if(score>=cfg.microMin&&coverage>=cfg.microCoverage&&trend.strongRising&&!trend.falling)return{action:'BUY_MICRO',tier:'MICRO',score,coverage,trend,label:'Mikro-Früheinstieg'};
-  if(score>=cfg.scoutMin&&coverage>=cfg.scoutCoverage&&trend.scoutRising&&!trend.falling&&trend.samples>=2)return{action:'BUY_SCOUT',tier:'SCOUT',score,coverage,trend,label:'Scout-Einstieg'};
-  if(score>=cfg.microMin)return{action:'WAIT',tier:'WAIT_65',score,coverage,trend,label:trend.rising?'65+ · Bestätigung läuft':'65+ · noch keine saubere Beschleunigung'};
-  if(score>=cfg.scoutMin)return{action:'WATCH',tier:'WATCH_60',score,coverage,trend,label:trend.rising?'60+ · möglicher Starter':'60+ · beobachten'};
-  if(score>=58)return{action:'WATCH',tier:'WATCH',score,coverage,trend,label:trend.rising?'Beobachten · verbessert sich':'Beobachten'};
-  return{action:'AVOID',tier:'WEAK',score,coverage,trend,label:'Schwach'};
+  const cfg=ENTRY_PROFIT_V290.entry,score=num(row?.buyScore,row?.fusionScore),coverage=num(row?.coverage),trend=trendV290(history,score,now),pulse=starterPulse(row),over=Boolean(row?.overextended),reclaim=Boolean(row?.reclaim),blocked=Boolean(row?.hardBlocked);
+  if(blocked)return{action:'AVOID',tier:'BLOCK',score,coverage,trend,pulse,label:'Blockiert'};
+  if(over&&!reclaim)return{action:'WAIT',tier:'OVEREXTENDED',score,coverage,trend,pulse,label:'Warten auf Rücksetzer/Reclaim'};
+  if(score>=cfg.exceptionalMin&&coverage>=cfg.regularCoverage&&!trend.falling&&pulse.safeDay)return{action:'BUY',tier:'EXCEPTIONAL',score,coverage,trend,pulse,label:'Sehr stark · kaufen'};
+  if(score>=cfg.strongMin&&coverage>=cfg.regularCoverage&&!trend.falling&&pulse.safeDay)return{action:'BUY',tier:'STRONG',score,coverage,trend,pulse,label:'Stark bestätigt · kaufen'};
+  if(score>=cfg.regularMin&&coverage>=cfg.regularCoverage&&(trend.rising||trend.confirmed68||pulse.catalyst)&&!trend.falling&&pulse.safeDay&&pulse.positiveStructure)return{action:'BUY',tier:'REGULAR',score,coverage,trend,pulse,label:'Kaufen'};
+  if(score>=cfg.earlyMin&&coverage>=cfg.earlyCoverage&&((trend.rising&&pulse.positiveStructure)||pulse.strong)&&!trend.falling&&pulse.safeDay)return{action:'BUY_EARLY',tier:'EARLY',score,coverage,trend,pulse,label:'Früher Einstieg'};
+  if(score>=cfg.microMin&&coverage>=cfg.microCoverage&&((trend.strongRising&&pulse.positiveStructure)||(coverage>=.82&&pulse.strong))&&!trend.falling&&pulse.safeDay)return{action:'BUY_MICRO',tier:'MICRO',score,coverage,trend,pulse,label:'Mikro-Früheinstieg'};
+  if(score>=cfg.scoutMin&&coverage>=cfg.scoutCoverage&&trend.scoutRising&&pulse.positiveStructure&&pulse.catalyst&&!trend.falling&&trend.samples>=2&&pulse.safeDay)return{action:'BUY_SCOUT',tier:'SCOUT',score,coverage,trend,pulse,label:'Scout-Einstieg'};
+  if(score>=cfg.microMin)return{action:'WAIT',tier:'WAIT_65',score,coverage,trend,pulse,label:trend.rising?'65+ · Bestätigung läuft':'65+ · noch keine saubere Beschleunigung'};
+  if(score>=cfg.scoutMin)return{action:'WATCH',tier:'WATCH_60',score,coverage,trend,pulse,label:trend.rising?'60+ · möglicher Starter':'60+ · beobachten'};
+  if(score>=58)return{action:'WATCH',tier:'WATCH',score,coverage,trend,pulse,label:trend.rising?'Beobachten · verbessert sich':'Beobachten'};
+  return{action:'AVOID',tier:'WEAK',score,coverage,trend,pulse,label:'Schwach'};
 }
 
 export function entryAllocationPctV290(cash=0,decision={}){
@@ -88,11 +97,12 @@ export function profitDecisionV290({pnlPct=0,peakPnlPct=0,holdScore=50,peakHoldS
   const cfg=ENTRY_PROFIT_V290.profit,pnl=num(pnlPct),peak=Math.max(num(peakPnlPct,pnl),pnl),score=num(holdScore),peakScore=Math.max(num(peakHoldScore,score),score),lastScore=num(lastHoldScore,score),tier=profitTier(peak);
   const givebackPoints=Math.max(0,peak-pnl),givebackFraction=peak>0?givebackPoints/peak:0,scoreDelta=score-lastScore,scoreFromPeak=score-peakScore;
   const momentumWeak=num(m5)<=-.10||num(m20)<=-.20||num(acc)<=-.025||String(momentumState).toUpperCase()==='REVERSAL'||String(momentumSellSignal).toUpperCase()==='STRONG';
-  const rebound=scoreDelta>=4||(num(m5)>=.12&&num(acc)>=.025&&score>=52);
+  const momentumStrong=num(m5)>=.12&&num(acc)>=.025&&num(m20)>=-.05;
+  const rebound=scoreDelta>=4||(momentumStrong&&score>=52);
   const fresh=num(coverage)>=.67&&!partial;
   const armed=Boolean(tier&&peak>=cfg.armPeakPct);
   const minAge=peak>=cfg.largePeakPct?cfg.minAgeLargePeakMinutes:cfg.minAgeSmallPeakMinutes;
-  const base={pnl:+pnl.toFixed(3),peak:+peak.toFixed(3),givebackPoints:+givebackPoints.toFixed(3),givebackFraction:+givebackFraction.toFixed(3),score:+score.toFixed(1),scoreDelta:+scoreDelta.toFixed(1),scoreFromPeak:+scoreFromPeak.toFixed(1),momentumWeak,rebound,armed,minAge};
+  const base={pnl:+pnl.toFixed(3),peak:+peak.toFixed(3),givebackPoints:+givebackPoints.toFixed(3),givebackFraction:+givebackFraction.toFixed(3),score:+score.toFixed(1),scoreDelta:+scoreDelta.toFixed(1),scoreFromPeak:+scoreFromPeak.toFixed(1),momentumWeak,momentumStrong,rebound,armed,minAge};
   if(!armed)return{...base,action:'HOLD',reason:'not_armed',label:'Gewinntrail noch nicht aktiv'};
   if(!fresh)return{...base,action:'HOLD',reason:'insufficient_data',label:'Halten · Daten nicht vollständig'};
   if(ageMinutes<minAge)return{...base,action:'HOLD',reason:'too_young',label:'Gewinn laufen lassen · Position noch jung'};
@@ -101,6 +111,8 @@ export function profitDecisionV290({pnlPct=0,peakPnlPct=0,holdScore=50,peakHoldS
   const trailHit=givebackPoints>=tier.minGivebackPoints&&givebackFraction>=tier.givebackFraction;
   const scoreWeakening=(scoreDelta<=-3||scoreFromPeak<=-7)&&score<=tier.maxExitScore;
   const nearPeakExhaustion=peak>=2.5&&givebackFraction>=.14&&scoreFromPeak<=-7&&momentumWeak&&score<=78;
+  const fastExhaustion=peak>=4&&givebackFraction>=.10&&scoreDelta<=-5&&scoreFromPeak<=-8&&momentumWeak&&score<=78;
+  if(fastExhaustion)return{...base,action:'SELL',reason:'fast_peak_exhaustion',label:'Gewinn sichern · Peak kippt schnell'};
   if(nearPeakExhaustion)return{...base,action:'SELL',reason:'near_peak_exhaustion',label:'Gewinn sichern · Anstieg läuft aus'};
   if(trailHit&&scoreWeakening&&momentumWeak)return{...base,action:'SELL',reason:'dynamic_profit_lock',label:'Gewinn sichern · dynamischer Rücklauf'};
   return{...base,action:'HOLD',reason:trailHit?'trail_unconfirmed':'trend_intact',label:trailHit?'Halten · Rücklauf noch nicht bestätigt':'Gewinn laufen lassen'};
