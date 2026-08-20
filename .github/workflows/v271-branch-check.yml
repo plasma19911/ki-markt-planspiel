@@ -11,13 +11,13 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 6
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Run V27.1 checks and persist result
+      - name: Run V27.1 checks, live trade reconstruction and persist result
         shell: bash
         run: |
           set +e
@@ -27,25 +27,39 @@ jobs:
             node --check src/learning-quarantine.js &&
             node --check src/compact-portfolio-v22-active-learning.js &&
             node --check tests/v271-anti-flipflop.test.mjs &&
+            node --check scripts/audit-recent-trades.mjs &&
             node --check public/changelog-v271.js
           } > /tmp/syntax.log 2>&1; SYNTAX=$?
           npm run test:decisions > /tmp/tests.log 2>&1; TESTS=$?
+          node scripts/audit-recent-trades.mjs > /tmp/audit.json 2>/tmp/audit.err; AUDIT=$?
           npm run check > /tmp/dryrun.log 2>&1; DRYRUN=$?
           python3 - <<PY
-          import json,datetime
-          x={'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'commit':'${GITHUB_SHA}','installOk':${INSTALL}==0,'syntaxOk':${SYNTAX}==0,'testsOk':${TESTS}==0,'dryRunOk':${DRYRUN}==0,'allPassed':all(v==0 for v in [${INSTALL},${SYNTAX},${TESTS},${DRYRUN}])}
-          open('v271-branch-result.json','w').write(json.dumps(x,indent=2)+'\n')
-          print(json.dumps(x,indent=2))
+          import json,datetime,pathlib
+          def tail(p,n=5000):
+              try:return pathlib.Path(p).read_text(encoding='utf-8',errors='replace')[-n:]
+              except:return ''
+          x={'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'commit':'${GITHUB_SHA}','installOk':${INSTALL}==0,'syntaxOk':${SYNTAX}==0,'testsOk':${TESTS}==0,'auditOk':${AUDIT}==0,'dryRunOk':${DRYRUN}==0,'allPassed':all(v==0 for v in [${INSTALL},${SYNTAX},${TESTS},${AUDIT},${DRYRUN}]),'testTail':tail('/tmp/tests.log')}
+          pathlib.Path('v271-branch-result.json').write_text(json.dumps(x,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          if ${AUDIT}==0:
+              try:
+                  a=json.loads(pathlib.Path('/tmp/audit.json').read_text(encoding='utf-8'))
+                  pathlib.Path('v271-trade-audit.json').write_text(json.dumps(a,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+              except Exception as e:
+                  pathlib.Path('v271-trade-audit.json').write_text(json.dumps({'error':str(e),'raw':tail('/tmp/audit.json')},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          else:
+              pathlib.Path('v271-trade-audit.json').write_text(json.dumps({'error':tail('/tmp/audit.err'),'raw':tail('/tmp/audit.json')},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print(json.dumps(x,ensure_ascii=False,indent=2))
           PY
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add v271-branch-result.json
-          git commit -m 'Update V27.1 branch validation result [skip ci]' || true
+          git add v271-branch-result.json v271-trade-audit.json
+          git commit -m 'Update V27.1 branch validation and trade audit [skip ci]' || true
           git push origin HEAD:agent/v271-anti-flipflop
-          if [ "$INSTALL" -ne 0 ] || [ "$SYNTAX" -ne 0 ] || [ "$TESTS" -ne 0 ] || [ "$DRYRUN" -ne 0 ]; then
+          if [ "$INSTALL" -ne 0 ] || [ "$SYNTAX" -ne 0 ] || [ "$TESTS" -ne 0 ] || [ "$AUDIT" -ne 0 ] || [ "$DRYRUN" -ne 0 ]; then
             echo '--- install ---'; tail -100 /tmp/install.log
             echo '--- syntax ---'; tail -100 /tmp/syntax.log
             echo '--- tests ---'; tail -180 /tmp/tests.log
+            echo '--- audit err ---'; tail -100 /tmp/audit.err
             echo '--- dryrun ---'; tail -100 /tmp/dryrun.log
             exit 1
           fi
