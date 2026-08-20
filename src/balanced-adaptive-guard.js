@@ -44,23 +44,25 @@ function metrics(c={}){
 
 export function assessBalancedSoftEntry(candidate={},storage=null){
  const x=metrics(candidate),p=replayBalancePressure(storage),nearHigh=x.drawKnown&&x.draw>-0.18;
- const strongOverall=(x.score>=5&&x.confidence>=.68)||(x.score>=4.5&&x.confidence>=.74)||(x.score>=4.25&&x.confidence>=.70&&x.news>=.30);
- const baseTape=x.m5>=.04&&x.m20>=.06&&x.accel>=0,volumeOk=!x.volumeKnown||x.vol>=.90,notLate=x.day<=4.0&&x.rsi<75,nearHighOk=!nearHigh||(x.day<=3.5&&x.m5>=.07&&x.m20>=.10&&x.accel>=.01&&x.rsi<73);
- const netOpportunity=clamp(p.opportunityBoost-(nearHigh?p.peakPenalty*.60:0),0,.22),allow=x.hardSafe&&strongOverall&&baseTape&&volumeOk&&notLate&&nearHighOk&&netOpportunity>=.03;
- const cap=clamp(18+netOpportunity*35+(x.score>=5.7&&x.confidence>=.74?4:0)-(nearHigh?p.peakPenalty*18:0),16,28);
- const reasons=[];if(!x.hardSafe)reasons.push('harte Safety');if(!strongOverall)reasons.push('Gesamtqualität');if(!baseTape)reasons.push('Kursbestätigung');if(!volumeOk)reasons.push('Volumen');if(!notLate)reasons.push('zu spät/überhitzt');if(!nearHighOk)reasons.push('zu nah am Hoch');if(netOpportunity<.03)reasons.push('Replay-Balance spricht noch nicht für Soft-Override');
- return{allow,allocationCap:+cap.toFixed(1),pressure:p,netOpportunity:+netOpportunity.toFixed(3),metrics:x,reasons};
+ const strongOverall=(x.score>=5&&x.confidence>=.66)||(x.score>=4.5&&x.confidence>=.72)||(x.score>=4.2&&x.confidence>=.69&&x.news>=.25);
+ const baseTape=x.m5>=.04&&x.m20>=.05&&x.accel>=0,earlyTrend=(x.m5>=.02&&x.m20>=0&&x.accel>=.01)||(x.m5>=.06&&x.accel>=0),volumeOk=!x.volumeKnown||x.vol>=.75,notLate=x.day<=5.0&&x.rsi<78,nearHighOk=!nearHigh||(x.day<=3.8&&x.m5>=.06&&x.m20>=.08&&x.accel>=0&&x.rsi<75);
+ const netOpportunity=clamp(p.opportunityBoost-(nearHigh?p.peakPenalty*.60:0),0,.22),directStrength=x.score>=5.2||x.confidence>=.76||(x.score>=4.7&&x.news>=.35),allow=x.hardSafe&&strongOverall&&(baseTape||earlyTrend)&&volumeOk&&notLate&&nearHighOk&&(directStrength||netOpportunity>=.01);
+ const cap=clamp(14+netOpportunity*35+(x.score>=5.7&&x.confidence>=.74?5:0)+(earlyTrend&&!baseTape?-3:0)-(nearHigh?p.peakPenalty*18:0),10,28);
+ const reasons=[];if(!x.hardSafe)reasons.push('harte Safety');if(!strongOverall)reasons.push('Gesamtqualität');if(!(baseTape||earlyTrend))reasons.push('Kursbestätigung');if(!volumeOk)reasons.push('Volumen');if(!notLate)reasons.push('zu spät/überhitzt');if(!nearHighOk)reasons.push('zu nah am Hoch');if(!(directStrength||netOpportunity>=.01))reasons.push('weder direkte Stärke noch Replay-Spielraum');
+ return{allow,allocationCap:+cap.toFixed(1),pressure:p,netOpportunity:+netOpportunity.toFixed(3),metrics:x,reasons,earlyTrend,baseTape};
 }
 
-function isResearchWait(a={}){return String(a?.action||'').toUpperCase()==='HOLD'&&/RESEARCH-ENTRY-WAIT/i.test(String(a?.reason||''))}
+function isHoldAction(a={}){return String(a?.action||'').toUpperCase()==='HOLD'}
 function marginalMomentumExit(a={}){return String(a?.action||'').toUpperCase()==='SELL'&&/Momentum-Risk-Exit/i.test(String(a?.reason||''))}
 function hardExit(h={},a={}){return classifyHardExit(h,a).hard}
 
 export function marginalExitDecision({held={},action={},storage=null,now=Date.now()}={}){
  if(!marginalMomentumExit(action))return{allow:true,reason:'not-marginal-momentum-exit'};if(hardExit(held,action))return{allow:true,hard:true,reason:'echter harter Event-/Kursbruch'};
- const m5=num(held?.momentum5,held?.intraday5m),m20=num(held?.momentum20,held?.intraday20m),pnl=heldPnlPct(held),severe=(m5<=-.42&&m20<=-.50)||pnl<=-1.25;if(severe)return{allow:true,severe:true,reason:'deutlich bestätigter Abwärtsdruck'};
+ const m5=num(held?.momentum5,held?.intraday5m),m20=num(held?.momentum20,held?.intraday20m),pnl=heldPnlPct(held),severe=(m5<=-.42&&m20<=-.50)||pnl<=-1.25,earlyWeak=(m5<=-.18&&m20<=-.12)||(m5<=-.24&&pnl<=-.45);
+ if(severe)return{allow:true,severe:true,reason:'deutlich bestätigter Abwärtsdruck'};
+ if(earlyWeak)return{allow:true,early:true,reason:'kombinierte frühe Schwäche – nicht auf zweites Signal warten'};
  const state=read(storage,EXIT_KEY,{rows:{}}),rows=state.rows||{},s=key(held?.symbol?held:action),old=rows[s],fresh=old&&now-num(old.at)<8*60*1000,count=fresh?num(old.count)+1:1;rows[s]={at:now,count};for(const [k,v] of Object.entries(rows))if(now-num(v?.at)>15*60*1000)delete rows[k];write(storage,EXIT_KEY,{updatedAt:new Date(now).toISOString(),rows});
- return{allow:count>=2,count,hard:false,severe:false,reason:count>=2?'zweites aufeinanderfolgendes Momentum-Risikosignal':'erstes leichtes Momentum-Risikosignal – einmal bestätigen'};
+ return{allow:count>=2,count,hard:false,severe:false,reason:count>=2?'zweites aufeinanderfolgendes leichtes Momentum-Risikosignal':'nur ein kleines Einzelsignal – einmal bestätigen'};
 }
 
 function themeFamily(v){const t=String(v||'').toUpperCase();if(!t)return'';if(t.includes('DEFENSE')||t.includes('RUSSIA')||t.includes('MILIT'))return'DEFENSE';if(t.includes('SEMI')||t.includes('CHIP'))return'SEMICONDUCTOR';if(t.includes('AI_POWER')||t.includes('GRID')||t.includes('DATA_CENTER'))return'AI_POWER_GRID';if(t.includes('CYBER'))return'CYBER_SECURITY';if(t.includes('NUCLEAR')||t.includes('URANIUM'))return'NUCLEAR';if(t.includes('ENERGY')||t.includes('OIL')||t.includes('GAS'))return'ENERGY';if(t.includes('GOLD')||t.includes('MINER'))return'MATERIALS';if(t.includes('RATE')||t.includes('MACRO'))return'MACRO_SENSITIVE';return t}
@@ -69,9 +71,14 @@ function concentrationFactor(candidate,held=[]){const theme=themeFamily(candidat
 function postProcess(r,input,storage){
  const plan=parsePlan(r),prompt=findPrompt(input);if(!plan||!prompt)return r;const candidates=arr(parseBlock(prompt,'Kandidaten=',' Gehalten=')||[]),held=arr(parseBlock(prompt,' Gehalten=')||[]),cMap=new Map(candidates.map(c=>[key(c),c])),hMap=new Map(held.map(h=>[key(h),h]));let actions=[],exitHeldBack=0;
  for(const a of arr(plan.actions)){if(marginalMomentumExit(a)){const d=marginalExitDecision({held:hMap.get(key(a))||{},action:a,storage});if(!d.allow){actions.push({symbol:key(a),action:'HOLD',confidence:.62,allocation_pct:0,reason:`BALANCED-EXIT-WATCH: ${d.reason}. Kein Verkauf nur wegen eines kleinen einzelnen Rücksetzers.`});exitHeldBack++;continue}}actions.push(a)}
- const existingBuy=actions.some(a=>String(a?.action||'').toUpperCase()==='BUY');if(!existingBuy){const researchWaits=actions.filter(isResearchWait).map(a=>({a,c:cMap.get(key(a))})).filter(x=>x.c),soft=researchWaits.map(x=>({c:x.c,q:assessBalancedSoftEntry(x.c,storage)})).filter(x=>x.q.allow).sort((a,b)=>b.q.metrics.score-a.q.metrics.score||b.q.metrics.confidence-a.q.metrics.confidence)[0];if(soft){actions=actions.filter(a=>!isResearchWait(a)||key(a)!==key(soft.c));actions.push({symbol:key(soft.c),action:'BUY',confidence:clamp(soft.q.metrics.confidence,.64,.82),allocation_pct:soft.q.allocationCap,reason:`BALANCED-SOFT-ENTRY: starker Kandidat, harte Safety bestanden; Mehrtages-Replay zeigt verpasste/zu späte Chancen. Eine weiche Research-Grenze darf knapp verfehlt werden · kleine Startposition ${soft.q.allocationCap.toFixed(1)}% · Score ${soft.q.metrics.score.toFixed(2)} · Konfidenz ${Math.round(soft.q.metrics.confidence*100)}%`})}}
+ const existingBuy=actions.some(a=>String(a?.action||'').toUpperCase()==='BUY');
+ if(!existingBuy){
+  const holdKeys=new Set(actions.filter(isHoldAction).map(key));
+  const soft=candidates.map(c=>({c,q:assessBalancedSoftEntry(c,storage),wasHold:holdKeys.has(key(c))})).filter(x=>x.q.allow).sort((a,b)=>Number(b.wasHold)-Number(a.wasHold)||b.q.metrics.score-a.q.metrics.score||b.q.metrics.confidence-a.q.metrics.confidence)[0];
+  if(soft){actions=actions.filter(a=>!(isHoldAction(a)&&key(a)===key(soft.c)));actions.push({symbol:key(soft.c),action:'BUY',confidence:clamp(soft.q.metrics.confidence,.64,.84),allocation_pct:soft.q.allocationCap,reason:`BALANCED-EARLY-ENTRY: starker Kandidat, harte Safety bestanden. Nicht auf perfekte Vollbestätigung warten · ${soft.q.earlyTrend&&!soft.q.baseTape?'frühe Trendaufnahme':'bestätigter Aufbau'} · Starter ${soft.q.allocationCap.toFixed(1)}% · Score ${soft.q.metrics.score.toFixed(2)} · Konfidenz ${Math.round(soft.q.metrics.confidence*100)}%`})}
+ }
  actions=actions.map(a=>{if(String(a?.action||'').toUpperCase()!=='BUY')return a;const c=cMap.get(key(a));if(!c)return a;const cc=concentrationFactor(c,held);if(cc.factor>=.999)return a;const old=Math.max(0,num(a?.allocation_pct)),next=Math.max(8,old*cc.factor);return{...a,allocation_pct:+next.toFixed(2),reason:`${String(a.reason||'').slice(0,330)} · SOFT-DIVERSIFIKATION: ${cc.theme} bereits ${Math.round(cc.share*100)}% des investierten Depots; Position nur ${Math.round((1-cc.factor)*100)}% kleiner statt hart blockiert.`}});
- plan.actions=actions;const pressure=replayBalancePressure(storage),notes=[];if(exitHeldBack)notes.push(`${exitHeldBack} leichter Exit erst bestaetigen`);if(pressure.active)notes.push(`Replay-Balance ${pressure.windowDays} Tag(e) · Missed ${pressure.missedRate.toFixed(2)} · Late ${pressure.lateRate.toFixed(2)} · Peak ${pressure.peakRate.toFixed(2)}`);if(notes.length)plan.summary=`${String(plan.summary||'').slice(0,170)} · BALANCED-ADAPTIVE: ${notes.join(' · ')}. Harte Risiken bleiben hart, weiche Grenzen bleiben uebersteuerbar.`;return{...r,response:JSON.stringify(plan)};
+ plan.actions=actions;const pressure=replayBalancePressure(storage),notes=[];if(exitHeldBack)notes.push(`${exitHeldBack} wirklich leichtes Einzelsignal wartet einmal`);if(pressure.active)notes.push(`Replay-Balance ${pressure.windowDays} Tag(e) · Missed ${pressure.missedRate.toFixed(2)} · Late ${pressure.lateRate.toFixed(2)} · Peak ${pressure.peakRate.toFixed(2)}`);if(notes.length)plan.summary=`${String(plan.summary||'').slice(0,170)} · BALANCED-ADAPTIVE: ${notes.join(' · ')}. Frühe valide Chancen dürfen starten; harte Risiken bleiben hart.`;return{...r,response:JSON.stringify(plan)};
 }
 
 export class BalancedAdaptiveAiGuard{constructor(base,storage){this.base=base;this.storage=storage}async run(model,input){const r=await this.base.run(model,input);return postProcess(r,input,this.storage)}}
