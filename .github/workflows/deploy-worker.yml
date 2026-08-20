@@ -6,6 +6,7 @@ on:
     paths:
       - 'src/**'
       - 'public/**'
+      - 'tests/**'
       - 'wrangler.jsonc'
       - 'package.json'
       - '.github/workflows/deploy-worker.yml'
@@ -43,6 +44,12 @@ jobs:
 
       - name: Install Wrangler only
         run: npm install --no-audit --no-fund --ignore-scripts
+
+      - name: Test final decision controller
+        run: npm run test:decisions
+
+      - name: Cloudflare dry run
+        run: npm run check
 
       - name: Deploy Worker immediately
         env:
