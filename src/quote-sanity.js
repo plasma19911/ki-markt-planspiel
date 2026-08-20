@@ -1,5 +1,6 @@
+import {normalizeQuoteCurrency} from './quote-currency-units.js';
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
-const key=v=>String(v||'').trim().toUpperCase();
+const key=v=>normalizeQuoteCurrency(v);
 
 const COMMON_SCALE_MIN=50;
 const COMMON_SCALE_MAX=150;
