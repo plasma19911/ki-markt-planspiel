@@ -1,38 +1,40 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v21-source-budget.js';
-import {ActiveLearningCashAiGuard} from './active-learning-cash-guard.js';
+import {FinalDecisionController} from './final-decision-controller.js';
 
-// PAPER-TRADING ONLY. V23 keeps learning active, but capital deployment is no longer
-// allowed to overrule structural News/Event/Peak/MTF safety. The guard also reads
-// live cash so residual cents never create meaningless follow-up orders.
+// PAPER-TRADING ONLY. V25 keeps the existing data/news/source stack, but replaces
+// the previous final Active-Learning override with one authoritative final decision
+// controller for entry, sizing, hold and exit. Inner guards may enrich context, but
+// they no longer have the last word on the emitted action list.
 export class MarketPortfolio extends BasePortfolio{
  constructor(ctx,env){
   super(ctx,env);
   const ai=this.engine?.env?.AI;
-  if(ai?.run&&!ai.__activeLearningCashGuard){
-   const wrapped=new ActiveLearningCashAiGuard(ai,{getState:()=>{try{return this._actualState?.()||{}}catch{return{}}}});
-   wrapped.__activeLearningCashGuard=true;
+  if(ai?.run&&!ai.__finalDecisionControllerV25){
+   const wrapped=new FinalDecisionController(ai,{getState:()=>{try{return this._actualState?.()||{}}catch{return{}}}});
+   wrapped.__finalDecisionControllerV25=true;
    this.engine.env.AI=wrapped;
   }
  }
  async status(){
   const s=await super.status();
-  s.activeLearningCapitalPolicy={
+  s.finalDecisionPolicy={
    enabled:true,
-   version:23,
+   version:25,
    paperTradingOnly:true,
-   mode:'INTELLIGENT_CAPITAL_DEPLOYMENT',
-   targetFreeCashDeploymentPct:'28–100 dynamisch',
-   maxCandidatesPerDecision:4,
-   hardSafetyPreserved:true,
-   newsEventWaitPreserved:true,
+   mode:'SINGLE_AUTHORITATIVE_FINAL_CONTROLLER',
+   oneFinalActionAuthority:true,
+   entryTypes:['EARLY_BREAKOUT','PULLBACK_RECLAIM','BASE_RECLAIM'],
+   dynamicCapitalDeployment:'22–100% des freien Cashs je nach Qualität und Chancenbreite',
    peakChaseBlocked:true,
-   mtfSafetyPreserved:true,
+   hardNewsEventVenueSafetyPreserved:true,
    residualCashOrderBlocked:true,
-   singleMediocreCandidateAllInBlocked:true,
-   rule:'Freies Cash wird nur auf bereits sicher freigegebene Chancen verteilt. Eine einzelne mittelmäßige Chance bekommt keine 100%-All-in-Zuweisung. Mit Qualität und Chancenbreite steigt die Zielauslastung bis 100%. News-/Event-/Peak-/MTF-HOLDs werden niemals vom Lernmodus überstimmt. Restcash unter sinnvoller Ordergröße erzeugt keine Mini-/Centorders.'
+   lossExitNeedsConfirmedInvalidation:true,
+   winnerNoiseSellBlocked:true,
+   maxCandidatesPerDecision:4,
+   rule:'Eine einzige finale Instanz baut die endgültige BUY/HOLD/SELL-Liste neu auf. Käufe brauchen ein frühes Breakout-, Pullback-Reclaim- oder Base-Reclaim-Setup und dürfen kein Peak-/News-/Event-/Venue-Hard-Risk enthalten. Kapital wird nach Qualität dynamisch verteilt. Verkäufe erfolgen bei harter Invalidation oder bestätigter Mehrsignal-Schwäche; normales Rauschen wird gehalten.'
   };
-  if(s.executionModel)s.executionModel={...s.executionModel,activeLearningCashDeployment:true,targetFreeCashDeploymentPct:'dynamic 28-100',residualCashOrderBlocked:true,safetyHoldBinding:true};
-  if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,activeLearningCashDeployment:true,learningRequiresExecutedTrades:true,singleMediocreAllInBlocked:true};
+  if(s.executionModel)s.executionModel={...s.executionModel,finalDecisionControllerV25:true,oneFinalActionAuthority:true,dynamicCapitalDeployment:'22-100',residualCashOrderBlocked:true};
+  if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,finalDecisionControllerV25:true,entryTimingFirst:true,lossExitNeedsConfirmedInvalidation:true};
   return s;
  }
 }
