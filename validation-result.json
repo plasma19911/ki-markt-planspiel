@@ -1,9 +1,9 @@
 {
-  "checkedAt": "2026-08-20T16:57:06.434875+00:00",
-  "commit": "352863ecb252b30f5cd6b8372b6b63db09865a15",
+  "checkedAt": "2026-08-20T16:58:23.337459+00:00",
+  "commit": "676892882af0f474fb26f5f65dbcc497e5016c81",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages, and audited 39 packages in 7s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
+    "tail": "\nadded 38 packages, and audited 39 packages in 6s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
   },
   "checks": {
     "syntax_index": {
@@ -304,7 +304,7 @@
     "pc_wide_sweep": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"target\": 64,\n  \"dipReserve\": 44,\n  \"selected\": 64,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-20T16:56:43.315Z\",\n    \"ageSeconds\": 20,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"freshMerge\": {\n    \"symbol\": \"FRESH.DE\",\n    \"wideScore\": 29.8,\n    \"m5Pct\": 0.02,\n    \"m20Pct\": 0.1,\n    \"accelerationPct\": 0.02,\n    \"sessionPct\": 0.2,\n    \"last\": 10.1,\n    \"observedAt\": \"2026-08-20T16:56:53.315Z\",\n    \"ageSeconds\": 10,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"liveWave\": {\n    \"priority\": \"DIPBEST.DE\",\n    \"rotating\": [\n      \"ROTATE.DE\",\n      \"HIGH.DE\"\n    ]\n  },\n  \"forcedBuy\": false\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"target\": 64,\n  \"dipReserve\": 44,\n  \"selected\": 64,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-20T16:58:00.359Z\",\n    \"ageSeconds\": 20,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"freshMerge\": {\n    \"symbol\": \"FRESH.DE\",\n    \"wideScore\": 29.8,\n    \"m5Pct\": 0.02,\n    \"m20Pct\": 0.1,\n    \"accelerationPct\": 0.02,\n    \"sessionPct\": 0.2,\n    \"last\": 10.1,\n    \"observedAt\": \"2026-08-20T16:58:10.359Z\",\n    \"ageSeconds\": 10,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"liveWave\": {\n    \"priority\": \"DIPBEST.DE\",\n    \"rotating\": [\n      \"ROTATE.DE\",\n      \"HIGH.DE\"\n    ]\n  },\n  \"forcedBuy\": false\n}\n"
     },
     "yahoo_sanity": {
       "ok": true,
@@ -322,9 +322,9 @@
       "tail": "trade-day-lessons V2.1 smoke: OK\n"
     },
     "free_tier": {
-      "ok": true,
-      "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"cloudflarePlan\": \"FREE\",\n  \"mode\": \"WINDOWS_PC_AGENT + CLOUDFLARE_FALLBACK\",\n  \"gettex\": \"07:25 PREOPEN; 07:30-23:00 OPEN; sonst SLEEP\",\n  \"pcMarketScanRequestsPerTradingDay\": 930,\n  \"preopenRunsPerTradingDay\": 1,\n  \"cloudflareFallbackEnvelopePerWeekday\": 216,\n  \"pcLeaderRefreshesPerTradingDay\": 187,\n  \"dynamicExternalLeaderTarget\": 25,\n  \"deepFinalists\": 6,\n  \"deepRequestCountUnchangedByScaleUp\": true,\n  \"externalFetchSoftCapPerCloudflareScan\": 36,\n  \"preopenFetchSoftCap\": 24,\n  \"agentOfflineFallbackSeconds\": 150,\n  \"cloudflareFallbackMinutes\": 5,\n  \"pcStoragePath\": \"E:\\\\KI-Markt-Agent\",\n  \"pcStorageLimitGb\": 2,\n  \"pcTrimToGb\": 1.6,\n  \"aiNeuronSoftCapPerUtcDay\": 8000,\n  \"nightNews\": false,\n  \"nightMarketScans\": false\n}\n"
+      "ok": false,
+      "exitCode": 1,
+      "tail": "node:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Cloudflare-Cron muss nur alle 5 Minuten als Fallback feuern\n    at file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/scripts/smoke-free-tier-24h.mjs:25:8\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: '{\\n' +\n    '  \"$schema\": \"./node_modules/wrangler/config-schema.json\",\\n' +\n    '  \"name\": \"ki-markt-planspiel\",\\n' +\n    '  \"main\": \"src/index-v19.js\",\\n' +\n    '  \"compatibility_date\": \"2026-08-18\",\\n' +\n    '  \"compatibility_flags\": [\"nodejs_compat\"],\\n' +\n    '  \"keep_vars\": true,\\n' +\n    '  \"secrets\": {\\n' +\n    '    \"required\": [\"PC_AGENT_TOKEN\"]\\n' +\n    '  },\\n' +\n    '\\n' +\n    '  \"assets\": {\\n' +\n    '    \"directory\": \"./public\",\\n' +\n    '    \"binding\": \"ASSETS\",\\n' +\n    '    \"run_worker_first\": [\"/api/*\", \"/\", \"/index.html\", \"/quota-guard.js\"]\\n' +\n    '  },\\n' +\n    '\\n' +\n    '  \"ai\": {\"binding\": \"AI\"},\\n' +\n    '  \"durable_objects\": {\"bindings\": [{\"name\": \"PORTFOLIO\", \"class_name\": \"MarketPortfolio\"}]},\\n' +\n    '  \"exports\": {\"MarketPortfolio\": {\"type\": \"durable-object\", \"storage\": \"sqlite\"}},\\n' +\n    '  \"triggers\": {\"crons\": [\"* 5-22 * * 1-5\"]},\\n' +\n    '  \"observability\": {\"enabled\": true, \"head_sampling_rate\": 0.1}\\n' +\n    '}\\n',\n  expected: /\"crons\"\\s*:\\s*\\[\"\\*\\/5 5-22 \\* \\* 1-5\"\\]/,\n  operator: 'match',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
     },
     "final_decision_suite": {
       "ok": true,
@@ -334,10 +334,12 @@
     "wrangler_dryrun": {
       "ok": true,
       "exitCode": 0,
-      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 70 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 1070.02 KiB / gzip: 273.27 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
+      "tail": "\n ⛅️ wrangler 4.124.0\n────────────────────\n✨ Read 70 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 1070.94 KiB / gzip: 273.55 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
     }
   },
-  "failedChecks": [],
-  "allCodeAndRegressionChecksPassed": true,
+  "failedChecks": [
+    "free_tier"
+  ],
+  "allCodeAndRegressionChecksPassed": false,
   "note": "Validation-only workflow. It never rewrites trading source code."
 }
