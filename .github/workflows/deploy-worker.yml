@@ -56,3 +56,21 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npx wrangler deploy --config wrangler.jsonc
+
+      - name: Verify production really serves V26
+        run: |
+          node --input-type=module <<'NODE'
+          const url='https://ki-markt-planspiel.orkimperium.workers.dev/api/status';
+          let last='';
+          for(let i=0;i<8;i++){
+            try{
+              const r=await fetch(`${url}?deploy_check=${Date.now()}`,{headers:{'cache-control':'no-cache'}});
+              const j=await r.json();
+              last=`HTTP ${r.status}, finalDecisionPolicy.version=${j?.finalDecisionPolicy?.version ?? 'missing'}`;
+              if(r.ok&&j?.finalDecisionPolicy?.version===26){console.log(`Live verification OK: ${last}`);process.exit(0)}
+            }catch(e){last=String(e?.message||e)}
+            await new Promise(r=>setTimeout(r,5000));
+          }
+          console.error(`Live verification failed: ${last}`);
+          process.exit(1);
+          NODE
