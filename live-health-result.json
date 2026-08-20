@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T07:28:10.202946+00:00",
+  "checkedAt": "2026-08-20T07:29:08.081167+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -25,15 +25,15 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T07:27:06.441Z",
-    "ageSeconds": 63,
+    "lastSeenAt": "2026-08-20T07:28:16.601Z",
+    "ageSeconds": 51,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
-  "scanCount": 6,
-  "lastScan": "2026-08-20T07:25:19.234Z",
+  "scanCount": 7,
+  "lastScan": "2026-08-20T07:28:20.507Z",
   "lastError": null,
-  "aiLastSummary": "KI-Wartefenster 10m; Fast-Decision: 0 SELL / 0 BUY aus 3 Tiefenchecks (bis 12 KI-Kandidaten). Gap/Opening-Range: 0 aktive Gap-Lagen aus · SMART-ENTRY V24: kein neuer Starter aus dem Fallback; bestehende sichere BUYs bleiben erhalten, harte News/Event/High-Sperren bleiben bindend.",
+  "aiLastSummary": "FINAL-CONTROLLER V25: 0 BUY · 0 SELL · 0 HOLD. Eine finale Instanz entscheidet Entry, Sizing und Exit.",
   "cash": 10000.0,
   "equity": 10000.0,
   "pnl": 0,
@@ -45,10 +45,10 @@
     {
       "id": 2,
       "ts": "2026-08-20T07:15:12.593Z",
-      "end_ts": "2026-08-20T07:25:19.234Z",
-      "event_count": 6,
+      "end_ts": "2026-08-20T07:28:20.507Z",
+      "event_count": 7,
       "start_scan": 1,
-      "end_scan": 6,
+      "end_scan": 7,
       "action": "HALTEN",
       "symbol": "",
       "name": "",
@@ -61,7 +61,7 @@
       "equity": 10000,
       "total_pnl": 0,
       "score": null,
-      "reason": "Kein Trade. Bestes Signal 9618.HK: Score -1.20, Konfidenz 40%."
+      "reason": "Kein Trade. Bestes Signal VENTIVE.NS: Score 1.60, Konfidenz 44%."
     },
     {
       "id": 1,
