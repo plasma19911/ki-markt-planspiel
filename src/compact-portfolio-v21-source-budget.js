@@ -1,21 +1,29 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v20-paper.js';
 import {TradeDayLessonsAiGuard} from './trade-day-lessons-guard.js';
 import {selectWideSweepLiveWave} from './wide-sweep-utils.js';
+import {RuntimeTradeConfigAiGuard,DEFAULT_RUNTIME_TRADE_CONFIG,sanitizeRuntimeTradeConfig} from './runtime-trade-config-guard.js';
 
 const arr=v=>Array.isArray(v)?v:[];
 const key=v=>String(v||'').toUpperCase().trim();
 const LIVE_EARLY_WAVE=2;
+const RUNTIME_CONFIG_KEY='runtime-trade-config-v1';
 
 // V21 keeps the source-budget protection and adds the final day-review guard.
-// The guard is deliberately outermost: it can stop a shallow auto-dip, late
-// high-chase BUY or noise SELL even when an older inner layer would allow it.
+// The runtime guard is deliberately outermost: hard safety remains hard, while
+// selected timing/sizing thresholds can be changed live without a Worker deploy.
 export class MarketPortfolio extends BasePortfolio{
  constructor(ctx,env){
   super(ctx,env);this.ctx=ctx;
-  const ai=this.engine?.env?.AI;
+  let ai=this.engine?.env?.AI;
   if(ai?.run&&!ai.__tradeDayLessonsGuard){
    const wrapped=new TradeDayLessonsAiGuard(ai,{getState:()=>{try{return this._actualState?.()||{}}catch{return{}}}});
    wrapped.__tradeDayLessonsGuard=true;
+   this.engine.env.AI=wrapped;
+  }
+  ai=this.engine?.env?.AI;
+  if(ai?.run&&!ai.__runtimeTradeConfigGuard){
+   const wrapped=new RuntimeTradeConfigAiGuard(ai,()=>this.runtimeTradeConfig());
+   wrapped.__runtimeTradeConfigGuard=true;
    this.engine.env.AI=wrapped;
   }
   const assets=this.engine?.env?.ASSETS||this.zeroAssets;
@@ -39,16 +47,30 @@ export class MarketPortfolio extends BasePortfolio{
    if(this.engine?.env)this.engine.env.ASSETS=assets;
   }
  }
+ async runtimeTradeConfig(){
+  let stored=null;try{stored=await this.ctx?.storage?.get?.(RUNTIME_CONFIG_KEY)}catch{}
+  return sanitizeRuntimeTradeConfig(stored||{},DEFAULT_RUNTIME_TRADE_CONFIG);
+ }
+ async setRuntimeTradeConfig(patch={}){
+  const current=await this.runtimeTradeConfig(),next=sanitizeRuntimeTradeConfig({...current,...(patch||{}),updatedAt:new Date().toISOString(),source:'live-runtime'},current);
+  try{await this.ctx?.storage?.put?.(RUNTIME_CONFIG_KEY,next)}catch(e){return{ok:false,error:String(e?.message||e)}}
+  return{ok:true,config:next,applies:'next AI decision / next scan',deployRequired:false};
+ }
+ async resetRuntimeTradeConfig(){
+  try{await this.ctx?.storage?.delete?.(RUNTIME_CONFIG_KEY)}catch(e){return{ok:false,error:String(e?.message||e)}}
+  return{ok:true,config:{...DEFAULT_RUNTIME_TRADE_CONFIG},applies:'next AI decision / next scan',deployRequired:false};
+ }
  async status(){
-  const s=await super.status();
+  const s=await super.status(),runtimeTradeConfig=await this.runtimeTradeConfig();
+  s.runtimeTradeConfig={...runtimeTradeConfig,liveWithoutDeploy:true,storage:'Durable Object',rule:'Diese Timing-/Sizing-Schwellen werden bei jeder KI-Entscheidung live geladen. Änderungen greifen beim nächsten Scan; nur echter Programmcode braucht weiterhin einen Worker-Deploy.'};
   s.sourceBudgetPolicy={enabled:true,version:21.4,pcWideCoveragePreserved:true,earlyDipLiveWave:LIVE_EARLY_WAVE,earlyDipPrioritySlots:1,earlyDipRotatingSlots:1,secondChanceLiveWave:3,slowIntelligenceCached:true,oneMinuteCacheSeconds:45,yahooChartPacingMs:450,catalystGapRequestReserve:1,rule:'PC scannt weiterhin das Volluniversum. Cloudflare nutzt zwei teure Early-Dip-1m-Slots pro Minute: der aktuell beste gebremste Pullback wird sofort geprueft, der zweite Slot rotiert fuer Vollabdeckung. Das Requestbudget bleibt gleich, aber gute Dips warten nicht mehr zufaellig mehrere Minuten. Weitere Quellen/MTF/News bleiben unveraendert geschuetzt.'};
   s.todayTradeCorrectionPolicy={enabled:true,version:2.1,mode:'REAL_DIP_CONTEXT_RECLAIM_V21_4',paperTradingOnly:true,microDipThresholdPct:.70,microDipNear20mHighBlocked:true,redDayShallowRetestBlocked:true,redDayRetestThresholdsPct:{dayMinus2:1.05,dayMinus4:1.35},highDayChaseBlocked:true,extremeDayMoveNeedsVerification:true,missingMtfShallowBuyBlocked:true,reviewedMtfSoftStarterPreserved:true,missingMtfFallbackRequires:{minDipPct:1.35,min5mPct:.10,minScore:4.8,minAccelerationPct:.03},continuationCannotBypassMtf:true,autoDipRequiresRealDepthAndReclaim:true,reentryNeedsNewStructure:true,buyerMajoritySellBlocked:true,mixedBaseTopSellBlocked:true,momentumExitNeedsTwoWeakSignals:true,hardEventExitUnaffected:true,starterCapsPct:{shallow:4,medium:7,deeper:11,deep:15,continuation:4,missingMtfStrongFallback:5},rule:'Trade-Review V2.1: Mikro-Dips und High-Chases bleiben gesperrt. Ein bereits vom Multi-Timeframe-V1.3-Guard nach bestaetigtem 1m-Kaeuferflow bewusst auf einen kleinen SOFT-DATA/Breakout/Contrarian-Starter reduzierter BUY wird jedoch nicht ein zweites Mal allein wegen fehlender Langfristdaten auf Null gesetzt. Harte Risiken bleiben unveraendert.'};
   s.missedOpportunityReviewV2={enabled:true,version:2.2,mode:'TARGETED_CATALYST_GAP_AND_RELATIVE_MISS_LEARNING',paperTradingOnly:true,existingMultiSourceNewsRadar:true,broadExtraCatalystRequest:false,targetedNewsGapCheckPerDecisionMax:1,targetedGapOnlyOnPriceNewsDislocation:true,targetedGapTriggers:{absoluteDayPct:4,absolute20mPct:2,strongScoreMin:4.8,strongScoreDayPct:2.5,maxNewsConfidenceForStrongScoreTrigger:.65},targetedGapCacheSeconds:120,emptyGapResponsesCached:true,additionalNetworkRequestsPerDecisionMax:1,requestBudgetCompensatedByEarlyDipWave:true,crossCandidateCatalystMatching:false,clinicalLongTermBenefitDetection:true,strategicStakeAndWarrantDetection:true,guidanceCatalysts:true,positiveShockPeakChaseBlocked:true,positiveShockRetestRequired:true,missedShockLearningRelativeToTradingDay:true,fixedMissedShockDayPct:null,rule:'Der vorhandene Multi-Source-Newsradar bleibt die Basis. Ein zusaetzlicher gezielter News-Request wird nur noch bei einer echten Preis/News-Diskrepanz ausgefuehrt: etwa ab 4% Tagesbewegung, 2% auf 20 Minuten oder bei einem sehr starken Setup mit mindestens 2,5% Tagesbewegung und schwacher News-Abdeckung. So bleibt die News-Suche aktuell, verbraucht aber nicht bei jedem normalen Kandidaten einen Extra-Request.'};
-  if(s.entryResearchPolicy)s.entryResearchPolicy={...s.entryResearchPolicy,todayTradeReviewV2:true,microDipNear20mHighBlocked:true,redDayShallowRetestBlocked:true,missingMtfShallowBuyBlocked:true,reviewedMtfSoftStarterPreserved:true,reentryNeedsNewStructure:true,catalystGapDiscoveryV2:true};
-  if(s.candleFlowPolicy)s.candleFlowPolicy={...s.candleFlowPolicy,todayTradeReviewV2:true,buyerMajoritySellBlocked:true,mixedBaseTopSellBlocked:true,momentumExitNeedsTwoWeakSignals:true};
+  if(s.entryResearchPolicy)s.entryResearchPolicy={...s.entryResearchPolicy,todayTradeReviewV2:true,microDipNear20mHighBlocked:true,redDayShallowRetestBlocked:true,missingMtfShallowBuyBlocked:true,reviewedMtfSoftStarterPreserved:true,reentryNeedsNewStructure:true,catalystGapDiscoveryV2:true,runtimeTradeConfig:true};
+  if(s.candleFlowPolicy)s.candleFlowPolicy={...s.candleFlowPolicy,todayTradeReviewV2:true,buyerMajoritySellBlocked:true,mixedBaseTopSellBlocked:true,momentumExitNeedsTwoWeakSignals:true,runtimeTradeConfig:true};
   if(s.newsShockPolicy)s.newsShockPolicy={...s.newsShockPolicy,version:2.2,catalystGapDiscoveryV2:true,broadCatalystRadar:false,targetedGapCheckPerDecisionMax:1,targetedGapOnlyOnPriceNewsDislocation:true,targetedGapCacheSeconds:120,additionalGapRequestsMax:1,strategicStakeCatalyst:true,missedShockLearningRelativeToTradingDay:true,highImpactTypes:[...new Set([...(s.newsShockPolicy.highImpactTypes||[]),'STRATEGIC_STAKE'])]};
-  if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,todayTradeReviewV2:true,deeperDipPreferred:true,realDipThresholdPct:.70,redDayShallowRetestBlocked:true,missingMtfShallowBuyBlocked:true,reviewedMtfSoftStarterPreserved:true,noiseSellBlocked:true,reentryNeedsNewStructure:true,continuationCannotBypassMtf:true,catalystGapDiscoveryV2:true,sourceBudgetVersion:21.4};
-  if(s.executionModel)s.executionModel={...s.executionModel,todayTradeReviewV2:true,microDipBuyBlocked:true,microDipThresholdPct:.70,redDayShallowRetestBlocked:true,missingMtfShallowBuyBlocked:true,reviewedMtfSoftStarterPreserved:true,highChaseBlocked:true,noiseSellBlocked:true,catalystGapDiscoveryV2:true,sourceBudgetVersion:21.4};
+  if(s.profitOptimizer)s.profitOptimizer={...s.profitOptimizer,todayTradeReviewV2:true,deeperDipPreferred:true,realDipThresholdPct:.70,redDayShallowRetestBlocked:true,missingMtfShallowBuyBlocked:true,reviewedMtfSoftStarterPreserved:true,noiseSellBlocked:true,reentryNeedsNewStructure:true,continuationCannotBypassMtf:true,catalystGapDiscoveryV2:true,sourceBudgetVersion:21.4,runtimeTradeConfig:true};
+  if(s.executionModel)s.executionModel={...s.executionModel,todayTradeReviewV2:true,microDipBuyBlocked:true,microDipThresholdPct:.70,redDayShallowRetestBlocked:true,missingMtfShallowBuyBlocked:true,reviewedMtfSoftStarterPreserved:true,highChaseBlocked:true,noiseSellBlocked:true,catalystGapDiscoveryV2:true,sourceBudgetVersion:21.4,runtimeTradeConfig:true};
   return s;
  }
 }
