@@ -1,0 +1,11 @@
+V28.0 Trade Maturity – Planspiel, nur Aktien
+
+- Gute Setups werden über die Verbesserung mehrerer Scans früher erkannt (Score/Confidence/News + gesunde Kursstruktur).
+- Kein FOMO-Bypass: Peak-/Hot-Move-Sperren bleiben bestehen.
+- Frische Positionen erhalten eine gelernte Mindest-Reifezeit statt bei kleinem Anfangsminus sofort verkauft zu werden.
+- Dynamisches Recovery-Fenster schützt normale Rücksetzer, solange kein echter Strukturbruch vorliegt.
+- Harte News-/Event-Risiken und schwere bestätigte Strukturbrüche dürfen weiterhin sofort verkaufen.
+- Nach Verlustverkäufen wird beobachtet, ob die Aktie binnen 5–30 Minuten stark zurückspringt.
+- Solche frühen Verlust-Exit-Rebounds erhöhen künftig vorsichtig die Haltedauer; gute Verlust-Exits senken den Regret-Faktor.
+- Bestehendes Trade-Decision-Learning (sellTooEarly / exitPatienceMultiplier) fließt in die Mindest-Haltedauer ein.
+- Nur Aktien; keine ETFs.
