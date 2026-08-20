@@ -1,0 +1,13 @@
+V27.9 Opportunity Learning – Planspiel, nur Aktien
+
+- News-Radar wird dem Handels-Prompt explizit mitgegeben; frische Same-Session-News werden höher gewichtet als alte Meldungen.
+- Starke frische Katalysatoren können trotz moderater Confidence (ab ca. 0,60) einen wirtschaftlich sinnvollen Starter auslösen.
+- Schnelle Impulse werden nicht mehr vergessen/resetet: Recheck-Memory bleibt aktiv.
+- Nach Pullback/Stabilisierung/Reclaim kann die KI zügig einsteigen, ohne die komplette 2/3/4-Minuten-Bestätigung neu zu beginnen.
+- Verpasste Chancen werden gelernt: steigt eine abgewartete Aktie binnen 5–20 Minuten deutlich, wird das als False Negative gespeichert.
+- Wiederholt verpasste Muster verkürzen später vorsichtig die Wartezeit.
+- Bei hoher Cashquote darf Trainingskapital für gute Setups eingesetzt werden; keine pauschale Cash-Haltung.
+- Starter bleiben gebührenökonomisch: bei genügend Cash wird auf ca. 500 EUR Mindestorder gezielt.
+- Harte News-/Event-/Venue-/Reversal-/Strong-Sell-Sperren bleiben unverändert bindend.
+- Keine ETFs; Aktien-only bleibt bestehen.
+- Neue Regressionstests für Katalysator-Einstieg, Reclaim nach Hot Move, Safety-Hold, News-Kontext und Missed-Opportunity-Learning.
