@@ -1,11 +1,11 @@
 {
-  "checkedAt": "2026-08-20T09:11:40.426171+00:00",
-  "commit": "1eca1e44a7dbc64865065d95079b4ac6e8ac04c9",
+  "checkedAt": "2026-08-20T09:14:06.349425+00:00",
+  "commit": "e6e6b9bae688db729e33cf60a6b9226157d14f42",
   "installOk": true,
   "syntaxOk": true,
-  "testsOk": false,
+  "testsOk": true,
   "auditOk": true,
   "dryRunOk": true,
-  "allPassed": false,
-  "testTail": "\n> ki-markt-planspiel-cloudflare@2.0.0 test:decisions\n> node tests/final-decision-controller-v26.test.mjs && node tests/run-reset-hygiene-v262.test.mjs && node tests/v27-risk-learning.test.mjs && node tests/v271-anti-flipflop.test.mjs\n\nnode:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: strukturierter echter REVERSAL darf auch frisch sofort als Hard-Exit raus\n\n'HOLD' !== 'SELL'\n\n    at file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/tests/final-decision-controller-v26.test.mjs:57:9 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: 'HOLD',\n  expected: 'SELL',\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
+  "allPassed": true,
+  "testTail": "\n> ki-markt-planspiel-cloudflare@2.0.0 test:decisions\n> node tests/final-decision-controller-v26.test.mjs && node tests/run-reset-hygiene-v262.test.mjs && node tests/v27-risk-learning.test.mjs && node tests/v271-anti-flipflop.test.mjs\n\nV26.3 final decision regression tests: OK\nV26.2 restart isolation tests: OK\nV27 risk/calibration/quarantine regression tests: OK\nV27.1 anti-flip-flop regression tests: OK\n"
 }
