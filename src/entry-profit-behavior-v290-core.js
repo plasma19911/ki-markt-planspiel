@@ -1,8 +1,10 @@
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
 
+// Canonical score bands. V29.1 is the single effective scale used by the final guard.
+// Older V28.x layers remain for learning/history, but their old thresholds are superseded here.
 export const ENTRY_PROFIT_V290={
-  version:29.0,
+  version:29.1,
   entry:{
     watchMin:50,
     scoutMin:53,
@@ -21,6 +23,32 @@ export const ENTRY_PROFIT_V290={
     scoutDelta:6,
     maxNewBuysPerDecision:2,
     maxScoutBuysPerDecision:1
+  },
+  position:{
+    strongHoldMin:62,
+    holdMin:58,
+    watchHoldMin:53,
+    cautionMin:50,
+    sellWatchMin:46,
+    confirmedExitMax:45,
+    breakExitMax:42,
+    urgentExitMax:32,
+    minimumCoverage:.67,
+    scoreExitMinAgeMinutes:25,
+    breakExitMinAgeMinutes:20,
+    urgentExitMinAgeMinutes:15
+  },
+  rotation:{
+    candidateMin:62,
+    strongCandidateMin:68,
+    weakHoldMax:52,
+    moderateHoldMax:56,
+    minGap:10,
+    strongMinGap:12,
+    lowCashThreshold:500,
+    minAgeMinutes:30,
+    cooldownMinutes:20,
+    maxPerDecision:1
   },
   profit:{
     armPeakPct:.8,
@@ -93,6 +121,32 @@ export function entryAllocationPctV290(cash=0,decision={}){
   else pct=2+Math.max(0,score-53)*.40;
   if(cash>=500&&(tier==='REGULAR'||tier==='STRONG'||tier==='EXCEPTIONAL'))pct=Math.max(pct,500/cash*100);
   return +clamp(pct,lo,hi).toFixed(2);
+}
+
+function ageMinutes(position={},now=Date.now()){const t=Date.parse(String(position?.opened_at??position?.openedAt??''));return Number.isFinite(t)?Math.max(0,(now-t)/60000):999}
+
+export function positionDecisionV290(row={},history=[],position={},now=Date.now()){
+  const cfg=ENTRY_PROFIT_V290.position,score=num(row?.holdScore,row?.fusionScore),coverage=num(row?.coverage),trend=trendV290(history,score,now),age=ageMinutes(position,now),partial=Boolean(row?.partial),fresh=coverage>=cfg.minimumCoverage&&!partial;
+  const base={score:+score.toFixed(1),coverage,trend,age:+age.toFixed(1),partial,fresh};
+  if(partial)return{...base,action:'HOLD',tier:'PARTIAL',label:'Halten · Teilscore'};
+  if(score>=cfg.strongHoldMin)return{...base,action:'HOLD',tier:'STRONG_HOLD',label:'Stark halten'};
+  if(score>=cfg.holdMin)return{...base,action:'HOLD',tier:'HOLD',label:trend.strongFalling?'Halten · Trend genau beobachten':'Halten'};
+  if(score>=cfg.watchHoldMin)return{...base,action:'HOLD',tier:'HOLD_WATCH',label:trend.falling?'Halten · Schwäche beobachten':'Halten / beobachten'};
+  if(score>=cfg.cautionMin)return{...base,action:'HOLD',tier:'CAUTION',label:trend.rising?'Achtung · Erholung läuft':'Achtung'};
+  if(trend.strongRising)return{...base,action:'HOLD',tier:'RECOVERY',label:'Halten · Erholung läuft'};
+  if(score<=cfg.urgentExitMax&&fresh&&age>=cfg.urgentExitMinAgeMinutes)return{...base,action:'SELL',tier:'URGENT_EXIT',label:'Verkaufen · Score sehr schwach'};
+  if(score<=cfg.breakExitMax&&fresh&&age>=cfg.breakExitMinAgeMinutes&&trend.strongFalling)return{...base,action:'SELL',tier:'BREAK_EXIT',label:'Verkaufen · Trendbruch'};
+  if(score<=cfg.confirmedExitMax&&fresh&&age>=cfg.scoreExitMinAgeMinutes&&trend.falling)return{...base,action:'SELL',tier:'CONFIRMED_EXIT',label:'Verkaufen · Schwäche bestätigt'};
+  if(score>=cfg.sellWatchMin)return{...base,action:'SELL_WATCH',tier:'SELL_WATCH',label:'Verkauf beobachten'};
+  return{...base,action:'SELL_WATCH',tier:'LOW_UNCONFIRMED',label:fresh?'Schwach · Bestätigung abwarten':'Schwach · Daten abwarten'};
+}
+
+export function rotationDecisionV290({candidate={},position={},cash=0,lastRotationAt=0,now=Date.now()}={}){
+  const cfg=ENTRY_PROFIT_V290.rotation,cs=num(candidate?.score,candidate?.buyScore),hs=num(position?.score,position?.holdScore),gap=cs-hs,age=num(position?.age,999),candidateAction=String(candidate?.action||''),candidateBuy=['BUY','BUY_EARLY','BUY_MICRO','BUY_SCOUT'].includes(candidateAction),candidateRegular=cs>=cfg.candidateMin&&['BUY','BUY_EARLY'].includes(candidateAction),strong=cs>=cfg.strongCandidateMin,lowCash=num(cash)<cfg.lowCashThreshold,cooldownOk=now-num(lastRotationAt,0)>=cfg.cooldownMinutes*60_000;
+  const weakCase=hs<=cfg.weakHoldMax&&gap>=cfg.minGap;
+  const moderateCase=strong&&hs<=cfg.moderateHoldMax&&gap>=cfg.strongMinGap;
+  const rotate=Boolean(candidateBuy&&candidateRegular&&lowCash&&age>=cfg.minAgeMinutes&&cooldownOk&&(weakCase||moderateCase));
+  return{rotate,candidateScore:+cs.toFixed(1),holdScore:+hs.toFixed(1),gap:+gap.toFixed(1),strong,lowCash,cooldownOk,age:+age.toFixed(1),reason:rotate?(moderateCase?'strong_candidate_replaces_moderate':'better_candidate_replaces_weak'):'no_rotation'};
 }
 
 function profitTier(peak=0){return ENTRY_PROFIT_V290.profit.tiers.find(t=>peak>=t.peakMin)||null}
