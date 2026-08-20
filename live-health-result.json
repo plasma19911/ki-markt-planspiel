@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-20T10:17:06.425376+00:00",
+  "checkedAt": "2026-08-20T10:17:40.803438+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -25,8 +25,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-20T10:16:16.794Z",
-    "ageSeconds": 49,
+    "lastSeenAt": "2026-08-20T10:17:07.299Z",
+    "ageSeconds": 33,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
@@ -906,7 +906,7 @@
     "catalystGapDiscoveryV2": true,
     "sourceBudgetVersion": 21.4,
     "runtimeTradeConfig": true,
-    "finalDecisionControllerV273": true,
+    "finalDecisionControllerV274": true,
     "oneFinalActionPerSymbol": true,
     "automaticScaleUp": false,
     "automaticRepeatScaleUpBlocked": true,
@@ -918,7 +918,9 @@
     "antiFlipFlop": true,
     "forwardCurveForecasting": true,
     "lossSellInvariant": true,
-    "orderEconomicsInvariant": true
+    "orderEconomicsInvariant": true,
+    "netExpectedEdgeGate": true,
+    "marketRegimeEntryGate": true
   },
   "entryTimingLearning": {
     "version": 3,
