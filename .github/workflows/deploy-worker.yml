@@ -1,4 +1,4 @@
-name: Deploy / Verify Cloudflare Worker V27.6
+name: Deploy / Verify Cloudflare Worker V27.7
 
 on:
   push:
@@ -40,16 +40,14 @@ jobs:
         run: |
           if [ -n "$CLOUDFLARE_API_TOKEN" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; then
             echo 'available=true' >> "$GITHUB_OUTPUT"
-            echo 'GitHub Wrangler deployment available.'
           else
             echo 'available=false' >> "$GITHUB_OUTPUT"
-            echo 'No GitHub Wrangler credentials: use repository-connected Cloudflare Git deployment and verify production.'
           fi
-      - name: Install Wrangler only
+      - name: Install
         id: install
         continue-on-error: true
         run: npm install --no-audit --no-fund --ignore-scripts
-      - name: Test all final decisions and learning regressions
+      - name: Test all final decisions and behavior regressions
         id: tests
         continue-on-error: true
         if: steps.install.outcome == 'success'
@@ -81,14 +79,14 @@ jobs:
               const j=await r.json();
               const o=(j?.positions||[]).find(x=>String(x?.symbol||'').toUpperCase()==='OCDOL.XC');
               const ocdolOk=!o||(String(o?.currency||'').toUpperCase()==='GBP'&&Number(o?.entry_price)>0&&Number(o?.entry_price)<20&&Number(o?.last_price)>0&&Number(o?.last_price)<20&&Number(o?.entry_fx)>.5&&Number(o?.entry_fx)<2&&Number(o?.zero_quantity)>20);
-              const agmOk=j?.finalDecisionPolicy?.agmPreview===true&&j?.finalDecisionPolicy?.agmCalendarDailyRefresh===true&&j?.finalDecisionPolicy?.agmLiveReevaluationEveryScan===true&&Array.isArray(j?.agmCalendar?.events);
-              last=`HTTP ${r.status}, version=${j?.finalDecisionPolicy?.version ?? 'missing'}, AGM=${j?.agmCalendar?.events?.length ?? 'missing'}, minorUnits=${j?.finalDecisionPolicy?.minorQuoteUnitNormalization ?? 'missing'}, hardNoScale=${j?.finalDecisionPolicy?.executionScaleUpHardBlocked ?? 'missing'}`;
-              if(r.ok&&j?.finalDecisionPolicy?.version===27.6&&j?.finalDecisionPolicy?.minorQuoteUnitNormalization===true&&j?.finalDecisionPolicy?.unnormalizedMinorUnitTradeFailSafe===true&&j?.finalDecisionPolicy?.executionScaleUpHardBlocked===true&&j?.finalDecisionPolicy?.broadMarketRegime===true&&j?.finalDecisionPolicy?.lossSellInvariant===true&&j?.finalDecisionPolicy?.profitExitCannotCloseNetLoss===true&&j?.finalDecisionPolicy?.orderEconomicsInvariant===true&&j?.finalDecisionPolicy?.netExpectedEdgeGate===true&&j?.finalDecisionPolicy?.marketRegimeEntryGate===true&&j?.finalDecisionPolicy?.automaticScaleUp===false&&j?.portfolioRiskPolicy?.enabled===true&&j?.forwardCurveLearningPolicy?.enabled===true&&agmOk&&ocdolOk){console.log(`Live verification OK: ${last}`);process.exit(0)}
+              const agmOk=j?.finalDecisionPolicy?.agmPreview===true&&j?.finalDecisionPolicy?.agmCalendarDailyRefresh===true&&j?.finalDecisionPolicy?.agmScoreEvaluationOnceDaily===true&&j?.finalDecisionPolicy?.agmLiveReevaluationEveryScan===false&&Array.isArray(j?.agmCalendar?.events);
+              const behaviorOk=j?.tradingBehaviorPolicy?.enabled===true&&Number(j?.tradingBehaviorPolicy?.version)===27.7&&j?.finalDecisionPolicy?.entryConfirmationHysteresis===true&&j?.finalDecisionPolicy?.lateImpulseRecheck===true&&j?.finalDecisionPolicy?.tinyProfitChurnBlocked===true;
+              last=`HTTP ${r.status}, version=${j?.finalDecisionPolicy?.version ?? 'missing'}, behavior=${j?.tradingBehaviorPolicy?.version ?? 'missing'}, AGM=${j?.agmCalendar?.events?.length ?? 'missing'}`;
+              if(r.ok&&Number(j?.finalDecisionPolicy?.version)===27.7&&j?.finalDecisionPolicy?.minorQuoteUnitNormalization===true&&j?.finalDecisionPolicy?.unnormalizedMinorUnitTradeFailSafe===true&&j?.finalDecisionPolicy?.executionScaleUpHardBlocked===true&&j?.finalDecisionPolicy?.broadMarketRegime===true&&j?.finalDecisionPolicy?.lossSellInvariant===true&&j?.finalDecisionPolicy?.profitExitCannotCloseNetLoss===true&&j?.finalDecisionPolicy?.orderEconomicsInvariant===true&&j?.finalDecisionPolicy?.netExpectedEdgeGate===true&&j?.finalDecisionPolicy?.marketRegimeEntryGate===true&&j?.finalDecisionPolicy?.automaticScaleUp===false&&j?.portfolioRiskPolicy?.enabled===true&&j?.forwardCurveLearningPolicy?.enabled===true&&agmOk&&behaviorOk&&ocdolOk){console.log(`Live verification OK: ${last}`);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
-          console.error(`Live verification failed: ${last}`);
-          process.exit(1);
+          console.error(`Live verification failed: ${last}`);process.exit(1);
           NODE
       - name: Persist deployment diagnostic
         if: always()
@@ -103,16 +101,9 @@ jobs:
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const url='https://ki-markt-planspiel.orkimperium.workers.dev/api/status';
-          let live={http:null,version:null,agmPreview:null,agmEvents:null,minorQuoteUnitNormalization:null,executionScaleUpHardBlocked:null,broadMarketRegime:null,ocdol:null,summary:null,error:null};
-          try{
-            const r=await fetch(`${url}?deploy_diag=${Date.now()}`,{headers:{'cache-control':'no-cache'}});
-            const j=await r.json(),o=(j?.positions||[]).find(x=>String(x?.symbol||'').toUpperCase()==='OCDOL.XC');
-            live={http:r.status,version:j?.finalDecisionPolicy?.version??null,agmPreview:j?.finalDecisionPolicy?.agmPreview??null,agmEvents:Array.isArray(j?.agmCalendar?.events)?j.agmCalendar.events.length:null,minorQuoteUnitNormalization:j?.finalDecisionPolicy?.minorQuoteUnitNormalization??null,executionScaleUpHardBlocked:j?.finalDecisionPolicy?.executionScaleUpHardBlocked??null,broadMarketRegime:j?.finalDecisionPolicy?.broadMarketRegime??null,ocdol:o?{currency:o.currency,entryPrice:o.entry_price,lastPrice:o.last_price,entryFx:o.entry_fx,lastFx:o.last_fx,quantity:o.zero_quantity}:null,summary:j?.config?.ai_last_summary??j?.aiLastSummary??null,error:null};
-          }catch(e){live.error=String(e?.message||e)}
-          const direct=process.env.WRANGLER_AVAILABLE==='true';
-          const out={checkedAt:new Date().toISOString(),commit:process.env.GITHUB_SHA,deployMode:direct?'GITHUB_WRANGLER':'CLOUDFLARE_GIT_INTEGRATION',wranglerCredentialsAvailable:direct,install:process.env.INSTALL_OUTCOME,tests:process.env.TESTS_OUTCOME,dryRun:process.env.DRYRUN_OUTCOME,wranglerDeploy:process.env.DEPLOY_OUTCOME,verify:process.env.VERIFY_OUTCOME,live};
-          fs.writeFileSync('deploy-result.json',JSON.stringify(out,null,2)+'\n');
-          console.log(JSON.stringify(out,null,2));
+          let live={http:null,version:null,behaviorVersion:null,agmPreview:null,agmEvents:null,summary:null,error:null};
+          try{const r=await fetch(`${url}?deploy_diag=${Date.now()}`,{headers:{'cache-control':'no-cache'}});const j=await r.json();live={http:r.status,version:j?.finalDecisionPolicy?.version??null,behaviorVersion:j?.tradingBehaviorPolicy?.version??null,agmPreview:j?.finalDecisionPolicy?.agmPreview??null,agmEvents:Array.isArray(j?.agmCalendar?.events)?j.agmCalendar.events.length:null,summary:j?.config?.ai_last_summary??j?.aiLastSummary??null,error:null}}catch(e){live.error=String(e?.message||e)}
+          const direct=process.env.WRANGLER_AVAILABLE==='true';const out={checkedAt:new Date().toISOString(),commit:process.env.GITHUB_SHA,deployMode:direct?'GITHUB_WRANGLER':'CLOUDFLARE_GIT_INTEGRATION',wranglerCredentialsAvailable:direct,install:process.env.INSTALL_OUTCOME,tests:process.env.TESTS_OUTCOME,dryRun:process.env.DRYRUN_OUTCOME,wranglerDeploy:process.env.DEPLOY_OUTCOME,verify:process.env.VERIFY_OUTCOME,live};fs.writeFileSync('deploy-result.json',JSON.stringify(out,null,2)+'\n');console.log(JSON.stringify(out,null,2));
           NODE
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -120,7 +111,7 @@ jobs:
           git add deploy-result.json
           git commit -m 'Update Cloudflare deploy diagnostic [skip ci]' || true
           git push origin HEAD:main
-      - name: Fail only when tests, dry-run or live production verification fail
+      - name: Enforce deploy result
         if: always()
         env:
           INSTALL_OUTCOME: ${{ steps.install.outcome }}
