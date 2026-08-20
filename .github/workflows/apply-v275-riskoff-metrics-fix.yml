@@ -1,0 +1,38 @@
+name: Fix V27.5 RiskOff Metrics
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/apply-v275-riskoff-metrics-fix.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Add missing score and confidence to final invariant metrics
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('src/loss-sell-invariant.js')
+          s=p.read_text(encoding='utf-8')
+          old="function metrics(c={}){\n return{\n  m5:num(c?.intraday5m??c?.momentum5,0),"
+          new="function metrics(c={}){\n return{\n  score:num(c?.liveScore??c?.score,0),\n  confidence:num(c?.liveConfidence??c?.confidence,0),\n  m5:num(c?.intraday5m??c?.momentum5,0),"
+          if old not in s: raise SystemExit('metrics target not found')
+          p.write_text(s.replace(old,new,1),encoding='utf-8')
+          PY
+          node --check src/loss-sell-invariant.js
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/loss-sell-invariant.js
+          git commit -m 'Fix V27.5 RiskOff relative-strength metrics' || exit 0
+          git pull --rebase origin main
+          git push origin HEAD:main
