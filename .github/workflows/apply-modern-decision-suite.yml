@@ -1,0 +1,34 @@
+name: Apply final decision suite to modern validation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-modern-decision-suite.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add decision suite to modern validation
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('.github/workflows/validate-modern-stack.yml');s=p.read_text(encoding='utf-8')
+          old='          runcheck free_tier node scripts/smoke-free-tier-24h.mjs\n          runcheck wrangler_dryrun npx wrangler deploy --dry-run'
+          new='          runcheck free_tier node scripts/smoke-free-tier-24h.mjs\n          runcheck final_decision_suite npm run test:decisions\n          runcheck wrangler_dryrun npx wrangler deploy --dry-run'
+          if old in s:s=s.replace(old,new,1)
+          elif 'runcheck final_decision_suite npm run test:decisions' not in s:raise SystemExit('modern validation insertion marker missing')
+          p.write_text(s,encoding='utf-8')
+          PY
+          git rm .github/workflows/apply-modern-decision-suite.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .github/workflows/validate-modern-stack.yml
+          git commit -m 'Run final decision suite in modern validation [skip ci]'
+          git pull --rebase origin main
+          git push origin HEAD:main
