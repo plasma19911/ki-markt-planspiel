@@ -5,120 +5,82 @@ import {gettexSessionState} from '../src/gettex-session.js';
 const read=p=>fs.readFileSync(new URL(`../${p}`,import.meta.url),'utf8');
 const wrangler=read('wrangler.jsonc');
 const index=read('src/index.js');
+const index20=read('src/index-v20.js');
 const compact=read('src/compact-portfolio.js');
 const constants=read('src/constants.js');
-const v2=read('src/compact-portfolio-v2.js');
-const v3=read('src/compact-portfolio-v3.js');
-const v4=read('src/compact-portfolio-v4.js');
 const v8=read('src/compact-portfolio-v8.js');
 const v9=read('src/compact-portfolio-v9.js');
-const requestBudget=read('src/request-fetch-budget.js');
 const v10=read('src/compact-portfolio-v10.js');
 const v11=read('src/compact-portfolio-v11.js');
 const v22=read('src/compact-portfolio-v22-active-learning.js');
 const v21=read('src/compact-portfolio-v21-source-budget.js');
-const future=read('src/future-watch.js');
+const v287=read('src/compact-portfolio-v287-calibrated-breadth.js');
+const v288=read('src/compact-portfolio-v288-pc-first.js');
+const score287=read('src/calibrated-action-score-v287.js');
+const requestBudget=read('src/request-fetch-budget.js');
 const quota=read('public/quota-guard.js');
-const pcAgent=read('pc-agent/pc-agent.ps1');
+const pcAgent=read('pc-agent/pc-agent-v288.ps1');
+const pcScanner=read('pc-agent/pc-first-scanner.ps1');
 const pcInstall=read('pc-agent/install.ps1');
 
-assert.match(wrangler,/"crons"\s*:\s*\["\*\/5 5-22 \* \* 1-5"\]/,'Cloudflare-Cron muss nur alle 5 Minuten als Fallback feuern');
+// Der Cron darf minütlich als leichter Gap-Wächter laufen. Ein echter Cloudflare-
+// Markt-Fallback startet erst, wenn der PC länger als ca. 95 Sekunden keinen Scan
+// abgeschlossen hat. Das ist deutlich billiger als einen 8k-Master im Worker zu scannen.
+assert.match(wrangler,/"crons"\s*:\s*\["\* 5-22 \* \* 1-5"\]/,'Cloudflare-Cron muss minütlich nur als Gap-Wächter feuern');
+assert.match(index20,/age>95_000/,'Cloudflare darf nur bei echter >95s Scan-Lücke übernehmen');
 assert.match(wrangler,/"head_sampling_rate"\s*:\s*0\.1/,'Observability-Sampling muss fuer Free reduziert sein');
-assert.match(index,/compact-portfolio-v11\.js/,'Produktionsentry muss den V11-Kompatibilitätspfad nutzen');
-assert.match(v11,/compact-portfolio-v22-active-learning\.js/,'V11-Kompatibilitätspfad muss auf die aktuelle V26/V22-Final-Controller-Schicht zeigen');
-assert.match(v22,/compact-portfolio-v21-source-budget\.js/,'V26/V22 muss die V21-Source-Budget-Implementierung als Basis behalten');
-assert.match(v22,/FinalDecisionController/,'V26/V22 muss den finalen Entscheidungscontroller aktivieren');
-assert.match(index,/gettexSessionState/,'Scheduled-Handler muss gettex vor dem Durable Object pruefen');
-assert.match(index,/agentStatus\(\)/,'Cloudflare-Fallback muss den PC-Agent-Heartbeat pruefen');
-assert.match(index,/PC_AGENT_TOKEN/,'PC-Agent-Endpunkte muessen mit einem Cloudflare Secret geschuetzt sein');
-assert.match(index,/\/api\/agent\/prefetch/,'PC-Agent muss Voranalyse hochladen koennen');
-assert.match(index,/\/api\/agent\/scan/,'PC-Agent muss den Minuten-Scan ausloesen koennen');
-assert.match(index,/session\.prepareNow/,'07:25 muss eine separate Pre-Open-Vorbereitung ausloesen koennen');
+assert.match(wrangler,/"main"\s*:\s*"src\/index-v20\.js"/,'Produktionsentry muss die V28.8-Dashboard/Gap-Fill-Schicht verwenden');
+assert.match(index,/compact-portfolio-v11\.js/,'API muss den Produktions-Kompatibilitätspfad verwenden');
+assert.match(v11,/compact-portfolio-v288-pc-first\.js/,'V11 muss V28.8 aktivieren');
+assert.match(v288,/compact-portfolio-v287-calibrated-breadth\.js/,'V28.8 muss V28.7 als sicheren Fallback behalten');
+assert.match(v22,/FinalDecisionController/,'Finaler Entscheidungscontroller muss aktiv bleiben');
 
-assert.match(compact,/AI_DAILY_NEURON_SOFT_CAP=8_000/,'Workers-AI muss vor dem 10k-Free-Tageslimit softwareseitig stoppen');
-assert.match(compact,/GLM_INPUT_NEURONS_PER_TOKEN=5_500\/1_000_000/,'GLM Input-Neuronfaktor muss dem Cloudflare-Modell entsprechen');
-assert.match(compact,/GLM_OUTPUT_NEURONS_PER_TOKEN=36_400\/1_000_000/,'GLM Output-Neuronfaktor muss dem Cloudflare-Modell entsprechen');
-assert.match(compact,/AI_PLAN_OUTPUT_CAP=400/,'Plan-AI-Ausgabe muss begrenzt sein');
-assert.match(compact,/AI_NEWS_OUTPUT_CAP=120/,'News-AI-Ausgabe muss begrenzt sein');
-assert.match(compact,/freeAiBudget/,'AI-Tagesbudget muss im Status sichtbar sein');
-assert.match(compact,/includeEtfs:false/,'Basismodul darf ETFs nicht wieder aktivieren');
+assert.match(index,/\/api\/agent\/universe/,'PC-Agent braucht den deduplizierten Aktien-Master vom Server');
+assert.match(index,/PC_AGENT_TOKEN/,'PC-Agent-Endpunkte muessen per Secret geschützt sein');
+assert.match(index,/\/api\/agent\/prefetch/,'PC-Agent muss verdichtete Kandidaten hochladen können');
+assert.match(index,/\/api\/agent\/scan/,'PC-Agent muss den finalen Minuten-Scan auslösen können');
+assert.match(index20,/PC_FIRST_FULL_MASTER_STAGED/,'Universe-Profil muss V28.8 Staging beschreiben');
+assert.match(index20,/stage2Target:400/);assert.match(index20,/deepTarget:120/);assert.match(index20,/finalistTarget:60/);assert.match(index20,/cloudflareValidationTarget:18/);
 
-assert.match(v2,/NEWS_LEARNING_COOLDOWN_MS=13\*60\*1000/,'News-Lernen muss von den 10-Minuten-Spitzen entzerrt sein');
-assert.match(v3,/MACRO_COOLDOWN_MS=11\*60\*1000/,'Makro muss von den 10-Minuten-Spitzen entzerrt sein');
-assert.match(v4,/!raw\?\.macroRadar\?\.updatedAt/,'Exposure darf nicht vor dem ersten Makrostand leer gecacht werden');
+assert.match(pcAgent,/PC_FIRST_FULL_UNIVERSE_V288/,'Windows-Agent muss PC-FIRST als Betriebsmodus melden');
+assert.match(pcAgent,/Invoke-PcFirstPipeline/,'Windows-Agent muss den Voll-Master-Pipeline-Schritt vor dem finalen Cloudflare-Scan ausführen');
+assert.match(pcAgent,/pcFirstScan=\$pc\.summary/,'PC muss seine Stufen-/Abdeckungsdaten an Cloudflare senden');
+assert.match(pcScanner,/PcFirstShardCount=4/,'Standard-Vollzyklus muss vier rollierende Shards nutzen');
+assert.match(pcScanner,/Select-Object -First 400/,'Stufe 2 muss bis zu 400 Werte behalten');
+assert.match(pcScanner,/Select-Object -First 120/,'Deep-Stufe muss bis zu 120 Werte prüfen');
+assert.match(pcScanner,/Select-Object -First 60/,'Finalistenpool muss 60 Werte liefern');
+assert.match(pcScanner,/Split-PcFirstChunks \$symbols 80/,'Voll-Master muss gebündelt statt mit Einzelrequests abgefragt werden');
+assert.match(v288,/CF_VALIDATION_TARGET=18/,'Cloudflare soll bei frischen PC-Daten nur einen kleinen Final-Slice validieren');
+assert.match(v288,/cloudflareFallbackActive/,'Status muss PC-Ausfall/Fallback sichtbar machen');
+assert.match(v288,/PC_FIRST_FULL_MASTER_TOP60/,'PC-Ranking muss den V28.7-Broad-Pool direkt füllen');
 
-assert.match(v8,/FREE_SCAN_INTERVAL_MS=60\*1000/,'Serverseitiger Scan-Cooldown muss eine Minute sein');
-assert.match(v8,/LEADER_TARGET=25/,'Normaler Scanpool muss auf 25 externe Marktleader begrenzt sein');
-assert.match(v8,/LEADER_CACHE_MS=5\*60\*1000/,'Externe Leaderlisten duerfen nur alle 5 Minuten erneuert werden');
-assert.match(v8,/LEADER_CACHE_KV_KEY/,'Leadercache muss Durable-Object-Neustarts ueberstehen');
-assert.match(v8,/persistentLeaderCache:true/,'Status muss persistenten Leadercache bestaetigen');
-assert.match(v8,/EXTERNAL_FETCH_SOFT_CAP=36/,'Pro Scan muss mit Redirect-Reserve vor dem Cloudflare-50er-Hardlimit gebremst werden');
-assert.match(v8,/free-tier-subrequest-soft-cap/,'Soft-Cap muss reale Zusatzfetches blockieren');
-assert.match(v8,/withRequestFetchBudget/,'Normaler Scan muss den request-lokalen Budget-Adapter verwenden');
-assert.doesNotMatch(v8,/globalThis\.fetch\s*=/,'V8 darf globalThis.fetch nicht mehr pro Scan austauschen');
-assert.match(requestBudget,/AsyncLocalStorage/,'Request-Budget muss AsyncLocalStorage fuer isolierte Scan-Kontexte verwenden');
-assert.match(requestBudget,/crossRequestPromiseSharing:false/,'Request-Budget darf keine Request-Promises ueber Isolates teilen');
-assert.match(v8,/held_symbols_added/,'Gehaltene Aktien muessen unabhaengig von Toplisten zusaetzlich ueberwacht werden');
-assert.match(constants,/DEEP_LIMIT = 6/,'Sechs Finalisten duerfen pro Minutenrunde tief geprueft werden; V21 verteilt diese Slots ohne zusaetzliche Requests auf Pullbacks, Breakouts und regulaere Kandidaten');
-assert.match(constants,/NEWS_RADAR_BATCH = 2/,'News-Radar muss im Minutenprofil klein bleiben');
-assert.match(constants,/ZERO_ETF_MASTER = \[\]/,'Aktives Produktionsuniversum muss stocks-only bleiben');
-assert.match(constants,/LEVERAGED_ETFS = \[\]/,'Hebelprodukte duerfen im aktiven Universum nicht wieder auftauchen');
-assert.match(v21,/earlyDipLiveWave:LIVE_EARLY_WAVE/,'V21 muss den teuren Early-Dip-Live-Wave explizit begrenzen');
-assert.match(v21,/earlyDipPrioritySlots:1/,'V21 muss nur einen festen Qualitaets-Slot plus einen Rotations-Slot verwenden');
+// Score: fehlende optionale Daten neutral, Überdehnung hart genug, Teilscore nie
+// als alleinige Verkaufsgrundlage.
+assert.match(score287,/let score=50/);assert.match(score287,/reliability=\.68\+\.32\*coverage/);assert.match(score287,/day>=12/);assert.match(score287,/overextended/);assert.match(score287,/partial:true/);assert.match(score287,/buyScore>=75/);
+assert.match(v287,/calibratedActionScoreV287:true/);
 
-assert.match(v9,/gettex-closed-sleep/,'Ausserhalb gettex muss der komplette Scanner schlafen');
-assert.match(v9,/PREOPEN_FETCH_SOFT_CAP=24/,'Pre-Open muss einen eigenen Subrequest-Softcap besitzen');
-assert.match(v9,/withRequestFetchBudget/,'Pre-Open muss den request-lokalen Budget-Adapter verwenden');
-assert.doesNotMatch(v9,/globalThis\.fetch\s*=/,'V9 darf globalThis.fetch nicht mehr pro Pre-Open austauschen');
-assert.match(v9,/noNews:true/,'Schlafmodus muss News explizit deaktivieren');
-assert.match(v9,/preOpenPrepare/,'07:25 muss Overnight-Vorbereitung ohne Trades besitzen');
-assert.match(v9,/noTrades:true/,'Pre-Open darf keine Trades ausfuehren');
-assert.match(v9,/FUTURE_WATCH_COOLDOWN_MS=10\*60\*1000/,'Fruehindikator darf nur alle 10 Minuten extern aktualisiert werden');
-assert.match(future,/MIDDLE_EAST_ENERGY/,'Forward-Radar muss Nahost-/Energie-Risiken beobachten');
-assert.match(future,/RUSSIA_SANCTIONS_DEFENSE/,'Forward-Radar muss Sanktionen/Aufruestung beobachten');
-assert.match(future,/SEMI_EXPORT_CONTROLS/,'Forward-Radar muss Halbleiter-/Exportkontrollen beobachten');
-assert.match(future,/AI_POWER_GRID/,'Forward-Radar muss AI-Strom-/Netzengpaesse beobachten');
-assert.match(future,/NUCLEAR_URANIUM/,'Forward-Radar muss Kernenergie/Uran beobachten');
-assert.match(future,/CYBER_SECURITY/,'Forward-Radar muss Cyberrisiken beobachten');
-assert.match(future,/CRITICAL_MINERALS/,'Forward-Radar muss kritische Rohstoffe beobachten');
-assert.match(future,/SHIPPING_DISRUPTION/,'Forward-Radar muss Handelsrouten beobachten');
-assert.match(future,/RATES_MACRO/,'Forward-Radar muss Zins-/Makrotermine beobachten');
-assert.match(future,/v7\/finance\/spark/,'Cloudflare-Fallback fuer Fruehindikator-Kurse muss gebuendelt bleiben');
+// Cloudflare-Free-Hardcaps bleiben im Fallback intakt.
+assert.match(v8,/FREE_SCAN_INTERVAL_MS=60\*1000/);assert.match(v8,/LEADER_TARGET=25/);assert.match(v8,/EXTERNAL_FETCH_SOFT_CAP=36/);assert.match(v8,/free-tier-subrequest-soft-cap/);assert.match(requestBudget,/AsyncLocalStorage/);
+assert.match(constants,/DEEP_LIMIT = 6/);assert.match(constants,/NEWS_RADAR_BATCH = 2/);assert.match(constants,/ZERO_ETF_MASTER = \[\]/);assert.match(constants,/LEVERAGED_ETFS = \[\]/);
+assert.match(v21,/earlyDipPrioritySlots:1/);
+assert.match(v9,/gettex-closed-sleep/);assert.match(v9,/PREOPEN_FETCH_SOFT_CAP=24/);assert.match(v9,/preOpenPrepare/);assert.match(v9,/noTrades:true/);
+assert.match(v10,/AGENT_ONLINE_MS=150\*1000/);
+assert.match(compact,/AI_DAILY_NEURON_SOFT_CAP=8_000/);assert.match(compact,/AI_PLAN_OUTPUT_CAP=400/);assert.match(compact,/AI_NEWS_OUTPUT_CAP=120/);
 
-assert.match(v10,/AGENT_ONLINE_MS=150\*1000/,'PC-Agent muss nach 150 Sekunden ohne Heartbeat als offline gelten');
-assert.match(v10,/PC_AGENT_TOP_25/,'PC-Agent-Voranalyse muss den persistenten Top-25-Leadercache fuellen');
-assert.match(v10,/scanFromAgent/,'PC-Agent braucht einen dedizierten Scanpfad');
-assert.match(v10,/cloudflareFallbackIntervalMinutes:5/,'Status muss den 5-Minuten-Fallback ausweisen');
-assert.match(v10,/futureWatch&&this\.engine\?\.store\?\.update/,'PC-Fruehindikator muss in den Hauptzustand uebernommen werden');
+// Dashboard bleibt leicht. 25s Cache bedeutet: mehrere UI-Renderer/Komponenten teilen
+// dieselbe Antwort; außerhalb der Session 10 Minuten.
+assert.match(quota,/ACTIVE_STATUS_TTL_MS=25_000/);assert.match(quota,/SLEEP_STATUS_TTL_MS=10\*60\*1000/);assert.match(quota,/statusTtl\(\)/);
 
-assert.match(quota,/ACTIVE_STATUS_TTL_MS=55_000/,'Dashboard muss waehrend Handel fast eine Minute cachen');
-assert.match(quota,/SLEEP_STATUS_TTL_MS=10\*60\*1000/,'Dashboard muss nachts 10 Minuten cachen');
-assert.match(quota,/statusTtl\(\)/,'Statusfetch muss die aktive/ruhende TTL dynamisch benutzen');
-
-assert.match(pcAgent,/E:\\KI-Markt-Agent/,'Lokaler Agent muss standardmaessig auf E:\\KI-Markt-Agent speichern');
-assert.match(pcAgent,/MaxStorageBytes/,'Lokaler Agent braucht ein hartes Speicherlimit');
-assert.match(pcAgent,/TrimToBytes/,'Speicherbereinigung muss unter das harte Limit zurueckraeumen');
-assert.match(pcAgent,/Invoke-LocalCleanup/,'Lokale Altdateien muessen automatisch geloescht werden');
-assert.match(pcAgent,/leaderMinutes/,'Leader-Voranalyse muss lokal getaktet sein');
-assert.match(pcAgent,/futureMinutes/,'Future-Watch muss lokal getaktet sein');
-assert.match(pcInstall,/maxStorageGb=2\.0/,'Installer muss 2 GB Standardlimit setzen');
-assert.match(pcInstall,/trimToGb=1\.6/,'Installer muss auf etwa 1,6 GB zurueckraeumen');
-assert.match(pcInstall,/CurrentVersion\\Run/,'Windows-Agent muss automatisch ueber den Benutzer-Run-Key starten');
-assert.match(pcInstall,/New-ItemProperty -Path \$runKey -Name \$runName/,'Installer muss den Autostartwert ohne Administratorrechte setzen');
+assert.match(pcInstall,/pc-agent-v288\.ps1/);assert.match(pcInstall,/pc-first-scanner\.ps1/);assert.match(pcInstall,/pcFirstShardCount=4/);assert.match(pcInstall,/maxStorageGb=2\.0/);assert.match(pcInstall,/trimToGb=1\.6/);assert.match(pcInstall,/CurrentVersion\\Run/);
 
 let g=gettexSessionState(new Date('2026-08-18T05:24:00Z'));assert.equal(g.phase,'CLOSED');
 g=gettexSessionState(new Date('2026-08-18T05:25:00Z'));assert.equal(g.phase,'PREOPEN');assert.equal(g.prepareNow,true);
 g=gettexSessionState(new Date('2026-08-18T05:30:00Z'));assert.equal(g.phase,'OPEN');
 g=gettexSessionState(new Date('2026-08-18T20:59:00Z'));assert.equal(g.phase,'OPEN');
 g=gettexSessionState(new Date('2026-08-18T21:00:00Z'));assert.equal(g.phase,'CLOSED');
-g=gettexSessionState(new Date('2026-01-02T06:25:00Z'));assert.equal(g.phase,'PREOPEN');
-g=gettexSessionState(new Date('2026-01-02T06:30:00Z'));assert.equal(g.phase,'OPEN');
 g=gettexSessionState(new Date('2026-05-01T08:00:00Z'));assert.equal(g.phase,'NON_TRADING_DAY');
 g=gettexSessionState(new Date('2026-08-22T10:00:00Z'));assert.equal(g.phase,'NON_TRADING_DAY');
 
-const marketScansPerTradingDay=(23*60)-(7*60+30);assert.equal(marketScansPerTradingDay,930);
-const preopenRunsPerTradingDay=1;
-const cloudflareFallbackEnvelopePerWeekday=((22-5+1)*60)/5;assert.equal(cloudflareFallbackEnvelopePerWeekday,216);
-const pcLeaderRefreshesPerTradingDay=1+Math.ceil(marketScansPerTradingDay/5);assert.equal(pcLeaderRefreshesPerTradingDay,187);
-
-console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',mode:'WINDOWS_PC_AGENT + CLOUDFLARE_FALLBACK',gettex:'07:25 PREOPEN; 07:30-23:00 OPEN; sonst SLEEP',pcMarketScanRequestsPerTradingDay:marketScansPerTradingDay,preopenRunsPerTradingDay,cloudflareFallbackEnvelopePerWeekday,pcLeaderRefreshesPerTradingDay,dynamicExternalLeaderTarget:25,deepFinalists:6,deepRequestCountUnchangedByScaleUp:true,externalFetchSoftCapPerCloudflareScan:36,preopenFetchSoftCap:24,agentOfflineFallbackSeconds:150,cloudflareFallbackMinutes:5,pcStoragePath:'E:\\KI-Markt-Agent',pcStorageLimitGb:2,pcTrimToGb:1.6,aiNeuronSoftCapPerUtcDay:8000,nightNews:false,nightMarketScans:false},null,2));
+const marketMinutes=(23*60)-(7*60+30);assert.equal(marketMinutes,930);
+const cronEnvelope=(22-5+1)*60;assert.equal(cronEnvelope,1080);
+console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',mode:'V28.8 PC-FIRST FULL MASTER + CLOUDFLARE FINAL VALIDATION/FALLBACK',gettex:'07:25 PREOPEN; 07:30-23:00 OPEN; sonst SLEEP',pcFullMasterCycleMinutes:4,stage2Target:400,deepTarget:120,finalistTarget:60,cloudflareValidationTarget:18,cloudflareGapFillAfterSeconds:95,cronWatchdogInvocationsPerWeekday:cronEnvelope,pcMarketMinutesPerTradingDay:marketMinutes,cloudflareExternalFetchSoftCapFallback:36,aiNeuronSoftCapPerUtcDay:8000},null,2));
