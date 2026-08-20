@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-20T11:45:53.869856+00:00",
-  "berlinNow": "2026-08-20T13:45:53.869698+02:00",
+  "checkedAt": "2026-08-20T12:00:28.184467+00:00",
+  "berlinNow": "2026-08-20T14:00:28.184317+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 162005,
-    "dashboard": 102291
+    "full": 163012,
+    "dashboard": 103136
   },
   "checks": {
     "fullStatus200": true,
@@ -30,7 +30,7 @@
     "capture": {
       "date": "2026-08-20",
       "symbolCount": 120,
-      "updatedAt": "2026-08-20T11:43:20.974Z"
+      "updatedAt": "2026-08-20T12:00:22.898Z"
     },
     "summary": {
       "provisional": true,
@@ -46,33 +46,33 @@
     }
   },
   "depot": {
-    "cash": 950.0719944036448,
-    "equity": 9971.60794997384,
-    "displayMarketValue": 9021.535955587218,
-    "displayAccountingDelta": -1.7022102838382125e-08,
+    "cash": 1476.2217081333488,
+    "equity": 9956.10154591525,
+    "displayMarketValue": 8479.879837798555,
+    "displayAccountingDelta": -1.6654666978865862e-08,
     "positions": [
       {
         "symbol": "REG1V.HE",
         "invested": 3898.934957,
-        "ratioValue": 3933.120010467593,
-        "quantityValue": 3933.1200102750995,
-        "displayValue": 3933.1200102750995,
+        "ratioValue": 3927.679885955748,
+        "quantityValue": 3927.6798857635204,
+        "displayValue": 3927.6798857635204,
         "quantityUsed": true
       },
       {
         "symbol": "NOKIA.HE",
         "invested": 2129.14636,
-        "ratioValue": 2113.8202096705845,
-        "quantityValue": 2113.8202095508773,
-        "displayValue": 2113.8202095508773,
+        "ratioValue": 2107.9538774299217,
+        "quantityValue": 2107.953877310547,
+        "displayValue": 2107.953877310547,
         "quantityUsed": true
       },
       {
         "symbol": "BESI.AS",
         "invested": 869.096941,
-        "ratioValue": 866.2048691355266,
-        "quantityValue": 866.2048694301811,
-        "displayValue": 866.2048694301811,
+        "ratioValue": 863.3715010750248,
+        "quantityValue": 863.3715013687155,
+        "displayValue": 863.3715013687155,
         "quantityUsed": true
       },
       {
@@ -94,20 +94,12 @@
       {
         "symbol": "IFX.DE",
         "invested": 70.201497,
-        "ratioValue": 69.58623713126494,
-        "quantityValue": 69.58623712633101,
-        "displayValue": 69.58623712633101,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "OCDOL.XC",
-        "invested": 524.111962,
-        "ratioValue": 527.5416483517145,
-        "quantityValue": 527.5416483517145,
-        "displayValue": 527.5416483517145,
+        "ratioValue": 69.61159250769329,
+        "quantityValue": 69.61159250275757,
+        "displayValue": 69.61159250275757,
         "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: thu, 20 aug 2026 11:45:53 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=89bfv%2bvm3bckksqcywspzevvgpsbv%2fszdgsvhdzyj%2bkgzx7moybe654zkpttc3hg%2f%2b2nq1k0k81uhxwccgs%2bb2a3xfouf3qlxviq8ibaeejvfned2l%2fgmj%2byz8qlpo5cr4qcdcjvzmk%2brpiht7e4zyade%2bhpcdmnxjaalta%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2e1278618d4ed3b-sjc\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: thu, 20 aug 2026 12:00:28 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"4c493491c1eb485c876c837570d42618\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=xdfxyjn%2fch7aifi1r90owieyjd%2bepjrpl%2bnze6xew3warfuxe4rsmbxqnooxbmkoyr5hpeoetnwqfkv0al8qsqzfcgtzrvmkgfdfnv%2bndvhv%2fp7xani7m7a9ymyycsgfgefammba%2f%2fhwo4evteatn40gzudu6qd%2fulbdqku%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2e13cdf7fe161f4-ord\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
