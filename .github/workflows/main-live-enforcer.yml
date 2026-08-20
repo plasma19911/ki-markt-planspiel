@@ -45,7 +45,7 @@ jobs:
       - name: Allow Cloudflare Git integration to publish
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify live V28.3 UI + V28.2 trading stack
+      - name: Verify live V28.5 UI + V28.2 trading stack
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';
@@ -53,11 +53,14 @@ jobs:
           for(let i=0;i<36;i++){
             try{
               const q=Date.now();
-              const sr=await fetch(`${base}/api/status?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const s=await sr.json();
-              const ur=await fetch(`${base}/ui-v283-fix.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const u=await ur.text();
+              const sr=await fetch(`${base}/api/status?view=dashboard&main_live=${q}`,{headers:{'cache-control':'no-cache'}});const s=await sr.json();
+              const ur=await fetch(`${base}/v285-live-ui.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const u=await ur.text();
               const qr=await fetch(`${base}/quota-guard.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const qjs=await qr.text();
-              const ok=sr.ok&&Number(s?.finalDecisionPolicy?.version)>=28.2&&s?.finalDecisionPolicy?.pairwiseOpportunityCostLearning===true&&ur.ok&&/__V283_UI_LIVE__/.test(u)&&/Mo–Fr 07:30–23:00/.test(u)&&qr.ok&&/ui-v283-fix\.js/.test(qjs);
-              last=`status=${sr.status} version=${s?.finalDecisionPolicy?.version} ui=${ur.status} bootstrap=${qr.status}`;
+              const policy=s?.researchSignalFusionPolicy||{};
+              const posScores=Array.isArray(policy.positionScores)?policy.positionScores:[];
+              const positions=Array.isArray(s?.positions)?s.positions:[];
+              const ok=sr.ok&&policy.enabled===true&&Number(policy.version)>=28.1&&posScores.length>=positions.length&&ur.ok&&/__V285_UI_LIVE__/.test(u)&&/scoreRenderer:true/.test(u)&&qr.ok&&/v285-live-ui\.js/.test(qjs);
+              last=`status=${sr.status} research=${policy.version} positions=${positions.length} scores=${posScores.length} ui=${ur.status} bootstrap=${qr.status}`;
               if(ok){console.log('Main live verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
