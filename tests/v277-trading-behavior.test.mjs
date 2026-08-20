@@ -3,7 +3,9 @@ import fs from 'node:fs';
 import {enforceTradingBehaviorV277} from '../src/trading-behavior-v277.js';
 
 const v11=fs.readFileSync(new URL('../src/compact-portfolio-v11.js',import.meta.url),'utf8');
-assert.match(v11,/compact-portfolio-v277-trading-behavior\.js/,'production compatibility entry must route through V27.7 behavior wrapper');
+const v278=fs.readFileSync(new URL('../src/compact-portfolio-v278-trading-behavior.js',import.meta.url),'utf8');
+assert.match(v11,/compact-portfolio-v278-trading-behavior\.js/,'production compatibility entry must route through current V27.8 behavior wrapper');
+assert.match(v278,/compact-portfolio-v276-daily-agm\.js/,'V27.8 must preserve the audited V27.6 AGM/safety base stack');
 
 function storage(){const m=new Map();return{kv:{get:k=>m.get(k),put:(k,v)=>m.set(k,v),delete:k=>m.delete(k)},m}}
 const baseCandidate={symbol:'TEST.DE',price:100,currency:'EUR',fx_rate:1,fx_verified:true,liveScore:4.3,liveConfidence:.60,day:1.2,intraday5m:.12,intraday20m:.26,momentumAcceleration5:.05,intradayRsi:61,newsScore:.08,eventRisk:'NONE',sellerShare:46};
