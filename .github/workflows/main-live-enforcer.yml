@@ -55,16 +55,17 @@ jobs:
               const q=Date.now();
               const sr=await fetch(`${base}/api/status?view=dashboard&main_live=${q}`,{headers:{'cache-control':'no-cache'}});const s=await sr.json();
               const ur=await fetch(`${base}/v287-live-ui.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const u=await ur.text();
+              const cr=await fetch(`${base}/changelog-master-v290.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const c=await cr.text();
               const qr=await fetch(`${base}/quota-guard.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const qjs=await qr.text();
               const policy=s?.researchSignalFusionPolicy||{},entry=s?.entryProfitPolicy||{},profit=s?.dynamicProfitLockPolicy||{},breadth=s?.scannerBreadthPolicy||{},pc=s?.pcFirstScannerPolicy||{},final=s?.finalDecisionPolicy||{};
               const posScores=Array.isArray(policy.positionScores)?policy.positionScores:[],positions=Array.isArray(s?.positions)?s.positions:[],candidates=Array.isArray(s?.candidates)?s.candidates:[],ranking=Array.isArray(policy.ranking)?policy.ranking:[];
               const scoreShape=ranking.every(x=>Number.isFinite(Number(x?.buyScore))&&Number.isFinite(Number(x?.sellScore)));
-              const v290=Number(entry.version)>=29&&entry.enabled===true&&Number(entry?.thresholds?.entry?.scoutMin)===60&&Number(entry?.thresholds?.entry?.microMin)===65&&Number(entry?.thresholds?.entry?.earlyMin)===68&&Number(entry?.thresholds?.entry?.regularMin)===72&&Number(profit.version)>=29&&profit.enabled===true;
-              const finalOk=Number(final.version)>=29&&final.scoutEntryFrom60===true&&final.microEntryFrom65===true&&final.earlyEntryFrom68===true&&final.regularEntryFrom72===true&&final.dynamicProfitLockV290===true&&final.highScoreProfitExit===true&&final.hardRiskImmediate===true;
+              const v290=Number(entry.version)>=29&&entry.enabled===true&&Number(entry?.thresholds?.entry?.scoutMin)===63&&Number(entry?.thresholds?.entry?.microMin)===65&&Number(entry?.thresholds?.entry?.earlyMin)===68&&Number(entry?.thresholds?.entry?.regularMin)===72&&Number(profit.version)>=29&&profit.enabled===true;
+              const finalOk=Number(final.version)>=29&&final.scoutEntryFrom63===true&&final.microEntryFrom65===true&&final.earlyEntryFrom68===true&&final.regularEntryFrom72===true&&final.dynamicProfitLockV290===true&&final.highScoreProfitExit===true&&final.hardRiskImmediate===true;
               const pcOk=Number(pc.version)>=28.8&&pc.enabled===true&&Number(pc.cloudflareValidationTarget)===18&&breadth.pcFirstFullMaster===true;
-              const uiOk=ur.ok&&/__V287_UI_LIVE__/.test(u)&&/version:29\.0/.test(u)&&/stagedEntryFrom60:true/.test(u)&&/dynamicProfitLock:true/.test(u)&&qr.ok&&/v287-live-ui\.js/.test(qjs);
+              const uiOk=ur.ok&&/__V287_UI_LIVE__/.test(u)&&/version:29\.0/.test(u)&&/stagedEntryFrom63:true/.test(u)&&/dynamicProfitLock:true/.test(u)&&cr.ok&&/__CHANGELOG_MASTER_V290__/.test(c)&&/currentAlwaysFirst:true/.test(c)&&qr.ok&&/v287-live-ui\.js/.test(qjs);
               const ok=sr.ok&&Number(policy.version)>=28.7&&policy.allDecisionCandidatesScored===true&&ranking.length>=candidates.length&&posScores.length>=positions.length&&scoreShape&&v290&&finalOk&&pcOk&&uiOk;
-              last=`status=${sr.status} score=${policy.version} entry=${entry.version} profit=${profit.version} pc=${pc.version} master=${pc.masterUniverseCount} scanned=${pc.prescannedCount} final=${final.version} ui=${ur.status}`;
+              last=`status=${sr.status} score=${policy.version} entry=${entry.version} profit=${profit.version} pc=${pc.version} master=${pc.masterUniverseCount} scanned=${pc.prescannedCount} final=${final.version} ui=${ur.status} changelog=${cr.status}`;
               if(ok){console.log('Main live verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
