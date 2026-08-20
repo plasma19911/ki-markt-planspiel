@@ -45,7 +45,7 @@ jobs:
       - name: Install Wrangler only
         run: npm install --no-audit --no-fund --ignore-scripts
 
-      - name: Test final decisions and restart isolation
+      - name: Test final decisions, restart isolation, V27 risk and learning
         run: npm run test:decisions
 
       - name: Cloudflare dry run
@@ -57,7 +57,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: npx wrangler deploy --config wrangler.jsonc
 
-      - name: Verify production really serves V26.3
+      - name: Verify production really serves V27
         run: |
           node --input-type=module <<'NODE'
           const url='https://ki-markt-planspiel.orkimperium.workers.dev/api/status';
@@ -66,8 +66,8 @@ jobs:
             try{
               const r=await fetch(`${url}?deploy_check=${Date.now()}`,{headers:{'cache-control':'no-cache'}});
               const j=await r.json();
-              last=`HTTP ${r.status}, finalDecisionPolicy.version=${j?.finalDecisionPolicy?.version ?? 'missing'}, automaticScaleUp=${j?.finalDecisionPolicy?.automaticScaleUp ?? 'missing'}, restartIsolation=${j?.runIsolationPolicy?.enabled ?? 'missing'}, timeBasedLossExit=${j?.finalDecisionPolicy?.timeBasedLossExit ?? 'missing'}`;
-              if(r.ok&&j?.finalDecisionPolicy?.version===26.3&&j?.finalDecisionPolicy?.automaticScaleUp===false&&j?.runIsolationPolicy?.enabled===true&&j?.finalDecisionPolicy?.timeBasedLossExit===false){console.log(`Live verification OK: ${last}`);process.exit(0)}
+              last=`HTTP ${r.status}, version=${j?.finalDecisionPolicy?.version ?? 'missing'}, scaleUp=${j?.finalDecisionPolicy?.automaticScaleUp ?? 'missing'}, restart=${j?.runIsolationPolicy?.enabled ?? 'missing'}, timeExit=${j?.finalDecisionPolicy?.timeBasedLossExit ?? 'missing'}, risk=${j?.portfolioRiskPolicy?.enabled ?? 'missing'}, calibration=${j?.learningCalibrationPolicy?.enabled ?? 'missing'}, quarantine=${j?.learningQuarantinePolicy?.enabled ?? 'missing'}`;
+              if(r.ok&&j?.finalDecisionPolicy?.version===27&&j?.finalDecisionPolicy?.automaticScaleUp===false&&j?.runIsolationPolicy?.enabled===true&&j?.finalDecisionPolicy?.timeBasedLossExit===false&&j?.portfolioRiskPolicy?.enabled===true&&j?.learningCalibrationPolicy?.enabled===true&&j?.learningQuarantinePolicy?.enabled===true){console.log(`Live verification OK: ${last}`);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
