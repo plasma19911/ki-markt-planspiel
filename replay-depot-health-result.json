@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-21T07:01:52.537401+00:00",
-  "berlinNow": "2026-08-21T09:01:52.537269+02:00",
+  "checkedAt": "2026-08-21T07:14:49.697356+00:00",
+  "berlinNow": "2026-08-21T09:14:49.697231+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 187044,
-    "dashboard": 97910
+    "full": 191790,
+    "dashboard": 102374
   },
   "checks": {
     "fullStatus200": true,
@@ -24,13 +24,13 @@
     "date": "2026-08-21",
     "status": "CAPTURING",
     "processed": 0,
-    "total": 67,
+    "total": 69,
     "provisional": true,
     "completedAt": null,
     "capture": {
       "date": "2026-08-21",
-      "symbolCount": 67,
-      "updatedAt": "2026-08-21T07:00:18.702Z"
+      "symbolCount": 69,
+      "updatedAt": "2026-08-21T07:12:19.646Z"
     },
     "summary": {
       "provisional": true,
@@ -46,44 +46,36 @@
     }
   },
   "depot": {
-    "cash": 7509.141137,
-    "equity": 9993.217451610055,
-    "displayMarketValue": 2484.0763143554686,
-    "displayAccountingDelta": 2.545875759096816e-07,
+    "cash": 8318.059872976452,
+    "equity": 9983.536450623109,
+    "displayMarketValue": 1665.4765773925783,
+    "displayAccountingDelta": 2.540800778660923e-07,
     "positions": [
-      {
-        "symbol": "BDL.NS",
-        "invested": 811.778968,
-        "ratioValue": 810.968,
-        "quantityValue": 810.968,
-        "displayValue": 810.968,
-        "quantityUsed": true
-      },
       {
         "symbol": "DATAPATTNS.NS",
         "invested": 736.507672,
-        "ratioValue": 735.2120605490429,
-        "quantityValue": 735.2120604492187,
-        "displayValue": 735.2120604492187,
+        "ratioValue": 733.1998000995509,
+        "quantityValue": 733.1998,
+        "displayValue": 733.1998,
         "quantityUsed": true
       },
       {
         "symbol": "PARAS.NS",
         "invested": 515.221295,
-        "ratioValue": 514.7404001547627,
-        "quantityValue": 514.7404,
-        "displayValue": 514.7404,
+        "ratioValue": 513.962523640857,
+        "quantityValue": 513.9625234863281,
+        "displayValue": 513.9625234863281,
         "quantityUsed": true
       },
       {
         "symbol": "COCHINSHIP.NS",
         "invested": 423.350928,
-        "ratioValue": 423.15585390625006,
-        "quantityValue": 423.15585390625,
-        "displayValue": 423.15585390625,
+        "ratioValue": 418.31425390625003,
+        "quantityValue": 418.31425390625,
+        "displayValue": 418.31425390625,
         "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: fri, 21 aug 2026 07:01:52 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=7goygaidqattjsgosjft91yqzhmwfhu9cifibkc0sqbklbnsyveykkko3%2bipmsuvedpktbofauq5j3y5%2bzcn6q2%2f0kcdpkcomy5etteln22jjnhintcb6ywhuphvxxnvghsb3p7fnus%2foqi0frjtcmiiwqjqt0udziwbtne%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2e7c4da38900b74-ord\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: fri, 21 aug 2026 07:14:49 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=xceelanbllqzklvqyrlf3mezavrnfnyf4eeguqojtjmpwe8iovpen6bsjyvwecaak4rarwmipiwe9l12hwwjzgezlrbagj0qdwultjopbpds2msdnivffla8h0fol7ofmtrewgdere5wwobiafdda8zeahnkgjkf8xmgvoe%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2e7d7d3baf9091a-lax\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
