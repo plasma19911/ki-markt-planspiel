@@ -3,10 +3,12 @@
 // - DecisionScore >=56 => immediate BUY.
 // - +10 points from purchase => SELL only when the chart since purchase is positive.
 // - -15 points from purchase => SELL.
-// - Score smoothing is time-aware instead of scan-count dependent.
+// - Near-flat score smoothing is time-aware instead of scan-count dependent.
+// - Real aligned chart moves may accelerate score changes so genuine breaks are not hidden.
 // - Incomplete/stale data is damped inside the score rather than added as a separate soft block.
-// - After a score exit the same symbol must reset below 56 once before a new >=56 can re-enter,
-//   preventing deterministic SELL -> immediate BUY fee churn.
+// - After +10 profit exit: 5-point score pullback before re-entry; after -15 weakness exit:
+//   5-point score recovery and at least the normal 56 buy zone before re-entry.
+//   This prevents deterministic SELL -> immediate BUY fee churn without locking a title below 56.
 // V29.5 remains underneath as the normal SELL authority, now with structured V29.4 authorization.
 // V29.4 keeps purchase-score continuity and chart anchoring for held positions.
 // V29.2 PC-first breadth remains underneath: full master -> pre-score -> deep score -> finalists.
