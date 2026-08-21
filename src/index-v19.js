@@ -1,9 +1,9 @@
 import base,{MarketPortfolio} from './index-v18.js';
 export {MarketPortfolio};
 
-// V28.7 UI bootstrap: quota-guard.js is worker-first + no-store.
-// One event-driven renderer shows calibrated Kauf/Halten/Verkauf scores.
-const UI_BOOTSTRAP="\nimport('/v287-live-ui.js?v=20260820-1945').catch(e=>console.warn('V28.7 UI bootstrap failed',e));\n";
+// Worker-first, no-store UI bootstrap. The explicit cache key ensures phones do
+// not keep an older gettex/V29.2 renderer after a production deployment.
+const UI_BOOTSTRAP="\nimport('/v287-live-ui.js?v=20260821-1025').catch(e=>console.warn('V29.8 live UI bootstrap failed',e));\n";
 
 function noStore(response){
  const h=new Headers(response.headers);h.set('Cache-Control','no-store, no-cache, must-revalidate, max-age=0');h.set('Pragma','no-cache');h.set('Expires','0');
