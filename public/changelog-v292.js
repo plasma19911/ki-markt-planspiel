@@ -1,4 +1,4 @@
-// V29.2/V29.3 visible changelog entries. Kept separate so the historical V27.9–V29.1 list stays untouched.
+// V29.2-V29.4 visible changelog entries. Kept separate so the historical V27.9–V29.1 list stays untouched.
 function injectV292(){
  const list=document.querySelector('#changelogOverlay .changelogList');if(!list||list.querySelector('[data-v292-changelog]'))return;
  const a=document.createElement('article');a.className='changelogEntry';a.dataset.v292Changelog='1';
@@ -7,12 +7,19 @@ function injectV292(){
 }
 function injectV293(){
  injectV292();const list=document.querySelector('#changelogOverlay .changelogList');if(!list||list.querySelector('[data-v293-changelog]'))return;
- list.querySelector('.latest')?.classList.remove('latest');
- const a=document.createElement('article');a.className='changelogEntry latest';a.dataset.currentChangelog='1';a.dataset.v293Changelog='1';
+ const a=document.createElement('article');a.className='changelogEntry';a.dataset.v293Changelog='1';
  a.innerHTML='<div class="changelogTime">21.08.2026</div><h3>V29.3 · Sofortkauf ab 56 & stabiler DecisionScore</h3><ul><li>Für neue Positionen gilt jetzt eindeutig: DecisionScore 0–55,9 = kein Kauf; ab 56 = SOFORT BUY.</li><li>Nach Erreichen von 56 gibt es keine zusätzliche weiche Momentum-, News-, FOMO-, Coverage-, Trend- oder Mehrfachscan-Sperre mehr. Der Score selbst ist die Kaufentscheidung.</li><li>Anzeige und Handelslogik verwenden denselben stabilisierten 0–100-DecisionScore. Der alte Rohscore bleibt nur noch zur Diagnose erhalten.</li><li>Große Rohscore-Sprünge werden zeitlich geglättet. Ein datenbedingter Sprung wie 72 → 36 soll deshalb nicht mehr in einem einzigen Entscheidungsschritt als 36 erscheinen.</li><li>Aufwärtsbewegungen reagieren schneller als Abwärtsrauschen, damit eine neu erreichte 56er-Kaufgrenze nicht unnötig verzögert wird.</li></ul>';
  list.prepend(a);
 }
-document.addEventListener('click',e=>{if(e.target.closest('#changelogToggle'))setTimeout(injectV293,0)});
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',injectV293,{once:true});else injectV293();
+function injectV294(){
+ injectV293();const list=document.querySelector('#changelogOverlay .changelogList');if(!list||list.querySelector('[data-v294-changelog]'))return;
+ list.querySelector('.latest')?.classList.remove('latest');
+ const a=document.createElement('article');a.className='changelogEntry latest';a.dataset.currentChangelog='1';a.dataset.v294Changelog='1';
+ a.innerHTML='<div class="changelogTime">21.08.2026</div><h3>V29.4 · Depot-Score repariert & +10/−15 Score-Exit</h3><ul><li>Nach dem Kauf bleibt der Depotwert auf derselben 0–100-DecisionScore-Skala wie beim Einstieg. Ein Wechsel auf einen alten Teil-/Legacy-Score darf den Wert nicht mehr plötzlich z. B. von etwa 60 auf 40 drücken.</li><li>Wenn für eine gehaltene Aktie gerade nur unvollständige Daten vorliegen, wird der letzte vollständige Score eingefroren statt neu aus einer anderen Skala berechnet.</li><li>Die Scorebewegung einer Position wird zusätzlich an die tatsächliche Chartbewegung seit Kauf gekoppelt. Bei nahezu unverändertem Kurs darf der Score nur wenige Punkte um den Einstieg schwanken und pro Scan nur sehr langsam laufen.</li><li>Der beim Kauf vorhandene DecisionScore wird als feste Basis gespeichert. Verbessert sich der chart-verankerte Score danach um mindestens 10 Punkte, wird verkauft. Fällt er um mindestens 15 Punkte, wird ebenfalls verkauft.</li><li>Die 56er Sofortkauf-Regel aus V29.3 bleibt unverändert aktiv.</li></ul>';
+ list.prepend(a);
+}
+document.addEventListener('click',e=>{if(e.target.closest('#changelogToggle'))setTimeout(injectV294,0)});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',injectV294,{once:true});else injectV294();
 window.__CHANGELOG_V292__={version:29.2,fullPcPreScore:true,deepTarget:240,scoreFallbackFixed:true};
 window.__CHANGELOG_V293__={version:29.3,immediateBuyMin:56,stableDecisionScore:true,noSoftBuyBlocks:true};
+window.__CHANGELOG_V294__={version:29.4,chartAnchoredPositionScore:true,positiveScoreExitDelta:10,negativeScoreExitDelta:-15,partialScoreFreeze:true};
