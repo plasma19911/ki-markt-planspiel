@@ -10,7 +10,9 @@ on:
       - 'public/changelog-v292.js'
       - '.github/workflows/decision-regression.yml'
   push:
-    branches: [main]
+    branches:
+      - main
+      - 'v*'
     paths:
       - 'src/**'
       - 'tests/**'
