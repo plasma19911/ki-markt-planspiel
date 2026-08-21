@@ -19,10 +19,21 @@ assert.match(ui,/topPcCandidates/);assert.match(ui,/pcDeepScore/);assert.match(u
 assert.match(pcFallback,/PC-Finalisten/);assert.match(pcFallback,/PC-Vollscan aktiv/);assert.match(pcFallback,/Deep-Score/);assert.match(pcFallback,/Research\/Safety entscheidet erst danach/);
 assert.match(changelog292,/V29\.2 · Score-Pipeline repariert/);assert.match(changelog292,/ersten 1\.000/);assert.match(changelog292,/Deep 240/);
 assert.match(entry,/v287-live-ui\.js/);
-assert.match(prod,/compact-portfolio-v297-profit-exit\.js/,'production must route through the current V29.7 outer controller');
+assert.match(prod,/compact-portfolio-v303-system-validation\.js/,'production compatibility entry must route through V30.3 system wrapper');
+assert.match(prod,/compact-portfolio-v297-profit-exit\.js/,'production comments must document the preserved V29.7 profit stack');
 assert.match(profit,/compact-portfolio-v296-directional-position\.js/,'V29.7 must preserve V29.6 directional held-score behavior underneath');
 assert.match(directional,/compact-portfolio-v296-score-coherence\.js/,'directional V29.6 wrapper must preserve the coherent score stack underneath');
-assert.match(dashboard,/PC_FIRST_FULL_MASTER_STAGED/);assert.match(dashboard,/canonical-buy-hold-sell-v29\.1/);assert.match(dashboard,/strong-62\+hold-58\+watch-53\+caution-50\+sellwatch-46\+exit-45\+urgent-32/);assert.match(wrangler,/"main"\s*:\s*"src\/index-v20\.js"/);
+
+// V30.3 regression: the lightweight dashboard status is also used by UI and
+// production verification. It must not strip the current runtime/daytrade policies.
+for(const field of ['runtimeVersion','liveDecisionVersion','systemValidationPolicy','daytradeLiveFeedbackPolicy','daytradeEntryPolicy','daytradeDipPolicy','daytradeLargeCapPolicy','profitExitPolicy','canonicalScorePolicy','finalDecisionPolicy']){
+ assert.match(dashboard,new RegExp(`['"]${field}['"]`),`Dashboard projection must expose ${field}`);
+}
+assert.match(dashboard,/x-planspiel-ui':'v30\.3/,'Dashboard response header must identify V30.3');
+assert.match(dashboard,/decision-score-56-v30\.3-system/,'Dashboard must advertise the current authoritative BUY-56 score stack');
+assert.match(dashboard,/v30\.2-live-feedback\+v30\.1-fresh-tape\+v30\.0-dips/,'Dashboard must expose the current daytrade entry stack');
+assert.match(dashboard,/PC_FIRST_FULL_MASTER_STAGED/);
+assert.match(wrangler,/"main"\s*:\s*"src\/index-v20\.js"/);
 
 const now=Date.parse('2026-08-20T17:40:00Z');
 function storage(seed={}){const m=new Map(Object.entries(seed));return{kv:{get:k=>m.get(k),put:(k,v)=>m.set(k,structuredClone(v))},_m:m}}
@@ -40,4 +51,4 @@ function storage(seed={}){const m=new Map(Object.entries(seed));return{kv:{get:k
 {
  const master=Array.from({length:80},(_,i)=>({symbol:`S${i+1}`,marketCapUSD:1_000_000_000})),entries=[];for(let i=0;i<70;i++){entries.push({symbol:`S${i+1}`,market:'GLOBAL',source:'A',rank:i+1});if(i<30)entries.push({symbol:`S${i+1}`,market:'GLOBAL',source:'B',rank:i+1})};const b=buildBroadLeaderPool(entries,master);assert.equal(b.pool.length,60);const base={equities:[...b.pool.slice(0,25),{...master[70],forwardWatch:true}]};const a=applyRotatingBreadth(base,b,{config:{scan_count:1},positions:[]}),c=applyRotatingBreadth(base,b,{config:{scan_count:2},positions:[]});assert.ok(a.breadthRotationApplied);assert.notDeepEqual(a.equities.map(x=>x.symbol),c.equities.map(x=>x.symbol));
 }
-console.log('V29.2 score-pipeline UI + current production wrapper regression tests: OK');
+console.log('V30.3 dashboard-policy exposure + score-pipeline UI regression tests: OK');
