@@ -3,6 +3,7 @@ import {getSecondChanceRuntime} from './second-chance-runtime.js';
 import {publicFeedResilienceStats} from './public-feed-resilience.js';
 import {loadEventCalendarFallback,eventFallbackRisk} from './event-calendar-fallback.js';
 import {quoteCurrencyInfo,normalizeQuoteCurrency,normalizeQuotePrice} from './quote-currency-units.js';
+import {sanitizeNewsEntityRelevance} from './news-entity-relevance.js';
 
 export {BENCHMARKS,marketOpen,newsTradingAgeHours,newsRecencyWeight,loadUniverse} from './market-v3-base.js';
 
@@ -76,7 +77,7 @@ async function repairEventContext(result,heldSymbols=[]){
  result.candidates?.sort((a,b)=>num(b?.score)-num(a?.score));delete h['Yahoo Events'];h['Unternehmenstermine (Nasdaq-Fallback)']={status:'OK',okCount:1,failCount:0,lastError:'',latencyMs:null};result.eventCalendarFallback={enabled:true,provider:'Nasdaq Earnings Calendar',matched:fb.matched,requestedSymbols:fb.requestedSymbols,calendarRequests:fb.calendarRequests,cacheHits:fb.cacheHits};return result;
 }
 export async function scanMarket(env,cfg,heldSymbols=[]){
- const safeEnv=venueSafeEnv(env),result=await repairEventContext(await baseScanMarket(safeEnv,cfg,heldSymbols),heldSymbols);if(result?.marketState?.mode==='NEWS_ONLY')return result;
+ const safeEnv=venueSafeEnv(env),result=sanitizeNewsEntityRelevance(await repairEventContext(await baseScanMarket(safeEnv,cfg,heldSymbols),heldSymbols));if(result?.marketState?.mode==='NEWS_ONLY')return result;
  let candidates=[...(result.candidates||[])],existing=new Set(candidates.map(x=>key(x?.symbol))),foresightChecked=0,foresightRecovered=0,foresightSourceOk=0,foresightFailed=0,foresightRejected=0,foresightError='';
  const foresight=await overlayForesightPool(safeEnv,existing);if(foresight.length){
   const checked=await Promise.all(foresight.map(x=>recheckForesight(x,num(result?.fxRates?.[normalizeQuoteCurrency(x?.currency)],1))));foresightChecked=foresight.length;
