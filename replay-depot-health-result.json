@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-21T11:02:52.376136+00:00",
-  "berlinNow": "2026-08-21T13:02:52.375958+02:00",
+  "checkedAt": "2026-08-21T12:04:50.703152+00:00",
+  "berlinNow": "2026-08-21T14:04:50.702972+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 1153084,
-    "dashboard": 801580
+    "full": 1249569,
+    "dashboard": 867295
   },
   "checks": {
     "fullStatus200": true,
@@ -30,7 +30,7 @@
     "capture": {
       "date": "2026-08-21",
       "symbolCount": 120,
-      "updatedAt": "2026-08-21T11:02:09.374Z"
+      "updatedAt": "2026-08-21T12:03:18.395Z"
     },
     "summary": {
       "provisional": true,
@@ -47,32 +47,32 @@
   },
   "depot": {
     "cash": 1623.1206979999997,
-    "equity": 9989.56475650773,
-    "displayMarketValue": 8366.44405836258,
-    "displayAccountingDelta": 1.4515171642415226e-07,
+    "equity": 9997.78408857267,
+    "displayMarketValue": 8374.663390427399,
+    "displayAccountingDelta": 1.4527176972478628e-07,
     "positions": [
       {
         "symbol": "KALMAR.HE",
         "invested": 2235.233,
-        "ratioValue": 2231.839973449707,
-        "quantityValue": 2231.839973449707,
-        "displayValue": 2231.839973449707,
+        "ratioValue": 2236.480079650879,
+        "quantityValue": 2236.480079650879,
+        "displayValue": 2236.480079650879,
         "quantityUsed": true
       },
       {
         "symbol": "PLEJD.ST",
         "invested": 2193.40101,
-        "ratioValue": 2199.381600200546,
-        "quantityValue": 2199.3816,
-        "displayValue": 2199.3816,
+        "ratioValue": 2201.8308002007693,
+        "quantityValue": 2201.8307999999997,
+        "displayValue": 2201.8307999999997,
         "quantityUsed": true
       },
       {
         "symbol": "OUT1V.HE",
         "invested": 607.416797,
-        "ratioValue": 609.0699848574775,
-        "quantityValue": 609.0699849128723,
-        "displayValue": 609.0699849128723,
+        "ratioValue": 610.2000107210223,
+        "quantityValue": 610.2000107765198,
+        "displayValue": 610.2000107765198,
         "quantityUsed": true
       },
       {
@@ -85,5 +85,5 @@
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: fri, 21 aug 2026 11:02:52 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=xrsvd56gpm%2flsbf%2fhmt%2fkxzgiiuwex4dvg2lb%2f6zl6wpf8bcp53wr12gacqcucaepncudy1gexn3iwy0wimnefkn10fypnyzjgbpfkhm%2ffxptqbkynhecxxlg4f8tgllk%2fi4t6sizn1w8iqrngittewqko7z3rblgdplp2u%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2e925e0b92815c5-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: fri, 21 aug 2026 12:04:50 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=tkapzjv0qrfa6os6bmdvfdtelfatwhxogpk1ptlromfjnj9%2fmzvqfzri4mmhj5iemwjfhoezvn3kmxohjnzipc2wohgsgeylryswnyx85fmzwoe8wag9w7ujrkqj87g19wdj4fdqaoeudwhjashp%2f2skyu5rhsojoju47uy%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2e980a79dabfb34-sjc\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
