@@ -25,7 +25,7 @@ assert.match(ui,/Trade Republic · Bestpreis/);assert.match(ui,/56\+ SOFORT BUY/
 assert.match(legacyBrokerUi,/Zieldepot · Trade Republic/);assert.match(legacyBrokerUi,/1 € Abwicklungspauschale/);assert.doesNotMatch(legacyBrokerUi,/finanzen\.net ZERO/i);assert.doesNotMatch(legacyBrokerUi,/gettex/i);assert.doesNotMatch(legacyBrokerUi,/500 € = 0/);
 assert.match(onepager,/Trade Republic · Bestpreis/);assert.match(onepager,/nur Aktien/);assert.match(onepager,/1 € Abwicklung/);assert.doesNotMatch(onepager,/finanzen\.net ZERO/i);assert.doesNotMatch(onepager,/gettex/i);assert.doesNotMatch(onepager,/UCITS/i);assert.doesNotMatch(onepager,/normale ETFs/i);
 
-assert.match(production,/compact-portfolio-v297-profit-exit\.js/);assert.match(profit,/minProfitPct:\.8/);assert.match(profit,/profitLockPct:5\.0/);assert.match(profit,/negative/i).or;
-assert.match(profit,/profit_5_strong_rise/);assert.match(profit,/REENTRY_KEY/);
+assert.match(production,/compact-portfolio-v297-profit-exit\.js/);assert.match(profit,/minProfitPct:\.8/);assert.match(profit,/profitLockPct:5\.0/);
+assert.match(profit,/profit_5_strong_rise/);assert.match(profit,/REENTRY_KEY/);assert.match(profit,/scoreExitKind:'MINUS_15'/);
 
 console.log('V29.8 Trade Republic broker/UI/live-audit regressions: OK');
