@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {DAYTRADE_DIP_V300,intradayMetricsV300,dipQualityV300,daytradeAllocationV300} from '../src/daytrade-dip-v300.js';
+import {persistExecutedEntryBaselinesV301} from '../src/executed-entry-baseline-v301.js';
 
 assert.equal(DAYTRADE_DIP_V300.immediateBuyMin,56,'BUY threshold must remain 56');
 assert.equal(DAYTRADE_DIP_V300.maxOpenPositions,4,'daytrade book must stay concentrated');
@@ -50,4 +51,19 @@ assert.equal(DAYTRADE_DIP_V300.targetCashDeploymentPct,90,'daytrade target shoul
   assert.ok(first<=34&&fourth<=34,'single-position concentration remains capped');
 }
 
-console.log('V30.0 better-dip/concentrated-daytrade tests passed');
+// V30.1 regression: the executed FINAL BUY score is the held-position baseline.
+// It must not fall back to the older scanner score or a later coherent-score memory value.
+{
+  const kv=new Map(),storage={kv:{get:k=>kv.get(k),put:(k,v)=>kv.set(k,structuredClone(v))}};
+  const now=Date.parse('2026-08-21T09:45:00Z');
+  const state={positions:[{symbol:'BDL.NS',opened_at:'2026-08-21T09:44:30Z',entry_price:1520,last_price:1519}]};
+  const selected=[{symbol:'BDL.NS',daytradeDipScore:59.8,decisionScore:59.8}];
+  const out=persistExecutedEntryBaselinesV301(state,selected,storage,now),mem=kv.get('state/score-entry-exit-v294');
+  assert.equal(out.stored,1);
+  assert.equal(mem.entries['BDL.NS'].score,59.8,'executed final BUY score must be stored exactly');
+  assert.equal(mem.entries['BDL.NS'].lastStable,59.8);
+  assert.equal(mem.entries['BDL.NS'].seedSource,'EXECUTED_FINAL_BUY_V301');
+  assert.notEqual(mem.entries['BDL.NS'].score,45.6,'later/legacy scanner memory must not become the entry baseline');
+}
+
+console.log('V30.1 better-dip/concentrated-daytrade + executed-baseline tests passed');
