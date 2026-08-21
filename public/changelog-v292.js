@@ -1,4 +1,4 @@
-// V29.2-V29.5 visible changelog entries. Kept separate so the historical V27.9-V29.1 list stays untouched.
+// V29.2-V29.6 visible changelog entries. Kept separate so the historical V27.9-V29.1 list stays untouched.
 function injectV292(){
  const list=document.querySelector('#changelogOverlay .changelogList');if(!list||list.querySelector('[data-v292-changelog]'))return;
  const a=document.createElement('article');a.className='changelogEntry';a.dataset.v292Changelog='1';
@@ -19,14 +19,21 @@ function injectV294(){
 }
 function injectV295(){
  injectV294();const list=document.querySelector('#changelogOverlay .changelogList');if(!list||list.querySelector('[data-v295-changelog]'))return;
- list.querySelector('.latest')?.classList.remove('latest');
- const a=document.createElement('article');a.className='changelogEntry latest';a.dataset.currentChangelog='1';a.dataset.v295Changelog='1';
+ const a=document.createElement('article');a.className='changelogEntry';a.dataset.v295Changelog='1';
  a.innerHTML='<div class="changelogTime">21.08.2026</div><h3>V29.5 · +10/−15 ist jetzt die einzige normale SELL-Regel</h3><ul><li>Ein Fehler in der Guard-Reihenfolge konnte eine gerade gekaufte Position trotz V29.4 noch durch ältere Profit-, Trend-, Rotation- oder Positionsregeln direkt wieder verkaufen.</li><li>V29.5 liegt nun ganz außen und setzt jeden solchen alten SELL endgültig auf HOLD zurück.</li><li>Ein normaler Verkauf bleibt nur bestehen, wenn V29.4 den chart-verankerten DecisionScore seit Kauf mit mindestens +10 oder −15 Punkten bestätigt.</li><li>Damit kann eine Aktie wie BDL.NS nicht mehr direkt nach dem Kauf wegen einer alten V29.1/V28.x-Regel wieder herausfliegen.</li><li>Sofortkauf ab DecisionScore 56 und die chart-verankerte Score-Glättung bleiben unverändert aktiv.</li></ul>';
  list.prepend(a);
 }
-document.addEventListener('click',e=>{if(e.target.closest('#changelogToggle'))setTimeout(injectV295,0)});
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',injectV295,{once:true});else injectV295();
+function injectV296(){
+ injectV295();const list=document.querySelector('#changelogOverlay .changelogList');if(!list||list.querySelector('[data-v296-changelog]'))return;
+ list.querySelector('.latest')?.classList.remove('latest');
+ const a=document.createElement('article');a.className='changelogEntry latest';a.dataset.currentChangelog='1';a.dataset.v296Changelog='1';
+ a.innerHTML='<div class="changelogTime">21.08.2026</div><h3>V29.6 · Score weniger nervös, gleiche Strategie</h3><ul><li>Die festen Regeln bleiben: ab DecisionScore 56 sofort kaufen, bei +10 Punkten seit Kauf verkaufen und bei −15 Punkten verkaufen.</li><li>Scoreänderungen werden jetzt nach verstrichener Zeit begrenzt statt pro Scan. Viele schnelle Scans können einen Wert dadurch nicht mehr künstlich in wenigen Sekunden um dutzende Punkte verschieben.</li><li>Lückenhafte oder ältere Kurs-/Signaldaten werden direkt im Score Richtung neutral gedämpft. Das ist keine zusätzliche Kaufsperre: Erreicht der daraus berechnete DecisionScore 56, wird weiterhin sofort gekauft.</li><li>Ein +10-Exit gilt nur noch, wenn der Chart seit dem Kauf tatsächlich positiv ist. Ein steigender Score bei fallendem Kurs wird nicht fälschlich als Gewinnmitnahme behandelt.</li><li>Nach einem +10/−15-Exit muss derselbe Titel einmal unter 56 zurücksetzen, bevor ein erneutes Überschreiten wieder sofort gekauft wird. Das verhindert den sonst sicheren SELL→BUY→SELL-Gebührenloop.</li><li>Score-SELLs werden strukturiert geprüft; ein bloßer Text wie „V29.4 SCORE-EXIT“ reicht nicht mehr zur Freigabe.</li></ul>';
+ list.prepend(a);
+}
+document.addEventListener('click',e=>{if(e.target.closest('#changelogToggle'))setTimeout(injectV296,0)});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',injectV296,{once:true});else injectV296();
 window.__CHANGELOG_V292__={version:29.2,fullPcPreScore:true,deepTarget:240,scoreFallbackFixed:true};
 window.__CHANGELOG_V293__={version:29.3,immediateBuyMin:56,stableDecisionScore:true,noSoftBuyBlocks:true};
 window.__CHANGELOG_V294__={version:29.4,chartAnchoredPositionScore:true,positiveScoreExitDelta:10,negativeScoreExitDelta:-15,partialScoreFreeze:true};
 window.__CHANGELOG_V295__={version:29.5,scoreExitAuthority:true,positiveScoreExitDelta:10,negativeScoreExitDelta:-15,legacySellsSuperseded:true};
+window.__CHANGELOG_V296__={version:29.6,timeAwareScore:true,qualityAwareScore:true,immediateBuyMin:56,positiveScoreExitDelta:10,negativeScoreExitDelta:-15,reentryResetBelow56:true};
