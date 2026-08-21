@@ -1,11 +1,10 @@
 // Production compatibility entry for the PAPER-TRADING planspiel.
-// V30.0 keeps the full behavior chain underneath, including
-// compact-portfolio-v297-profit-exit.js, V29.6 coherent held scores and V29.9
-// large-cap preference.
-// New entries are now concentrated on better intraday dips/reclaims instead of
-// chasing highs. PC-FIRST momentum5Pct/momentum20Pct/acceleration5Pct are used
-// directly. BUY eligibility remains DecisionScore >=56, but the book is capped
-// at four simultaneous positions and uses materially more free cash per entry.
+// V30.1 keeps the V30.0 concentrated dip/reclaim book, V29.9 large-cap preference,
+// V29.7 adaptive profit exits and V29.6 coherent held scores underneath.
+// New entries now score quote freshness and the actual PC 1m/5m signal coverage,
+// reward clean retests/early continuation and penalize stale, missing or weak tape.
+// BUY eligibility remains one authoritative threshold: DecisionScore >=56.
+// Max four simultaneous positions and concentrated cash deployment remain active.
 // No real broker orders are created here.
 import './yahoo-spark-chart-fallback.js';
-export {MarketPortfolio} from './compact-portfolio-v300-daytrade-dips.js';
+export {MarketPortfolio} from './compact-portfolio-v301-daytrade-entry.js';
