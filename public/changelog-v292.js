@@ -1,4 +1,4 @@
-// V29.2-V29.5 visible changelog entries. Kept separate so the historical V27.9-V29.1 list stays untouched.
+// V29.2-V29.6 visible changelog entries. Kept separate so the historical V27.9-V29.1 list stays untouched.
 function injectV292(){
  const list=document.querySelector('#changelogOverlay .changelogList');if(!list||list.querySelector('[data-v292-changelog]'))return;
  const a=document.createElement('article');a.className='changelogEntry';a.dataset.v292Changelog='1';
@@ -19,14 +19,21 @@ function injectV294(){
 }
 function injectV295(){
  injectV294();const list=document.querySelector('#changelogOverlay .changelogList');if(!list||list.querySelector('[data-v295-changelog]'))return;
- list.querySelector('.latest')?.classList.remove('latest');
- const a=document.createElement('article');a.className='changelogEntry latest';a.dataset.currentChangelog='1';a.dataset.v295Changelog='1';
- a.innerHTML='<div class="changelogTime">21.08.2026</div><h3>V29.5 · +10/−15 ist jetzt die einzige normale SELL-Regel</h3><ul><li>Ein Fehler in der Guard-Reihenfolge konnte eine gerade gekaufte Position trotz V29.4 noch durch ältere Profit-, Trend-, Rotation- oder Positionsregeln direkt wieder verkaufen.</li><li>V29.5 liegt nun ganz außen und setzt jeden solchen alten SELL endgültig auf HOLD zurück.</li><li>Ein normaler Verkauf bleibt nur bestehen, wenn V29.4 den chart-verankerten DecisionScore seit Kauf mit mindestens +10 oder −15 Punkten bestätigt.</li><li>Damit kann eine Aktie wie BDL.NS nicht mehr direkt nach dem Kauf wegen einer alten V29.1/V28.x-Regel wieder herausfliegen.</li><li>Sofortkauf ab DecisionScore 56 und die chart-verankerte Score-Glättung bleiben unverändert aktiv.</li></ul>';
+ const a=document.createElement('article');a.className='changelogEntry';a.dataset.v295Changelog='1';
+ a.innerHTML='<div class="changelogTime">21.08.2026</div><h3>V29.5 · +10/−15 ist jetzt die einzige normale SELL-Regel</h3><ul><li>Ein Fehler in der Guard-Reihenfolge konnte eine gerade gekaufte Position trotz V29.4 noch durch ältere Profit-, Trend-, Rotation- oder Positionsregeln direkt wieder verkaufen.</li><li>V29.5 liegt nun ganz außen und setzt jeden solchen alten weichen SELL endgültig auf HOLD zurück.</li><li>Ein normaler Verkauf bleibt nur bestehen, wenn V29.4 den chart-verankerten DecisionScore seit Kauf mit mindestens +10 oder −15 Punkten bestätigt.</li><li>Damit kann eine Aktie wie BDL.NS nicht mehr direkt nach dem Kauf wegen einer alten V29.1/V28.x-Regel wieder herausfliegen.</li><li>Sofortkauf ab DecisionScore 56 und die chart-verankerte Score-Glättung bleiben aktiv.</li></ul>';
  list.prepend(a);
 }
-document.addEventListener('click',e=>{if(e.target.closest('#changelogToggle'))setTimeout(injectV295,0)});
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',injectV295,{once:true});else injectV295();
+function injectV296(){
+ injectV295();const list=document.querySelector('#changelogOverlay .changelogList');if(!list||list.querySelector('[data-v296-changelog]'))return;
+ list.querySelector('.latest')?.classList.remove('latest');
+ const a=document.createElement('article');a.className='changelogEntry latest';a.dataset.currentChangelog='1';a.dataset.v296Changelog='1';
+ a.innerHTML='<div class="changelogTime">21.08.2026</div><h3>V29.6 · Score-System vollständig geprüft und kohärenter gemacht</h3><ul><li>Die festen Strategiegrenzen bleiben unverändert: ab DecisionScore 56 sofort kaufen, bei +10 Punkten seit Kauf verkaufen und bei −15 Punkten verkaufen.</li><li>Bei fast unverändertem Chart werden Scoreänderungen nach verstrichener Zeit statt pro Scan begrenzt. Viele schnelle Scans können dadurch nicht mehr künstlich einen 72→36-artigen Absturz erzeugen.</li><li>Bewegt sich der Kurs wirklich deutlich und in dieselbe Richtung wie die Scoreänderung, darf der DecisionScore schneller reagieren. Ein echter Chartbruch wird also nicht künstlich wegglättet.</li><li>Lückenhafte oder ältere Kurs-/Signaldaten werden direkt im Score Richtung neutral gedämpft. Das ist keine zusätzliche weiche Kaufregel: Erreicht der daraus berechnete DecisionScore 56, gilt weiterhin SOFORT BUY.</li><li>Ein +10-Exit gilt nur, wenn der Chart seit dem Kauf tatsächlich positiv ist. Ein steigender Score bei fallendem Kurs wird nicht fälschlich als Gewinnmitnahme behandelt.</li><li>Die Einstiegsscore-Basis wird erst bestätigt, wenn der Titel nach dem Kauf wirklich als Depotposition vorhanden ist. Ein innerer, später verworfener BUY kann damit keine falsche Depot-Basis mehr hinterlassen.</li><li>Nach einem +10-Profit-Exit braucht derselbe Titel einen 5-Punkte-Score-Rücksetzer vor dem Wiedereinstieg. Nach einem −15-Schwäche-Exit braucht er eine 5-Punkte-Erholung und muss mindestens wieder Score 56 erreichen. Das verhindert direkte SELL→BUY-Gebührenloops.</li><li>Normale SELLs werden strukturiert geprüft; ein bloßer Begründungstext reicht nicht. Objektiv terminale Ereignisse wie Insolvenz, Betrug, Liquidation oder Delisting bleiben als separate Notfallklasse möglich und sperren den automatischen Wiedereinstieg.</li><li>Ein neuer Decision-Regression-CI-Workflow testet die zentrale Handelslogik künftig bei Änderungen an Versionsbranches und main.</li></ul>';
+ list.prepend(a);
+}
+document.addEventListener('click',e=>{if(e.target.closest('#changelogToggle'))setTimeout(injectV296,0)});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',injectV296,{once:true});else injectV296();
 window.__CHANGELOG_V292__={version:29.2,fullPcPreScore:true,deepTarget:240,scoreFallbackFixed:true};
 window.__CHANGELOG_V293__={version:29.3,immediateBuyMin:56,stableDecisionScore:true,noSoftBuyBlocks:true};
 window.__CHANGELOG_V294__={version:29.4,chartAnchoredPositionScore:true,positiveScoreExitDelta:10,negativeScoreExitDelta:-15,partialScoreFreeze:true};
 window.__CHANGELOG_V295__={version:29.5,scoreExitAuthority:true,positiveScoreExitDelta:10,negativeScoreExitDelta:-15,legacySellsSuperseded:true};
+window.__CHANGELOG_V296__={version:29.6,timeAwareScore:true,chartResponsiveScore:true,qualityAwareScore:true,confirmedPositionBaseline:true,immediateBuyMin:56,positiveScoreExitDelta:10,negativeScoreExitDelta:-15,profitReentryResetPoints:5,lossReentryRecoveryPoints:5,terminalEmergencyReentryLocked:true,decisionRegressionCI:true};
