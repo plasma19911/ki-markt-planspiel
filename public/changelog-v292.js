@@ -1,4 +1,4 @@
-// V29.2-V29.4 visible changelog entries. Kept separate so the historical V27.9–V29.1 list stays untouched.
+// V29.2-V29.5 visible changelog entries. Kept separate so the historical V27.9-V29.1 list stays untouched.
 function injectV292(){
  const list=document.querySelector('#changelogOverlay .changelogList');if(!list||list.querySelector('[data-v292-changelog]'))return;
  const a=document.createElement('article');a.className='changelogEntry';a.dataset.v292Changelog='1';
@@ -13,13 +13,20 @@ function injectV293(){
 }
 function injectV294(){
  injectV293();const list=document.querySelector('#changelogOverlay .changelogList');if(!list||list.querySelector('[data-v294-changelog]'))return;
- list.querySelector('.latest')?.classList.remove('latest');
- const a=document.createElement('article');a.className='changelogEntry latest';a.dataset.currentChangelog='1';a.dataset.v294Changelog='1';
+ const a=document.createElement('article');a.className='changelogEntry';a.dataset.v294Changelog='1';
  a.innerHTML='<div class="changelogTime">21.08.2026</div><h3>V29.4 · Depot-Score repariert & +10/−15 Score-Exit</h3><ul><li>Nach dem Kauf bleibt der Depotwert auf derselben 0–100-DecisionScore-Skala wie beim Einstieg. Ein Wechsel auf einen alten Teil-/Legacy-Score darf den Wert nicht mehr plötzlich z. B. von etwa 60 auf 40 drücken.</li><li>Wenn für eine gehaltene Aktie gerade nur unvollständige Daten vorliegen, wird der letzte vollständige Score eingefroren statt neu aus einer anderen Skala berechnet.</li><li>Die Scorebewegung einer Position wird zusätzlich an die tatsächliche Chartbewegung seit Kauf gekoppelt. Bei nahezu unverändertem Kurs darf der Score nur wenige Punkte um den Einstieg schwanken und pro Scan nur sehr langsam laufen.</li><li>Der beim Kauf vorhandene DecisionScore wird als feste Basis gespeichert. Verbessert sich der chart-verankerte Score danach um mindestens 10 Punkte, wird verkauft. Fällt er um mindestens 15 Punkte, wird ebenfalls verkauft.</li><li>Die 56er Sofortkauf-Regel aus V29.3 bleibt unverändert aktiv.</li></ul>';
  list.prepend(a);
 }
-document.addEventListener('click',e=>{if(e.target.closest('#changelogToggle'))setTimeout(injectV294,0)});
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',injectV294,{once:true});else injectV294();
+function injectV295(){
+ injectV294();const list=document.querySelector('#changelogOverlay .changelogList');if(!list||list.querySelector('[data-v295-changelog]'))return;
+ list.querySelector('.latest')?.classList.remove('latest');
+ const a=document.createElement('article');a.className='changelogEntry latest';a.dataset.currentChangelog='1';a.dataset.v295Changelog='1';
+ a.innerHTML='<div class="changelogTime">21.08.2026</div><h3>V29.5 · +10/−15 ist jetzt die einzige normale SELL-Regel</h3><ul><li>Ein Fehler in der Guard-Reihenfolge konnte eine gerade gekaufte Position trotz V29.4 noch durch ältere Profit-, Trend-, Rotation- oder Positionsregeln direkt wieder verkaufen.</li><li>V29.5 liegt nun ganz außen und setzt jeden solchen alten SELL endgültig auf HOLD zurück.</li><li>Ein normaler Verkauf bleibt nur bestehen, wenn V29.4 den chart-verankerten DecisionScore seit Kauf mit mindestens +10 oder −15 Punkten bestätigt.</li><li>Damit kann eine Aktie wie BDL.NS nicht mehr direkt nach dem Kauf wegen einer alten V29.1/V28.x-Regel wieder herausfliegen.</li><li>Sofortkauf ab DecisionScore 56 und die chart-verankerte Score-Glättung bleiben unverändert aktiv.</li></ul>';
+ list.prepend(a);
+}
+document.addEventListener('click',e=>{if(e.target.closest('#changelogToggle'))setTimeout(injectV295,0)});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',injectV295,{once:true});else injectV295();
 window.__CHANGELOG_V292__={version:29.2,fullPcPreScore:true,deepTarget:240,scoreFallbackFixed:true};
 window.__CHANGELOG_V293__={version:29.3,immediateBuyMin:56,stableDecisionScore:true,noSoftBuyBlocks:true};
 window.__CHANGELOG_V294__={version:29.4,chartAnchoredPositionScore:true,positiveScoreExitDelta:10,negativeScoreExitDelta:-15,partialScoreFreeze:true};
+window.__CHANGELOG_V295__={version:29.5,scoreExitAuthority:true,positiveScoreExitDelta:10,negativeScoreExitDelta:-15,legacySellsSuperseded:true};
