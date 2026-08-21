@@ -45,7 +45,7 @@ jobs:
       - name: Allow Cloudflare Git integration to publish
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify live V30.1 fresh-tape daytrade stack
+      - name: Verify live V30.2 daytrade feedback stack
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';let last='';
@@ -53,21 +53,22 @@ jobs:
             try{
               const q=Date.now();
               const sr=await fetch(`${base}/api/status?view=dashboard&main_live=${q}`,{headers:{'cache-control':'no-cache'}});const s=await sr.json();
-              const cr=await fetch(`${base}/changelog-v301.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const c=await cr.text();
+              const cr=await fetch(`${base}/changelog-v302.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const c=await cr.text();
               const mr=await fetch(`${base}/changelog-master-v290.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const m=await mr.text();
-              const final=s?.finalDecisionPolicy||{},entry=s?.daytradeEntryPolicy||{},dip=s?.daytradeDipPolicy||{},large=s?.daytradeLargeCapPolicy||{},score=s?.canonicalScorePolicy||{};
+              const final=s?.finalDecisionPolicy||{},feedback=s?.daytradeLiveFeedbackPolicy||{},entry=s?.daytradeEntryPolicy||{},dip=s?.daytradeDipPolicy||{},large=s?.daytradeLargeCapPolicy||{},score=s?.canonicalScorePolicy||{};
               const positions=Array.isArray(s?.positions)?s.positions:[];
-              const runtimeOk=s?.runtimeVersion==='V30.1'&&s?.liveDecisionVersion==='V30.1';
-              const finalOk=Number(final.version)>=30.1&&final.daytradeFreshTapeEntry===true&&final.quoteFreshnessScoreInput===true&&final.fastFieldCoverageScoreInput===true&&Number(final.maxOpenPositions)===4&&Number(final.targetCashDeploymentPct)===90;
-              const entryOk=Number(entry.version)>=30.1&&entry.enabled===true&&entry.authoritativeDaytradeEntry===true&&Number(entry.immediateBuyMin)===56&&entry.quoteFreshnessInScore===true&&entry.fastFieldCoverageInScore===true&&entry.cleanRetestAware===true&&entry.cleanContinuationAware===true;
-              const dipOk=Number(dip.version)>=30&&dip.enabled===true&&Number(dip.maxOpenPositions)===4&&Number(dip.targetCashDeploymentPct)===90;
+              const runtimeOk=s?.runtimeVersion==='V30.2'&&s?.liveDecisionVersion==='V30.2';
+              const finalOk=Number(final.version)>=30.2&&final.daytradeLiveFeedback===true&&final.highChaseExtraScorePenalty===true&&Number(final.maxOpenPositions)===4&&Number(final.maxSinglePositionPctOfEquity)===25&&Number(final.targetCashDeploymentPct)===90&&final.executedEntryBaselineRepair===true;
+              const feedbackOk=Number(feedback.version)>=30.2&&feedback.authoritativeDaytradeEntry===true&&Number(feedback.immediateBuyMin)===56&&Number(feedback.maxOpenPositions)===4&&Number(feedback.maxSinglePositionPctOfEquity)===25&&Number(feedback.highChaseExtraPenalty)===-10&&feedback.executedEntryBaselineRepair===true;
+              const entryOk=Number(entry.version)>=30.1&&entry.enabled===true&&entry.authoritativeDaytradeEntry===true&&Number(entry.immediateBuyMin)===56&&entry.quoteFreshnessInScore===true&&entry.fastFieldCoverageInScore===true;
+              const dipOk=Number(dip.version)>=30&&dip.enabled===true&&Number(dip.maxOpenPositions)===4;
               const largeOk=Number(large.version)>=29.9&&large.largeCapsPreferred===true&&large.portfolioSortedBestChanceFirst===true;
-              const scoreOk=Number(score.version)>=30.1&&score.immediateBuyMin===56&&score.quoteFreshnessScoreInput===true&&score.fastFieldCoverageScoreInput===true&&score.maxOpenPositions===4;
-              const assetsOk=cr.ok&&/__CHANGELOG_V301__/.test(c)&&/V30\.1 · Daytrading-Timing/.test(c)&&mr.ok&&/changelogMaster='v30\.1'/.test(m)&&/version:30\.1/.test(m);
-              last=`status=${sr.status} runtime=${s?.runtimeVersion} final=${final.version} entry=${entry.version} dip=${dip.version} large=${large.version} score=${score.version} positions=${positions.length}`;
-              if(sr.ok&&runtimeOk&&finalOk&&entryOk&&dipOk&&largeOk&&scoreOk&&assetsOk&&positions.length<=4){console.log('Main live V30.1 verification OK:',last);process.exit(0)}
+              const scoreOk=Number(score.version)>=30.2&&score.immediateBuyMin===56&&score.highChaseExtraScorePenalty===true&&score.maxOpenPositions===4&&score.maxSinglePositionPctOfEquity===25&&score.executedEntryBaselineRepair===true;
+              const assetsOk=cr.ok&&/__CHANGELOG_V302__/.test(c)&&/V30\.2 · Live-Trades ausgewertet/.test(c)&&mr.ok&&/changelogMaster='v30\.2'/.test(m)&&/version:30\.2/.test(m);
+              last=`status=${sr.status} runtime=${s?.runtimeVersion} final=${final.version} feedback=${feedback.version} entry=${entry.version} dip=${dip.version} large=${large.version} score=${score.version} positions=${positions.length}`;
+              if(sr.ok&&runtimeOk&&finalOk&&feedbackOk&&entryOk&&dipOk&&largeOk&&scoreOk&&assetsOk&&positions.length<=4){console.log('Main live V30.2 verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
-          throw new Error('Main did not become V30.1 live: '+last);
+          throw new Error('Main did not become V30.2 live: '+last);
           NODE
