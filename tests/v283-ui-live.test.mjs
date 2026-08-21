@@ -9,6 +9,8 @@ const pcFallback=read('public/pc-candidate-fallback-v292.js');
 const changelog292=read('public/changelog-v292.js');
 const entry=read('src/index-v19.js');
 const prod=read('src/compact-portfolio-v11.js');
+const profit=read('src/compact-portfolio-v297-profit-exit.js');
+const directional=read('src/compact-portfolio-v296-directional-position.js');
 const dashboard=read('src/index-v20.js');
 const wrangler=read('wrangler.jsonc');
 assert.match(compat,/compatibilityOnly:true/);assert.match(compat,/scoreRenderer:false/);assert.match(compat,/V29\.1/);
@@ -16,7 +18,11 @@ assert.match(ui,/Kaufscore 0–100 · V29\.1 Regeln \/ V29\.2 Pipeline/);assert.
 assert.match(ui,/topPcCandidates/);assert.match(ui,/pcDeepScore/);assert.match(ui,/pcFallback:true/);assert.match(ui,/positionFallback:true/);assert.match(ui,/Deep-Score · Research folgt/);assert.match(ui,/pc-candidate-fallback-v292\.js/);assert.match(ui,/changelog-v292\.js/);assert.match(ui,/version:29\.2/);
 assert.match(pcFallback,/PC-Finalisten/);assert.match(pcFallback,/PC-Vollscan aktiv/);assert.match(pcFallback,/Deep-Score/);assert.match(pcFallback,/Research\/Safety entscheidet erst danach/);
 assert.match(changelog292,/V29\.2 · Score-Pipeline repariert/);assert.match(changelog292,/ersten 1\.000/);assert.match(changelog292,/Deep 240/);
-assert.match(entry,/v287-live-ui\.js/);assert.match(prod,/compact-portfolio-v290-entry-profit\.js/);assert.match(prod,/compact-portfolio-v288-pc-first\.js/);assert.match(dashboard,/pc-first-full-master-v288/);assert.match(dashboard,/canonical-buy-hold-sell-v29\.1/);assert.match(dashboard,/strong-62\+hold-58\+watch-53\+caution-50\+sellwatch-46\+exit-45\+urgent-32/);assert.match(wrangler,/"main"\s*:\s*"src\/index-v20\.js"/);
+assert.match(entry,/v287-live-ui\.js/);
+assert.match(prod,/compact-portfolio-v297-profit-exit\.js/,'production must route through the current V29.7 outer controller');
+assert.match(profit,/compact-portfolio-v296-directional-position\.js/,'V29.7 must preserve V29.6 directional held-score behavior underneath');
+assert.match(directional,/compact-portfolio-v296-score-coherence\.js/,'directional V29.6 wrapper must preserve the coherent score stack underneath');
+assert.match(dashboard,/PC_FIRST_FULL_MASTER_STAGED/);assert.match(dashboard,/canonical-buy-hold-sell-v29\.1/);assert.match(dashboard,/strong-62\+hold-58\+watch-53\+caution-50\+sellwatch-46\+exit-45\+urgent-32/);assert.match(wrangler,/"main"\s*:\s*"src\/index-v20\.js"/);
 
 const now=Date.parse('2026-08-20T17:40:00Z');
 function storage(seed={}){const m=new Map(Object.entries(seed));return{kv:{get:k=>m.get(k),put:(k,v)=>m.set(k,structuredClone(v))},_m:m}}
@@ -34,4 +40,4 @@ function storage(seed={}){const m=new Map(Object.entries(seed));return{kv:{get:k
 {
  const master=Array.from({length:80},(_,i)=>({symbol:`S${i+1}`,marketCapUSD:1_000_000_000})),entries=[];for(let i=0;i<70;i++){entries.push({symbol:`S${i+1}`,market:'GLOBAL',source:'A',rank:i+1});if(i<30)entries.push({symbol:`S${i+1}`,market:'GLOBAL',source:'B',rank:i+1})};const b=buildBroadLeaderPool(entries,master);assert.equal(b.pool.length,60);const base={equities:[...b.pool.slice(0,25),{...master[70],forwardWatch:true}]};const a=applyRotatingBreadth(base,b,{config:{scan_count:1},positions:[]}),c=applyRotatingBreadth(base,b,{config:{scan_count:2},positions:[]});assert.ok(a.breadthRotationApplied);assert.notDeepEqual(a.equities.map(x=>x.symbol),c.equities.map(x=>x.symbol));
 }
-console.log('V29.2 score-pipeline UI + V29.1 canonical score regression tests: OK');
+console.log('V29.2 score-pipeline UI + current production wrapper regression tests: OK');
