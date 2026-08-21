@@ -40,14 +40,14 @@ assert.match(index,/PC_AGENT_TOKEN/,'PC-Agent-Endpunkte muessen per Secret gesch
 assert.match(index,/\/api\/agent\/prefetch/,'PC-Agent muss verdichtete Kandidaten hochladen können');
 assert.match(index,/\/api\/agent\/scan/,'PC-Agent muss den finalen Minuten-Scan auslösen können');
 assert.match(index20,/PC_FIRST_FULL_MASTER_STAGED/,'Universe-Profil muss PC-FIRST Staging beschreiben');
-assert.match(index20,/stage2Target:400/);assert.match(index20,/deepTarget:120/);assert.match(index20,/finalistTarget:60/);assert.match(index20,/cloudflareValidationTarget:18/);
+assert.match(index20,/stage2Target:400/);assert.match(index20,/deepTarget:240/);assert.match(index20,/finalistTarget:60/);assert.match(index20,/cloudflareValidationTarget:18/);
 
 assert.match(pcAgent,/PC_FIRST_FULL_UNIVERSE_V288/,'Windows-Agent muss PC-FIRST als Betriebsmodus melden');
 assert.match(pcAgent,/Invoke-PcFirstPipeline/,'Windows-Agent muss den Voll-Master-Pipeline-Schritt vor dem finalen Cloudflare-Scan ausführen');
 assert.match(pcAgent,/pcFirstScan=\$pc\.summary/,'PC muss seine Stufen-/Abdeckungsdaten an Cloudflare senden');
 assert.match(pcScanner,/PcFirstShardCount=4/,'Historischer PowerShell-Fallback muss vier rollierende Shards unterstützen');
 assert.match(pcScanner,/Select-Object -First 400/,'Stufe 2 muss bis zu 400 Werte behalten');
-assert.match(pcScanner,/Select-Object -First 120/,'Deep-Stufe muss bis zu 120 Werte prüfen');
+assert.match(pcScanner,/Select-Object -First 120/,'Historische PowerShell-Deep-Stufe muss bis zu 120 Werte prüfen');
 assert.match(pcScanner,/Select-Object -First 60/,'Finalistenpool muss 60 Werte liefern');
 assert.match(pcScanner,/Split-PcFirstChunks \$symbols 80/,'Voll-Master muss gebündelt statt mit Einzelrequests abgefragt werden');
 assert.match(v288,/CF_VALIDATION_TARGET=18/,'Cloudflare soll bei frischen PC-Daten nur einen kleinen Final-Slice validieren');
@@ -83,4 +83,4 @@ g=gettexSessionState(new Date('2026-08-22T10:00:00Z'));assert.equal(g.phase,'NON
 
 const marketMinutes=(23*60)-(7*60+30);assert.equal(marketMinutes,930);
 const cronEnvelope=(22-5+1)*60;assert.equal(cronEnvelope,1080);
-console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',mode:'V30.1 FRESH-TAPE DAYTRADING + PC-FIRST FULL MASTER + CLOUDFLARE FINAL VALIDATION/FALLBACK',legacySessionTest:'historical gettex-session compatibility only',pcFullMasterCycleMinutes:4,stage2Target:400,deepTarget:120,finalistTarget:60,cloudflareValidationTarget:18,cloudflareGapFillAfterSeconds:95,cronWatchdogInvocationsPerWeekday:cronEnvelope,pcMarketMinutesPerTradingDay:marketMinutes,cloudflareExternalFetchSoftCapFallback:36,aiNeuronSoftCapPerUtcDay:8000},null,2));
+console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',mode:'V30.1 FRESH-TAPE DAYTRADING + PC-FIRST FULL MASTER + CLOUDFLARE FINAL VALIDATION/FALLBACK',legacySessionTest:'historical gettex-session compatibility only',pcFullMasterCycleMinutes:4,stage2Target:400,deepTarget:240,finalistTarget:60,cloudflareValidationTarget:18,cloudflareGapFillAfterSeconds:95,cronWatchdogInvocationsPerWeekday:cronEnvelope,pcMarketMinutesPerTradingDay:marketMinutes,cloudflareExternalFetchSoftCapFallback:36,aiNeuronSoftCapPerUtcDay:8000},null,2));
