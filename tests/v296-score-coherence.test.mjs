@@ -59,8 +59,20 @@ const state=(candidate,positions=[])=>({config:{cash:10000},candidates:candidate
   out=enforceDecisionScoreV296(plan,state(strong,[]),storage,now+14*3600_000);assert.equal(out.plan.actions.find(a=>a.symbol==='TEST')?.action,'BUY','after rearm, a fresh >=56 signal is immediately buyable again');
 }
 
+// A terminal corporate emergency is categorically different from a normal score exit.
+// Once sold for insolvency/delisting/fraud, the automatic >=56 re-entry must stay locked.
+{
+  const {storage}=makeStorage();
+  const held={symbol:'TEST',entry_price:100,last_price:100,score:4,signal_confidence:.8};
+  let plan={actions:[{symbol:'TEST',action:'SELL',allocation_pct:0,emergencyExitV296:true,emergencyExitKind:'TERMINAL_CORPORATE_EVENT',reason:'V29.6 NOTFALL-SELL: Insolvenz'}],summary:'terminal'};
+  let out=enforceDecisionScoreV296(plan,state(strong,[held]),storage,now);assert.equal(out.plan.actions[0].action,'SELL');assert.equal(out.reentry.locks.TEST.kind,'TERMINAL');
+  plan={actions:[{symbol:'TEST',action:'BUY',allocation_pct:8,reason:'inner immediate buy'}],summary:'next'};
+  out=enforceDecisionScoreV296(plan,state(strong,[]),storage,now+24*3600_000);assert.equal(out.plan.actions[0].action,'HOLD','terminal emergency exit must never auto-rebuy merely because score is still >=56');assert.equal(out.reentry.locks.TEST.kind,'TERMINAL');
+}
+
 assert.equal(DECISION_SCORE_V296.immediateBuyMin,56);
 assert.equal(DECISION_SCORE_V296.profitReentryResetPoints,5);
 assert.equal(DECISION_SCORE_V296.lossReentryRecoveryPoints,5);
+assert.equal(DECISION_SCORE_V296.terminalEmergencyReentry,'LOCKED');
 assert.equal(DECISION_SCORE_V296.noSoftBuyBlocks,true);
-console.log('V29.6 time/quality/chart coherent DecisionScore + directional reentry tests: OK');
+console.log('V29.6 time/quality/chart coherent DecisionScore + directional/terminal reentry tests: OK');
