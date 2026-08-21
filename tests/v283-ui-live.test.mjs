@@ -22,7 +22,7 @@ assert.match(entry,/v287-live-ui\.js/);
 assert.match(prod,/compact-portfolio-v297-profit-exit\.js/,'production must route through the current V29.7 outer controller');
 assert.match(profit,/compact-portfolio-v296-directional-position\.js/,'V29.7 must preserve V29.6 directional held-score behavior underneath');
 assert.match(directional,/compact-portfolio-v296-score-coherence\.js/,'directional V29.6 wrapper must preserve the coherent score stack underneath');
-assert.match(dashboard,/pc-first-full-master-v288/);assert.match(dashboard,/canonical-buy-hold-sell-v29\.1/);assert.match(dashboard,/strong-62\+hold-58\+watch-53\+caution-50\+sellwatch-46\+exit-45\+urgent-32/);assert.match(wrangler,/"main"\s*:\s*"src\/index-v20\.js"/);
+assert.match(dashboard,/PC_FIRST_FULL_MASTER_STAGED/);assert.match(dashboard,/canonical-buy-hold-sell-v29\.1/);assert.match(dashboard,/strong-62\+hold-58\+watch-53\+caution-50\+sellwatch-46\+exit-45\+urgent-32/);assert.match(wrangler,/"main"\s*:\s*"src\/index-v20\.js"/);
 
 const now=Date.parse('2026-08-20T17:40:00Z');
 function storage(seed={}){const m=new Map(Object.entries(seed));return{kv:{get:k=>m.get(k),put:(k,v)=>m.set(k,structuredClone(v))},_m:m}}
