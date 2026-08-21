@@ -2,11 +2,11 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 const entry=fs.readFileSync(new URL('../src/compact-portfolio-v11.js',import.meta.url),'utf8');
-const changelog=fs.readFileSync(new URL('../public/ui-v283-fix.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-v292.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-v297.js',import.meta.url),'utf8');
+const changelog=fs.readFileSync(new URL('../public/ui-v283-fix.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-v292.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-v297.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-v301.js',import.meta.url),'utf8');
 const master=fs.readFileSync(new URL('../public/changelog-master-v290.js',import.meta.url),'utf8');
 const publicFiles=fs.readdirSync(new URL('../public/',import.meta.url));
 
-const required=['V27.9','V28.0','V28.1','V28.2','V28.3','V28.4','V28.5','V28.6','V28.7','V28.8','V28.9','V29.0','V29.1','V29.2','V29.3','V29.4','V29.5','V29.6','V29.7'];
+const required=['V27.9','V28.0','V28.1','V28.2','V28.3','V28.4','V28.5','V28.6','V28.7','V28.8','V28.9','V29.0','V29.1','V29.2','V29.3','V29.4','V29.5','V29.6','V29.7','V30.0','V30.1'];
 for(const version of required)assert.ok(changelog.includes(version),`${version} fehlt im sichtbaren Änderungsverlauf`);
 const productionVersion=entry.match(/V(\d+\.\d+)/)?.[1];
 assert.ok(productionVersion,'Produktionsversion konnte nicht aus compact-portfolio-v11.js gelesen werden');
@@ -45,7 +45,13 @@ assert.ok(changelog.includes('DATAPATTNS.NS-Fix'),'V29.7 muss den ruhigen-Chart/
 assert.ok(changelog.includes('Neue Gewinnleiter'),'V29.7 muss die gestaffelte Gewinnregel sichtbar dokumentieren');
 assert.ok(changelog.includes('Ab +5 % Gewinn'),'V29.7 muss den Gewinnsicherungsmodus dokumentieren');
 assert.ok(changelog.includes('Hohe Einstiegsscores'),'V29.7 muss die erreichbare High-Score-Regel dokumentieren');
+assert.ok(changelog.includes('maximal 4 Positionen'),'V30.0/V30.1 muss das konzentrierte Daytrading dokumentieren');
+assert.ok(changelog.includes('Frische Quotes zählen'),'V30.1 muss die Datenfrische im Score dokumentieren');
+assert.ok(changelog.includes('PC-Signale müssen wirklich vorhanden sein'),'V30.1 muss fehlende Fast-Felder absichern');
+assert.ok(changelog.includes('Saubere Retests'),'V30.1 muss saubere Retests sichtbar dokumentieren');
 assert.ok(master.includes("import('/changelog-v292.js"),'Änderungen-Button muss V29.2+ Historie laden');
-assert.ok(master.includes("import('/changelog-v297.js"),'Änderungen-Button muss den aktuellen V29.7 LIVE-Eintrag laden');
+assert.ok(master.includes("import('/changelog-v297.js"),'Änderungen-Button muss V29.7/V30.0 Historie laden');
+assert.ok(master.includes("import('/changelog-v301.js"),'Änderungen-Button muss den aktuellen V30.1 LIVE-Eintrag laden');
+assert.ok(master.includes('version:30.1'),'Changelog-Master muss V30.1 als aktuellen Stand melden');
 assert.ok(!changelog.includes('pro Minute ein Viertel des Masters'),'veraltete V28.8-PowerShell-Beschreibung ist noch im sichtbaren Änderungsverlauf');
-console.log(JSON.stringify({ok:true,productionVersion:`V${productionVersion}`,requiredVersions:required,uiVersions,pcAgent:'2.2.0-prepared',scorePipeline:'V29.7 immediate-buy-56 + coherent held score + adaptive profit ladder + directional -15'},null,2));
+console.log(JSON.stringify({ok:true,productionVersion:`V${productionVersion}`,requiredVersions:required,uiVersions,pcAgent:'2.2.0-live',scorePipeline:'V30.1 fresh-tape timing + V30.0 dips + large-cap focus + adaptive profit ladder + directional -15'},null,2));
