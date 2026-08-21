@@ -12,8 +12,9 @@ const key=v=>String(v?.symbol||v||'').toUpperCase().trim();
 // the authoritative V29.3 score is calculated. A real liveConfidence always wins.
 function normalizePcConfidence(state={}){
   const candidates=arr(state?.candidates).map(c=>{
-    const deep=Number(c?.pcDeepScore??c?.pcPreScore),live=Number(c?.liveConfidence),conf=Number(c?.confidence??c?.signal_confidence);
-    if(!Number.isFinite(deep)||Number.isFinite(live)||!Number.isFinite(conf)||conf>.46)return c;
+    const deepRaw=c?.pcDeepScore??c?.pcPreScore,liveRaw=c?.liveConfidence,confRaw=c?.confidence??c?.signal_confidence;
+    const deep=Number(deepRaw),conf=Number(confRaw),hasLive=liveRaw!==null&&liveRaw!==undefined&&Number.isFinite(Number(liveRaw));
+    if(!Number.isFinite(deep)||hasLive||confRaw===null||confRaw===undefined||!Number.isFinite(conf)||conf>.46)return c;
     const corrected=clamp(.48+(deep-50)/100,.35,.90);
     return{...c,legacyPcConfidence:conf,confidence:+corrected.toFixed(3),pcConfidenceCorrectedV293:true};
   });
