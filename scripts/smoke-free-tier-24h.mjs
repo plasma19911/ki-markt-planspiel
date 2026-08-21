@@ -28,7 +28,7 @@ assert.match(index20,/age>95_000/,'Cloudflare darf nur bei echter >95s Scan-Lüc
 assert.match(wrangler,/"head_sampling_rate"\s*:\s*0\.1/,'Observability-Sampling muss fuer Free reduziert sein');
 assert.match(wrangler,/"main"\s*:\s*"src\/index-v20\.js"/,'Produktionsentry muss die Dashboard/Gap-Fill-Schicht verwenden');
 assert.match(index,/compact-portfolio-v11\.js/,'API muss den Produktions-Kompatibilitätspfad verwenden');
-assert.match(v11,/compact-portfolio-v302-live-feedback\.js/,'V11 muss den aktuellen V30.2 Live-Feedback-Daytrade-Wrapper aktivieren');
+assert.match(v11,/compact-portfolio-v303-system-validation\.js/,'V11 muss den aktuellen V30.3 System-/Validierungs-Wrapper aktivieren');
 assert.match(v288,/compact-portfolio-v287-calibrated-breadth\.js/,'V28.8 muss V28.7 als sicheren Fallback behalten');
 assert.match(v22,/FinalDecisionController/,'Finaler Entscheidungscontroller muss aktiv bleiben');
 
@@ -68,9 +68,11 @@ g=gettexSessionState(new Date('2026-08-18T05:25:00Z'));assert.equal(g.phase,'PRE
 g=gettexSessionState(new Date('2026-08-18T05:30:00Z'));assert.equal(g.phase,'OPEN');
 g=gettexSessionState(new Date('2026-08-18T20:59:00Z'));assert.equal(g.phase,'OPEN');
 g=gettexSessionState(new Date('2026-08-18T21:00:00Z'));assert.equal(g.phase,'CLOSED');
-g=gettexSessionState(new Date('2026-05-01T08:00:00Z'));assert.equal(g.phase,'NON_TRADING_DAY');
+g=gettexSessionState(new Date('2026-05-01T08:00:00Z'));assert.equal(g.phase,'NON_TRADING_DAY');assert.equal(g.isVenueHoliday,true);
+g=gettexSessionState(new Date('2026-04-03T08:00:00Z'));assert.equal(g.phase,'NON_TRADING_DAY');assert.equal(g.isVenueHoliday,true);
+g=gettexSessionState(new Date('2026-04-06T08:00:00Z'));assert.equal(g.phase,'NON_TRADING_DAY');assert.equal(g.isVenueHoliday,true);
 g=gettexSessionState(new Date('2026-08-22T10:00:00Z'));assert.equal(g.phase,'NON_TRADING_DAY');
 
 const marketMinutes=(23*60)-(7*60+30);assert.equal(marketMinutes,930);
 const cronEnvelope=(22-5+1)*60;assert.equal(cronEnvelope,1080);
-console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',mode:'V30.2 LIVE-FEEDBACK DAYTRADING + PC-FIRST FULL MASTER + CLOUDFLARE FINAL VALIDATION/FALLBACK',legacySessionTest:'historical gettex-session compatibility only',pcFullMasterCycleMinutes:4,stage2Target:400,deepTarget:240,finalistTarget:60,cloudflareValidationTarget:18,cloudflareGapFillAfterSeconds:95,cronWatchdogInvocationsPerWeekday:cronEnvelope,pcMarketMinutesPerTradingDay:marketMinutes,cloudflareExternalFetchSoftCapFallback:36,aiNeuronSoftCapPerUtcDay:8000},null,2));
+console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',mode:'V30.3 SYSTEM-HARDENED + V30.2 LIVE-FEEDBACK DAYTRADING + PC-FIRST FULL MASTER',tradeRepublicHolidayCalendar:true,legacySessionTest:'historical gettex-session compatibility only',pcFullMasterCycleMinutes:4,stage2Target:400,deepTarget:240,finalistTarget:60,cloudflareValidationTarget:18,cloudflareGapFillAfterSeconds:95,cronWatchdogInvocationsPerWeekday:cronEnvelope,pcMarketMinutesPerTradingDay:marketMinutes,cloudflareExternalFetchSoftCapFallback:36,aiNeuronSoftCapPerUtcDay:8000},null,2));
