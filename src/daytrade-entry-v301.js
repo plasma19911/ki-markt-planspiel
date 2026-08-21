@@ -50,10 +50,12 @@ export function timingMetricsV301(c={}){
 export function entryTimingV301(c={},dip={}){
   const m=timingMetricsV301(c),cfg=DAYTRADE_ENTRY_V301;
   let points=0,label='TIMING_OK',quality=.5;const reasons=[];
+  const stale=m.explicitStale||(m.quoteAgeMinutes!==null&&m.quoteAgeMinutes>cfg.staleQuoteMinutes);
+  const aging=!stale&&m.quoteAgeMinutes!==null&&m.quoteAgeMinutes>cfg.agingQuoteMinutes;
 
-  if(m.explicitStale||(m.quoteAgeMinutes!==null&&m.quoteAgeMinutes>cfg.staleQuoteMinutes)){
+  if(stale){
     points+=cfg.staleQuotePenalty;label='STALE_FAST_DATA';quality=.05;reasons.push('1m/5m-Kursdaten zu alt');
-  }else if(m.quoteAgeMinutes!==null&&m.quoteAgeMinutes>cfg.agingQuoteMinutes){
+  }else if(aging){
     points+=cfg.agingQuotePenalty;label='AGING_FAST_DATA';quality=.25;reasons.push('Intraday-Kursdaten altern bereits');
   }else if(m.quoteAgeMinutes!==null&&m.quoteAgeMinutes<=cfg.freshQuoteMinutes){
     points+=cfg.freshTapeBonus;quality+=.08;reasons.push('frische Intraday-Quote');
@@ -62,14 +64,15 @@ export function entryTimingV301(c={},dip={}){
   if(m.fastPresent<=1){points+=cfg.missingFastPenalty;quality=Math.min(quality,.25);reasons.push('zu wenige echte 1m/5m-Signale');}
   else if(m.fastPresent===2){points-=2;quality-=.08;reasons.push('ein schnelles Intraday-Signal fehlt');}
 
-  const cleanRetest=m.draw!==null&&m.draw<=-.15&&m.draw>=-.8&&m.m20>=.15&&m.m5>=-.06&&m.m5<=.20&&m.acc>=.015&&m.day<=4&&m.rsi<=71;
-  const continuation=m.draw===null&&m.m20>=.35&&m.m5>=.015&&m.m5<=.22&&m.acc>=.02&&m.day>=-.3&&m.day<=3.5&&m.rsi<=70;
+  const severeDataIssue=stale||m.fastPresent<=1;
+  const cleanRetest=!severeDataIssue&&m.draw!==null&&m.draw<=-.15&&m.draw>=-.8&&m.m20>=.15&&m.m5>=-.06&&m.m5<=.20&&m.acc>=.015&&m.day<=4&&m.rsi<=71;
+  const continuation=!severeDataIssue&&m.draw===null&&m.m20>=.35&&m.m5>=.015&&m.m5<=.22&&m.acc>=.02&&m.day>=-.3&&m.day<=3.5&&m.rsi<=70;
   const weakTape=(m.m20<=-.22&&m.acc<=0)||(m.m5<=-.18&&m.acc<0);
 
-  if(cleanRetest){points+=cfg.cleanRetestBonus;label='CLEAN_RETEST';quality=Math.max(quality,.84);reasons.push('sauberer Retest mit wieder positiver Beschleunigung');}
-  else if(continuation){points+=cfg.continuationBonus;label='CLEAN_CONTINUATION';quality=Math.max(quality,.74);reasons.push('frische Fortsetzung ohne Hochjagd');}
-  else if(weakTape){points+=cfg.weakTapePenalty;label='WEAK_TAPE';quality=Math.min(quality,.2);reasons.push('kurzfristiges Tape noch schwach');}
-  else if(String(dip?.dipLabel||dip?.label||'')==='NEUTRAL'){
+  if(cleanRetest){points+=cfg.cleanRetestBonus;if(label==='TIMING_OK')label='CLEAN_RETEST';quality=Math.max(quality,aging?.55:.84);reasons.push('sauberer Retest mit wieder positiver Beschleunigung');}
+  else if(continuation){points+=cfg.continuationBonus;if(label==='TIMING_OK')label='CLEAN_CONTINUATION';quality=Math.max(quality,aging?.5:.74);reasons.push('kontrollierte Fortsetzung ohne Hochjagd');}
+  else if(weakTape){points+=cfg.weakTapePenalty;if(label==='TIMING_OK')label='WEAK_TAPE';quality=Math.min(quality,.2);reasons.push('kurzfristiges Tape noch schwach');}
+  else if(!severeDataIssue&&label==='TIMING_OK'&&String(dip?.dipLabel||dip?.label||'')==='NEUTRAL'){
     points+=cfg.neutralTimingPenalty;label='NEUTRAL_TIMING';quality=Math.min(quality,.42);reasons.push('kein klarer Daytrade-Timingvorteil');
   }
 
@@ -125,5 +128,5 @@ export function enforceDaytradeEntryV301(plan,state={},storage=null,now=Date.now
 export class DaytradeEntryGuardV301{
   constructor(inner,{getState,storage,now}={}){this.inner=inner;this.getState=getState;this.storage=storage;this.now=now;this.latest=null}
   async run(model,input){const legacy=input===undefined&&model&&typeof model==='object',payload=legacy?model:input,state=typeof this.getState==='function'?(this.getState()||{}):{},r=legacy?await this.inner.run(payload):await this.inner.run(model,payload);if(!isTradingPlanInput(payload))return r;const p=parsePlan(r);if(!p)return r;const out=enforceDaytradeEntryV301(p,state,this.storage,typeof this.now==='function'?this.now():Date.now());this.latest=out;return encode(r,out.plan)}
-  status(){const state=typeof this.getState==='function'?(this.getState()||{}):{},out=daytradeEntryScoresV301(state,this.storage,typeof this.now==='function'?this.now():Date.now());return{enabled:true,version:30.1,authoritativeDaytradeEntry:true,immediateBuyMin:56,maxOpenPositions:DAYTRADE_ENTRY_V301.maxOpenPositions,targetCashDeploymentPct:DAYTRADE_ENTRY_V301.targetCashDeploymentPct,quoteFreshnessInScore:true,fastFieldCoverageInScore:true,cleanRetestAware:true,cleanContinuationAware:true,ranking:out.ranking,latest:this.latest?.counters||null,config:DAYTRADE_ENTRY_V301,rule:'V30.1 macht den 56er DecisionScore daytrading-tauglicher: frische PC-1m/5m-Daten, saubere Retests und frühe Fortsetzungen verbessern den Score; alte/fehlende Intraday-Daten, neutrales Timing und schwaches Tape senken ihn. Es gibt weiterhin keine zweite strategische BUY-Schwelle.'}}
+  status(){const state=typeof this.getState==='function'?(this.getState()||{}):{},out=daytradeEntryScoresV301(state,this.storage,typeof this.now==='function'?this.now():Date.now());return{enabled:true,version:30.1,authoritativeDaytradeEntry:true,immediateBuyMin:56,maxOpenPositions:DAYTRADE_ENTRY_V301.maxOpenPositions,targetCashDeploymentPct:DAYTRADE_ENTRY_V301.targetCashDeploymentPct,quoteFreshnessInScore:true,fastFieldCoverageInScore:true,cleanRetestAware:true,cleanContinuationAware:true,staleDataCannotReceiveTimingBonus:true,ranking:out.ranking,latest:this.latest?.counters||null,config:DAYTRADE_ENTRY_V301,rule:'V30.1 macht den 56er DecisionScore daytrading-tauglicher: frische PC-1m/5m-Daten, saubere Retests und frühe Fortsetzungen verbessern den Score; alte/fehlende Intraday-Daten, neutrales Timing und schwaches Tape senken ihn. Veraltete Fast-Daten können keinen Retest-/Continuation-Bonus bekommen. Es gibt weiterhin keine zweite strategische BUY-Schwelle.'}}
 }
