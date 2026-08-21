@@ -5,7 +5,7 @@ const entry=fs.readFileSync(new URL('../src/compact-portfolio-v11.js',import.met
 const changelog=fs.readFileSync(new URL('../public/ui-v283-fix.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-v292.js',import.meta.url),'utf8');
 const publicFiles=fs.readdirSync(new URL('../public/',import.meta.url));
 
-const required=['V27.9','V28.0','V28.1','V28.2','V28.3','V28.4','V28.5','V28.6','V28.7','V28.8','V28.9','V29.0','V29.1','V29.2','V29.3','V29.4'];
+const required=['V27.9','V28.0','V28.1','V28.2','V28.3','V28.4','V28.5','V28.6','V28.7','V28.8','V28.9','V29.0','V29.1','V29.2','V29.3','V29.4','V29.5','V29.6'];
 for(const version of required)assert.ok(changelog.includes(version),`${version} fehlt im sichtbaren Änderungsverlauf`);
 
 const productionVersion=entry.match(/V(\d+\.\d+)/)?.[1];
@@ -37,6 +37,10 @@ assert.ok(changelog.includes('ab 56 = SOFORT BUY'),'V29.3 muss die verbindliche 
 assert.ok(changelog.includes('Teil-/Legacy-Score'),'V29.4 muss den behobenen Depot-Score-Skalenwechsel dokumentieren');
 assert.ok(changelog.includes('mindestens 10 Punkte'),'V29.4 muss den +10 Score-Exit dokumentieren');
 assert.ok(changelog.includes('mindestens 15 Punkte'),'V29.4 muss den -15 Score-Exit dokumentieren');
+assert.ok(changelog.includes('einzige normale SELL-Regel'),'V29.5 muss die finale SELL-Autorität dokumentieren');
+assert.ok(changelog.includes('verstrichener Zeit'),'V29.6 muss zeitabhängige Score-Glättung dokumentieren');
+assert.ok(changelog.includes('einmal unter 56 zurücksetzen'),'V29.6 muss den Reentry-Reset gegen Gebühren-Churn dokumentieren');
+assert.ok(changelog.includes('Chart seit dem Kauf tatsächlich positiv'),'V29.6 muss +10 nur bei positivem Chart dokumentieren');
 assert.ok(!changelog.includes('pro Minute ein Viertel des Masters'),'veraltete V28.8-PowerShell-Beschreibung ist noch im sichtbaren Änderungsverlauf');
 
-console.log(JSON.stringify({ok:true,productionVersion:`V${productionVersion}`,requiredVersions:required,uiVersions,pcAgent:'2.2.0-prepared',scorePipeline:'V29.4 immediate-buy-56 + chart-anchored-held-score +10/-15 exits'},null,2));
+console.log(JSON.stringify({ok:true,productionVersion:`V${productionVersion}`,requiredVersions:required,uiVersions,pcAgent:'2.2.0-prepared',scorePipeline:'V29.6 immediate-buy-56 + time/quality score + chart-aware +10/-15 exits + reentry reset'},null,2));
