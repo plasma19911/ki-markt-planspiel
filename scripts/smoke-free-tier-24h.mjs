@@ -23,15 +23,12 @@ const pcAgent=read('pc-agent/pc-agent-v288.ps1');
 const pcScanner=read('pc-agent/pc-first-scanner.ps1');
 const pcInstall=read('pc-agent/install.ps1');
 
-// Der Cron darf minütlich als leichter Gap-Wächter laufen. Ein echter Cloudflare-
-// Markt-Fallback startet erst, wenn der PC länger als ca. 95 Sekunden keinen Scan
-// abgeschlossen hat. Das ist deutlich billiger als einen 8k-Master im Worker zu scannen.
 assert.match(wrangler,/"crons"\s*:\s*\["\* 5-22 \* \* 1-5"\]/,'Cloudflare-Cron muss minütlich nur als Gap-Wächter feuern');
 assert.match(index20,/age>95_000/,'Cloudflare darf nur bei echter >95s Scan-Lücke übernehmen');
 assert.match(wrangler,/"head_sampling_rate"\s*:\s*0\.1/,'Observability-Sampling muss fuer Free reduziert sein');
 assert.match(wrangler,/"main"\s*:\s*"src\/index-v20\.js"/,'Produktionsentry muss die Dashboard/Gap-Fill-Schicht verwenden');
 assert.match(index,/compact-portfolio-v11\.js/,'API muss den Produktions-Kompatibilitätspfad verwenden');
-assert.match(v11,/compact-portfolio-v301-daytrade-entry\.js/,'V11 muss den aktuellen V30.1 Fresh-Tape-Daytrade-Wrapper aktivieren');
+assert.match(v11,/compact-portfolio-v302-live-feedback\.js/,'V11 muss den aktuellen V30.2 Live-Feedback-Daytrade-Wrapper aktivieren');
 assert.match(v288,/compact-portfolio-v287-calibrated-breadth\.js/,'V28.8 muss V28.7 als sicheren Fallback behalten');
 assert.match(v22,/FinalDecisionController/,'Finaler Entscheidungscontroller muss aktiv bleiben');
 
@@ -54,23 +51,16 @@ assert.match(v288,/CF_VALIDATION_TARGET=18/,'Cloudflare soll bei frischen PC-Dat
 assert.match(v288,/cloudflareFallbackActive/,'Status muss PC-Ausfall/Fallback sichtbar machen');
 assert.match(v288,/PC_FIRST_FULL_MASTER_TOP60/,'PC-Ranking muss den V28.7-Broad-Pool direkt füllen');
 
-// Score: fehlende optionale Daten neutral, Überdehnung hart genug, Teilscore nie
-// als alleinige Verkaufsgrundlage.
 assert.match(score287,/let score=50/);assert.match(score287,/reliability=\.68\+\.32\*coverage/);assert.match(score287,/day>=12/);assert.match(score287,/overextended/);assert.match(score287,/partial:true/);assert.match(score287,/buyScore>=75/);
 assert.match(v287,/calibratedActionScoreV287:true/);
 
-// Cloudflare-Free-Hardcaps bleiben im Fallback intakt.
 assert.match(v8,/FREE_SCAN_INTERVAL_MS=60\*1000/);assert.match(v8,/LEADER_TARGET=25/);assert.match(v8,/EXTERNAL_FETCH_SOFT_CAP=36/);assert.match(v8,/free-tier-subrequest-soft-cap/);assert.match(requestBudget,/AsyncLocalStorage/);
 assert.match(constants,/DEEP_LIMIT = 6/);assert.match(constants,/NEWS_RADAR_BATCH = 2/);assert.match(constants,/ZERO_ETF_MASTER = \[\]/);assert.match(constants,/LEVERAGED_ETFS = \[\]/);
 assert.match(v21,/earlyDipPrioritySlots:1/);
 assert.match(v9,/gettex-closed-sleep/);assert.match(v9,/PREOPEN_FETCH_SOFT_CAP=24/);assert.match(v9,/preOpenPrepare/);assert.match(v9,/noTrades:true/);
 assert.match(v10,/AGENT_ONLINE_MS=150\*1000/);
 assert.match(compact,/AI_DAILY_NEURON_SOFT_CAP=8_000/);assert.match(compact,/AI_PLAN_OUTPUT_CAP=400/);assert.match(compact,/AI_NEWS_OUTPUT_CAP=120/);
-
-// Dashboard bleibt leicht. 25s Cache bedeutet: mehrere UI-Renderer/Komponenten teilen
-// dieselbe Antwort; außerhalb der Session 10 Minuten.
 assert.match(quota,/ACTIVE_STATUS_TTL_MS=25_000/);assert.match(quota,/SLEEP_STATUS_TTL_MS=10\*60\*1000/);assert.match(quota,/statusTtl\(\)/);
-
 assert.match(pcInstall,/pc-agent-v288\.ps1/);assert.match(pcInstall,/pc-first-scanner\.ps1/);assert.match(pcInstall,/pcFirstShardCount=4/);assert.match(pcInstall,/maxStorageGb=2\.0/);assert.match(pcInstall,/trimToGb=1\.6/);assert.match(pcInstall,/CurrentVersion\\Run/);
 
 let g=gettexSessionState(new Date('2026-08-18T05:24:00Z'));assert.equal(g.phase,'CLOSED');
@@ -83,4 +73,4 @@ g=gettexSessionState(new Date('2026-08-22T10:00:00Z'));assert.equal(g.phase,'NON
 
 const marketMinutes=(23*60)-(7*60+30);assert.equal(marketMinutes,930);
 const cronEnvelope=(22-5+1)*60;assert.equal(cronEnvelope,1080);
-console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',mode:'V30.1 FRESH-TAPE DAYTRADING + PC-FIRST FULL MASTER + CLOUDFLARE FINAL VALIDATION/FALLBACK',legacySessionTest:'historical gettex-session compatibility only',pcFullMasterCycleMinutes:4,stage2Target:400,deepTarget:240,finalistTarget:60,cloudflareValidationTarget:18,cloudflareGapFillAfterSeconds:95,cronWatchdogInvocationsPerWeekday:cronEnvelope,pcMarketMinutesPerTradingDay:marketMinutes,cloudflareExternalFetchSoftCapFallback:36,aiNeuronSoftCapPerUtcDay:8000},null,2));
+console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',mode:'V30.2 LIVE-FEEDBACK DAYTRADING + PC-FIRST FULL MASTER + CLOUDFLARE FINAL VALIDATION/FALLBACK',legacySessionTest:'historical gettex-session compatibility only',pcFullMasterCycleMinutes:4,stage2Target:400,deepTarget:240,finalistTarget:60,cloudflareValidationTarget:18,cloudflareGapFillAfterSeconds:95,cronWatchdogInvocationsPerWeekday:cronEnvelope,pcMarketMinutesPerTradingDay:marketMinutes,cloudflareExternalFetchSoftCapFallback:36,aiNeuronSoftCapPerUtcDay:8000},null,2));
