@@ -18,9 +18,6 @@ export const SCORE_ENTRY_EXIT_V294={
   requiresFullChartScore:true,
   partialScoreFreeze:true,
   minimumHoldMinutes:0,
-  // A nearly flat chart must not make a held score collapse because another data field
-  // disappeared or changed scale. The total score deviation from entry is constrained by
-  // the actual price move since purchase; each scan is capped again separately.
   chartEnvelope:[
     {moveLt:.25,maxScoreDistance:3,maxStep:1},
     {moveLt:.75,maxScoreDistance:6,maxStep:2},
@@ -59,11 +56,12 @@ function recoverEntry(s,p,row,candidate,mem,v293,now){
   if(mem.entries[s])return mem.entries[s];
   const oldPos=v293?.positions?.[s],oldCandidate=v293?.candidates?.[s];
   const recovered=oldPos&&Number.isFinite(Number(oldPos.stable))?oldPos:oldCandidate&&Number.isFinite(Number(oldCandidate.stable))?oldCandidate:null;
-  const full=!row?.partial&&Number.isFinite(Number(row?.decisionScore??row?.holdScore??row?.buyScore));
-  const score=recovered?num(recovered.stable):full?num(row?.decisionScore,row?.holdScore,row?.buyScore,NaN):NaN;
+  const rowScore=row?.decisionScore??row?.holdScore??row?.buyScore;
+  const full=!row?.partial&&Number.isFinite(Number(rowScore));
+  const score=recovered?num(recovered.stable):full?num(rowScore,NaN):NaN;
   if(!Number.isFinite(score))return null;
   const currentPrice=priceOf(p,candidate,row),entryPrice=entryPriceOf(p,candidate,currentPrice);
-  const e={score:+score.toFixed(1),lastStable:+score.toFixed(1),entryPrice, lastPrice:currentPrice||entryPrice,at:now,lastAt:now,source:recovered?'RECOVERED_V293_SCORE':'FIRST_V294_FULL_SCORE',fullSeen:Boolean(full)};
+  const e={score:+score.toFixed(1),lastStable:+score.toFixed(1),entryPrice,lastPrice:currentPrice||entryPrice,at:now,lastAt:now,source:recovered?'RECOVERED_V293_SCORE':'FIRST_V294_FULL_SCORE',fullSeen:Boolean(full)};
   mem.entries[s]=e;return e;
 }
 
@@ -77,7 +75,8 @@ export function positionScoresV294(state={},storage=null,now=Date.now(),update=f
     const s=key(p);if(!s)continue;const candidate=candidates.get(s)||{},row=basePositions.get(s)||baseCandidates.get(s);if(!row)continue;
     const hadEntry=Boolean(mem.entries[s]),entry=recoverEntry(s,p,row,candidate,mem,v293,now);if(!entry)continue;
     if(!hadEntry&&entry.source==='RECOVERED_V293_SCORE')mem.stats.recoveredEntryScores++;
-    const raw=num(row?.decisionScore,row?.holdScore,row?.buyScore,entry.lastStable),partial=Boolean(row?.partial),currentPrice=priceOf(p,candidate,row),entryPrice=entry.entryPrice>0?entry.entryPrice:entryPriceOf(p,candidate,currentPrice),lastPrice=entry.lastPrice>0?entry.lastPrice:currentPrice;
+    const rowScore=row?.decisionScore??row?.holdScore??row?.buyScore??entry.lastStable;
+    const raw=num(rowScore,entry.lastStable),partial=Boolean(row?.partial),currentPrice=priceOf(p,candidate,row),entryPrice=entry.entryPrice>0?entry.entryPrice:entryPriceOf(p,candidate,currentPrice),lastPrice=entry.lastPrice>0?entry.lastPrice:currentPrice;
     const fromEntry=Math.abs(pctMove(currentPrice,entryPrice)),fromLast=Math.abs(pctMove(currentPrice,lastPrice)),band=chartBand(fromEntry),lastStable=num(entry.lastStable,entry.score),lo=clamp(entry.score-band.maxScoreDistance,0,100),hi=clamp(entry.score+band.maxScoreDistance,0,100);
     let stable=lastStable,step=0,frozen=false,capped=false;
     if(partial&&SCORE_ENTRY_EXIT_V294.partialScoreFreeze){
@@ -105,11 +104,9 @@ export function enforceScoreEntryExitV294(plan,state={},storage=null,now=Date.no
   actions.forEach((a,i)=>{const s=key(a);if(s&&!actionIndex.has(s))actionIndex.set(s,i)});
   const counters={positiveScoreExits:0,negativeScoreExits:0,entryScoresStored:0,partialScoreWaits:0};
 
-  // Exact purchase baseline: store the exact stabilized BUY score and price before the
-  // symbol can leave the candidate list on the next scan.
   for(const a of actions){
     const s=key(a);if(!s||held.has(s)||String(a?.action||'').toUpperCase()!=='BUY')continue;
-    const row=candidateScore.get(s);if(!row)continue;const score=num(row?.decisionScore,row?.buyScore,NaN);if(!Number.isFinite(score))continue;
+    const row=candidateScore.get(s);if(!row)continue;const score=num(row?.decisionScore??row?.buyScore,NaN);if(!Number.isFinite(score))continue;
     const c=arr(state?.candidates).find(x=>key(x)===s)||{},price=priceOf({},c,row);
     mem.entries[s]={score:+score.toFixed(1),lastStable:+score.toFixed(1),entryPrice:price,lastPrice:price,at:now,lastAt:now,source:'BUY_DECISION_SCORE',fullSeen:true};counters.entryScoresStored++;
   }
