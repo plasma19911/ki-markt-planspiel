@@ -29,9 +29,9 @@ const pcInstall=read('pc-agent/install.ps1');
 assert.match(wrangler,/"crons"\s*:\s*\["\* 5-22 \* \* 1-5"\]/,'Cloudflare-Cron muss minütlich nur als Gap-Wächter feuern');
 assert.match(index20,/age>95_000/,'Cloudflare darf nur bei echter >95s Scan-Lücke übernehmen');
 assert.match(wrangler,/"head_sampling_rate"\s*:\s*0\.1/,'Observability-Sampling muss fuer Free reduziert sein');
-assert.match(wrangler,/"main"\s*:\s*"src\/index-v20\.js"/,'Produktionsentry muss die V28.8-Dashboard/Gap-Fill-Schicht verwenden');
+assert.match(wrangler,/"main"\s*:\s*"src\/index-v20\.js"/,'Produktionsentry muss die Dashboard/Gap-Fill-Schicht verwenden');
 assert.match(index,/compact-portfolio-v11\.js/,'API muss den Produktions-Kompatibilitätspfad verwenden');
-assert.match(v11,/compact-portfolio-v288-pc-first\.js/,'V11 muss V28.8 aktivieren');
+assert.match(v11,/compact-portfolio-v301-daytrade-entry\.js/,'V11 muss den aktuellen V30.1 Fresh-Tape-Daytrade-Wrapper aktivieren');
 assert.match(v288,/compact-portfolio-v287-calibrated-breadth\.js/,'V28.8 muss V28.7 als sicheren Fallback behalten');
 assert.match(v22,/FinalDecisionController/,'Finaler Entscheidungscontroller muss aktiv bleiben');
 
@@ -39,13 +39,13 @@ assert.match(index,/\/api\/agent\/universe/,'PC-Agent braucht den deduplizierten
 assert.match(index,/PC_AGENT_TOKEN/,'PC-Agent-Endpunkte muessen per Secret geschützt sein');
 assert.match(index,/\/api\/agent\/prefetch/,'PC-Agent muss verdichtete Kandidaten hochladen können');
 assert.match(index,/\/api\/agent\/scan/,'PC-Agent muss den finalen Minuten-Scan auslösen können');
-assert.match(index20,/PC_FIRST_FULL_MASTER_STAGED/,'Universe-Profil muss V28.8 Staging beschreiben');
+assert.match(index20,/PC_FIRST_FULL_MASTER_STAGED/,'Universe-Profil muss PC-FIRST Staging beschreiben');
 assert.match(index20,/stage2Target:400/);assert.match(index20,/deepTarget:120/);assert.match(index20,/finalistTarget:60/);assert.match(index20,/cloudflareValidationTarget:18/);
 
 assert.match(pcAgent,/PC_FIRST_FULL_UNIVERSE_V288/,'Windows-Agent muss PC-FIRST als Betriebsmodus melden');
 assert.match(pcAgent,/Invoke-PcFirstPipeline/,'Windows-Agent muss den Voll-Master-Pipeline-Schritt vor dem finalen Cloudflare-Scan ausführen');
 assert.match(pcAgent,/pcFirstScan=\$pc\.summary/,'PC muss seine Stufen-/Abdeckungsdaten an Cloudflare senden');
-assert.match(pcScanner,/PcFirstShardCount=4/,'Standard-Vollzyklus muss vier rollierende Shards nutzen');
+assert.match(pcScanner,/PcFirstShardCount=4/,'Historischer PowerShell-Fallback muss vier rollierende Shards unterstützen');
 assert.match(pcScanner,/Select-Object -First 400/,'Stufe 2 muss bis zu 400 Werte behalten');
 assert.match(pcScanner,/Select-Object -First 120/,'Deep-Stufe muss bis zu 120 Werte prüfen');
 assert.match(pcScanner,/Select-Object -First 60/,'Finalistenpool muss 60 Werte liefern');
@@ -83,4 +83,4 @@ g=gettexSessionState(new Date('2026-08-22T10:00:00Z'));assert.equal(g.phase,'NON
 
 const marketMinutes=(23*60)-(7*60+30);assert.equal(marketMinutes,930);
 const cronEnvelope=(22-5+1)*60;assert.equal(cronEnvelope,1080);
-console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',mode:'V28.8 PC-FIRST FULL MASTER + CLOUDFLARE FINAL VALIDATION/FALLBACK',gettex:'07:25 PREOPEN; 07:30-23:00 OPEN; sonst SLEEP',pcFullMasterCycleMinutes:4,stage2Target:400,deepTarget:120,finalistTarget:60,cloudflareValidationTarget:18,cloudflareGapFillAfterSeconds:95,cronWatchdogInvocationsPerWeekday:cronEnvelope,pcMarketMinutesPerTradingDay:marketMinutes,cloudflareExternalFetchSoftCapFallback:36,aiNeuronSoftCapPerUtcDay:8000},null,2));
+console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',mode:'V30.1 FRESH-TAPE DAYTRADING + PC-FIRST FULL MASTER + CLOUDFLARE FINAL VALIDATION/FALLBACK',legacySessionTest:'historical gettex-session compatibility only',pcFullMasterCycleMinutes:4,stage2Target:400,deepTarget:120,finalistTarget:60,cloudflareValidationTarget:18,cloudflareGapFillAfterSeconds:95,cronWatchdogInvocationsPerWeekday:cronEnvelope,pcMarketMinutesPerTradingDay:marketMinutes,cloudflareExternalFetchSoftCapFallback:36,aiNeuronSoftCapPerUtcDay:8000},null,2));
