@@ -1,15 +1,12 @@
 // Production compatibility entry for the PAPER-TRADING planspiel.
-// V29.7 keeps the V29.6 score-stability and DATAPATTNS directional-position repairs.
+// V29.8 keeps the V29.7 adaptive profit exits and V29.6 score stability.
 // Entry remains simple: DecisionScore >=56 => immediate BUY.
-// Profit exits are now adaptive to real chart profit:
-// - below +0.8% => HOLD on the normal profit side.
-// - from +0.8% => SELL after +10 score points (less if the entry score is already very high).
-// - from +2.0% => SELL after +7 score points.
-// - from +3.5% => SELL after +4 score points.
-// - from +5.0% => secure profit unless score and chart are still rising strongly together.
-// High entry scores use an attainable target up to score 99 instead of an impossible fixed +10.
-// The V29.6 directional -15 weakness exit remains separate and requires a genuinely negative chart.
-// Per-symbol held-score/profit audit remains available for diagnosis.
+// New in V29.8: free worldwide news intelligence is multilingual, freshness-weighted
+// and deduplicated. News changes the news component of DecisionScore itself; it is not
+// an additional soft BUY gate after score 56.
+// Sources are free only: SEC/EDGAR primary filings, ASX primary announcements where
+// applicable, and GDELT as a worldwide multilingual discovery layer.
+// Profit exits remain V29.7; directional weakness exits remain V29.6.
 // No real broker orders are created here.
 import './yahoo-spark-chart-fallback.js';
-export {MarketPortfolio} from './compact-portfolio-v297-profit-exit.js';
+export {MarketPortfolio} from './compact-portfolio-v298-global-news.js';
