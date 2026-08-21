@@ -1,0 +1,12 @@
+function injectV301(){
+ const list=document.querySelector('#changelogOverlay .changelogList');
+ if(!list||list.querySelector('[data-v301-changelog]'))return;
+ list.querySelectorAll('.changelogEntry.latest').forEach(x=>x.classList.remove('latest'));
+ const a=document.createElement('article');a.className='changelogEntry latest';a.dataset.currentChangelog='1';a.dataset.v301Changelog='1';
+ a.innerHTML='<div class="changelogTime">21.08.2026 · LIVE</div><h3>V30.1 · Daytrading-Timing: frischere Daten, bessere Retests</h3><ul><li><b>BUY ab DecisionScore 56 bleibt unverändert.</b> Es gibt keine zweite strategische Kaufgrenze; Timing und Datenfrische verändern den Score selbst.</li><li><b>Frische Quotes zählen:</b> sehr frische 1m/5m-Daten bekommen einen kleinen Bonus. Alternde oder klar veraltete Intraday-Daten bekommen einen deutlichen Score-Abzug.</li><li><b>PC-Signale müssen wirklich vorhanden sein:</b> momentum5Pct, momentum20Pct und acceleration5Pct werden auf echte Datenabdeckung geprüft. Fehlende schnelle Felder dürfen nicht mehr still als gesunde Nullwerte durchgehen.</li><li><b>Saubere Retests:</b> ein kleiner Rücksetzer innerhalb eines intakten 20m-Aufwärtstrends mit wieder positiver Beschleunigung wird zusätzlich belohnt.</li><li><b>Frühe Fortsetzung:</b> wenn kein 20m-Hochfeld vorhanden ist, kann eine kontrollierte Fortsetzung mit frischem positiven 5m/20m-Tape trotzdem früh erkannt werden.</li><li><b>Neutrales Timing:</b> ein Kandidat ohne klaren Intraday-Vorteil bekommt einen kleinen Malus. Dadurch reicht ein knapp alter Basisscore weniger leicht für einen schlechten Soforteinstieg.</li><li><b>Schwaches Tape:</b> fallende 5m/20m-Dynamik mit negativer Beschleunigung senkt den Score zusätzlich.</li><li><b>Konzentriertes Daytrading bleibt:</b> maximal 4 Positionen, bis etwa 90 % Zielauslastung des freien Cashs und der V30.0-Dip/Reclaim-Fokus bleiben aktiv.</li></ul>';
+ list.prepend(a);
+}
+function settleV301(){injectV301();setTimeout(injectV301,150);setTimeout(injectV301,700)}
+document.addEventListener('click',e=>{if(e.target.closest('#changelogToggle'))settleV301()});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',settleV301,{once:true});else settleV301();
+window.__CHANGELOG_V301__={version:30.1,live:true,immediateBuyMin:56,maxOpenPositions:4,targetCashDeploymentPct:90,quoteFreshnessScoreInput:true,fastFieldCoverageScoreInput:true,cleanRetestAware:true,cleanContinuationAware:true};
