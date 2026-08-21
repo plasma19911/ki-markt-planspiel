@@ -1,4 +1,4 @@
-name: Live Worker Health V27.8
+name: Live Worker Health V29.8 Trade Republic
 
 on:
   workflow_dispatch:
@@ -16,19 +16,22 @@ permissions:
 jobs:
   live-health:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Allow Cloudflare build to publish
-        run: sleep 75
+      - name: Allow production deploy to publish
+        run: sleep 90
       - name: Probe production
         run: |
           BASE='https://ki-markt-planspiel.orkimperium.workers.dev'
-          curl -sS --retry 2 -o /tmp/home.html -w '%{http_code}' "$BASE/?health=$(date +%s)" > /tmp/home-code.txt || echo 000 > /tmp/home-code.txt
-          curl -sS --retry 2 -o /tmp/status.json -w '%{http_code}' "$BASE/api/status?health=$(date +%s)" > /tmp/status-code.txt || echo 000 > /tmp/status-code.txt
-          curl -sS --retry 2 -o /tmp/agent.json -w '%{http_code}' "$BASE/api/agent/status?health=$(date +%s)" > /tmp/agent-code.txt || echo 000 > /tmp/agent-code.txt
-          curl -sS --retry 2 -o /tmp/single.js -w '%{http_code}' "$BASE/single-scanner-ui.js?health=$(date +%s)" > /tmp/single-code.txt || echo 000 > /tmp/single-code.txt
-      - name: Build diagnostic
+          Q="$(date +%s)"
+          curl -sS --retry 2 -o /tmp/home.html -w '%{http_code}' "$BASE/?health=$Q" > /tmp/home-code.txt || echo 000 > /tmp/home-code.txt
+          curl -sS --retry 2 -o /tmp/status.json -D /tmp/status-headers.txt -w '%{http_code}' "$BASE/api/status?view=dashboard&health=$Q" > /tmp/status-code.txt || echo 000 > /tmp/status-code.txt
+          curl -sS --retry 2 -o /tmp/agent.json -w '%{http_code}' "$BASE/api/agent/status?health=$Q" > /tmp/agent-code.txt || echo 000 > /tmp/agent-code.txt
+          curl -sS --retry 2 -o /tmp/ui.js -w '%{http_code}' "$BASE/v287-live-ui.js?health=$Q" > /tmp/ui-code.txt || echo 000 > /tmp/ui-code.txt
+          curl -sS --retry 2 -o /tmp/onepager.html -w '%{http_code}' "$BASE/onepager.html?health=$Q" > /tmp/one-code.txt || echo 000 > /tmp/one-code.txt
+          curl -sS --retry 2 -o /tmp/changelog.js -w '%{http_code}' "$BASE/changelog-v297.js?health=$Q" > /tmp/changelog-code.txt || echo 000 > /tmp/changelog-code.txt
+      - name: Build current diagnostic
         run: |
           python3 - <<'PY'
           import json, pathlib, datetime
@@ -44,34 +47,43 @@ jobs:
           def n(v,d=0.0):
             try:return float(v)
             except:return d
-          s=obj('/tmp/status.json'); a=obj('/tmp/agent.json'); c=s.get('config') or {}; positions=s.get('positions') or []
-          policy=s.get('selectiveCapitalPolicy') or {}; candle=s.get('candleFlowPolicy') or {}; execution=s.get('executionModel') or {}; learning=s.get('entryTimingLearning') or {}; venue=s.get('targetVenueSanity') or {}; final=s.get('finalDecisionPolicy') or {}; agm_policy=s.get('agmCalendarPolicy') or {}; agm=s.get('agmCalendar') or {}; behavior=s.get('tradingBehaviorPolicy') or {}
+          s=obj('/tmp/status.json');a=obj('/tmp/agent.json');c=s.get('config') or {};positions=s.get('positions') or []
+          broker=s.get('brokerTarget') or {};session=s.get('tradeRepublicSession') or s.get('gettexSession') or {};canon=s.get('canonicalScorePolicy') or {};profit=s.get('profitExitPolicy') or {};final=s.get('finalDecisionPolicy') or {};pc=s.get('pcFirstScannerPolicy') or {};execution=s.get('executionModel') or {}
           market=0.0
           for p in positions:
-            inv=n(p.get('invested')); ep=n(p.get('entry_price')); lp=n(p.get('last_price'),ep); ef=n(p.get('entry_fx'),1); lf=n(p.get('last_fx'),ef)
+            inv=n(p.get('invested'));ep=n(p.get('entry_price'));lp=n(p.get('last_price'),ep);ef=n(p.get('entry_fx'),1);lf=n(p.get('last_fx'),ef)
             market += inv*(lp/ep)*(lf/ef) if ep>0 and ef>0 else inv
-          cash=n(c.get('cash')); equity=n(s.get('equity')); delta=equity-(cash+market)
+          cash=n(c.get('cash'));equity=n(s.get('equity'));delta=equity-(cash+market)
+          ui=text('/tmp/ui.js');one=text('/tmp/onepager.html');ch=text('/tmp/changelog.js');headers=text('/tmp/status-headers.txt').lower()
           checks={
             'homepage':code('/tmp/home-code.txt')=='200' and 'KI-Markt' in text('/tmp/home.html'),
             'apiStatus':code('/tmp/status-code.txt')=='200' and bool(c),
             'agentEndpoint':code('/tmp/agent-code.txt')=='200',
-            'scannerUiAsset':code('/tmp/single-code.txt')=='200',
-            'candleFlowV21':candle.get('enabled') is True and n(candle.get('version'))>=2.1,
-            'selectiveCapital':policy.get('enabled') is True and policy.get('cashAllowed') is True and policy.get('alwaysInvested') is False,
-            'sellerDominanceRequired':candle.get('ordinarySellerDominanceRequired') is True,
-            'noForcedSizingFloor':policy.get('forcedMinimumBuyPct') is None and execution.get('forcedMinimumBuyPct') is None,
+            'currentUiAsset':code('/tmp/ui-code.txt')=='200',
+            'onepagerAsset':code('/tmp/one-code.txt')=='200',
+            'changelogAsset':code('/tmp/changelog-code.txt')=='200',
             'accountingConsistent':abs(delta)<=0.05,
             'lastErrorClear':not c.get('last_error'),
-            'targetVenueSanity':venue.get('enabled') is True,
-            'entryTimingLearning':learning.get('mode')=='15/30/60-minute-entry-timing-learning',
-            'finalDecisionV278':n(final.get('version'))>=27.8,
-            'tradingBehaviorV278':behavior.get('enabled') is True and n(behavior.get('version'))>=27.8 and final.get('heldBuyPromptSuppression') is True and final.get('heldPromptPlanOnly') is True and final.get('pullbackReclaimAware') is True and final.get('summaryMetricClarity') is True and final.get('adaptiveEntryConfirmation') is True and final.get('softSellNeedsRepeatScan') is True and final.get('timeAloneCannotCreateSell') is True and final.get('hardRiskImmediate') is True and final.get('minuteScanConfirmationSafe') is True and final.get('lateImpulseRecheck') is True and final.get('tinyProfitChurnBlocked') is True and final.get('heldFxFallbackSafe') is True,
-            'aiPlanJsonRepair':final.get('aiPlanJsonRepair') is True and final.get('aiPlanCompactOutput') is True and n(final.get('aiPlanJsonRepairVersion'))>=27.7 and isinstance(behavior.get('aiPlanJsonRepair'),dict) and behavior.get('aiPlanJsonRepair',{}).get('partialObjectsNeverUsed') is True and final.get('cloudflareAiWrapperSignatureSafe') is True,
-            'agmPreviewEnabled':final.get('agmPreview') is True and agm_policy.get('enabled') is True,
-            'agmDailyOnlyScore':final.get('agmCalendarDailyRefresh') is True and final.get('agmLiveReevaluationEveryScan') is False and final.get('agmScoreEvaluationOnceDaily') is True and final.get('agmScoreLockedUntilNextDailyRefresh') is True and agm_policy.get('scoreEvaluationCadence')=='daily' and agm_policy.get('scoreReevaluation')=='once daily only',
-            'agmCalendarPayload':isinstance(agm.get('events'),list) and agm.get('scoreEvaluationCadence')=='daily' and agm.get('scoreReevaluation')=='once daily only',
+            'tradeRepublicBroker':broker.get('name')=='Trade Republic' and broker.get('stocksOnly') is True and n(broker.get('regularOrderFeeEur'))==1 and 'Bestpreis' in str(broker.get('venue') or ''),
+            'tradeRepublicSession':str(session.get('broker') or 'Trade Republic')=='Trade Republic' and str(session.get('openLocal') or '07:30')=='07:30' and str(session.get('closeLocal') or '23:00')=='23:00',
+            'tradeRepublicHeader':'x-broker-target: trade-republic-bestpreis' in headers,
+            'v297Runtime':n(final.get('version'))>=29.7 and n(canon.get('version'))>=29.7 and n(canon.get('immediateBuyMin'))==56 and canon.get('adaptiveProfitExit') is True and n(profit.get('version'))>=29.7,
+            'v297ProfitLadder':n((profit.get('thresholds') or {}).get('minProfitPct'))==0.8 and n((profit.get('thresholds') or {}).get('profitLockPct'))==5,
+            'uiTradeRepublic':'Trade Republic · Bestpreis' in ui and 'immediateBuyFrom56:true' in ui and 'softGatesAbove56:false' in ui and 'gettex' not in ui.lower(),
+            'onepagerCurrent':'Trade Republic · Bestpreis' in one and 'nur Aktien' in one and 'finanzen.net ZERO' not in one and 'gettex' not in one.lower() and 'UCITS' not in one,
+            'changelogV297':'V29.7' in ch and 'SOFORT BUY ab DecisionScore 56' in ch,
+            'pcScannerPresent':n(pc.get('version'))>=29.2,
+            'tradeRepublicFeeModel':any(str(p.get('zero_fee_model_version') or '').startswith('trade-republic-securities-') for p in positions) if positions else True,
           }
-          out={'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'http':{'home':code('/tmp/home-code.txt'),'status':code('/tmp/status-code.txt'),'agent':code('/tmp/agent-code.txt'),'scannerUi':code('/tmp/single-code.txt')},'checks':checks,'failedChecks':[k for k,v in checks.items() if not v],'allRequiredChecksPassed':all(checks.values()),'pcAgent':{'configured':a.get('configured'),'online':a.get('online'),'lastSeenAt':a.get('lastSeenAt'),'ageSeconds':a.get('ageSeconds'),'intentionallyOfflineAllowed':True},'running':c.get('running'),'scanCount':c.get('scan_count'),'lastScan':c.get('last_scan'),'lastError':c.get('last_error'),'aiLastSummary':c.get('ai_last_summary'),'cash':cash,'equity':equity,'pnl':s.get('pnl'),'marketValue':market,'accountingDelta':delta,'positions':len(positions),'positionRows':positions[:10],'recentHistory':(s.get('history') or [])[:15],'recentAiLog':(s.get('aiLog') or [])[:15],'candleFlowPolicy':candle,'selectiveCapitalPolicy':policy,'executionModel':execution,'entryTimingLearning':learning,'risk':s.get('risk'),'finalDecisionPolicy':final,'tradingBehaviorPolicy':behavior,'agmCalendarPolicy':agm_policy,'agmCalendar':agm}
+          out={
+            'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            'http':{'home':code('/tmp/home-code.txt'),'status':code('/tmp/status-code.txt'),'agent':code('/tmp/agent-code.txt'),'ui':code('/tmp/ui-code.txt'),'onepager':code('/tmp/one-code.txt'),'changelog':code('/tmp/changelog-code.txt')},
+            'checks':checks,'failedChecks':[k for k,v in checks.items() if not v],'allRequiredChecksPassed':all(checks.values()),
+            'pcAgent':{'configured':a.get('configured'),'online':a.get('online'),'lastSeenAt':a.get('lastSeenAt'),'ageSeconds':a.get('ageSeconds')},
+            'running':c.get('running'),'scanCount':c.get('scan_count'),'lastScan':c.get('last_scan'),'lastError':c.get('last_error'),'aiLastSummary':c.get('ai_last_summary'),
+            'cash':cash,'equity':equity,'pnl':s.get('pnl'),'marketValue':market,'accountingDelta':delta,'positions':len(positions),'positionRows':positions[:12],
+            'brokerTarget':broker,'tradeRepublicSession':session,'canonicalScorePolicy':canon,'profitExitPolicy':profit,'finalDecisionPolicy':final,'executionModel':execution,'pcFirstScannerPolicy':pc
+          }
           raw=json.dumps(out,ensure_ascii=False,indent=2)+'\n';pathlib.Path('/tmp/live-health-result.json').write_text(raw,encoding='utf-8');print(raw)
           PY
       - name: Publish diagnostic
@@ -87,11 +99,11 @@ jobs:
             sleep 3
           done
           exit 1
-      - name: Enforce Worker health
+      - name: Enforce current production health
         run: |
           python3 - <<'PY'
           import json
           x=json.load(open('/tmp/live-health-result.json'))
           if x.get('failedChecks'): raise SystemExit('Live health failed: '+', '.join(x['failedChecks']))
-          print('Worker healthy; V27.8 plan-only held-BUY suppression + pullback-aware adaptive behavior active.')
+          print('Worker healthy: Trade Republic Bestpreis + stock-only + V29.7 decision/profit rules are live.')
           PY
