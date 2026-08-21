@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-21T07:53:35.329894+00:00",
-  "berlinNow": "2026-08-21T09:53:35.329795+02:00",
+  "checkedAt": "2026-08-21T08:10:49.892922+00:00",
+  "berlinNow": "2026-08-21T10:10:49.892759+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 299425,
-    "dashboard": 178331
+    "full": 349569,
+    "dashboard": 185581
   },
   "checks": {
     "fullStatus200": true,
@@ -30,7 +30,7 @@
     "capture": {
       "date": "2026-08-21",
       "symbolCount": 120,
-      "updatedAt": "2026-08-21T07:53:09.215Z"
+      "updatedAt": "2026-08-21T08:09:18.307Z"
     },
     "summary": {
       "provisional": true,
@@ -46,68 +46,76 @@
     }
   },
   "depot": {
-    "cash": 6345.871195976451,
-    "equity": 9982.938433425252,
-    "displayMarketValue": 3637.0672380981446,
-    "displayAccountingDelta": -6.493446562672034e-07,
+    "cash": 5832.569180976451,
+    "equity": 9976.584639978819,
+    "displayMarketValue": 4144.015459875489,
+    "displayAccountingDelta": -8.731203706702217e-07,
     "positions": [
       {
         "symbol": "DATAPATTNS.NS",
         "invested": 736.507672,
-        "ratioValue": 741.3700001006603,
-        "quantityValue": 741.37,
-        "displayValue": 741.37,
+        "ratioValue": 737.4815605493511,
+        "quantityValue": 737.4815604492187,
+        "displayValue": 737.4815604492187,
         "quantityUsed": true
       },
       {
         "symbol": "PARAS.NS",
         "invested": 515.221295,
-        "ratioValue": 512.1362766676517,
-        "quantityValue": 512.1362765136719,
-        "displayValue": 512.1362765136719,
+        "ratioValue": 512.0348001539493,
+        "quantityValue": 512.0348,
+        "displayValue": 512.0348,
         "quantityUsed": true
       },
       {
         "symbol": "COCHINSHIP.NS",
         "invested": 423.350928,
-        "ratioValue": 418.71294609375,
-        "quantityValue": 418.71294609375,
-        "displayValue": 418.71294609375,
+        "ratioValue": 419.76672695312504,
+        "quantityValue": 419.766726953125,
+        "displayValue": 419.766726953125,
         "quantityUsed": true
       },
       {
         "symbol": "BDL.NS",
         "invested": 582.299937,
-        "ratioValue": 581.3337805002063,
-        "quantityValue": 581.333780859375,
-        "displayValue": 581.333780859375,
+        "ratioValue": 580.9065805004703,
+        "quantityValue": 580.906580859375,
+        "displayValue": 580.906580859375,
         "quantityUsed": true
       },
       {
         "symbol": "IFX.DE",
         "invested": 624.764158,
-        "ratioValue": 623.1500163043144,
-        "quantityValue": 623.150016784668,
-        "displayValue": 623.150016784668,
+        "ratioValue": 620.7300028784454,
+        "quantityValue": 620.7300033569336,
+        "displayValue": 620.7300033569336,
         "quantityUsed": true
       },
       {
         "symbol": "BESI.AS",
         "invested": 432.031606,
-        "ratioValue": 431.60000599400604,
-        "quantityValue": 431.6000061035156,
-        "displayValue": 431.6000061035156,
+        "ratioValue": 431.99999989038895,
+        "quantityValue": 432.0,
+        "displayValue": 432.0,
         "quantityUsed": true
       },
       {
         "symbol": "ZENTEC.NS",
         "invested": 329.092976,
-        "ratioValue": 328.76421178821187,
-        "quantityValue": 328.7642117431641,
-        "displayValue": 328.7642117431641,
+        "ratioValue": 328.35838830182814,
+        "quantityValue": 328.35838825683595,
+        "displayValue": 328.35838825683595,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "ASELS.IS",
+        "invested": 512.302015,
+        "ratioValue": 512.7373997748088,
+        "quantityValue": 512.7374,
+        "displayValue": 512.7374,
         "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: fri, 21 aug 2026 07:53:35 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=ntxglxd6icjgxvmdl6lw%2b0y%2ffkrn%2blxllmw6hvac1nrxfdt2mfb7meufjqnuoank4kj%2funrtm3svhbak%2fb3gqfkrfep2furd3clf4iuzt%2bmgq7za5p%2f968zlvt%2fwkjwhic953wd%2bbt%2fotskdpq3fpf307dfqgrrhgaokmoi%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2e8109ad810ff48-msp\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: fri, 21 aug 2026 08:10:49 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=7h195atuz2utsmsvakkbf6pbrpqf4yil6jdqqwlslcdq9ow4kdtrzrcqpnyaxbni%2fpr1%2f9fdiekjzd2hwhnyflsvrvcdx3rp%2f5bqvmqwozuk0m91ouyumpdldichh%2bnxhyeqszgwt1nion4wnppropupx1uuezo%2brpfyo2c%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2e829dd0e8ec8a8-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
