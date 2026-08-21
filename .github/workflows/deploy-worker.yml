@@ -1,4 +1,4 @@
-name: Deploy / Verify Cloudflare Worker V29.2
+name: Deploy / Verify Cloudflare Worker V29.8 TR audit
 
 on:
   push:
@@ -12,6 +12,7 @@ on:
       - 'package.json'
       - '.github/workflows/deploy-worker.yml'
       - '.github/workflows/main-live-enforcer.yml'
+      - '.github/workflows/live-health.yml'
   workflow_dispatch:
 
 concurrency:
@@ -25,7 +26,7 @@ jobs:
   deploy:
     if: ${{ !contains(github.event.head_commit.message || '', '[skip ci]') }}
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -55,21 +56,29 @@ jobs:
       - name: Wait for Cloudflare Git integration
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify V29.2 production
+      - name: Verify Trade Republic V29.7 production
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';let last='';
-          for(let i=0;i<36;i++){
+          for(let i=0;i<42;i++){
             try{
-              const q=Date.now(),r=await fetch(`${base}/api/status?view=dashboard&deploy=${q}`,{headers:{'cache-control':'no-cache'}}),s=await r.json();
-              const ui=await fetch(`${base}/v287-live-ui.js?deploy=${q}`,{headers:{'cache-control':'no-cache'}}),txt=await ui.text();
-              const fb=await fetch(`${base}/pc-candidate-fallback-v292.js?deploy=${q}`,{headers:{'cache-control':'no-cache'}}),fbt=await fb.text();
-              const ch=await fetch(`${base}/changelog-v292.js?deploy=${q}`,{headers:{'cache-control':'no-cache'}}),cht=await ch.text();
-              const e=s?.entryProfitPolicy||{},p=s?.dynamicProfitLockPolicy||{},f=s?.finalDecisionPolicy||{},pc=s?.pcFirstScannerPolicy||{},pipe=s?.scannerScorePipelinePolicy||{},t=e?.thresholds?.entry||{},pt=e?.thresholds?.position||{};
-              const ok=r.ok&&Number(f.version)>=29.1&&f.watchFrom50===true&&f.scoutEntryFrom53===true&&f.microEntryFrom56===true&&f.earlyEntryFrom58===true&&f.regularEntryFrom62===true&&f.dynamicProfitLockV290===true&&f.highScoreProfitExit===true&&f.allPcRowsPreScoredV292===true&&Number(t.watchMin)===50&&Number(t.scoutMin)===53&&Number(t.microMin)===56&&Number(t.earlyMin)===58&&Number(t.regularMin)===62&&Number(pt.strongHoldMin)===62&&Number(pt.confirmedExitMax)===45&&Number(p.version)>=29.1&&Number(pc.version)>=29.2&&Number(pipe.version)>=29.2&&pipe.noFirst1000Truncation===true&&Number(pipe.deepTarget)===240&&Number(pipe.finalistTarget)===60&&ui.ok&&/version:29\.2/.test(txt)&&/pcScoreFallback:true/.test(txt)&&/deepTarget:240/.test(txt)&&fb.ok&&/PC-Finalisten/.test(fbt)&&ch.ok&&/V29\.2 · Score-Pipeline repariert/.test(cht);
-              last=`HTTP ${r.status} final=${f.version} entry=${e.version} profit=${p.version} pc=${pc.version} pre=${pc.preScoredCount}/${pc.prescannedCount} deep=${pc.deepCount} pipeline=${pipe.version} ui=${ui.status} fallback=${fb.status}`;
-              if(ok){console.log('Live verification OK:',last);process.exit(0)}
-            }catch(e){last=String(e?.message||e)}await new Promise(r=>setTimeout(r,5000));
+              const q=Date.now();
+              const r=await fetch(`${base}/api/status?view=dashboard&deploy=${q}`,{headers:{'cache-control':'no-cache'}}),s=await r.json();
+              const ui=await fetch(`${base}/v287-live-ui.js?deploy=${q}`,{headers:{'cache-control':'no-cache'}}),uit=await ui.text();
+              const one=await fetch(`${base}/onepager.html?deploy=${q}`,{headers:{'cache-control':'no-cache'}}),onet=await one.text();
+              const ch=await fetch(`${base}/changelog-v297.js?deploy=${q}`,{headers:{'cache-control':'no-cache'}}),cht=await ch.text();
+              const f=s?.finalDecisionPolicy||{},canon=s?.canonicalScorePolicy||{},profit=s?.profitExitPolicy||{},broker=s?.brokerTarget||{},session=s?.tradeRepublicSession||s?.gettexSession||{},pc=s?.pcFirstScannerPolicy||{};
+              const headersOk=r.headers.get('x-broker-target')==='trade-republic-bestpreis'&&r.headers.get('x-entry-model')==='decision-score-56-immediate-buy';
+              const runtimeOk=r.ok&&Number(f.version)>=29.7&&Number(canon.version)>=29.7&&Number(canon.immediateBuyMin)===56&&canon.adaptiveProfitExit===true&&Number(profit.version)>=29.7;
+              const brokerOk=broker.name==='Trade Republic'&&broker.stocksOnly===true&&Number(broker.regularOrderFeeEur)===1&&String(broker.venue||'').includes('Bestpreis')&&String(session.broker||'Trade Republic')==='Trade Republic';
+              const uiOk=ui.ok&&/version:29\.8/.test(uit)&&/brokerTarget:'Trade Republic'/.test(uit)&&/immediateBuyFrom56:true/.test(uit)&&/softGatesAbove56:false/.test(uit)&&!/gettex/i.test(uit);
+              const oneOk=one.ok&&/Trade Republic · Bestpreis/.test(onet)&&/nur Aktien/.test(onet)&&!/finanzen\.net ZERO/i.test(onet)&&!/gettex/i.test(onet)&&!/UCITS/i.test(onet);
+              const changelogOk=ch.ok&&/V29\.7/.test(cht)&&/SOFORT BUY ab DecisionScore 56/.test(cht);
+              const pcOk=Number(pc.version)>=29.2;
+              last=`HTTP ${r.status} final=${f.version} canon=${canon.version} profit=${profit.version} broker=${broker.name}/${broker.venue} pc=${pc.version} ui=${ui.status} one=${one.status} changelog=${ch.status}`;
+              if(headersOk&&runtimeOk&&brokerOk&&uiOk&&oneOk&&changelogOk&&pcOk){console.log('Live verification OK:',last);process.exit(0)}
+            }catch(e){last=String(e?.message||e)}
+            await new Promise(r=>setTimeout(r,5000));
           }
-          throw new Error('V29.2 not live: '+last);
+          throw new Error('Trade Republic V29.7/V29.8 audit not live: '+last);
           NODE
