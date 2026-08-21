@@ -3,8 +3,10 @@ import fs from 'node:fs';
 import {enforceTradingBehaviorV277} from '../src/trading-behavior-v277.js';
 
 const v11=fs.readFileSync(new URL('../src/compact-portfolio-v11.js',import.meta.url),'utf8');
+const current=fs.readFileSync(new URL('../src/compact-portfolio-v297-profit-exit.js',import.meta.url),'utf8');
 const v278=fs.readFileSync(new URL('../src/compact-portfolio-v278-trading-behavior.js',import.meta.url),'utf8');
-assert.match(v11,/compact-portfolio-v278-trading-behavior\.js/,'production compatibility entry must route through current V27.8 behavior wrapper');
+assert.match(v11,/compact-portfolio-v297-profit-exit\.js/,'production compatibility entry must route through the current outer behavior wrapper');
+assert.match(current,/compact-portfolio-v296-directional-position\.js/,'V29.7 must preserve the V29.6 directional held-score stack underneath');
 assert.match(v278,/compact-portfolio-v276-daily-agm\.js/,'V27.8 must preserve the audited V27.6 AGM/safety base stack');
 
 function storage(){const m=new Map();return{kv:{get:k=>m.get(k),put:(k,v)=>m.set(k,v),delete:k=>m.delete(k)},m}}
