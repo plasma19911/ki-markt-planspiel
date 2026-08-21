@@ -23,11 +23,11 @@ assert.equal(DAYTRADE_ENTRY_V301.targetCashDeploymentPct,90,'cash deployment tar
   assert.equal(t.label,'CLEAN_CONTINUATION');assert.ok(t.points>0);
 }
 
-// Old intraday quotes must materially reduce the score input.
+// Old intraday quotes remain explicitly stale and may not receive a continuation bonus.
 {
   const t=entryTimingV301({momentum5Pct:.05,momentum20Pct:.4,acceleration5Pct:.05,quoteAgeMinutes:8.2},{dipLabel:'NEUTRAL'});
-  assert.equal(t.label,'CLEAN_CONTINUATION');
-  assert.ok(t.points<0,'stale-data penalty must dominate any continuation bonus');
+  assert.equal(t.label,'STALE_FAST_DATA');
+  assert.equal(t.points,DAYTRADE_ENTRY_V301.staleQuotePenalty,'stale fast data must stay authoritative');
 }
 
 // Missing fast fields cannot masquerade as neutral healthy tape.
