@@ -1,0 +1,35 @@
+const arr=v=>Array.isArray(v)?v:[];
+const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
+const key=v=>String(v?.symbol||v||'').toUpperCase().trim();
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
+
+function chanceClass(score,rank){if(rank===1&&score>=56)return'chanceTop';if(score>=62)return'chanceStrong';if(score>=56)return'chanceGood';if(score>=50)return'chanceMid';return'chanceWeak'}
+function chanceLabel(score,rank){if(rank===1&&score>=56)return'BESTE CHANCE';if(score>=70)return'SEHR STARK';if(score>=62)return'STARK';if(score>=56)return'GUT';if(score>=50)return'MITTEL';return'SCHWACH'}
+function capText(v){const n=num(v);if(!(n>0))return'';if(n>=1e12)return`${(n/1e12).toLocaleString('de-DE',{maximumFractionDigits:1})} Bio. $`;if(n>=1e9)return`${(n/1e9).toLocaleString('de-DE',{maximumFractionDigits:1})} Mrd. $`;return`${(n/1e6).toLocaleString('de-DE',{maximumFractionDigits:0})} Mio. $`}
+
+function installStyle(){if(document.getElementById('daytradeLargeCapStyle'))return;const st=document.createElement('style');st.id='daytradeLargeCapStyle';st.textContent=`
+.daytradeChanceSummary{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:-2px 0 10px;padding:8px 10px;border:1px solid #24425d;border-radius:10px;background:#0a1826;color:#90a8bd;font-size:8px}.daytradeChanceSummary b{color:#dcecff;font-size:9px}.daytradeChanceSummary .best{color:#63dda0}
+.positionCard.daytradeChanceCard{transition:border-color .18s ease,box-shadow .18s ease,transform .18s ease}.positionCard.chanceTop{border-color:#2f9a69;box-shadow:0 0 0 1px rgba(75,211,140,.12),0 12px 28px rgba(17,102,69,.16)}.positionCard.chanceStrong{border-color:#296d55}.positionCard.chanceGood{border-color:#275440}.positionCard.chanceMid{border-color:#5b502d}.positionCard.chanceWeak{border-color:#66343d;background:linear-gradient(180deg,#16171d,#11151b)}
+.daytradeChanceLine{display:grid;grid-template-columns:auto 1fr auto;gap:7px;align-items:center;margin-top:9px;padding-top:8px;border-top:1px solid #1b3044}.daytradeChanceRank{font-size:8px;font-weight:900;color:#9cb2c7}.daytradeChanceBadge{font-size:7px;font-weight:900;letter-spacing:.05em;color:#83a0b9}.chanceTop .daytradeChanceBadge,.chanceStrong .daytradeChanceBadge{color:#66dda0}.chanceGood .daytradeChanceBadge{color:#92d8af}.chanceMid .daytradeChanceBadge{color:#ffd06a}.chanceWeak .daytradeChanceBadge{color:#ff8a92}.daytradeChanceScore{font-size:10px;font-weight:900;color:#e8f4ff}.daytradeChanceBar{grid-column:1/-1;height:4px;border-radius:999px;background:#162a3d;overflow:hidden}.daytradeChanceBar>i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#4279a8,#55d595)}.chanceMid .daytradeChanceBar>i{background:linear-gradient(90deg,#77652f,#d8b74f)}.chanceWeak .daytradeChanceBar>i{background:linear-gradient(90deg,#713941,#d4636d)}
+.candidateSizePill{display:inline-flex;margin-top:4px;margin-right:4px;padding:2px 6px;border-radius:999px;border:1px solid #29425b;background:#0c1926;color:#93aac0;font-size:7px;font-weight:800}.candidateSizePill.large{border-color:#2b644c;color:#72dca4;background:#0d2119}.candidateSizePill.small{border-color:#5a3d38;color:#e6a083;background:#211713}.candidateLargeCap td:first-child{box-shadow:inset 2px 0 #3db679}.candidateSmallCap{opacity:.82}
+@media(max-width:760px){.daytradeChanceSummary{align-items:flex-start;flex-direction:column}.daytradeChanceLine{grid-template-columns:auto 1fr auto}.positionCard.chanceTop{transform:none}}
+`;document.head.appendChild(st)}
+
+function enhancePositions(s){
+  const positions=arr(s?.positions).slice().sort((a,b)=>num(a?.daytradeChanceRank,999)-num(b?.daytradeChanceRank,999)||num(b?.daytradeChanceScore,b?.decisionScore)-num(a?.daytradeChanceScore,a?.decisionScore));
+  const section=document.getElementById('positions'),cards=document.getElementById('positionCards');if(!section||!cards)return;
+  let summary=document.getElementById('daytradeChanceSummary');if(!summary){summary=document.createElement('div');summary.id='daytradeChanceSummary';summary.className='daytradeChanceSummary';section.querySelector('.cardTitle')?.insertAdjacentElement('afterend',summary)}
+  const best=positions[0],bestScore=num(best?.daytradeChanceScore,best?.decisionScore);summary.innerHTML=best?`<span>Depot ist nach <b>aktueller Daytrade-Chance</b> sortiert: stark → schwach.</span><span class="best">#1 ${esc(best.symbol)} · Score ${bestScore.toFixed(1)}</span>`:'<span>Keine offene Position.</span>';
+  const cardMap=new Map([...cards.querySelectorAll('.positionCard')].map(card=>[key(card.querySelector('.positionSymbol')?.textContent),card]));
+  for(const p of positions){const card=cardMap.get(key(p));if(!card)continue;const score=clamp(num(p?.daytradeChanceScore,p?.decisionScore),0,100),rank=Math.max(1,Math.round(num(p?.daytradeChanceRank,999))),cls=chanceClass(score,rank);card.classList.remove('chanceTop','chanceStrong','chanceGood','chanceMid','chanceWeak');card.classList.add('daytradeChanceCard',cls);card.querySelector('.daytradeChanceLine')?.remove();const line=document.createElement('div');line.className='daytradeChanceLine';line.innerHTML=`<span class="daytradeChanceRank">#${rank}</span><span class="daytradeChanceBadge">${chanceLabel(score,rank)}</span><span class="daytradeChanceScore">${score.toFixed(1)}/100</span><span class="daytradeChanceBar"><i style="width:${clamp(score,0,100)}%"></i></span>`;card.appendChild(line);cards.appendChild(card)}
+  const body=document.getElementById('positionsBody');if(body){const rowMap=new Map([...body.querySelectorAll('tr')].map(row=>[key(row.querySelector('td b')?.textContent),row]));for(const p of positions){const row=rowMap.get(key(p));if(row)body.appendChild(row)}}
+}
+
+function enhanceCandidates(s){
+  const by=new Map(arr(s?.candidates).map(c=>[key(c),c]));const body=document.getElementById('candidatesBody');if(!body)return;
+  for(const row of body.querySelectorAll('tr')){const sym=key(row.querySelector('.candidateSymbol')?.textContent);const c=by.get(sym);if(!c)continue;const id=row.querySelector('.candidateIdentity');if(!id)continue;id.querySelectorAll('.candidateSizePill').forEach(x=>x.remove());row.classList.remove('candidateLargeCap','candidateSmallCap');const cap=num(c?.marketCapUSD),tier=String(c?.daytradeSizeTier||'UNKNOWN'),label=String(c?.daytradeSizeLabel||'');if(tier==='MEGA'||tier==='LARGE'||tier==='MID_LARGE')row.classList.add('candidateLargeCap');if(tier==='SMALL'||tier==='MICRO')row.classList.add('candidateSmallCap');if(label||cap>0){const pill=document.createElement('span');pill.className=`candidateSizePill ${tier==='MEGA'||tier==='LARGE'||tier==='MID_LARGE'?'large':tier==='SMALL'||tier==='MICRO'?'small':''}`;pill.textContent=`${label||tier}${cap>0?` · ${capText(cap)}`:''}`;id.appendChild(pill)}}
+}
+
+installStyle();
+document.addEventListener('planspiel:status',e=>{installStyle();enhancePositions(e.detail||{});enhanceCandidates(e.detail||{})});
