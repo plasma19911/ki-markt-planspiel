@@ -45,7 +45,7 @@ jobs:
       - name: Allow Cloudflare Git integration to publish
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify live V30.0 daytrade stack
+      - name: Verify live V30.1 fresh-tape daytrade stack
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';let last='';
@@ -53,21 +53,21 @@ jobs:
             try{
               const q=Date.now();
               const sr=await fetch(`${base}/api/status?view=dashboard&main_live=${q}`,{headers:{'cache-control':'no-cache'}});const s=await sr.json();
-              const cr=await fetch(`${base}/changelog-v297.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const c=await cr.text();
+              const cr=await fetch(`${base}/changelog-v301.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const c=await cr.text();
               const mr=await fetch(`${base}/changelog-master-v290.js?main_live=${q}`,{headers:{'cache-control':'no-cache'}});const m=await mr.text();
-              const final=s?.finalDecisionPolicy||{},dip=s?.daytradeDipPolicy||{},large=s?.daytradeLargeCapPolicy||{},score=s?.canonicalScorePolicy||{};
-              const positions=Array.isArray(s?.positions)?s.positions:[],candidates=Array.isArray(s?.candidates)?s.candidates:[];
-              const positionOrder=positions.every((p,i,a)=>i===0||Number(a[i-1]?.daytradeChanceRank||i)>=0);
-              const runtimeOk=s?.runtimeVersion==='V30.0'&&s?.liveDecisionVersion==='V30.0';
-              const finalOk=Number(final.version)>=30&&final.daytradeDipEntry===true&&Number(final.maxOpenPositions)===4&&Number(final.targetCashDeploymentPct)===90;
-              const dipOk=Number(dip.version)>=30&&dip.enabled===true&&dip.authoritativeDaytradeEntry===true&&Number(dip.immediateBuyMin)===56&&Number(dip.maxOpenPositions)===4&&Number(dip.targetCashDeploymentPct)===90;
+              const final=s?.finalDecisionPolicy||{},entry=s?.daytradeEntryPolicy||{},dip=s?.daytradeDipPolicy||{},large=s?.daytradeLargeCapPolicy||{},score=s?.canonicalScorePolicy||{};
+              const positions=Array.isArray(s?.positions)?s.positions:[];
+              const runtimeOk=s?.runtimeVersion==='V30.1'&&s?.liveDecisionVersion==='V30.1';
+              const finalOk=Number(final.version)>=30.1&&final.daytradeFreshTapeEntry===true&&final.quoteFreshnessScoreInput===true&&final.fastFieldCoverageScoreInput===true&&Number(final.maxOpenPositions)===4&&Number(final.targetCashDeploymentPct)===90;
+              const entryOk=Number(entry.version)>=30.1&&entry.enabled===true&&entry.authoritativeDaytradeEntry===true&&Number(entry.immediateBuyMin)===56&&entry.quoteFreshnessInScore===true&&entry.fastFieldCoverageInScore===true&&entry.cleanRetestAware===true&&entry.cleanContinuationAware===true;
+              const dipOk=Number(dip.version)>=30&&dip.enabled===true&&Number(dip.maxOpenPositions)===4&&Number(dip.targetCashDeploymentPct)===90;
               const largeOk=Number(large.version)>=29.9&&large.largeCapsPreferred===true&&large.portfolioSortedBestChanceFirst===true;
-              const scoreOk=Number(score.version)>=30&&score.immediateBuyMin===56&&score.betterDipScoreInput===true&&score.maxOpenPositions===4&&score.concentratedCashDeployment===true;
-              const assetsOk=cr.ok&&/__CHANGELOG_V300__/.test(c)&&/V30\.0 · Bessere Dips/.test(c)&&mr.ok&&/changelogMaster='v30\.0'/.test(m)&&/version:30\.0/.test(m);
-              last=`status=${sr.status} runtime=${s?.runtimeVersion} final=${final.version} dip=${dip.version} large=${large.version} score=${score.version} positions=${positions.length} candidates=${candidates.length}`;
-              if(sr.ok&&runtimeOk&&finalOk&&dipOk&&largeOk&&scoreOk&&assetsOk&&positionOrder){console.log('Main live V30.0 verification OK:',last);process.exit(0)}
+              const scoreOk=Number(score.version)>=30.1&&score.immediateBuyMin===56&&score.quoteFreshnessScoreInput===true&&score.fastFieldCoverageScoreInput===true&&score.maxOpenPositions===4;
+              const assetsOk=cr.ok&&/__CHANGELOG_V301__/.test(c)&&/V30\.1 · Daytrading-Timing/.test(c)&&mr.ok&&/changelogMaster='v30\.1'/.test(m)&&/version:30\.1/.test(m);
+              last=`status=${sr.status} runtime=${s?.runtimeVersion} final=${final.version} entry=${entry.version} dip=${dip.version} large=${large.version} score=${score.version} positions=${positions.length}`;
+              if(sr.ok&&runtimeOk&&finalOk&&entryOk&&dipOk&&largeOk&&scoreOk&&assetsOk&&positions.length<=4){console.log('Main live V30.1 verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
-          throw new Error('Main did not become V30.0 live: '+last);
+          throw new Error('Main did not become V30.1 live: '+last);
           NODE

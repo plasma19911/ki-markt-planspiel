@@ -1,4 +1,4 @@
-name: Deploy / Verify Cloudflare Worker V30.0
+name: Deploy / Verify Cloudflare Worker V30.1
 
 on:
   push:
@@ -55,7 +55,7 @@ jobs:
       - name: Wait for Cloudflare Git integration
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify V30.0 production
+      - name: Verify V30.1 production
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';let last='';
@@ -65,18 +65,19 @@ jobs:
               const sr=await fetch(`${base}/api/status?view=dashboard&deploy=${q}`,{headers:{'cache-control':'no-cache'}});const s=await sr.json();
               const ir=await fetch(`${base}/?deploy=${q}`,{headers:{'cache-control':'no-cache'}});const index=await ir.text();
               const mr=await fetch(`${base}/changelog-master-v290.js?deploy=${q}`,{headers:{'cache-control':'no-cache'}});const master=await mr.text();
-              const cr=await fetch(`${base}/changelog-v297.js?deploy=${q}`,{headers:{'cache-control':'no-cache'}});const changelog=await cr.text();
-              const final=s?.finalDecisionPolicy||{},dip=s?.daytradeDipPolicy||{},cap=s?.daytradeLargeCapPolicy||{};
-              const runtimeOk=s?.runtimeVersion==='V30.0'&&s?.liveDecisionVersion==='V30.0';
-              const finalOk=Number(final.version)>=30&&final.daytradeDipEntry===true&&Number(final.maxOpenPositions)===4&&Number(final.targetCashDeploymentPct)===90;
-              const dipOk=Number(dip.version)>=30&&dip.authoritativeDaytradeEntry===true&&Number(dip.immediateBuyMin)===56&&Number(dip.maxOpenPositions)===4&&Number(dip.targetCashDeploymentPct)===90&&Array.isArray(dip.pcFastFieldsUsed)&&dip.pcFastFieldsUsed.includes('momentum5Pct');
+              const cr=await fetch(`${base}/changelog-v301.js?deploy=${q}`,{headers:{'cache-control':'no-cache'}});const changelog=await cr.text();
+              const final=s?.finalDecisionPolicy||{},entry=s?.daytradeEntryPolicy||{},dip=s?.daytradeDipPolicy||{},cap=s?.daytradeLargeCapPolicy||{};
+              const runtimeOk=s?.runtimeVersion==='V30.1'&&s?.liveDecisionVersion==='V30.1';
+              const finalOk=Number(final.version)>=30.1&&final.daytradeFreshTapeEntry===true&&final.quoteFreshnessScoreInput===true&&final.fastFieldCoverageScoreInput===true&&Number(final.maxOpenPositions)===4&&Number(final.targetCashDeploymentPct)===90;
+              const entryOk=Number(entry.version)>=30.1&&entry.authoritativeDaytradeEntry===true&&Number(entry.immediateBuyMin)===56&&entry.quoteFreshnessInScore===true&&entry.fastFieldCoverageInScore===true&&entry.cleanRetestAware===true&&entry.cleanContinuationAware===true;
+              const dipOk=Number(dip.version)>=30&&dip.authoritativeDaytradeEntry===true&&Number(dip.maxOpenPositions)===4&&Number(dip.targetCashDeploymentPct)===90;
               const capOk=Number(cap.version)>=29.9&&cap.largeCapsPreferred===true;
-              const uiOk=ir.ok&&/analysis-ui\.js\?v=20260821-1135/.test(index)&&/changelog-master-v290\.js\?v=20260821-1135/.test(index);
-              const changelogOk=mr.ok&&/changelogMaster='v30\.0'/.test(master)&&/version:30\.0/.test(master)&&cr.ok&&/__CHANGELOG_V300__/.test(changelog)&&/V30\.0 · Bessere Dips/.test(changelog);
-              last=`HTTP ${sr.status} runtime=${s?.runtimeVersion} final=${final.version} dip=${dip.version} cap=${cap.version} index=${ir.status} master=${mr.status} changelog=${cr.status}`;
-              if(sr.ok&&runtimeOk&&finalOk&&dipOk&&capOk&&uiOk&&changelogOk){console.log('Live V30.0 verification OK:',last);process.exit(0)}
+              const uiOk=ir.ok&&/changelog-v301\.js\?v=20260821-1205/.test(index)&&/changelog-master-v290\.js\?v=20260821-1205/.test(index);
+              const changelogOk=mr.ok&&/changelogMaster='v30\.1'/.test(master)&&/version:30\.1/.test(master)&&cr.ok&&/__CHANGELOG_V301__/.test(changelog)&&/V30\.1 · Daytrading-Timing/.test(changelog);
+              last=`HTTP ${sr.status} runtime=${s?.runtimeVersion} final=${final.version} entry=${entry.version} dip=${dip.version} cap=${cap.version} index=${ir.status}`;
+              if(sr.ok&&runtimeOk&&finalOk&&entryOk&&dipOk&&capOk&&uiOk&&changelogOk){console.log('Live V30.1 verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
-          throw new Error('V30.0 not live: '+last);
+          throw new Error('V30.1 not live: '+last);
           NODE

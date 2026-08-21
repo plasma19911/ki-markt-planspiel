@@ -1,6 +1,6 @@
 // Changelog order + current-version loader.
-// Historical modules stay untouched; V29.2+ and the current LIVE entry are loaded here
-// so the clickable "Änderungen" panel always contains the actual production changes.
+// Historical modules stay untouched; current production entries are loaded here
+// so the clickable "Änderungen" panel always shows the actual LIVE version first.
 function normalizeCurrentChangelog(){
  const list=document.querySelector('#changelogOverlay .changelogList');
  if(!list)return;
@@ -16,7 +16,7 @@ async function loadCurrentHistory(){
  await Promise.allSettled([
   import('/changelog-v292.js?v=20260821-0958'),
   import('/changelog-v297.js?v=20260821-1135'),
-  import('/changelog-v301.js?v=20260821-1152')
+  import('/changelog-v301.js?v=20260821-1205')
  ]);
  settle();
 }
