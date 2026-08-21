@@ -1,5 +1,6 @@
 // Production compatibility entry for the PAPER-TRADING planspiel.
 // V29.9 keeps V29.7 adaptive profit exits and the V29.6 coherent held score.
+// Underlying behavior chain remains compact-portfolio-v297-profit-exit.js via the V29.9 wrapper.
 // BUY threshold remains DecisionScore >=56, but company size is now an input to
 // that authoritative candidate score: Large-/Mega-Caps are preferred for
 // daytrading while Small-/Micro-Caps need stronger intraday signals.
