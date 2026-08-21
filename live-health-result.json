@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-21T10:01:08.412040+00:00",
+  "checkedAt": "2026-08-21T10:01:40.738848+00:00",
   "http": {
     "home": "200",
     "status": "200",
@@ -32,7 +32,7 @@
     "configured": true,
     "online": true,
     "lastSeenAt": "2026-08-21T10:01:05.143Z",
-    "ageSeconds": 3,
+    "ageSeconds": 35,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
@@ -79,7 +79,7 @@
       "entryDecisionScore": 70.2,
       "scoreDeltaFromEntry": -1,
       "scoreDeltaThisScan": -1,
-      "rawDecisionScore": 68.7,
+      "rawDecisionScore": 68,
       "chartMoveFromEntryPct": -0.1,
       "chartMoveLastScanPct": 0,
       "scoreFrozenPartial": false,
@@ -121,7 +121,7 @@
       "entryDecisionScore": 52.5,
       "scoreDeltaFromEntry": 1,
       "scoreDeltaThisScan": 1,
-      "rawDecisionScore": 63,
+      "rawDecisionScore": 63.7,
       "chartMoveFromEntryPct": -0.1,
       "chartMoveLastScanPct": 0,
       "scoreFrozenPartial": false,
@@ -593,7 +593,7 @@
     "marketCapScoreInput": true,
     "largeCapPreference": true,
     "portfolioChanceSort": true,
-    "version": 30,
+    "version": 30.1,
     "daytradeDipV300": true,
     "maxOpenPositions": 4,
     "targetCashDeploymentPct": 90
@@ -793,7 +793,7 @@
   },
   "finalDecisionPolicy": {
     "enabled": true,
-    "version": 30,
+    "version": 30.1,
     "paperTradingOnly": true,
     "mode": "SINGLE_AUTHORITATIVE_FINAL_CONTROLLER_PLUS_DETERMINISTIC_TRADE_INVARIANTS_PLUS_AGM_PREVIEW_PLUS_ADAPTIVE_TRADING_BEHAVIOR_PLUS_OPPORTUNITY_LEARNING",
     "oneFinalActionPerSymbol": true,
@@ -884,7 +884,7 @@
     "agmNeverBypassesNormalSafetyGates": true,
     "maxCandidatesPerDecision": 4,
     "regressionTests": "V26.3 + V26.2 + V27 + V27.1 + V27.2 + V27.3 + V27.4 + V27.5 audit + V27.6 AGM preview invariants + V27.8 adaptive-entry / held-BUY plan-only suppression / pullback-reclaim / repeated-soft-SELL / metric-clarity invariants + V27.9 fresh-news / catalyst-starter / late-impulse-memory / reclaim / missed-opportunity-learning invariants + V28.0 accelerating-setup / thesis-maturity / recovery-window / hard-risk invariants + V28.1 weighted-signal / novel-news / hard-safety / stock-only invariants",
-    "rule": "V30.0: größere/liquidere Aktien bleiben bevorzugt. Neue Käufe priorisieren Pullback-Reclaims statt High-Chases. PC-1m/5m-Felder werden direkt ausgewertet. BUY-Schwelle bleibt 56; gleichzeitig werden maximal vier konzentrierte Positionen eröffnet und der freie Cash deutlich stärker eingesetzt.",
+    "rule": "V30.1: V30.0 Daytrade-Regeln unverändert. Der tatsächlich ausgeführte finale BUY-DecisionScore wird jetzt als autoritative Einstiegsscore-Baseline gespeichert; spätere Scoreänderungen und Exits messen damit gegen den echten Kaufentscheid statt gegen einen alten Scanner-/Memory-Score.",
     "agmScoreEvaluationOnceDaily": true,
     "agmScoreLockedUntilNextDailyRefresh": true,
     "agmDailyInputs": [
@@ -1020,7 +1020,8 @@
     "portfolioSortedByChance": true,
     "daytradeDipEntry": true,
     "maxOpenPositions": 4,
-    "targetCashDeploymentPct": 90
+    "targetCashDeploymentPct": 90,
+    "executedFinalBuyScoreIsEntryBaseline": true
   },
   "tradingBehaviorPolicy": {
     "enabled": true,
@@ -1091,7 +1092,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-21T10:00:49.798Z",
+      "cachedAt": "2026-08-21T10:01:13.756Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
