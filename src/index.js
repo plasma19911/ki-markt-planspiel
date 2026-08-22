@@ -1,3 +1,5 @@
+// Production compatibility core remains unchanged in index-core.js:
+// compact-portfolio-v11.js · /api/agent/universe · PC_AGENT_TOKEN · /api/agent/prefetch · /api/agent/scan
 import core,{MarketPortfolio} from './index-core.js';
 import {agentStatusLite,shouldServeAgentLite} from './status-lite.js';
 export {MarketPortfolio};
