@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-21T12:04:50.703152+00:00",
-  "berlinNow": "2026-08-21T14:04:50.702972+02:00",
+  "checkedAt": "2026-08-22T14:26:47.707734+00:00",
+  "berlinNow": "2026-08-22T16:26:47.707554+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 1249569,
-    "dashboard": 867295
+    "full": 1347197,
+    "dashboard": 916784
   },
   "checks": {
     "fullStatus200": true,
@@ -21,69 +21,450 @@
   "failedChecks": [],
   "allChecksPassed": true,
   "replay": {
-    "date": "2026-08-21",
-    "status": "CAPTURING",
-    "processed": 0,
-    "total": 120,
-    "provisional": true,
-    "completedAt": null,
-    "capture": {
-      "date": "2026-08-21",
-      "symbolCount": 120,
-      "updatedAt": "2026-08-21T12:03:18.395Z"
-    },
+    "date": "2026-08-20",
+    "status": "COMPLETE",
+    "processed": 72,
+    "total": 72,
+    "provisional": null,
+    "completedAt": "2026-08-20T21:55:46.348Z",
+    "capture": {},
     "summary": {
-      "provisional": true,
-      "symbolsAnalysed": 0,
+      "symbolsAnalysed": 72,
       "errors": 0,
-      "mistakes": {},
+      "mistakes": {
+        "MISSED_SAFE_MOVE": 51,
+        "LATE_DISCOVERY": 20
+      },
       "churn": {
         "rapidRoundTrips": 0,
         "totalRapidTradePnl": 0,
         "fees": 0,
         "rows": []
-      }
+      },
+      "bestMissed": [
+        {
+          "symbol": "EOS.AX",
+          "name": "Electro Optic Systems",
+          "firstSeenAt": "2026-08-20T05:43:19.859Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787198100000,
+            "price": 8.760000228881836,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "m5": 0.114,
+              "m20": 0.229,
+              "accel": 0.342,
+              "draw": -0.228,
+              "day": 0.69,
+              "rsi": 67.7
+            },
+            "forward": {
+              "f15": 0.913,
+              "f30": 2.169,
+              "f60": 4.11,
+              "f120": 4.224,
+              "mfe120": 5.365,
+              "mae120": 0.4
+            },
+            "quality": 6.747
+          },
+          "firstSafeAfterSeen": null,
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "005930.KS",
+          "name": "Samsung Electronics",
+          "firstSeenAt": "2026-08-20T05:32:11.649Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787185800000,
+            "price": 259500,
+            "mode": "NORMAL",
+            "metrics": {
+              "m5": 0,
+              "m20": 0.973,
+              "accel": 0.192,
+              "draw": -0.384,
+              "day": 4.848,
+              "rsi": 50
+            },
+            "forward": {
+              "f15": 1.156,
+              "f30": 2.119,
+              "f60": 2.601,
+              "f120": 4.239,
+              "mfe120": 5.01,
+              "mae120": 1.156
+            },
+            "quality": 5.096
+          },
+          "firstSafeAfterSeen": null,
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "MARA.MX",
+          "name": "MARA Holdings, Inc.",
+          "firstSeenAt": "2026-08-20T14:33:16.001Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE",
+            "BREAKOUT"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787234100000,
+            "price": 176.5800018310547,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "m5": 1.122,
+              "m20": 0.903,
+              "accel": 2.467,
+              "draw": -1.9,
+              "day": 8.544,
+              "rsi": 50
+            },
+            "forward": {
+              "f15": 1.937,
+              "f30": 0.277,
+              "f60": 2.26,
+              "f120": 1.41,
+              "mfe120": 3.636,
+              "mae120": 0.238
+            },
+            "quality": 3.629
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787238900000,
+            "price": 181.22000122070312,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "m5": 0.36,
+              "m20": 2.182,
+              "accel": 1.688,
+              "draw": -0.973,
+              "day": 11.397,
+              "rsi": 66
+            },
+            "forward": {
+              "f15": -0.072,
+              "f30": -0.795,
+              "f60": -0.982,
+              "f120": 1.197,
+              "mfe120": 1.849,
+              "mae120": -1.578
+            },
+            "quality": -1.481
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "OVZON.ST",
+          "name": "OVZON.ST",
+          "firstSeenAt": "2026-08-20T07:24:12.790Z",
+          "sources": [
+            "PC_WIDE",
+            "DEEP",
+            "SECOND_CHANCE"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787226600000,
+            "price": 39.2400016784668,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.358,
+              "m20": 0.926,
+              "accel": 0.409,
+              "draw": 0.307,
+              "day": -0.608,
+              "rsi": 70.3
+            },
+            "forward": {
+              "f15": -0.051,
+              "f30": 2.854,
+              "f60": 2.803,
+              "f120": 2.446,
+              "mfe120": 3.619,
+              "mae120": -0.153
+            },
+            "quality": 4.985
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787215800000,
+            "price": 39.08000183105469,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.257,
+              "m20": 1.034,
+              "accel": 0.563,
+              "draw": -0.051,
+              "day": -1.013,
+              "rsi": 59.4
+            },
+            "forward": {
+              "f15": 0.461,
+              "f30": 0.307,
+              "f60": 0.461,
+              "f120": -0.665,
+              "mfe120": 0.461,
+              "mae120": -0.716
+            },
+            "quality": 0.335
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE"
+          ]
+        },
+        {
+          "symbol": "BABA",
+          "name": "Alibaba Group Holding Limited",
+          "firstSeenAt": "2026-08-20T16:30:15.124Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787236500000,
+            "price": 124.63999938964844,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "m5": 0.161,
+              "m20": 0.016,
+              "accel": 0.799,
+              "draw": -0.707,
+              "day": -3.305,
+              "rsi": 50
+            },
+            "forward": {
+              "f15": 1.581,
+              "f30": 1.024,
+              "f60": 1.669,
+              "f120": 3.562,
+              "mfe120": 3.562,
+              "mae120": 0.156
+            },
+            "quality": 3.274
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787243700000,
+            "price": 129.0800018310547,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.349,
+              "m20": 0.702,
+              "accel": 0.391,
+              "draw": 0.307,
+              "day": 0.14,
+              "rsi": 71
+            },
+            "forward": {
+              "f15": -0.36,
+              "f30": -0.48,
+              "f60": -0.504,
+              "f120": 0.604,
+              "mfe120": 0.79,
+              "mae120": -0.504
+            },
+            "quality": -0.672
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "SMCI",
+          "name": "Super Micro Computer",
+          "firstSeenAt": "2026-08-20T17:51:57.498Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787243700000,
+            "price": 36.019901275634766,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.334,
+              "m20": 0.868,
+              "accel": 0.222,
+              "draw": 0.334,
+              "day": -1.531,
+              "rsi": 42.5
+            },
+            "forward": {
+              "f15": -0.18,
+              "f30": -0.472,
+              "f60": 1.541,
+              "f120": 2.18,
+              "mfe120": 3.085,
+              "mae120": -0.583
+            },
+            "quality": 2.135
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787250600000,
+            "price": 36.669498443603516,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.313,
+              "m20": 0.415,
+              "accel": 0.313,
+              "draw": 0.286,
+              "day": 0.245,
+              "rsi": 66.7
+            },
+            "forward": {
+              "f15": 0.901,
+              "f30": 0.533,
+              "f60": -0.026,
+              "f120": null,
+              "mfe120": 1.092,
+              "mae120": -0.489
+            },
+            "quality": 0.274
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "9988.HK",
+          "name": "Alibaba Hong Kong",
+          "firstSeenAt": "2026-08-20T05:34:20.307Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787196000000,
+            "price": 125.30000305175781,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.24,
+              "m20": 0.16,
+              "accel": 0.24,
+              "draw": 0.08,
+              "day": 0.886,
+              "rsi": 52.9
+            },
+            "forward": {
+              "f15": 1.437,
+              "f30": 1.437,
+              "f60": 2.314,
+              "f120": 2.155,
+              "mfe120": 2.873,
+              "mae120": 0.16
+            },
+            "quality": 3.823
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1787207400000,
+            "price": 127.9000015258789,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.157,
+              "m20": 0.157,
+              "accel": 0.391,
+              "draw": -0.078,
+              "day": 2.979,
+              "rsi": 44.4
+            },
+            "forward": {
+              "f15": 0,
+              "f30": -0.313,
+              "f60": -0.704,
+              "f120": null,
+              "mfe120": 0,
+              "mae120": -1.329
+            },
+            "quality": -1.544
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "012450.KS",
+          "name": "Hanwha Aerospace",
+          "firstSeenAt": "2026-08-20T05:30:24.172Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE"
+          ],
+          "bestSafeEntry": {
+            "ts": 1787191200000,
+            "price": 1176000,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.427,
+              "m20": 0.17,
+              "accel": 0.342,
+              "draw": 0.17,
+              "day": -0.085,
+              "rsi": 63.8
+            },
+            "forward": {
+              "f15": 0.765,
+              "f30": 1.871,
+              "f60": 1.361,
+              "f120": 2.211,
+              "mfe120": 2.806,
+              "mae120": -0.68
+            },
+            "quality": 2.623
+          },
+          "firstSafeAfterSeen": null,
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        }
+      ],
+      "worstEntries": []
     }
   },
   "depot": {
-    "cash": 1623.1206979999997,
-    "equity": 9997.78408857267,
-    "displayMarketValue": 8374.663390427399,
-    "displayAccountingDelta": 1.4527176972478628e-07,
-    "positions": [
-      {
-        "symbol": "KALMAR.HE",
-        "invested": 2235.233,
-        "ratioValue": 2236.480079650879,
-        "quantityValue": 2236.480079650879,
-        "displayValue": 2236.480079650879,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "PLEJD.ST",
-        "invested": 2193.40101,
-        "ratioValue": 2201.8308002007693,
-        "quantityValue": 2201.8307999999997,
-        "displayValue": 2201.8307999999997,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "OUT1V.HE",
-        "invested": 607.416797,
-        "ratioValue": 610.2000107210223,
-        "quantityValue": 610.2000107765198,
-        "displayValue": 610.2000107765198,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "BDL.NS",
-        "invested": 3336.828495,
-        "ratioValue": 3326.1525000000006,
-        "quantityValue": 3326.1525,
-        "displayValue": 3326.1525,
-        "quantityUsed": true
-      }
-    ]
+    "cash": 10000.0,
+    "equity": 10000.0,
+    "displayMarketValue": 0.0,
+    "displayAccountingDelta": 0.0,
+    "positions": []
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: fri, 21 aug 2026 12:04:50 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=tkapzjv0qrfa6os6bmdvfdtelfatwhxogpk1ptlromfjnj9%2fmzvqfzri4mmhj5iemwjfhoezvn3kmxohjnzipc2wohgsgeylryswnyx85fmzwoe8wag9w7ujrkqj87g19wdj4fdqaoeudwhjashp%2f2skyu5rhsojoju47uy%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2e980a79dabfb34-sjc\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: sat, 22 aug 2026 14:26:47 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=5jpsn%2bp5sigvbd%2ba3vpl4amjameqnnxtuftwczyn4nyupu%2f%2fkranilkgvpusa40powf9bma6wuwtuxvoautwfljsuifzimbvxjl61zakjg19hl7v0inli5e1e7fe3esu2287fn4lpmugjhfdsqdskedsopcsfoek5tejjsm%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a2f28df6fb5d4616-ord\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
