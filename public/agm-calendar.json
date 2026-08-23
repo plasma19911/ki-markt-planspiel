@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-08-22T05:48:19.192Z",
-  "nextRefreshAfter": "2026-08-23T05:48:19.192Z",
+  "updatedAt": "2026-08-23T05:52:23.481Z",
+  "nextRefreshAfter": "2026-08-24T05:52:23.481Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,174 +14,12 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 12,
-  "matchedUpcomingCount": 4,
-  "fundamentalEstimateCount": 2,
-  "universeGeneratedAt": "2026-08-22T05:01:14.659591Z",
+  "rawUpcomingCount": 9,
+  "matchedUpcomingCount": 2,
+  "fundamentalEstimateCount": 0,
+  "universeGeneratedAt": "2026-08-23T05:04:59.418900Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
-    {
-      "date": "2026-08-21",
-      "sourceCompanyName": "ICICI Bank Ltd. (Spons. ADRS)",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/icici_bank",
-      "symbol": "IBN",
-      "name": "ICICI Bank Limited",
-      "companyKey": "ICICI BANK",
-      "currency": "USD",
-      "matchConfidence": 1,
-      "baseScore": 80,
-      "fundamentalScore": 80,
-      "fundamentalConfidence": 0.881,
-      "profitForecastPositive": true,
-      "fundamentalReasons": [
-        "Analysten erwarten EPS-Wachstum ca. 15%",
-        "Umsatzschätzung nächstes Jahr +15%",
-        "Chart im Aufwaertstrend (Kurs > 50- > 200-Tage-Linie)",
-        "3-Monats-Trend +16%",
-        "Gesunde Position im 52-Wochen-Band (61%)"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 1.68,
-        "epsNextYearEstimate": 1.94,
-        "revenueCurrentYearEstimate": 14167.19,
-        "revenueNextYearEstimate": 16329.35
-      },
-      "daysUntil": -1,
-      "baseLabel": "POSITIV",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/icici_bank",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": 16,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": 14,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 0,
-          "label": "10 frische Meldungen"
-        }
-      ],
-      "chartDelta": 14,
-      "newsDelta": 0,
-      "fundamentalDelta": 16,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "Asian Equities Traded in the US as American Depositary Receipts Rise in Friday Trading; End Week Lower",
-        "Asian Equities Traded in the US as American Depositary Receipts Decline in Thursday Trading",
-        "Asian Equities Traded in the US as American Depositary Receipts Edge Higher in Wednesday Trading",
-        "Asian Equities Traded in the US as American Depositary Receipts Track Lower in Tuesday Trading"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "USD",
-        "samples": 251,
-        "last": 29.9,
-        "changeM1": 2.3,
-        "changeM3": 15.5,
-        "changeM6": -3.3,
-        "sma50": 29.4,
-        "sma200": 28.9,
-        "position52w": 60.9,
-        "drawdownFromHigh": -9.2,
-        "volatility20d": 15.2,
-        "volumeTrend": -48.9
-      },
-      "scoreEvaluatedAt": "2026-08-22T05:48:19.192Z",
-      "scoreValidUntil": "2026-08-23T05:48:19.192Z"
-    },
-    {
-      "date": "2026-08-26",
-      "sourceCompanyName": "Prosus N.V.",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/prosus",
-      "symbol": "PRX.WA",
-      "name": "PROSUS",
-      "companyKey": "PROSUS",
-      "currency": "PLN",
-      "matchConfidence": 1,
-      "baseScore": 57,
-      "fundamentalScore": 57,
-      "fundamentalConfidence": 0.881,
-      "profitForecastPositive": true,
-      "fundamentalReasons": [
-        "Analysten erwarten EPS-Wachstum ca. 17%",
-        "Umsatzschätzung nächstes Jahr +9%",
-        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
-        "Kurs nahe 52-Wochen-Tief",
-        "Umsatz zieht vor der HV an (+50%)"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 4.27,
-        "epsNextYearEstimate": 4.99,
-        "revenueCurrentYearEstimate": 12469.55,
-        "revenueNextYearEstimate": 13652.03
-      },
-      "daysUntil": 4,
-      "baseLabel": "NEUTRAL",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/prosus",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": 16,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": -10,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 1,
-          "label": "10 frische Meldungen"
-        }
-      ],
-      "chartDelta": -10,
-      "newsDelta": 1,
-      "fundamentalDelta": 16,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "From science fair to strategic showcase: a decade of China’s robot games",
-        "US hits Canadian goods with 50% tariffs after trade talks fail",
-        "SuperiorMed Holdings Limited Announces Entering into an Agreement and Plan of Merger with Starry Sea Acquisition Corp",
-        "AMD Investors Must Be Ready For Major News On Aug. 26"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "PLN",
-        "samples": 250,
-        "last": 163.5,
-        "changeM1": -4.1,
-        "changeM3": -1.2,
-        "changeM6": -13.8,
-        "sma50": 168.6,
-        "sma200": 197.6,
-        "position52w": 3.9,
-        "drawdownFromHigh": -37.9,
-        "volatility20d": 49.4,
-        "volumeTrend": 50.1
-      },
-      "scoreEvaluatedAt": "2026-08-22T05:48:19.192Z",
-      "scoreValidUntil": "2026-08-23T05:48:19.192Z"
-    },
     {
       "date": "2026-08-26",
       "sourceCompanyName": "Under Armour Inc.",
@@ -192,8 +30,8 @@
       "companyKey": "UNDER ARMOUR",
       "currency": "EUR",
       "matchConfidence": 1,
-      "baseScore": 52,
-      "fundamentalScore": 52,
+      "baseScore": 43,
+      "fundamentalScore": 43,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -211,12 +49,12 @@
         "revenueCurrentYearEstimate": 4741.61,
         "revenueNextYearEstimate": 4845.89
       },
-      "daysUntil": 4,
+      "daysUntil": 3,
       "baseLabel": "NEUTRAL",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 7,
+          "delta": 2,
           "label": "Analystenschaetzungen"
         },
         {
@@ -226,19 +64,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 4,
+          "delta": 0,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": -9,
-      "newsDelta": 4,
-      "fundamentalDelta": 7,
+      "newsDelta": 0,
+      "fundamentalDelta": 2,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Sunforce Solar Named No. 460 on the 2026 Inc. 5000 List",
-        "Under Armour's EMEA & Latin America Markets Support Global Growth",
-        "WITH THREE-YEAR REVENUE GROWTH OF 179 PERCENT, ONEASCENT RANKS NO. 1,912 AMONG AMERICA'S FASTEST-GROWING PRIVATE COMPANIES",
-        "NKE Paid Holders $28 billion While The Stock Trailed The Market"
+        "Micron Stock Is Up 30% From Its Recent Low. Here's How Much a $5,000 Investment Today Could Be Worth by Next Year, According to Wall Street ",
+        "International Strength Offsetting North America Weakness Could Be A Game Changer For Under Armour (UAA)",
+        "Nvidia customers face over 15% server price hikes as memory costs soar - report",
+        "Palantir, Freeport Clear Buy Points, Lead Five Stocks To Watch"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -248,20 +86,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 253,
-        "last": 4.4,
-        "changeM1": -30.9,
-        "changeM3": -8.3,
-        "changeM6": -33.7,
+        "samples": 254,
+        "last": 4.5,
+        "changeM1": -24.1,
+        "changeM3": -5.3,
+        "changeM6": -30.3,
         "sma50": 5.5,
         "sma200": 5.1,
-        "position52w": 26.1,
-        "drawdownFromHigh": -33.8,
-        "volatility20d": 52.5,
+        "position52w": 29.2,
+        "drawdownFromHigh": -32.4,
+        "volatility20d": 50.3,
         "volumeTrend": -23.3
       },
-      "scoreEvaluatedAt": "2026-08-22T05:48:19.192Z",
-      "scoreValidUntil": "2026-08-23T05:48:19.192Z"
+      "scoreEvaluatedAt": "2026-08-23T05:52:23.481Z",
+      "scoreValidUntil": "2026-08-24T05:52:23.481Z"
     },
     {
       "date": "2026-08-28",
@@ -273,9 +111,9 @@
       "companyKey": "AUMANN",
       "currency": "EUR",
       "matchConfidence": 1,
-      "baseScore": 74,
-      "fundamentalScore": 74,
-      "fundamentalConfidence": 0.858,
+      "baseScore": 80,
+      "fundamentalScore": 80,
+      "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Wachstum ca. 80%",
@@ -292,7 +130,7 @@
         "revenueCurrentYearEstimate": 160.6,
         "revenueNextYearEstimate": 192.15
       },
-      "daysUntil": 6,
+      "daysUntil": 5,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
@@ -302,21 +140,24 @@
         },
         {
           "key": "CHART",
-          "delta": 0,
+          "delta": 6,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
           "delta": 0,
-          "label": "1 frische Meldungen"
+          "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": 0,
+      "chartDelta": 6,
       "newsDelta": 0,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Aumann Q2 Earnings Call Highlights"
+        "What Does a D-Wave Quantum Insider's Sale of 23,850 Shares Mean for Investors?",
+        "Thousands expected at Sweden climate demo as election looms",
+        "Cowboys vs. Cardinals highlights Preseason Week 2",
+        "Which Energy ETF Is a Better Buy: Broad Vanguard Fund or Concentrated XLE?"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -326,28 +167,28 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 93,
-        "last": 13.9,
-        "changeM1": 2.6,
-        "changeM3": 1.8,
-        "changeM6": 6.5,
+        "samples": 94,
+        "last": 14,
+        "changeM1": 5.3,
+        "changeM3": 1.1,
+        "changeM6": 6.9,
         "sma50": 14.2,
         "sma200": 13.9,
-        "position52w": 46,
-        "drawdownFromHigh": -10.9,
-        "volatility20d": 33.4,
+        "position52w": 47.6,
+        "drawdownFromHigh": -10.5,
+        "volatility20d": 32.3,
         "volumeTrend": null
       },
-      "scoreEvaluatedAt": "2026-08-22T05:48:19.192Z",
-      "scoreValidUntil": "2026-08-23T05:48:19.192Z"
+      "scoreEvaluatedAt": "2026-08-23T05:52:23.481Z",
+      "scoreValidUntil": "2026-08-24T05:52:23.481Z"
     }
   ],
-  "estimateAttemptCount": 4,
+  "estimateAttemptCount": 2,
   "scoreModelVersion": 27.7,
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
-  "chartProfileCount": 4,
-  "newsProfileCount": 4,
+  "chartProfileCount": 2,
+  "newsProfileCount": 2,
   "neutralScoreCount": 0,
-  "signalCoveredCount": 4
+  "signalCoveredCount": 2
 }
