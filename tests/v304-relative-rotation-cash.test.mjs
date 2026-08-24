@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';
+import {enforceHeldCashDeploymentV304} from '../src/held-cash-deployment-v304.js';
+const verified=(symbol,i)=>({symbol,name:symbol,decisionScore:72-i,momentum5Pct:.1,momentum20Pct:.2,brokerVerified:true,assetClass:'EQUITY',brokerVerificationSource:'official Trade Republic Trading Universe PDF',brokerMatchMode:'EXACT_NORMALIZED_NAME',isin:`DE00000000${i}${i}`.slice(0,12)});
+const candidates=['A.DE','B.DE','C.DE','D.DE'].map((s,i)=>verified(s,i));
+// replace synthetic ISINs with valid 12-char patterns
+candidates[0].isin='DE0000000001';candidates[1].isin='DE0000000002';candidates[2].isin='DE0000000003';candidates[3].isin='DE0000000004';
+const positions=candidates.map(c=>({symbol:c.symbol,name:c.name,invested:1500,entry_price:100,last_price:100,entry_fx:1,last_fx:1,decisionScore:c.decisionScore}));
+const plan={summary:'hold four',actions:positions.map(p=>({symbol:p.symbol,action:'HOLD',allocation_pct:0,reason:'stable'}))};
+const state={config:{cash:4000},positions,candidates};
+const out=enforceHeldCashDeploymentV304(structuredClone(plan),state);
+const buys=out.plan.actions.filter(a=>a.action==='BUY');
+assert.equal(out.counters.topups,4,'all four strong underweight positions should be eligible for top-up');
+assert.equal(buys.length,4);
+assert.ok(buys.every(a=>a.allocation_pct>0));
+assert.ok(buys.reduce((s,a)=>s+a.allocation_pct,0)>=94.9,'about 95% of cash should deploy, leaving the 2% equity reserve');
+assert.ok(buys.every(a=>/CASH-DEPLOYMENT/.test(a.reason)));
+const unsafe=structuredClone(state);unsafe.candidates[0].brokerVerified=false;
+const out2=enforceHeldCashDeploymentV304(structuredClone(plan),unsafe);
+assert.equal(out2.counters.topups,3,'unverified holding must never be topped up');
+console.log(JSON.stringify({ok:true,topups:out.counters.topups,cashDeploymentPct:buys.reduce((s,a)=>s+a.allocation_pct,0),unverifiedBlocked:true},null,2));
