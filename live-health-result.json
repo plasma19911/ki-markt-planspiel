@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-24T12:20:00.476Z",
+  "checkedAt": "2026-08-24T12:20:54.971Z",
   "runtimeVersion": "V30.5",
   "liveDecisionVersion": "V30.5",
   "http": {
@@ -27,18 +27,18 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-24T12:19:05.001Z",
-    "ageSeconds": 54
+    "lastSeenAt": "2026-08-24T12:20:14.580Z",
+    "ageSeconds": 39
   },
   "running": 1,
-  "scanCount": 201,
-  "lastScan": "2026-08-24T12:19:09.816Z",
+  "scanCount": 202,
+  "lastScan": "2026-08-24T12:20:19.838Z",
   "lastError": null,
-  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 4 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · V30.2 Live-Feedback: 0  · V30.5 Profit-Opportunity: 0 Starter · 0 Netto-Rotation · 1 HOLD-Blockaden · 0 stale Brokerblock geloest.",
+  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 4 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · V30.2 Live-Feedback: 0  · V30.5 Profit-Opportunity: 0 Starter · 0 Netto-Rotation · 0 HOLD-Blockaden · 0 stale Brokerblock geloest.",
   "cash": 4104.050689949999,
-  "equity": 9977.119982789445,
-  "pnl": -22.880017210554797,
-  "marketValue": 5873.0692928394465,
+  "equity": 9976.84167075326,
+  "pnl": -23.158329246740323,
+  "marketValue": 5872.790980803261,
   "accountingDelta": 0,
   "positions": 4,
   "positionRows": [
@@ -204,7 +204,7 @@
       "invested": 1837.008824,
       "entry_fee": 1,
       "entry_price": 659.1584999999999,
-      "last_price": 647.7999877929688,
+      "last_price": 647.7000122070312,
       "entry_fx": 0.0899,
       "last_fx": 0.0898,
       "fx_verified": true,
@@ -215,7 +215,7 @@
       "opened_at": "2026-08-24T07:33:21.280Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 55.9,
+      "score": 55.8,
       "signal_confidence": 0.5800000000000001,
       "zero_quantity": 31,
       "zero_whole_shares": 31,
@@ -224,25 +224,25 @@
       "zero_fee_model_version": "trade-republic-securities-2026-08-v1",
       "fx_stale": false,
       "legacy_position_score": 3,
-      "decisionScore": 55.9,
+      "decisionScore": 55.8,
       "entryDecisionScore": 65.2,
-      "scoreDeltaFromEntry": -9.3,
-      "scoreDeltaThisScan": -1,
-      "rawDecisionScore": 49.3,
-      "chartMoveFromEntryPct": -1.723,
-      "chartMoveLastScanPct": -0.185,
+      "scoreDeltaFromEntry": -9.4,
+      "scoreDeltaThisScan": 0,
+      "rawDecisionScore": 47.6,
+      "chartMoveFromEntryPct": -1.738,
+      "chartMoveLastScanPct": -0.015,
       "scoreFrozenPartial": false,
       "scoreChartCapped": true,
       "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
       "preDirectionalScore": 50.2,
-      "scoreFloor": 55.9,
+      "scoreFloor": 55.8,
       "scoreCeiling": 69.2,
       "chartDirectionMode": "DOWN",
       "scorePriorCorrected": false,
-      "preProfitScore": 55.9,
-      "profitScoreCeiling": 55.9,
+      "preProfitScore": 55.8,
+      "profitScoreCeiling": 55.8,
       "profitScoreDeltaThisScan": 0,
-      "daytradeChanceScore": 55.9,
+      "daytradeChanceScore": 55.8,
       "daytradeChanceLabel": "MITTEL",
       "daytradeChanceRank": 4
     }
@@ -265,8 +265,16 @@
     "statePromptMetadataMerge": true,
     "authoritativeBrokerUniverseResolve": true,
     "staleBrokerBlockCanBeClearedOnlyByExactMasterVerification": true,
-    "brokerResolveCount": 0,
-    "latest": null,
+    "brokerResolveCount": 1,
+    "latest": {
+      "starterBuys": 0,
+      "rotations": 0,
+      "hysteresisBypasses": 0,
+      "blockedStrongCandidates": 0,
+      "mergedCandidates": 9,
+      "exactTradeRepublicCandidates": 0,
+      "staleBrokerBlocksCleared": 0
+    },
     "blockedStrongCandidates": []
   },
   "relativeRotationPolicy": {
@@ -284,8 +292,19 @@
     "legacyMigrationCooldownMinutes": 5,
     "targetDeploymentPctWhenFourBuys": 98,
     "maxSinglePositionPct": 25,
-    "latest": null,
-    "legacyHeld": [],
+    "latest": {
+      "rotations": 0,
+      "legacyMigrations": 0,
+      "deploymentRescales": 0,
+      "rotationBlockedCooldown": 0,
+      "rotationBlockedHoldTime": 0
+    },
+    "legacyHeld": [
+      "SOLARINDS.NS",
+      "COCHINSHIP.NS",
+      "SAAB-B.ST",
+      "YIT.HE"
+    ],
     "rule": "Maximal vier Positionen. Normale Rotation ab 8 Scorepunkten Vorsprung. Nicht exakt Trade-Republic-verifizierte Altpositionen werden bevorzugt migriert, sobald ein exakt verifizierter Kandidat ab 60/100 mindestens 4 Scorepunkte besser ist. Legacy-Migration darf alle 5 Minuten erfolgen; neue Zielposition maximal 25%."
   },
   "heldCashDeploymentPolicy": {
@@ -296,7 +315,11 @@
     "targetDeploymentPct": 98,
     "minHeldScoreForTopup": 60,
     "noBlindAverageDown": true,
-    "latest": null
+    "latest": {
+      "topups": 0,
+      "targetDeploymentPct": 98,
+      "remainingCashTargetEur": 199.5423996557889
+    }
   },
   "executionModel": {
     "feeFixed": 0,
