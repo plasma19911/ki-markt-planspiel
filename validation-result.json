@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-08-24T06:12:14.342448+00:00",
-  "commit": "849b4cb372b90858c1051002f86412be0dd56705",
+  "checkedAt": "2026-08-24T06:12:27.417208+00:00",
+  "commit": "6c0b7bf2f24decbd07c7c3d7da7c3ecd6d6679bd",
   "install": {
     "ok": true,
     "tail": "\nadded 38 packages, and audited 39 packages in 6s\n\n7 packages are looking for funding\n  run `npm fund` for details\n\nfound 0 vulnerabilities\n"
@@ -262,9 +262,9 @@
       "tail": "{\n  \"ok\": true,\n  \"weakBlocked\": true,\n  \"strongAllowed\": true,\n  \"strongCap\": 35,\n  \"nearMissStarter\": 22\n}\nnode:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Sehr guter Kandidat darf trotz knapp verfehlter weicher Vollbestaetigung eine Starterchance erhalten\n\nfalse !== true\n\n    at file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/scripts/smoke-balanced-adaptive.mjs:21:8\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/scripts/smoke-research-entry-quality.mjs:32:1 {\n  generatedMessage: false,\n  code: 'ERR_ASSERTION',\n  actual: false,\n  expected: true,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
     },
     "target_venue_guard": {
-      "ok": false,
-      "exitCode": 1,
-      "tail": "node:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: The input did not match the regular expression /Venture|nicht explizit/. Input:\n\n'Aktie BIG.V hat keine harte Trade-Republic-Brokerbestaetigung'\n\n    at file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/scripts/smoke-target-venue-guard.mjs:9:8\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: 'Aktie BIG.V hat keine harte Trade-Republic-Brokerbestaetigung',\n  expected: /Venture|nicht explizit/,\n  operator: 'match',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
+      "ok": true,
+      "exitCode": 0,
+      "tail": "{\n  \"ok\": true,\n  \"ventureBlocked\": true,\n  \"missingVerificationBlocked\": true,\n  \"relaxedMatchBlocked\": true,\n  \"exactVerifiedAllowed\": true,\n  \"executionFailsafe\": true,\n  \"guard\": \"TRADE-REPUBLIC-BLOCK\"\n}\n"
     },
     "entry_learning": {
       "ok": true,
@@ -304,7 +304,7 @@
     "pc_wide_sweep": {
       "ok": true,
       "exitCode": 0,
-      "tail": "{\n  \"ok\": true,\n  \"target\": 64,\n  \"dipReserve\": 44,\n  \"selected\": 64,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-24T06:11:51.569Z\",\n    \"ageSeconds\": 20,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"freshMerge\": {\n    \"symbol\": \"FRESH.DE\",\n    \"wideScore\": 29.8,\n    \"m5Pct\": 0.02,\n    \"m20Pct\": 0.1,\n    \"accelerationPct\": 0.02,\n    \"sessionPct\": 0.2,\n    \"last\": 10.1,\n    \"observedAt\": \"2026-08-24T06:12:01.569Z\",\n    \"ageSeconds\": 10,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"liveWave\": {\n    \"priority\": \"DIPBEST.DE\",\n    \"rotating\": [\n      \"ROTATE.DE\",\n      \"HIGH.DE\"\n    ]\n  },\n  \"forcedBuy\": false\n}\n"
+      "tail": "{\n  \"ok\": true,\n  \"target\": 64,\n  \"dipReserve\": 44,\n  \"selected\": 64,\n  \"top\": {\n    \"symbol\": \"TEST0.DE\",\n    \"wideScore\": 99,\n    \"m5Pct\": 1,\n    \"m20Pct\": 2,\n    \"accelerationPct\": 0.8,\n    \"sessionPct\": 3,\n    \"last\": 10,\n    \"observedAt\": \"2026-08-24T06:12:04.626Z\",\n    \"ageSeconds\": 20,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"freshMerge\": {\n    \"symbol\": \"FRESH.DE\",\n    \"wideScore\": 29.8,\n    \"m5Pct\": 0.02,\n    \"m20Pct\": 0.1,\n    \"accelerationPct\": 0.02,\n    \"sessionPct\": 0.2,\n    \"last\": 10.1,\n    \"observedAt\": \"2026-08-24T06:12:14.626Z\",\n    \"ageSeconds\": 10,\n    \"source\": \"WINDOWS_PC_WIDE_SWEEP\",\n    \"dipDiscovery\": false,\n    \"dipDiscoveryScore\": 0\n  },\n  \"liveWave\": {\n    \"priority\": \"DIPBEST.DE\",\n    \"rotating\": [\n      \"ROTATE.DE\",\n      \"HIGH.DE\"\n    ]\n  },\n  \"forcedBuy\": false\n}\n"
     },
     "yahoo_sanity": {
       "ok": true,
@@ -340,7 +340,6 @@
   "failedChecks": [
     "control_surface",
     "research_entry",
-    "target_venue_guard",
     "second_chance",
     "capital_in_motion",
     "final_decision_suite"
