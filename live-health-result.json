@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-24T06:13:29.471063+00:00",
+  "checkedAt": "2026-08-24T06:14:01.722708+00:00",
   "runtimeVersion": "V30.3",
   "liveDecisionVersion": "V30.3",
   "http": {
@@ -41,8 +41,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-24T06:12:09.227Z",
-    "ageSeconds": 80,
+    "lastSeenAt": "2026-08-24T06:13:31.284Z",
+    "ageSeconds": 30,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
@@ -90,9 +90,9 @@
       "entryDecisionScore": 67.9,
       "scoreDeltaFromEntry": -3,
       "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 44.1,
+      "rawDecisionScore": 42.2,
       "chartMoveFromEntryPct": -0.1,
-      "chartMoveLastScanPct": 0.09,
+      "chartMoveLastScanPct": 0,
       "scoreFrozenPartial": false,
       "scoreChartCapped": true,
       "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
@@ -128,7 +128,7 @@
       "opened_at": "2026-08-24T05:36:07.993Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 61.9,
+      "score": 61.4,
       "signal_confidence": 0.53,
       "zero_quantity": 4,
       "zero_whole_shares": 4,
@@ -137,25 +137,25 @@
       "zero_fee_model_version": "trade-republic-securities-2026-08-v1",
       "fx_stale": false,
       "legacy_position_score": 2.5,
-      "decisionScore": 61.9,
+      "decisionScore": 61.4,
       "entryDecisionScore": 64.4,
-      "scoreDeltaFromEntry": -2.5,
-      "scoreDeltaThisScan": 0.5,
-      "rawDecisionScore": 61.9,
+      "scoreDeltaFromEntry": -3,
+      "scoreDeltaThisScan": 0,
+      "rawDecisionScore": 58.3,
       "chartMoveFromEntryPct": -0.1,
       "chartMoveLastScanPct": 0,
       "scoreFrozenPartial": false,
-      "scoreChartCapped": false,
+      "scoreChartCapped": true,
       "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
-      "preDirectionalScore": 61.9,
+      "preDirectionalScore": 61.4,
       "scoreFloor": 61.4,
       "scoreCeiling": 67.4,
       "chartDirectionMode": "FLAT",
       "scorePriorCorrected": false,
-      "preProfitScore": 61.9,
-      "profitScoreCeiling": 61.9,
+      "preProfitScore": 61.4,
+      "profitScoreCeiling": 61.4,
       "profitScoreDeltaThisScan": 0,
-      "daytradeChanceScore": 61.9,
+      "daytradeChanceScore": 61.4,
       "daytradeChanceLabel": "GUT",
       "daytradeChanceRank": 2
     },
@@ -192,9 +192,9 @@
       "entryDecisionScore": 59.9,
       "scoreDeltaFromEntry": -3,
       "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 42.3,
+      "rawDecisionScore": 40.6,
       "chartMoveFromEntryPct": -0.1,
-      "chartMoveLastScanPct": 0.15,
+      "chartMoveLastScanPct": 0,
       "scoreFrozenPartial": false,
       "scoreChartCapped": true,
       "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
@@ -243,9 +243,9 @@
       "entryDecisionScore": 58.4,
       "scoreDeltaFromEntry": -3.3,
       "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 52.3,
+      "rawDecisionScore": 48.8,
       "chartMoveFromEntryPct": -0.407,
-      "chartMoveLastScanPct": 0.036,
+      "chartMoveLastScanPct": 0,
       "scoreFrozenPartial": false,
       "scoreChartCapped": true,
       "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
@@ -253,7 +253,7 @@
       "scoreFloor": 55.1,
       "scoreCeiling": 62.4,
       "chartDirectionMode": "DOWN",
-      "scorePriorCorrected": true,
+      "scorePriorCorrected": false,
       "preProfitScore": 55.1,
       "profitScoreCeiling": 55.1,
       "profitScoreDeltaThisScan": 0,
@@ -613,10 +613,10 @@
     "ranking": [
       {
         "symbol": "079550.KS",
-        "fusionScore": 67.9,
-        "buyScore": 67.9,
-        "holdScore": 67.9,
-        "sellScore": 32.1,
+        "fusionScore": 64.3,
+        "buyScore": 64.3,
+        "holdScore": 64.3,
+        "sellScore": 35.7,
         "parts": {
           "scanner": -5.2,
           "confidence": 0.8400000000000007,
@@ -627,7 +627,7 @@
           "reclaim": 8,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 4
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -636,12 +636,12 @@
         "day": 2.158273381294973,
         "price": 710000,
         "newsHeadline": null,
-        "rawDecisionScore": 62,
-        "qualityAdjustedRawScore": 62,
-        "decisionScore": 67.9,
-        "scoreDeltaRaw": 1.8,
-        "scoreDeltaStable": 1.7,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 58,
+        "qualityAdjustedRawScore": 58,
+        "decisionScore": 64.3,
+        "scoreDeltaRaw": -0.4,
+        "scoreDeltaStable": -0.1,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
@@ -651,16 +651,6 @@
         "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
-            "name": "multiScan",
-            "value": 4,
-            "delta": 4
-          },
-          {
-            "name": "momentum",
-            "value": 3,
-            "delta": 0.2
-          },
-          {
             "name": "scanner",
             "value": -5.2,
             "delta": 0
@@ -669,17 +659,27 @@
             "name": "confidence",
             "value": 0.8,
             "delta": 0
+          },
+          {
+            "name": "day",
+            "value": 4.3,
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": 3,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30.2,
-        "preDaytradeDecisionScore": 61.9,
-        "daytradeDecisionScore": 61.9,
+        "preDaytradeDecisionScore": 58.3,
+        "daytradeDecisionScore": 58.3,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 61.9,
-        "daytradeDipScore": 67.9,
+        "preDipDecisionScore": 58.3,
+        "daytradeDipScore": 64.3,
         "dipScorePoints": 6,
         "dipLabel": "DIP_RECLAIM",
         "dipQuality": 0.82,
@@ -695,8 +695,8 @@
           "news": 0,
           "volume": 0
         },
-        "preTimingDecisionScore": 67.9,
-        "daytradeEntryScore": 67.9,
+        "preTimingDecisionScore": 64.3,
+        "daytradeEntryScore": 64.3,
         "timingScorePoints": 0,
         "timingLabel": "TIMING_OK",
         "timingQuality": 0.5,
@@ -712,17 +712,17 @@
           "explicitStale": false,
           "fastPresent": 3
         },
-        "preLiveFeedbackScore": 67.9,
+        "preLiveFeedbackScore": 64.3,
         "liveFeedbackScorePoints": 0,
         "liveFeedbackLabel": "NONE",
-        "daytradeLiveScore": 67.9
+        "daytradeLiveScore": 64.3
       },
       {
         "symbol": "8035.T",
-        "fusionScore": 49.3,
-        "buyScore": 49.3,
-        "holdScore": 49.3,
-        "sellScore": 50.7,
+        "fusionScore": 45.8,
+        "buyScore": 45.8,
+        "holdScore": 45.8,
+        "sellScore": 54.2,
         "parts": {
           "scanner": -12,
           "confidence": -0.5125329999999995,
@@ -733,7 +733,7 @@
           "reclaim": 8,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 4
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -742,50 +742,50 @@
         "day": 1.4367286793147915,
         "price": 55070,
         "newsHeadline": null,
-        "rawDecisionScore": 53.1,
-        "qualityAdjustedRawScore": 53.1,
-        "decisionScore": 49.3,
-        "scoreDeltaRaw": 10.8,
-        "scoreDeltaStable": 10,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 49.1,
+        "qualityAdjustedRawScore": 49.1,
+        "decisionScore": 45.8,
+        "scoreDeltaRaw": 0.4,
+        "scoreDeltaStable": 0.1,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": 0.036,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
-            "name": "reclaim",
-            "value": 8,
-            "delta": 8
+            "name": "scanner",
+            "value": -12,
+            "delta": 0
           },
           {
-            "name": "momentum",
-            "value": 2.8,
-            "delta": 7
-          },
-          {
-            "name": "multiScan",
-            "value": 4,
-            "delta": 4
+            "name": "confidence",
+            "value": -0.5,
+            "delta": 0
           },
           {
             "name": "day",
             "value": 2.9,
-            "delta": 0.1
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": 2.8,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30.2,
-        "preDaytradeDecisionScore": 52.3,
-        "daytradeDecisionScore": 52.3,
+        "preDaytradeDecisionScore": 48.8,
+        "daytradeDecisionScore": 48.8,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 52.3,
-        "daytradeDipScore": 52.3,
+        "preDipDecisionScore": 48.8,
+        "daytradeDipScore": 48.8,
         "dipScorePoints": 0,
         "dipLabel": "NEUTRAL",
         "dipQuality": 0.45,
@@ -801,8 +801,8 @@
           "news": 0.08999999999999998,
           "volume": 0
         },
-        "preTimingDecisionScore": 52.3,
-        "daytradeEntryScore": 49.3,
+        "preTimingDecisionScore": 48.8,
+        "daytradeEntryScore": 45.8,
         "timingScorePoints": -3,
         "timingLabel": "NEUTRAL_TIMING",
         "timingQuality": 0.42,
@@ -818,17 +818,17 @@
           "explicitStale": false,
           "fastPresent": 3
         },
-        "preLiveFeedbackScore": 49.3,
+        "preLiveFeedbackScore": 45.8,
         "liveFeedbackScorePoints": 0,
         "liveFeedbackLabel": "NONE",
-        "daytradeLiveScore": 49.3
+        "daytradeLiveScore": 45.8
       },
       {
         "symbol": "012450.KS",
-        "fusionScore": 41.1,
-        "buyScore": 41.1,
-        "holdScore": 41.1,
-        "sellScore": 58.9,
+        "fusionScore": 39.2,
+        "buyScore": 39.2,
+        "holdScore": 39.2,
+        "sellScore": 60.8,
         "parts": {
           "scanner": -12,
           "confidence": -5.599999999999999,
@@ -839,7 +839,7 @@
           "reclaim": 8,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 2
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -848,50 +848,50 @@
         "day": 1.9354838709677358,
         "price": 1106000,
         "newsHeadline": null,
-        "rawDecisionScore": 43.3,
-        "qualityAdjustedRawScore": 43.3,
-        "decisionScore": 41.1,
-        "scoreDeltaRaw": -3.8,
-        "scoreDeltaStable": -3,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 41.3,
+        "qualityAdjustedRawScore": 41.3,
+        "decisionScore": 39.2,
+        "scoreDeltaRaw": -1.1,
+        "scoreDeltaStable": -0.2,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": 0.09,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
-            "name": "reclaim",
-            "value": 8,
-            "delta": 8
+            "name": "scanner",
+            "value": -12,
+            "delta": 0
           },
           {
             "name": "confidence",
             "value": -5.6,
-            "delta": -3.5
+            "delta": 0
+          },
+          {
+            "name": "day",
+            "value": 3.9,
+            "delta": 0
           },
           {
             "name": "momentum",
             "value": 0,
-            "delta": 2.4
-          },
-          {
-            "name": "multiScan",
-            "value": 2,
-            "delta": 2
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30.2,
-        "preDaytradeDecisionScore": 44.1,
-        "daytradeDecisionScore": 44.1,
+        "preDaytradeDecisionScore": 42.2,
+        "daytradeDecisionScore": 42.2,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 44.1,
-        "daytradeDipScore": 44.1,
+        "preDipDecisionScore": 42.2,
+        "daytradeDipScore": 42.2,
         "dipScorePoints": 0,
         "dipLabel": "NEUTRAL",
         "dipQuality": 0.45,
@@ -907,8 +907,8 @@
           "news": 0,
           "volume": 0
         },
-        "preTimingDecisionScore": 44.1,
-        "daytradeEntryScore": 41.1,
+        "preTimingDecisionScore": 42.2,
+        "daytradeEntryScore": 39.2,
         "timingScorePoints": -3,
         "timingLabel": "NEUTRAL_TIMING",
         "timingQuality": 0.42,
@@ -924,17 +924,17 @@
           "explicitStale": false,
           "fastPresent": 3
         },
-        "preLiveFeedbackScore": 41.1,
+        "preLiveFeedbackScore": 39.2,
         "liveFeedbackScorePoints": 0,
         "liveFeedbackLabel": "NONE",
-        "daytradeLiveScore": 41.1
+        "daytradeLiveScore": 39.2
       },
       {
         "symbol": "064350.KS",
-        "fusionScore": 39.3,
-        "buyScore": 39.3,
-        "holdScore": 39.3,
-        "sellScore": 60.7,
+        "fusionScore": 37.6,
+        "buyScore": 37.6,
+        "holdScore": 37.6,
+        "sellScore": 62.4,
         "parts": {
           "scanner": -11.959999999999999,
           "confidence": -2.7999999999999994,
@@ -945,7 +945,7 @@
           "reclaim": 0,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 2
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -954,50 +954,50 @@
         "day": 2.4596464258262785,
         "price": 133300,
         "newsHeadline": null,
-        "rawDecisionScore": 42.8,
-        "qualityAdjustedRawScore": 42.8,
-        "decisionScore": 39.3,
-        "scoreDeltaRaw": 6.1,
-        "scoreDeltaStable": 5.6,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 40.8,
+        "qualityAdjustedRawScore": 40.8,
+        "decisionScore": 37.6,
+        "scoreDeltaRaw": 0.3,
+        "scoreDeltaStable": 0.1,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": 0.15,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
-          {
-            "name": "momentum",
-            "value": 3.6,
-            "delta": 3.3
-          },
-          {
-            "name": "multiScan",
-            "value": 2,
-            "delta": 2
-          },
-          {
-            "name": "day",
-            "value": 4.9,
-            "delta": 0.3
-          },
           {
             "name": "scanner",
             "value": -12,
             "delta": 0
+          },
+          {
+            "name": "confidence",
+            "value": -2.8,
+            "delta": 0
+          },
+          {
+            "name": "day",
+            "value": 4.9,
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": 3.6,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30.2,
-        "preDaytradeDecisionScore": 42.3,
-        "daytradeDecisionScore": 42.3,
+        "preDaytradeDecisionScore": 40.6,
+        "daytradeDecisionScore": 40.6,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 42.3,
-        "daytradeDipScore": 42.3,
+        "preDipDecisionScore": 40.6,
+        "daytradeDipScore": 40.6,
         "dipScorePoints": 0,
         "dipLabel": "NEUTRAL",
         "dipQuality": 0.45,
@@ -1013,8 +1013,8 @@
           "news": 0,
           "volume": 0
         },
-        "preTimingDecisionScore": 42.3,
-        "daytradeEntryScore": 39.3,
+        "preTimingDecisionScore": 40.6,
+        "daytradeEntryScore": 37.6,
         "timingScorePoints": -3,
         "timingLabel": "NEUTRAL_TIMING",
         "timingQuality": 0.42,
@@ -1030,17 +1030,17 @@
           "explicitStale": false,
           "fastPresent": 3
         },
-        "preLiveFeedbackScore": 39.3,
+        "preLiveFeedbackScore": 37.6,
         "liveFeedbackScorePoints": 0,
         "liveFeedbackLabel": "NONE",
-        "daytradeLiveScore": 39.3
+        "daytradeLiveScore": 37.6
       },
       {
         "symbol": "SOLARINDS.NS",
-        "fusionScore": 35.2,
-        "buyScore": 35.2,
-        "holdScore": 35.2,
-        "sellScore": 64.8,
+        "fusionScore": 31.5,
+        "buyScore": 31.5,
+        "holdScore": 31.5,
+        "sellScore": 68.5,
         "parts": {
           "scanner": -12,
           "confidence": -0.2799999999999987,
@@ -1051,7 +1051,7 @@
           "reclaim": 0,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 4
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -1060,50 +1060,50 @@
         "day": -1.0854271356783962,
         "price": 19684,
         "newsHeadline": null,
-        "rawDecisionScore": 38.6,
-        "qualityAdjustedRawScore": 38.6,
-        "decisionScore": 35.2,
-        "scoreDeltaRaw": 5.5,
-        "scoreDeltaStable": 5.1,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 34.6,
+        "qualityAdjustedRawScore": 34.6,
+        "decisionScore": 31.5,
+        "scoreDeltaRaw": 0.1,
+        "scoreDeltaStable": 0,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": -0.025,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
-          {
-            "name": "multiScan",
-            "value": 4,
-            "delta": 4
-          },
-          {
-            "name": "confidence",
-            "value": -0.3,
-            "delta": 2.8
-          },
-          {
-            "name": "momentum",
-            "value": 1.6,
-            "delta": 1.5
-          },
           {
             "name": "scanner",
             "value": -12,
             "delta": 0
+          },
+          {
+            "name": "confidence",
+            "value": -0.3,
+            "delta": 0
+          },
+          {
+            "name": "day",
+            "value": -1.7,
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": 1.6,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30.2,
-        "preDaytradeDecisionScore": 38.2,
-        "daytradeDecisionScore": 38.2,
+        "preDaytradeDecisionScore": 34.5,
+        "daytradeDecisionScore": 34.5,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 38.2,
-        "daytradeDipScore": 38.2,
+        "preDipDecisionScore": 34.5,
+        "daytradeDipScore": 34.5,
         "dipScorePoints": 0,
         "dipLabel": "NEUTRAL",
         "dipQuality": 0.45,
@@ -1119,8 +1119,8 @@
           "news": 0,
           "volume": 0
         },
-        "preTimingDecisionScore": 38.2,
-        "daytradeEntryScore": 35.2,
+        "preTimingDecisionScore": 34.5,
+        "daytradeEntryScore": 31.5,
         "timingScorePoints": -3,
         "timingLabel": "NEUTRAL_TIMING",
         "timingQuality": 0.42,
@@ -1136,17 +1136,17 @@
           "explicitStale": false,
           "fastPresent": 3
         },
-        "preLiveFeedbackScore": 35.2,
+        "preLiveFeedbackScore": 31.5,
         "liveFeedbackScorePoints": 0,
         "liveFeedbackLabel": "NONE",
-        "daytradeLiveScore": 35.2
+        "daytradeLiveScore": 31.5
       },
       {
         "symbol": "6758.T",
-        "fusionScore": 28.6,
-        "buyScore": 28.6,
-        "holdScore": 28.6,
-        "sellScore": 71.4,
+        "fusionScore": 29.7,
+        "buyScore": 29.7,
+        "holdScore": 29.7,
+        "sellScore": 70.3,
         "parts": {
           "scanner": -12,
           "confidence": -2.0999999999999988,
@@ -1157,7 +1157,7 @@
           "reclaim": 0,
           "regime": 0,
           "overextension": 0,
-          "multiScan": -4
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -1166,50 +1166,50 @@
         "day": 1.8758256274768792,
         "price": 3856,
         "newsHeadline": null,
-        "rawDecisionScore": 27.8,
-        "qualityAdjustedRawScore": 27.8,
-        "decisionScore": 28.6,
-        "scoreDeltaRaw": -9.8,
-        "scoreDeltaStable": -6,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 31.8,
+        "qualityAdjustedRawScore": 31.8,
+        "decisionScore": 29.7,
+        "scoreDeltaRaw": -1.1,
+        "scoreDeltaStable": -0.2,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": -0.052,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
+            "name": "scanner",
+            "value": -12,
+            "delta": 0
+          },
+          {
             "name": "confidence",
             "value": -2.1,
-            "delta": -4.9
-          },
-          {
-            "name": "multiScan",
-            "value": -4,
-            "delta": -4
-          },
-          {
-            "name": "momentum",
-            "value": -4.9,
-            "delta": 0.6
+            "delta": 0
           },
           {
             "name": "day",
             "value": 3.8,
-            "delta": -0.1
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": -4.9,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30.2,
-        "preDaytradeDecisionScore": 31.6,
-        "daytradeDecisionScore": 31.6,
+        "preDaytradeDecisionScore": 32.7,
+        "daytradeDecisionScore": 32.7,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 31.6,
-        "daytradeDipScore": 31.6,
+        "preDipDecisionScore": 32.7,
+        "daytradeDipScore": 32.7,
         "dipScorePoints": 0,
         "dipLabel": "NEUTRAL",
         "dipQuality": 0.45,
@@ -1225,8 +1225,8 @@
           "news": 0,
           "volume": 0
         },
-        "preTimingDecisionScore": 31.6,
-        "daytradeEntryScore": 28.6,
+        "preTimingDecisionScore": 32.7,
+        "daytradeEntryScore": 29.7,
         "timingScorePoints": -3,
         "timingLabel": "NEUTRAL_TIMING",
         "timingQuality": 0.42,
@@ -1242,17 +1242,17 @@
           "explicitStale": false,
           "fastPresent": 3
         },
-        "preLiveFeedbackScore": 28.6,
+        "preLiveFeedbackScore": 29.7,
         "liveFeedbackScorePoints": 0,
         "liveFeedbackLabel": "NONE",
-        "daytradeLiveScore": 28.6
+        "daytradeLiveScore": 29.7
       },
       {
         "symbol": "042660.KS",
-        "fusionScore": 17.5,
-        "buyScore": 17.5,
-        "holdScore": 17.5,
-        "sellScore": 82.5,
+        "fusionScore": 16.8,
+        "buyScore": 16.8,
+        "holdScore": 16.8,
+        "sellScore": 83.2,
         "parts": {
           "scanner": -12,
           "confidence": -0.2799999999999987,
@@ -1274,48 +1274,48 @@
         "newsHeadline": null,
         "rawDecisionScore": 25.8,
         "qualityAdjustedRawScore": 25.8,
-        "decisionScore": 17.5,
-        "scoreDeltaRaw": -10.7,
-        "scoreDeltaStable": -6,
-        "scoreAgeMinutes": 24.17,
+        "decisionScore": 16.8,
+        "scoreDeltaRaw": -4.7,
+        "scoreDeltaStable": -0.7,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": -0.361,
-        "scoreChartAccelerated": true,
+        "scoreChartMovePct": 0,
+        "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
             "name": "scanner",
             "value": -12,
-            "delta": -9.4
-          },
-          {
-            "name": "regime",
-            "value": 0,
-            "delta": 5
-          },
-          {
-            "name": "momentum",
-            "value": -6.5,
-            "delta": -3.3
+            "delta": 0
           },
           {
             "name": "confidence",
             "value": -0.3,
-            "delta": -2.5
+            "delta": 0
+          },
+          {
+            "name": "day",
+            "value": -2.5,
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": -6.5,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30.2,
-        "preDaytradeDecisionScore": 30.5,
-        "daytradeDecisionScore": 30.5,
+        "preDaytradeDecisionScore": 29.8,
+        "daytradeDecisionScore": 29.8,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 30.5,
-        "daytradeDipScore": 24.5,
+        "preDipDecisionScore": 29.8,
+        "daytradeDipScore": 23.8,
         "dipScorePoints": -6,
         "dipLabel": "WEAK_DIP",
         "dipQuality": 0.2,
@@ -1331,8 +1331,8 @@
           "news": 0,
           "volume": 0
         },
-        "preTimingDecisionScore": 24.5,
-        "daytradeEntryScore": 19.5,
+        "preTimingDecisionScore": 23.8,
+        "daytradeEntryScore": 18.8,
         "timingScorePoints": -5,
         "timingLabel": "WEAK_TAPE",
         "timingQuality": 0.2,
@@ -1348,10 +1348,10 @@
           "explicitStale": false,
           "fastPresent": 3
         },
-        "preLiveFeedbackScore": 19.5,
+        "preLiveFeedbackScore": 18.8,
         "liveFeedbackScorePoints": -2,
         "liveFeedbackLabel": "WEAK_DIP_LIVE_FIX",
-        "daytradeLiveScore": 17.5
+        "daytradeLiveScore": 16.8
       }
     ],
     "baselineRepair": {
@@ -1413,10 +1413,10 @@
     "ranking": [
       {
         "symbol": "079550.KS",
-        "fusionScore": 67.9,
-        "buyScore": 67.9,
-        "holdScore": 67.9,
-        "sellScore": 32.1,
+        "fusionScore": 64.3,
+        "buyScore": 64.3,
+        "holdScore": 64.3,
+        "sellScore": 35.7,
         "parts": {
           "scanner": -5.2,
           "confidence": 0.8400000000000007,
@@ -1427,7 +1427,7 @@
           "reclaim": 8,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 4
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -1436,12 +1436,12 @@
         "day": 2.158273381294973,
         "price": 710000,
         "newsHeadline": null,
-        "rawDecisionScore": 62,
-        "qualityAdjustedRawScore": 62,
-        "decisionScore": 67.9,
-        "scoreDeltaRaw": 1.8,
-        "scoreDeltaStable": 1.7,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 58,
+        "qualityAdjustedRawScore": 58,
+        "decisionScore": 64.3,
+        "scoreDeltaRaw": -0.4,
+        "scoreDeltaStable": -0.1,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
@@ -1451,16 +1451,6 @@
         "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
-            "name": "multiScan",
-            "value": 4,
-            "delta": 4
-          },
-          {
-            "name": "momentum",
-            "value": 3,
-            "delta": 0.2
-          },
-          {
             "name": "scanner",
             "value": -5.2,
             "delta": 0
@@ -1469,17 +1459,27 @@
             "name": "confidence",
             "value": 0.8,
             "delta": 0
+          },
+          {
+            "name": "day",
+            "value": 4.3,
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": 3,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30.1,
-        "preDaytradeDecisionScore": 61.9,
-        "daytradeDecisionScore": 61.9,
+        "preDaytradeDecisionScore": 58.3,
+        "daytradeDecisionScore": 58.3,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 61.9,
-        "daytradeDipScore": 67.9,
+        "preDipDecisionScore": 58.3,
+        "daytradeDipScore": 64.3,
         "dipScorePoints": 6,
         "dipLabel": "DIP_RECLAIM",
         "dipQuality": 0.82,
@@ -1495,8 +1495,8 @@
           "news": 0,
           "volume": 0
         },
-        "preTimingDecisionScore": 67.9,
-        "daytradeEntryScore": 67.9,
+        "preTimingDecisionScore": 64.3,
+        "daytradeEntryScore": 64.3,
         "timingScorePoints": 0,
         "timingLabel": "TIMING_OK",
         "timingQuality": 0.5,
@@ -1515,10 +1515,10 @@
       },
       {
         "symbol": "8035.T",
-        "fusionScore": 49.3,
-        "buyScore": 49.3,
-        "holdScore": 49.3,
-        "sellScore": 50.7,
+        "fusionScore": 45.8,
+        "buyScore": 45.8,
+        "holdScore": 45.8,
+        "sellScore": 54.2,
         "parts": {
           "scanner": -12,
           "confidence": -0.5125329999999995,
@@ -1529,7 +1529,7 @@
           "reclaim": 8,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 4
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -1538,50 +1538,50 @@
         "day": 1.4367286793147915,
         "price": 55070,
         "newsHeadline": null,
-        "rawDecisionScore": 53.1,
-        "qualityAdjustedRawScore": 53.1,
-        "decisionScore": 49.3,
-        "scoreDeltaRaw": 10.8,
-        "scoreDeltaStable": 10,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 49.1,
+        "qualityAdjustedRawScore": 49.1,
+        "decisionScore": 45.8,
+        "scoreDeltaRaw": 0.4,
+        "scoreDeltaStable": 0.1,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": 0.036,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
-            "name": "reclaim",
-            "value": 8,
-            "delta": 8
+            "name": "scanner",
+            "value": -12,
+            "delta": 0
           },
           {
-            "name": "momentum",
-            "value": 2.8,
-            "delta": 7
-          },
-          {
-            "name": "multiScan",
-            "value": 4,
-            "delta": 4
+            "name": "confidence",
+            "value": -0.5,
+            "delta": 0
           },
           {
             "name": "day",
             "value": 2.9,
-            "delta": 0.1
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": 2.8,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30.1,
-        "preDaytradeDecisionScore": 52.3,
-        "daytradeDecisionScore": 52.3,
+        "preDaytradeDecisionScore": 48.8,
+        "daytradeDecisionScore": 48.8,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 52.3,
-        "daytradeDipScore": 52.3,
+        "preDipDecisionScore": 48.8,
+        "daytradeDipScore": 48.8,
         "dipScorePoints": 0,
         "dipLabel": "NEUTRAL",
         "dipQuality": 0.45,
@@ -1597,8 +1597,8 @@
           "news": 0.08999999999999998,
           "volume": 0
         },
-        "preTimingDecisionScore": 52.3,
-        "daytradeEntryScore": 49.3,
+        "preTimingDecisionScore": 48.8,
+        "daytradeEntryScore": 45.8,
         "timingScorePoints": -3,
         "timingLabel": "NEUTRAL_TIMING",
         "timingQuality": 0.42,
@@ -1617,10 +1617,10 @@
       },
       {
         "symbol": "012450.KS",
-        "fusionScore": 41.1,
-        "buyScore": 41.1,
-        "holdScore": 41.1,
-        "sellScore": 58.9,
+        "fusionScore": 39.2,
+        "buyScore": 39.2,
+        "holdScore": 39.2,
+        "sellScore": 60.8,
         "parts": {
           "scanner": -12,
           "confidence": -5.599999999999999,
@@ -1631,7 +1631,7 @@
           "reclaim": 8,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 2
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -1640,50 +1640,50 @@
         "day": 1.9354838709677358,
         "price": 1106000,
         "newsHeadline": null,
-        "rawDecisionScore": 43.3,
-        "qualityAdjustedRawScore": 43.3,
-        "decisionScore": 41.1,
-        "scoreDeltaRaw": -3.8,
-        "scoreDeltaStable": -3,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 41.3,
+        "qualityAdjustedRawScore": 41.3,
+        "decisionScore": 39.2,
+        "scoreDeltaRaw": -1.1,
+        "scoreDeltaStable": -0.2,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": 0.09,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
-            "name": "reclaim",
-            "value": 8,
-            "delta": 8
+            "name": "scanner",
+            "value": -12,
+            "delta": 0
           },
           {
             "name": "confidence",
             "value": -5.6,
-            "delta": -3.5
+            "delta": 0
+          },
+          {
+            "name": "day",
+            "value": 3.9,
+            "delta": 0
           },
           {
             "name": "momentum",
             "value": 0,
-            "delta": 2.4
-          },
-          {
-            "name": "multiScan",
-            "value": 2,
-            "delta": 2
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30.1,
-        "preDaytradeDecisionScore": 44.1,
-        "daytradeDecisionScore": 44.1,
+        "preDaytradeDecisionScore": 42.2,
+        "daytradeDecisionScore": 42.2,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 44.1,
-        "daytradeDipScore": 44.1,
+        "preDipDecisionScore": 42.2,
+        "daytradeDipScore": 42.2,
         "dipScorePoints": 0,
         "dipLabel": "NEUTRAL",
         "dipQuality": 0.45,
@@ -1699,8 +1699,8 @@
           "news": 0,
           "volume": 0
         },
-        "preTimingDecisionScore": 44.1,
-        "daytradeEntryScore": 41.1,
+        "preTimingDecisionScore": 42.2,
+        "daytradeEntryScore": 39.2,
         "timingScorePoints": -3,
         "timingLabel": "NEUTRAL_TIMING",
         "timingQuality": 0.42,
@@ -1719,10 +1719,10 @@
       },
       {
         "symbol": "064350.KS",
-        "fusionScore": 39.3,
-        "buyScore": 39.3,
-        "holdScore": 39.3,
-        "sellScore": 60.7,
+        "fusionScore": 37.6,
+        "buyScore": 37.6,
+        "holdScore": 37.6,
+        "sellScore": 62.4,
         "parts": {
           "scanner": -11.959999999999999,
           "confidence": -2.7999999999999994,
@@ -1733,7 +1733,7 @@
           "reclaim": 0,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 2
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -1742,50 +1742,50 @@
         "day": 2.4596464258262785,
         "price": 133300,
         "newsHeadline": null,
-        "rawDecisionScore": 42.8,
-        "qualityAdjustedRawScore": 42.8,
-        "decisionScore": 39.3,
-        "scoreDeltaRaw": 6.1,
-        "scoreDeltaStable": 5.6,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 40.8,
+        "qualityAdjustedRawScore": 40.8,
+        "decisionScore": 37.6,
+        "scoreDeltaRaw": 0.3,
+        "scoreDeltaStable": 0.1,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": 0.15,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
-          {
-            "name": "momentum",
-            "value": 3.6,
-            "delta": 3.3
-          },
-          {
-            "name": "multiScan",
-            "value": 2,
-            "delta": 2
-          },
-          {
-            "name": "day",
-            "value": 4.9,
-            "delta": 0.3
-          },
           {
             "name": "scanner",
             "value": -12,
             "delta": 0
+          },
+          {
+            "name": "confidence",
+            "value": -2.8,
+            "delta": 0
+          },
+          {
+            "name": "day",
+            "value": 4.9,
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": 3.6,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30.1,
-        "preDaytradeDecisionScore": 42.3,
-        "daytradeDecisionScore": 42.3,
+        "preDaytradeDecisionScore": 40.6,
+        "daytradeDecisionScore": 40.6,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 42.3,
-        "daytradeDipScore": 42.3,
+        "preDipDecisionScore": 40.6,
+        "daytradeDipScore": 40.6,
         "dipScorePoints": 0,
         "dipLabel": "NEUTRAL",
         "dipQuality": 0.45,
@@ -1801,8 +1801,8 @@
           "news": 0,
           "volume": 0
         },
-        "preTimingDecisionScore": 42.3,
-        "daytradeEntryScore": 39.3,
+        "preTimingDecisionScore": 40.6,
+        "daytradeEntryScore": 37.6,
         "timingScorePoints": -3,
         "timingLabel": "NEUTRAL_TIMING",
         "timingQuality": 0.42,
@@ -1821,10 +1821,10 @@
       },
       {
         "symbol": "SOLARINDS.NS",
-        "fusionScore": 35.2,
-        "buyScore": 35.2,
-        "holdScore": 35.2,
-        "sellScore": 64.8,
+        "fusionScore": 31.5,
+        "buyScore": 31.5,
+        "holdScore": 31.5,
+        "sellScore": 68.5,
         "parts": {
           "scanner": -12,
           "confidence": -0.2799999999999987,
@@ -1835,7 +1835,7 @@
           "reclaim": 0,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 4
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -1844,50 +1844,50 @@
         "day": -1.0854271356783962,
         "price": 19684,
         "newsHeadline": null,
-        "rawDecisionScore": 38.6,
-        "qualityAdjustedRawScore": 38.6,
-        "decisionScore": 35.2,
-        "scoreDeltaRaw": 5.5,
-        "scoreDeltaStable": 5.1,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 34.6,
+        "qualityAdjustedRawScore": 34.6,
+        "decisionScore": 31.5,
+        "scoreDeltaRaw": 0.1,
+        "scoreDeltaStable": 0,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": -0.025,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
-          {
-            "name": "multiScan",
-            "value": 4,
-            "delta": 4
-          },
-          {
-            "name": "confidence",
-            "value": -0.3,
-            "delta": 2.8
-          },
-          {
-            "name": "momentum",
-            "value": 1.6,
-            "delta": 1.5
-          },
           {
             "name": "scanner",
             "value": -12,
             "delta": 0
+          },
+          {
+            "name": "confidence",
+            "value": -0.3,
+            "delta": 0
+          },
+          {
+            "name": "day",
+            "value": -1.7,
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": 1.6,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30.1,
-        "preDaytradeDecisionScore": 38.2,
-        "daytradeDecisionScore": 38.2,
+        "preDaytradeDecisionScore": 34.5,
+        "daytradeDecisionScore": 34.5,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 38.2,
-        "daytradeDipScore": 38.2,
+        "preDipDecisionScore": 34.5,
+        "daytradeDipScore": 34.5,
         "dipScorePoints": 0,
         "dipLabel": "NEUTRAL",
         "dipQuality": 0.45,
@@ -1903,8 +1903,8 @@
           "news": 0,
           "volume": 0
         },
-        "preTimingDecisionScore": 38.2,
-        "daytradeEntryScore": 35.2,
+        "preTimingDecisionScore": 34.5,
+        "daytradeEntryScore": 31.5,
         "timingScorePoints": -3,
         "timingLabel": "NEUTRAL_TIMING",
         "timingQuality": 0.42,
@@ -1923,10 +1923,10 @@
       },
       {
         "symbol": "6758.T",
-        "fusionScore": 28.6,
-        "buyScore": 28.6,
-        "holdScore": 28.6,
-        "sellScore": 71.4,
+        "fusionScore": 29.7,
+        "buyScore": 29.7,
+        "holdScore": 29.7,
+        "sellScore": 70.3,
         "parts": {
           "scanner": -12,
           "confidence": -2.0999999999999988,
@@ -1937,7 +1937,7 @@
           "reclaim": 0,
           "regime": 0,
           "overextension": 0,
-          "multiScan": -4
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -1946,50 +1946,50 @@
         "day": 1.8758256274768792,
         "price": 3856,
         "newsHeadline": null,
-        "rawDecisionScore": 27.8,
-        "qualityAdjustedRawScore": 27.8,
-        "decisionScore": 28.6,
-        "scoreDeltaRaw": -9.8,
-        "scoreDeltaStable": -6,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 31.8,
+        "qualityAdjustedRawScore": 31.8,
+        "decisionScore": 29.7,
+        "scoreDeltaRaw": -1.1,
+        "scoreDeltaStable": -0.2,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": -0.052,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
+            "name": "scanner",
+            "value": -12,
+            "delta": 0
+          },
+          {
             "name": "confidence",
             "value": -2.1,
-            "delta": -4.9
-          },
-          {
-            "name": "multiScan",
-            "value": -4,
-            "delta": -4
-          },
-          {
-            "name": "momentum",
-            "value": -4.9,
-            "delta": 0.6
+            "delta": 0
           },
           {
             "name": "day",
             "value": 3.8,
-            "delta": -0.1
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": -4.9,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30.1,
-        "preDaytradeDecisionScore": 31.6,
-        "daytradeDecisionScore": 31.6,
+        "preDaytradeDecisionScore": 32.7,
+        "daytradeDecisionScore": 32.7,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 31.6,
-        "daytradeDipScore": 31.6,
+        "preDipDecisionScore": 32.7,
+        "daytradeDipScore": 32.7,
         "dipScorePoints": 0,
         "dipLabel": "NEUTRAL",
         "dipQuality": 0.45,
@@ -2005,8 +2005,8 @@
           "news": 0,
           "volume": 0
         },
-        "preTimingDecisionScore": 31.6,
-        "daytradeEntryScore": 28.6,
+        "preTimingDecisionScore": 32.7,
+        "daytradeEntryScore": 29.7,
         "timingScorePoints": -3,
         "timingLabel": "NEUTRAL_TIMING",
         "timingQuality": 0.42,
@@ -2025,10 +2025,10 @@
       },
       {
         "symbol": "042660.KS",
-        "fusionScore": 19.5,
-        "buyScore": 19.5,
-        "holdScore": 19.5,
-        "sellScore": 80.5,
+        "fusionScore": 18.8,
+        "buyScore": 18.8,
+        "holdScore": 18.8,
+        "sellScore": 81.2,
         "parts": {
           "scanner": -12,
           "confidence": -0.2799999999999987,
@@ -2050,48 +2050,48 @@
         "newsHeadline": null,
         "rawDecisionScore": 25.8,
         "qualityAdjustedRawScore": 25.8,
-        "decisionScore": 19.5,
-        "scoreDeltaRaw": -10.7,
-        "scoreDeltaStable": -6,
-        "scoreAgeMinutes": 24.17,
+        "decisionScore": 18.8,
+        "scoreDeltaRaw": -4.7,
+        "scoreDeltaStable": -0.7,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": -0.361,
-        "scoreChartAccelerated": true,
+        "scoreChartMovePct": 0,
+        "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
             "name": "scanner",
             "value": -12,
-            "delta": -9.4
-          },
-          {
-            "name": "regime",
-            "value": 0,
-            "delta": 5
-          },
-          {
-            "name": "momentum",
-            "value": -6.5,
-            "delta": -3.3
+            "delta": 0
           },
           {
             "name": "confidence",
             "value": -0.3,
-            "delta": -2.5
+            "delta": 0
+          },
+          {
+            "name": "day",
+            "value": -2.5,
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": -6.5,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30.1,
-        "preDaytradeDecisionScore": 30.5,
-        "daytradeDecisionScore": 30.5,
+        "preDaytradeDecisionScore": 29.8,
+        "daytradeDecisionScore": 29.8,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 30.5,
-        "daytradeDipScore": 24.5,
+        "preDipDecisionScore": 29.8,
+        "daytradeDipScore": 23.8,
         "dipScorePoints": -6,
         "dipLabel": "WEAK_DIP",
         "dipQuality": 0.2,
@@ -2107,8 +2107,8 @@
           "news": 0,
           "volume": 0
         },
-        "preTimingDecisionScore": 24.5,
-        "daytradeEntryScore": 19.5,
+        "preTimingDecisionScore": 23.8,
+        "daytradeEntryScore": 18.8,
         "timingScorePoints": -5,
         "timingLabel": "WEAK_TAPE",
         "timingQuality": 0.2,
@@ -2164,10 +2164,10 @@
     "ranking": [
       {
         "symbol": "079550.KS",
-        "fusionScore": 67.9,
-        "buyScore": 67.9,
-        "holdScore": 67.9,
-        "sellScore": 32.1,
+        "fusionScore": 64.3,
+        "buyScore": 64.3,
+        "holdScore": 64.3,
+        "sellScore": 35.7,
         "parts": {
           "scanner": -5.2,
           "confidence": 0.8400000000000007,
@@ -2178,7 +2178,7 @@
           "reclaim": 8,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 4
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -2187,12 +2187,12 @@
         "day": 2.158273381294973,
         "price": 710000,
         "newsHeadline": null,
-        "rawDecisionScore": 62,
-        "qualityAdjustedRawScore": 62,
-        "decisionScore": 67.9,
-        "scoreDeltaRaw": 1.8,
-        "scoreDeltaStable": 1.7,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 58,
+        "qualityAdjustedRawScore": 58,
+        "decisionScore": 64.3,
+        "scoreDeltaRaw": -0.4,
+        "scoreDeltaStable": -0.1,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
@@ -2202,16 +2202,6 @@
         "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
-            "name": "multiScan",
-            "value": 4,
-            "delta": 4
-          },
-          {
-            "name": "momentum",
-            "value": 3,
-            "delta": 0.2
-          },
-          {
             "name": "scanner",
             "value": -5.2,
             "delta": 0
@@ -2220,17 +2210,27 @@
             "name": "confidence",
             "value": 0.8,
             "delta": 0
+          },
+          {
+            "name": "day",
+            "value": 4.3,
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": 3,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30,
-        "preDaytradeDecisionScore": 61.9,
-        "daytradeDecisionScore": 61.9,
+        "preDaytradeDecisionScore": 58.3,
+        "daytradeDecisionScore": 58.3,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 61.9,
-        "daytradeDipScore": 67.9,
+        "preDipDecisionScore": 58.3,
+        "daytradeDipScore": 64.3,
         "dipScorePoints": 6,
         "dipLabel": "DIP_RECLAIM",
         "dipQuality": 0.82,
@@ -2249,10 +2249,10 @@
       },
       {
         "symbol": "8035.T",
-        "fusionScore": 52.3,
-        "buyScore": 52.3,
-        "holdScore": 52.3,
-        "sellScore": 47.7,
+        "fusionScore": 48.8,
+        "buyScore": 48.8,
+        "holdScore": 48.8,
+        "sellScore": 51.2,
         "parts": {
           "scanner": -12,
           "confidence": -0.5125329999999995,
@@ -2263,7 +2263,7 @@
           "reclaim": 8,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 4
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -2272,50 +2272,50 @@
         "day": 1.4367286793147915,
         "price": 55070,
         "newsHeadline": null,
-        "rawDecisionScore": 53.1,
-        "qualityAdjustedRawScore": 53.1,
-        "decisionScore": 52.3,
-        "scoreDeltaRaw": 10.8,
-        "scoreDeltaStable": 10,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 49.1,
+        "qualityAdjustedRawScore": 49.1,
+        "decisionScore": 48.8,
+        "scoreDeltaRaw": 0.4,
+        "scoreDeltaStable": 0.1,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": 0.036,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
-            "name": "reclaim",
-            "value": 8,
-            "delta": 8
+            "name": "scanner",
+            "value": -12,
+            "delta": 0
           },
           {
-            "name": "momentum",
-            "value": 2.8,
-            "delta": 7
-          },
-          {
-            "name": "multiScan",
-            "value": 4,
-            "delta": 4
+            "name": "confidence",
+            "value": -0.5,
+            "delta": 0
           },
           {
             "name": "day",
             "value": 2.9,
-            "delta": 0.1
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": 2.8,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30,
-        "preDaytradeDecisionScore": 52.3,
-        "daytradeDecisionScore": 52.3,
+        "preDaytradeDecisionScore": 48.8,
+        "daytradeDecisionScore": 48.8,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 52.3,
-        "daytradeDipScore": 52.3,
+        "preDipDecisionScore": 48.8,
+        "daytradeDipScore": 48.8,
         "dipScorePoints": 0,
         "dipLabel": "NEUTRAL",
         "dipQuality": 0.45,
@@ -2334,10 +2334,10 @@
       },
       {
         "symbol": "012450.KS",
-        "fusionScore": 44.1,
-        "buyScore": 44.1,
-        "holdScore": 44.1,
-        "sellScore": 55.9,
+        "fusionScore": 42.2,
+        "buyScore": 42.2,
+        "holdScore": 42.2,
+        "sellScore": 57.8,
         "parts": {
           "scanner": -12,
           "confidence": -5.599999999999999,
@@ -2348,7 +2348,7 @@
           "reclaim": 8,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 2
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -2357,50 +2357,50 @@
         "day": 1.9354838709677358,
         "price": 1106000,
         "newsHeadline": null,
-        "rawDecisionScore": 43.3,
-        "qualityAdjustedRawScore": 43.3,
-        "decisionScore": 44.1,
-        "scoreDeltaRaw": -3.8,
-        "scoreDeltaStable": -3,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 41.3,
+        "qualityAdjustedRawScore": 41.3,
+        "decisionScore": 42.2,
+        "scoreDeltaRaw": -1.1,
+        "scoreDeltaStable": -0.2,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": 0.09,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
-            "name": "reclaim",
-            "value": 8,
-            "delta": 8
+            "name": "scanner",
+            "value": -12,
+            "delta": 0
           },
           {
             "name": "confidence",
             "value": -5.6,
-            "delta": -3.5
+            "delta": 0
+          },
+          {
+            "name": "day",
+            "value": 3.9,
+            "delta": 0
           },
           {
             "name": "momentum",
             "value": 0,
-            "delta": 2.4
-          },
-          {
-            "name": "multiScan",
-            "value": 2,
-            "delta": 2
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30,
-        "preDaytradeDecisionScore": 44.1,
-        "daytradeDecisionScore": 44.1,
+        "preDaytradeDecisionScore": 42.2,
+        "daytradeDecisionScore": 42.2,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 44.1,
-        "daytradeDipScore": 44.1,
+        "preDipDecisionScore": 42.2,
+        "daytradeDipScore": 42.2,
         "dipScorePoints": 0,
         "dipLabel": "NEUTRAL",
         "dipQuality": 0.45,
@@ -2419,10 +2419,10 @@
       },
       {
         "symbol": "064350.KS",
-        "fusionScore": 42.3,
-        "buyScore": 42.3,
-        "holdScore": 42.3,
-        "sellScore": 57.7,
+        "fusionScore": 40.6,
+        "buyScore": 40.6,
+        "holdScore": 40.6,
+        "sellScore": 59.4,
         "parts": {
           "scanner": -11.959999999999999,
           "confidence": -2.7999999999999994,
@@ -2433,7 +2433,7 @@
           "reclaim": 0,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 2
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -2442,50 +2442,50 @@
         "day": 2.4596464258262785,
         "price": 133300,
         "newsHeadline": null,
-        "rawDecisionScore": 42.8,
-        "qualityAdjustedRawScore": 42.8,
-        "decisionScore": 42.3,
-        "scoreDeltaRaw": 6.1,
-        "scoreDeltaStable": 5.6,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 40.8,
+        "qualityAdjustedRawScore": 40.8,
+        "decisionScore": 40.6,
+        "scoreDeltaRaw": 0.3,
+        "scoreDeltaStable": 0.1,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": 0.15,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
-          {
-            "name": "momentum",
-            "value": 3.6,
-            "delta": 3.3
-          },
-          {
-            "name": "multiScan",
-            "value": 2,
-            "delta": 2
-          },
-          {
-            "name": "day",
-            "value": 4.9,
-            "delta": 0.3
-          },
           {
             "name": "scanner",
             "value": -12,
             "delta": 0
+          },
+          {
+            "name": "confidence",
+            "value": -2.8,
+            "delta": 0
+          },
+          {
+            "name": "day",
+            "value": 4.9,
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": 3.6,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30,
-        "preDaytradeDecisionScore": 42.3,
-        "daytradeDecisionScore": 42.3,
+        "preDaytradeDecisionScore": 40.6,
+        "daytradeDecisionScore": 40.6,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 42.3,
-        "daytradeDipScore": 42.3,
+        "preDipDecisionScore": 40.6,
+        "daytradeDipScore": 40.6,
         "dipScorePoints": 0,
         "dipLabel": "NEUTRAL",
         "dipQuality": 0.45,
@@ -2504,10 +2504,10 @@
       },
       {
         "symbol": "SOLARINDS.NS",
-        "fusionScore": 38.2,
-        "buyScore": 38.2,
-        "holdScore": 38.2,
-        "sellScore": 61.8,
+        "fusionScore": 34.5,
+        "buyScore": 34.5,
+        "holdScore": 34.5,
+        "sellScore": 65.5,
         "parts": {
           "scanner": -12,
           "confidence": -0.2799999999999987,
@@ -2518,7 +2518,7 @@
           "reclaim": 0,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 4
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -2527,50 +2527,50 @@
         "day": -1.0854271356783962,
         "price": 19684,
         "newsHeadline": null,
-        "rawDecisionScore": 38.6,
-        "qualityAdjustedRawScore": 38.6,
-        "decisionScore": 38.2,
-        "scoreDeltaRaw": 5.5,
-        "scoreDeltaStable": 5.1,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 34.6,
+        "qualityAdjustedRawScore": 34.6,
+        "decisionScore": 34.5,
+        "scoreDeltaRaw": 0.1,
+        "scoreDeltaStable": 0,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": -0.025,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
-          {
-            "name": "multiScan",
-            "value": 4,
-            "delta": 4
-          },
-          {
-            "name": "confidence",
-            "value": -0.3,
-            "delta": 2.8
-          },
-          {
-            "name": "momentum",
-            "value": 1.6,
-            "delta": 1.5
-          },
           {
             "name": "scanner",
             "value": -12,
             "delta": 0
+          },
+          {
+            "name": "confidence",
+            "value": -0.3,
+            "delta": 0
+          },
+          {
+            "name": "day",
+            "value": -1.7,
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": 1.6,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30,
-        "preDaytradeDecisionScore": 38.2,
-        "daytradeDecisionScore": 38.2,
+        "preDaytradeDecisionScore": 34.5,
+        "daytradeDecisionScore": 34.5,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 38.2,
-        "daytradeDipScore": 38.2,
+        "preDipDecisionScore": 34.5,
+        "daytradeDipScore": 34.5,
         "dipScorePoints": 0,
         "dipLabel": "NEUTRAL",
         "dipQuality": 0.45,
@@ -2589,10 +2589,10 @@
       },
       {
         "symbol": "6758.T",
-        "fusionScore": 31.6,
-        "buyScore": 31.6,
-        "holdScore": 31.6,
-        "sellScore": 68.4,
+        "fusionScore": 32.7,
+        "buyScore": 32.7,
+        "holdScore": 32.7,
+        "sellScore": 67.3,
         "parts": {
           "scanner": -12,
           "confidence": -2.0999999999999988,
@@ -2603,7 +2603,7 @@
           "reclaim": 0,
           "regime": 0,
           "overextension": 0,
-          "multiScan": -4
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -2612,50 +2612,50 @@
         "day": 1.8758256274768792,
         "price": 3856,
         "newsHeadline": null,
-        "rawDecisionScore": 27.8,
-        "qualityAdjustedRawScore": 27.8,
-        "decisionScore": 31.6,
-        "scoreDeltaRaw": -9.8,
-        "scoreDeltaStable": -6,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 31.8,
+        "qualityAdjustedRawScore": 31.8,
+        "decisionScore": 32.7,
+        "scoreDeltaRaw": -1.1,
+        "scoreDeltaStable": -0.2,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": -0.052,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
+            "name": "scanner",
+            "value": -12,
+            "delta": 0
+          },
+          {
             "name": "confidence",
             "value": -2.1,
-            "delta": -4.9
-          },
-          {
-            "name": "multiScan",
-            "value": -4,
-            "delta": -4
-          },
-          {
-            "name": "momentum",
-            "value": -4.9,
-            "delta": 0.6
+            "delta": 0
           },
           {
             "name": "day",
             "value": 3.8,
-            "delta": -0.1
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": -4.9,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30,
-        "preDaytradeDecisionScore": 31.6,
-        "daytradeDecisionScore": 31.6,
+        "preDaytradeDecisionScore": 32.7,
+        "daytradeDecisionScore": 32.7,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 31.6,
-        "daytradeDipScore": 31.6,
+        "preDipDecisionScore": 32.7,
+        "daytradeDipScore": 32.7,
         "dipScorePoints": 0,
         "dipLabel": "NEUTRAL",
         "dipQuality": 0.45,
@@ -2674,10 +2674,10 @@
       },
       {
         "symbol": "042660.KS",
-        "fusionScore": 24.5,
-        "buyScore": 24.5,
-        "holdScore": 24.5,
-        "sellScore": 75.5,
+        "fusionScore": 23.8,
+        "buyScore": 23.8,
+        "holdScore": 23.8,
+        "sellScore": 76.2,
         "parts": {
           "scanner": -12,
           "confidence": -0.2799999999999987,
@@ -2699,48 +2699,48 @@
         "newsHeadline": null,
         "rawDecisionScore": 25.8,
         "qualityAdjustedRawScore": 25.8,
-        "decisionScore": 24.5,
-        "scoreDeltaRaw": -10.7,
-        "scoreDeltaStable": -6,
-        "scoreAgeMinutes": 24.17,
+        "decisionScore": 23.8,
+        "scoreDeltaRaw": -4.7,
+        "scoreDeltaStable": -0.7,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": -0.361,
-        "scoreChartAccelerated": true,
+        "scoreChartMovePct": 0,
+        "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
             "name": "scanner",
             "value": -12,
-            "delta": -9.4
-          },
-          {
-            "name": "regime",
-            "value": 0,
-            "delta": 5
-          },
-          {
-            "name": "momentum",
-            "value": -6.5,
-            "delta": -3.3
+            "delta": 0
           },
           {
             "name": "confidence",
             "value": -0.3,
-            "delta": -2.5
+            "delta": 0
+          },
+          {
+            "name": "day",
+            "value": -2.5,
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": -6.5,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 30,
-        "preDaytradeDecisionScore": 30.5,
-        "daytradeDecisionScore": 30.5,
+        "preDaytradeDecisionScore": 29.8,
+        "daytradeDecisionScore": 29.8,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
         "daytradeSizeLabel": "Größe unbekannt",
-        "preDipDecisionScore": 30.5,
-        "daytradeDipScore": 24.5,
+        "preDipDecisionScore": 29.8,
+        "daytradeDipScore": 23.8,
         "dipScorePoints": -6,
         "dipLabel": "WEAK_DIP",
         "dipQuality": 0.2,
@@ -2791,10 +2791,10 @@
     "ranking": [
       {
         "symbol": "079550.KS",
-        "fusionScore": 61.9,
-        "buyScore": 61.9,
-        "holdScore": 61.9,
-        "sellScore": 38.1,
+        "fusionScore": 58.3,
+        "buyScore": 58.3,
+        "holdScore": 58.3,
+        "sellScore": 41.7,
         "parts": {
           "scanner": -5.2,
           "confidence": 0.8400000000000007,
@@ -2805,7 +2805,7 @@
           "reclaim": 8,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 4
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -2814,12 +2814,12 @@
         "day": 2.158273381294973,
         "price": 710000,
         "newsHeadline": null,
-        "rawDecisionScore": 62,
-        "qualityAdjustedRawScore": 62,
-        "decisionScore": 61.9,
-        "scoreDeltaRaw": 1.8,
-        "scoreDeltaStable": 1.7,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 58,
+        "qualityAdjustedRawScore": 58,
+        "decisionScore": 58.3,
+        "scoreDeltaRaw": -0.4,
+        "scoreDeltaStable": -0.1,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
@@ -2829,16 +2829,6 @@
         "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
-            "name": "multiScan",
-            "value": 4,
-            "delta": 4
-          },
-          {
-            "name": "momentum",
-            "value": 3,
-            "delta": 0.2
-          },
-          {
             "name": "scanner",
             "value": -5.2,
             "delta": 0
@@ -2847,11 +2837,21 @@
             "name": "confidence",
             "value": 0.8,
             "delta": 0
+          },
+          {
+            "name": "day",
+            "value": 4.3,
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": 3,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 29.9,
-        "preDaytradeDecisionScore": 61.9,
-        "daytradeDecisionScore": 61.9,
+        "preDaytradeDecisionScore": 58.3,
+        "daytradeDecisionScore": 58.3,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
@@ -2859,10 +2859,10 @@
       },
       {
         "symbol": "8035.T",
-        "fusionScore": 52.3,
-        "buyScore": 52.3,
-        "holdScore": 52.3,
-        "sellScore": 47.7,
+        "fusionScore": 48.8,
+        "buyScore": 48.8,
+        "holdScore": 48.8,
+        "sellScore": 51.2,
         "parts": {
           "scanner": -12,
           "confidence": -0.5125329999999995,
@@ -2873,7 +2873,7 @@
           "reclaim": 8,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 4
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -2882,44 +2882,44 @@
         "day": 1.4367286793147915,
         "price": 55070,
         "newsHeadline": null,
-        "rawDecisionScore": 53.1,
-        "qualityAdjustedRawScore": 53.1,
-        "decisionScore": 52.3,
-        "scoreDeltaRaw": 10.8,
-        "scoreDeltaStable": 10,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 49.1,
+        "qualityAdjustedRawScore": 49.1,
+        "decisionScore": 48.8,
+        "scoreDeltaRaw": 0.4,
+        "scoreDeltaStable": 0.1,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": 0.036,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
-            "name": "reclaim",
-            "value": 8,
-            "delta": 8
+            "name": "scanner",
+            "value": -12,
+            "delta": 0
           },
           {
-            "name": "momentum",
-            "value": 2.8,
-            "delta": 7
-          },
-          {
-            "name": "multiScan",
-            "value": 4,
-            "delta": 4
+            "name": "confidence",
+            "value": -0.5,
+            "delta": 0
           },
           {
             "name": "day",
             "value": 2.9,
-            "delta": 0.1
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": 2.8,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 29.9,
-        "preDaytradeDecisionScore": 52.3,
-        "daytradeDecisionScore": 52.3,
+        "preDaytradeDecisionScore": 48.8,
+        "daytradeDecisionScore": 48.8,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
@@ -2927,10 +2927,10 @@
       },
       {
         "symbol": "012450.KS",
-        "fusionScore": 44.1,
-        "buyScore": 44.1,
-        "holdScore": 44.1,
-        "sellScore": 55.9,
+        "fusionScore": 42.2,
+        "buyScore": 42.2,
+        "holdScore": 42.2,
+        "sellScore": 57.8,
         "parts": {
           "scanner": -12,
           "confidence": -5.599999999999999,
@@ -2941,7 +2941,7 @@
           "reclaim": 8,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 2
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -2950,44 +2950,44 @@
         "day": 1.9354838709677358,
         "price": 1106000,
         "newsHeadline": null,
-        "rawDecisionScore": 43.3,
-        "qualityAdjustedRawScore": 43.3,
-        "decisionScore": 44.1,
-        "scoreDeltaRaw": -3.8,
-        "scoreDeltaStable": -3,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 41.3,
+        "qualityAdjustedRawScore": 41.3,
+        "decisionScore": 42.2,
+        "scoreDeltaRaw": -1.1,
+        "scoreDeltaStable": -0.2,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": 0.09,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
-            "name": "reclaim",
-            "value": 8,
-            "delta": 8
+            "name": "scanner",
+            "value": -12,
+            "delta": 0
           },
           {
             "name": "confidence",
             "value": -5.6,
-            "delta": -3.5
+            "delta": 0
+          },
+          {
+            "name": "day",
+            "value": 3.9,
+            "delta": 0
           },
           {
             "name": "momentum",
             "value": 0,
-            "delta": 2.4
-          },
-          {
-            "name": "multiScan",
-            "value": 2,
-            "delta": 2
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 29.9,
-        "preDaytradeDecisionScore": 44.1,
-        "daytradeDecisionScore": 44.1,
+        "preDaytradeDecisionScore": 42.2,
+        "daytradeDecisionScore": 42.2,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
@@ -2995,10 +2995,10 @@
       },
       {
         "symbol": "064350.KS",
-        "fusionScore": 42.3,
-        "buyScore": 42.3,
-        "holdScore": 42.3,
-        "sellScore": 57.7,
+        "fusionScore": 40.6,
+        "buyScore": 40.6,
+        "holdScore": 40.6,
+        "sellScore": 59.4,
         "parts": {
           "scanner": -11.959999999999999,
           "confidence": -2.7999999999999994,
@@ -3009,7 +3009,7 @@
           "reclaim": 0,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 2
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -3018,44 +3018,44 @@
         "day": 2.4596464258262785,
         "price": 133300,
         "newsHeadline": null,
-        "rawDecisionScore": 42.8,
-        "qualityAdjustedRawScore": 42.8,
-        "decisionScore": 42.3,
-        "scoreDeltaRaw": 6.1,
-        "scoreDeltaStable": 5.6,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 40.8,
+        "qualityAdjustedRawScore": 40.8,
+        "decisionScore": 40.6,
+        "scoreDeltaRaw": 0.3,
+        "scoreDeltaStable": 0.1,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": 0.15,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
-          {
-            "name": "momentum",
-            "value": 3.6,
-            "delta": 3.3
-          },
-          {
-            "name": "multiScan",
-            "value": 2,
-            "delta": 2
-          },
-          {
-            "name": "day",
-            "value": 4.9,
-            "delta": 0.3
-          },
           {
             "name": "scanner",
             "value": -12,
             "delta": 0
+          },
+          {
+            "name": "confidence",
+            "value": -2.8,
+            "delta": 0
+          },
+          {
+            "name": "day",
+            "value": 4.9,
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": 3.6,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 29.9,
-        "preDaytradeDecisionScore": 42.3,
-        "daytradeDecisionScore": 42.3,
+        "preDaytradeDecisionScore": 40.6,
+        "daytradeDecisionScore": 40.6,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
@@ -3063,10 +3063,10 @@
       },
       {
         "symbol": "SOLARINDS.NS",
-        "fusionScore": 38.2,
-        "buyScore": 38.2,
-        "holdScore": 38.2,
-        "sellScore": 61.8,
+        "fusionScore": 34.5,
+        "buyScore": 34.5,
+        "holdScore": 34.5,
+        "sellScore": 65.5,
         "parts": {
           "scanner": -12,
           "confidence": -0.2799999999999987,
@@ -3077,7 +3077,7 @@
           "reclaim": 0,
           "regime": 0,
           "overextension": 0,
-          "multiScan": 4
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -3086,44 +3086,44 @@
         "day": -1.0854271356783962,
         "price": 19684,
         "newsHeadline": null,
-        "rawDecisionScore": 38.6,
-        "qualityAdjustedRawScore": 38.6,
-        "decisionScore": 38.2,
-        "scoreDeltaRaw": 5.5,
-        "scoreDeltaStable": 5.1,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 34.6,
+        "qualityAdjustedRawScore": 34.6,
+        "decisionScore": 34.5,
+        "scoreDeltaRaw": 0.1,
+        "scoreDeltaStable": 0,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": -0.025,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
-          {
-            "name": "multiScan",
-            "value": 4,
-            "delta": 4
-          },
-          {
-            "name": "confidence",
-            "value": -0.3,
-            "delta": 2.8
-          },
-          {
-            "name": "momentum",
-            "value": 1.6,
-            "delta": 1.5
-          },
           {
             "name": "scanner",
             "value": -12,
             "delta": 0
+          },
+          {
+            "name": "confidence",
+            "value": -0.3,
+            "delta": 0
+          },
+          {
+            "name": "day",
+            "value": -1.7,
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": 1.6,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 29.9,
-        "preDaytradeDecisionScore": 38.2,
-        "daytradeDecisionScore": 38.2,
+        "preDaytradeDecisionScore": 34.5,
+        "daytradeDecisionScore": 34.5,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
@@ -3131,10 +3131,10 @@
       },
       {
         "symbol": "6758.T",
-        "fusionScore": 31.6,
-        "buyScore": 31.6,
-        "holdScore": 31.6,
-        "sellScore": 68.4,
+        "fusionScore": 32.7,
+        "buyScore": 32.7,
+        "holdScore": 32.7,
+        "sellScore": 67.3,
         "parts": {
           "scanner": -12,
           "confidence": -2.0999999999999988,
@@ -3145,7 +3145,7 @@
           "reclaim": 0,
           "regime": 0,
           "overextension": 0,
-          "multiScan": -4
+          "multiScan": 0
         },
         "coverage": 1,
         "hardBlocked": false,
@@ -3154,44 +3154,44 @@
         "day": 1.8758256274768792,
         "price": 3856,
         "newsHeadline": null,
-        "rawDecisionScore": 27.8,
-        "qualityAdjustedRawScore": 27.8,
-        "decisionScore": 31.6,
-        "scoreDeltaRaw": -9.8,
-        "scoreDeltaStable": -6,
-        "scoreAgeMinutes": 3.08,
+        "rawDecisionScore": 31.8,
+        "qualityAdjustedRawScore": 31.8,
+        "decisionScore": 32.7,
+        "scoreDeltaRaw": -1.1,
+        "scoreDeltaStable": -0.2,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": -0.052,
+        "scoreChartMovePct": 0,
         "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
+            "name": "scanner",
+            "value": -12,
+            "delta": 0
+          },
+          {
             "name": "confidence",
             "value": -2.1,
-            "delta": -4.9
-          },
-          {
-            "name": "multiScan",
-            "value": -4,
-            "delta": -4
-          },
-          {
-            "name": "momentum",
-            "value": -4.9,
-            "delta": 0.6
+            "delta": 0
           },
           {
             "name": "day",
             "value": 3.8,
-            "delta": -0.1
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": -4.9,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 29.9,
-        "preDaytradeDecisionScore": 31.6,
-        "daytradeDecisionScore": 31.6,
+        "preDaytradeDecisionScore": 32.7,
+        "daytradeDecisionScore": 32.7,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
@@ -3199,10 +3199,10 @@
       },
       {
         "symbol": "042660.KS",
-        "fusionScore": 30.5,
-        "buyScore": 30.5,
-        "holdScore": 30.5,
-        "sellScore": 69.5,
+        "fusionScore": 29.8,
+        "buyScore": 29.8,
+        "holdScore": 29.8,
+        "sellScore": 70.2,
         "parts": {
           "scanner": -12,
           "confidence": -0.2799999999999987,
@@ -3224,42 +3224,42 @@
         "newsHeadline": null,
         "rawDecisionScore": 25.8,
         "qualityAdjustedRawScore": 25.8,
-        "decisionScore": 30.5,
-        "scoreDeltaRaw": -10.7,
-        "scoreDeltaStable": -6,
-        "scoreAgeMinutes": 24.17,
+        "decisionScore": 29.8,
+        "scoreDeltaRaw": -4.7,
+        "scoreDeltaStable": -0.7,
+        "scoreAgeMinutes": 0.34,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
         "quoteAgeMinutes": null,
         "quoteStale": false,
-        "scoreChartMovePct": -0.361,
-        "scoreChartAccelerated": true,
+        "scoreChartMovePct": 0,
+        "scoreChartAccelerated": false,
         "scoreDrivers": [
           {
             "name": "scanner",
             "value": -12,
-            "delta": -9.4
-          },
-          {
-            "name": "regime",
-            "value": 0,
-            "delta": 5
-          },
-          {
-            "name": "momentum",
-            "value": -6.5,
-            "delta": -3.3
+            "delta": 0
           },
           {
             "name": "confidence",
             "value": -0.3,
-            "delta": -2.5
+            "delta": 0
+          },
+          {
+            "name": "day",
+            "value": -2.5,
+            "delta": 0
+          },
+          {
+            "name": "momentum",
+            "value": -6.5,
+            "delta": 0
           }
         ],
         "decisionScoreVersion": 29.9,
-        "preDaytradeDecisionScore": 30.5,
-        "daytradeDecisionScore": 30.5,
+        "preDaytradeDecisionScore": 29.8,
+        "daytradeDecisionScore": 29.8,
         "marketCapUSD": 0,
         "daytradeMarketCapPoints": 0,
         "daytradeSizeTier": "UNKNOWN",
