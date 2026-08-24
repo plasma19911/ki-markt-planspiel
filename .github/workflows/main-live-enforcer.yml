@@ -1,4 +1,4 @@
-name: Main always live on Cloudflare V30.4
+name: Main always live on Cloudflare V30.5
 
 on:
   push:
@@ -8,7 +8,6 @@ on:
 concurrency:
   group: main-always-live-production
   cancel-in-progress: true
-
 permissions:
   contents: read
 
@@ -25,11 +24,13 @@ jobs:
           cache: npm
           cache-dependency-path: package.json
       - run: npm install --no-audit --no-fund --ignore-scripts
-      - name: Critical V30.4 guards
+      - name: Critical V30.5 guards
         run: |
+          node --check src/profit-opportunity-v305.js
+          node --check src/compact-portfolio-v305-profit-opportunity.js
           node --check src/relative-rotation-v304.js
           node --check src/held-cash-deployment-v304.js
-          node --check src/compact-portfolio-v304-relative-rotation.js
+          node tests/v305-profit-opportunity.test.mjs
           node tests/v304-relative-rotation-cash.test.mjs
           node scripts/smoke-target-venue-guard.mjs
           node scripts/smoke-zero-accounting.mjs
@@ -51,27 +52,19 @@ jobs:
       - name: Allow Cloudflare Git integration to publish
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify live V30.4 rotation stack
+      - name: Verify live V30.5 profit opportunity stack
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';let last='';
           for(let i=0;i<36;i++){
             try{
-              const q=Date.now();
-              const sr=await fetch(`${base}/api/status?view=dashboard&main_live=${q}`,{headers:{'cache-control':'no-cache'}});const s=await sr.json();
-              const system=s?.systemValidationPolicy||{},final=s?.finalDecisionPolicy||{},score=s?.canonicalScorePolicy||{},rotation=s?.relativeRotationPolicy||{},cash=s?.heldCashDeploymentPolicy||{},execution=s?.executionModel||{};
-              const positions=Array.isArray(s?.positions)?s.positions:[];
-              const runtimeOk=s?.runtimeVersion==='V30.4'&&s?.liveDecisionVersion==='V30.4';
-              const systemOk=Number(system.version)>=30.3&&system.tradeRepublicHolidayCalendar===true&&system.targetVenueSmoke===true&&system.paperTradingOnly===true;
-              const finalOk=Number(final.version)>=30.4&&final.relativeRotation===true&&final.legacyMigration===true&&final.heldCashTopup===true;
-              const scoreOk=Number(score.version)>=30.4&&score.relativeRotation===true&&score.legacyMigration===true&&Number(score.legacyMigrationMinScoreGap)===4&&Number(score.legacyMigrationMinCandidateScore)===60&&Number(score.targetDeploymentPctWithFourHeld)===98;
-              const rotationOk=Number(rotation.version)>=30.4&&Number(rotation.legacyMigrationMinScoreGap)===4&&Number(rotation.legacyMigrationCooldownMinutes)===5;
-              const cashOk=String(cash.version).startsWith('30.4')&&Number(cash.targetDeploymentPct)===98&&cash.noBlindAverageDown===true;
-              const executionOk=execution.relativeRotationV304===true&&execution.legacyMigrationV304===true&&execution.heldCashDeploymentV304===true&&Number(execution.maxOpenPositions)===4&&Number(execution.maxSinglePositionPctOfEquity)===25;
-              last=`status=${sr.status} runtime=${s?.runtimeVersion} rotation=${rotation.version} legacyGap=${rotation.legacyMigrationMinScoreGap} cash=${cash.version} positions=${positions.length}`;
-              if(sr.ok&&runtimeOk&&systemOk&&finalOk&&scoreOk&&rotationOk&&cashOk&&executionOk&&positions.length<=4){console.log('Main live V30.4 verification OK:',last);process.exit(0)}
+              const q=Date.now(),r=await fetch(`${base}/api/status?main_live=${q}`,{headers:{'cache-control':'no-cache'}}),s=await r.json();
+              const p=s?.profitOpportunityPolicy||{},rot=s?.relativeRotationPolicy||{},cash=s?.heldCashDeploymentPolicy||{},ex=s?.executionModel||{},final=s?.finalDecisionPolicy||{},positions=Array.isArray(s?.positions)?s.positions:[];
+              const ok=r.ok&&s?.runtimeVersion==='V30.5'&&s?.liveDecisionVersion==='V30.5'&&Number(p.version)>=30.5&&p.hardSafetyNeverOverridden===true&&Number(p.starterMinScore)===66&&final.profitOpportunityController===true&&final.guardBlockerAudit===true&&ex.netOpportunityRotationV305===true&&Number(rot.version)>=30.4&&Number(cash.targetDeploymentPct)===98&&positions.length<=4;
+              last=`status=${r.status} runtime=${s?.runtimeVersion} profit=${p.version} positions=${positions.length}`;
+              if(ok){console.log('Main live V30.5 verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
-          throw new Error('Main did not become V30.4 live: '+last);
+          throw new Error('Main did not become V30.5 live: '+last);
           NODE
