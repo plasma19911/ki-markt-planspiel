@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-24T10:46:45.464688+00:00",
+  "checkedAt": "2026-08-24T10:47:00.715368+00:00",
   "runtimeVersion": "V30.3",
   "liveDecisionVersion": "V30.3",
   "http": {
@@ -42,7 +42,7 @@
     "configured": true,
     "online": true,
     "lastSeenAt": "2026-08-24T10:46:05.725Z",
-    "ageSeconds": 39,
+    "ageSeconds": 55,
     "intentionallyOfflineAllowed": true
   },
   "running": 1,
@@ -902,7 +902,7 @@
         "decisionScore": 56.5,
         "scoreDeltaRaw": -0.5,
         "scoreDeltaStable": -0.4,
-        "scoreAgeMinutes": 2.42,
+        "scoreAgeMinutes": 2.67,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
@@ -1008,7 +1008,7 @@
         "decisionScore": 14.6,
         "scoreDeltaRaw": -0.6,
         "scoreDeltaStable": -0.4,
-        "scoreAgeMinutes": 2.42,
+        "scoreAgeMinutes": 2.67,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
@@ -1197,7 +1197,7 @@
         "decisionScore": 54.5,
         "scoreDeltaRaw": -0.5,
         "scoreDeltaStable": -0.4,
-        "scoreAgeMinutes": 2.42,
+        "scoreAgeMinutes": 2.67,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
@@ -1299,7 +1299,7 @@
         "decisionScore": 16.6,
         "scoreDeltaRaw": -0.6,
         "scoreDeltaStable": -0.4,
-        "scoreAgeMinutes": 2.42,
+        "scoreAgeMinutes": 2.67,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
@@ -1438,7 +1438,7 @@
         "decisionScore": 57.5,
         "scoreDeltaRaw": -0.5,
         "scoreDeltaStable": -0.4,
-        "scoreAgeMinutes": 2.42,
+        "scoreAgeMinutes": 2.67,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
@@ -1523,7 +1523,7 @@
         "decisionScore": 21.6,
         "scoreDeltaRaw": -0.6,
         "scoreDeltaStable": -0.4,
-        "scoreAgeMinutes": 2.42,
+        "scoreAgeMinutes": 2.67,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
@@ -1640,7 +1640,7 @@
         "decisionScore": 57.5,
         "scoreDeltaRaw": -0.5,
         "scoreDeltaStable": -0.4,
-        "scoreAgeMinutes": 2.42,
+        "scoreAgeMinutes": 2.67,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
@@ -1708,7 +1708,7 @@
         "decisionScore": 27.6,
         "scoreDeltaRaw": -0.6,
         "scoreDeltaStable": -0.4,
-        "scoreAgeMinutes": 2.42,
+        "scoreAgeMinutes": 2.67,
         "scoreSmoothed": true,
         "coverageShock": false,
         "scoreQualityFactor": 1,
@@ -1953,11 +1953,7 @@
     "highChaseExtraScorePenalty": true,
     "maxSinglePositionPctOfEquity": 25,
     "maxTargetCashDeploymentPct": 90,
-    "executedEntryBaselineRepair": true,
-    "relativeRotation": true,
-    "relativeRotationVersion": 30.4,
-    "rotateMinScoreGap": 8,
-    "targetDeploymentPctWhenFourBuys": 98
+    "executedEntryBaselineRepair": true
   },
   "candleFlowPolicy": {
     "enabled": true,
@@ -2166,9 +2162,7 @@
     "executedEntryBaselineRepair": true,
     "systemValidationVersion": 30.3,
     "tradeRepublicHolidayCalendar": true,
-    "mergeBlockingCriticalSmokes": true,
-    "relativeRotationV304": true,
-    "targetDeploymentPctWhenFourBuys": 98
+    "mergeBlockingCriticalSmokes": true
   },
   "entryTimingLearning": {
     "version": 3,
@@ -2456,7 +2450,7 @@
     "agmNeverBypassesNormalSafetyGates": true,
     "maxCandidatesPerDecision": 4,
     "regressionTests": "V26.3 + V26.2 + V27 + V27.1 + V27.2 + V27.3 + V27.4 + V27.5 audit + V27.6 AGM preview invariants + V27.8 adaptive-entry / held-BUY plan-only suppression / pullback-reclaim / repeated-soft-SELL / metric-clarity invariants + V27.9 fresh-news / catalyst-starter / late-impulse-memory / reclaim / missed-opportunity-learning invariants + V28.0 accelerating-setup / thesis-maturity / recovery-window / hard-risk invariants + V28.1 weighted-signal / novel-news / hard-safety / stock-only invariants",
-    "rule": "V30.2: BUY bleibt ab DecisionScore 56. Live-Feedback aus echten Paper-Trades verschärft HIGH_CHASE per Score-Malus, hält neue Einzelpositionen bei max. 25% des Scan-Startcashs und repariert die Einstiegsscore-Basis auf den wirklich ausgeführten finalen DecisionScore. V30.4: Vier Slots sind keine Besitzgarantie. Ein exakt Trade-Republic-verifizierter Kandidat ab 64/100 darf das schwaechste Depotglied bei mindestens 8 Scorepunkten Vorsprung ersetzen, sofern dessen kurzfristige Struktur nicht mehr klar staerker ist. Vier qualifizierte neue BUYs werden auf 98% Zieldeployment hochskaliert, max. 25% je Position.",
+    "rule": "V30.2: BUY bleibt ab DecisionScore 56. Live-Feedback aus echten Paper-Trades verschärft HIGH_CHASE per Score-Malus, hält neue Einzelpositionen bei max. 25% des Scan-Startcashs und repariert die Einstiegsscore-Basis auf den wirklich ausgeführten finalen DecisionScore.",
     "agmScoreEvaluationOnceDaily": true,
     "agmScoreLockedUntilNextDailyRefresh": true,
     "agmDailyInputs": [
@@ -2603,9 +2597,7 @@
     "highChaseExtraScorePenalty": true,
     "pcFastDataMergedFromPcFirst": true,
     "maxSinglePositionPctOfEquity": 25,
-    "executedEntryBaselineRepair": true,
-    "relativeRotation": true,
-    "relativeRotationVersion": 30.4
+    "executedEntryBaselineRepair": true
   },
   "tradingBehaviorPolicy": {
     "enabled": true,
@@ -2676,7 +2668,7 @@
     "neverStandaloneBuyReason": true,
     "runtime": {
       "cached": true,
-      "cachedAt": "2026-08-24T10:46:13.394Z",
+      "cachedAt": "2026-08-24T10:46:58.978Z",
       "lastError": null,
       "scoreEvaluationCadence": "daily",
       "scoreReevaluation": "once daily only",
