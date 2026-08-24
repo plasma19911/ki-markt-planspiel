@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-24T19:37:00.203Z",
+  "checkedAt": "2026-08-24T19:39:22.312Z",
   "runtimeVersion": "V30.6",
   "liveDecisionVersion": "V30.6",
   "http": {
@@ -13,28 +13,27 @@
     "apiStatus": true,
     "agentEndpoint": true,
     "scannerUiAsset": true,
-    "runtimeV305": false,
+    "runtimeV306": true,
+    "sellRebuyAntiChurnV306": true,
     "profitOpportunityV305": true,
     "relativeRotationV304": true,
     "heldCashDeploymentV304": true,
-    "executionV305": true,
+    "executionV306": true,
     "accountingConsistent": true,
     "lastErrorClear": true,
     "positionCountWithinLimit": true
   },
-  "failedChecks": [
-    "runtimeV305"
-  ],
-  "allRequiredChecksPassed": false,
+  "failedChecks": [],
+  "allRequiredChecksPassed": true,
   "pcAgent": {
     "configured": true,
     "online": false,
     "lastSeenAt": "2026-08-24T17:46:04.781Z",
-    "ageSeconds": 6654
+    "ageSeconds": 6796
   },
   "running": 1,
-  "scanCount": 501,
-  "lastScan": "2026-08-24T19:36:43.725Z",
+  "scanCount": 502,
+  "lastScan": "2026-08-24T19:37:44.281Z",
   "lastError": null,
   "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 4 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · V30.2 Live-Feedback: 0  · V30.5 Profit-Opp · V30.6 Anti-Churn: 0 schneller SELL→BUY-Rueckkauf blockiert · 0 echter Signal-Re-Entry erlaubt.",
   "cash": 4098.337430611917,
@@ -249,6 +248,17 @@
       "daytradeChanceRank": 4
     }
   ],
+  "sellRebuyChurnPolicy": {
+    "enabled": true,
+    "version": 30.6,
+    "mode": "sell-rebuy-anti-churn",
+    "cooldownMinutes": 30,
+    "absoluteCooldownMinutes": 10,
+    "hardExitCooldownMinutes": 120,
+    "exceptionRequiresNewSignal": true,
+    "higherPriceRebuyGuard": true,
+    "latest": null
+  },
   "profitOpportunityPolicy": {
     "enabled": true,
     "version": 30.5,
