@@ -12,6 +12,7 @@ const v8=read('src/compact-portfolio-v8.js');
 const v9=read('src/compact-portfolio-v9.js');
 const v10=read('src/compact-portfolio-v10.js');
 const v11=read('src/compact-portfolio-v11.js');
+const v304=read('src/compact-portfolio-v304-relative-rotation.js');
 const v22=read('src/compact-portfolio-v22-active-learning.js');
 const v21=read('src/compact-portfolio-v21-source-budget.js');
 const v287=read('src/compact-portfolio-v287-calibrated-breadth.js');
@@ -28,7 +29,8 @@ assert.match(index20,/age>95_000/,'Cloudflare darf nur bei echter >95s Scan-Lüc
 assert.match(wrangler,/"head_sampling_rate"\s*:\s*0\.1/,'Observability-Sampling muss fuer Free reduziert sein');
 assert.match(wrangler,/"main"\s*:\s*"src\/index-v20\.js"/,'Produktionsentry muss die Dashboard/Gap-Fill-Schicht verwenden');
 assert.match(index,/compact-portfolio-v11\.js/,'API muss den Produktions-Kompatibilitätspfad verwenden');
-assert.match(v11,/compact-portfolio-v303-system-validation\.js/,'V11 muss den aktuellen V30.3 System-/Validierungs-Wrapper aktivieren');
+assert.match(v11,/compact-portfolio-v304-relative-rotation\.js/,'V11 muss den aktuellen V30.4 Relative-Rotation-Wrapper aktivieren');
+assert.match(v304,/compact-portfolio-v303-system-validation\.js/,'V30.4 muss den V30.3 System-/Validierungs-Wrapper darunter behalten');
 assert.match(v288,/compact-portfolio-v287-calibrated-breadth\.js/,'V28.8 muss V28.7 als sicheren Fallback behalten');
 assert.match(v22,/FinalDecisionController/,'Finaler Entscheidungscontroller muss aktiv bleiben');
 
@@ -75,4 +77,4 @@ g=gettexSessionState(new Date('2026-08-22T10:00:00Z'));assert.equal(g.phase,'NON
 
 const marketMinutes=(23*60)-(7*60+30);assert.equal(marketMinutes,930);
 const cronEnvelope=(22-5+1)*60;assert.equal(cronEnvelope,1080);
-console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',mode:'V30.3 SYSTEM-HARDENED + V30.2 LIVE-FEEDBACK DAYTRADING + PC-FIRST FULL MASTER',tradeRepublicHolidayCalendar:true,legacySessionTest:'historical gettex-session compatibility only',pcFullMasterCycleMinutes:4,stage2Target:400,deepTarget:240,finalistTarget:60,cloudflareValidationTarget:18,cloudflareGapFillAfterSeconds:95,cronWatchdogInvocationsPerWeekday:cronEnvelope,pcMarketMinutesPerTradingDay:marketMinutes,cloudflareExternalFetchSoftCapFallback:36,aiNeuronSoftCapPerUtcDay:8000},null,2));
+console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',mode:'V30.4 RELATIVE ROTATION + V30.3 SYSTEM-HARDENED + V30.2 LIVE-FEEDBACK DAYTRADING + PC-FIRST FULL MASTER',tradeRepublicHolidayCalendar:true,legacySessionTest:'historical gettex-session compatibility only',pcFullMasterCycleMinutes:4,stage2Target:400,deepTarget:240,finalistTarget:60,cloudflareValidationTarget:18,cloudflareGapFillAfterSeconds:95,cronWatchdogInvocationsPerWeekday:cronEnvelope,pcMarketMinutesPerTradingDay:marketMinutes,cloudflareExternalFetchSoftCapFallback:36,aiNeuronSoftCapPerUtcDay:8000},null,2));
