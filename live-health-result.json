@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-24T12:18:06.501Z",
+  "checkedAt": "2026-08-24T12:18:56.746Z",
   "runtimeVersion": "V30.5",
   "liveDecisionVersion": "V30.5",
   "http": {
@@ -27,8 +27,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-24T12:17:13.647Z",
-    "ageSeconds": 52
+    "lastSeenAt": "2026-08-24T12:18:06.125Z",
+    "ageSeconds": 50
   },
   "running": 1,
   "scanCount": 200,
@@ -126,7 +126,7 @@
       "entryDecisionScore": 63.8,
       "scoreDeltaFromEntry": -3.3,
       "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 44.1,
+      "rawDecisionScore": 44.3,
       "chartMoveFromEntryPct": -0.415,
       "chartMoveLastScanPct": 0,
       "scoreFrozenPartial": false,
@@ -176,14 +176,14 @@
       "decisionScore": 56.7,
       "entryDecisionScore": 65.2,
       "scoreDeltaFromEntry": -8.5,
-      "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 46.9,
+      "scoreDeltaThisScan": 0.5,
+      "rawDecisionScore": 50.7,
       "chartMoveFromEntryPct": -1.541,
       "chartMoveLastScanPct": 0.046,
       "scoreFrozenPartial": false,
-      "scoreChartCapped": true,
+      "scoreChartCapped": false,
       "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
-      "preDirectionalScore": 50.2,
+      "preDirectionalScore": 50.7,
       "scoreFloor": 56.7,
       "scoreCeiling": 69.2,
       "chartDirectionMode": "DOWN",
