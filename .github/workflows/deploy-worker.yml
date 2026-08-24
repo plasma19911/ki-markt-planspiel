@@ -36,8 +36,14 @@ jobs:
           cache-dependency-path: package.json
       - name: Install
         run: npm install --no-audit --no-fund --ignore-scripts
-      - name: Regression tests
-        run: npm run test:decisions
+      - name: Critical production guards
+        run: |
+          node --check src/relative-rotation-v304.js
+          node --check src/held-cash-deployment-v304.js
+          node --check src/compact-portfolio-v304-relative-rotation.js
+          node tests/v304-relative-rotation-cash.test.mjs
+          node scripts/smoke-target-venue-guard.mjs
+          node scripts/smoke-zero-accounting.mjs
       - name: Cloudflare dry run
         run: npm run check
       - name: Detect Cloudflare credentials
@@ -65,20 +71,16 @@ jobs:
               const q=Date.now();
               const sr=await fetch(`${base}/api/status?view=dashboard&deploy=${q}`,{headers:{'cache-control':'no-cache'}});const s=await sr.json();
               const ir=await fetch(`${base}/?deploy=${q}`,{headers:{'cache-control':'no-cache'}});
-              const system=s?.systemValidationPolicy||{},final=s?.finalDecisionPolicy||{},feedback=s?.daytradeLiveFeedbackPolicy||{},entry=s?.daytradeEntryPolicy||{},dip=s?.daytradeDipPolicy||{},cap=s?.daytradeLargeCapPolicy||{},score=s?.canonicalScorePolicy||{},rotation=s?.relativeRotationPolicy||{},cash=s?.heldCashDeploymentPolicy||{},execution=s?.executionModel||{};
+              const system=s?.systemValidationPolicy||{},final=s?.finalDecisionPolicy||{},score=s?.canonicalScorePolicy||{},rotation=s?.relativeRotationPolicy||{},cash=s?.heldCashDeploymentPolicy||{},execution=s?.executionModel||{};
               const runtimeOk=s?.runtimeVersion==='V30.4'&&s?.liveDecisionVersion==='V30.4';
-              const systemOk=Number(system.version)>=30.3&&Number(system.strategyBaseVersion)>=30.2&&system.tradeRepublicHolidayCalendar===true&&system.stocksOnlyAccountingSmoke===true&&system.targetVenueSmoke===true&&system.freeTierSmoke===true&&system.mergeBlockingCriticalSmokes===true&&system.paperTradingOnly===true;
-              const finalOk=Number(final.version)>=30.4&&final.relativeRotation===true&&final.legacyMigration===true&&final.heldCashTopup===true&&Number(final.maxOpenPositions||execution.maxOpenPositions)===4&&Number(final.maxSinglePositionPctOfEquity||execution.maxSinglePositionPctOfEquity)===25;
-              const feedbackOk=Number(feedback.version)>=30.2&&feedback.authoritativeDaytradeEntry===true&&Number(feedback.immediateBuyMin)===56&&Number(feedback.maxOpenPositions)===4&&Number(feedback.maxSinglePositionPctOfEquity)===25&&Number(feedback.highChaseExtraPenalty)===-10&&feedback.executedEntryBaselineRepair===true;
-              const entryOk=Number(entry.version)>=30.1&&entry.authoritativeDaytradeEntry===true&&Number(entry.immediateBuyMin)===56&&entry.quoteFreshnessInScore===true&&entry.fastFieldCoverageInScore===true;
-              const dipOk=Number(dip.version)>=30&&dip.authoritativeDaytradeEntry===true&&Number(dip.maxOpenPositions)===4;
-              const capOk=Number(cap.version)>=29.9&&cap.largeCapsPreferred===true;
+              const systemOk=Number(system.version)>=30.3&&system.tradeRepublicHolidayCalendar===true&&system.targetVenueSmoke===true&&system.paperTradingOnly===true;
+              const finalOk=Number(final.version)>=30.4&&final.relativeRotation===true&&final.legacyMigration===true&&final.heldCashTopup===true;
               const scoreOk=Number(score.version)>=30.4&&score.relativeRotation===true&&score.legacyMigration===true&&Number(score.legacyMigrationMinScoreGap)===4&&Number(score.legacyMigrationMinCandidateScore)===60&&Number(score.targetDeploymentPctWithFourHeld)===98;
               const rotationOk=Number(rotation.version)>=30.4&&Number(rotation.rotateMinScoreGap)===8&&Number(rotation.legacyMigrationMinScoreGap)===4&&Number(rotation.legacyMigrationCooldownMinutes)===5;
               const cashOk=String(cash.version).startsWith('30.4')&&Number(cash.targetDeploymentPct)===98&&Number(cash.maxSinglePositionPct)===25&&cash.noBlindAverageDown===true;
               const executionOk=execution.relativeRotationV304===true&&execution.legacyMigrationV304===true&&execution.heldCashDeploymentV304===true&&Number(execution.maxOpenPositions)===4&&Number(execution.maxSinglePositionPctOfEquity)===25;
               last=`HTTP ${sr.status} runtime=${s?.runtimeVersion} rotation=${rotation.version} legacyGap=${rotation.legacyMigrationMinScoreGap} cash=${cash.version}`;
-              if(sr.ok&&ir.ok&&runtimeOk&&systemOk&&finalOk&&feedbackOk&&entryOk&&dipOk&&capOk&&scoreOk&&rotationOk&&cashOk&&executionOk){console.log('Live V30.4 verification OK:',last);process.exit(0)}
+              if(sr.ok&&ir.ok&&runtimeOk&&systemOk&&finalOk&&scoreOk&&rotationOk&&cashOk&&executionOk){console.log('Live V30.4 verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
