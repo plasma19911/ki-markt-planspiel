@@ -1,4 +1,4 @@
-name: Main always live on Cloudflare V30.5
+name: Main always live on Cloudflare V30.5.3
 
 on:
   push:
@@ -24,13 +24,14 @@ jobs:
           cache: npm
           cache-dependency-path: package.json
       - run: npm install --no-audit --no-fund --ignore-scripts
-      - name: Critical V30.5 guards
+      - name: Critical V30.5.3 guards
         run: |
+          node --check src/index.js
           node --check src/profit-opportunity-v305.js
           node --check src/compact-portfolio-v305-profit-opportunity.js
           node --check src/relative-rotation-v304.js
           node --check src/held-cash-deployment-v304.js
-          node tests/v305-profit-opportunity.test.mjs
+          node tests/v3053-profit-opportunity.test.mjs
           node tests/v304-relative-rotation-cash.test.mjs
           node scripts/smoke-target-venue-guard.mjs
           node scripts/smoke-zero-accounting.mjs
@@ -52,7 +53,7 @@ jobs:
       - name: Allow Cloudflare Git integration to publish
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify live V30.5 profit opportunity stack
+      - name: Verify live V30.5.3 profit opportunity stack
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';let last='';
@@ -60,11 +61,11 @@ jobs:
             try{
               const q=Date.now(),r=await fetch(`${base}/api/status?main_live=${q}`,{headers:{'cache-control':'no-cache'}}),s=await r.json();
               const p=s?.profitOpportunityPolicy||{},rot=s?.relativeRotationPolicy||{},cash=s?.heldCashDeploymentPolicy||{},ex=s?.executionModel||{},final=s?.finalDecisionPolicy||{},positions=Array.isArray(s?.positions)?s.positions:[];
-              const ok=r.ok&&s?.runtimeVersion==='V30.5'&&s?.liveDecisionVersion==='V30.5'&&Number(p.version)>=30.5&&p.hardSafetyNeverOverridden===true&&Number(p.starterMinScore)===66&&final.profitOpportunityController===true&&final.guardBlockerAudit===true&&ex.netOpportunityRotationV305===true&&Number(rot.version)>=30.4&&Number(cash.targetDeploymentPct)===98&&positions.length<=4;
-              last=`status=${r.status} runtime=${s?.runtimeVersion} profit=${p.version} positions=${positions.length}`;
-              if(ok){console.log('Main live V30.5 verification OK:',last);process.exit(0)}
+              const ok=r.ok&&s?.runtimeVersion==='V30.5'&&s?.liveDecisionVersion==='V30.5'&&p.patch==='30.5.3'&&p.authoritativeBrokerUniverseResolve===true&&p.staleBrokerBlockCanBeClearedOnlyByExactMasterVerification===true&&final.profitOpportunityController===true&&ex.netOpportunityRotationV305===true&&Number(rot.version)>=30.4&&Number(cash.targetDeploymentPct)===98&&positions.length<=4;
+              last=`status=${r.status} runtime=${s?.runtimeVersion} patch=${p.patch} brokerResolve=${p.brokerResolveCount} positions=${positions.length}`;
+              if(ok){console.log('Main live V30.5.3 verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
-          throw new Error('Main did not become V30.5 live: '+last);
+          throw new Error('Main did not become V30.5.3 live: '+last);
           NODE
