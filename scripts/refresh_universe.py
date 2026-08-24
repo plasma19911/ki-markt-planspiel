@@ -109,14 +109,14 @@ def build_name_indexes(records):
 
 
 def unique_match(name, exact, relaxed):
+    # HARD BROKER RULE: only an exact normalized official catalog name is allowed.
+    # The former legal-suffix-relaxed fallback could map the right company to the
+    # wrong share class/listing/ISIN and therefore create a paper BUY that is not
+    # actually searchable in Trade Republic.
     ek = exact_name_key(name)
     a = exact.get(ek, [])
     if len(a) == 1:
         return a[0], "EXACT_NORMALIZED_NAME"
-    rk = relaxed_name_key(name)
-    b = relaxed.get(rk, [])
-    if len(b) == 1:
-        return b[0], "UNIQUE_LEGAL_SUFFIX_NORMALIZED_NAME"
     return None, None
 
 
@@ -255,7 +255,7 @@ def main():
             "brokerTarget": "Trade Republic",
             "venueTarget": "Trade Republic Bestpreis",
             "brokerCatalogCandidate": True,
-            "brokerVerified": True,
+            "brokerVerified": match_mode == "EXACT_NORMALIZED_NAME",
             "brokerVerificationSource": "official Trade Republic Trading Universe PDF",
             "brokerMatchMode": match_mode,
         }
@@ -264,8 +264,6 @@ def main():
         if old is None or representative_score(item) > representative_score(old):
             by_symbol[sym] = item
 
-    # One representative Yahoo listing per official ISIN. This prevents the scanner
-    # from wasting capacity on several exchange tickers for the same TR security.
     by_isin = {}
     for item in by_symbol.values():
         old = by_isin.get(item["isin"])
@@ -286,7 +284,7 @@ def main():
         "stocks_only": True,
         "exact_broker_catalog": True,
         "catalog_is_conservative_subset": True,
-        "symbol_mapping_mode": "official ISIN/name catalog -> unique conservative Yahoo equity mapping",
+        "symbol_mapping_mode": "official ISIN/name catalog -> exact normalized Yahoo equity name mapping only",
         "broker_verification_required_before_live_order": True,
         "temporary_broker_unavailability_possible": True,
         "official_catalog_instruments_parsed": len(official),
@@ -295,11 +293,11 @@ def main():
         "raw_unique_symbols": len(by_symbol),
         "duplicate_listings_collapsed": max(0, len(by_symbol) - len(equities)),
         "rejected_implausible_market_caps": rejected_caps,
-        "selection_note": "Nur normale Aktien, die im offiziellen Trade-Republic-Handelsuniversum eindeutig wiedergefunden wurden, werden an Scanner und Paper-Trading weitergegeben. Unklare Zuordnungen werden absichtlich weggelassen. Vor einer spaeteren echten Order muss die aktuelle Verfuegbarkeit in Trade Republic trotzdem erneut geprueft werden.",
+        "selection_note": "Nur normale Aktien, die im offiziellen Trade-Republic-Handelsuniversum per exaktem normalisiertem Namen eindeutig wiedergefunden wurden, werden an Scanner und Paper-Trading weitergegeben. Relaxed/Fuzzy-Namensmatches sind verboten. Vor einer spaeteren echten Order muss die aktuelle Verfuegbarkeit in Trade Republic trotzdem erneut geprueft werden.",
         "equities": equities,
     }
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Wrote {len(equities)} Trade Republic verified stock candidates from {len(official)} official catalog instruments")
+    print(f"Wrote {len(equities)} exact Trade Republic stock candidates from {len(official)} official catalog instruments")
     if failures:
         print("Warnings:", failures)
 
