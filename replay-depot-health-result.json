@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-24T06:14:02.639080+00:00",
-  "berlinNow": "2026-08-24T08:14:02.638869+02:00",
+  "checkedAt": "2026-08-24T10:46:38.482487+00:00",
+  "berlinNow": "2026-08-24T12:46:38.482328+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 1565200,
-    "dashboard": 1091835
+    "full": 2077172,
+    "dashboard": 1468588
   },
   "checks": {
     "fullStatus200": true,
@@ -24,13 +24,13 @@
     "date": "2026-08-24",
     "status": "CAPTURING",
     "processed": 0,
-    "total": 34,
+    "total": 120,
     "provisional": true,
     "completedAt": null,
     "capture": {
       "date": "2026-08-24",
-      "symbolCount": 34,
-      "updatedAt": "2026-08-24T06:10:23.696Z"
+      "symbolCount": 120,
+      "updatedAt": "2026-08-24T10:44:18.924Z"
     },
     "summary": {
       "provisional": true,
@@ -46,44 +46,44 @@
     }
   },
   "depot": {
-    "cash": 3984.426432,
-    "equity": 9987.240432,
-    "displayMarketValue": 6002.814,
-    "displayAccountingDelta": 0.0,
+    "cash": 4104.050689949999,
+    "equity": 9997.875920874118,
+    "displayMarketValue": 5893.825230250931,
+    "displayAccountingDelta": 6.731879693688825e-07,
     "positions": [
       {
-        "symbol": "012450.KS",
-        "invested": 1328.5272,
-        "ratioValue": 1327.2000000000003,
-        "quantityValue": 1327.1999999999998,
-        "displayValue": 1327.1999999999998,
+        "symbol": "COCHINSHIP.NS",
+        "invested": 977.188212,
+        "ratioValue": 970.1712000000001,
+        "quantityValue": 970.1712,
+        "displayValue": 970.1712,
         "quantityUsed": true
       },
       {
-        "symbol": "079550.KS",
-        "invested": 1705.704,
-        "ratioValue": 1704.0000000000002,
-        "quantityValue": 1703.9999999999998,
-        "displayValue": 1703.9999999999998,
+        "symbol": "YIT.HE",
+        "invested": 1153.677508,
+        "ratioValue": 1154.3400245595499,
+        "quantityValue": 1154.3400242328644,
+        "displayValue": 1154.3400242328644,
         "quantityUsed": true
       },
       {
-        "symbol": "064350.KS",
-        "invested": 2081.55948,
-        "ratioValue": 2079.48,
-        "quantityValue": 2079.48,
-        "displayValue": 2079.48,
+        "symbol": "SAAB-B.ST",
+        "invested": 1837.008824,
+        "ratioValue": 1818.6565063645703,
+        "quantityValue": 1818.6565060180665,
+        "displayValue": 1818.6565060180665,
         "quantityUsed": true
       },
       {
-        "symbol": "8035.T",
-        "invested": 895.782888,
-        "ratioValue": 892.1340000000001,
-        "quantityValue": 892.134,
-        "displayValue": 892.134,
+        "symbol": "SOLARINDS.NS",
+        "invested": 1934.478546,
+        "ratioValue": 1950.6575,
+        "quantityValue": 1950.6575,
+        "displayValue": 1950.6575,
         "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: mon, 24 aug 2026 06:14:02 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=c6%2bja1k%2b0o8zdpexpbxczvznta2ymt6cv27ifycvxm79fdo3ths5gcn2%2b8a2g8bs5lvfvzr6emrmkzdkpxy%2bdi5csqx17c7xg5qm%2f9s%2fy4j%2fdamwzso0wxtzhuggpszu3sl9hjj%2fx92%2b3hvhmlnhp9x2vbbiqiacx3nxtbs%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a30036e9aef1ebe4-sjc\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: mon, 24 aug 2026 10:46:38 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=9aooptdxn2mwpytaylm2oep9nnrtrgzwdnxard%2buhjh6%2byf1hjbf%2b4r8gubzzvfq5vcvmty7v0tjojxg%2bzj2qfzvfx4h0mbkwgngtizjzw1syljbzn%2fz3pjinyzn%2b4llrctzggyshvoj%2bzpybqt4iwatfgamqeroiik%2bhkk%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a301c63928dff39d-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
