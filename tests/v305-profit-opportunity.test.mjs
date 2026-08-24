@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import {enforceProfitOpportunityV305} from '../src/profit-opportunity-v305.js';
 const tr=(symbol,score,m5=.2,m20=.3)=>({symbol,name:symbol,decisionScore:score,daytradeLiveScore:score,momentum5Pct:m5,momentum20Pct:m20,brokerVerified:true,assetClass:'EQUITY',brokerVerificationSource:'official Trade Republic Trading Universe PDF',brokerMatchMode:'EXACT_NORMALIZED_NAME',isin:'DE0000000001'});
 const input={messages:[{content:`Kandidaten=${JSON.stringify([tr('NEW.DE',70)])} Gehalten=[]`}]};
@@ -20,6 +21,13 @@ assert.equal(merged.counters.starterBuys,1,'authoritative state broker metadata 
 assert.equal(merged.plan.actions.find(a=>a.symbol==='STATE.DE')?.action,'BUY');
 assert.equal(merged.counters.exactTradeRepublicCandidates,1);
 
+// Production entry must preserve the same authoritative metadata when the PC agent
+// asks for its universe. This prevents a later refactor from silently stripping ISIN
+// or broker verification again.
+const productionEntry=fs.readFileSync(new URL('../src/index.js',import.meta.url),'utf8');
+for(const marker of ['brokerMetadataPreserved','brokerVerified','brokerVerificationSource','brokerMatchMode','tradeRepublicName','isin:x?.isin'])assert.match(productionEntry,new RegExp(marker.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
+assert.match(productionEntry,/targetBroker:'Trade Republic'/);
+
 const hardPlan={summary:'hard',actions:[{symbol:'NEW.DE',action:'HOLD',reason:'TRADE-REPUBLIC-BLOCK unsafe'}]};
 const hard=enforceProfitOpportunityV305(structuredClone(hardPlan),{positions:[],candidates:[tr('NEW.DE',70)]},input);
 assert.equal(hard.counters.starterBuys,0);
@@ -38,4 +46,4 @@ assert.equal(rot.plan.actions.find(a=>a.symbol==='OLD1.DE')?.action,'SELL');
 assert.equal(rot.plan.actions.find(a=>a.symbol==='NEW.DE')?.action,'BUY');
 assert.equal(rot.counters.hysteresisBypasses,1);
 assert.equal(rot.plan.actions.find(a=>a.symbol==='OLD1.DE')?.relativeOpportunityExit,true);
-console.log(JSON.stringify({ok:true,starterBuy:true,statePromptMetadataMerge:true,hardSafetyPreserved:true,netRotation:true,hysteresisAware:true,blockerAudit:true},null,2));
+console.log(JSON.stringify({ok:true,starterBuy:true,statePromptMetadataMerge:true,brokerMetadataTransport:true,hardSafetyPreserved:true,netRotation:true,hysteresisAware:true,blockerAudit:true},null,2));
