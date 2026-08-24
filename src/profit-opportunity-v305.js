@@ -12,11 +12,12 @@ function momentum(c={}){return{m5:num(c?.momentum5Pct,c?.momentum5??c?.intraday5
 function opportunity(c={}){const s=num(c?.daytradeLiveScore,c?.decisionScore??c?.score),m=momentum(c),f30=num(c?.forward30Pct,c?.expected30mPct),f60=num(c?.forward60Pct,c?.expected60mPct),quality=num(c?.entryQualityScore,c?.timingQualityScore,50);return s+clamp(m.m5*2,-3,3)+clamp(m.m20*1.2,-3,3)+clamp(m.acc*1.5,-2,2)+clamp(f30*1.5,-3,4)+clamp(f60*1.2,-3,5)+clamp((quality-50)/20,-1.5,1.5)}
 function heldScore(p={},c={}){const stable=num(c?.daytradeLiveScore,c?.decisionScore??p?.decisionScore??p?.score,50),raw=num(c?.rawDecisionScore,p?.rawDecisionScore,stable);return raw<stable-8?Math.max(raw+6,stable-10):stable}
 function ageMin(p={},now=Date.now()){const t=Date.parse(String(p?.opened_at??p?.openedAt??''));return Number.isFinite(t)?Math.max(0,(now-t)/60000):9999}
-function mergedCandidates(stateRows,promptRows){
- const map=new Map();
- for(const c of arr(stateRows)){const s=key(c);if(s)map.set(s,{...c})}
- for(const c of arr(promptRows)){const s=key(c);if(!s)continue;map.set(s,{...(map.get(s)||{}),...c})}
- return [...map.values()];
+function mergedCandidates(stateRows,promptRows){const map=new Map();for(const c of arr(stateRows)){const s=key(c);if(s)map.set(s,{...c})}for(const c of arr(promptRows)){const s=key(c);if(!s)continue;map.set(s,{...(map.get(s)||{}),...c})}return[...map.values()]}
+function enrichStateWithBrokerRows(state={},brokerRows=[]){
+ const authoritative=new Map(arr(brokerRows).map(r=>[key(r),r]));
+ if(!authoritative.size)return state;
+ const candidates=arr(state?.candidates).map(c=>{const r=authoritative.get(key(c));if(!r)return c;return{...c,isin:r?.isin||null,assetClass:String(r?.assetClass||'EQUITY').toUpperCase(),brokerTarget:r?.brokerTarget||'Trade Republic',venueTarget:r?.venueTarget||null,brokerVerified:r?.brokerVerified===true,brokerVerificationSource:r?.brokerVerificationSource||null,brokerMatchMode:r?.brokerMatchMode||null,tradeRepublicName:r?.tradeRepublicName||null}});
+ return{...state,candidates};
 }
 export function enforceProfitOpportunityV305(plan,state={},input=null,now=Date.now()){
  if(!plan||!Array.isArray(plan.actions))return{plan,counters:{}};
@@ -35,4 +36,8 @@ export function enforceProfitOpportunityV305(plan,state={},input=null,now=Date.n
  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,130)} · V30.5 Profit-Opportunity: ${starterBuys} Starter · ${rotations} Netto-Rotation · ${blocked.length} starke HOLD-Blockaden protokolliert.`;
  return{plan,counters:{starterBuys,rotations,hysteresisBypasses,blockedStrongCandidates:blocked.length,mergedCandidates:allCandidates.length,exactTradeRepublicCandidates:candidateRows.length},blocked};
 }
-export class ProfitOpportunityGuardV305{constructor(inner,{getState,now}={}){this.inner=inner;this.getState=getState;this.now=now;this.latest=null}async run(model,input){const legacy=input===undefined&&model&&typeof model==='object',payload=legacy?model:input,state=typeof this.getState==='function'?(this.getState()||{}):{},r=legacy?await this.inner.run(payload):await this.inner.run(model,payload);if(!isPlan(payload))return r;const p=parse(r);if(!p)return r;const out=enforceProfitOpportunityV305(p,state,payload,typeof this.now==='function'?this.now():Date.now());this.latest=out;return encode(r,out.plan)}status(){return{enabled:true,version:30.5,patch:'30.5.1',mode:'profit-opportunity-controller',starterMinScore:66,starterPct:[6,10],normalNetRotationGap:6,legacyNetRotationGap:3.5,maxOpenPositions:4,maxSinglePositionPct:25,hardSafetyNeverOverridden:true,statePromptMetadataMerge:true,latest:this.latest?.counters||null,blockedStrongCandidates:this.latest?.blocked||[]}}}
+export class ProfitOpportunityGuardV305{
+ constructor(inner,{getState,getBrokerRows,now}={}){this.inner=inner;this.getState=getState;this.getBrokerRows=getBrokerRows;this.now=now;this.latest=null;this.brokerResolveCount=0}
+ async run(model,input){const legacy=input===undefined&&model&&typeof model==='object',payload=legacy?model:input;let state=typeof this.getState==='function'?(this.getState()||{}):{};if(typeof this.getBrokerRows==='function'){try{const rows=await this.getBrokerRows();if(arr(rows).length){state=enrichStateWithBrokerRows(state,rows);this.brokerResolveCount++}}catch{}}const r=legacy?await this.inner.run(payload):await this.inner.run(model,payload);if(!isPlan(payload))return r;const p=parse(r);if(!p)return r;const out=enforceProfitOpportunityV305(p,state,payload,typeof this.now==='function'?this.now():Date.now());this.latest=out;return encode(r,out.plan)}
+ status(){return{enabled:true,version:30.5,patch:'30.5.2',mode:'profit-opportunity-controller',starterMinScore:66,starterPct:[6,10],normalNetRotationGap:6,legacyNetRotationGap:3.5,maxOpenPositions:4,maxSinglePositionPct:25,hardSafetyNeverOverridden:true,statePromptMetadataMerge:true,authoritativeBrokerUniverseResolve:true,brokerResolveCount:this.brokerResolveCount,latest:this.latest?.counters||null,blockedStrongCandidates:this.latest?.blocked||[]}}
+}
