@@ -1,4 +1,4 @@
-name: Deploy / Verify Cloudflare Worker V30.3
+name: Deploy / Verify Cloudflare Worker V30.4
 
 on:
   push:
@@ -56,7 +56,7 @@ jobs:
       - name: Wait for Cloudflare Git integration
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify V30.3 production
+      - name: Verify V30.4 production
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';let last='';
@@ -64,24 +64,23 @@ jobs:
             try{
               const q=Date.now();
               const sr=await fetch(`${base}/api/status?view=dashboard&deploy=${q}`,{headers:{'cache-control':'no-cache'}});const s=await sr.json();
-              const ir=await fetch(`${base}/?deploy=${q}`,{headers:{'cache-control':'no-cache'}});const index=await ir.text();
-              const mr=await fetch(`${base}/changelog-master-v290.js?deploy=${q}`,{headers:{'cache-control':'no-cache'}});const master=await mr.text();
-              const cr=await fetch(`${base}/changelog-v303.js?deploy=${q}`,{headers:{'cache-control':'no-cache'}});const changelog=await cr.text();
-              const system=s?.systemValidationPolicy||{},final=s?.finalDecisionPolicy||{},feedback=s?.daytradeLiveFeedbackPolicy||{},entry=s?.daytradeEntryPolicy||{},dip=s?.daytradeDipPolicy||{},cap=s?.daytradeLargeCapPolicy||{},score=s?.canonicalScorePolicy||{};
-              const runtimeOk=s?.runtimeVersion==='V30.3'&&s?.liveDecisionVersion==='V30.3';
+              const ir=await fetch(`${base}/?deploy=${q}`,{headers:{'cache-control':'no-cache'}});
+              const system=s?.systemValidationPolicy||{},final=s?.finalDecisionPolicy||{},feedback=s?.daytradeLiveFeedbackPolicy||{},entry=s?.daytradeEntryPolicy||{},dip=s?.daytradeDipPolicy||{},cap=s?.daytradeLargeCapPolicy||{},score=s?.canonicalScorePolicy||{},rotation=s?.relativeRotationPolicy||{},cash=s?.heldCashDeploymentPolicy||{},execution=s?.executionModel||{};
+              const runtimeOk=s?.runtimeVersion==='V30.4'&&s?.liveDecisionVersion==='V30.4';
               const systemOk=Number(system.version)>=30.3&&Number(system.strategyBaseVersion)>=30.2&&system.tradeRepublicHolidayCalendar===true&&system.stocksOnlyAccountingSmoke===true&&system.targetVenueSmoke===true&&system.freeTierSmoke===true&&system.mergeBlockingCriticalSmokes===true&&system.paperTradingOnly===true;
-              const finalOk=Number(final.version)>=30.2&&final.daytradeLiveFeedback===true&&final.highChaseExtraScorePenalty===true&&Number(final.maxOpenPositions)===4&&Number(final.maxSinglePositionPctOfEquity)===25&&Number(final.targetCashDeploymentPct)===90&&final.executedEntryBaselineRepair===true;
+              const finalOk=Number(final.version)>=30.4&&final.relativeRotation===true&&final.legacyMigration===true&&final.heldCashTopup===true&&Number(final.maxOpenPositions||execution.maxOpenPositions)===4&&Number(final.maxSinglePositionPctOfEquity||execution.maxSinglePositionPctOfEquity)===25;
               const feedbackOk=Number(feedback.version)>=30.2&&feedback.authoritativeDaytradeEntry===true&&Number(feedback.immediateBuyMin)===56&&Number(feedback.maxOpenPositions)===4&&Number(feedback.maxSinglePositionPctOfEquity)===25&&Number(feedback.highChaseExtraPenalty)===-10&&feedback.executedEntryBaselineRepair===true;
               const entryOk=Number(entry.version)>=30.1&&entry.authoritativeDaytradeEntry===true&&Number(entry.immediateBuyMin)===56&&entry.quoteFreshnessInScore===true&&entry.fastFieldCoverageInScore===true;
               const dipOk=Number(dip.version)>=30&&dip.authoritativeDaytradeEntry===true&&Number(dip.maxOpenPositions)===4;
               const capOk=Number(cap.version)>=29.9&&cap.largeCapsPreferred===true;
-              const scoreOk=Number(score.version)>=30.2&&score.immediateBuyMin===56&&score.highChaseExtraScorePenalty===true&&score.executedEntryBaselineRepair===true;
-              const uiOk=ir.ok&&/changelog-v303\.js\?v=20260821-1250/.test(index)&&/changelog-master-v290\.js\?v=20260821-1250/.test(index);
-              const changelogOk=mr.ok&&/changelogMaster='v30\.3'/.test(master)&&/version:30\.3/.test(master)&&cr.ok&&/__CHANGELOG_V303__/.test(changelog)&&/V30\.3 · Systemprüfung gehärtet/.test(changelog);
-              last=`HTTP ${sr.status} runtime=${s?.runtimeVersion} system=${system.version} final=${final.version} feedback=${feedback.version} score=${score.version} index=${ir.status}`;
-              if(sr.ok&&runtimeOk&&systemOk&&finalOk&&feedbackOk&&entryOk&&dipOk&&capOk&&scoreOk&&uiOk&&changelogOk){console.log('Live V30.3 verification OK:',last);process.exit(0)}
+              const scoreOk=Number(score.version)>=30.4&&score.relativeRotation===true&&score.legacyMigration===true&&Number(score.legacyMigrationMinScoreGap)===4&&Number(score.legacyMigrationMinCandidateScore)===60&&Number(score.targetDeploymentPctWithFourHeld)===98;
+              const rotationOk=Number(rotation.version)>=30.4&&Number(rotation.rotateMinScoreGap)===8&&Number(rotation.legacyMigrationMinScoreGap)===4&&Number(rotation.legacyMigrationCooldownMinutes)===5;
+              const cashOk=String(cash.version).startsWith('30.4')&&Number(cash.targetDeploymentPct)===98&&Number(cash.maxSinglePositionPct)===25&&cash.noBlindAverageDown===true;
+              const executionOk=execution.relativeRotationV304===true&&execution.legacyMigrationV304===true&&execution.heldCashDeploymentV304===true&&Number(execution.maxOpenPositions)===4&&Number(execution.maxSinglePositionPctOfEquity)===25;
+              last=`HTTP ${sr.status} runtime=${s?.runtimeVersion} rotation=${rotation.version} legacyGap=${rotation.legacyMigrationMinScoreGap} cash=${cash.version}`;
+              if(sr.ok&&ir.ok&&runtimeOk&&systemOk&&finalOk&&feedbackOk&&entryOk&&dipOk&&capOk&&scoreOk&&rotationOk&&cashOk&&executionOk){console.log('Live V30.4 verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
-          throw new Error('V30.3 not live: '+last);
+          throw new Error('V30.4 not live: '+last);
           NODE
