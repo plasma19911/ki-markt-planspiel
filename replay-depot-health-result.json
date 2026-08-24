@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-24T12:20:58.149172+00:00",
-  "berlinNow": "2026-08-24T14:20:58.148981+02:00",
+  "checkedAt": "2026-08-24T19:35:53.381082+00:00",
+  "berlinNow": "2026-08-24T21:35:53.380899+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 2202158,
-    "dashboard": 1577116
+    "full": 2211543,
+    "dashboard": 1586240
   },
   "checks": {
     "fullStatus200": true,
@@ -30,7 +30,7 @@
     "capture": {
       "date": "2026-08-24",
       "symbolCount": 120,
-      "updatedAt": "2026-08-24T12:20:19.838Z"
+      "updatedAt": "2026-08-24T19:33:46.583Z"
     },
     "summary": {
       "provisional": true,
@@ -46,25 +46,25 @@
     }
   },
   "depot": {
-    "cash": 4104.050689949999,
-    "equity": 9976.84167075326,
-    "displayMarketValue": 5872.790980134583,
-    "displayAccountingDelta": 6.686786946374923e-07,
+    "cash": 4098.337430611917,
+    "equity": 9980.651670574794,
+    "displayMarketValue": 5882.314240000001,
+    "displayAccountingDelta": -3.7123754736967385e-08,
     "positions": [
+      {
+        "symbol": "YIT.HE",
+        "invested": 1165.964817,
+        "ratioValue": 1175.7199996226398,
+        "quantityValue": 1175.72,
+        "displayValue": 1175.72,
+        "quantityUsed": true
+      },
       {
         "symbol": "COCHINSHIP.NS",
         "invested": 977.188212,
         "ratioValue": 970.1712000000001,
         "quantityValue": 970.1712,
         "displayValue": 970.1712,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "YIT.HE",
-        "invested": 1153.677508,
-        "ratioValue": 1148.8949864777935,
-        "quantityValue": 1148.894986152649,
-        "displayValue": 1148.894986152649,
         "quantityUsed": true
       },
       {
@@ -78,12 +78,12 @@
       {
         "symbol": "SAAB-B.ST",
         "invested": 1837.008824,
-        "ratioValue": 1803.0672943254674,
-        "quantityValue": 1803.0672939819337,
-        "displayValue": 1803.0672939819337,
+        "ratioValue": 1785.7655403402375,
+        "quantityValue": 1785.76554,
+        "displayValue": 1785.76554,
         "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: mon, 24 aug 2026 12:20:58 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=ru%2fjedbdatstt5qdulezwmmjjusfirfoyc%2bqy9oifumi2jnkip3f0mx3vb0xl3kvjg%2becmnerkz7wsbtmttoehip%2bsyv7dd7qt34chfmsc4t5fh9w0cfxycsnlwv0aswkgkpfghwf2lg3uo6rvajmar2okdsdy7m6ytylb0%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a30250661cefd6d1-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: mon, 24 aug 2026 19:35:53 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=qiowp2vopwjoltwz7ep5pdsiwreyr5twu64x7ev%2b3qzw%2bs8es6z0fqazw%2fh6ltrwbjbca7hfui35xk5u6%2b%2frvbbop3tg2ch%2bzyyh6imopfwede6mi08gvowqbijwpw60gyymo4paveigbijt6t0azjcvs0expxpa7gwhif4%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a304cd7d4cabf4bb-atl\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
