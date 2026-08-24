@@ -12,10 +12,11 @@ export class MarketPortfolio extends BasePortfolio{
   }
   async status(){
     const s=await super.status(),policy=this.relativeRotationV304?.status?.()||{enabled:true,version:30.4,...RELATIVE_ROTATION_V304},cashPolicy=this.heldCashDeploymentV304?.status?.()||{enabled:true,version:'30.4-cash',targetDeploymentPct:98,maxSinglePositionPct:25};
+    s.runtimeVersion='V30.4';s.liveDecisionVersion='V30.4';
     s.relativeRotationPolicy=policy;s.heldCashDeploymentPolicy=cashPolicy;
-    s.canonicalScorePolicy={...(s.canonicalScorePolicy||{}),relativeRotation:true,relativeRotationVersion:30.4,rotateMinScoreGap:8,targetDeploymentPctWhenFourBuys:98,heldCashTopup:true,targetDeploymentPctWithFourHeld:98};
-    if(s?.finalDecisionPolicy)s.finalDecisionPolicy={...s.finalDecisionPolicy,relativeRotation:true,relativeRotationVersion:30.4,heldCashTopup:true,rule:`${String(s.finalDecisionPolicy.rule||'').slice(0,380)} V30.4: Vier Slots sind keine Besitzgarantie. Ein exakt Trade-Republic-verifizierter Kandidat ab 64/100 darf das schwaechste Depotglied bei mindestens 8 Scorepunkten Vorsprung ersetzen. Sind bereits vier gute Titel im Depot, darf freies Cash bis 98% Zieldeployment in die staerksten davon aufgestockt werden, max. 25% je Titel und kein blindes Average-down.`};
-    if(s?.executionModel)s.executionModel={...s.executionModel,relativeRotationV304:true,heldCashDeploymentV304:true,maxOpenPositions:4,maxSinglePositionPctOfEquity:25,targetDeploymentPctWhenFourBuys:98,targetDeploymentPctWithFourHeld:98};
+    s.canonicalScorePolicy={...(s.canonicalScorePolicy||{}),version:30.4,relativeRotation:true,relativeRotationVersion:30.4,rotateMinScoreGap:RELATIVE_ROTATION_V304.rotateMinScoreGap,legacyMigration:true,legacyMigrationMinScoreGap:RELATIVE_ROTATION_V304.legacyMigrationMinScoreGap,legacyMigrationMinCandidateScore:RELATIVE_ROTATION_V304.legacyMigrationMinCandidateScore,targetDeploymentPctWhenFourBuys:98,heldCashTopup:true,targetDeploymentPctWithFourHeld:98};
+    if(s?.finalDecisionPolicy)s.finalDecisionPolicy={...s.finalDecisionPolicy,version:30.4,relativeRotation:true,relativeRotationVersion:30.4,legacyMigration:true,heldCashTopup:true,rule:`${String(s.finalDecisionPolicy.rule||'').slice(0,320)} V30.4: Vier Slots sind keine Besitzgarantie. Normale Rotation ab 8 Scorepunkten Vorsprung. Nicht exakt Trade-Republic-verifizierte Altpositionen werden bevorzugt gegen exakt verifizierte Kandidaten ab 60/100 und mindestens 4 Punkten Vorsprung migriert. Sind vier gute TR-Titel im Depot, darf freies Cash bis 98% Zieldeployment in die staerksten davon aufgestockt werden; max. 25% je Titel, kein blindes Average-down.`};
+    if(s?.executionModel)s.executionModel={...s.executionModel,relativeRotationV304:true,legacyMigrationV304:true,heldCashDeploymentV304:true,maxOpenPositions:4,maxSinglePositionPctOfEquity:25,targetDeploymentPctWhenFourBuys:98,targetDeploymentPctWithFourHeld:98};
     return s;
   }
 }
