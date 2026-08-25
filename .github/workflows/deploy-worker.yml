@@ -1,4 +1,4 @@
-name: Deploy / Verify Cloudflare Worker V30.6.1
+name: Deploy / Verify Cloudflare Worker V30.7
 
 on:
   push:
@@ -35,13 +35,18 @@ jobs:
           cache-dependency-path: package.json
       - name: Install
         run: npm install --no-audit --no-fund --ignore-scripts
-      - name: Critical production guards V30.6.1
+      - name: Critical production guards V30.7
         run: |
           node --check src/index.js
+          node --check src/manual-trade-v307.js
+          node --check src/compact-portfolio-v307-manual-control.js
           node --check src/sell-rebuy-churn-v306.js
           node --check src/weakest-position-replacement-v3061.js
-          node --check src/compact-portfolio-v306-anti-churn.js
           node --check src/profit-opportunity-v305.js
+          node --check src/relative-rotation-v304.js
+          node --check src/held-cash-deployment-v304.js
+          node --check public/manual-trade-ui.js
+          node tests/v307-manual-trade.test.mjs
           node tests/v3061-weakest-position-replacement.test.mjs
           node tests/v306-sell-rebuy-churn.test.mjs
           node tests/v3053-profit-opportunity.test.mjs
@@ -66,18 +71,18 @@ jobs:
       - name: Wait for Cloudflare Git integration
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify V30.6.1 production
+      - name: Verify V30.7 production
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';let last='';
           for(let i=0;i<36;i++){
             try{
-              const r=await fetch(`${base}/api/status?deploy=${Date.now()}`,{headers:{'cache-control':'no-cache'}}),s=await r.json(),ch=s?.sellRebuyChurnPolicy||{},wr=s?.weakestPositionReplacementPolicy||{},ex=s?.executionModel||{};
-              const ok=r.ok&&s?.runtimeVersion==='V30.6'&&s?.liveDecisionVersion==='V30.6'&&Number(ch.version)>=30.6&&String(wr.version)==='30.6.1'&&wr.enabled===true&&Number(wr.minReplacementScore)===62&&Number(wr.maxWeakRawScore)===45&&ex.sellRebuyAntiChurnV306===true&&ex.weakestPositionReplacementV3061===true&&ex.pairedRotationExecution===true;
-              last=`HTTP ${r.status} runtime=${s?.runtimeVersion} weakPatch=${wr.version} replacements=${wr?.latest?.weakReplacements}`;
-              if(ok){console.log('Live V30.6.1 verification OK:',last);process.exit(0)}
+              const r=await fetch(`${base}/api/status?deploy=${Date.now()}`,{headers:{'cache-control':'no-cache'}}),s=await r.json(),m=s?.manualTradePolicy||{},ex=s?.executionModel||{},wr=s?.weakestPositionReplacementPolicy||{};
+              const ok=r.ok&&s?.runtimeVersion==='V30.7'&&s?.liveDecisionVersion==='V30.7'&&Number(m.version)>=30.7&&m.enabled===true&&m.noFixedSinglePositionCap===true&&Number(m.maxAllocationPct)===100&&ex.manualDashboardNudgeV307===true&&ex.noFixedSinglePositionCap===true&&Number(ex.maxSinglePositionPctOfEquity)===100&&Number(wr.maxSinglePositionPct)===100;
+              last=`HTTP ${r.status} runtime=${s?.runtimeVersion} manual=${m.version} maxPct=${ex.maxSinglePositionPctOfEquity}`;
+              if(ok){console.log('Live V30.7 verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
-          throw new Error('V30.6.1 not live: '+last);
+          throw new Error('V30.7 not live: '+last);
           NODE
