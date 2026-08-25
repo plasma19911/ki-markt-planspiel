@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-25T06:37:59.980Z",
+  "checkedAt": "2026-08-25T06:38:33.089Z",
   "runtimeVersion": "V30.7",
   "liveDecisionVersion": "V30.7",
   "http": {
@@ -32,8 +32,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-25T06:36:16.259Z",
-    "ageSeconds": 103
+    "lastSeenAt": "2026-08-25T06:38:05.468Z",
+    "ageSeconds": 27
   },
   "running": 1,
   "scanCount": 610,
@@ -130,10 +130,10 @@
       "decisionScore": 57.7,
       "entryDecisionScore": 60.7,
       "scoreDeltaFromEntry": -3,
-      "scoreDeltaThisScan": 1,
+      "scoreDeltaThisScan": 0,
       "rawDecisionScore": 31.2,
       "chartMoveFromEntryPct": -0.193,
-      "chartMoveLastScanPct": 0.033,
+      "chartMoveLastScanPct": 0,
       "scoreFrozenPartial": false,
       "scoreChartCapped": true,
       "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
@@ -182,9 +182,9 @@
       "entryDecisionScore": 57.4,
       "scoreDeltaFromEntry": -3,
       "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 28.3,
+      "rawDecisionScore": 28.2,
       "chartMoveFromEntryPct": -0.166,
-      "chartMoveLastScanPct": 0.035,
+      "chartMoveLastScanPct": 0,
       "scoreFrozenPartial": false,
       "scoreChartCapped": true,
       "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
@@ -261,7 +261,11 @@
     "hardExitCooldownMinutes": 120,
     "exceptionRequiresNewSignal": true,
     "higherPriceRebuyGuard": true,
-    "latest": null
+    "latest": {
+      "blockedRapidSellRebuys": 0,
+      "exceptionalReentriesAllowed": 0,
+      "higherPriceRebuysBlocked": 0
+    }
   },
   "weakestPositionReplacementPolicy": {
     "enabled": true,
@@ -274,8 +278,13 @@
     "minEffectiveScoreGap": 10,
     "minHoldMinutes": 15,
     "maxSinglePositionPct": 100,
-    "brokerResolveCount": 0,
-    "latest": null,
+    "brokerResolveCount": 1,
+    "latest": {
+      "weakReplacements": 0,
+      "severeWeakHeld": 0,
+      "eligibleReplacements": 0,
+      "blockedNoReplacement": 0
+    },
     "rule": "Eine klar deteriorierte gehaltene Position (RawScore <=45, deutliche Hysterese-Divergenz, mindestens -8 Scorepunkte seit Einstieg plus negative Struktur) darf gegen einen exakt Trade-Republic-verifizierten Kandidaten ab 62/100 ersetzt werden, sobald dessen Score mindestens 10 Punkte ueber dem effektiven KEEP-Score liegt. Kein blinder Verlustverkauf ohne besseren Ersatz."
   },
   "profitOpportunityPolicy": {
@@ -297,7 +306,15 @@
     "authoritativeBrokerUniverseResolve": true,
     "staleBrokerBlockCanBeClearedOnlyByExactMasterVerification": true,
     "brokerResolveCount": 1,
-    "latest": null,
+    "latest": {
+      "starterBuys": 0,
+      "rotations": 0,
+      "hysteresisBypasses": 0,
+      "blockedStrongCandidates": 0,
+      "mergedCandidates": 9,
+      "exactTradeRepublicCandidates": 0,
+      "staleBrokerBlocksCleared": 0
+    },
     "blockedStrongCandidates": []
   },
   "relativeRotationPolicy": {
@@ -315,8 +332,19 @@
     "legacyMigrationCooldownMinutes": 5,
     "targetDeploymentPctWhenFourBuys": 98,
     "maxSinglePositionPct": 100,
-    "latest": null,
-    "legacyHeld": [],
+    "latest": {
+      "rotations": 0,
+      "legacyMigrations": 0,
+      "deploymentRescales": 0,
+      "rotationBlockedCooldown": 0,
+      "rotationBlockedHoldTime": 0
+    },
+    "legacyHeld": [
+      "SAAB-B.ST",
+      "YIT.HE",
+      "SOLARINDS.NS",
+      "COCHINSHIP.NS"
+    ],
     "rule": "Maximal vier Positionen. Normale Rotation ab 8 Scorepunkten Vorsprung. Nicht exakt Trade-Republic-verifizierte Altpositionen werden bevorzugt migriert, sobald ein exakt verifizierter Kandidat ab 60/100 mindestens 4 Scorepunkte besser ist. Legacy-Migration darf alle 5 Minuten erfolgen; neue Zielposition maximal 25%."
   },
   "heldCashDeploymentPolicy": {
@@ -328,7 +356,12 @@
     "minHeldScoreForTopup": 60,
     "noBlindAverageDown": true,
     "noFixedSinglePositionCap": true,
-    "latest": null
+    "latest": {
+      "topups": 0,
+      "targetDeploymentPct": 98,
+      "maxSinglePositionPct": 100,
+      "remainingCashTargetEur": 199.76201509508962
+    }
   },
   "executionModel": {
     "feeFixed": 0,
