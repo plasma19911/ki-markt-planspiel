@@ -1,51 +1,50 @@
 {
-  "checkedAt": "2026-08-25T06:41:53.005Z",
+  "checkedAt": "2026-08-25T06:42:39.617Z",
   "runtimeVersion": "V30.7",
   "liveDecisionVersion": "V30.7",
   "http": {
     "home": "200",
     "status": "200",
     "agent": "200",
-    "scannerUi": "200"
+    "scannerUi": "200",
+    "manualUi": "200"
   },
   "checks": {
     "homepage": true,
     "apiStatus": true,
     "agentEndpoint": true,
     "scannerUiAsset": true,
-    "runtimeV306": false,
+    "manualTradeUiAsset": true,
+    "runtimeV307": true,
+    "manualControlV307": true,
     "sellRebuyAntiChurnV306": true,
-    "weakestReplacementV3061": false,
+    "weakestReplacement": true,
     "profitOpportunityV305": true,
-    "relativeRotationV304": true,
-    "heldCashDeploymentV304": true,
-    "executionV306": false,
+    "relativeRotation": true,
+    "heldCashDeployment": true,
+    "executionV307": true,
     "accountingConsistent": true,
     "lastErrorClear": true,
     "positionCountWithinLimit": true
   },
-  "failedChecks": [
-    "runtimeV306",
-    "weakestReplacementV3061",
-    "executionV306"
-  ],
-  "allRequiredChecksPassed": false,
+  "failedChecks": [],
+  "allRequiredChecksPassed": true,
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-25T06:41:05.509Z",
-    "ageSeconds": 46
+    "lastSeenAt": "2026-08-25T06:42:14.932Z",
+    "ageSeconds": 24
   },
   "running": 1,
-  "scanCount": 613,
-  "lastScan": "2026-08-25T06:41:08.455Z",
+  "scanCount": 614,
+  "lastScan": "2026-08-25T06:42:18.767Z",
   "lastError": null,
-  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 4 HOLD · 1 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · V30.2 Live-Feedback: 0  · V30.5 Profit-Opp · V3 · V30.7 Manual: SELL SAAB-B.ST angestossen.",
+  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 4 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · V30.2 Live-Feedback: 0  · V30.5 Profit-Opp · V30.6 Anti-Churn: 0 schneller SELL→BUY-Rueckkauf blockiert · 0 echter Signal-Re-Entry erlaubt.",
   "cash": 4098.337430611917,
-  "equity": 9989.720754754482,
-  "pnl": -10.279245245517814,
-  "marketValue": 5891.3833241425655,
-  "accountingDelta": 0,
+  "equity": 9989.78553893417,
+  "pnl": -10.21446106583062,
+  "marketValue": 5891.448108322254,
+  "accountingDelta": -1.8189894035458565e-12,
   "positions": 4,
   "positionRows": [
     {
@@ -108,7 +107,7 @@
       "invested": 977.188212,
       "entry_fee": 1,
       "entry_price": 1508.0064999999997,
-      "last_price": 1507.5999755859375,
+      "last_price": 1507.699951171875,
       "entry_fx": 0.009,
       "last_fx": 0.009,
       "fx_verified": true,
@@ -132,9 +131,9 @@
       "entryDecisionScore": 60.7,
       "scoreDeltaFromEntry": -3,
       "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 42.4,
-      "chartMoveFromEntryPct": -0.027,
-      "chartMoveLastScanPct": -0.113,
+      "rawDecisionScore": 46,
+      "chartMoveFromEntryPct": -0.02,
+      "chartMoveLastScanPct": 0.007,
       "scoreFrozenPartial": false,
       "scoreChartCapped": true,
       "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
@@ -183,7 +182,7 @@
       "entryDecisionScore": 57.4,
       "scoreDeltaFromEntry": -3,
       "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 30.6,
+      "rawDecisionScore": 30.2,
       "chartMoveFromEntryPct": -0.166,
       "chartMoveLastScanPct": 0,
       "scoreFrozenPartial": false,
@@ -253,6 +252,49 @@
       "daytradeChanceRank": 4
     }
   ],
+  "manualTradePolicy": {
+    "enabled": true,
+    "version": 30.7,
+    "mode": "manual-dashboard-nudge",
+    "maxAllocationPct": 100,
+    "noFixedSinglePositionCap": true,
+    "pending": null,
+    "recent": [
+      {
+        "id": "315d9e72-2db6-41d6-9d1e-ecc3d7eab31b",
+        "action": "SELL",
+        "symbol": "SAAB-B.ST",
+        "allocationPct": null,
+        "requestedAt": "2026-08-25T06:40:20.541Z",
+        "source": "DASHBOARD_MANUAL_NUDGE",
+        "processedAt": "2026-08-25T06:41:08.455Z",
+        "executed": true,
+        "outcome": "SELL_INJECTED"
+      },
+      {
+        "id": "0051d492-85c1-4367-b62f-bbcd8ef35497",
+        "action": "SELL",
+        "symbol": "SAAB-B.ST",
+        "allocationPct": null,
+        "requestedAt": "2026-08-25T06:37:40.019Z",
+        "source": "DASHBOARD_MANUAL_NUDGE",
+        "processedAt": "2026-08-25T06:38:06.822Z",
+        "executed": true,
+        "outcome": "SELL_INJECTED"
+      }
+    ],
+    "latest": {
+      "id": "315d9e72-2db6-41d6-9d1e-ecc3d7eab31b",
+      "action": "SELL",
+      "symbol": "SAAB-B.ST",
+      "allocationPct": null,
+      "requestedAt": "2026-08-25T06:40:20.541Z",
+      "source": "DASHBOARD_MANUAL_NUDGE",
+      "processedAt": "2026-08-25T06:41:08.455Z",
+      "executed": true,
+      "outcome": "SELL_INJECTED"
+    }
+  },
   "sellRebuyChurnPolicy": {
     "enabled": true,
     "version": 30.6,
@@ -279,7 +321,7 @@
     "minEffectiveScoreGap": 10,
     "minHoldMinutes": 15,
     "maxSinglePositionPct": 100,
-    "brokerResolveCount": 4,
+    "brokerResolveCount": 5,
     "latest": {
       "weakReplacements": 0,
       "severeWeakHeld": 0,
@@ -308,7 +350,7 @@
     "statePromptMetadataMerge": true,
     "authoritativeBrokerUniverseResolve": true,
     "staleBrokerBlockCanBeClearedOnlyByExactMasterVerification": true,
-    "brokerResolveCount": 4,
+    "brokerResolveCount": 5,
     "latest": {
       "starterBuys": 0,
       "rotations": 0,
@@ -345,8 +387,8 @@
     "legacyHeld": [
       "SAAB-B.ST",
       "YIT.HE",
-      "COCHINSHIP.NS",
-      "SOLARINDS.NS"
+      "SOLARINDS.NS",
+      "COCHINSHIP.NS"
     ],
     "rule": "Maximal vier Positionen. Normale Rotation ab 8 Scorepunkten Vorsprung. Nicht exakt Trade-Republic-verifizierte Altpositionen werden bevorzugt migriert, sobald ein exakt verifizierter Kandidat ab 60/100 mindestens 4 Scorepunkte besser ist. Legacy-Migration darf alle 5 Minuten erfolgen; neue Zielposition maximal 25%."
   },
@@ -363,7 +405,7 @@
       "topups": 0,
       "targetDeploymentPct": 98,
       "maxSinglePositionPct": 100,
-      "remainingCashTargetEur": 199.81644804430837
+      "remainingCashTargetEur": 199.79441509508965
     }
   },
   "executionModel": {
