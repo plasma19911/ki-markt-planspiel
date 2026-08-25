@@ -1,6 +1,5 @@
 // Production compatibility wrapper around index-core.js.
-// V30.5.1 additionally restores exact Trade-Republic metadata on the PC-agent
-// universe response so downstream BUY/rotation guards can verify candidates.
+// V30.7 adds authenticated dashboard manual BUY/SELL nudges for the paper portfolio.
 import core,{MarketPortfolio} from './index-core.js';
 import {agentStatusLite,shouldServeAgentLite} from './status-lite.js';
 export {MarketPortfolio};
@@ -57,12 +56,23 @@ async function normalizeStartResponse(response){
   }catch{return response}
 }
 
+async function manualTradeResponse(request,env){
+  const p=env.PORTFOLIO.getByName('default-paper-portfolio'),body=await request.json().catch(()=>({}));
+  const intent=await p.manualTradeIntent(body);
+  if(!intent?.ok)return Response.json(intent,{status:intent?.status||400,headers:{'cache-control':'no-store'}});
+  let scan=null;try{scan=await p.scan()}catch(e){return Response.json({...intent,ok:false,error:`Manueller Impuls gespeichert, Sofort-Scan fehlgeschlagen: ${String(e?.message||e)}`},{status:500,headers:{'cache-control':'no-store'}})}
+  return Response.json({...intent,scanTriggered:true,scan},{headers:{'cache-control':'no-store'}});
+}
+
 export default{
   async fetch(request,env,ctx){
     const u=new URL(request.url);
     const statusMethod=request.method==='GET'||request.method==='HEAD';
     if(statusMethod&&(u.pathname==='/api/status/lite'||(u.pathname==='/api/status'&&shouldServeAgentLite(request)))){
       try{return await liteStatusResponse(request,env)}catch(e){return Response.json({error:String(e?.message||e)},{status:500})}
+    }
+    if(u.pathname==='/api/manual-trade'&&request.method==='POST'){
+      try{return await manualTradeResponse(request,env)}catch(e){return Response.json({ok:false,error:String(e?.message||e)},{status:500,headers:{'cache-control':'no-store'}})}
     }
     const response=await core.fetch(request,env,ctx);
     if(u.pathname==='/api/agent/universe'&&request.method==='POST')return enrichAgentUniverse(response,env,request.url);
