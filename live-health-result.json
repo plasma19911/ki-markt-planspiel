@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-25T13:01:13.241Z",
+  "checkedAt": "2026-08-25T13:01:34.439Z",
   "runtimeVersion": "V30.9",
   "liveDecisionVersion": "V30.9",
   "http": {
@@ -15,7 +15,8 @@
     "agentEndpoint": true,
     "scannerUiAsset": true,
     "manualTradeUiAsset": true,
-    "runtimeV308": false,
+    "runtimeV309": true,
+    "highScoreCapitalDeploymentV309": true,
     "finalSellAuthorityV308": true,
     "manualControlV3071": true,
     "sellRebuyAntiChurnV306": true,
@@ -23,20 +24,18 @@
     "profitOpportunityV305": true,
     "relativeRotation": true,
     "heldCashDeployment": true,
-    "executionV308": true,
+    "executionV309": true,
     "accountingConsistent": true,
     "lastErrorClear": true,
     "positionCountWithinLimit": true
   },
-  "failedChecks": [
-    "runtimeV308"
-  ],
-  "allRequiredChecksPassed": false,
+  "failedChecks": [],
+  "allRequiredChecksPassed": true,
   "pcAgent": {
     "configured": true,
     "online": false,
     "lastSeenAt": "2026-08-25T12:53:05.960Z",
-    "ageSeconds": 486
+    "ageSeconds": 507
   },
   "running": 1,
   "scanCount": 832,
@@ -83,7 +82,7 @@
       "entryDecisionScore": 75.5,
       "scoreDeltaFromEntry": -4,
       "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 46.5,
+      "rawDecisionScore": 47.5,
       "chartMoveFromEntryPct": 0.973,
       "chartMoveLastScanPct": 0,
       "scoreFrozenPartial": false,
@@ -255,6 +254,27 @@
       "daytradeChanceRank": 4
     }
   ],
+  "highScoreCapitalDeploymentPolicy": {
+    "enabled": true,
+    "version": 30.9,
+    "patch": "30.9.0-high-score-capital-deployment",
+    "minScore": 68,
+    "convictionScore": 70,
+    "strongScore": 75,
+    "veryStrongScore": 80,
+    "exceptionalScore": 85,
+    "mildPullback5mFloor": -0.4,
+    "mildPullback20mFloor": -0.6,
+    "maxAutoAllocationPct": 75,
+    "maxOpenPositions": 4,
+    "mode": "high-score-capital-deployment",
+    "mildPullbackCanBuy": true,
+    "hardSafetyNeverOverridden": true,
+    "noMiniStarterFor70Plus": true,
+    "brokerResolveCount": 0,
+    "latest": null,
+    "rule": "Leeres/unterinvestiertes Depot darf hochwertige exakt Trade-Republic-verifizierte Chancen nicht wegen eines kleinen Pullbacks oder eines 6-10%-Mini-Starters wirkungslos lassen. 70+ wird dynamisch groesser eingesetzt; echte Abwaertsdynamik und harte Safety bleiben blockierend."
+  },
   "finalSellAuthorityPolicy": {
     "enabled": true,
     "version": 30.8,
