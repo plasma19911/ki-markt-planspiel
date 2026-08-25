@@ -1,4 +1,4 @@
-name: Main always live on Cloudflare V30.7
+name: Main always live on Cloudflare V30.8
 
 on:
   push:
@@ -24,9 +24,11 @@ jobs:
           cache: npm
           cache-dependency-path: package.json
       - run: npm install --no-audit --no-fund --ignore-scripts
-      - name: Critical V30.7 guards
+      - name: Critical V30.8 guards
         run: |
           node --check src/index.js
+          node --check src/final-sell-authority-v308.js
+          node --check src/compact-portfolio-v308-sell-authority.js
           node --check src/manual-trade-v307.js
           node --check src/compact-portfolio-v307-manual-control.js
           node --check src/sell-rebuy-churn-v306.js
@@ -35,6 +37,7 @@ jobs:
           node --check src/relative-rotation-v304.js
           node --check src/held-cash-deployment-v304.js
           node --check public/manual-trade-ui.js
+          node tests/v308-final-sell-authority.test.mjs
           node tests/v307-manual-trade.test.mjs
           node tests/v3061-weakest-position-replacement.test.mjs
           node tests/v306-sell-rebuy-churn.test.mjs
@@ -60,18 +63,18 @@ jobs:
       - name: Allow Cloudflare Git integration to publish
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify live V30.7 manual controls
+      - name: Verify live V30.8 final sell authority
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';let last='';
           for(let i=0;i<36;i++){
             try{
-              const r=await fetch(`${base}/api/status?main_live=${Date.now()}`,{headers:{'cache-control':'no-cache'}}),s=await r.json(),m=s?.manualTradePolicy||{},ex=s?.executionModel||{},positions=Array.isArray(s?.positions)?s.positions:[];
-              const ok=r.ok&&s?.runtimeVersion==='V30.7'&&s?.liveDecisionVersion==='V30.7'&&Number(m.version)>=30.7&&m.enabled===true&&m.noFixedSinglePositionCap===true&&Number(m.maxAllocationPct)===100&&ex.manualDashboardNudgeV307===true&&ex.noFixedSinglePositionCap===true&&Number(ex.maxSinglePositionPctOfEquity)===100&&positions.length<=4;
-              last=`status=${r.status} runtime=${s?.runtimeVersion} manual=${m.version} maxPct=${ex.maxSinglePositionPctOfEquity}`;
-              if(ok){console.log('Main live V30.7 verification OK:',last);process.exit(0)}
+              const r=await fetch(`${base}/api/status?main_live=${Date.now()}`,{headers:{'cache-control':'no-cache'}}),s=await r.json(),fs=s?.finalSellAuthorityPolicy||{},ex=s?.executionModel||{},positions=Array.isArray(s?.positions)?s.positions:[];
+              const ok=r.ok&&s?.runtimeVersion==='V30.8'&&s?.liveDecisionVersion==='V30.8'&&fs.enabled===true&&Number(fs.version)>=30.8&&fs.sellCannotBeDowngradedToHold===true&&fs.finalSellSameScan===true&&ex.finalSellAuthorityV308===true&&ex.finalSellSameScan===true&&positions.length<=4;
+              last=`status=${r.status} runtime=${s?.runtimeVersion} finalSell=${fs.version} sameScan=${ex.finalSellSameScan}`;
+              if(ok){console.log('Main live V30.8 verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
-          throw new Error('Main did not become V30.7 live: '+last);
+          throw new Error('Main did not become V30.8 live: '+last);
           NODE
