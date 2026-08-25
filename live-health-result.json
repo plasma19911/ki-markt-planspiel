@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-25T06:41:00.370Z",
+  "checkedAt": "2026-08-25T06:41:27.619Z",
   "runtimeVersion": "V30.7",
   "liveDecisionVersion": "V30.7",
   "http": {
@@ -33,18 +33,18 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-25T06:40:05.436Z",
-    "ageSeconds": 54
+    "lastSeenAt": "2026-08-25T06:41:05.509Z",
+    "ageSeconds": 21
   },
   "running": 1,
-  "scanCount": 612,
-  "lastScan": "2026-08-25T06:40:08.714Z",
+  "scanCount": 613,
+  "lastScan": "2026-08-25T06:41:08.455Z",
   "lastError": null,
-  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 4 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · V30.2 Live-Feedback: 0  · V30.5 Profit-Opp · V30.6 Anti-Churn: 0 schneller SELL→BUY-Rueckkauf blockiert · 0 echter Signal-Re-Entry erlaubt.",
+  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 4 HOLD · 1 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · V30.2 Live-Feedback: 0  · V30.5 Profit-Opp · V3 · V30.7 Manual: SELL SAAB-B.ST angestossen.",
   "cash": 4098.337430611917,
-  "equity": 9990.82240221542,
-  "pnl": -9.17759778457912,
-  "marketValue": 5892.484971603503,
+  "equity": 9989.720754754482,
+  "pnl": -10.279245245517814,
+  "marketValue": 5891.3833241425655,
   "accountingDelta": 0,
   "positions": 4,
   "positionRows": [
@@ -108,7 +108,7 @@
       "invested": 977.188212,
       "entry_fee": 1,
       "entry_price": 1508.0064999999997,
-      "last_price": 1509.300048828125,
+      "last_price": 1507.5999755859375,
       "entry_fx": 0.009,
       "last_fx": 0.009,
       "fx_verified": true,
@@ -120,21 +120,21 @@
       "last_added_at": null,
       "add_count": 0,
       "score": 57.7,
-      "signal_confidence": 0.46,
+      "signal_confidence": 0.63,
       "zero_quantity": 72,
       "zero_whole_shares": 72,
       "zero_fractional_shares": 0,
       "zero_uses_fractional": false,
       "zero_fee_model_version": "trade-republic-securities-2026-08-v1",
       "fx_stale": false,
-      "legacy_position_score": 1.8,
+      "legacy_position_score": 4.3,
       "decisionScore": 57.7,
       "entryDecisionScore": 60.7,
       "scoreDeltaFromEntry": -3,
       "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 37.2,
-      "chartMoveFromEntryPct": 0.086,
-      "chartMoveLastScanPct": 0.286,
+      "rawDecisionScore": 40.7,
+      "chartMoveFromEntryPct": -0.027,
+      "chartMoveLastScanPct": -0.113,
       "scoreFrozenPartial": false,
       "scoreChartCapped": true,
       "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
@@ -144,7 +144,7 @@
       "chartDirectionMode": "FLAT",
       "scorePriorCorrected": false,
       "preProfitScore": 57.7,
-      "profitScoreCeiling": 63.7,
+      "profitScoreCeiling": 57.7,
       "profitScoreDeltaThisScan": 0,
       "daytradeChanceScore": 57.7,
       "daytradeChanceLabel": "GUT",
@@ -183,9 +183,9 @@
       "entryDecisionScore": 57.4,
       "scoreDeltaFromEntry": -3,
       "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 31.2,
+      "rawDecisionScore": 30.9,
       "chartMoveFromEntryPct": -0.166,
-      "chartMoveLastScanPct": -0.015,
+      "chartMoveLastScanPct": 0,
       "scoreFrozenPartial": false,
       "scoreChartCapped": true,
       "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
@@ -279,7 +279,7 @@
     "minEffectiveScoreGap": 10,
     "minHoldMinutes": 15,
     "maxSinglePositionPct": 100,
-    "brokerResolveCount": 3,
+    "brokerResolveCount": 4,
     "latest": {
       "weakReplacements": 0,
       "severeWeakHeld": 0,
@@ -308,7 +308,7 @@
     "statePromptMetadataMerge": true,
     "authoritativeBrokerUniverseResolve": true,
     "staleBrokerBlockCanBeClearedOnlyByExactMasterVerification": true,
-    "brokerResolveCount": 3,
+    "brokerResolveCount": 4,
     "latest": {
       "starterBuys": 0,
       "rotations": 0,
@@ -345,8 +345,8 @@
     "legacyHeld": [
       "SAAB-B.ST",
       "YIT.HE",
-      "SOLARINDS.NS",
-      "COCHINSHIP.NS"
+      "COCHINSHIP.NS",
+      "SOLARINDS.NS"
     ],
     "rule": "Maximal vier Positionen. Normale Rotation ab 8 Scorepunkten Vorsprung. Nicht exakt Trade-Republic-verifizierte Altpositionen werden bevorzugt migriert, sobald ein exakt verifizierter Kandidat ab 60/100 mindestens 4 Scorepunkte besser ist. Legacy-Migration darf alle 5 Minuten erfolgen; neue Zielposition maximal 25%."
   },
@@ -363,7 +363,7 @@
       "topups": 0,
       "targetDeploymentPct": 98,
       "maxSinglePositionPct": 100,
-      "remainingCashTargetEur": 199.76665941149585
+      "remainingCashTargetEur": 199.81644804430837
     }
   },
   "executionModel": {
