@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-25T06:48:25.896898+00:00",
-  "berlinNow": "2026-08-25T08:48:25.896726+02:00",
+  "checkedAt": "2026-08-25T06:48:47.132434+00:00",
+  "berlinNow": "2026-08-25T08:48:47.132264+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 2226929,
-    "dashboard": 1590248
+    "full": 2224498,
+    "dashboard": 1588006
   },
   "checks": {
     "fullStatus200": true,
@@ -30,7 +30,7 @@
     "capture": {
       "date": "2026-08-25",
       "symbolCount": 81,
-      "updatedAt": "2026-08-25T06:47:07.661Z"
+      "updatedAt": "2026-08-25T06:48:36.747Z"
     },
     "summary": {
       "provisional": true,
@@ -47,9 +47,9 @@
   },
   "depot": {
     "cash": 4098.337430611917,
-    "equity": 9988.757754754482,
-    "displayMarketValue": 5890.420324179688,
-    "displayAccountingDelta": -3.712193574756384e-08,
+    "equity": 9988.624538934171,
+    "displayMarketValue": 5890.2871083593745,
+    "displayAccountingDelta": -3.712011675816029e-08,
     "positions": [
       {
         "symbol": "YIT.HE",
@@ -62,17 +62,17 @@
       {
         "symbol": "COCHINSHIP.NS",
         "invested": 977.188212,
-        "ratioValue": 977.2487841796878,
-        "quantityValue": 977.2487841796874,
-        "displayValue": 977.2487841796874,
+        "ratioValue": 977.3135683593752,
+        "quantityValue": 977.3135683593749,
+        "displayValue": 977.3135683593749,
         "quantityUsed": true
       },
       {
         "symbol": "SOLARINDS.NS",
         "invested": 1934.478546,
-        "ratioValue": 1951.6860000000004,
-        "quantityValue": 1951.686,
-        "displayValue": 1951.686,
+        "ratioValue": 1951.4880000000005,
+        "quantityValue": 1951.4879999999998,
+        "displayValue": 1951.4879999999998,
         "quantityUsed": true
       },
       {
@@ -85,5 +85,5 @@
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: tue, 25 aug 2026 06:48:25 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=bl8p20dtzxok7lskuwjtigq%2fu3sscdzvjxwr8qd0v0qgwtuhsoswzyxflhijat1hfn%2brzkkgw30qsheguxosikmf%2fouxlzqae8te%2ferl7q%2fvot1bdm5xfmqzcfk0dsf3qkm9q5tufzscwnkqnvdytfkpguwnpqqbabkwxws%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a308a6a8e9cd16a7-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: tue, 25 aug 2026 06:48:47 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=mssgl6es8jx195ix%2bhr5cuj%2fu0qzkr1jv2%2bvqhkchzohpsz7jbysjaifio3amyym3azzrwpa9edr%2f2ua7uyyisk60wuhmnn6bbondh8w%2b6xmgupienkqua%2b54gabjfpv%2faxcw60ondpjc9cjuns4ju%2btoyafnalmffmjgbw%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a308a72dde056b5c-dfw\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
