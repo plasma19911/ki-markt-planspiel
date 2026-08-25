@@ -1,8 +1,8 @@
 // Production compatibility entry for the PAPER-TRADING planspiel.
-// V30.9 runs outermost: high-score capital deployment for underinvested portfolios.
-// V30.8 remains underneath: final SELL authority with fresh-position/chart confirmation safeguards.
-// V30.7 dashboard BUY/SELL controls plus dynamic allocation up to 100%.
-// V30.6 blocks rapid SELL -> BUY churn; V30.5/V30.4 handle opportunity rotation and cash deployment.
+// V31.0 runs outermost: expectancy authority for loss containment, trailing winners,
+// anti-churn re-entry discipline and economically useful position sizing.
+// V30.9 remains underneath for high-score capital deployment; V30.8 for final SELL authority;
+// V30.7 dashboard BUY/SELL controls and dynamic allocation; V30.6 anti-churn; V30.5/V30.4 rotation/cash.
 // No real broker orders are created here.
 import './yahoo-spark-chart-fallback.js';
-export {MarketPortfolio} from './compact-portfolio-v309-capital-deployment.js';
+export {MarketPortfolio} from './compact-portfolio-v310-expectancy.js';
