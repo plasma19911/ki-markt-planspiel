@@ -4,7 +4,7 @@ const key=v=>String(v?.symbol||v||'').toUpperCase().trim();
 
 export const FINAL_SELL_AUTHORITY_V308={
   version:30.8,
-  patch:'30.8.1-fresh-position-sell-guard',
+  patch:'30.8.2-no-absolute-score-only-sells',
   severeRawScore:35,
   minStableRawDivergence:12,
   minEntryDeterioration:8,
@@ -27,7 +27,11 @@ export function severeWeaknessV308(p={}){
   const rawSevere=raw<=c.directSellRawScore||(raw<=c.severeRawScore&&(stableRawGap>=c.minStableRawDivergence||entryDeterioration>=c.minEntryDeterioration));
   const chartBreak=direction==='DOWN'||chart<=c.minChartBreakFromEntryPct||lastScan<=c.minChartBreakLastScanPct;
   const extremeRaw=raw<=c.extremeRawScore;
-  const confirmed=extremeRaw||chartBreak;
+  // V30.8.2: Auch ein extrem niedriger absoluter Score darf in der aeussersten Schicht
+  // KEIN neues SELL erzeugen, solange weder Chart-/Verkaeuferbruch noch ein bereits von
+  // den inneren Risiko-Guards bestaetigtes SELL vorliegt. Das verhindert False-Sells bei
+  // fehlender/defekter Entry-Baseline (z.B. EntryScore == RawScore, Richtung UNBEKANNT).
+  const confirmed=chartBreak;
   return{severe:rawSevere&&confirmed&&!strongUptrend,rawSevere,confirmed,chartBreak,extremeRaw,stable,raw,entry,stableRawGap,entryDeterioration,direction,chart,lastScan,strongUptrend};
 }
 
@@ -37,8 +41,6 @@ export function enforceFinalSellAuthorityV308(plan,state={},now=Date.now()){
   const counters={sellLocks:0,forcedWeakSells:0,freshWeakSellsBlocked:0,unconfirmedWeakSellsBlocked:0};
   for(const p of arr(state?.positions)){
     const s=key(p);if(!s)continue;let i=idx.get(s),a=i===undefined?null:actions[i],act=String(a?.action||'').toUpperCase();
-    // Ein SELL, das alle inneren Reife-/Risiko-/Candle-Guards bereits ueberstanden hat,
-    // bleibt final. V30.8 darf dieses bestaetigte SELL nicht wieder zu HOLD machen.
     if(act==='SELL'){
       actions[i]={...a,action:'SELL',allocation_pct:0,finalSellAuthorityV308:true,finalSellLockedV308:true,reason:`${String(a?.reason||'SELL').slice(0,620)} · V30.8 FINAL-SELL: bestätigtes SELL bleibt ausführbar und darf nicht mehr zu HOLD zurückgestuft werden.`};
       counters.sellLocks++;continue;
@@ -46,30 +48,26 @@ export function enforceFinalSellAuthorityV308(plan,state={},now=Date.now()){
     const w=severeWeaknessV308(p);
     if(w.rawSevere&&!w.confirmed){
       counters.unconfirmedWeakSellsBlocked++;
-      if(i!==undefined&&act==='HOLD')actions[i]={...a,reason:`${String(a?.reason||'HOLD').slice(0,520)} · V30.8.1: niedriger RawScore allein ist kein Sofortverkauf; Verkäufer-/Chartbruch ist noch nicht bestätigt.`};
+      if(i!==undefined&&act==='HOLD')actions[i]={...a,reason:`${String(a?.reason||'HOLD').slice(0,520)} · V30.8.2: selbst ein extrem niedriger RawScore ist allein kein Sofortverkauf; Verkäufer-/Chartbruch ist nicht bestätigt.`};
       continue;
     }
     if(!w.severe)continue;
     const age=ageMinutes(p,now);
-    // Kritischer V30.8.1-Fix: Die aeussere RawScore-Schicht darf den bereits vorhandenen
-    // Trade-Maturity-Schutz nicht mehr ueberfahren. Echte harte/strukturelle SELLs kommen
-    // aus den inneren Guards bereits als SELL oben an und wurden im Block darueber fixiert.
-    // Ein von V30.8 selbst neu erzeugtes Score-SELL wartet bei frischen Positionen.
     if(age<c.freshProtectionMinutes){
       counters.freshWeakSellsBlocked++;
-      if(i!==undefined)actions[i]={...(a||{}),symbol:s,name:p?.name,action:'HOLD',allocation_pct:0,confidence:Math.max(.76,num(a?.confidence,.76)),finalSellAuthorityV308:true,freshPositionSellGuardV3081:true,reason:`V30.8.1 FRESH-POSITION-SCHUTZ: ${s} ist erst ${age.toFixed(1)} Min. offen. Ein neu erzeugtes RawScore-SELL darf die Reife-/Candle-Guards nicht mehr umgehen. Echter harter Risiko- oder Struktur-SELL bleibt sofort ausführbar.`};
+      if(i!==undefined)actions[i]={...(a||{}),symbol:s,name:p?.name,action:'HOLD',allocation_pct:0,confidence:Math.max(.76,num(a?.confidence,.76)),finalSellAuthorityV308:true,freshPositionSellGuardV3081:true,reason:`V30.8.2 FRESH-POSITION-SCHUTZ: ${s} ist erst ${age.toFixed(1)} Min. offen. Ein neu erzeugtes RawScore-SELL darf die Reife-/Candle-Guards nicht umgehen. Echter harter Risiko- oder Struktur-SELL bleibt sofort ausführbar.`};
       continue;
     }
     const forced={...(a||{}),symbol:s,name:p?.name,action:'SELL',allocation_pct:0,confidence:.96,finalSellAuthorityV308:true,forcedWeakSellV308:true,reason:`V30.8 SOFORT-SELL: ${s} ist nach Reifezeit UND bestätigtem Schwächesignal deutlich deterioriert. RawScore ${w.raw.toFixed(1)}/100, geglätteter Score ${w.stable.toFixed(1)}/100 (Abstand ${w.stableRawGap.toFixed(1)}), Einstiegsscore ${w.entry.toFixed(1)} (Verschlechterung ${w.entryDeterioration.toFixed(1)}), Chart ${w.chart>=0?'+':''}${w.chart.toFixed(2)}%, letzter Scan ${w.lastScan>=0?'+':''}${w.lastScan.toFixed(2)}%, Richtung ${w.direction||'UNBEKANNT'}.`};
     if(i===undefined){i=actions.length;idx.set(s,i);actions.push(forced)}else actions[i]=forced;
     counters.forcedWeakSells++;
   }
-  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,140)} · V30.8.1 Final-Sell: ${counters.sellLocks} SELL fixiert · ${counters.forcedWeakSells} bestätigte Schwäche-Sofortverkäufe · ${counters.freshWeakSellsBlocked} frische Score-SELLs blockiert · ${counters.unconfirmedWeakSellsBlocked} unbestätigte RawScore-SELLs blockiert.`;
+  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,140)} · V30.8.2 Final-Sell: ${counters.sellLocks} SELL fixiert · ${counters.forcedWeakSells} bestätigte Schwäche-Sofortverkäufe · ${counters.freshWeakSellsBlocked} frische Score-SELLs blockiert · ${counters.unconfirmedWeakSellsBlocked} unbestätigte RawScore-SELLs blockiert.`;
   return{plan,counters};
 }
 
 export class FinalSellAuthorityV308{
   constructor(inner,{getState}={}){this.inner=inner;this.getState=getState;this.latest=null}
   async run(model,input){const legacy=input===undefined&&model&&typeof model==='object',payload=legacy?model:input,r=legacy?await this.inner.run(payload):await this.inner.run(model,payload);if(!isTradingInput(payload))return r;const p=parsePlan(r);if(!p)return r;const state=typeof this.getState==='function'?(this.getState()||{}):{},out=enforceFinalSellAuthorityV308(p,state,Date.now());this.latest=out;return encode(r,out.plan)}
-  status(){return{enabled:true,...FINAL_SELL_AUTHORITY_V308,mode:'outermost-final-sell-authority',sellCannotBeDowngradedToHold:true,finalSellSameScan:true,severeWeaknessOverridesScoreHysteresis:true,freshPositionRawScoreProtection:true,forcedWeaknessNeedsChartConfirmation:true,latest:this.latest?.counters||null,rule:'Ein von den inneren Reife-/Risiko-/Candle-Guards bestätigtes SELL bleibt SELL. V30.8.1 erzeugt aber keinen neuen Sofortverkauf mehr nur wegen eines kurzfristig niedrigen RawScores: frische Positionen sind 20 Minuten gegen Score-only-Churn geschützt und danach braucht die RawScore-Schwäche zusätzlich Chart-/Verkäuferbestätigung (außer bei extremem RawScore).'}}
+  status(){return{enabled:true,...FINAL_SELL_AUTHORITY_V308,mode:'outermost-final-sell-authority',sellCannotBeDowngradedToHold:true,finalSellSameScan:true,severeWeaknessOverridesScoreHysteresis:true,freshPositionRawScoreProtection:true,forcedWeaknessNeedsChartConfirmation:true,absoluteRawScoreCannotForceSell:true,latest:this.latest?.counters||null,rule:'Ein von den inneren Reife-/Risiko-/Candle-Guards bestätigtes SELL bleibt SELL. V30.8.2 erzeugt selbst bei extrem niedrigem RawScore kein neues Sofort-SELL ohne bestätigten Chart-/Verkäuferbruch; frische Positionen sind zusätzlich 20 Minuten gegen äußeren Score-Churn geschützt.'}}
 }
