@@ -1,4 +1,4 @@
-name: Deploy / Verify Cloudflare Worker V30.9
+name: Deploy / Verify Cloudflare Worker V31.0
 
 on:
   push:
@@ -35,9 +35,11 @@ jobs:
           cache-dependency-path: package.json
       - name: Install
         run: npm install --no-audit --no-fund --ignore-scripts
-      - name: Critical production guards V30.9
+      - name: Critical production guards V31.0
         run: |
           node --check src/index.js
+          node --check src/expectancy-core-v310.js
+          node --check src/compact-portfolio-v310-expectancy.js
           node --check src/high-score-capital-deployment-v309.js
           node --check src/compact-portfolio-v309-capital-deployment.js
           node --check src/final-sell-authority-v308.js
@@ -50,6 +52,7 @@ jobs:
           node --check src/relative-rotation-v304.js
           node --check src/held-cash-deployment-v304.js
           node --check public/manual-trade-ui.js
+          node tests/v310-expectancy.test.mjs
           node tests/v309-high-score-capital-deployment.test.mjs
           node tests/v308-final-sell-authority.test.mjs
           node tests/v307-manual-trade.test.mjs
@@ -77,18 +80,18 @@ jobs:
       - name: Wait for Cloudflare Git integration
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify V30.9 production
+      - name: Verify V31.0 production
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';let last='';
           for(let i=0;i<36;i++){
             try{
-              const r=await fetch(`${base}/api/status?deploy=${Date.now()}`,{headers:{'cache-control':'no-cache'}}),s=await r.json(),cap=s?.highScoreCapitalDeploymentPolicy||{},m=s?.manualTradePolicy||{},ex=s?.executionModel||{},fs=s?.finalSellAuthorityPolicy||{};
-              const ok=r.ok&&s?.runtimeVersion==='V30.9'&&s?.liveDecisionVersion==='V30.9'&&cap.enabled===true&&Number(cap.version)>=30.9&&cap.mildPullbackCanBuy===true&&cap.noMiniStarterFor70Plus===true&&fs.enabled===true&&fs.sellCannotBeDowngradedToHold===true&&ex.highScoreCapitalDeploymentV309===true&&Number(m.maxAllocationPct)===100;
-              last=`HTTP ${r.status} runtime=${s?.runtimeVersion} capital=${cap.version} mildPullback=${cap.mildPullbackCanBuy}`;
-              if(ok){console.log('Live V30.9 verification OK:',last);process.exit(0)}
+              const r=await fetch(`${base}/api/status?deploy=${Date.now()}`,{headers:{'cache-control':'no-cache'}}),s=await r.json(),e=s?.expectancyCorePolicy||{},cap=s?.highScoreCapitalDeploymentPolicy||{},m=s?.manualTradePolicy||{};
+              const ok=r.ok&&s?.runtimeVersion==='V31.0'&&s?.liveDecisionVersion==='V31.0'&&e.enabled===true&&Number(e.version)>=31&&Number(e.hardStopPct)===-1.2&&Number(e.trailArmPct)===2.4&&Number(e.minHoldMinutes)===12&&Number(e.reentryMinutes)===90&&Number(e.minPositionEur)===2200&&cap.enabled===true&&Number(m.maxAllocationPct)===100;
+              last=`HTTP ${r.status} runtime=${s?.runtimeVersion} expectancy=${e.version}`;
+              if(ok){console.log('Live V31.0 verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
-          throw new Error('V30.9 not live: '+last);
+          throw new Error('V31.0 not live: '+last);
           NODE
