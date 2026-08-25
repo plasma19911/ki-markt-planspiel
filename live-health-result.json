@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-25T19:00:46.878Z",
+  "checkedAt": "2026-08-25T19:01:10.863Z",
   "runtimeVersion": "V31.0",
   "liveDecisionVersion": "V31.0",
   "http": {
@@ -15,29 +15,28 @@
     "agentEndpoint": true,
     "scannerUiAsset": true,
     "manualTradeUiAsset": true,
-    "runtimeV309": false,
+    "runtimeV310": true,
+    "expectancyCoreV310": true,
     "highScoreCapitalDeploymentV309": true,
     "finalSellAuthorityV308": true,
-    "manualControlV3071": true,
+    "manualControlV307": true,
     "sellRebuyAntiChurnV306": true,
     "weakestReplacement": true,
     "profitOpportunityV305": true,
     "relativeRotation": true,
     "heldCashDeployment": true,
-    "executionV309": true,
+    "executionV310": true,
     "accountingConsistent": true,
     "lastErrorClear": true,
     "positionCountWithinLimit": true
   },
-  "failedChecks": [
-    "runtimeV309"
-  ],
-  "allRequiredChecksPassed": false,
+  "failedChecks": [],
+  "allRequiredChecksPassed": true,
   "pcAgent": {
     "configured": true,
     "online": false,
     "lastSeenAt": "2026-08-25T18:37:05.049Z",
-    "ageSeconds": 1421
+    "ageSeconds": 1445
   },
   "running": 1,
   "scanCount": 983,
@@ -256,6 +255,25 @@
       "daytradeChanceRank": 4
     }
   ],
+  "expectancyCorePolicy": {
+    "enabled": true,
+    "version": 31,
+    "patch": "31.0.0-expectancy-core",
+    "hardStopPct": -1.2,
+    "trailArmPct": 2.4,
+    "trailGivebackPct": 0.9,
+    "runnerArmPct": 4.5,
+    "runnerGivebackPct": 1.6,
+    "minHoldMinutes": 12,
+    "reentryMinutes": 90,
+    "reentryScoreImprovement": 8,
+    "minPositionEur": 2200,
+    "overnightFlattenProfitFloorPct": 0.5,
+    "scoreScale": "0-100-canonical",
+    "mode": "expectancy-authority",
+    "latest": null,
+    "rule": "Preis-Risiko und Auszahlungsprofil sind autoritativ: harter -1.2%-Stop, kein fixes +0.8%-Gewinnabschneiden, Trail erst ab aufgebautem Gewinn, 12-Minuten-Mindesthaltezeit gegen Rauschen, 90-Minuten-Reentry-Sperre und wirtschaftlich sinnvolle Mindestticketgroesse."
+  },
   "highScoreCapitalDeploymentPolicy": {
     "enabled": true,
     "version": 30.9,
@@ -506,7 +524,7 @@
     "statePromptMetadataMerge": true,
     "authoritativeBrokerUniverseResolve": true,
     "staleBrokerBlockCanBeClearedOnlyByExactMasterVerification": true,
-    "brokerResolveCount": 0,
+    "brokerResolveCount": 1,
     "latest": null,
     "blockedStrongCandidates": []
   },
