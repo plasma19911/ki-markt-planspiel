@@ -5,21 +5,8 @@ const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
 const NON_BROKER_HARD=/HARD[- ]?EVENT|NEWS-SHOCK|STALE QUOTE|BAD QUOTE|FX[- ]?SAFETY|REENTRY|SUSPEND|HALT|DELIST|MARKET CLOSED/i;
 const BROKER_HARD=/TRADE-REPUBLIC-BLOCK|TARGET-VENUE/i;
 
-export const WEAKEST_POSITION_REPLACEMENT_V3061={
-  version:'30.6.1',
-  mode:'weakest-position-replacement',
-  minReplacementScore:62,
-  maxWeakRawScore:45,
-  minStableRawDivergence:8,
-  minEntryScoreDeterioration:8,
-  minEffectiveScoreGap:10,
-  minHoldMinutes:15,
-  maxSinglePositionPct:25
-};
-
-function brokerExact(c={}){
-  return c?.brokerVerified===true&&String(c?.assetClass||c?.type||c?.instrument_type||'EQUITY').toUpperCase()==='EQUITY'&&String(c?.brokerMatchMode||'').toUpperCase()==='EXACT_NORMALIZED_NAME'&&/Trade Republic/i.test(String(c?.brokerVerificationSource||''))&&/^[A-Z]{2}[A-Z0-9]{9}[0-9]$/.test(String(c?.isin||''));
-}
+export const WEAKEST_POSITION_REPLACEMENT_V3061={version:'30.7-dynamic',mode:'weakest-position-replacement',minReplacementScore:62,maxWeakRawScore:45,minStableRawDivergence:8,minEntryScoreDeterioration:8,minEffectiveScoreGap:10,minHoldMinutes:15,maxSinglePositionPct:100};
+function brokerExact(c={}){return c?.brokerVerified===true&&String(c?.assetClass||c?.type||c?.instrument_type||'EQUITY').toUpperCase()==='EQUITY'&&String(c?.brokerMatchMode||'').toUpperCase()==='EXACT_NORMALIZED_NAME'&&/Trade Republic/i.test(String(c?.brokerVerificationSource||''))&&/^[A-Z]{2}[A-Z0-9]{9}[0-9]$/.test(String(c?.isin||''))}
 function hardReason(reason,c={}){const t=String(reason||'');if(NON_BROKER_HARD.test(t))return true;if(BROKER_HARD.test(t))return !brokerExact(c);return false}
 function momentum(c={}){return{m5:num(c?.momentum5Pct,c?.momentum5??c?.intraday5m),m20:num(c?.momentum20Pct,c?.momentum20??c?.intraday20m),acc:num(c?.acceleration5Pct,c?.momentumAcceleration5??c?.momentum_acceleration5)}}
 function pnlPct(p={}){const ep=num(p?.entry_price,p?.entryPrice),lp=num(p?.last_price,p?.lastPrice,ep),ef=num(p?.entry_fx,1),lf=num(p?.last_fx,ef);return ep>0&&lp>0&&ef>0&&lf>0?(lp*lf/(ep*ef)-1)*100:0}
@@ -32,39 +19,17 @@ function encode(r,p){const raw=JSON.stringify(p);if(r?.result&&typeof r.result==
 function isPlan(input){return arr(input?.messages).some(m=>String(m?.content||'').includes('Kandidaten=')&&String(m?.content||'').includes(' Gehalten='))}
 function candidateScore(c={}){return num(c?.daytradeLiveScore,c?.decisionScore??c?.score)}
 function candidateOpportunity(c={}){const s=candidateScore(c),m=momentum(c);return s+clamp(m.m5*2,-3,3)+clamp(m.m20*1.2,-3,3)+clamp(m.acc*1.5,-2,2)}
-function heldRow(p={},c={},now=Date.now()){
-  const stable=num(c?.daytradeLiveScore,c?.decisionScore??p?.decisionScore??p?.score,50),raw=num(c?.rawDecisionScore,p?.rawDecisionScore,stable),delta=num(p?.scoreDeltaFromEntry,c?.scoreDeltaFromEntry,0),pl=pnlPct(p),m=momentum(c),dir=String(c?.chartDirectionMode??p?.chartDirectionMode??'').toUpperCase(),div=stable-raw;
-  const severe=raw<=WEAKEST_POSITION_REPLACEMENT_V3061.maxWeakRawScore&&div>=WEAKEST_POSITION_REPLACEMENT_V3061.minStableRawDivergence&&delta<=-WEAKEST_POSITION_REPLACEMENT_V3061.minEntryScoreDeterioration&&(dir==='DOWN'||pl<=-1||m.m20<0||m.m5<0);
-  const effective=severe?Math.min(stable,raw+5):stable;
-  return{p,c,s:key(p),stable,raw,delta,pl,m,dir,div,severe,effective,age:ageMin(p,now)};
-}
+function heldRow(p={},c={},now=Date.now()){const stable=num(c?.daytradeLiveScore,c?.decisionScore??p?.decisionScore??p?.score,50),raw=num(c?.rawDecisionScore,p?.rawDecisionScore,stable),delta=num(p?.scoreDeltaFromEntry,c?.scoreDeltaFromEntry,0),pl=pnlPct(p),m=momentum(c),dir=String(c?.chartDirectionMode??p?.chartDirectionMode??'').toUpperCase(),div=stable-raw;const severe=raw<=WEAKEST_POSITION_REPLACEMENT_V3061.maxWeakRawScore&&div>=WEAKEST_POSITION_REPLACEMENT_V3061.minStableRawDivergence&&delta<=-WEAKEST_POSITION_REPLACEMENT_V3061.minEntryScoreDeterioration&&(dir==='DOWN'||pl<=-1||m.m20<0||m.m5<0);const effective=severe?Math.min(stable,raw+5):stable;return{p,c,s:key(p),stable,raw,delta,pl,m,dir,div,severe,effective,age:ageMin(p,now)}}
+function replacementPct(best,gap){const m=best?.m||{};return +clamp(28+(best?.score-62)*3+gap*1.5+Math.max(0,num(m.m5))*6+Math.max(0,num(m.m20))*3,20,100).toFixed(2)}
 
 export function enforceWeakestPositionReplacementV3061(plan,state={},input=null,brokerRows=[],now=Date.now()){
-  if(!plan||!Array.isArray(plan.actions))return{plan,counters:{}};
-  const positions=arr(state?.positions),actions=plan.actions.map(a=>({...a})),idx=new Map();actions.forEach((a,i)=>{const s=key(a);if(s&&!idx.has(s))idx.set(s,i)});
-  const counters={weakReplacements:0,severeWeakHeld:0,eligibleReplacements:0,blockedNoReplacement:0};
-  if(positions.length<4){plan.actions=actions;return{plan,counters}}
-  if(actions.some(a=>String(a?.action||'').toUpperCase()==='SELL'&&(a?.relativeRotationV304||a?.relativeOpportunityExit||a?.weakestReplacementV3061))){plan.actions=actions;return{plan,counters}}
-  const held=new Set(positions.map(key)),merged=enrichWithBrokerRows(mergedCandidates(state?.candidates,promptCandidates(input)),brokerRows),cmap=new Map(merged.map(c=>[key(c),c]));
-  const actionFor=s=>{const i=idx.get(s);return i===undefined?null:actions[i]};
-  const weakRows=positions.map(p=>heldRow(p,{...p,...(cmap.get(key(p))||{})},now)).filter(x=>x.severe&&x.age>=WEAKEST_POSITION_REPLACEMENT_V3061.minHoldMinutes).sort((a,b)=>a.effective-b.effective||a.raw-b.raw);
-  counters.severeWeakHeld=weakRows.length;
-  const weak=weakRows[0];if(!weak){plan.actions=actions;return{plan,counters}}
-  const eligible=merged.filter(c=>!held.has(key(c))&&brokerExact(c)&&candidateScore(c)>=WEAKEST_POSITION_REPLACEMENT_V3061.minReplacementScore).map(c=>{const s=key(c),a=actionFor(s)||{},m=momentum(c);return{c,s,a,score:candidateScore(c),opp:candidateOpportunity(c),m,hard:hardReason(a?.reason,c)}}).filter(x=>!x.hard&&x.m.m5>=-.15&&x.m.m20>=-.15&&x.score-weak.effective>=WEAKEST_POSITION_REPLACEMENT_V3061.minEffectiveScoreGap).sort((a,b)=>b.opp-a.opp);
-  counters.eligibleReplacements=eligible.length;
-  const best=eligible[0];if(!best){counters.blockedNoReplacement++;plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,150)} · V30.6.1 Weakest-Replacement: ${weak.s} klar schwach, aber aktuell kein ausreichend starker exakt TR-verifizierter Ersatz.`;return{plan,counters,weak}}
-  const wi=idx.get(weak.s),bi=idx.get(best.s),gap=best.score-weak.effective;
-  const sell={...(wi===undefined?{}:actions[wi]),symbol:weak.s,action:'SELL',allocation_pct:0,confidence:.88,weakestReplacementV3061:true,pairedReplacementSymbol:best.s,reason:`V30.6.1 WEAKEST-REPLACEMENT: ${weak.s} ist klar deterioriert: stabiler Score ${weak.stable.toFixed(1)}, RawScore ${weak.raw.toFixed(1)}, seit Einstieg ${weak.delta.toFixed(1)} Punkte, Chart ${weak.dir||'schwach'}, P/L ${weak.pl.toFixed(2)}%. Effektiver KEEP-Score nur ${weak.effective.toFixed(1)}. Kapital wird in die klar bessere aktuelle Chance ${best.s} rotiert.`};
-  const buy={...(bi===undefined?{}:actions[bi]),symbol:best.s,name:best.c?.name,action:'BUY',allocation_pct:25,confidence:clamp(.76+(best.score-62)*.012,.76,.90),weakestReplacementV3061:true,pairedReplacementSymbol:weak.s,entryDecisionScore:best.score,reason:`V30.6.1 REPLACEMENT-BUY: ${best.s} ist exakt Trade-Republic-verifiziert, Score ${best.score.toFixed(1)}/100 und liegt ${gap.toFixed(1)} Punkte ueber dem effektiven KEEP-Score von ${weak.s}. SELL und BUY gehoeren zu einer gemeinsamen Opportunity-Rotation; Zielgewicht max. 25%.`};
-  if(wi===undefined){idx.set(weak.s,actions.length);actions.push(sell)}else actions[wi]=sell;
-  if(bi===undefined){idx.set(best.s,actions.length);actions.push(buy)}else actions[bi]=buy;
-  counters.weakReplacements++;
-  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,130)} · V30.6.1 Weakest-Replacement: 1 klar schwache Position ersetzt (${weak.s}→${best.s}).`;
-  return{plan,counters,weak,best};
+ if(!plan||!Array.isArray(plan.actions))return{plan,counters:{}};const positions=arr(state?.positions),actions=plan.actions.map(a=>({...a})),idx=new Map();actions.forEach((a,i)=>{const s=key(a);if(s&&!idx.has(s))idx.set(s,i)});const counters={weakReplacements:0,severeWeakHeld:0,eligibleReplacements:0,blockedNoReplacement:0};
+ if(positions.length<4){plan.actions=actions;return{plan,counters}}if(actions.some(a=>String(a?.action||'').toUpperCase()==='SELL'&&(a?.relativeRotationV304||a?.relativeOpportunityExit||a?.weakestReplacementV3061))){plan.actions=actions;return{plan,counters}}
+ const held=new Set(positions.map(key)),merged=enrichWithBrokerRows(mergedCandidates(state?.candidates,promptCandidates(input)),brokerRows),cmap=new Map(merged.map(c=>[key(c),c]));const actionFor=s=>{const i=idx.get(s);return i===undefined?null:actions[i]};
+ const weakRows=positions.map(p=>heldRow(p,{...p,...(cmap.get(key(p))||{})},now)).filter(x=>x.severe&&x.age>=WEAKEST_POSITION_REPLACEMENT_V3061.minHoldMinutes).sort((a,b)=>a.effective-b.effective||a.raw-b.raw);counters.severeWeakHeld=weakRows.length;const weak=weakRows[0];if(!weak){plan.actions=actions;return{plan,counters}}
+ const eligible=merged.filter(c=>!held.has(key(c))&&brokerExact(c)&&candidateScore(c)>=WEAKEST_POSITION_REPLACEMENT_V3061.minReplacementScore).map(c=>{const s=key(c),a=actionFor(s)||{},m=momentum(c);return{c,s,a,score:candidateScore(c),opp:candidateOpportunity(c),m,hard:hardReason(a?.reason,c)}}).filter(x=>!x.hard&&x.m.m5>=-.15&&x.m.m20>=-.15&&x.score-weak.effective>=WEAKEST_POSITION_REPLACEMENT_V3061.minEffectiveScoreGap).sort((a,b)=>b.opp-a.opp);counters.eligibleReplacements=eligible.length;
+ const best=eligible[0];if(!best){counters.blockedNoReplacement++;plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,150)} · V30.7 Weakest-Replacement: ${weak.s} klar schwach, aber aktuell kein ausreichend starker exakt TR-verifizierter Ersatz.`;return{plan,counters,weak}}
+ const wi=idx.get(weak.s),bi=idx.get(best.s),gap=best.score-weak.effective,pct=replacementPct(best,gap),sell={...(wi===undefined?{}:actions[wi]),symbol:weak.s,action:'SELL',allocation_pct:0,confidence:.88,weakestReplacementV3061:true,pairedReplacementSymbol:best.s,reason:`V30.7 WEAKEST-REPLACEMENT: ${weak.s} ist klar deterioriert: stabiler Score ${weak.stable.toFixed(1)}, RawScore ${weak.raw.toFixed(1)}, seit Einstieg ${weak.delta.toFixed(1)} Punkte, Chart ${weak.dir||'schwach'}, P/L ${weak.pl.toFixed(2)}%. Effektiver KEEP-Score ${weak.effective.toFixed(1)}. Kapital rotiert in ${best.s}.`},buy={...(bi===undefined?{}:actions[bi]),symbol:best.s,name:best.c?.name,action:'BUY',allocation_pct:pct,confidence:clamp(.76+(best.score-62)*.012,.76,.90),weakestReplacementV3061:true,pairedReplacementSymbol:weak.s,entryDecisionScore:best.score,reason:`V30.7 REPLACEMENT-BUY: ${best.s} ist exakt Trade-Republic-verifiziert, Score ${best.score.toFixed(1)}/100 und ${gap.toFixed(1)} Punkte besser als ${weak.s}. Zielgroesse dynamisch ${pct.toFixed(1)}%; kein fixer 25%-Deckel, bis 100% ohne Hebel moeglich.`};
+ if(wi===undefined){idx.set(weak.s,actions.length);actions.push(sell)}else actions[wi]=sell;if(bi===undefined){idx.set(best.s,actions.length);actions.push(buy)}else actions[bi]=buy;counters.weakReplacements++;plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,130)} · V30.7 Weakest-Replacement: 1 klare Schwachposition ersetzt (${weak.s}→${best.s}, ${pct.toFixed(0)}%).`;return{plan,counters,weak,best};
 }
-
-export class WeakestPositionReplacementGuardV3061{
-  constructor(inner,{getState,getBrokerRows,now}={}){this.inner=inner;this.getState=getState;this.getBrokerRows=getBrokerRows;this.now=now;this.latest=null;this.brokerResolveCount=0}
-  async run(model,input){const legacy=input===undefined&&model&&typeof model==='object',payload=legacy?model:input,state=typeof this.getState==='function'?(this.getState()||{}):{},brokerRows=typeof this.getBrokerRows==='function'?await this.getBrokerRows().catch(()=>[]):[],r=legacy?await this.inner.run(payload):await this.inner.run(model,payload);if(arr(brokerRows).length)this.brokerResolveCount++;if(!isPlan(payload))return r;const p=parse(r);if(!p)return r;const out=enforceWeakestPositionReplacementV3061(p,state,payload,brokerRows,typeof this.now==='function'?this.now():Date.now());this.latest=out;return encode(r,out.plan)}
-  status(){return{enabled:true,...WEAKEST_POSITION_REPLACEMENT_V3061,brokerResolveCount:this.brokerResolveCount,latest:this.latest?.counters||null,rule:'Eine klar deteriorierte gehaltene Position (RawScore <=45, deutliche Hysterese-Divergenz, mindestens -8 Scorepunkte seit Einstieg plus negative Struktur) darf gegen einen exakt Trade-Republic-verifizierten Kandidaten ab 62/100 ersetzt werden, sobald dessen Score mindestens 10 Punkte ueber dem effektiven KEEP-Score liegt. Kein blinder Verlustverkauf ohne besseren Ersatz.'}}
-}
+export class WeakestPositionReplacementGuardV3061{constructor(inner,{getState,getBrokerRows,now}={}){this.inner=inner;this.getState=getState;this.getBrokerRows=getBrokerRows;this.now=now;this.latest=null;this.brokerResolveCount=0}async run(model,input){const legacy=input===undefined&&model&&typeof model==='object',payload=legacy?model:input,state=typeof this.getState==='function'?(this.getState()||{}):{},brokerRows=typeof this.getBrokerRows==='function'?await this.getBrokerRows().catch(()=>[]):[],r=legacy?await this.inner.run(payload):await this.inner.run(model,payload);if(arr(brokerRows).length)this.brokerResolveCount++;if(!isPlan(payload))return r;const p=parse(r);if(!p)return r;const out=enforceWeakestPositionReplacementV3061(p,state,payload,brokerRows,typeof this.now==='function'?this.now():Date.now());this.latest=out;return encode(r,out.plan)}status(){return{enabled:true,...WEAKEST_POSITION_REPLACEMENT_V3061,brokerResolveCount:this.brokerResolveCount,latest:this.latest?.counters||null,noFixedSinglePositionCap:true,rule:'Klar deteriorierte Bestandspositionen koennen gegen exakt TR-verifizierte Chancen ab 62 ersetzt werden. Die neue Positionsgroesse ist dynamisch und darf ohne Hebel bis 100% reichen; kein fixer 25%-Deckel.'}}}
