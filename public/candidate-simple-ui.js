@@ -1,3 +1,4 @@
+import './manual-trade-ui.js?v=20260825-0830';
 // Vereinfacht die Kandidaten-Tabelle fuer die normale Nutzung.
 // Alte interne Scanner-Scores bleiben verborgen; der V28.1 Research-Fusion-Score
 // wird separat sichtbar angezeigt und von dieser Kurzansicht nicht entfernt.
