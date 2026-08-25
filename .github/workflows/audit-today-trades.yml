@@ -1,3 +1,4 @@
+# refreshed 2026-08-25 afternoon audit
 name: Audit Today Trades
 
 on:
@@ -83,7 +84,6 @@ jobs:
           for attempt in 1 2 3; do
             git fetch origin main
             git reset --hard origin/main
-            # re-fetch because reset removes untracked/changed context only if tracked; regenerate if needed
             python3 - <<'PY'
           import json, urllib.request, datetime, pathlib
           from zoneinfo import ZoneInfo
