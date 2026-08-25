@@ -27,15 +27,12 @@ export function severeWeaknessV308(p={}){
   const rawSevere=raw<=c.directSellRawScore||(raw<=c.severeRawScore&&(stableRawGap>=c.minStableRawDivergence||entryDeterioration>=c.minEntryDeterioration));
   const chartBreak=direction==='DOWN'||chart<=c.minChartBreakFromEntryPct||lastScan<=c.minChartBreakLastScanPct;
   const extremeRaw=raw<=c.extremeRawScore;
-  // V30.8.2: Auch ein extrem niedriger absoluter Score darf in der aeussersten Schicht
-  // KEIN neues SELL erzeugen, solange weder Chart-/Verkaeuferbruch noch ein bereits von
-  // den inneren Risiko-Guards bestaetigtes SELL vorliegt. Das verhindert False-Sells bei
-  // fehlender/defekter Entry-Baseline (z.B. EntryScore == RawScore, Richtung UNBEKANNT).
   const confirmed=chartBreak;
   return{severe:rawSevere&&confirmed&&!strongUptrend,rawSevere,confirmed,chartBreak,extremeRaw,stable,raw,entry,stableRawGap,entryDeterioration,direction,chart,lastScan,strongUptrend};
 }
 
 export function enforceFinalSellAuthorityV308(plan,state={},now=Date.now()){
+  const c=FINAL_SELL_AUTHORITY_V308;
   if(!plan||!Array.isArray(plan.actions))return{plan,counters:{sellLocks:0,forcedWeakSells:0,freshWeakSellsBlocked:0,unconfirmedWeakSellsBlocked:0}};
   const actions=plan.actions.map(a=>({...a})),idx=new Map();actions.forEach((a,i)=>{const s=key(a);if(s&&!idx.has(s))idx.set(s,i)});
   const counters={sellLocks:0,forcedWeakSells:0,freshWeakSellsBlocked:0,unconfirmedWeakSellsBlocked:0};
