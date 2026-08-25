@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-25T06:35:55.483Z",
+  "checkedAt": "2026-08-25T06:37:46.688Z",
   "runtimeVersion": "V30.7",
   "liveDecisionVersion": "V30.7",
   "http": {
@@ -32,8 +32,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-25T06:35:04.954Z",
-    "ageSeconds": 50
+    "lastSeenAt": "2026-08-25T06:36:16.259Z",
+    "ageSeconds": 90
   },
   "running": 1,
   "scanCount": 610,
@@ -131,7 +131,7 @@
       "entryDecisionScore": 60.7,
       "scoreDeltaFromEntry": -3,
       "scoreDeltaThisScan": 1,
-      "rawDecisionScore": 31.4,
+      "rawDecisionScore": 31.2,
       "chartMoveFromEntryPct": -0.193,
       "chartMoveLastScanPct": 0.033,
       "scoreFrozenPartial": false,
@@ -182,7 +182,7 @@
       "entryDecisionScore": 57.4,
       "scoreDeltaFromEntry": -3,
       "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 28.5,
+      "rawDecisionScore": 28.3,
       "chartMoveFromEntryPct": -0.166,
       "chartMoveLastScanPct": 0.035,
       "scoreFrozenPartial": false,
@@ -296,7 +296,7 @@
     "statePromptMetadataMerge": true,
     "authoritativeBrokerUniverseResolve": true,
     "staleBrokerBlockCanBeClearedOnlyByExactMasterVerification": true,
-    "brokerResolveCount": 0,
+    "brokerResolveCount": 1,
     "latest": null,
     "blockedStrongCandidates": []
   },
@@ -321,12 +321,13 @@
   },
   "heldCashDeploymentPolicy": {
     "enabled": true,
-    "version": "30.4-cash",
+    "version": "30.7-dynamic-cash",
     "maxOpenPositions": 4,
     "maxSinglePositionPct": 100,
     "targetDeploymentPct": 98,
     "minHeldScoreForTopup": 60,
     "noBlindAverageDown": true,
+    "noFixedSinglePositionCap": true,
     "latest": null
   },
   "executionModel": {
