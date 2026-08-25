@@ -1,0 +1,118 @@
+name: Audit Today Trades
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/audit-today-trades.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch live state and audit today
+        run: |
+          python3 - <<'PY'
+          import json, urllib.request, datetime, pathlib
+          from zoneinfo import ZoneInfo
+          base='https://ki-markt-planspiel.orkimperium.workers.dev'
+          req=urllib.request.Request(base+'/api/status?audit=today-trades-'+str(int(datetime.datetime.now().timestamp())), headers={'User-Agent':'github-actions'})
+          with urllib.request.urlopen(req, timeout=30) as r:
+              full=json.load(r)
+          now=datetime.datetime.now(ZoneInfo('Europe/Berlin'))
+          today=now.date()
+          hist=full.get('history') or []
+          def local(ts):
+              if not ts:return None
+              try:return datetime.datetime.fromisoformat(str(ts).replace('Z','+00:00')).astimezone(ZoneInfo('Europe/Berlin'))
+              except:return None
+          rows=[]
+          for h in hist:
+              dt=local(h.get('ts'))
+              if dt and dt.date()==today and str(h.get('action','')).upper() not in {'HALTEN','HOLD'}:
+                  x=dict(h); x['berlin_ts']=dt.isoformat(); rows.append(x)
+          buys=[]; open_by_symbol={}; roundtrips=[]
+          buy_names={'KAUF','BUY'}; sell_names={'VERKAUF','SELL'}
+          for h in rows:
+              a=str(h.get('action','')).upper(); sym=str(h.get('symbol') or '')
+              if a in buy_names:
+                  open_by_symbol.setdefault(sym,[]).append(h); buys.append(h)
+              elif a in sell_names:
+                  q=open_by_symbol.get(sym) or []
+                  b=q.pop(0) if q else None
+                  st=local(b.get('ts')) if b else None; et=local(h.get('ts'))
+                  mins=((et-st).total_seconds()/60) if st and et else None
+                  reason=str(h.get('reason') or '')
+                  rl=reason.lower()
+                  tags=[]
+                  for key in ['v30.8','v308','score','rotation','replace','replacement','profit','stop','risk','struktur','maturity','churn','weak','schwach','raw']:
+                      if key in rl: tags.append(key)
+                  roundtrips.append({
+                    'symbol':sym,'name':h.get('name') or (b or {}).get('name'),
+                    'buyBerlinTs':(b or {}).get('berlin_ts'),'sellBerlinTs':h.get('berlin_ts'),
+                    'holdMinutes':mins,'buyAmount':(b or {}).get('amount'),'sellAmount':h.get('amount'),
+                    'buyScore':(b or {}).get('score'),'sellScore':h.get('score'),
+                    'tradePnl':h.get('trade_pnl'),'sellReason':reason,'tags':tags,
+                    'buyHistoryId':(b or {}).get('id'),'sellHistoryId':h.get('id')
+                  })
+          rapid=[r for r in roundtrips if r['holdMinutes'] is not None and r['holdMinutes']<30]
+          ultra=[r for r in roundtrips if r['holdMinutes'] is not None and r['holdMinutes']<10]
+          reasons={}
+          for r in roundtrips:
+              k=r['sellReason'] or '(leer)'; reasons[k]=reasons.get(k,0)+1
+          out={
+            'checkedAtBerlin':now.isoformat(),'runId':(full.get('config') or {}).get('run_id'),
+            'cash':(full.get('config') or {}).get('cash'),'equity':full.get('equity'),
+            'positionsNow':[{'symbol':p.get('symbol'),'name':p.get('name'),'invested':p.get('invested'),'entry_ts':p.get('entry_ts'),'entry_price':p.get('entry_price'),'last_price':p.get('last_price')} for p in (full.get('positions') or [])],
+            'todayTradeEvents':rows,'roundTrips':roundtrips,
+            'summary':{'tradeEvents':len(rows),'buys':sum(str(x.get('action','')).upper() in buy_names for x in rows),'sells':sum(str(x.get('action','')).upper() in sell_names for x in rows),'roundTrips':len(roundtrips),'rapidUnder30m':len(rapid),'ultraRapidUnder10m':len(ultra),'totalRealizedPnl':sum(float(r.get('tradePnl') or 0) for r in roundtrips),'sellReasons':reasons}
+          }
+          pathlib.Path('today-trade-audit.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print(json.dumps(out['summary'],ensure_ascii=False,indent=2))
+          PY
+      - name: Publish audit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            # re-fetch because reset removes untracked/changed context only if tracked; regenerate if needed
+            python3 - <<'PY'
+          import json, urllib.request, datetime, pathlib
+          from zoneinfo import ZoneInfo
+          base='https://ki-markt-planspiel.orkimperium.workers.dev'
+          with urllib.request.urlopen(base+'/api/status?audit=today-trades-publish-'+str(int(datetime.datetime.now().timestamp())), timeout=30) as r: full=json.load(r)
+          now=datetime.datetime.now(ZoneInfo('Europe/Berlin')); today=now.date(); hist=full.get('history') or []
+          def local(ts):
+              try:return datetime.datetime.fromisoformat(str(ts).replace('Z','+00:00')).astimezone(ZoneInfo('Europe/Berlin')) if ts else None
+              except:return None
+          rows=[]
+          for h in hist:
+              dt=local(h.get('ts'))
+              if dt and dt.date()==today and str(h.get('action','')).upper() not in {'HALTEN','HOLD'}:
+                  x=dict(h); x['berlin_ts']=dt.isoformat(); rows.append(x)
+          buy_names={'KAUF','BUY'}; sell_names={'VERKAUF','SELL'}; open_by_symbol={}; roundtrips=[]
+          for h in rows:
+              a=str(h.get('action','')).upper(); sym=str(h.get('symbol') or '')
+              if a in buy_names: open_by_symbol.setdefault(sym,[]).append(h)
+              elif a in sell_names:
+                  q=open_by_symbol.get(sym) or []; b=q.pop(0) if q else None; st=local((b or {}).get('ts')); et=local(h.get('ts')); mins=((et-st).total_seconds()/60) if st and et else None; reason=str(h.get('reason') or '')
+                  roundtrips.append({'symbol':sym,'name':h.get('name') or (b or {}).get('name'),'buyBerlinTs':(b or {}).get('berlin_ts'),'sellBerlinTs':h.get('berlin_ts'),'holdMinutes':mins,'buyAmount':(b or {}).get('amount'),'sellAmount':h.get('amount'),'buyScore':(b or {}).get('score'),'sellScore':h.get('score'),'tradePnl':h.get('trade_pnl'),'sellReason':reason,'buyHistoryId':(b or {}).get('id'),'sellHistoryId':h.get('id')})
+          reasons={}
+          for r in roundtrips: reasons[r['sellReason'] or '(leer)']=reasons.get(r['sellReason'] or '(leer)',0)+1
+          out={'checkedAtBerlin':now.isoformat(),'runId':(full.get('config') or {}).get('run_id'),'cash':(full.get('config') or {}).get('cash'),'equity':full.get('equity'),'positionsNow':[{'symbol':p.get('symbol'),'name':p.get('name'),'invested':p.get('invested'),'entry_ts':p.get('entry_ts'),'entry_price':p.get('entry_price'),'last_price':p.get('last_price')} for p in (full.get('positions') or [])],'todayTradeEvents':rows,'roundTrips':roundtrips,'summary':{'tradeEvents':len(rows),'buys':sum(str(x.get('action','')).upper() in buy_names for x in rows),'sells':sum(str(x.get('action','')).upper() in sell_names for x in rows),'roundTrips':len(roundtrips),'rapidUnder30m':sum(r['holdMinutes'] is not None and r['holdMinutes']<30 for r in roundtrips),'ultraRapidUnder10m':sum(r['holdMinutes'] is not None and r['holdMinutes']<10 for r in roundtrips),'totalRealizedPnl':sum(float(r.get('tradePnl') or 0) for r in roundtrips),'sellReasons':reasons}}
+          pathlib.Path('today-trade-audit.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+            git add today-trade-audit.json
+            git commit -m 'Audit today trading churn [skip ci]' || exit 0
+            git push origin HEAD:main && exit 0
+            sleep 3
+          done
+          exit 1
