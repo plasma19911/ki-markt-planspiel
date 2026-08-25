@@ -1,0 +1,76 @@
+name: Apply V30.8.3 Candidate Pipeline Breadth
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-v3083-pipeline-breadth.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Widen candidate visibility and final validation
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p=Path('src/compact-portfolio-v288-pc-first.js')
+          s=p.read_text(encoding='utf-8')
+          replacements={
+            "const CF_VALIDATION_TARGET=18;":"const CF_VALIDATION_TARGET=36;",
+            "const CF_FORWARD_RESERVE=4;":"const CF_FORWARD_RESERVE=8;",
+            "topPcCandidates:arr(pc?.candidates).slice(0,12)":"topPcCandidates:arr(pc?.candidates).slice(0,30)",
+            "CLOUDFLARE18 + POSITIONS":"CLOUDFLARE36 + POSITIONS",
+            "Cloudflare validiert kleinen Final-Slice":"Cloudflare validiert breiteren Final-Slice (36 + 8 Forward)",
+          }
+          for old,new in replacements.items():
+            if old not in s:
+              raise SystemExit(f'missing source marker: {old}')
+            s=s.replace(old,new)
+          # Keep 29.2 as scanner-algorithm version, but make the currently deployed runtime explicit.
+          old="s.pcFirstScannerPolicy={enabled:true,version:29.2,mode:"
+          new="s.pcFirstScannerPolicy={enabled:true,version:29.2,runtimeVersion:'V30.8.3',displayVersion:'V30.8.3 · PC-Scanner-Kern 29.2',mode:"
+          if old not in s: raise SystemExit('missing policy marker')
+          s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+
+          p=Path('public/pc-candidate-fallback-v292.js')
+          s=p.read_text(encoding='utf-8')
+          if ".slice(0,12)" not in s: raise SystemExit('missing UI finalist cap')
+          s=s.replace(".slice(0,12)",".slice(0,30)",1)
+          s=s.replace("if(tag)tag.textContent='PC-Finalisten';","if(tag)tag.textContent='PC-Finalisten · V30.8';")
+          s=s.replace("<b>PC-Vollscan aktiv.</b>","<b>PC-Vollscan aktiv · Runtime V30.8 / Scanner-Kern 29.2.</b>")
+          s=s.replace("window.__PC_CANDIDATE_FALLBACK_V292__={version:29.2,pcFinalistsWhenResearchEmpty:true,scorelessFallbackFixed:true};","window.__PC_CANDIDATE_FALLBACK_V292__={version:29.2,runtimeVersion:'V30.8.3',visibleFinalists:30,pcFinalistsWhenResearchEmpty:true,scorelessFallbackFixed:true};")
+          p.write_text(s,encoding='utf-8')
+
+          p=Path('tests/v288-pc-first-scanner.test.mjs')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace("assert.equal(constant('CF_VALIDATION_TARGET'),18);","assert.equal(constant('CF_VALIDATION_TARGET'),36);")
+          s=s.replace("assert.equal(constant('CF_FORWARD_RESERVE'),4);","assert.equal(constant('CF_FORWARD_RESERVE'),8);")
+          s=s.replace("CLOUDFLARE18 \\+ POSITIONS","CLOUDFLARE36 \\+ POSITIONS")
+          s=s.replace("cloudflareValidation:18,forwardReserve:4","cloudflareValidation:36,forwardReserve:8")
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Run focused regression
+        run: node tests/v288-pc-first-scanner.test.mjs
+      - name: Commit patch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/compact-portfolio-v288-pc-first.js public/pc-candidate-fallback-v292.js tests/v288-pc-first-scanner.test.mjs
+          git diff --cached --quiet && exit 0
+          git commit -m 'V30.8.3 widen candidate pipeline breadth'
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then exit 0; fi
+            git pull --rebase origin main
+            sleep 2
+          done
+          exit 1
