@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-25T06:07:19.730Z",
+  "checkedAt": "2026-08-25T06:07:38.582Z",
   "runtimeVersion": "V30.6",
   "liveDecisionVersion": "V30.6",
   "http": {
@@ -15,6 +15,7 @@
     "scannerUiAsset": true,
     "runtimeV306": true,
     "sellRebuyAntiChurnV306": true,
+    "weakestReplacementV3061": true,
     "profitOpportunityV305": true,
     "relativeRotationV304": true,
     "heldCashDeploymentV304": true,
@@ -29,7 +30,7 @@
     "configured": true,
     "online": true,
     "lastSeenAt": "2026-08-25T06:07:04.912Z",
-    "ageSeconds": 14
+    "ageSeconds": 32
   },
   "running": 1,
   "scanCount": 592,
@@ -127,7 +128,7 @@
       "entryDecisionScore": 60.7,
       "scoreDeltaFromEntry": -3,
       "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 28.9,
+      "rawDecisionScore": 29,
       "chartMoveFromEntryPct": -0.219,
       "chartMoveLastScanPct": -0.007,
       "scoreFrozenPartial": false,
@@ -178,7 +179,7 @@
       "entryDecisionScore": 57.4,
       "scoreDeltaFromEntry": -3,
       "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 38.1,
+      "rawDecisionScore": 37.1,
       "chartMoveFromEntryPct": -0.12,
       "chartMoveLastScanPct": 0.015,
       "scoreFrozenPartial": false,
@@ -258,6 +259,21 @@
     "exceptionRequiresNewSignal": true,
     "higherPriceRebuyGuard": true,
     "latest": null
+  },
+  "weakestPositionReplacementPolicy": {
+    "enabled": true,
+    "version": "30.6.1",
+    "mode": "weakest-position-replacement",
+    "minReplacementScore": 62,
+    "maxWeakRawScore": 45,
+    "minStableRawDivergence": 8,
+    "minEntryScoreDeterioration": 8,
+    "minEffectiveScoreGap": 10,
+    "minHoldMinutes": 15,
+    "maxSinglePositionPct": 25,
+    "brokerResolveCount": 0,
+    "latest": null,
+    "rule": "Eine klar deteriorierte gehaltene Position (RawScore <=45, deutliche Hysterese-Divergenz, mindestens -8 Scorepunkte seit Einstieg plus negative Struktur) darf gegen einen exakt Trade-Republic-verifizierten Kandidaten ab 62/100 ersetzt werden, sobald dessen Score mindestens 10 Punkte ueber dem effektiven KEEP-Score liegt. Kein blinder Verlustverkauf ohne besseren Ersatz."
   },
   "profitOpportunityPolicy": {
     "enabled": true,
