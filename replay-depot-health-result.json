@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-25T06:52:17.373923+00:00",
-  "berlinNow": "2026-08-25T08:52:17.373748+02:00",
+  "checkedAt": "2026-08-25T07:15:14.890843+00:00",
+  "berlinNow": "2026-08-25T09:15:14.890713+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 2189186,
-    "dashboard": 1554809
+    "full": 2172100,
+    "dashboard": 1537157
   },
   "checks": {
     "fullStatus200": true,
@@ -24,13 +24,13 @@
     "date": "2026-08-25",
     "status": "CAPTURING",
     "processed": 0,
-    "total": 81,
+    "total": 120,
     "provisional": true,
     "completedAt": null,
     "capture": {
       "date": "2026-08-25",
-      "symbolCount": 81,
-      "updatedAt": "2026-08-25T06:50:01.600Z"
+      "symbolCount": 120,
+      "updatedAt": "2026-08-25T07:14:09.095Z"
     },
     "summary": {
       "provisional": true,
@@ -46,44 +46,36 @@
     }
   },
   "depot": {
-    "cash": 4098.337430611917,
-    "equity": 9992.26953893417,
-    "displayMarketValue": 5893.932108359375,
-    "displayAccountingDelta": -3.712193574756384e-08,
+    "cash": 6249.629367411814,
+    "equity": 10005.419925631068,
+    "displayMarketValue": 3755.790558799744,
+    "displayAccountingDelta": -5.804904503747821e-07,
     "positions": [
       {
         "symbol": "YIT.HE",
         "invested": 1165.964817,
-        "ratioValue": 1175.7199996226398,
-        "quantityValue": 1175.72,
-        "displayValue": 1175.72,
+        "ratioValue": 1185.5479996194854,
+        "quantityValue": 1185.548,
+        "displayValue": 1185.548,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "9988.HK",
+        "invested": 1585.477093,
+        "ratioValue": 1585.2825585997682,
+        "quantityValue": 1585.2825587997436,
+        "displayValue": 1585.2825587997436,
         "quantityUsed": true
       },
       {
         "symbol": "COCHINSHIP.NS",
         "invested": 977.188212,
-        "ratioValue": 978.2855683593752,
-        "quantityValue": 978.2855683593749,
-        "displayValue": 978.2855683593749,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "SOLARINDS.NS",
-        "invested": 1934.478546,
-        "ratioValue": 1954.1610000000003,
-        "quantityValue": 1954.1609999999998,
-        "displayValue": 1954.1609999999998,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "SAAB-B.ST",
-        "invested": 1837.008824,
-        "ratioValue": 1785.7655403402375,
-        "quantityValue": 1785.76554,
-        "displayValue": 1785.76554,
+        "ratioValue": 984.9600000000003,
+        "quantityValue": 984.9599999999999,
+        "displayValue": 984.9599999999999,
         "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: tue, 25 aug 2026 06:52:17 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=x0zannsowignm4bw4ofbqpyksy1fbspxfm%2fvealtl5j%2b%2ba%2foivdfgifszg%2bnxixryolgxdwkvgbbu9isjxw766qvfhsbrimnnilbyebnieb4qaz2qput7pwfgsuou60zsrpql8sprkdybyicikgpvurfsllpz26ho%2fdgw%2b4%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a308ac4f59cb6806-dfw\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: tue, 25 aug 2026 07:15:14 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=cutbzczvoilzcso5%2blatpxug8tidtasrgp3ckh%2f8dt4lhi%2be0uxcfgurumtkyuyghznyoybuflhdbvwgtqfdrbrxl%2f6skrfi9wnpht9u5ld7j9wfhmhuamizatoggjely9ynhay7l2caxemtiyed22s6nq7ldrgmpom4dge%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a308cdf0a8a1f210-lax\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
