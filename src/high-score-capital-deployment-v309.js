@@ -7,7 +7,7 @@ const HARD=/HARD[- ]?EVENT|NEWS-SHOCK|STALE QUOTE|BAD QUOTE|FX[- ]?SAFETY|REENTR
 
 export const HIGH_SCORE_CAPITAL_DEPLOYMENT_V309={
   version:30.9,
-  patch:'30.9.0-high-score-capital-deployment',
+  patch:'30.9.1-quality-default-fix',
   minScore:68,
   convictionScore:70,
   strongScore:75,
@@ -25,18 +25,18 @@ function isTradingInput(input){return arr(input?.messages).some(m=>{const t=Stri
 function promptCandidates(input){for(const m of arr(input?.messages)){const t=String(m?.content||''),a=t.indexOf('Kandidaten='),b=t.indexOf(' Gehalten=',a+11);if(a<0||b<0)continue;try{const x=JSON.parse(t.slice(a+11,b).trim());if(Array.isArray(x))return x}catch{}}return[]}
 function mergeCandidates(stateRows,promptRows){const m=new Map();for(const c of arr(stateRows)){const s=key(c);if(s)m.set(s,{...c})}for(const c of arr(promptRows)){const s=key(c);if(s)m.set(s,{...(m.get(s)||{}),...c})}return[...m.values()]}
 function enrich(rows,brokerRows){const master=new Map(arr(brokerRows).map(r=>[key(r),r]));return arr(rows).map(c=>{const r=master.get(key(c));return r?{...c,isin:r.isin||null,assetClass:String(r.assetClass||'EQUITY').toUpperCase(),brokerVerified:r.brokerVerified===true,brokerVerificationSource:r.brokerVerificationSource||null,brokerMatchMode:r.brokerMatchMode||null,tradeRepublicName:r.tradeRepublicName||null}:c})}
-function m5(c){return num(c?.momentum5Pct,c?.momentum5??c?.intraday5m)}
-function m20(c){return num(c?.momentum20Pct,c?.momentum20??c?.intraday20m)}
-function score(c){return num(c?.daytradeLiveScore,c?.decisionScore??c?.score)}
+function m5(c){return num(c?.momentum5Pct,num(c?.momentum5,num(c?.intraday5m,0)))}
+function m20(c){return num(c?.momentum20Pct,num(c?.momentum20,num(c?.intraday20m,0)))}
+function score(c){return num(c?.daytradeLiveScore,num(c?.decisionScore,num(c?.score,0)))}
 function hard(action,c){const reason=String(action?.reason||'');if(!HARD.test(reason))return false;if(/TRADE-REPUBLIC-BLOCK|TARGET-VENUE/i.test(reason)&&brokerExact(c))return false;return true}
 function allocationFor(c,positionCount){const s=score(c),a=m5(c),b=m20(c);let pct=s>=85?58:s>=80?44:s>=75?32:s>=70?22:12;if(positionCount===0)pct+=6;else if(positionCount===1)pct+=3;if(a>=.35)pct+=5;if(b>=.65)pct+=5;if(a<0||b<0)pct-=3;return +clamp(pct,8,HIGH_SCORE_CAPITAL_DEPLOYMENT_V309.maxAutoAllocationPct).toFixed(1)}
-function quality(c){const s=score(c),a=m5(c),b=m20(c),q=num(c?.entryQualityScore,c?.timingQualityScore,50),acc=num(c?.acceleration5Pct,c?.momentumAcceleration5,0);return s+clamp(a*2,-2,3)+clamp(b*1.2,-2,3)+clamp(acc*1.2,-1.5,2)+clamp((q-50)/15,-2,2)}
+function quality(c){const s=score(c),a=m5(c),b=m20(c),q=num(c?.entryQualityScore,num(c?.timingQualityScore,50)),acc=num(c?.acceleration5Pct,num(c?.momentumAcceleration5,0));return s+clamp(a*2,-2,3)+clamp(b*1.2,-2,3)+clamp(acc*1.2,-1.5,2)+clamp((q-50)/15,-2,2)}
 
 export function enforceHighScoreCapitalDeploymentV309(plan,state={},input=null,brokerRows=[]){
  if(!plan||!Array.isArray(plan.actions))return{plan,counters:{}};
  const cst=HIGH_SCORE_CAPITAL_DEPLOYMENT_V309,positions=arr(state?.positions),held=new Set(positions.map(key));
  const merged=enrich(mergeCandidates(state?.candidates,promptCandidates(input)),brokerRows),actions=plan.actions.map(a=>({...a})),idx=new Map();actions.forEach((a,i)=>{const s=key(a);if(s&&!idx.has(s))idx.set(s,i)});
- const rows=merged.filter(c=>!held.has(key(c))&&brokerExact(c)).map(c=>{const i=idx.get(key(c)),a=i===undefined?{}:actions[i];return{c,s:key(c),a,i,score:score(c),m5:m5(c),m20:m20(c),q:quality(c),hard:hard(a,c)}}).sort((a,b)=>b.q-a.q);
+ const rows=merged.filter(c=>!held.has(key(c))&&brokerExact(c)).map(c=>{const i=idx.get(key(c)),a=i===undefined?{}:actions[i];return{c,s:key(c),a,i,score:score(c),m5:m5(c),m20:m20(c),q:quality(c),hard:hard(a,c)}}).filter(x=>Number.isFinite(x.q)).sort((a,b)=>b.q-a.q);
  const strong=rows.filter(x=>x.score>=70),blockedHard=strong.filter(x=>x.hard).length,blockedMomentum=strong.filter(x=>!x.hard&&(x.m5<cst.mildPullback5mFloor||x.m20<cst.mildPullback20mFloor)).length;
  let injected=0,upgraded=0;let chosen=null;
  if(positions.length<cst.maxOpenPositions){
