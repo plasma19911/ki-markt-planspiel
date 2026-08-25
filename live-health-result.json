@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-25T07:25:56.539Z",
+  "checkedAt": "2026-08-25T07:30:49.440Z",
   "runtimeVersion": "V30.8",
   "liveDecisionVersion": "V30.8",
   "http": {
@@ -33,14 +33,14 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-25T07:25:05.001Z",
-    "ageSeconds": 50
+    "lastSeenAt": "2026-08-25T07:30:16.657Z",
+    "ageSeconds": 26
   },
   "running": 1,
-  "scanCount": 638,
-  "lastScan": "2026-08-25T07:24:19.088Z",
+  "scanCount": 641,
+  "lastScan": "2026-08-25T07:28:58.903Z",
   "lastError": null,
-  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 0 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · V30.2 Live-Feedback: 0  · V30.5 Profi · V30.8.1 Final-Sell: 0 SELL fixiert · 0 bestätigte Schwäche-Sofortverkäufe · 0 frische Score-SELLs blockiert · 0 unbestätigte RawScore-SELLs blockiert.",
+  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 0 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · V30.2 Live-Feedback: 1  · V30.5 Profi · V30.8.1 Final-Sell: 0 SELL fixiert · 0 bestätigte Schwäche-Sofortverkäufe · 0 frische Score-SELLs blockiert · 0 unbestätigte RawScore-SELLs blockiert.",
   "cash": 10000.375780513617,
   "equity": 10000.375780513617,
   "pnl": 0.37578051361742837,
@@ -67,7 +67,12 @@
     "severeWeaknessOverridesScoreHysteresis": true,
     "freshPositionRawScoreProtection": true,
     "forcedWeaknessNeedsChartConfirmation": true,
-    "latest": null,
+    "latest": {
+      "sellLocks": 0,
+      "forcedWeakSells": 0,
+      "freshWeakSellsBlocked": 0,
+      "unconfirmedWeakSellsBlocked": 0
+    },
     "rule": "Ein von den inneren Reife-/Risiko-/Candle-Guards bestätigtes SELL bleibt SELL. V30.8.1 erzeugt aber keinen neuen Sofortverkauf mehr nur wegen eines kurzfristig niedrigen RawScores: frische Positionen sind 20 Minuten gegen Score-only-Churn geschützt und danach braucht die RawScore-Schwäche zusätzlich Chart-/Verkäuferbestätigung (außer bei extremem RawScore)."
   },
   "manualTradePolicy": {
@@ -213,7 +218,11 @@
     "hardExitCooldownMinutes": 120,
     "exceptionRequiresNewSignal": true,
     "higherPriceRebuyGuard": true,
-    "latest": null
+    "latest": {
+      "blockedRapidSellRebuys": 0,
+      "exceptionalReentriesAllowed": 0,
+      "higherPriceRebuysBlocked": 0
+    }
   },
   "weakestPositionReplacementPolicy": {
     "enabled": true,
@@ -226,8 +235,13 @@
     "minEffectiveScoreGap": 10,
     "minHoldMinutes": 15,
     "maxSinglePositionPct": 100,
-    "brokerResolveCount": 0,
-    "latest": null,
+    "brokerResolveCount": 1,
+    "latest": {
+      "weakReplacements": 0,
+      "severeWeakHeld": 0,
+      "eligibleReplacements": 0,
+      "blockedNoReplacement": 0
+    },
     "noFixedSinglePositionCap": true,
     "rule": "Klar deteriorierte Bestandspositionen koennen gegen exakt TR-verifizierte Chancen ab 62 ersetzt werden. Die neue Positionsgroesse ist dynamisch und darf ohne Hebel bis 100% reichen; kein fixer 25%-Deckel."
   },
@@ -250,8 +264,16 @@
     "statePromptMetadataMerge": true,
     "authoritativeBrokerUniverseResolve": true,
     "staleBrokerBlockCanBeClearedOnlyByExactMasterVerification": true,
-    "brokerResolveCount": 0,
-    "latest": null,
+    "brokerResolveCount": 1,
+    "latest": {
+      "starterBuys": 0,
+      "rotations": 0,
+      "hysteresisBypasses": 0,
+      "blockedStrongCandidates": 0,
+      "mergedCandidates": 4,
+      "exactTradeRepublicCandidates": 0,
+      "staleBrokerBlocksCleared": 0
+    },
     "blockedStrongCandidates": []
   },
   "relativeRotationPolicy": {
@@ -269,7 +291,13 @@
     "legacyMigrationCooldownMinutes": 5,
     "targetDeploymentPctWhenFourBuys": 98,
     "maxSinglePositionPct": 100,
-    "latest": null,
+    "latest": {
+      "rotations": 0,
+      "legacyMigrations": 0,
+      "deploymentRescales": 0,
+      "rotationBlockedCooldown": 0,
+      "rotationBlockedHoldTime": 0
+    },
     "legacyHeld": [],
     "noFixedSinglePositionCap": true,
     "rule": "Maximal vier Positionen bleiben als Slot-Regel. Positionsgroessen sind dynamisch; kein fixer 25%-Deckel, bis 100% ohne Hebel. Rotation und Legacy-Migration bleiben relativ score- und momentumgetrieben."
@@ -283,7 +311,9 @@
     "minHeldScoreForTopup": 60,
     "noBlindAverageDown": true,
     "noFixedSinglePositionCap": true,
-    "latest": null
+    "latest": {
+      "topups": 0
+    }
   },
   "executionModel": {
     "feeFixed": 0,
