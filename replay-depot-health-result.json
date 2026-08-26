@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-26T06:28:41.781865+00:00",
-  "berlinNow": "2026-08-26T08:28:41.781685+02:00",
+  "checkedAt": "2026-08-26T07:02:07.276875+00:00",
+  "berlinNow": "2026-08-26T09:02:07.276702+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 2882795,
-    "dashboard": 1970760
+    "full": 2817227,
+    "dashboard": 1927094
   },
   "checks": {
     "fullStatus200": true,
@@ -24,13 +24,13 @@
     "date": "2026-08-26",
     "status": "CAPTURING",
     "processed": 0,
-    "total": 47,
+    "total": 52,
     "provisional": true,
     "completedAt": null,
     "capture": {
       "date": "2026-08-26",
-      "symbolCount": 47,
-      "updatedAt": "2026-08-26T06:28:19.947Z"
+      "symbolCount": 52,
+      "updatedAt": "2026-08-26T07:01:11.634Z"
     },
     "summary": {
       "provisional": true,
@@ -47,43 +47,43 @@
   },
   "depot": {
     "cash": 4447.42497751064,
-    "equity": 10001.944980136182,
-    "displayMarketValue": 5554.520003318787,
-    "displayAccountingDelta": -6.932441465323791e-07,
+    "equity": 10023.994976810594,
+    "displayMarketValue": 5576.57,
+    "displayAccountingDelta": -7.00045347912237e-07,
     "positions": [
       {
         "symbol": "YIT.HE",
         "invested": 1246.565316,
-        "ratioValue": 1266.3300214992923,
-        "quantityValue": 1266.3300218582153,
-        "displayValue": 1266.3300218582153,
+        "ratioValue": 1279.6999996372876,
+        "quantityValue": 1279.7,
+        "displayValue": 1279.7,
         "quantityUsed": true
       },
       {
         "symbol": "FORTUM.HE",
         "invested": 1535.213703,
-        "ratioValue": 1538.239982388001,
-        "quantityValue": 1538.2399826049805,
-        "displayValue": 1538.2399826049805,
+        "ratioValue": 1538.9999997829134,
+        "quantityValue": 1539.0,
+        "displayValue": 1539.0,
         "quantityUsed": true
       },
       {
         "symbol": "TTALO.HE",
         "invested": 1499.097637,
-        "ratioValue": 1497.6000369630372,
-        "quantityValue": 1497.6000366210938,
-        "displayValue": 1497.6000366210938,
+        "ratioValue": 1497.6000003419433,
+        "quantityValue": 1497.6,
+        "displayValue": 1497.6,
         "quantityUsed": true
       },
       {
         "symbol": "MANTA.HE",
         "invested": 1260.539306,
-        "ratioValue": 1252.3499617752125,
-        "quantityValue": 1252.349962234497,
-        "displayValue": 1252.349962234497,
+        "ratioValue": 1260.269999537811,
+        "quantityValue": 1260.27,
+        "displayValue": 1260.27,
         "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: wed, 26 aug 2026 06:28:41 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=hudaqhjabovsr50uagrrliinwtnwd3fmnjtfl6p2euk54ldgdsdshyyfgxezdci3ryvtwkkcioxz0tfxvszsactj8k3qghz1y8r8dypzammr9vi3ftah1kxljmq7qvg3%2fn8%2fbjf3gdzjxhwbtnio3gopfs%2blmfghmkiuxfk%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a310c7201d4d57fc-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: wed, 26 aug 2026 07:02:07 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=2qh1alqhgnofav3v37lpcn%2b6ycuvea%2f0jhyqieymfwh7zirlwgjrcpqs1lwv5hvpumi3rea%2fmwa2fhwo0dkfvtlio0%2ffcmqubphqy5suy8om6wbtrhnxapdzy%2fefpvriexxmvfa0q9at8%2f9xbqogfcdhzmsepphr8lb%2fxkc%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a310f8163b585949-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
