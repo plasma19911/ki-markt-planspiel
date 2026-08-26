@@ -35,11 +35,14 @@ jobs:
           cache-dependency-path: package.json
       - name: Install
         run: npm install --no-audit --no-fund --ignore-scripts
-      - name: Critical production guards V31.0 Unified
+      - name: Critical production guards V31.0.2
         run: |
           node --check src/index.js
+          node --check src/position-chart-history.js
+          node --check src/trade-republic-master.js
           node --check src/unified-decision-core-v310.js
           node --check src/compact-portfolio-v310-unified.js
+          node --check src/compact-portfolio-v310-agent-recovery.js
           node --check src/expectancy-core-v310.js
           node --check src/high-score-capital-deployment-v309.js
           node --check src/manual-trade-v307.js
@@ -50,6 +53,8 @@ jobs:
           node --check src/relative-rotation-v304.js
           node --check src/held-cash-deployment-v304.js
           node --check public/manual-trade-ui.js
+          node --check public/position-chart-ui.js
+          node tests/trade-republic-master.test.mjs
           node tests/v310-unified-decision-core.test.mjs
           node tests/v310-expectancy.test.mjs
           node tests/v309-high-score-capital-deployment.test.mjs
@@ -78,18 +83,27 @@ jobs:
       - name: Wait for Cloudflare Git integration
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify V31.0 unified production
+      - name: Verify V31.0.2 production data chain
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';let last='';
           for(let i=0;i<36;i++){
             try{
-              const r=await fetch(`${base}/api/status?deploy=${Date.now()}`,{headers:{'cache-control':'no-cache'}}),s=await r.json(),u=s?.unifiedDecisionCorePolicy||{},e=s?.expectancyCorePolicy||{},m=s?.manualTradePolicy||{},a=s?.architecture||{},ex=s?.executionModel||{};
-              const ok=r.ok&&s?.runtimeVersion==='V31.0'&&s?.liveDecisionVersion==='V31.0'&&u.enabled===true&&u.patch==='31.0-unified-decision-authority'&&a.outerDecisionLayers===1&&a.persistentDecisionAudit===true&&Number(e.hardStopPct)===-1.2&&Number(e.trailArmPct)===2.4&&Number(e.minHoldMinutes)===12&&Number(e.reentryMinutes)===90&&Number(e.minPositionEur)===2200&&ex.unifiedDecisionCoreV310===true&&Number(m.maxAllocationPct)===100;
-              last=`HTTP ${r.status} runtime=${s?.runtimeVersion} unified=${u.patch} layers=${a.outerDecisionLayers}`;
-              if(ok){console.log('Live V31.0 unified verification OK:',last);process.exit(0)}
+              const r=await fetch(`${base}/api/status?deploy=${Date.now()}`,{headers:{'cache-control':'no-cache'}}),s=await r.json(),u=s?.unifiedDecisionCorePolicy||{},e=s?.expectancyCorePolicy||{},m=s?.manualTradePolicy||{},a=s?.architecture||{},ex=s?.executionModel||{},bm=m?.brokerMaster||{},ubm=u?.brokerMaster||{},capital=u?.capital||{};
+              const symbol=Array.isArray(s?.positions)&&s.positions[0]?.symbol?String(s.positions[0].symbol):'';
+              let chartOk=true,chartInfo='no-position';
+              if(symbol){
+                const cr=await fetch(`${base}/api/position-chart?symbol=${encodeURIComponent(symbol)}&range=1d&deploy=${Date.now()}`,{headers:{'cache-control':'no-cache'}});let cj={};try{cj=await cr.json()}catch{}
+                chartOk=cr.ok&&cj?.ok===true&&Array.isArray(cj?.bars)&&cj.bars.length>0;
+                chartInfo=`${symbol}:${cr.status}/${Array.isArray(cj?.bars)?cj.bars.length:0} bars`;
+              }
+              const brokerOk=Number(bm?.rowCount)>0&&String(bm?.source||'').includes('env.ASSETS')&&Number(ubm?.rowCount)>0;
+              const capitalOk=capital?.patch==='30.9.3-held-master-enrichment'&&capital?.heldMasterEnrichment===true&&Number(capital?.maxAutoAllocationPct)===100;
+              const ok=r.ok&&s?.runtimeVersion==='V31.0'&&s?.liveDecisionVersion==='V31.0'&&u.enabled===true&&u.patch==='31.0-unified-decision-authority'&&a.outerDecisionLayers===1&&a.persistentDecisionAudit===true&&Number(e.hardStopPct)===-1.2&&Number(e.trailArmPct)===2.4&&Number(e.minHoldMinutes)===12&&Number(e.reentryMinutes)===90&&Number(e.minPositionEur)===2200&&ex.unifiedDecisionCoreV310===true&&ex.tradeRepublicAssetsMaster===true&&Number(m.maxAllocationPct)===100&&brokerOk&&capitalOk&&chartOk;
+              last=`HTTP ${r.status} runtime=${s?.runtimeVersion} broker=${bm?.source}/${bm?.rowCount} capital=${capital?.patch} chart=${chartInfo}`;
+              if(ok){console.log('Live V31.0.2 data-chain verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
-          throw new Error('V31.0 unified not live: '+last);
+          throw new Error('V31.0.2 data chain not live: '+last);
           NODE
