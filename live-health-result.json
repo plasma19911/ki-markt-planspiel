@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-26T07:13:15.977Z",
+  "checkedAt": "2026-08-26T07:13:51.376Z",
   "runtimeVersion": "V31.0",
   "liveDecisionVersion": "V31.0",
   "http": {
@@ -43,7 +43,7 @@
     "configured": true,
     "online": true,
     "lastSeenAt": "2026-08-26T07:13:06.502Z",
-    "ageSeconds": 6,
+    "ageSeconds": 42,
     "recovery": {
       "enabled": true,
       "version": "31.0.1",
@@ -60,8 +60,8 @@
     "status": 200,
     "ok": true,
     "symbol": "YIT.HE",
-    "bars": 3,
-    "lastBarTs": 1787728267000,
+    "bars": 4,
+    "lastBarTs": 1787728423000,
     "error": null
   },
   "brokerMaster": {
@@ -360,30 +360,7 @@
       "reentryMinutes": 90,
       "minPositionEur": 2200
     },
-    "latest": {
-      "changes": 0,
-      "capital": {
-        "brokerRows": 258,
-        "exactCandidates": 0,
-        "strong70Plus": 0,
-        "injected": 0,
-        "upgraded": 0,
-        "winnerTopups": 0,
-        "blockedMomentum": 0,
-        "blockedHard": 0,
-        "chosen": null,
-        "topup": null
-      },
-      "expectancy": {
-        "hardStops": 0,
-        "trailingSells": 0,
-        "minHoldBlocks": 0,
-        "reentryBlocks": 0,
-        "sizingUpgrades": 0,
-        "scoreScaleFixes": 0,
-        "equity": 10008.09
-      }
-    },
+    "latest": null,
     "auditWriteErrors": 0,
     "rule": "Eine einzige äußere Entscheidungsautorität entscheidet nach dem Legacy-Kern final über High-Score-Käufe, wirtschaftliche Positionsgröße, Gewinner-Aufstockung aus dem Trade-Republic-Master, Preis-Stop, Mindesthaltezeit, Trailing und Re-Entry. Jede Änderung wird persistent auditiert.",
     "brokerMaster": {
@@ -4351,11 +4328,7 @@
     "hardExitCooldownMinutes": 120,
     "exceptionRequiresNewSignal": true,
     "higherPriceRebuyGuard": true,
-    "latest": {
-      "blockedRapidSellRebuys": 0,
-      "exceptionalReentriesAllowed": 0,
-      "higherPriceRebuysBlocked": 0
-    }
+    "latest": null
   },
   "weakestPositionReplacementPolicy": {
     "enabled": true,
@@ -4368,13 +4341,8 @@
     "minEffectiveScoreGap": 10,
     "minHoldMinutes": 15,
     "maxSinglePositionPct": 100,
-    "brokerResolveCount": 1,
-    "latest": {
-      "weakReplacements": 0,
-      "severeWeakHeld": 0,
-      "eligibleReplacements": 0,
-      "blockedNoReplacement": 0
-    },
+    "brokerResolveCount": 0,
+    "latest": null,
     "noFixedSinglePositionCap": true,
     "rule": "Klar deteriorierte Bestandspositionen koennen gegen exakt TR-verifizierte Chancen ab 62 ersetzt werden. Die neue Positionsgroesse ist dynamisch und darf ohne Hebel bis 100% reichen; kein fixer 25%-Deckel."
   },
@@ -4397,16 +4365,8 @@
     "statePromptMetadataMerge": true,
     "authoritativeBrokerUniverseResolve": true,
     "staleBrokerBlockCanBeClearedOnlyByExactMasterVerification": true,
-    "brokerResolveCount": 1,
-    "latest": {
-      "starterBuys": 0,
-      "rotations": 0,
-      "hysteresisBypasses": 0,
-      "blockedStrongCandidates": 0,
-      "mergedCandidates": 8,
-      "exactTradeRepublicCandidates": 0,
-      "staleBrokerBlocksCleared": 0
-    },
+    "brokerResolveCount": 0,
+    "latest": null,
     "blockedStrongCandidates": []
   },
   "relativeRotationPolicy": {
@@ -4424,19 +4384,8 @@
     "legacyMigrationCooldownMinutes": 5,
     "targetDeploymentPctWhenFourBuys": 98,
     "maxSinglePositionPct": 100,
-    "latest": {
-      "rotations": 0,
-      "legacyMigrations": 0,
-      "deploymentRescales": 0,
-      "rotationBlockedCooldown": 0,
-      "rotationBlockedHoldTime": 0
-    },
-    "legacyHeld": [
-      "TTALO.HE",
-      "FORTUM.HE",
-      "MANTA.HE",
-      "YIT.HE"
-    ],
+    "latest": null,
+    "legacyHeld": [],
     "noFixedSinglePositionCap": true,
     "rule": "Maximal vier Positionen bleiben als Slot-Regel. Positionsgroessen sind dynamisch; kein fixer 25%-Deckel, bis 100% ohne Hebel. Rotation und Legacy-Migration bleiben relativ score- und momentumgetrieben."
   },
@@ -4449,12 +4398,7 @@
     "minHeldScoreForTopup": 60,
     "noBlindAverageDown": true,
     "noFixedSinglePositionCap": true,
-    "latest": {
-      "topups": 0,
-      "targetDeploymentPct": 98,
-      "maxSinglePositionPct": 100,
-      "remainingCashTargetEur": 200.16189953620994
-    }
+    "latest": null
   },
   "executionModel": {
     "feeFixed": 0,
