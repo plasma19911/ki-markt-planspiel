@@ -1,4 +1,4 @@
-import {enforceHighScoreCapitalDeploymentV309} from './high-score-capital-deployment-v309.js';
+import {enforceHighScoreCapitalDeploymentV309,HIGH_SCORE_CAPITAL_DEPLOYMENT_V309} from './high-score-capital-deployment-v309.js';
 import {enforceExpectancyCoreV310,EXPECTANCY_CORE_V310} from './expectancy-core-v310.js';
 
 const arr=v=>Array.isArray(v)?v:[];
@@ -58,5 +58,5 @@ export class UnifiedDecisionCoreV310{
     if(typeof this.writeAudit==='function'){try{await this.writeAudit(out.audit)}catch{this.auditWriteErrors++}}
     return encode(r,out.plan)
   }
-  status(){return{enabled:true,...UNIFIED_DECISION_CORE_V310,expectancy:{hardStopPct:EXPECTANCY_CORE_V310.hardStopPct,trailArmPct:EXPECTANCY_CORE_V310.trailArmPct,minHoldMinutes:EXPECTANCY_CORE_V310.minHoldMinutes,reentryMinutes:EXPECTANCY_CORE_V310.reentryMinutes,minPositionEur:EXPECTANCY_CORE_V310.minPositionEur},latest:this.latest?.counters||null,auditWriteErrors:this.auditWriteErrors,rule:'Eine einzige äußere Entscheidungsautorität entscheidet nach dem Legacy-Kern final über High-Score-Käufe, wirtschaftliche Positionsgröße, Preis-Stop, Mindesthaltezeit, Trailing und Re-Entry. Jede Änderung wird persistent auditiert.'}}
+  status(){return{enabled:true,...UNIFIED_DECISION_CORE_V310,capital:{...HIGH_SCORE_CAPITAL_DEPLOYMENT_V309,heldMasterEnrichment:true,noFixedAutoSinglePositionCap:true},expectancy:{hardStopPct:EXPECTANCY_CORE_V310.hardStopPct,trailArmPct:EXPECTANCY_CORE_V310.trailArmPct,minHoldMinutes:EXPECTANCY_CORE_V310.minHoldMinutes,reentryMinutes:EXPECTANCY_CORE_V310.reentryMinutes,minPositionEur:EXPECTANCY_CORE_V310.minPositionEur},latest:this.latest?.counters||null,auditWriteErrors:this.auditWriteErrors,rule:'Eine einzige äußere Entscheidungsautorität entscheidet nach dem Legacy-Kern final über High-Score-Käufe, wirtschaftliche Positionsgröße, Gewinner-Aufstockung aus dem Trade-Republic-Master, Preis-Stop, Mindesthaltezeit, Trailing und Re-Entry. Jede Änderung wird persistent auditiert.'}}
 }
