@@ -1,4 +1,4 @@
-name: Main always live on Cloudflare V31.0 Unified
+name: Main always live on Cloudflare V31.0.2
 
 on:
   push:
@@ -24,21 +24,20 @@ jobs:
           cache: npm
           cache-dependency-path: package.json
       - run: npm install --no-audit --no-fund --ignore-scripts
-      - name: Critical V31.0 unified guards
+      - name: Critical V31.0.2 data-chain guards
         run: |
           node --check src/index.js
+          node --check src/position-chart-history.js
+          node --check src/trade-republic-master.js
           node --check src/unified-decision-core-v310.js
           node --check src/compact-portfolio-v310-unified.js
+          node --check src/compact-portfolio-v310-agent-recovery.js
           node --check src/expectancy-core-v310.js
           node --check src/high-score-capital-deployment-v309.js
           node --check src/manual-trade-v307.js
           node --check src/compact-portfolio-v307-manual-control.js
-          node --check src/sell-rebuy-churn-v306.js
-          node --check src/weakest-position-replacement-v3061.js
-          node --check src/profit-opportunity-v305.js
-          node --check src/relative-rotation-v304.js
-          node --check src/held-cash-deployment-v304.js
-          node --check public/manual-trade-ui.js
+          node --check public/position-chart-ui.js
+          node tests/trade-republic-master.test.mjs
           node tests/v310-unified-decision-core.test.mjs
           node tests/v310-expectancy.test.mjs
           node tests/v309-high-score-capital-deployment.test.mjs
@@ -67,18 +66,20 @@ jobs:
       - name: Allow Cloudflare Git integration to publish
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify live V31.0 unified authority
+      - name: Verify live V31.0.2 complete chain
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';let last='';
           for(let i=0;i<36;i++){
             try{
-              const r=await fetch(`${base}/api/status?main_live=${Date.now()}`,{headers:{'cache-control':'no-cache'}}),s=await r.json(),u=s?.unifiedDecisionCorePolicy||{},a=s?.architecture||{},ex=s?.executionModel||{},positions=Array.isArray(s?.positions)?s.positions:[];
-              const ok=r.ok&&s?.runtimeVersion==='V31.0'&&s?.liveDecisionVersion==='V31.0'&&u.enabled===true&&u.patch==='31.0-unified-decision-authority'&&Number(a.outerDecisionLayers)===1&&a.persistentDecisionAudit===true&&ex.unifiedDecisionCoreV310===true&&positions.length<=4;
-              last=`status=${r.status} runtime=${s?.runtimeVersion} unified=${u.patch} layers=${a.outerDecisionLayers}`;
-              if(ok){console.log('Main live V31.0 unified verification OK:',last);process.exit(0)}
+              const r=await fetch(`${base}/api/status?main_live=${Date.now()}`,{headers:{'cache-control':'no-cache'}}),s=await r.json(),u=s?.unifiedDecisionCorePolicy||{},a=s?.architecture||{},ex=s?.executionModel||{},m=s?.manualTradePolicy||{},bm=m?.brokerMaster||{},capital=u?.capital||{},positions=Array.isArray(s?.positions)?s.positions:[];
+              let chartOk=true,chartText='no-position';
+              if(positions[0]?.symbol){const symbol=String(positions[0].symbol),cr=await fetch(`${base}/api/position-chart?symbol=${encodeURIComponent(symbol)}&range=1d&main_live=${Date.now()}`,{headers:{'cache-control':'no-cache'}});let cj={};try{cj=await cr.json()}catch{}chartOk=cr.ok&&cj?.ok===true&&Array.isArray(cj?.bars)&&cj.bars.length>0;chartText=`${symbol}:${cr.status}/${cj?.bars?.length||0}`}
+              const ok=r.ok&&s?.runtimeVersion==='V31.0'&&s?.liveDecisionVersion==='V31.0'&&u.enabled===true&&u.patch==='31.0-unified-decision-authority'&&Number(a.outerDecisionLayers)===1&&a.persistentDecisionAudit===true&&ex.unifiedDecisionCoreV310===true&&ex.tradeRepublicAssetsMaster===true&&Number(bm?.rowCount)>0&&String(bm?.source||'').includes('env.ASSETS')&&capital?.patch==='30.9.3-held-master-enrichment'&&capital?.heldMasterEnrichment===true&&positions.length<=4&&chartOk;
+              last=`status=${r.status} runtime=${s?.runtimeVersion} broker=${bm?.source}/${bm?.rowCount} capital=${capital?.patch} chart=${chartText}`;
+              if(ok){console.log('Main live V31.0.2 verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
-          throw new Error('Main did not become V31.0 unified live: '+last);
+          throw new Error('Main did not become healthy V31.0.2 live: '+last);
           NODE
