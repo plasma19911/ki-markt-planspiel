@@ -1,8 +1,9 @@
 // Production compatibility wrapper around index-core.js.
-// V30.7.1 adds direct, audited dashboard BUY/SELL execution for the paper portfolio.
+// V31.0.2 repairs Trade Republic master resolution and resilient position charts.
 import core,{MarketPortfolio} from './index-core.js';
 import {agentStatusLite,shouldServeAgentLite} from './status-lite.js';
 import {verifyCloudflareAccess} from './access-auth.js';
+import {positionChartHistoryData} from './position-chart-history.js';
 export {MarketPortfolio};
 
 const enc=new TextEncoder();
@@ -15,7 +16,17 @@ async function manualTradeResponse(request,env){
  if(approvalMode(env)){const auth=await verifyCloudflareAccess(request,env);if(!auth?.ok)return Response.json({ok:false,error:auth?.error||'Nicht autorisiert.'},{status:auth?.status||403,headers:{'cache-control':'no-store'}})}
  const p=env.PORTFOLIO.getByName('default-paper-portfolio'),body=await request.json().catch(()=>({})),result=await p.manualTradeIntent(body);return Response.json(result,{status:result?.ok?200:(result?.status||400),headers:{'cache-control':'no-store'}})
 }
+async function positionChartResponse(request,env){
+ const p=env.PORTFOLIO.getByName('default-paper-portfolio'),u=new URL(request.url),data=await positionChartHistoryData(p,u);
+ return Response.json(data,{status:data?.status||200,headers:{'cache-control':'no-store'}});
+}
 export default{
- async fetch(request,env,ctx){const u=new URL(request.url),statusMethod=request.method==='GET'||request.method==='HEAD';if(statusMethod&&(u.pathname==='/api/status/lite'||(u.pathname==='/api/status'&&shouldServeAgentLite(request)))){try{return await liteStatusResponse(request,env)}catch(e){return Response.json({error:String(e?.message||e)},{status:500})}}if(u.pathname==='/api/manual-trade'&&request.method==='POST'){try{return await manualTradeResponse(request,env)}catch(e){return Response.json({ok:false,error:String(e?.message||e)},{status:500,headers:{'cache-control':'no-store'}})}}const response=await core.fetch(request,env,ctx);if(u.pathname==='/api/agent/universe'&&request.method==='POST')return enrichAgentUniverse(response,env,request.url);if(u.pathname==='/api/start'&&request.method==='POST')return normalizeStartResponse(response);return response},
+ async fetch(request,env,ctx){
+  const u=new URL(request.url),statusMethod=request.method==='GET'||request.method==='HEAD';
+  if(statusMethod&&(u.pathname==='/api/status/lite'||(u.pathname==='/api/status'&&shouldServeAgentLite(request)))){try{return await liteStatusResponse(request,env)}catch(e){return Response.json({error:String(e?.message||e)},{status:500})}}
+  if(u.pathname==='/api/position-chart'&&request.method==='GET'){try{return await positionChartResponse(request,env)}catch(e){return Response.json({error:String(e?.message||e)},{status:500,headers:{'cache-control':'no-store'}})}}
+  if(u.pathname==='/api/manual-trade'&&request.method==='POST'){try{return await manualTradeResponse(request,env)}catch(e){return Response.json({ok:false,error:String(e?.message||e)},{status:500,headers:{'cache-control':'no-store'}})}}
+  const response=await core.fetch(request,env,ctx);if(u.pathname==='/api/agent/universe'&&request.method==='POST')return enrichAgentUniverse(response,env,request.url);if(u.pathname==='/api/start'&&request.method==='POST')return normalizeStartResponse(response);return response
+ },
  async scheduled(controller,env,ctx){return core.scheduled(controller,env,ctx)}
 };
