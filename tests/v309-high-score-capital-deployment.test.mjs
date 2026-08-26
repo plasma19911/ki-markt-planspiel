@@ -32,7 +32,10 @@ const state={positions:[],candidates:[candidate]};
 }
 
 {
- const winner={...candidate,symbol:'WIN.DE',name:'Winner AG',score:73,decisionScore:73,momentum5Pct:0.1,momentum20Pct:0.25,isin:'DE000A1EWWX9'};
+ // Regression: Ein gehaltener Gewinner muss auch dann aufstockbar sein, wenn er
+ // nicht erneut in state.candidates auftaucht. Die exakte TR-Verifikation kommt
+ // aus dem Broker-Master; Score/Richtung/PnL kommen aus der gehaltenen Position.
+ const winnerMaster={symbol:'WIN.DE',name:'Winner AG',isin:'DE000A1EWWX9',assetClass:'EQUITY',brokerVerified:true,brokerMatchMode:'EXACT_NORMALIZED_NAME',brokerVerificationSource:'Trade Republic official universe'};
  const positions=[
   {symbol:'WIN.DE',name:'Winner AG',decisionScore:73,rawDecisionScore:52,entry_price:100,last_price:101,entry_fx:1,last_fx:1,chartDirectionMode:'UP'},
   {symbol:'B.DE',decisionScore:64,rawDecisionScore:48,entry_price:100,last_price:100,chartDirectionMode:'FLAT'},
@@ -40,11 +43,12 @@ const state={positions:[],candidates:[candidate]};
   {symbol:'D.DE',decisionScore:61,rawDecisionScore:44,entry_price:100,last_price:99.8,chartDirectionMode:'FLAT'}
  ];
  const plan={actions:positions.map(p=>({symbol:p.symbol,action:'HOLD',allocation_pct:0,reason:'hold'})),summary:'test'};
- const out=enforceHighScoreCapitalDeploymentV309(plan,{positions,candidates:[winner]},null,[winner]);
+ const out=enforceHighScoreCapitalDeploymentV309(plan,{positions,candidates:[]},null,[winnerMaster]);
  const a=out.plan.actions.find(x=>x.symbol==='WIN.DE');
- assert.equal(a.action,'BUY','Bei vier Plätzen darf bestätigte Stärke mit freiem Cash aufgestockt werden');
+ assert.equal(a.action,'BUY','Bei vier Plätzen darf bestätigte Stärke aus Position + Broker-Master aufgestockt werden');
  assert.ok(Number(a.allocation_pct)>=10&&Number(a.allocation_pct)<=100,'Winner-Top-up bleibt dynamisch innerhalb 0-100% ohne Hebel');
  assert.equal(out.counters.winnerTopups,1);
+ assert.equal(out.counters.brokerRows,1);
 }
 
 console.log('V30.9 high-score capital deployment regression OK');
