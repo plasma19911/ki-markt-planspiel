@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-27T05:52:51.685Z",
+  "checkedAt": "2026-08-27T05:59:34.123Z",
   "runtimeVersion": "V31.0",
   "liveDecisionVersion": "V31.0",
   "http": {
@@ -8,6 +8,7 @@
     "agent": "200",
     "scannerUi": "200",
     "manualUi": "200",
+    "agmCalendar": "200",
     "positionChart": "200"
   },
   "checks": {
@@ -16,6 +17,8 @@
     "agentEndpoint": true,
     "scannerUiAsset": true,
     "manualTradeUiAsset": true,
+    "agmCalendarAsset": true,
+    "agmCalendarFresh": true,
     "runtimeV310": true,
     "unifiedDecisionAuthority": true,
     "singleOuterLayer": true,
@@ -39,11 +42,26 @@
   },
   "failedChecks": [],
   "allRequiredChecksPassed": true,
+  "agmCalendar": {
+    "updatedAt": "2026-08-27T05:46:13.115Z",
+    "nextRefreshAfter": "2026-08-28T05:46:13.115Z",
+    "ageHours": 0.22,
+    "events": 5,
+    "rawUpcomingCount": 17,
+    "matchedUpcomingCount": 5,
+    "scoreEvaluationCadence": "daily",
+    "scoreReevaluation": "once daily only",
+    "scoresValid": true,
+    "scoreRange": [
+      28,
+      86
+    ]
+  },
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-27T05:52:08.436Z",
-    "ageSeconds": 41,
+    "lastSeenAt": "2026-08-27T05:59:15.804Z",
+    "ageSeconds": 16,
     "recovery": {
       "enabled": true,
       "version": "31.0.1",
@@ -60,8 +78,8 @@
     "status": 200,
     "ok": true,
     "symbol": "012450.KS",
-    "bars": 68,
-    "lastBarTs": 1787808769000,
+    "bars": 69,
+    "lastBarTs": 1787809173000,
     "error": null
   },
   "brokerMaster": {
@@ -97,10 +115,10 @@
     "noFixedAutoSinglePositionCap": true
   },
   "running": 1,
-  "scanCount": 1503,
-  "lastScan": "2026-08-27T05:52:22.218Z",
+  "scanCount": 1505,
+  "lastScan": "2026-08-27T05:56:22.998Z",
   "lastError": null,
-  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 3 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · V3 · V30.9 Capital: 0 High-Score BUY · 0 Starte · V31.0 Expectancy: 0 Hard-Stop · 0 Tra · V31 Unified: 1 finale Entscheidungsänderung(en) geloggt.",
+  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 4 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · V3 · V30.9 Capital: 0 High-Score BUY · 0 Starte · V31.0 Expectancy: 0 Hard-Stop · 0 Tra · V31 Unified: 1 finale Entscheidungsänderung(en) geloggt.",
   "cash": 2970.8131567140963,
   "equity": 10053.683155558829,
   "pnl": 53.68315555882873,
@@ -128,33 +146,34 @@
       "opened_at": "2026-08-27T05:52:22.218Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 66.4,
-      "signal_confidence": 0.4,
+      "score": 66.6,
+      "signal_confidence": 0.63,
       "zero_quantity": 3,
       "zero_whole_shares": 3,
       "zero_fractional_shares": 0,
       "zero_uses_fractional": false,
       "zero_fee_model_version": "trade-republic-securities-2026-08-v1",
-      "legacy_position_score": 1.2000000000000002,
-      "decisionScore": 66.4,
+      "fx_stale": false,
+      "legacy_position_score": 5.1000000000000005,
+      "decisionScore": 66.6,
       "entryDecisionScore": 64,
-      "scoreDeltaFromEntry": 2.4,
-      "scoreDeltaThisScan": -1,
-      "rawDecisionScore": 66,
+      "scoreDeltaFromEntry": 2.6,
+      "scoreDeltaThisScan": 0.8,
+      "rawDecisionScore": 77.9,
       "chartMoveFromEntryPct": -0.1,
       "chartMoveLastScanPct": 0,
       "scoreFrozenPartial": false,
-      "scoreChartCapped": false,
+      "scoreChartCapped": true,
       "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
-      "preDirectionalScore": 66,
+      "preDirectionalScore": 67,
       "scoreFloor": 61,
       "scoreCeiling": 67,
       "chartDirectionMode": "FLAT",
       "scorePriorCorrected": false,
-      "preProfitScore": 66.4,
-      "profitScoreCeiling": 66.4,
+      "preProfitScore": 66.6,
+      "profitScoreCeiling": 66.6,
       "profitScoreDeltaThisScan": 0,
-      "daytradeChanceScore": 66.4,
+      "daytradeChanceScore": 66.6,
       "daytradeChanceLabel": "STARK",
       "daytradeChanceRank": 1
     },
@@ -380,6 +399,1278 @@
     "minPositionEur": 2200
   },
   "decisionAuditRecent": [
+    {
+      "ts": "2026-08-27T05:59:17.304Z",
+      "patch": "31.0-unified-decision-authority",
+      "scanCount": 1505,
+      "cash": 2970.8131567140963,
+      "positions": [
+        {
+          "symbol": "FORTUM.HE",
+          "score": 0.752085060722768,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 20.200180305480956,
+          "lastPrice": 20.24,
+          "openedAt": "2026-08-25T08:02:09.349Z",
+          "direction": null
+        },
+        {
+          "symbol": "MANTA.HE",
+          "score": 0.38214499486630693,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 6.366360133647918,
+          "lastPrice": 6.39,
+          "openedAt": "2026-08-25T10:26:09.786Z",
+          "direction": null
+        },
+        {
+          "symbol": "FCT.MI",
+          "score": 10.760076662730818,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 12.802789961814879,
+          "lastPrice": 12.91,
+          "openedAt": "2026-08-26T10:38:18.611Z",
+          "direction": null
+        },
+        {
+          "symbol": "012450.KS",
+          "score": 51.00000000000001,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 1152150.9999999998,
+          "lastPrice": 1151000,
+          "openedAt": "2026-08-27T05:52:22.218Z",
+          "direction": null
+        }
+      ],
+      "topCandidates": [
+        {
+          "symbol": "079550.KS",
+          "score": 56.5,
+          "rawScore": 0,
+          "m5": 0.13440860215054862,
+          "m20": 0.5398110661268607,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "012450.KS",
+          "score": 51.00000000000001,
+          "rawScore": 0,
+          "m5": 0.08695652173913437,
+          "m20": 0.6999125109361293,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "272210.KS",
+          "score": 49,
+          "rawScore": 0,
+          "m5": 0.2564102564102555,
+          "m20": 0.903225806451613,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "047810.KS",
+          "score": 29,
+          "rawScore": 0,
+          "m5": 0.146520146520146,
+          "m20": 0.29347028613353476,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "ZENTEC.NS",
+          "score": 0,
+          "rawScore": 0,
+          "m5": -0.13600261486277354,
+          "m20": -0.42851076799085286,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "PARAS.NS",
+          "score": 0,
+          "rawScore": 0,
+          "m5": -0.3056234668150526,
+          "m20": -0.47460844017416237,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        }
+      ],
+      "originalActions": [
+        {
+          "symbol": "FORTUM.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "MANTA.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "FCT.MI",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "012450.KS",
+          "action": "BUY",
+          "allocationPct": 12,
+          "reason": "SCORE-HYSTERESIS V28.9 BUY: 012450.KS 81.0/100 · Kaufbereit · Trend +41.6 Punkte · 100% Datenabdeckung. Hoher Score ist über mehrere Scans bestätigt."
+        },
+        {
+          "symbol": "079550.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V30.0 DAYTRADE-HOLD: 079550.KS nicht unter den 0 besten freien Daytrade-Slots · Score 62.5 · Dip SHALLOW_RESET. Maximal 4 konzentrierte Positionen."
+        },
+        {
+          "symbol": "272210.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V30.0 DAYTRADE-HOLD: 272210.KS nicht unter den 0 besten freien Daytrade-Slots · Score 65.0 · Dip HIGH_CHASE. Maximal 4 konzentrierte Positionen."
+        }
+      ],
+      "finalActions": [
+        {
+          "symbol": "FORTUM.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "MANTA.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "FCT.MI",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "012450.KS",
+          "action": "BUY",
+          "allocationPct": 74.05,
+          "reason": "SCORE-HYSTERESIS V28.9 BUY: 012450.KS 81.0/100 · Kaufbereit · Trend +41.6 Punkte · 100% Datenabdeckung. Hoher Score ist über mehrere Scans bestätigt. · V31.0 SIZE: Position auf mindestens ca. 2200 EUR angehoben, damit Fixkosten/Slippage nicht einen zu grossen Anteil der Zielbewegung fressen."
+        },
+        {
+          "symbol": "079550.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V30.0 DAYTRADE-HOLD: 079550.KS nicht unter den 0 besten freien Daytrade-Slots · Score 62.5 · Dip SHALLOW_RESET. Maximal 4 konzentrierte Positionen."
+        },
+        {
+          "symbol": "272210.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V30.0 DAYTRADE-HOLD: 272210.KS nicht unter den 0 besten freien Daytrade-Slots · Score 65.0 · Dip HIGH_CHASE. Maximal 4 konzentrierte Positionen."
+        }
+      ],
+      "changes": [
+        {
+          "symbol": "012450.KS",
+          "before": {
+            "symbol": "012450.KS",
+            "action": "BUY",
+            "allocationPct": 12,
+            "reason": "SCORE-HYSTERESIS V28.9 BUY: 012450.KS 81.0/100 · Kaufbereit · Trend +41.6 Punkte · 100% Datenabdeckung. Hoher Score ist über mehrere Scans bestätigt."
+          },
+          "after": {
+            "symbol": "012450.KS",
+            "action": "BUY",
+            "allocationPct": 74.05,
+            "reason": "SCORE-HYSTERESIS V28.9 BUY: 012450.KS 81.0/100 · Kaufbereit · Trend +41.6 Punkte · 100% Datenabdeckung. Hoher Score ist über mehrere Scans bestätigt. · V31.0 SIZE: Position auf mindestens ca. 2200 EUR angehoben, damit Fixkosten/Slippage nicht einen zu grossen Anteil der Zielbewegung fressen."
+          }
+        }
+      ],
+      "counters": {
+        "capital": {
+          "brokerRows": 258,
+          "exactCandidates": 0,
+          "strong70Plus": 0,
+          "injected": 0,
+          "upgraded": 0,
+          "winnerTopups": 0,
+          "blockedMomentum": 0,
+          "blockedHard": 0,
+          "chosen": null,
+          "topup": null
+        },
+        "expectancy": {
+          "hardStops": 0,
+          "trailingSells": 0,
+          "minHoldBlocks": 0,
+          "reentryBlocks": 0,
+          "sizingUpgrades": 1,
+          "scoreScaleFixes": 1,
+          "equity": 10053.68
+        }
+      },
+      "ruleOrder": [
+        "hard safety from legacy core",
+        "high-score capital deployment",
+        "price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority"
+      ],
+      "note": "V31.0 unified outer authority: no V30.8/V30.9/V31.0 wrapper stacking. One final transformation plus one audit record."
+    },
+    {
+      "ts": "2026-08-27T05:58:14.265Z",
+      "patch": "31.0-unified-decision-authority",
+      "scanCount": 1505,
+      "cash": 2970.8131567140963,
+      "positions": [
+        {
+          "symbol": "FORTUM.HE",
+          "score": 0.752085060722768,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 20.200180305480956,
+          "lastPrice": 20.24,
+          "openedAt": "2026-08-25T08:02:09.349Z",
+          "direction": null
+        },
+        {
+          "symbol": "MANTA.HE",
+          "score": 0.38214499486630693,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 6.366360133647918,
+          "lastPrice": 6.39,
+          "openedAt": "2026-08-25T10:26:09.786Z",
+          "direction": null
+        },
+        {
+          "symbol": "FCT.MI",
+          "score": 10.760076662730818,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 12.802789961814879,
+          "lastPrice": 12.91,
+          "openedAt": "2026-08-26T10:38:18.611Z",
+          "direction": null
+        },
+        {
+          "symbol": "012450.KS",
+          "score": 51.00000000000001,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 1152150.9999999998,
+          "lastPrice": 1151000,
+          "openedAt": "2026-08-27T05:52:22.218Z",
+          "direction": null
+        }
+      ],
+      "topCandidates": [
+        {
+          "symbol": "079550.KS",
+          "score": 56.5,
+          "rawScore": 0,
+          "m5": 0.13440860215054862,
+          "m20": 0.5398110661268607,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "012450.KS",
+          "score": 51.00000000000001,
+          "rawScore": 0,
+          "m5": 0.08695652173913437,
+          "m20": 0.6999125109361293,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "272210.KS",
+          "score": 49,
+          "rawScore": 0,
+          "m5": 0.2564102564102555,
+          "m20": 0.903225806451613,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "047810.KS",
+          "score": 29,
+          "rawScore": 0,
+          "m5": 0.146520146520146,
+          "m20": 0.29347028613353476,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "ZENTEC.NS",
+          "score": 0,
+          "rawScore": 0,
+          "m5": -0.13600261486277354,
+          "m20": -0.42851076799085286,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "PARAS.NS",
+          "score": 0,
+          "rawScore": 0,
+          "m5": -0.3056234668150526,
+          "m20": -0.47460844017416237,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        }
+      ],
+      "originalActions": [
+        {
+          "symbol": "FORTUM.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "MANTA.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "FCT.MI",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "012450.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "079550.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V29.6 HOLD: DecisionScore 53.7/100 < 56."
+        },
+        {
+          "symbol": "272210.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V30.0 DAYTRADE-HOLD: 272210.KS nicht unter den 0 besten freien Daytrade-Slots · Score 65.8 · Dip HIGH_CHASE. Maximal 4 konzentrierte Positionen."
+        }
+      ],
+      "finalActions": [
+        {
+          "symbol": "FORTUM.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "MANTA.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "FCT.MI",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "012450.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "079550.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V29.6 HOLD: DecisionScore 53.7/100 < 56."
+        },
+        {
+          "symbol": "272210.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V30.0 DAYTRADE-HOLD: 272210.KS nicht unter den 0 besten freien Daytrade-Slots · Score 65.8 · Dip HIGH_CHASE. Maximal 4 konzentrierte Positionen."
+        }
+      ],
+      "changes": [],
+      "counters": {
+        "capital": {
+          "brokerRows": 258,
+          "exactCandidates": 0,
+          "strong70Plus": 0,
+          "injected": 0,
+          "upgraded": 0,
+          "winnerTopups": 0,
+          "blockedMomentum": 0,
+          "blockedHard": 0,
+          "chosen": null,
+          "topup": null
+        },
+        "expectancy": {
+          "hardStops": 0,
+          "trailingSells": 0,
+          "minHoldBlocks": 0,
+          "reentryBlocks": 0,
+          "sizingUpgrades": 0,
+          "scoreScaleFixes": 0,
+          "equity": 10053.68
+        }
+      },
+      "ruleOrder": [
+        "hard safety from legacy core",
+        "high-score capital deployment",
+        "price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority"
+      ],
+      "note": "V31.0 unified outer authority: no V30.8/V30.9/V31.0 wrapper stacking. One final transformation plus one audit record."
+    },
+    {
+      "ts": "2026-08-27T05:56:22.998Z",
+      "patch": "31.0-unified-decision-authority",
+      "scanCount": 1504,
+      "cash": 2970.8131567140963,
+      "positions": [
+        {
+          "symbol": "FORTUM.HE",
+          "score": 0.752085060722768,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 20.200180305480956,
+          "lastPrice": 20.24,
+          "openedAt": "2026-08-25T08:02:09.349Z",
+          "direction": null
+        },
+        {
+          "symbol": "MANTA.HE",
+          "score": 0.38214499486630693,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 6.366360133647918,
+          "lastPrice": 6.39,
+          "openedAt": "2026-08-25T10:26:09.786Z",
+          "direction": null
+        },
+        {
+          "symbol": "FCT.MI",
+          "score": 10.760076662730818,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 12.802789961814879,
+          "lastPrice": 12.91,
+          "openedAt": "2026-08-26T10:38:18.611Z",
+          "direction": null
+        },
+        {
+          "symbol": "012450.KS",
+          "score": 56.5,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 1152150.9999999998,
+          "lastPrice": 1151000,
+          "openedAt": "2026-08-27T05:52:22.218Z",
+          "direction": null
+        }
+      ],
+      "topCandidates": [
+        {
+          "symbol": "079550.KS",
+          "score": 64.5,
+          "rawScore": 0,
+          "m5": 0.40322580645162365,
+          "m20": 0.809716599190291,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "012450.KS",
+          "score": 56.5,
+          "rawScore": 0,
+          "m5": 0.17406440382941035,
+          "m20": 0.6999125109361293,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "272210.KS",
+          "score": 41.00000000000001,
+          "rawScore": 0,
+          "m5": 0.12820512820512775,
+          "m20": 0.9043927648578753,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "ASB.AX",
+          "score": 0,
+          "rawScore": 0,
+          "m5": 0.24095787505740152,
+          "m20": 0.12032821543443983,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "DATAPATTNS.NS",
+          "score": 0,
+          "rawScore": 0,
+          "m5": -0.05324927159260362,
+          "m20": -0.17869091841294926,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "000660.KS",
+          "score": 0,
+          "rawScore": 0,
+          "m5": -0.11614401858304202,
+          "m20": -0.23201856148491462,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        }
+      ],
+      "originalActions": [
+        {
+          "symbol": "FORTUM.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "MANTA.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "FCT.MI",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "012450.KS",
+          "action": "BUY",
+          "allocationPct": 12,
+          "reason": "CALIBRATED V28.7 BUY: bester bestätigter Kaufscore 87.5/100 · Datenabdeckung 100% · Reclaim bestätigt. Fehlende optionale Daten ziehen nicht künstlich auf 0, sondern reduzieren nur die Sicherheit des Extremwerts."
+        },
+        {
+          "symbol": "272210.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V30.0 DAYTRADE-HOLD: 272210.KS nicht unter den 0 besten freien Daytrade-Slots · Score 75.8 · Dip NEUTRAL. Maximal 4 konzentrierte Positionen."
+        },
+        {
+          "symbol": "079550.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V29.6 HOLD: DecisionScore 45.4/100 < 56."
+        }
+      ],
+      "finalActions": [
+        {
+          "symbol": "FORTUM.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "MANTA.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "FCT.MI",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "012450.KS",
+          "action": "BUY",
+          "allocationPct": 74.05,
+          "reason": "CALIBRATED V28.7 BUY: bester bestätigter Kaufscore 87.5/100 · Datenabdeckung 100% · Reclaim bestätigt. Fehlende optionale Daten ziehen nicht künstlich auf 0, sondern reduzieren nur die Sicherheit des Extremwerts. · V31.0 SIZE: Position auf mindestens ca. 2200 EUR angehoben, damit Fixkosten/Slippage nicht einen zu grossen Anteil der Zielbewegung fressen."
+        },
+        {
+          "symbol": "272210.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V30.0 DAYTRADE-HOLD: 272210.KS nicht unter den 0 besten freien Daytrade-Slots · Score 75.8 · Dip NEUTRAL. Maximal 4 konzentrierte Positionen."
+        },
+        {
+          "symbol": "079550.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V29.6 HOLD: DecisionScore 45.4/100 < 56."
+        }
+      ],
+      "changes": [
+        {
+          "symbol": "012450.KS",
+          "before": {
+            "symbol": "012450.KS",
+            "action": "BUY",
+            "allocationPct": 12,
+            "reason": "CALIBRATED V28.7 BUY: bester bestätigter Kaufscore 87.5/100 · Datenabdeckung 100% · Reclaim bestätigt. Fehlende optionale Daten ziehen nicht künstlich auf 0, sondern reduzieren nur die Sicherheit des Extremwerts."
+          },
+          "after": {
+            "symbol": "012450.KS",
+            "action": "BUY",
+            "allocationPct": 74.05,
+            "reason": "CALIBRATED V28.7 BUY: bester bestätigter Kaufscore 87.5/100 · Datenabdeckung 100% · Reclaim bestätigt. Fehlende optionale Daten ziehen nicht künstlich auf 0, sondern reduzieren nur die Sicherheit des Extremwerts. · V31.0 SIZE: Position auf mindestens ca. 2200 EUR angehoben, damit Fixkosten/Slippage nicht einen zu grossen Anteil der Zielbewegung fressen."
+          }
+        }
+      ],
+      "counters": {
+        "capital": {
+          "brokerRows": 258,
+          "exactCandidates": 0,
+          "strong70Plus": 0,
+          "injected": 0,
+          "upgraded": 0,
+          "winnerTopups": 0,
+          "blockedMomentum": 0,
+          "blockedHard": 0,
+          "chosen": null,
+          "topup": null
+        },
+        "expectancy": {
+          "hardStops": 0,
+          "trailingSells": 0,
+          "minHoldBlocks": 0,
+          "reentryBlocks": 0,
+          "sizingUpgrades": 1,
+          "scoreScaleFixes": 1,
+          "equity": 10053.68
+        }
+      },
+      "ruleOrder": [
+        "hard safety from legacy core",
+        "high-score capital deployment",
+        "price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority"
+      ],
+      "note": "V31.0 unified outer authority: no V30.8/V30.9/V31.0 wrapper stacking. One final transformation plus one audit record."
+    },
+    {
+      "ts": "2026-08-27T05:55:31.106Z",
+      "patch": "31.0-unified-decision-authority",
+      "scanCount": 1504,
+      "cash": 2970.8131567140963,
+      "positions": [
+        {
+          "symbol": "FORTUM.HE",
+          "score": 0.752085060722768,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 20.200180305480956,
+          "lastPrice": 20.24,
+          "openedAt": "2026-08-25T08:02:09.349Z",
+          "direction": null
+        },
+        {
+          "symbol": "MANTA.HE",
+          "score": 0.38214499486630693,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 6.366360133647918,
+          "lastPrice": 6.39,
+          "openedAt": "2026-08-25T10:26:09.786Z",
+          "direction": null
+        },
+        {
+          "symbol": "FCT.MI",
+          "score": 10.760076662730818,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 12.802789961814879,
+          "lastPrice": 12.91,
+          "openedAt": "2026-08-26T10:38:18.611Z",
+          "direction": null
+        },
+        {
+          "symbol": "012450.KS",
+          "score": 56.5,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 1152150.9999999998,
+          "lastPrice": 1151000,
+          "openedAt": "2026-08-27T05:52:22.218Z",
+          "direction": null
+        }
+      ],
+      "topCandidates": [
+        {
+          "symbol": "079550.KS",
+          "score": 64.5,
+          "rawScore": 0,
+          "m5": 0.40322580645162365,
+          "m20": 0.809716599190291,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "012450.KS",
+          "score": 56.5,
+          "rawScore": 0,
+          "m5": 0.17406440382941035,
+          "m20": 0.6999125109361293,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "272210.KS",
+          "score": 41.00000000000001,
+          "rawScore": 0,
+          "m5": 0.12820512820512775,
+          "m20": 0.9043927648578753,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "ASB.AX",
+          "score": 0,
+          "rawScore": 0,
+          "m5": 0.24095787505740152,
+          "m20": 0.12032821543443983,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "DATAPATTNS.NS",
+          "score": 0,
+          "rawScore": 0,
+          "m5": -0.05324927159260362,
+          "m20": -0.17869091841294926,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "000660.KS",
+          "score": 0,
+          "rawScore": 0,
+          "m5": -0.11614401858304202,
+          "m20": -0.23201856148491462,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        }
+      ],
+      "originalActions": [
+        {
+          "symbol": "FORTUM.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "MANTA.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "FCT.MI",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "012450.KS",
+          "action": "BUY",
+          "allocationPct": 12,
+          "reason": "SCORE-HYSTERESIS V28.9 BUY: 012450.KS 87.5/100 · Sofort kaufbereit · Trend +39.7 Punkte · 100% Datenabdeckung. Hoher Score ist über mehrere Scans bestätigt."
+        },
+        {
+          "symbol": "272210.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V30.0 DAYTRADE-HOLD: 272210.KS nicht unter den 0 besten freien Daytrade-Slots · Score 78.3 · Dip NEUTRAL. Maximal 4 konzentrierte Positionen."
+        }
+      ],
+      "finalActions": [
+        {
+          "symbol": "FORTUM.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "MANTA.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "FCT.MI",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "012450.KS",
+          "action": "BUY",
+          "allocationPct": 74.05,
+          "reason": "SCORE-HYSTERESIS V28.9 BUY: 012450.KS 87.5/100 · Sofort kaufbereit · Trend +39.7 Punkte · 100% Datenabdeckung. Hoher Score ist über mehrere Scans bestätigt. · V31.0 SIZE: Position auf mindestens ca. 2200 EUR angehoben, damit Fixkosten/Slippage nicht einen zu grossen Anteil der Zielbewegung fressen."
+        },
+        {
+          "symbol": "272210.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V30.0 DAYTRADE-HOLD: 272210.KS nicht unter den 0 besten freien Daytrade-Slots · Score 78.3 · Dip NEUTRAL. Maximal 4 konzentrierte Positionen."
+        }
+      ],
+      "changes": [
+        {
+          "symbol": "012450.KS",
+          "before": {
+            "symbol": "012450.KS",
+            "action": "BUY",
+            "allocationPct": 12,
+            "reason": "SCORE-HYSTERESIS V28.9 BUY: 012450.KS 87.5/100 · Sofort kaufbereit · Trend +39.7 Punkte · 100% Datenabdeckung. Hoher Score ist über mehrere Scans bestätigt."
+          },
+          "after": {
+            "symbol": "012450.KS",
+            "action": "BUY",
+            "allocationPct": 74.05,
+            "reason": "SCORE-HYSTERESIS V28.9 BUY: 012450.KS 87.5/100 · Sofort kaufbereit · Trend +39.7 Punkte · 100% Datenabdeckung. Hoher Score ist über mehrere Scans bestätigt. · V31.0 SIZE: Position auf mindestens ca. 2200 EUR angehoben, damit Fixkosten/Slippage nicht einen zu grossen Anteil der Zielbewegung fressen."
+          }
+        }
+      ],
+      "counters": {
+        "capital": {
+          "brokerRows": 258,
+          "exactCandidates": 0,
+          "strong70Plus": 0,
+          "injected": 0,
+          "upgraded": 0,
+          "winnerTopups": 0,
+          "blockedMomentum": 0,
+          "blockedHard": 0,
+          "chosen": null,
+          "topup": null
+        },
+        "expectancy": {
+          "hardStops": 0,
+          "trailingSells": 0,
+          "minHoldBlocks": 0,
+          "reentryBlocks": 0,
+          "sizingUpgrades": 1,
+          "scoreScaleFixes": 1,
+          "equity": 10053.68
+        }
+      },
+      "ruleOrder": [
+        "hard safety from legacy core",
+        "high-score capital deployment",
+        "price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority"
+      ],
+      "note": "V31.0 unified outer authority: no V30.8/V30.9/V31.0 wrapper stacking. One final transformation plus one audit record."
+    },
+    {
+      "ts": "2026-08-27T05:55:14.564Z",
+      "patch": "31.0-unified-decision-authority",
+      "scanCount": 1503,
+      "cash": 2970.8131567140963,
+      "positions": [
+        {
+          "symbol": "FORTUM.HE",
+          "score": 0.752085060722768,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 20.200180305480956,
+          "lastPrice": 20.24,
+          "openedAt": "2026-08-25T08:02:09.349Z",
+          "direction": null
+        },
+        {
+          "symbol": "MANTA.HE",
+          "score": 0.38214499486630693,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 6.366360133647918,
+          "lastPrice": 6.39,
+          "openedAt": "2026-08-25T10:26:09.786Z",
+          "direction": null
+        },
+        {
+          "symbol": "FCT.MI",
+          "score": 10.760076662730818,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 12.802789961814879,
+          "lastPrice": 12.91,
+          "openedAt": "2026-08-26T10:38:18.611Z",
+          "direction": null
+        },
+        {
+          "symbol": "012450.KS",
+          "score": 12.000000000000002,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 1152150.9999999998,
+          "lastPrice": 1151000,
+          "openedAt": "2026-08-27T05:52:22.218Z",
+          "direction": null
+        }
+      ],
+      "topCandidates": [
+        {
+          "symbol": "272210.KS",
+          "score": 64.5,
+          "rawScore": 0,
+          "m5": 0.2574002574002643,
+          "m20": 0.5161290322580614,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "047810.KS",
+          "score": 29,
+          "rawScore": 0,
+          "m5": 0.14662756598240456,
+          "m20": 0.22010271460015662,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "012450.KS",
+          "score": 12.000000000000002,
+          "rawScore": 0,
+          "m5": -0.25996533795493715,
+          "m20": 0.6118881118881037,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "079550.KS",
+          "score": 0,
+          "rawScore": 0,
+          "m5": -0.2680965147453085,
+          "m20": 0.4048582995951344,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "DATAPATTNS.NS",
+          "score": 0,
+          "rawScore": 0,
+          "m5": 0.05327082889410306,
+          "m20": -0.06810809754775882,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "ZENTEC.NS",
+          "score": 0,
+          "rawScore": 0,
+          "m5": 0.07077021383370408,
+          "m20": -0.36314098492546965,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        }
+      ],
+      "originalActions": [
+        {
+          "symbol": "FORTUM.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "MANTA.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "FCT.MI",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "012450.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "272210.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V30.0 DAYTRADE-HOLD: 272210.KS nicht unter den 0 besten freien Daytrade-Slots · Score 82.7 · Dip SHALLOW_RESET. Maximal 4 konzentrierte Positionen."
+        }
+      ],
+      "finalActions": [
+        {
+          "symbol": "FORTUM.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "MANTA.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "FCT.MI",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "012450.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "272210.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V30.0 DAYTRADE-HOLD: 272210.KS nicht unter den 0 besten freien Daytrade-Slots · Score 82.7 · Dip SHALLOW_RESET. Maximal 4 konzentrierte Positionen."
+        }
+      ],
+      "changes": [],
+      "counters": {
+        "capital": {
+          "brokerRows": 258,
+          "exactCandidates": 0,
+          "strong70Plus": 0,
+          "injected": 0,
+          "upgraded": 0,
+          "winnerTopups": 0,
+          "blockedMomentum": 0,
+          "blockedHard": 0,
+          "chosen": null,
+          "topup": null
+        },
+        "expectancy": {
+          "hardStops": 0,
+          "trailingSells": 0,
+          "minHoldBlocks": 0,
+          "reentryBlocks": 0,
+          "sizingUpgrades": 0,
+          "scoreScaleFixes": 0,
+          "equity": 10053.68
+        }
+      },
+      "ruleOrder": [
+        "hard safety from legacy core",
+        "high-score capital deployment",
+        "price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority"
+      ],
+      "note": "V31.0 unified outer authority: no V30.8/V30.9/V31.0 wrapper stacking. One final transformation plus one audit record."
+    },
+    {
+      "ts": "2026-08-27T05:54:15.020Z",
+      "patch": "31.0-unified-decision-authority",
+      "scanCount": 1503,
+      "cash": 2970.8131567140963,
+      "positions": [
+        {
+          "symbol": "FORTUM.HE",
+          "score": 0.752085060722768,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 20.200180305480956,
+          "lastPrice": 20.24,
+          "openedAt": "2026-08-25T08:02:09.349Z",
+          "direction": null
+        },
+        {
+          "symbol": "MANTA.HE",
+          "score": 0.38214499486630693,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 6.366360133647918,
+          "lastPrice": 6.39,
+          "openedAt": "2026-08-25T10:26:09.786Z",
+          "direction": null
+        },
+        {
+          "symbol": "FCT.MI",
+          "score": 10.760076662730818,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 12.802789961814879,
+          "lastPrice": 12.91,
+          "openedAt": "2026-08-26T10:38:18.611Z",
+          "direction": null
+        },
+        {
+          "symbol": "012450.KS",
+          "score": 12.000000000000002,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 1152150.9999999998,
+          "lastPrice": 1151000,
+          "openedAt": "2026-08-27T05:52:22.218Z",
+          "direction": null
+        }
+      ],
+      "topCandidates": [
+        {
+          "symbol": "272210.KS",
+          "score": 64.5,
+          "rawScore": 0,
+          "m5": 0.2574002574002643,
+          "m20": 0.5161290322580614,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "047810.KS",
+          "score": 29,
+          "rawScore": 0,
+          "m5": 0.14662756598240456,
+          "m20": 0.22010271460015662,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "012450.KS",
+          "score": 12.000000000000002,
+          "rawScore": 0,
+          "m5": -0.25996533795493715,
+          "m20": 0.6118881118881037,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "079550.KS",
+          "score": 0,
+          "rawScore": 0,
+          "m5": -0.2680965147453085,
+          "m20": 0.4048582995951344,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "DATAPATTNS.NS",
+          "score": 0,
+          "rawScore": 0,
+          "m5": 0.05327082889410306,
+          "m20": -0.06810809754775882,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        },
+        {
+          "symbol": "ZENTEC.NS",
+          "score": 0,
+          "rawScore": 0,
+          "m5": 0.07077021383370408,
+          "m20": -0.36314098492546965,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        }
+      ],
+      "originalActions": [
+        {
+          "symbol": "FORTUM.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "MANTA.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "FCT.MI",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "012450.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "272210.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V30.0 DAYTRADE-HOLD: 272210.KS nicht unter den 0 besten freien Daytrade-Slots · Score 79.0 · Dip SHALLOW_RESET. Maximal 4 konzentrierte Positionen."
+        }
+      ],
+      "finalActions": [
+        {
+          "symbol": "FORTUM.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "MANTA.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "FCT.MI",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "012450.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "272210.KS",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "V30.0 DAYTRADE-HOLD: 272210.KS nicht unter den 0 besten freien Daytrade-Slots · Score 79.0 · Dip SHALLOW_RESET. Maximal 4 konzentrierte Positionen."
+        }
+      ],
+      "changes": [],
+      "counters": {
+        "capital": {
+          "brokerRows": 258,
+          "exactCandidates": 0,
+          "strong70Plus": 0,
+          "injected": 0,
+          "upgraded": 0,
+          "winnerTopups": 0,
+          "blockedMomentum": 0,
+          "blockedHard": 0,
+          "chosen": null,
+          "topup": null
+        },
+        "expectancy": {
+          "hardStops": 0,
+          "trailingSells": 0,
+          "minHoldBlocks": 0,
+          "reentryBlocks": 0,
+          "sizingUpgrades": 0,
+          "scoreScaleFixes": 0,
+          "equity": 10053.68
+        }
+      },
+      "ruleOrder": [
+        "hard safety from legacy core",
+        "high-score capital deployment",
+        "price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority"
+      ],
+      "note": "V31.0 unified outer authority: no V30.8/V30.9/V31.0 wrapper stacking. One final transformation plus one audit record."
+    },
     {
       "ts": "2026-08-27T05:52:22.218Z",
       "patch": "31.0-unified-decision-authority",
@@ -2995,1260 +4286,6 @@
           "sizingUpgrades": 0,
           "scoreScaleFixes": 0,
           "equity": 10063.33
-        }
-      },
-      "ruleOrder": [
-        "hard safety from legacy core",
-        "high-score capital deployment",
-        "price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority"
-      ],
-      "note": "V31.0 unified outer authority: no V30.8/V30.9/V31.0 wrapper stacking. One final transformation plus one audit record."
-    },
-    {
-      "ts": "2026-08-27T05:36:33.021Z",
-      "patch": "31.0-unified-decision-authority",
-      "scanCount": 1489,
-      "cash": 2850.9494199572937,
-      "positions": [
-        {
-          "symbol": "FORTUM.HE",
-          "score": 0.752085060722768,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 20.200180305480956,
-          "lastPrice": 20.24,
-          "openedAt": "2026-08-25T08:02:09.349Z",
-          "direction": null
-        },
-        {
-          "symbol": "MANTA.HE",
-          "score": 0.38214499486630693,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 6.366360133647918,
-          "lastPrice": 6.39,
-          "openedAt": "2026-08-25T10:26:09.786Z",
-          "direction": null
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "score": 35,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 1552.6510755615232,
-          "lastPrice": 1557.9000244140625,
-          "openedAt": "2026-08-26T08:35:30.287Z",
-          "direction": null
-        },
-        {
-          "symbol": "FCT.MI",
-          "score": 10.760076662730818,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 12.802789961814879,
-          "lastPrice": 12.91,
-          "openedAt": "2026-08-26T10:38:18.611Z",
-          "direction": null
-        }
-      ],
-      "topCandidates": [
-        {
-          "symbol": "272210.KS",
-          "score": 41.00000000000001,
-          "rawScore": 0,
-          "m5": 0,
-          "m20": 1.17647058823529,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "score": 35,
-          "rawScore": 0,
-          "m5": 0.1736158260648768,
-          "m20": 0.08351849213126261,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "ASB.AX",
-          "score": 34.5,
-          "rawScore": 0,
-          "m5": 0.24066790709353914,
-          "m20": -0.11990681893132571,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "012450.KS",
-          "score": 29,
-          "rawScore": 0,
-          "m5": 0.17528483786153348,
-          "m20": 0.08756567425569628,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "047810.KS",
-          "score": 0,
-          "rawScore": 0,
-          "m5": 0.07342143906019505,
-          "m20": 0.14695077149156077,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "DATAPATTNS.NS",
-          "score": 0,
-          "rawScore": 0,
-          "m5": 0.02128973151964697,
-          "m20": -0.27382513996497826,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "079550.KS",
-          "score": 0,
-          "rawScore": 0,
-          "m5": 0,
-          "m20": -0.5369127516778538,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        }
-      ],
-      "originalActions": [
-        {
-          "symbol": "FORTUM.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "MANTA.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "FCT.MI",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "012450.KS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V29.6 HOLD: DecisionScore 46.3/100 < 56."
-        }
-      ],
-      "finalActions": [
-        {
-          "symbol": "FORTUM.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "MANTA.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "FCT.MI",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "012450.KS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V29.6 HOLD: DecisionScore 46.3/100 < 56."
-        }
-      ],
-      "changes": [],
-      "counters": {
-        "capital": {
-          "brokerRows": 258,
-          "exactCandidates": 0,
-          "strong70Plus": 0,
-          "injected": 0,
-          "upgraded": 0,
-          "winnerTopups": 0,
-          "blockedMomentum": 0,
-          "blockedHard": 0,
-          "chosen": null,
-          "topup": null
-        },
-        "expectancy": {
-          "hardStops": 0,
-          "trailingSells": 0,
-          "minHoldBlocks": 0,
-          "reentryBlocks": 0,
-          "sizingUpgrades": 0,
-          "scoreScaleFixes": 0,
-          "equity": 10063.33
-        }
-      },
-      "ruleOrder": [
-        "hard safety from legacy core",
-        "high-score capital deployment",
-        "price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority"
-      ],
-      "note": "V31.0 unified outer authority: no V30.8/V30.9/V31.0 wrapper stacking. One final transformation plus one audit record."
-    },
-    {
-      "ts": "2026-08-27T05:36:27.284Z",
-      "patch": "31.0-unified-decision-authority",
-      "scanCount": 1488,
-      "cash": 2850.9494199572937,
-      "positions": [
-        {
-          "symbol": "FORTUM.HE",
-          "score": 0.752085060722768,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 20.200180305480956,
-          "lastPrice": 20.24,
-          "openedAt": "2026-08-25T08:02:09.349Z",
-          "direction": null
-        },
-        {
-          "symbol": "MANTA.HE",
-          "score": 0.38214499486630693,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 6.366360133647918,
-          "lastPrice": 6.39,
-          "openedAt": "2026-08-25T10:26:09.786Z",
-          "direction": null
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "score": 0,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 1552.6510755615232,
-          "lastPrice": 1556.5999755859375,
-          "openedAt": "2026-08-26T08:35:30.287Z",
-          "direction": null
-        },
-        {
-          "symbol": "FCT.MI",
-          "score": 10.760076662730818,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 12.802789961814879,
-          "lastPrice": 12.91,
-          "openedAt": "2026-08-26T10:38:18.611Z",
-          "direction": null
-        }
-      ],
-      "topCandidates": [
-        {
-          "symbol": "012450.KS",
-          "score": 39,
-          "rawScore": 0,
-          "m5": 0.08748906386701893,
-          "m20": 0.35087719298245723,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "SMR.AX",
-          "score": 39,
-          "rawScore": 0,
-          "m5": 0,
-          "m20": 0.19084407096647826,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "272210.KS",
-          "score": 12.000000000000002,
-          "rawScore": 0,
-          "m5": -0.2577319587628857,
-          "m20": 1.308900523560208,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "079550.KS",
-          "score": 2.000000000000001,
-          "rawScore": 0,
-          "m5": 0,
-          "m20": 0,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "BDL.NS",
-          "score": 0,
-          "rawScore": 0,
-          "m5": -0.007402030069936227,
-          "m20": 0.051790689742881035,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "score": 0,
-          "rawScore": 0,
-          "m5": -0.006422277193640635,
-          "m20": 0.10289232063906972,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "6146.T",
-          "score": 0,
-          "rawScore": 0,
-          "m5": -0.2336058735191049,
-          "m20": -0.6480558325024921,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        }
-      ],
-      "originalActions": [
-        {
-          "symbol": "FORTUM.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "MANTA.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V29.5 HOLD: COCHINSHIP.NS SELL nicht durch strukturierte +10/-15 Score-Regel autorisiert. Ältere weiche Profit-/Trend-/Rotation-/Positionsregel wurde überschrieben."
-        },
-        {
-          "symbol": "FCT.MI",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "SMR.AX",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V30.0 DAYTRADE-HOLD: SMR.AX nicht unter den 0 besten freien Daytrade-Slots · Score 66.0 · Dip WEAK_DIP. Maximal 4 konzentrierte Positionen."
-        },
-        {
-          "symbol": "012450.KS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V29.6 HOLD: DecisionScore 44.8/100 < 56."
-        }
-      ],
-      "finalActions": [
-        {
-          "symbol": "FORTUM.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "MANTA.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V29.5 HOLD: COCHINSHIP.NS SELL nicht durch strukturierte +10/-15 Score-Regel autorisiert. Ältere weiche Profit-/Trend-/Rotation-/Positionsregel wurde überschrieben."
-        },
-        {
-          "symbol": "FCT.MI",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "SMR.AX",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V30.0 DAYTRADE-HOLD: SMR.AX nicht unter den 0 besten freien Daytrade-Slots · Score 66.0 · Dip WEAK_DIP. Maximal 4 konzentrierte Positionen."
-        },
-        {
-          "symbol": "012450.KS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V29.6 HOLD: DecisionScore 44.8/100 < 56."
-        }
-      ],
-      "changes": [],
-      "counters": {
-        "capital": {
-          "brokerRows": 258,
-          "exactCandidates": 0,
-          "strong70Plus": 0,
-          "injected": 0,
-          "upgraded": 0,
-          "winnerTopups": 0,
-          "blockedMomentum": 0,
-          "blockedHard": 0,
-          "chosen": null,
-          "topup": null
-        },
-        "expectancy": {
-          "hardStops": 0,
-          "trailingSells": 0,
-          "minHoldBlocks": 0,
-          "reentryBlocks": 0,
-          "sizingUpgrades": 0,
-          "scoreScaleFixes": 0,
-          "equity": 10061.5
-        }
-      },
-      "ruleOrder": [
-        "hard safety from legacy core",
-        "high-score capital deployment",
-        "price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority"
-      ],
-      "note": "V31.0 unified outer authority: no V30.8/V30.9/V31.0 wrapper stacking. One final transformation plus one audit record."
-    },
-    {
-      "ts": "2026-08-27T05:35:20.477Z",
-      "patch": "31.0-unified-decision-authority",
-      "scanCount": 1488,
-      "cash": 2850.9494199572937,
-      "positions": [
-        {
-          "symbol": "FORTUM.HE",
-          "score": 0.752085060722768,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 20.200180305480956,
-          "lastPrice": 20.24,
-          "openedAt": "2026-08-25T08:02:09.349Z",
-          "direction": null
-        },
-        {
-          "symbol": "MANTA.HE",
-          "score": 0.38214499486630693,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 6.366360133647918,
-          "lastPrice": 6.39,
-          "openedAt": "2026-08-25T10:26:09.786Z",
-          "direction": null
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "score": 0,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 1552.6510755615232,
-          "lastPrice": 1556.5999755859375,
-          "openedAt": "2026-08-26T08:35:30.287Z",
-          "direction": null
-        },
-        {
-          "symbol": "FCT.MI",
-          "score": 10.760076662730818,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 12.802789961814879,
-          "lastPrice": 12.91,
-          "openedAt": "2026-08-26T10:38:18.611Z",
-          "direction": null
-        }
-      ],
-      "topCandidates": [
-        {
-          "symbol": "012450.KS",
-          "score": 39,
-          "rawScore": 0,
-          "m5": 0.08748906386701893,
-          "m20": 0.35087719298245723,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "SMR.AX",
-          "score": 39,
-          "rawScore": 0,
-          "m5": 0,
-          "m20": 0.19084407096647826,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "272210.KS",
-          "score": 12.000000000000002,
-          "rawScore": 0,
-          "m5": -0.2577319587628857,
-          "m20": 1.308900523560208,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "079550.KS",
-          "score": 2.000000000000001,
-          "rawScore": 0,
-          "m5": 0,
-          "m20": 0,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "BDL.NS",
-          "score": 0,
-          "rawScore": 0,
-          "m5": -0.007402030069936227,
-          "m20": 0.051790689742881035,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "score": 0,
-          "rawScore": 0,
-          "m5": -0.006422277193640635,
-          "m20": 0.10289232063906972,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "6146.T",
-          "score": 0,
-          "rawScore": 0,
-          "m5": -0.2336058735191049,
-          "m20": -0.6480558325024921,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        }
-      ],
-      "originalActions": [
-        {
-          "symbol": "FORTUM.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "MANTA.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V29.5 HOLD: COCHINSHIP.NS SELL nicht durch strukturierte +10/-15 Score-Regel autorisiert. Ältere weiche Profit-/Trend-/Rotation-/Positionsregel wurde überschrieben."
-        },
-        {
-          "symbol": "FCT.MI",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "SMR.AX",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V30.0 DAYTRADE-HOLD: SMR.AX nicht unter den 0 besten freien Daytrade-Slots · Score 69.2 · Dip WEAK_DIP. Maximal 4 konzentrierte Positionen."
-        }
-      ],
-      "finalActions": [
-        {
-          "symbol": "FORTUM.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "MANTA.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V29.5 HOLD: COCHINSHIP.NS SELL nicht durch strukturierte +10/-15 Score-Regel autorisiert. Ältere weiche Profit-/Trend-/Rotation-/Positionsregel wurde überschrieben."
-        },
-        {
-          "symbol": "FCT.MI",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "SMR.AX",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V30.0 DAYTRADE-HOLD: SMR.AX nicht unter den 0 besten freien Daytrade-Slots · Score 69.2 · Dip WEAK_DIP. Maximal 4 konzentrierte Positionen."
-        }
-      ],
-      "changes": [],
-      "counters": {
-        "capital": {
-          "brokerRows": 258,
-          "exactCandidates": 0,
-          "strong70Plus": 0,
-          "injected": 0,
-          "upgraded": 0,
-          "winnerTopups": 0,
-          "blockedMomentum": 0,
-          "blockedHard": 0,
-          "chosen": null,
-          "topup": null
-        },
-        "expectancy": {
-          "hardStops": 0,
-          "trailingSells": 0,
-          "minHoldBlocks": 0,
-          "reentryBlocks": 0,
-          "sizingUpgrades": 0,
-          "scoreScaleFixes": 0,
-          "equity": 10061.5
-        }
-      },
-      "ruleOrder": [
-        "hard safety from legacy core",
-        "high-score capital deployment",
-        "price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority"
-      ],
-      "note": "V31.0 unified outer authority: no V30.8/V30.9/V31.0 wrapper stacking. One final transformation plus one audit record."
-    },
-    {
-      "ts": "2026-08-27T05:34:13.744Z",
-      "patch": "31.0-unified-decision-authority",
-      "scanCount": 1487,
-      "cash": 2850.9494199572937,
-      "positions": [
-        {
-          "symbol": "FORTUM.HE",
-          "score": 0.752085060722768,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 20.200180305480956,
-          "lastPrice": 20.24,
-          "openedAt": "2026-08-25T08:02:09.349Z",
-          "direction": null
-        },
-        {
-          "symbol": "MANTA.HE",
-          "score": 0.38214499486630693,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 6.366360133647918,
-          "lastPrice": 6.39,
-          "openedAt": "2026-08-25T10:26:09.786Z",
-          "direction": null
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "score": 0,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 1552.6510755615232,
-          "lastPrice": 1556,
-          "openedAt": "2026-08-26T08:35:30.287Z",
-          "direction": null
-        },
-        {
-          "symbol": "FCT.MI",
-          "score": 10.760076662730818,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 12.802789961814879,
-          "lastPrice": 12.91,
-          "openedAt": "2026-08-26T10:38:18.611Z",
-          "direction": null
-        }
-      ],
-      "topCandidates": [
-        {
-          "symbol": "SMR.AX",
-          "score": 47,
-          "rawScore": 0,
-          "m5": 0.19084407096647826,
-          "m20": 0.19084407096647826,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "272210.KS",
-          "score": 41.00000000000001,
-          "rawScore": 0,
-          "m5": -0.12886597938144284,
-          "m20": 1.7060367454068137,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "BDL.NS",
-          "score": 8,
-          "rawScore": 0,
-          "m5": 0.17012195474297442,
-          "m20": 0.0665009899384339,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "score": 0,
-          "rawScore": 0,
-          "m5": -0.019279625953294577,
-          "m20": 0.051443470501788546,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "012450.KS",
-          "score": 0,
-          "rawScore": 0,
-          "m5": -0.17497812773403787,
-          "m20": 0.0877192982456032,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "6146.T",
-          "score": 0,
-          "rawScore": 0,
-          "m5": -0.20023360587352323,
-          "m20": -0.6313341086559232,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "079550.KS",
-          "score": 0,
-          "rawScore": 0,
-          "m5": -0.2691790040376896,
-          "m20": -0.13477088948786742,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        }
-      ],
-      "originalActions": [
-        {
-          "symbol": "FORTUM.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "MANTA.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V29.5 HOLD: COCHINSHIP.NS SELL nicht durch strukturierte +10/-15 Score-Regel autorisiert. Ältere weiche Profit-/Trend-/Rotation-/Positionsregel wurde überschrieben."
-        },
-        {
-          "symbol": "FCT.MI",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "SMR.AX",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V30.0 DAYTRADE-HOLD: SMR.AX nicht unter den 0 besten freien Daytrade-Slots · Score 78.7 · Dip NEUTRAL. Maximal 4 konzentrierte Positionen."
-        }
-      ],
-      "finalActions": [
-        {
-          "symbol": "FORTUM.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "MANTA.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V29.5 HOLD: COCHINSHIP.NS SELL nicht durch strukturierte +10/-15 Score-Regel autorisiert. Ältere weiche Profit-/Trend-/Rotation-/Positionsregel wurde überschrieben."
-        },
-        {
-          "symbol": "FCT.MI",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "SMR.AX",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V30.0 DAYTRADE-HOLD: SMR.AX nicht unter den 0 besten freien Daytrade-Slots · Score 78.7 · Dip NEUTRAL. Maximal 4 konzentrierte Positionen."
-        }
-      ],
-      "changes": [],
-      "counters": {
-        "capital": {
-          "brokerRows": 258,
-          "exactCandidates": 0,
-          "strong70Plus": 0,
-          "injected": 0,
-          "upgraded": 0,
-          "winnerTopups": 0,
-          "blockedMomentum": 0,
-          "blockedHard": 0,
-          "chosen": null,
-          "topup": null
-        },
-        "expectancy": {
-          "hardStops": 0,
-          "trailingSells": 0,
-          "minHoldBlocks": 0,
-          "reentryBlocks": 0,
-          "sizingUpgrades": 0,
-          "scoreScaleFixes": 0,
-          "equity": 10060.65
-        }
-      },
-      "ruleOrder": [
-        "hard safety from legacy core",
-        "high-score capital deployment",
-        "price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority"
-      ],
-      "note": "V31.0 unified outer authority: no V30.8/V30.9/V31.0 wrapper stacking. One final transformation plus one audit record."
-    },
-    {
-      "ts": "2026-08-27T05:32:47.826Z",
-      "patch": "31.0-unified-decision-authority",
-      "scanCount": 1486,
-      "cash": 2850.9494199572937,
-      "positions": [
-        {
-          "symbol": "FORTUM.HE",
-          "score": 0.752085060722768,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 20.200180305480956,
-          "lastPrice": 20.24,
-          "openedAt": "2026-08-25T08:02:09.349Z",
-          "direction": null
-        },
-        {
-          "symbol": "MANTA.HE",
-          "score": 0.38214499486630693,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 6.366360133647918,
-          "lastPrice": 6.39,
-          "openedAt": "2026-08-25T10:26:09.786Z",
-          "direction": null
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "score": 0,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 1552.6510755615232,
-          "lastPrice": 1556.300048828125,
-          "openedAt": "2026-08-26T08:35:30.287Z",
-          "direction": null
-        },
-        {
-          "symbol": "FCT.MI",
-          "score": 10.760076662730818,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 12.802789961814879,
-          "lastPrice": 12.91,
-          "openedAt": "2026-08-26T10:38:18.611Z",
-          "direction": null
-        }
-      ],
-      "topCandidates": [
-        {
-          "symbol": "SMR.AX",
-          "score": 47.27720000000001,
-          "rawScore": 0,
-          "m5": 0.38240881173183805,
-          "m20": 0.19084407096647826,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "score": 30,
-          "rawScore": 0,
-          "m5": 0.1628841307670159,
-          "m20": 0.16832805225832637,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "9988.HK",
-          "score": 25,
-          "rawScore": 0,
-          "m5": 0.17138353287655672,
-          "m20": 0.2572925005864368,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "272210.KS",
-          "score": 12.000000000000002,
-          "rawScore": 0,
-          "m5": -0.2577319587628857,
-          "m20": 1.5748031496062964,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "9618.HK",
-          "score": 10,
-          "rawScore": 0,
-          "m5": 0,
-          "m20": 0.17841621798317941,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "042660.KS",
-          "score": 9,
-          "rawScore": 0,
-          "m5": -0.11235955056180247,
-          "m20": 0.3386004514672747,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "score": 0,
-          "rawScore": 0,
-          "m5": -0.128344987315121,
-          "m20": 0.03857412580092756,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        }
-      ],
-      "originalActions": [
-        {
-          "symbol": "FORTUM.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "MANTA.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V29.5 HOLD: COCHINSHIP.NS SELL nicht durch strukturierte +10/-15 Score-Regel autorisiert. Ältere weiche Profit-/Trend-/Rotation-/Positionsregel wurde überschrieben."
-        },
-        {
-          "symbol": "FCT.MI",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "SMR.AX",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V30.0 DAYTRADE-HOLD: SMR.AX nicht unter den 0 besten freien Daytrade-Slots · Score 89.4 · Dip DIP_RECLAIM. Maximal 4 konzentrierte Positionen."
-        }
-      ],
-      "finalActions": [
-        {
-          "symbol": "FORTUM.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "MANTA.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V29.5 HOLD: COCHINSHIP.NS SELL nicht durch strukturierte +10/-15 Score-Regel autorisiert. Ältere weiche Profit-/Trend-/Rotation-/Positionsregel wurde überschrieben."
-        },
-        {
-          "symbol": "FCT.MI",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "SMR.AX",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V30.0 DAYTRADE-HOLD: SMR.AX nicht unter den 0 besten freien Daytrade-Slots · Score 89.4 · Dip DIP_RECLAIM. Maximal 4 konzentrierte Positionen."
-        }
-      ],
-      "changes": [],
-      "counters": {
-        "capital": {
-          "brokerRows": 258,
-          "exactCandidates": 0,
-          "strong70Plus": 0,
-          "injected": 0,
-          "upgraded": 0,
-          "winnerTopups": 0,
-          "blockedMomentum": 0,
-          "blockedHard": 0,
-          "chosen": null,
-          "topup": null
-        },
-        "expectancy": {
-          "hardStops": 0,
-          "trailingSells": 0,
-          "minHoldBlocks": 0,
-          "reentryBlocks": 0,
-          "sizingUpgrades": 0,
-          "scoreScaleFixes": 0,
-          "equity": 10061.07
-        }
-      },
-      "ruleOrder": [
-        "hard safety from legacy core",
-        "high-score capital deployment",
-        "price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority"
-      ],
-      "note": "V31.0 unified outer authority: no V30.8/V30.9/V31.0 wrapper stacking. One final transformation plus one audit record."
-    },
-    {
-      "ts": "2026-08-27T05:31:28.991Z",
-      "patch": "31.0-unified-decision-authority",
-      "scanCount": 1486,
-      "cash": 2850.9494199572937,
-      "positions": [
-        {
-          "symbol": "FORTUM.HE",
-          "score": 0.752085060722768,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 20.200180305480956,
-          "lastPrice": 20.24,
-          "openedAt": "2026-08-25T08:02:09.349Z",
-          "direction": null
-        },
-        {
-          "symbol": "MANTA.HE",
-          "score": 0.38214499486630693,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 6.366360133647918,
-          "lastPrice": 6.39,
-          "openedAt": "2026-08-25T10:26:09.786Z",
-          "direction": null
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "score": 0,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 1552.6510755615232,
-          "lastPrice": 1556.300048828125,
-          "openedAt": "2026-08-26T08:35:30.287Z",
-          "direction": null
-        },
-        {
-          "symbol": "FCT.MI",
-          "score": 10.760076662730818,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 12.802789961814879,
-          "lastPrice": 12.91,
-          "openedAt": "2026-08-26T10:38:18.611Z",
-          "direction": null
-        }
-      ],
-      "topCandidates": [
-        {
-          "symbol": "SMR.AX",
-          "score": 47.27720000000001,
-          "rawScore": 0,
-          "m5": 0.38240881173183805,
-          "m20": 0.19084407096647826,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "score": 30,
-          "rawScore": 0,
-          "m5": 0.1628841307670159,
-          "m20": 0.16832805225832637,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "9988.HK",
-          "score": 25,
-          "rawScore": 0,
-          "m5": 0.17138353287655672,
-          "m20": 0.2572925005864368,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "272210.KS",
-          "score": 12.000000000000002,
-          "rawScore": 0,
-          "m5": -0.2577319587628857,
-          "m20": 1.5748031496062964,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "9618.HK",
-          "score": 10,
-          "rawScore": 0,
-          "m5": 0,
-          "m20": 0.17841621798317941,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "042660.KS",
-          "score": 9,
-          "rawScore": 0,
-          "m5": -0.11235955056180247,
-          "m20": 0.3386004514672747,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "score": 0,
-          "rawScore": 0,
-          "m5": -0.128344987315121,
-          "m20": 0.03857412580092756,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        }
-      ],
-      "originalActions": [
-        {
-          "symbol": "FORTUM.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "MANTA.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V29.5 HOLD: COCHINSHIP.NS SELL nicht durch strukturierte +10/-15 Score-Regel autorisiert. Ältere weiche Profit-/Trend-/Rotation-/Positionsregel wurde überschrieben."
-        },
-        {
-          "symbol": "FCT.MI",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "SMR.AX",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V30.0 DAYTRADE-HOLD: SMR.AX nicht unter den 0 besten freien Daytrade-Slots · Score 89.4 · Dip DIP_RECLAIM. Maximal 4 konzentrierte Positionen."
-        }
-      ],
-      "finalActions": [
-        {
-          "symbol": "FORTUM.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "MANTA.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V29.5 HOLD: COCHINSHIP.NS SELL nicht durch strukturierte +10/-15 Score-Regel autorisiert. Ältere weiche Profit-/Trend-/Rotation-/Positionsregel wurde überschrieben."
-        },
-        {
-          "symbol": "FCT.MI",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "SMR.AX",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "V30.0 DAYTRADE-HOLD: SMR.AX nicht unter den 0 besten freien Daytrade-Slots · Score 89.4 · Dip DIP_RECLAIM. Maximal 4 konzentrierte Positionen."
-        }
-      ],
-      "changes": [],
-      "counters": {
-        "capital": {
-          "brokerRows": 258,
-          "exactCandidates": 0,
-          "strong70Plus": 0,
-          "injected": 0,
-          "upgraded": 0,
-          "winnerTopups": 0,
-          "blockedMomentum": 0,
-          "blockedHard": 0,
-          "chosen": null,
-          "topup": null
-        },
-        "expectancy": {
-          "hardStops": 0,
-          "trailingSells": 0,
-          "minHoldBlocks": 0,
-          "reentryBlocks": 0,
-          "sizingUpgrades": 0,
-          "scoreScaleFixes": 0,
-          "equity": 10061.07
         }
       },
       "ruleOrder": [
