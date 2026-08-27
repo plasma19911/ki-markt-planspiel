@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-27T13:26:47.451678+00:00",
-  "berlinNow": "2026-08-27T15:26:47.451497+02:00",
+  "checkedAt": "2026-08-27T13:51:24.404391+00:00",
+  "berlinNow": "2026-08-27T15:51:24.404165+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 3151545,
-    "dashboard": 2139150
+    "full": 3038277,
+    "dashboard": 2045933
   },
   "checks": {
     "fullStatus200": true,
@@ -24,13 +24,13 @@
     "date": "2026-08-27",
     "status": "CAPTURING",
     "processed": 0,
-    "total": 94,
+    "total": 96,
     "provisional": true,
     "completedAt": null,
     "capture": {
       "date": "2026-08-27",
-      "symbolCount": 94,
-      "updatedAt": "2026-08-27T13:25:13.931Z"
+      "symbolCount": 96,
+      "updatedAt": "2026-08-27T13:49:41.960Z"
     },
     "summary": {
       "provisional": true,
@@ -47,9 +47,9 @@
   },
   "depot": {
     "cash": 2988.831658714097,
-    "equity": 10039.06658370432,
-    "displayMarketValue": 7050.234926147461,
-    "displayAccountingDelta": -1.1572374205570668e-06,
+    "equity": 10022.601583554107,
+    "displayMarketValue": 7033.769925994873,
+    "displayAccountingDelta": -1.154861820396036e-06,
     "positions": [
       {
         "symbol": "SOLARINDS.NS",
@@ -60,30 +60,30 @@
         "quantityUsed": true
       },
       {
-        "symbol": "FORTUM.HE",
-        "invested": 1535.213703,
-        "ratioValue": 1532.9200055821107,
-        "quantityValue": 1532.9200057983398,
-        "displayValue": 1532.9200057983398,
+        "symbol": "FCT.MI",
+        "invested": 2189.277083,
+        "ratioValue": 2193.929986482391,
+        "quantityValue": 2193.9299869537354,
+        "displayValue": 2193.9299869537354,
         "quantityUsed": true
       },
       {
-        "symbol": "FCT.MI",
-        "invested": 2189.277083,
-        "ratioValue": 2206.7549538639746,
-        "quantityValue": 2206.7549543380737,
-        "displayValue": 2206.7549543380737,
+        "symbol": "FORTUM.HE",
+        "invested": 1535.213703,
+        "ratioValue": 1525.3199765914835,
+        "quantityValue": 1525.3199768066406,
+        "displayValue": 1525.3199768066406,
         "quantityUsed": true
       },
       {
         "symbol": "MANTA.HE",
         "invested": 1260.539306,
-        "ratioValue": 1273.1399655441382,
-        "quantityValue": 1273.1399660110474,
-        "displayValue": 1273.1399660110474,
+        "ratioValue": 1277.0999617661357,
+        "quantityValue": 1277.099962234497,
+        "displayValue": 1277.099962234497,
         "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: thu, 27 aug 2026 13:26:47 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=l1qdi3ctuwpqziificwhfneajh1xrkaunibote%2f4ohivfjgnthr8rtslgfnxkeunq5ly6gk7n5do9c9h7vzkgxc5sx4uggmjkjfsvfwcaogszymxcybmtem%2bn5rgqxfk3ern4ckvfb%2bqpmbxkf1qxccznudfrafuwhrljwq%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a31b68f0e8edead9-dfw\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: thu, 27 aug 2026 13:51:24 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=b9cedokkq5rue9mfwnu4wuev4mj3jdtgctkif6mr%2by%2f0ybxuwwsf1%2femspkn%2fprxpx4hen3ak3qwab91sabckm9qxiiw7%2fcfnyewz9n8opdxvnh9p8iwce0aczsgdrqflfve%2bfneomwume7d%2f4jpeore2qresqdoofkhaym%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a31b8cffdceae3c6-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
