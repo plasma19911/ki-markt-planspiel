@@ -1,4 +1,4 @@
-name: Deploy / Verify Cloudflare Worker V31.0 Unified
+name: Deploy / Verify Cloudflare Worker V31.1 Predictive
 
 on:
   push:
@@ -35,12 +35,13 @@ jobs:
           cache-dependency-path: package.json
       - name: Install
         run: npm install --no-audit --no-fund --ignore-scripts
-      - name: Critical production guards V31.0.2
+      - name: Critical production guards V31.1
         run: |
           node --check src/index.js
           node --check src/live-news-feed.js
           node --check src/position-chart-history.js
           node --check src/trade-republic-master.js
+          node --check src/predictive-learning-core-v311.js
           node --check src/unified-decision-core-v310.js
           node --check src/compact-portfolio-v310-unified.js
           node --check src/compact-portfolio-v310-agent-recovery.js
@@ -57,6 +58,7 @@ jobs:
           node --check public/position-chart-ui.js
           node --check public/news-learning-ui.js
           node tests/trade-republic-master.test.mjs
+          node tests/v311-predictive-learning.test.mjs
           node tests/v310-unified-decision-core.test.mjs
           node tests/v310-expectancy.test.mjs
           node tests/v309-high-score-capital-deployment.test.mjs
@@ -85,7 +87,7 @@ jobs:
       - name: Wait for Cloudflare Git integration
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify V31.0.2 production data chain
+      - name: Verify V31.1 predictive production chain
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';let last='';
@@ -97,7 +99,7 @@ jobs:
                 fetch(`${base}/api/news-feed?deploy=${q}`,{headers:{'cache-control':'no-cache'}}),
                 fetch(`${base}/news-learning-ui.js?deploy=${q}`,{headers:{'cache-control':'no-cache'}})
               ]);
-              const s=await r.json(),u=s?.unifiedDecisionCorePolicy||{},e=s?.expectancyCorePolicy||{},m=s?.manualTradePolicy||{},a=s?.architecture||{},ex=s?.executionModel||{},bm=m?.brokerMaster||{},ubm=u?.brokerMaster||{},capital=u?.capital||{};
+              const s=await r.json(),u=s?.unifiedDecisionCorePolicy||{},pred=s?.predictiveLearningPolicy||{},e=s?.expectancyCorePolicy||{},m=s?.manualTradePolicy||{},a=s?.architecture||{},ex=s?.executionModel||{},bm=m?.brokerMaster||{},ubm=u?.brokerMaster||{},capital=u?.capital||{};
               let feed={};try{feed=await fr.json()}catch{}
               const feedOk=fr.ok&&feed?.ok===true&&Number(feed?.refreshSeconds)===60&&Array.isArray(feed?.items)&&ui.ok;
               const feedSymbol=feed?.items?.flatMap(x=>Array.isArray(x?.affected)?x.affected:[]).find(x=>x?.symbol)?.symbol||'';
@@ -110,11 +112,13 @@ jobs:
               }
               const brokerOk=Number(bm?.rowCount)>0&&String(bm?.source||'').includes('env.ASSETS')&&Number(ubm?.rowCount)>0;
               const capitalOk=capital?.patch==='30.9.3-held-master-enrichment'&&capital?.heldMasterEnrichment===true&&Number(capital?.maxAutoAllocationPct)===100;
-              const ok=r.ok&&s?.runtimeVersion==='V31.0'&&s?.liveDecisionVersion==='V31.0'&&u.enabled===true&&u.patch==='31.0-unified-decision-authority'&&a.outerDecisionLayers===1&&a.persistentDecisionAudit===true&&Number(e.hardStopPct)===-1.2&&Number(e.trailArmPct)===2.4&&Number(e.minHoldMinutes)===12&&Number(e.reentryMinutes)===90&&Number(e.minPositionEur)===2200&&ex.unifiedDecisionCoreV310===true&&ex.tradeRepublicAssetsMaster===true&&Number(m.maxAllocationPct)===100&&brokerOk&&capitalOk&&chartOk&&feedOk;
-              last=`HTTP ${r.status} runtime=${s?.runtimeVersion} broker=${bm?.source}/${bm?.rowCount} capital=${capital?.patch} news=${fr.status}/${feed?.items?.length||0} refresh=${feed?.refreshSeconds} chart=${chartInfo}`;
-              if(ok){console.log('Live V31.0.2 + minute stock-news verification OK:',last);process.exit(0)}
+              const runtimeOk=['V31.0','V31.1'].includes(s?.runtimeVersion)&&['V31.0','V31.1'].includes(s?.liveDecisionVersion);
+              const predictorOk=s?.predictiveLearningVersion==='V31.1'&&pred?.enabled===true&&Number(pred?.version)===31.1&&pred?.insideUnifiedAuthority===true&&ex?.predictiveLearningV311===true&&ex?.predictiveEarlyEntry===true&&ex?.predictiveSelfCalibration===true&&a?.persistentPredictiveLearning===true&&a?.predictiveLearningStorageKey==='predictive-learning-v311';
+              const ok=r.ok&&runtimeOk&&u.enabled===true&&u.patch==='31.0-unified-decision-authority+31.1-predictor'&&a.outerDecisionLayers===1&&a.persistentDecisionAudit===true&&predictorOk&&Number(e.hardStopPct)===-1.2&&Number(e.trailArmPct)===2.4&&Number(e.minHoldMinutes)===12&&Number(e.reentryMinutes)===90&&Number(e.minPositionEur)===2200&&ex.unifiedDecisionCoreV310===true&&ex.tradeRepublicAssetsMaster===true&&Number(m.maxAllocationPct)===100&&brokerOk&&capitalOk&&chartOk&&feedOk;
+              last=`HTTP ${r.status} runtime=${s?.runtimeVersion}/${s?.predictiveLearningVersion} predictor=${pred?.mode}/${pred?.matured} patch=${u?.patch} broker=${bm?.source}/${bm?.rowCount} capital=${capital?.patch} news=${fr.status}/${feed?.items?.length||0} chart=${chartInfo}`;
+              if(ok){console.log('Live V31.1 predictive learning verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
-          throw new Error('V31.0.2 data chain not live: '+last);
+          throw new Error('V31.1 predictive chain not live: '+last);
           NODE
