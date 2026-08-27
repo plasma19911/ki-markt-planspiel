@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - 'public/index.html'
+      - 'public/analysis-ui.js'
+      - 'public/position-chart-ui.js'
+      - 'public/rescue-ui.css'
       - '.github/workflows/verify-live-ticker-placement.yml'
   workflow_dispatch:
 
@@ -16,32 +19,47 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
-      - name: Wait for deployed HTML and verify exact order
+      - name: Wait for deployed assets and verify visual order
         shell: bash
         env:
           LIVE_URL: https://ki-markt-planspiel.orkimperium.workers.dev/
         run: |
           set -u
           for i in $(seq 1 24); do
-            echo "Live placement check $i/24"
-            if curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "${LIVE_URL}?ticker_verify=${GITHUB_SHA}-${i}" -o /tmp/live.html; then
+            echo "Live visual placement check $i/24"
+            ok=1
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "${LIVE_URL}?ticker_verify=${GITHUB_SHA}-${i}" -o /tmp/live.html || ok=0
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "${LIVE_URL}analysis-ui.js?ticker_verify=${GITHUB_SHA}-${i}" -o /tmp/analysis.js || ok=0
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "${LIVE_URL}position-chart-ui.js?ticker_verify=${GITHUB_SHA}-${i}" -o /tmp/trade.js || ok=0
+            curl -fsSL --max-time 20 -H 'Cache-Control: no-cache' "${LIVE_URL}rescue-ui.css?ticker_verify=${GITHUB_SHA}-${i}" -o /tmp/rescue.css || ok=0
+            if [ "$ok" -eq 1 ]; then
               if node <<'NODE'
-          const fs = require('fs');
-          const html = fs.readFileSync('/tmp/live.html','utf8');
-          const depot = html.indexOf('class="card allocation dashboardAllocation"');
-          const ticker = html.indexOf('id="liveStockNews"');
-          const marker = html.indexOf('data-placement="under-depot-v2"');
-          const replay = html.indexOf('id="replayCard"');
-          const ok = depot >= 0 && ticker > depot && marker >= ticker && replay > ticker;
-          console.log(JSON.stringify({depot,ticker,marker,replay,ok}));
-          process.exit(ok ? 0 : 1);
+          const fs=require('fs');
+          const html=fs.readFileSync('/tmp/live.html','utf8');
+          const analysis=fs.readFileSync('/tmp/analysis.js','utf8');
+          const trade=fs.readFileSync('/tmp/trade.js','utf8');
+          const rescue=fs.readFileSync('/tmp/rescue.css','utf8');
+
+          const positionsHtml=html.indexOf('id="positions"');
+          const capitalHtml=html.indexOf('dashboardChart');
+          const tickerHtml=html.indexOf('id="liveStockNews"');
+          const positionOrder=/\.dashboardPositions\{order:10!important/.test(rescue);
+          const capitalOrder=/\.dashboardChart\{order:11!important/.test(rescue);
+          const allocationOrder=/\.dashboardAllocation\{order:12!important/.test(rescue);
+          const tradeOrder=trade.includes("card.style.setProperty('order', '11', 'important')") || /order:11!important/.test(trade);
+          const tickerOrder=analysis.includes("ticker.style.setProperty('order','13','important')");
+          const tickerMarker=analysis.includes('after-depot-trade-charts-v3');
+          const htmlPresent=positionsHtml>=0 && capitalHtml>=0 && tickerHtml>=0;
+          const ok=htmlPresent && positionOrder && capitalOrder && allocationOrder && tradeOrder && tickerOrder && tickerMarker;
+          console.log(JSON.stringify({htmlPresent,positionOrder,capitalOrder,tradeOrder,allocationOrder,tickerOrder,tickerMarker,ok}));
+          process.exit(ok?0:1);
           NODE
               then
-                echo 'LIVE VERIFIED: Kapitalverteilung -> Aktien-News -> Tages-Replay'
+                echo 'LIVE VERIFIED VISUAL ORDER: Aktive Positionen -> Kapitalverlauf -> Aktien-Chart mit Kauf & Verkauf -> Kapitalverteilung -> Aktien-News'
                 exit 0
               fi
             fi
             sleep 10
           done
-          echo 'LIVE NOT VERIFIED: gewünschte Reihenfolge ist auf dem Worker noch nicht ausgeliefert.' >&2
+          echo 'LIVE NOT VERIFIED: sichtbare CSS-Reihenfolge ist auf dem Worker noch nicht vollständig ausgeliefert.' >&2
           exit 1
