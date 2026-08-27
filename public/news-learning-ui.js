@@ -5,41 +5,52 @@ const REFRESH_MS=60000;
 let chartSymbol='',chartName='',chartRange='1d',chartTimer=null;
 
 function installLiveNewsStyle(){
- if($('liveNewsStyle'))return;const s=document.createElement('style');s.id='liveNewsStyle';s.textContent=`
- #liveStockNews{grid-column:1/-1!important;min-width:0}
- #liveStockNews .liveNewsHead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
- #liveStockNews .liveNewsMeta{font-size:11px;margin:3px 0 10px}
- #liveStockNews .liveNewsList{display:grid;gap:7px}
- #liveStockNews .liveNewsItem{display:grid;grid-template-columns:86px minmax(0,1fr) minmax(190px,auto);gap:10px;align-items:center;padding:9px 10px;border:1px solid rgba(83,116,145,.25);border-radius:10px;background:rgba(7,20,32,.55)}
- #liveStockNews .liveNewsImpact{font-size:9px;font-weight:800;letter-spacing:.04em;text-align:center;border-radius:8px;padding:5px 4px;background:#10283a;color:#a9cde7}
- #liveStockNews .liveNewsImpact.high{color:#ffd893;background:rgba(122,84,20,.24)}
- #liveStockNews .liveNewsImpact.veryhigh{color:#ff9aa7;background:rgba(130,35,52,.25)}
- #liveStockNews .liveNewsHeadline{font-size:12px;font-weight:700;line-height:1.35;color:#e4edf5}
- #liveStockNews a.liveNewsHeadline{text-decoration:none}#liveStockNews a.liveNewsHeadline:hover{text-decoration:underline}
- #liveStockNews .liveNewsSub{display:flex;gap:8px;flex-wrap:wrap;margin-top:3px;font-size:9.5px;color:#8399ac}
- #liveStockNews .liveNewsStocks{display:flex;justify-content:flex-end;gap:5px;flex-wrap:wrap}
- #liveStockNews .liveNewsStock{appearance:none;border:1px solid #315470;background:#0c1d2b;color:#dcedfa;border-radius:8px;padding:5px 7px;cursor:pointer;text-align:left;max-width:180px}
- #liveStockNews .liveNewsStock b{font-size:10px;display:block}.liveNewsStock small{font-size:8px;color:#89a2b7;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
- #liveStockNews .liveNewsStock:hover{border-color:#5792bb;background:#10283a}
- #liveStockNews .liveNewsEmpty{padding:16px;text-align:center;color:#8196aa;font-size:12px}
- #liveNewsChartModal{position:fixed;inset:0;z-index:10020;background:rgba(1,7,12,.78);display:grid;place-items:center;padding:18px}
+ if($('liveNewsStyle'))return;
+ const s=document.createElement('style');s.id='liveNewsStyle';s.textContent=`
+ #liveStockNews{grid-column:1/-1!important;min-width:0;position:relative;overflow:hidden;border:1px solid rgba(82,132,168,.28);background:linear-gradient(145deg,rgba(9,26,40,.98),rgba(7,18,29,.98));box-shadow:0 18px 45px rgba(0,0,0,.16)}
+ #liveStockNews:before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,transparent,rgba(73,177,235,.8),rgba(74,220,164,.55),transparent);pointer-events:none}
+ #liveStockNews .liveNewsHead{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:2px}
+ #liveStockNews .liveNewsTitleWrap{display:flex;align-items:center;gap:10px;min-width:0}
+ #liveStockNews .liveNewsPulse{width:9px;height:9px;border-radius:50%;background:#4bd59b;box-shadow:0 0 0 4px rgba(75,213,155,.10),0 0 14px rgba(75,213,155,.45);flex:0 0 auto}
+ #liveStockNews h2{margin:1px 0 0}
+ #liveStockNews .liveNewsMeta{font-size:10.5px;margin:5px 0 12px;color:#7890a4}
+ #liveStockNews .liveNewsList{display:grid;gap:8px}
+ #liveStockNews .liveNewsItem{display:grid;grid-template-columns:72px minmax(0,1fr) minmax(180px,auto);gap:12px;align-items:center;padding:11px 12px;border:1px solid rgba(95,139,171,.16);border-radius:14px;background:linear-gradient(135deg,rgba(15,36,52,.72),rgba(8,23,35,.62));transition:transform .15s ease,border-color .15s ease,background .15s ease}
+ #liveStockNews .liveNewsItem:hover{transform:translateY(-1px);border-color:rgba(86,160,207,.38);background:linear-gradient(135deg,rgba(18,44,63,.82),rgba(9,27,40,.72))}
+ #liveStockNews .liveNewsImpact{font-size:8.5px;font-weight:850;letter-spacing:.055em;text-align:center;border-radius:999px;padding:6px 7px;background:rgba(71,132,171,.13);border:1px solid rgba(86,153,196,.22);color:#acd1ea;line-height:1.25}
+ #liveStockNews .liveNewsImpact.high{color:#f6d58c;background:rgba(151,104,29,.12);border-color:rgba(217,162,62,.28)}
+ #liveStockNews .liveNewsImpact.veryhigh{color:#ffadb7;background:rgba(158,48,68,.13);border-color:rgba(224,83,105,.28)}
+ #liveStockNews .liveNewsHeadline{font-size:12.5px;font-weight:760;line-height:1.42;color:#eaf3f9}
+ #liveStockNews a.liveNewsHeadline{text-decoration:none}#liveStockNews a.liveNewsHeadline:hover{color:#fff;text-decoration:underline;text-decoration-color:rgba(121,190,233,.5);text-underline-offset:3px}
+ #liveStockNews .liveNewsSub{display:flex;gap:7px;flex-wrap:wrap;margin-top:5px;font-size:9.5px;color:#8299ab}
+ #liveStockNews .liveNewsSub span{display:inline-flex;align-items:center;gap:4px}
+ #liveStockNews .liveNewsSub span+span:before{content:"•";color:#42637a;margin-right:3px}
+ #liveStockNews .liveNewsStocks{display:flex;justify-content:flex-end;gap:6px;flex-wrap:wrap}
+ #liveStockNews .liveNewsStock{appearance:none;border:1px solid rgba(77,137,177,.28);background:rgba(12,34,50,.88);color:#e4f2fb;border-radius:999px;padding:6px 10px;cursor:pointer;text-align:left;max-width:190px;transition:background .15s ease,border-color .15s ease,transform .15s ease}
+ #liveStockNews .liveNewsStock b{font-size:10px;display:inline;margin-right:5px}.liveNewsStock small{font-size:8px;color:#8fa9bc;display:inline;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;vertical-align:middle}
+ #liveStockNews .liveNewsStock:after{content:" ↗";font-size:9px;color:#6fbce9}
+ #liveStockNews .liveNewsStock:hover{border-color:#579bca;background:rgba(19,54,76,.95);transform:translateY(-1px)}
+ #liveStockNews .liveNewsEmpty{padding:20px;text-align:center;color:#8196aa;font-size:12px;border:1px dashed rgba(90,130,160,.2);border-radius:12px}
+ #liveStockNews #liveNewsFresh{white-space:nowrap;background:rgba(28,74,98,.45);border-color:rgba(79,151,190,.25)}
+ #liveNewsChartModal{position:fixed;inset:0;z-index:10020;background:rgba(1,7,12,.78);backdrop-filter:blur(5px);display:grid;place-items:center;padding:18px}
  #liveNewsChartModal[hidden]{display:none!important}
- #liveNewsChartModal .lnModal{width:min(920px,96vw);max-height:90vh;overflow:auto;background:#091724;border:1px solid #31506a;border-radius:14px;box-shadow:0 22px 70px rgba(0,0,0,.5);padding:14px}
- #liveNewsChartModal .lnModalHead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px}
+ #liveNewsChartModal .lnModal{width:min(920px,96vw);max-height:90vh;overflow:auto;background:linear-gradient(155deg,#0b1c2b,#081521);border:1px solid #31506a;border-radius:18px;box-shadow:0 24px 80px rgba(0,0,0,.55);padding:16px}
+ #liveNewsChartModal .lnModalHead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
  #liveNewsChartModal h3{margin:2px 0 0;font-size:18px}.lnModalSub{font-size:10px;color:#8499ad}
- #liveNewsChartModal .lnClose{border:1px solid #35536c;background:#0b1c2a;color:#dceaf4;border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:19px}
- #liveNewsChartModal .lnRanges{display:flex;gap:5px;margin-bottom:8px}.lnRanges button{border:1px solid #29475f;background:#0c1b29;color:#9fb5c9;border-radius:8px;padding:5px 10px;cursor:pointer;font-size:10px}.lnRanges button.active{background:#14344a;color:#eef8ff;border-color:#4e86aa}
- #liveNewsChartModal .lnCanvasWrap{position:relative;height:300px;border:1px solid rgba(76,109,136,.3);border-radius:10px;background:#07131e;overflow:hidden}
+ #liveNewsChartModal .lnClose{border:1px solid #35536c;background:#0b1c2a;color:#dceaf4;border-radius:10px;width:36px;height:36px;cursor:pointer;font-size:19px}
+ #liveNewsChartModal .lnRanges{display:flex;gap:6px;margin-bottom:10px}.lnRanges button{border:1px solid #29475f;background:#0c1b29;color:#9fb5c9;border-radius:999px;padding:6px 11px;cursor:pointer;font-size:10px}.lnRanges button.active{background:#143f59;color:#f3fbff;border-color:#4e96c4}
+ #liveNewsChartModal .lnCanvasWrap{position:relative;height:300px;border:1px solid rgba(76,109,136,.3);border-radius:14px;background:#07131e;overflow:hidden}
  #liveNewsChartModal canvas{width:100%;height:300px;display:block}.lnChartStatus{position:absolute;inset:0;display:grid;place-items:center;color:#8095a9;font-size:12px;padding:20px;text-align:center;pointer-events:none}.lnChartStatus:empty{display:none}
- #liveNewsChartModal .lnChartMeta{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:10px;color:#8ba1b4}.lnChartMeta b{color:#e4eef6}
- @media(max-width:760px){#liveStockNews .liveNewsItem{grid-template-columns:68px minmax(0,1fr)}#liveStockNews .liveNewsStocks{grid-column:1/-1;justify-content:flex-start;padding-left:78px}#liveNewsChartModal{padding:7px}#liveNewsChartModal .lnModal{width:100%;padding:10px}#liveNewsChartModal .lnCanvasWrap,#liveNewsChartModal canvas{height:230px}}
- @media(max-width:480px){#liveStockNews .liveNewsItem{grid-template-columns:1fr;gap:5px}#liveStockNews .liveNewsImpact{width:max-content;padding:4px 7px}#liveStockNews .liveNewsStocks{grid-column:auto;padding-left:0}#liveStockNews .liveNewsStock{max-width:150px}}
+ #liveNewsChartModal .lnChartMeta{display:flex;gap:14px;flex-wrap:wrap;margin-top:9px;font-size:10px;color:#8ba1b4}.lnChartMeta b{color:#e4eef6}
+ @media(max-width:760px){#liveStockNews .liveNewsItem{grid-template-columns:62px minmax(0,1fr);padding:10px}#liveStockNews .liveNewsStocks{grid-column:1/-1;justify-content:flex-start;padding-left:74px}#liveStockNews .liveNewsHead{align-items:flex-start}#liveNewsChartModal{padding:7px}#liveNewsChartModal .lnModal{width:100%;padding:11px}#liveNewsChartModal .lnCanvasWrap,#liveNewsChartModal canvas{height:230px}}
+ @media(max-width:480px){#liveStockNews .liveNewsItem{grid-template-columns:1fr;gap:7px;border-radius:12px}#liveStockNews .liveNewsImpact{width:max-content;padding:5px 8px}#liveStockNews .liveNewsStocks{grid-column:auto;padding-left:0;justify-content:flex-start}#liveStockNews .liveNewsStock{max-width:100%;padding:6px 9px}#liveStockNews .liveNewsTitleWrap{align-items:flex-start}#liveStockNews .liveNewsPulse{margin-top:8px}#liveStockNews .liveNewsHead{gap:8px}#liveStockNews #liveNewsFresh{font-size:9px}}
  `;document.head.appendChild(s)
 }
 function ensureFeed(){
- installLiveNewsStyle();if($('liveStockNews'))return $('liveStockNews');const future=$('futureCard')||$('news');if(!future)return null;
- const s=document.createElement('section');s.id='liveStockNews';s.className='card';s.innerHTML='<div class="liveNewsHead"><div><span class="sectionEyebrow">LIVE · 60 SEKUNDEN</span><h2>Wichtigste Aktien-News</h2></div><span id="liveNewsFresh" class="tag">lädt …</span></div><div id="liveNewsMeta" class="muted liveNewsMeta">Neueste wichtige Meldungen aus dem KI-News-Radar. Aktie anklicken → Live-Chart.</div><div id="liveNewsList" class="liveNewsList"><div class="liveNewsEmpty">News-Feed lädt …</div></div>';
- future.insertAdjacentElement('afterend',s);return s;
+ installLiveNewsStyle();if($('liveStockNews'))return $('liveStockNews');
+ const anchor=$('analysis')||$('newsLearning')||$('news')||$('futureCard');if(!anchor)return null;
+ const s=document.createElement('section');s.id='liveStockNews';s.className='card';s.innerHTML='<div class="liveNewsHead"><div class="liveNewsTitleWrap"><span class="liveNewsPulse"></span><div><span class="sectionEyebrow">LIVE · 60 SEKUNDEN</span><h2>Wichtigste Aktien-News</h2></div></div><span id="liveNewsFresh" class="tag">lädt …</span></div><div id="liveNewsMeta" class="muted liveNewsMeta">Priorisierte Aktienmeldungen aus dem KI-News-Radar · Aktie antippen für den Live-Chart.</div><div id="liveNewsList" class="liveNewsList"><div class="liveNewsEmpty">News-Feed lädt …</div></div>';
+ anchor.insertAdjacentElement('afterend',s);return s;
 }
 function ensureChartModal(){
  if($('liveNewsChartModal'))return $('liveNewsChartModal');const m=document.createElement('div');m.id='liveNewsChartModal';m.hidden=true;m.innerHTML='<div class="lnModal" role="dialog" aria-modal="true" aria-labelledby="lnChartTitle"><div class="lnModalHead"><div><span class="sectionEyebrow">LIVE-KURS</span><h3 id="lnChartTitle">Aktien-Chart</h3><div id="lnChartSub" class="lnModalSub">–</div></div><button class="lnClose" type="button" aria-label="Schließen">×</button></div><div class="lnRanges"><button type="button" data-range="1d" class="active">1 Tag</button><button type="button" data-range="5d">5 Tage</button><button type="button" data-range="1mo">1 Monat</button></div><div class="lnCanvasWrap"><canvas id="lnChartCanvas"></canvas><div id="lnChartStatus" class="lnChartStatus">Chart lädt …</div></div><div id="lnChartMeta" class="lnChartMeta"></div></div>';document.body.appendChild(m);
@@ -55,7 +66,7 @@ function feedRow(x){
 }
 async function loadFeed(){
  if(document.hidden)return;const section=ensureFeed();if(!section)return;const list=$('liveNewsList'),meta=$('liveNewsMeta'),fresh=$('liveNewsFresh');
- try{const r=await fetch(`/api/news-feed?t=${Date.now()}`,{cache:'no-store',headers:{'cache-control':'no-cache'}});if(!r.ok)throw new Error(`HTTP ${r.status}`);const j=await r.json(),items=Array.isArray(j.items)?j.items:[];list.innerHTML=items.length?items.map(feedRow).join(''):'<div class="liveNewsEmpty">Aktuell keine eindeutig aktienbezogene wichtige Meldung im News-Radar.</div>';const t=Date.parse(j.generatedAt||'');fresh.textContent=Number.isFinite(t)?`Stand ${new Date(t).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})}`:'Live';meta.textContent=`${items.length} priorisierte Meldungen · ${j.totalDetected||items.length} erkannt · automatische Aktualisierung jede Minute · Aktie anklicken → Live-Chart.`}catch(e){fresh.textContent='Feed gestört';meta.textContent=`Live-News derzeit nicht lesbar: ${e.message}`;list.innerHTML='<div class="liveNewsEmpty">News-Feed wird beim nächsten Minuten-Takt erneut geladen.</div>'}
+ try{const r=await fetch(`/api/news-feed?t=${Date.now()}`,{cache:'no-store',headers:{'cache-control':'no-cache'}});if(!r.ok)throw new Error(`HTTP ${r.status}`);const j=await r.json(),items=Array.isArray(j.items)?j.items:[];list.innerHTML=items.length?items.map(feedRow).join(''):'<div class="liveNewsEmpty">Aktuell keine eindeutig aktienbezogene wichtige Meldung im News-Radar.</div>';const t=Date.parse(j.generatedAt||'');fresh.textContent=Number.isFinite(t)?`Stand ${new Date(t).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})}`:'Live';meta.textContent=`${items.length} priorisierte Meldungen · ${j.totalDetected||items.length} erkannt · Aktualisierung jede Minute · Aktie antippen → Live-Chart.`}catch(e){fresh.textContent='Feed gestört';meta.textContent=`Live-News derzeit nicht lesbar: ${e.message}`;list.innerHTML='<div class="liveNewsEmpty">News-Feed wird beim nächsten Minuten-Takt erneut geladen.</div>'}
 }
 function openChart(symbol,name){chartSymbol=String(symbol||'').toUpperCase();chartName=name||chartSymbol;chartRange='1d';const m=ensureChartModal();m.hidden=false;m.querySelectorAll('.lnRanges button').forEach(x=>x.classList.toggle('active',x.dataset.range==='1d'));document.body.style.overflow='hidden';loadChart();if(chartTimer)clearInterval(chartTimer);chartTimer=setInterval(loadChart,REFRESH_MS)}
 function closeChart(){const m=$('liveNewsChartModal');if(m)m.hidden=true;document.body.style.overflow='';if(chartTimer){clearInterval(chartTimer);chartTimer=null}}
@@ -67,7 +78,7 @@ function drawChart(data){
  ctx.fillStyle='#8ca2b5';ctx.font='10px system-ui';ctx.fillText(fmt(hi,hi<10?3:2),left,10);ctx.fillText(fmt(lo,lo<10?3:2),left,h-5);ctx.fillStyle=up?'#4bd59b':'#ff7080';ctx.beginPath();ctx.arc(x(bars.length-1),y(last),3.2,0,Math.PI*2);ctx.fill();
 }
 async function loadChart(){
- if(!chartSymbol)return;const m=ensureChartModal(),status=$('lnChartStatus'),meta=$('lnChartMeta');$('lnChartTitle').textContent=`${chartName} · ${chartSymbol}`;$('lnChartSub').textContent='Live-Kursdaten · aktualisiert sich bei geöffnetem Chart jede Minute';status.textContent='Chart lädt …';meta.innerHTML='';
+ if(!chartSymbol)return;ensureChartModal();const status=$('lnChartStatus'),meta=$('lnChartMeta');$('lnChartTitle').textContent=`${chartName} · ${chartSymbol}`;$('lnChartSub').textContent='Live-Kursdaten · aktualisiert sich bei geöffnetem Chart jede Minute';status.textContent='Chart lädt …';meta.innerHTML='';
  try{const r=await fetch(`/api/position-chart?symbol=${encodeURIComponent(chartSymbol)}&range=${encodeURIComponent(chartRange)}&news=${Date.now()}`,{cache:'no-store'}),j=await r.json();if(!r.ok||!j.ok)throw new Error(j.error||`HTTP ${r.status}`);drawChart(j);status.textContent='';const bars=j.bars||[],first=Number(bars[0]?.close),last=Number(bars.at(-1)?.close),chg=first?((last/first)-1)*100:0,ts=Number(bars.at(-1)?.ts);meta.innerHTML=`<span>Letzter Kurs <b>${fmt(last,last<10?3:2)} ${esc(j.currency||'')}</b></span><span>Zeitraum <b class="${chg>=0?'good':'bad'}">${chg>=0?'+':''}${fmt(chg,2)}%</b></span><span>Datenpunkt <b>${Number.isFinite(ts)?new Date(ts).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'–'}</b></span><span>Börse <b>${esc(j.exchange||'–')}</b></span>`}catch(e){status.textContent=`Live-Chart nicht verfügbar: ${e.message}`}
 }
 function ensureSection(){
