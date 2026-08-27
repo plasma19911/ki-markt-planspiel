@@ -138,20 +138,21 @@
 <script src="/changelog-master-v290.js?v=20260821-1250" type="module"></script>
 <script>
 (() => {
-  const placeLiveNewsAtBottom = () => {
+  const placeLiveNewsUnderDepot = () => {
     const ticker = document.getElementById('liveStockNews');
-    const setup = document.getElementById('setup');
-    if (!ticker || !setup) return;
-    if (ticker.nextElementSibling === setup) return;
-    setup.insertAdjacentElement('beforebegin', ticker);
+    const depotEnd = document.querySelector('.dashboardAllocation');
+    if (!ticker || !depotEnd) return;
+    if (ticker.previousElementSibling === depotEnd) return;
+    depotEnd.insertAdjacentElement('afterend', ticker);
   };
   const start = () => {
-    placeLiveNewsAtBottom();
+    placeLiveNewsUnderDepot();
     const grid = document.querySelector('.dashboardGrid');
-    if (grid) new MutationObserver(placeLiveNewsAtBottom).observe(grid,{childList:true});
-    setTimeout(placeLiveNewsAtBottom,250);
-    setTimeout(placeLiveNewsAtBottom,1000);
-    setInterval(placeLiveNewsAtBottom,5000);
+    if (grid) new MutationObserver(placeLiveNewsUnderDepot).observe(grid,{childList:true});
+    setTimeout(placeLiveNewsUnderDepot,100);
+    setTimeout(placeLiveNewsUnderDepot,500);
+    setTimeout(placeLiveNewsUnderDepot,1500);
+    setInterval(placeLiveNewsUnderDepot,2000);
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, {once:true});
   else start();
