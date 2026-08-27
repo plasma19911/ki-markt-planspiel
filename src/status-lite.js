@@ -8,5 +8,5 @@ export function agentStatusLite(status = {}) {
 
 export function shouldServeAgentLite(request) {
   const ua = String(request?.headers?.get?.('user-agent') || '');
-  return /\bKI-Markt-Agent\/2\.2\.1\b/i.test(ua);
+  return /\bKI-Markt-Agent\/2\.\d+\.\d+\b/i.test(ua);
 }

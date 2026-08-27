@@ -76,11 +76,11 @@ export default{
   const when=new Date(Number(controller?.scheduledTime)||Date.now()),session=gettexSessionState(when),p=portfolio(env);
   // Der PC-Agent darf bewusst offline sein. Der finale Tages-Replay ist Cloudflare-
   // seitig unabhaengig und laeuft nach gettex-Schluss weiter.
-  if(session.isTradingDay&&session.localMinute>=22*60+5&&session.localMinute<=22*60+55){
-   ctx.waitUntil((async()=>{const agent=await p.agentStatus();if(agent?.online)await p.dailyReplay(8)})().catch(e=>console.error('Preliminary day replay batch failed',e)));
+  if(session.isTradingDay&&session.localMinute>=22*60+5&&session.localMinute<=22*60+55&&session.localMinute%5===0){
+   ctx.waitUntil((async()=>{const agent=await p.agentStatus();if(!agent?.online)await p.dailyReplay(8)})().catch(e=>console.error('Offline preliminary replay fallback failed',e)));
   }
-  if(session.isTradingDay&&session.localMinute>=23*60+5&&session.localMinute<=23*60+55){
-   ctx.waitUntil(p.finalDayReplay(8).catch(e=>console.error('Final day replay batch failed',e)));
+  if(session.isTradingDay&&session.localMinute>=23*60+5&&session.localMinute<=23*60+55&&session.localMinute%5===0){
+   ctx.waitUntil((async()=>{const agent=await p.agentStatus(),localStatus=String(agent?.metrics?.eveningReplayStatus||'').toUpperCase();if(!agent?.online||!localStatus.includes('COMPLETE'))await p.finalDayReplay(8)})().catch(e=>console.error('Final replay fallback failed',e)));
   }
  }
 };

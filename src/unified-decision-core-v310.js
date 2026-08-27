@@ -7,8 +7,8 @@ const key=v=>String(v?.symbol||v||'').toUpperCase().trim();
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 
 export const UNIFIED_DECISION_CORE_V310={
-  version:31.0,
-  patch:'31.0-unified-decision-authority+31.2-outcome-learning',
+  version:31.3,
+  patch:'31.3-capital-velocity+31.2-outcome-learning',
   architecture:'single-outer-decision-authority',
   persistentAudit:true,
   maxAuditRows:500,
@@ -47,10 +47,10 @@ export function enforceUnifiedDecisionCoreV310(plan,state={},input=null,brokerRo
     finalActions:arr(finalPlan.actions).map(actionSnapshot),
     changes,
     counters:{outcome:predictivePass.counters||{},predictive:predictivePass.counters||{},capital:buyPass.counters||{},expectancy:expectancyPass.counters||{}},
-    ruleOrder:['hard safety from legacy core','V31.2 continuous outcome learning + early-entry','high-score capital deployment','price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority'],
-    note:'V31 bleibt eine einzige äußere Entscheidungsautorität. V31.2 bewertet innerhalb dieses Kerns fortlaufend BUY/HOLD/SELL sowie verpasste Chancen gegen spätere 5/20/60/240-Minuten-Kurse und passt konservativ Signalgewichte, Einstiegsschwelle und Positionsgröße an. Harte Sicherheitsregeln bleiben bindend.'
+    ruleOrder:['hard safety from legacy core','V31.2 continuous outcome learning + early-entry','high-score capital deployment','V31.3 hard-stop/trailing/paired-rotation/stagnation/profit-fade/re-entry/sizing authority'],
+    note:'V31.3 bleibt eine einzige äußere Entscheidungsautorität. Qualifizierte Paarrotationen aus den unteren Score-/Momentum-Regeln werden nicht mehr pauschal auf HOLD gedreht. Flache, schwache Positionen werden zeitbasiert geprüft und bei bestätigter Stagnation freigegeben; V31.2 Outcome Learning sowie harte Sicherheitsregeln bleiben bindend.'
   };
-  finalPlan.summary=`${String(finalPlan.summary||'').slice(0,165)} · V31 Unified+Outcome: ${changes.length} finale Änderung(en), Lernmodus ${outcomeLearning?.status?.mode||'WARMUP'}.`;
+  finalPlan.summary=`${String(finalPlan.summary||'').slice(0,165)} · V31.3 Unified+Capital-Velocity+Outcome: ${changes.length} finale Änderung(en), Lernmodus ${outcomeLearning?.status?.mode||'WARMUP'}.`;
   return{plan:finalPlan,audit,counters:{changes:changes.length,outcome:predictivePass.counters||{},predictive:predictivePass.counters||{},capital:buyPass.counters||{},expectancy:expectancyPass.counters||{}}};
 }
 
@@ -71,5 +71,5 @@ export class UnifiedDecisionCoreV310{
     if(typeof this.writeAudit==='function'){try{await this.writeAudit(out.audit)}catch{this.auditWriteErrors++}}
     return encode(r,out.plan)
   }
-  status(){return{enabled:true,...UNIFIED_DECISION_CORE_V310,outcomeLearning:{...this.predictiveStatus,storageKey:OUTCOME_LEARNING_V312.storageKey,writeErrors:this.predictiveWriteErrors},predictiveLearning:{...this.predictiveStatus,storageKey:OUTCOME_LEARNING_V312.storageKey,writeErrors:this.predictiveWriteErrors},capital:{...HIGH_SCORE_CAPITAL_DEPLOYMENT_V309,heldMasterEnrichment:true,noFixedAutoSinglePositionCap:true},expectancy:{hardStopPct:EXPECTANCY_CORE_V310.hardStopPct,trailArmPct:EXPECTANCY_CORE_V310.trailArmPct,minHoldMinutes:EXPECTANCY_CORE_V310.minHoldMinutes,reentryMinutes:EXPECTANCY_CORE_V310.reentryMinutes,minPositionEur:EXPECTANCY_CORE_V310.minPositionEur},latest:this.latest?.counters||null,auditWriteErrors:this.auditWriteErrors,rule:'Eine einzige äußere Entscheidungsautorität entscheidet final. V31.2 lernt aus jedem beobachtbaren Kandidaten und Depotentscheid: BUY/HOLD/SELL werden später mit realen 5/20/60/240m-Kursen verglichen. Verpasste Chancen, Fehlkäufe und zu frühe Verkäufe kalibrieren Signalgewichte, Schwellen und Positionsgröße; High-Score-Käufe, wirtschaftliche Positionsgröße, Preis-Stop, Mindesthaltezeit, Trailing und Re-Entry bleiben bindend.'}}
+  status(){return{enabled:true,...UNIFIED_DECISION_CORE_V310,outcomeLearning:{...this.predictiveStatus,storageKey:OUTCOME_LEARNING_V312.storageKey,writeErrors:this.predictiveWriteErrors},predictiveLearning:{...this.predictiveStatus,storageKey:OUTCOME_LEARNING_V312.storageKey,writeErrors:this.predictiveWriteErrors},capital:{...HIGH_SCORE_CAPITAL_DEPLOYMENT_V309,heldMasterEnrichment:true,noFixedAutoSinglePositionCap:true},expectancy:{hardStopPct:EXPECTANCY_CORE_V310.hardStopPct,trailArmPct:EXPECTANCY_CORE_V310.trailArmPct,minHoldMinutes:EXPECTANCY_CORE_V310.minHoldMinutes,reentryMinutes:EXPECTANCY_CORE_V310.reentryMinutes,reentryScoreImprovement:EXPECTANCY_CORE_V310.reentryScoreImprovement,stagnationReviewMinutes:EXPECTANCY_CORE_V310.stagnationReviewMinutes,maxStagnationMinutes:EXPECTANCY_CORE_V310.maxStagnationMinutes,stagnationBandPct:EXPECTANCY_CORE_V310.stagnationBandPct,stagnationScoreCeiling:EXPECTANCY_CORE_V310.stagnationScoreCeiling,profitFadeReviewMinutes:EXPECTANCY_CORE_V310.profitFadeReviewMinutes,profitFadeMinPct:EXPECTANCY_CORE_V310.profitFadeMinPct,minPositionEur:EXPECTANCY_CORE_V310.minPositionEur},latest:this.latest?.counters||null,auditWriteErrors:this.auditWriteErrors,rule:'Eine einzige äußere Entscheidungsautorität entscheidet final. V31.3 lässt qualifizierte Paarrotationen passieren, prüft flache schwache Positionen ab 75 Minuten, löst bestätigte Stagnation nach 180 Minuten auf und erlaubt einen begründeten Profit-Fade-Exit ab +0.8% nach 90 Minuten. V31.2 lernt weiter aus BUY/HOLD/SELL und verpassten Chancen; Preis-Stop, Trailing, Broker-Prüfung, wirtschaftliche Positionsgröße und Anti-Churn bleiben bindend.'}}
 }

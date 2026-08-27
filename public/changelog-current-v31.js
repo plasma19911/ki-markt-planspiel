@@ -1,5 +1,27 @@
 const CURRENT_V31_CHANGELOG=[
   {
+    at:'27.08.2026 · 16:42',
+    title:'PC-First entlastet Cloudflare und verhindert doppelte Arbeit',
+    items:[
+      'Der PC-Agent scannt weiterhin das vollständige Broker-Master, verdichtet Kandidaten und berechnet den Tages-Replay lokal; Cloudflare bleibt für finale Paper-Depotentscheidung, Speicherung und UI zuständig.',
+      'Agent-Abfragen erhalten ihren kompakten Depot-/Kandidaten-/Historienstatus jetzt direkt, ohne zuerst den vollständigen Status samt Lern- und Auditblöcken aufzubauen.',
+      'Der Browser bekommt standardmäßig eine gekürzte Dashboard-Antwort ohne die großen Auditdaten. Der vollständige Diagnose-Status bleibt gezielt über view=full verfügbar.',
+      'Doppelte Minuten-Gap-Fills wurden entfernt. Der Cloudflare-Scan springt nur noch alle fünf Minuten und nur bei tatsächlich offline erkanntem PC-Agenten ein.',
+      'Vorläufiger und finaler Tages-Replay laufen vorrangig auf dem PC; Cloudflare arbeitet nur als gedrosselter Ausfall-Fallback.'
+    ]
+  },
+  {
+    at:'27.08.2026 · 16:28',
+    title:'V31.3 · Kapital rotiert schneller statt tagelang stillzustehen',
+    items:[
+      'Qualifizierte Paarrotationen aus Score-, Momentum- und Ersatzregeln bleiben jetzt SELL/BUY und werden von der äußeren Expectancy-Regel nicht mehr pauschal auf HOLD zurückgedreht.',
+      'Flache, schwache Positionen werden ab 75 Minuten ausdrücklich geprüft; bei bestätigter Stagnation werden sie nach 180 Minuten freigegeben, während starke oder positiv laufende Titel weiter gehalten werden.',
+      'Ein bestätigter Gewinnrücklauf darf ab +0,8% und 90 Minuten als Profit-Fade gesichert werden; der große Trailing-Mechanismus ab +2,4% bleibt für laufende Gewinner bestehen.',
+      'Mindesthaltezeit sinkt von 12 auf 8 Minuten. Regulärer Re-Entry ist nach 45 statt 90 Minuten möglich; die vorhandene Anti-Churn-Sperre und der −1,2%-Hard-Stop bleiben aktiv.',
+      'Ziel ist höhere Kapitalgeschwindigkeit und mehr Gewinnchancen im Planspiel; ein Gewinn wird dadurch nicht garantiert.'
+    ]
+  },
+  {
     at:'27.08.2026 · 16:11',
     title:'Changelog wird jetzt wirklich chronologisch sortiert',
     items:[

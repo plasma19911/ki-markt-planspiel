@@ -1,4 +1,4 @@
-name: Main always live on Cloudflare V31.2
+name: Main always live on Cloudflare V31.3
 
 on:
   push:
@@ -24,9 +24,12 @@ jobs:
           cache: npm
           cache-dependency-path: package.json
       - run: npm install --no-audit --no-fund --ignore-scripts
-      - name: Critical V31.2 data-chain guards
+      - name: Critical V31.3 data-chain guards
         run: |
           node --check src/index.js
+          node --check src/index-v18.js
+          node --check src/index-v20.js
+          node --check src/status-lite.js
           node --check src/outcome-learning-core-v312.js
           node --check src/unified-decision-core-v310.js
           node --check src/compact-portfolio-v310-unified.js
@@ -37,6 +40,7 @@ jobs:
           node tests/v312-outcome-learning.test.mjs
           node tests/v310-unified-decision-core.test.mjs
           node tests/v310-expectancy.test.mjs
+          node tests/status-lite-pc-agent.test.mjs
           node tests/v309-high-score-capital-deployment.test.mjs
           node tests/trade-republic-master.test.mjs
           node scripts/smoke-target-venue-guard.mjs
@@ -59,7 +63,7 @@ jobs:
       - name: Allow Cloudflare Git integration to publish
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
-      - name: Verify live V31.2 complete chain
+      - name: Verify live V31.3 complete chain
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';let last='';
@@ -67,11 +71,11 @@ jobs:
             try{
               const r=await fetch(`${base}/api/status?main_live=${Date.now()}`,{headers:{'cache-control':'no-cache'}}),s=await r.json(),u=s?.unifiedDecisionCorePolicy||{},a=s?.architecture||{},ex=s?.executionModel||{},m=s?.manualTradePolicy||{},bm=m?.brokerMaster||{},capital=u?.capital||{},learn=s?.outcomeLearningPolicy||{},positions=Array.isArray(s?.positions)?s.positions:[];
               let chartOk=true,chartText='no-position';if(positions[0]?.symbol){const symbol=String(positions[0].symbol),cr=await fetch(`${base}/api/position-chart?symbol=${encodeURIComponent(symbol)}&range=1d&main_live=${Date.now()}`,{headers:{'cache-control':'no-cache'}});let cj={};try{cj=await cr.json()}catch{}chartOk=cr.ok&&cj?.ok===true&&Array.isArray(cj?.bars)&&cj.bars.length>0;chartText=`${symbol}:${cr.status}/${cj?.bars?.length||0}`}
-              const ok=r.ok&&s?.runtimeVersion==='V31.2'&&s?.liveDecisionVersion==='V31.2'&&s?.outcomeLearningVersion==='V31.2'&&u.enabled===true&&u.patch==='31.0-unified-decision-authority+31.2-outcome-learning'&&Number(a.outerDecisionLayers)===1&&a.persistentDecisionAudit===true&&a.persistentOutcomeLearning===true&&a.outcomeLearningStorageKey==='outcome-learning-v312'&&ex.unifiedDecisionCoreV310===true&&ex.outcomeLearningV312===true&&ex.continuousCandidateTracking===true&&Number(learn.version)===31.2&&Number(learn.trackedSymbols)>0&&ex.tradeRepublicAssetsMaster===true&&Number(bm?.rowCount)>0&&String(bm?.source||'').includes('env.ASSETS')&&capital?.patch==='30.9.3-held-master-enrichment'&&capital?.heldMasterEnrichment===true&&positions.length<=4&&chartOk;
+              const ok=r.ok&&s?.runtimeVersion==='V31.3'&&s?.liveDecisionVersion==='V31.3'&&s?.outcomeLearningVersion==='V31.2'&&u.enabled===true&&u.patch==='31.3-capital-velocity+31.2-outcome-learning'&&Number(a.outerDecisionLayers)===1&&a.persistentDecisionAudit===true&&a.persistentOutcomeLearning===true&&a.outcomeLearningStorageKey==='outcome-learning-v312'&&ex.unifiedDecisionCoreV310===true&&ex.outcomeLearningV312===true&&ex.continuousCandidateTracking===true&&Number(learn.version)===31.2&&Number(learn.trackedSymbols)>0&&ex.tradeRepublicAssetsMaster===true&&Number(bm?.rowCount)>0&&String(bm?.source||'').includes('env.ASSETS')&&capital?.patch==='30.9.3-held-master-enrichment'&&capital?.heldMasterEnrichment===true&&positions.length<=4&&chartOk;
               last=`status=${r.status} runtime=${s?.runtimeVersion} outcome=${learn?.mode}/${learn?.matured} tracked=${learn?.trackedSymbols} broker=${bm?.source}/${bm?.rowCount} chart=${chartText}`;
-              if(ok){console.log('Main live V31.2 verification OK:',last);process.exit(0)}
+              if(ok){console.log('Main live V31.3 verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
           }
-          throw new Error('Main did not become healthy V31.2 live: '+last);
+          throw new Error('Main did not become healthy V31.3 live: '+last);
           NODE

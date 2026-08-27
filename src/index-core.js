@@ -179,7 +179,11 @@ export default{
   // PC online: PC berechnet den Tages-Replay lokal. Cloudflare macht keinen parallelen
   // Replay und zaehlt damit keine Lern-Samples doppelt. Ist der PC schon aus, uebernimmt
   // Cloudflare ab 21:55 in kleinen Batches als Fallback.
-  if(session.open){ctx.waitUntil((async()=>{const p=portfolio(env),agent=await p.agentStatus();if(!agent?.online&&session.localMinute>=21*60+55)await p.dailyReplay(8);const st=await p.status(),last=Date.parse(String(st?.config?.last_scan||'')),age=Number.isFinite(last)?Date.now()-last:Infinity;if(!agent?.online||age>95_000)await p.scan()})().catch(e=>console.error('Compact DO scan/replay failed',e)));return}
+  if(session.open){
+   if(session.localMinute%5!==0)return;
+   ctx.waitUntil((async()=>{const p=portfolio(env),agent=await p.agentStatus();if(agent?.online)return;if(session.localMinute>=21*60+55)await p.dailyReplay(8);await p.scan()})().catch(e=>console.error('Compact DO offline fallback failed',e)));
+   return
+  }
   if(session.prepareNow){ctx.waitUntil(portfolio(env).preOpenPrepare().catch(e=>console.error('gettex preopen prepare failed',e)))}
  }
 };

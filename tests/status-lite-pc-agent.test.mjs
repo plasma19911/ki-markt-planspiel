@@ -21,9 +21,11 @@ assert.equal('profitExitPolicy' in lite,false);
 
 const req221={headers:new Headers({'user-agent':'Mozilla/5.0 KI-Markt-Agent/2.2.1'})};
 const req220={headers:new Headers({'user-agent':'Mozilla/5.0 KI-Markt-Agent/2.2.0'})};
+const reqFuture={headers:new Headers({'user-agent':'Mozilla/5.0 KI-Markt-Agent/2.3.0'})};
 const browser={headers:new Headers({'user-agent':'Mozilla/5.0 Chrome/151'})};
 assert.equal(shouldServeAgentLite(req221),true);
-assert.equal(shouldServeAgentLite(req220),false);
+assert.equal(shouldServeAgentLite(req220),true);
+assert.equal(shouldServeAgentLite(reqFuture),true);
 assert.equal(shouldServeAgentLite(browser),false);
 
 console.log('status-lite PC-agent regression: OK');
