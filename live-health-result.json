@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-27T05:47:22.303Z",
+  "checkedAt": "2026-08-27T05:49:18.008Z",
   "runtimeVersion": "V31.0",
   "liveDecisionVersion": "V31.0",
   "http": {
@@ -42,15 +42,15 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-27T05:47:15.908Z",
-    "ageSeconds": 4,
+    "lastSeenAt": "2026-08-27T05:49:08.104Z",
+    "ageSeconds": 6,
     "recovery": {
       "enabled": true,
       "version": "31.0.1",
       "mode": "fail-soft-agent-scan",
       "lastError": null,
       "lastErrorAt": null,
-      "lastOkAt": null,
+      "lastOkAt": "2026-08-27T05:49:14.301Z",
       "failures": 0,
       "recoveredResponses": 0,
       "rule": "PC-Heartbeat und Prefetch bleiben aktiv, auch wenn der interne Portfolio-Scan fehlschlaegt. Scanfehler werden sichtbar statt als undiagnostischer HTTP-500 die komplette Agent-Minute abzubrechen."
@@ -97,10 +97,10 @@
     "noFixedAutoSinglePositionCap": true
   },
   "running": 1,
-  "scanCount": 1497,
-  "lastScan": "2026-08-27T05:45:30.060Z",
+  "scanCount": 1501,
+  "lastScan": "2026-08-27T05:49:14.301Z",
   "lastError": null,
-  "aiLastSummary": "V30.7.1 Manual: COCHINSHIP.NS direkt im Paper-Depot verkauft.",
+  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 3 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · V3 · V30.9 Capital: 0 High-Score BUY · 0 Starte · V31.0 Expectancy: 0 Hard-Stop · 0 Tra · V31 Unified: 0 finale Entscheidungsänderung(en) geloggt.",
   "cash": 5045.684956714096,
   "equity": 10056.754955558828,
   "pnl": 56.75495555882844,
@@ -309,7 +309,30 @@
       "reentryMinutes": 90,
       "minPositionEur": 2200
     },
-    "latest": null,
+    "latest": {
+      "changes": 0,
+      "capital": {
+        "brokerRows": 258,
+        "exactCandidates": 0,
+        "strong70Plus": 0,
+        "injected": 0,
+        "upgraded": 0,
+        "winnerTopups": 0,
+        "blockedMomentum": 0,
+        "blockedHard": 0,
+        "chosen": null,
+        "topup": null
+      },
+      "expectancy": {
+        "hardStops": 0,
+        "trailingSells": 0,
+        "minHoldBlocks": 0,
+        "reentryBlocks": 0,
+        "sizingUpgrades": 0,
+        "scoreScaleFixes": 0,
+        "equity": 10056.75
+      }
+    },
     "auditWriteErrors": 0,
     "rule": "Eine einzige äußere Entscheidungsautorität entscheidet nach dem Legacy-Kern final über High-Score-Käufe, wirtschaftliche Positionsgröße, Gewinner-Aufstockung aus dem Trade-Republic-Master, Preis-Stop, Mindesthaltezeit, Trailing und Re-Entry. Jede Änderung wird persistent auditiert.",
     "brokerMaster": {
@@ -330,6 +353,234 @@
     "minPositionEur": 2200
   },
   "decisionAuditRecent": [
+    {
+      "ts": "2026-08-27T05:49:14.301Z",
+      "patch": "31.0-unified-decision-authority",
+      "scanCount": 1500,
+      "cash": 5045.684956714096,
+      "positions": [
+        {
+          "symbol": "FORTUM.HE",
+          "score": 0.752085060722768,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 20.200180305480956,
+          "lastPrice": 20.24,
+          "openedAt": "2026-08-25T08:02:09.349Z",
+          "direction": null
+        },
+        {
+          "symbol": "MANTA.HE",
+          "score": 0.38214499486630693,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 6.366360133647918,
+          "lastPrice": 6.39,
+          "openedAt": "2026-08-25T10:26:09.786Z",
+          "direction": null
+        },
+        {
+          "symbol": "FCT.MI",
+          "score": 10.760076662730818,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 12.802789961814879,
+          "lastPrice": 12.91,
+          "openedAt": "2026-08-26T10:38:18.611Z",
+          "direction": null
+        }
+      ],
+      "topCandidates": [],
+      "originalActions": [
+        {
+          "symbol": "FORTUM.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "MANTA.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "FCT.MI",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        }
+      ],
+      "finalActions": [
+        {
+          "symbol": "FORTUM.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "MANTA.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "FCT.MI",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        }
+      ],
+      "changes": [],
+      "counters": {
+        "capital": {
+          "brokerRows": 258,
+          "exactCandidates": 0,
+          "strong70Plus": 0,
+          "injected": 0,
+          "upgraded": 0,
+          "winnerTopups": 0,
+          "blockedMomentum": 0,
+          "blockedHard": 0,
+          "chosen": null,
+          "topup": null
+        },
+        "expectancy": {
+          "hardStops": 0,
+          "trailingSells": 0,
+          "minHoldBlocks": 0,
+          "reentryBlocks": 0,
+          "sizingUpgrades": 0,
+          "scoreScaleFixes": 0,
+          "equity": 10056.75
+        }
+      },
+      "ruleOrder": [
+        "hard safety from legacy core",
+        "high-score capital deployment",
+        "price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority"
+      ],
+      "note": "V31.0 unified outer authority: no V30.8/V30.9/V31.0 wrapper stacking. One final transformation plus one audit record."
+    },
+    {
+      "ts": "2026-08-27T05:47:23.165Z",
+      "patch": "31.0-unified-decision-authority",
+      "scanCount": 1497,
+      "cash": 5045.684956714096,
+      "positions": [
+        {
+          "symbol": "FORTUM.HE",
+          "score": 0.752085060722768,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 20.200180305480956,
+          "lastPrice": 20.24,
+          "openedAt": "2026-08-25T08:02:09.349Z",
+          "direction": null
+        },
+        {
+          "symbol": "MANTA.HE",
+          "score": 0.38214499486630693,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 6.366360133647918,
+          "lastPrice": 6.39,
+          "openedAt": "2026-08-25T10:26:09.786Z",
+          "direction": null
+        },
+        {
+          "symbol": "FCT.MI",
+          "score": 10.760076662730818,
+          "rawScore": 0,
+          "entryScore": 0,
+          "entryPrice": 12.802789961814879,
+          "lastPrice": 12.91,
+          "openedAt": "2026-08-26T10:38:18.611Z",
+          "direction": null
+        }
+      ],
+      "topCandidates": [
+        {
+          "symbol": "COCHINSHIP.NS",
+          "score": 0,
+          "rawScore": 0,
+          "m5": -0.12846864961916227,
+          "m20": -0.23100458993454698,
+          "brokerVerified": false,
+          "brokerMatchMode": null
+        }
+      ],
+      "originalActions": [
+        {
+          "symbol": "FORTUM.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "MANTA.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "FCT.MI",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        }
+      ],
+      "finalActions": [
+        {
+          "symbol": "FORTUM.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "MANTA.HE",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        },
+        {
+          "symbol": "FCT.MI",
+          "action": "HOLD",
+          "allocationPct": 0,
+          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
+        }
+      ],
+      "changes": [],
+      "counters": {
+        "capital": {
+          "brokerRows": 258,
+          "exactCandidates": 0,
+          "strong70Plus": 0,
+          "injected": 0,
+          "upgraded": 0,
+          "winnerTopups": 0,
+          "blockedMomentum": 0,
+          "blockedHard": 0,
+          "chosen": null,
+          "topup": null
+        },
+        "expectancy": {
+          "hardStops": 0,
+          "trailingSells": 0,
+          "minHoldBlocks": 0,
+          "reentryBlocks": 0,
+          "sizingUpgrades": 0,
+          "scoreScaleFixes": 0,
+          "equity": 10056.75
+        }
+      },
+      "ruleOrder": [
+        "hard safety from legacy core",
+        "high-score capital deployment",
+        "price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority"
+      ],
+      "note": "V31.0 unified outer authority: no V30.8/V30.9/V31.0 wrapper stacking. One final transformation plus one audit record."
+    },
     {
       "ts": "2026-08-27T05:45:30.060Z",
       "patch": "31.0-unified-decision-authority",
@@ -3849,288 +4100,6 @@
         "price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority"
       ],
       "note": "V31.0 unified outer authority: no V30.8/V30.9/V31.0 wrapper stacking. One final transformation plus one audit record."
-    },
-    {
-      "ts": "2026-08-26T20:31:24.225Z",
-      "patch": "31.0-unified-decision-authority",
-      "scanCount": 1479,
-      "cash": 2850.9494199572937,
-      "positions": [
-        {
-          "symbol": "FORTUM.HE",
-          "score": 0.752085060722768,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 20.200180305480956,
-          "lastPrice": 20.24,
-          "openedAt": "2026-08-25T08:02:09.349Z",
-          "direction": null
-        },
-        {
-          "symbol": "MANTA.HE",
-          "score": 0.38214499486630693,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 6.366360133647918,
-          "lastPrice": 6.39,
-          "openedAt": "2026-08-25T10:26:09.786Z",
-          "direction": null
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "score": 9.673569601386644,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 1552.6510755615232,
-          "lastPrice": 1547,
-          "openedAt": "2026-08-26T08:35:30.287Z",
-          "direction": null
-        },
-        {
-          "symbol": "FCT.MI",
-          "score": 10.760076662730818,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 12.802789961814879,
-          "lastPrice": 12.91,
-          "openedAt": "2026-08-26T10:38:18.611Z",
-          "direction": null
-        }
-      ],
-      "topCandidates": [
-        {
-          "symbol": "MARA.MX",
-          "score": 0,
-          "rawScore": 0,
-          "m5": -1.2051986099837708,
-          "m20": 0.8377447089786605,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        }
-      ],
-      "originalActions": [
-        {
-          "symbol": "FORTUM.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "MANTA.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "FCT.MI",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        }
-      ],
-      "finalActions": [
-        {
-          "symbol": "FORTUM.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "MANTA.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "FCT.MI",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        }
-      ],
-      "changes": [],
-      "counters": {
-        "capital": {
-          "brokerRows": 258,
-          "exactCandidates": 0,
-          "strong70Plus": 0,
-          "injected": 0,
-          "upgraded": 0,
-          "winnerTopups": 0,
-          "blockedMomentum": 0,
-          "blockedHard": 0,
-          "chosen": null,
-          "topup": null
-        },
-        "expectancy": {
-          "hardStops": 0,
-          "trailingSells": 0,
-          "minHoldBlocks": 0,
-          "reentryBlocks": 0,
-          "sizingUpgrades": 0,
-          "scoreScaleFixes": 0,
-          "equity": 10047.93
-        }
-      },
-      "ruleOrder": [
-        "hard safety from legacy core",
-        "high-score capital deployment",
-        "price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority"
-      ],
-      "note": "V31.0 unified outer authority: no V30.8/V30.9/V31.0 wrapper stacking. One final transformation plus one audit record."
-    },
-    {
-      "ts": "2026-08-26T20:30:14.138Z",
-      "patch": "31.0-unified-decision-authority",
-      "scanCount": 1478,
-      "cash": 2850.9494199572937,
-      "positions": [
-        {
-          "symbol": "FORTUM.HE",
-          "score": 0.752085060722768,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 20.200180305480956,
-          "lastPrice": 20.24,
-          "openedAt": "2026-08-25T08:02:09.349Z",
-          "direction": null
-        },
-        {
-          "symbol": "MANTA.HE",
-          "score": 0.38214499486630693,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 6.366360133647918,
-          "lastPrice": 6.39,
-          "openedAt": "2026-08-25T10:26:09.786Z",
-          "direction": null
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "score": 9.673569601386644,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 1552.6510755615232,
-          "lastPrice": 1547,
-          "openedAt": "2026-08-26T08:35:30.287Z",
-          "direction": null
-        },
-        {
-          "symbol": "FCT.MI",
-          "score": 10.760076662730818,
-          "rawScore": 0,
-          "entryScore": 0,
-          "entryPrice": 12.802789961814879,
-          "lastPrice": 12.91,
-          "openedAt": "2026-08-26T10:38:18.611Z",
-          "direction": null
-        }
-      ],
-      "topCandidates": [
-        {
-          "symbol": "MARA.MX",
-          "score": 0,
-          "rawScore": 0,
-          "m5": -1.2051986099837708,
-          "m20": 0.8377447089786605,
-          "brokerVerified": false,
-          "brokerMatchMode": null
-        }
-      ],
-      "originalActions": [
-        {
-          "symbol": "FORTUM.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "MANTA.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "FCT.MI",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        }
-      ],
-      "finalActions": [
-        {
-          "symbol": "FORTUM.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "MANTA.HE",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "COCHINSHIP.NS",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        },
-        {
-          "symbol": "FCT.MI",
-          "action": "HOLD",
-          "allocationPct": 0,
-          "reason": "FINAL-CONTROLLER HOLD: keine unabhängig bestätigte These-Invaliderung; Zeitablauf oder korrelierte Kurzfrist-Schwäche allein lösen keinen Verlustverkauf aus."
-        }
-      ],
-      "changes": [],
-      "counters": {
-        "capital": {
-          "brokerRows": 258,
-          "exactCandidates": 0,
-          "strong70Plus": 0,
-          "injected": 0,
-          "upgraded": 0,
-          "winnerTopups": 0,
-          "blockedMomentum": 0,
-          "blockedHard": 0,
-          "chosen": null,
-          "topup": null
-        },
-        "expectancy": {
-          "hardStops": 0,
-          "trailingSells": 0,
-          "minHoldBlocks": 0,
-          "reentryBlocks": 0,
-          "sizingUpgrades": 0,
-          "scoreScaleFixes": 0,
-          "equity": 10047.93
-        }
-      },
-      "ruleOrder": [
-        "hard safety from legacy core",
-        "high-score capital deployment",
-        "price hard-stop/min-hold/trailing/re-entry/sizing expectancy authority"
-      ],
-      "note": "V31.0 unified outer authority: no V30.8/V30.9/V31.0 wrapper stacking. One final transformation plus one audit record."
     }
   ],
   "manualTradePolicy": {
@@ -4313,7 +4282,11 @@
     "hardExitCooldownMinutes": 120,
     "exceptionRequiresNewSignal": true,
     "higherPriceRebuyGuard": true,
-    "latest": null
+    "latest": {
+      "blockedRapidSellRebuys": 0,
+      "exceptionalReentriesAllowed": 0,
+      "higherPriceRebuysBlocked": 0
+    }
   },
   "weakestPositionReplacementPolicy": {
     "enabled": true,
@@ -4326,8 +4299,13 @@
     "minEffectiveScoreGap": 10,
     "minHoldMinutes": 15,
     "maxSinglePositionPct": 100,
-    "brokerResolveCount": 0,
-    "latest": null,
+    "brokerResolveCount": 1,
+    "latest": {
+      "weakReplacements": 0,
+      "severeWeakHeld": 0,
+      "eligibleReplacements": 0,
+      "blockedNoReplacement": 0
+    },
     "noFixedSinglePositionCap": true,
     "rule": "Klar deteriorierte Bestandspositionen koennen gegen exakt TR-verifizierte Chancen ab 62 ersetzt werden. Die neue Positionsgroesse ist dynamisch und darf ohne Hebel bis 100% reichen; kein fixer 25%-Deckel."
   },
@@ -4350,8 +4328,16 @@
     "statePromptMetadataMerge": true,
     "authoritativeBrokerUniverseResolve": true,
     "staleBrokerBlockCanBeClearedOnlyByExactMasterVerification": true,
-    "brokerResolveCount": 0,
-    "latest": null,
+    "brokerResolveCount": 1,
+    "latest": {
+      "starterBuys": 0,
+      "rotations": 0,
+      "hysteresisBypasses": 0,
+      "blockedStrongCandidates": 0,
+      "mergedCandidates": 6,
+      "exactTradeRepublicCandidates": 0,
+      "staleBrokerBlocksCleared": 0
+    },
     "blockedStrongCandidates": []
   },
   "relativeRotationPolicy": {
@@ -4369,8 +4355,18 @@
     "legacyMigrationCooldownMinutes": 5,
     "targetDeploymentPctWhenFourBuys": 98,
     "maxSinglePositionPct": 100,
-    "latest": null,
-    "legacyHeld": [],
+    "latest": {
+      "rotations": 0,
+      "legacyMigrations": 0,
+      "deploymentRescales": 0,
+      "rotationBlockedCooldown": 0,
+      "rotationBlockedHoldTime": 0
+    },
+    "legacyHeld": [
+      "MANTA.HE",
+      "FORTUM.HE",
+      "FCT.MI"
+    ],
     "noFixedSinglePositionCap": true,
     "rule": "Maximal vier Positionen bleiben als Slot-Regel. Positionsgroessen sind dynamisch; kein fixer 25%-Deckel, bis 100% ohne Hebel. Rotation und Legacy-Migration bleiben relativ score- und momentumgetrieben."
   },
@@ -4383,7 +4379,9 @@
     "minHeldScoreForTopup": 60,
     "noBlindAverageDown": true,
     "noFixedSinglePositionCap": true,
-    "latest": null
+    "latest": {
+      "topups": 0
+    }
   },
   "executionModel": {
     "feeFixed": 0,
