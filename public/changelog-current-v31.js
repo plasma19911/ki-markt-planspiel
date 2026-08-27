@@ -1,5 +1,14 @@
 const CURRENT_V31_CHANGELOG=[
   {
+    at:'27.08.2026 · 16:11',
+    title:'Changelog wird jetzt wirklich chronologisch sortiert',
+    items:[
+      'Alle Changelog-Einträge werden nach ihrem sichtbaren Datum und – falls vorhanden – ihrer Uhrzeit sortiert; die neueste Änderung steht immer ganz oben.',
+      'Die Reihenfolge hängt nicht mehr davon ab, welche Changelog-Datei zuletzt geladen oder welcher Eintrag per prepend eingefügt wurde.',
+      'Auch später nachgeladene Einträge werden automatisch neu einsortiert. Einträge ohne Uhrzeit bleiben innerhalb ihres Datums stabil geordnet.'
+    ]
+  },
+  {
     at:'27.08.2026 · 15:34',
     title:'Änderungs-Log wieder an den aktuellen Stand angebunden',
     items:[
@@ -95,7 +104,53 @@ function injectCurrentV31(){
   list.prepend(frag);
   list.querySelector('.changelogEntry')?.classList.add('latest');
 }
-function settleCurrentV31(){injectCurrentV31();setTimeout(injectCurrentV31,120);setTimeout(injectCurrentV31,600)}
+function changelogTimestamp(value){
+  const match=String(value??'').match(/(\d{1,2})\.(\d{1,2})\.(\d{4})(?:\s*·\s*(\d{1,2}):(\d{2}))?/);
+  if(!match)return Number.NEGATIVE_INFINITY;
+  const [,day,month,year,hour='0',minute='0']=match;
+  return Date.UTC(Number(year),Number(month)-1,Number(day),Number(hour),Number(minute));
+}
+let changelogSortQueued=false;
+let changelogObserver=null;
+function sortChangelogNewestFirst(){
+  const list=document.querySelector('#changelogOverlay .changelogList');
+  if(!list)return;
+  const current=Array.from(list.children).filter(node=>node.classList.contains('changelogEntry'));
+  const sorted=current.slice().sort((a,b)=>{
+    const aTime=changelogTimestamp(a.querySelector('.changelogTime')?.textContent);
+    const bTime=changelogTimestamp(b.querySelector('.changelogTime')?.textContent);
+    return bTime-aTime;
+  });
+  const alreadySorted=current.every((node,index)=>node===sorted[index]);
+  list.querySelectorAll('.changelogEntry.latest').forEach(node=>node.classList.remove('latest'));
+  if(!alreadySorted){
+    changelogObserver?.disconnect();
+    const frag=document.createDocumentFragment();
+    sorted.forEach(node=>frag.appendChild(node));
+    list.appendChild(frag);
+    changelogObserver?.observe(list,{childList:true});
+  }
+  list.querySelector('.changelogEntry')?.classList.add('latest');
+}
+function scheduleChangelogSort(){
+  if(changelogSortQueued)return;
+  changelogSortQueued=true;
+  queueMicrotask(()=>{changelogSortQueued=false;sortChangelogNewestFirst()});
+}
+function observeChangelogOrder(){
+  const list=document.querySelector('#changelogOverlay .changelogList');
+  if(!list)return;
+  if(!changelogObserver)changelogObserver=new MutationObserver(scheduleChangelogSort);
+  changelogObserver.disconnect();
+  changelogObserver.observe(list,{childList:true});
+}
+function settleCurrentV31(){
+  injectCurrentV31();
+  observeChangelogOrder();
+  scheduleChangelogSort();
+  setTimeout(()=>{injectCurrentV31();observeChangelogOrder();scheduleChangelogSort()},120);
+  setTimeout(()=>{injectCurrentV31();observeChangelogOrder();scheduleChangelogSort()},600);
+}
 document.addEventListener('click',e=>{if(e.target.closest('#changelogToggle'))settleCurrentV31()});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',settleCurrentV31,{once:true});else settleCurrentV31();
-window.__CURRENT_V31_CHANGELOG__={latest:'27.08.2026 15:34',through:'V31.2',entries:CURRENT_V31_CHANGELOG.length};
+window.__CURRENT_V31_CHANGELOG__={latest:'27.08.2026 16:11',through:'V31.2',entries:CURRENT_V31_CHANGELOG.length,sortedNewestFirst:true};
