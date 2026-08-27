@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-08-24T05:08:52.529Z",
-  "nextRefreshAfter": "2026-08-25T05:08:52.529Z",
+  "updatedAt": "2026-08-27T05:46:13.115Z",
+  "nextRefreshAfter": "2026-08-28T05:46:13.115Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -16,7 +16,7 @@
   "sourceErrors": [],
   "rawUpcomingCount": 17,
   "matchedUpcomingCount": 5,
-  "fundamentalEstimateCount": 2,
+  "fundamentalEstimateCount": 1,
   "universeGeneratedAt": "2026-08-24T04:09:57.222992Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
@@ -30,8 +30,8 @@
       "companyKey": "UNDER ARMOUR",
       "currency": "EUR",
       "matchConfidence": 1,
-      "baseScore": 36,
-      "fundamentalScore": 36,
+      "baseScore": 28,
+      "fundamentalScore": 28,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -49,12 +49,12 @@
         "revenueCurrentYearEstimate": 4741.61,
         "revenueNextYearEstimate": 4845.89
       },
-      "daysUntil": 2,
-      "baseLabel": "VORSICHT",
+      "daysUntil": -1,
+      "baseLabel": "NEGATIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -7,
+          "delta": -14,
           "label": "Analystenschaetzungen"
         },
         {
@@ -64,19 +64,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 2,
+          "delta": 1,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": -9,
-      "newsDelta": 2,
-      "fundamentalDelta": -7,
+      "newsDelta": 1,
+      "fundamentalDelta": -14,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "3 Growth Stocks That Could Skyrocket in the Second Half of 2026",
-        "Micron, Sandisk, and SK Hynix: History Says This About the Memory Trio's Rally",
-        "Micron CEO is doubling down on a cycle-free future",
-        "Jim Cramer Says Stocks and the Economy Are Telling Two Very Different Stories: ‘Jarring Gulf’"
+        "Nike Is Shipping Less On Purpose, And That Is The Case For Nike Stock",
+        "Dick's Sporting Goods Stock Usually Heals Fast, But Not From Falls The Market Does Not Share",
+        "VF Corp, Levi's, Under Armour, Deckers, and Crocs Stocks Trade Down, What You Need To Know",
+        "Why Dick’s Sporting Goods’ Same-Store Sales Ring Warning Bells"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -86,20 +86,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 254,
-        "last": 4.5,
-        "changeM1": -24.1,
-        "changeM3": -5.3,
-        "changeM6": -30.3,
+        "samples": 253,
+        "last": 4.4,
+        "changeM1": -29.1,
+        "changeM3": -14.8,
+        "changeM6": -31.6,
         "sma50": 5.5,
         "sma200": 5.1,
-        "position52w": 29.2,
-        "drawdownFromHigh": -32.4,
-        "volatility20d": 50.3,
-        "volumeTrend": -23.3
+        "position52w": 26.5,
+        "drawdownFromHigh": -33.6,
+        "volatility20d": 47.1,
+        "volumeTrend": -29.4
       },
-      "scoreEvaluatedAt": "2026-08-24T05:08:52.529Z",
-      "scoreValidUntil": "2026-08-25T05:08:52.529Z"
+      "scoreEvaluatedAt": "2026-08-27T05:46:13.115Z",
+      "scoreValidUntil": "2026-08-28T05:46:13.115Z"
     },
     {
       "date": "2026-08-28",
@@ -111,9 +111,9 @@
       "companyKey": "AUMANN",
       "currency": "EUR",
       "matchConfidence": 1,
-      "baseScore": 80,
-      "fundamentalScore": 80,
-      "fundamentalConfidence": 0.872,
+      "baseScore": 86,
+      "fundamentalScore": 86,
+      "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Wachstum ca. 80%",
@@ -130,8 +130,8 @@
         "revenueCurrentYearEstimate": 160.6,
         "revenueNextYearEstimate": 192.15
       },
-      "daysUntil": 4,
-      "baseLabel": "POSITIV",
+      "daysUntil": 1,
+      "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
@@ -140,21 +140,24 @@
         },
         {
           "key": "CHART",
-          "delta": 6,
+          "delta": 12,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
           "delta": 0,
-          "label": "1 frische Meldungen"
+          "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": 6,
+      "chartDelta": 12,
       "newsDelta": 0,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Aumann Q2 Earnings Call Highlights"
+        "BDCs Are Selling Investment-Grade Bonds Again After a Frozen Quarter",
+        "MindMaze Therapeutics Reports 2026 Half-Year Results and Corporate Update",
+        "No AI, No Problem: 5 Consumer Stocks Quietly Outperforming Nvidia This Year",
+        "BW Offshore: Ex dividend USD 0.0625 today"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -164,20 +167,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 94,
-        "last": 14,
-        "changeM1": 5.3,
-        "changeM3": 1.1,
-        "changeM6": 6.9,
+        "samples": 96,
+        "last": 14.4,
+        "changeM1": 8.3,
+        "changeM3": 4.3,
+        "changeM6": 9.9,
         "sma50": 14.2,
         "sma200": 13.9,
-        "position52w": 47.6,
-        "drawdownFromHigh": -10.5,
-        "volatility20d": 32.3,
+        "position52w": 60.3,
+        "drawdownFromHigh": -8,
+        "volatility20d": 32.7,
         "volumeTrend": null
       },
-      "scoreEvaluatedAt": "2026-08-24T05:08:52.529Z",
-      "scoreValidUntil": "2026-08-25T05:08:52.529Z"
+      "scoreEvaluatedAt": "2026-08-27T05:46:13.115Z",
+      "scoreValidUntil": "2026-08-28T05:46:13.115Z"
     },
     {
       "date": "2026-09-02",
@@ -189,14 +192,15 @@
       "companyKey": "CASEY S GENERAL STORES",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 64,
-      "fundamentalScore": 64,
-      "fundamentalConfidence": 0.881,
+      "baseScore": 70,
+      "fundamentalScore": 70,
+      "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+11%)",
         "Kurs ueber der 200-Tage-Linie",
-        "Gesunde Position im 52-Wochen-Band (81%)"
+        "Gesunde Position im 52-Wochen-Band (81%)",
+        "Gesunde Position im 52-Wochen-Band (74%)"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -205,13 +209,12 @@
         "revenueCurrentYearEstimate": 20551.95,
         "revenueNextYearEstimate": 20732.86
       },
-      "daysUntil": 9,
+      "daysUntil": 6,
       "baseLabel": "LEICHT POSITIV",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/caseys_general_stores",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 6,
+          "delta": 14,
           "label": "Analystenschaetzungen"
         },
         {
@@ -221,19 +224,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 2,
+          "delta": 0,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": 6,
-      "newsDelta": 2,
-      "fundamentalDelta": 6,
+      "newsDelta": 0,
+      "fundamentalDelta": 14,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "3 Growth Stocks That Could Skyrocket in the Second Half of 2026",
-        "Micron, Sandisk, and SK Hynix: History Says This About the Memory Trio's Rally",
-        "Micron CEO is doubling down on a cycle-free future",
-        "Jim Cramer Says Stocks and the Economy Are Telling Two Very Different Stories: ‘Jarring Gulf’"
+        "Bloomberg 500 (B500) Index Adds Ten Securities Following September Reconstitution",
+        "Casey's Food and Grocery Categories Fuel Strong Inside Sales Momentum",
+        "College Football is Back: Casey’s Breakfast Pizza Returns as the \"Official Pizza of Noon Kickoffs\"",
+        "Casey's General Stores (CASY) Texas Football Tie Up Keeps Valuation Questions In Play"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -244,19 +247,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 835.7,
-        "changeM1": -4.5,
-        "changeM3": 1.3,
-        "changeM6": 25.3,
-        "sma50": 840.7,
-        "sma200": 714.8,
-        "position52w": 80.9,
-        "drawdownFromHigh": -8.8,
-        "volatility20d": 24.9,
-        "volumeTrend": -45.1
+        "last": 807.1,
+        "changeM1": -5.8,
+        "changeM3": 2.9,
+        "changeM6": 19.4,
+        "sma50": 836.8,
+        "sma200": 719.3,
+        "position52w": 74.1,
+        "drawdownFromHigh": -11.9,
+        "volatility20d": 29,
+        "volumeTrend": -45.2
       },
-      "scoreEvaluatedAt": "2026-08-24T05:08:52.529Z",
-      "scoreValidUntil": "2026-08-25T05:08:52.529Z"
+      "scoreEvaluatedAt": "2026-08-27T05:46:13.115Z",
+      "scoreValidUntil": "2026-08-28T05:46:13.115Z"
     },
     {
       "date": "2026-09-02",
@@ -268,15 +271,16 @@
       "companyKey": "CHECK POINT SOFTWARE TECHNOLOGIES",
       "currency": "BRL",
       "matchConfidence": 0.88,
-      "baseScore": 61,
-      "fundamentalScore": 61,
-      "fundamentalConfidence": 0.881,
+      "baseScore": 58,
+      "fundamentalScore": 58,
+      "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+8%)",
         "Umsatzschätzung nächstes Jahr +6%",
         "Kurs unter der 200-Tage-Linie",
-        "Umsatz zieht vor der HV an (+104%)"
+        "Umsatz zieht vor der HV an (+104%)",
+        "Umsatz zieht vor der HV an (+111%)"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -285,9 +289,8 @@
         "revenueCurrentYearEstimate": 2801.85,
         "revenueNextYearEstimate": 2959.61
       },
-      "daysUntil": 9,
+      "daysUntil": 6,
       "baseLabel": "LEICHT POSITIV",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/check_point_software",
       "scoreParts": [
         {
           "key": "ZAHLEN",
@@ -296,24 +299,24 @@
         },
         {
           "key": "CHART",
-          "delta": -1,
+          "delta": -3,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": 1,
+          "delta": 0,
           "label": "8 frische Meldungen"
         }
       ],
-      "chartDelta": -1,
-      "newsDelta": 1,
+      "chartDelta": -3,
+      "newsDelta": 0,
       "fundamentalDelta": 11,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "Lightspeed Commerce Appoints Rupal Hollenbeck to Board of Directors",
+        "CrowdStrike Set to Report Q2 Earnings: Buy, Sell or Hold the Stock?",
         "Professor James Mickens, Katie Moussouris, and Dino Dai Zovi to Keynote SentinelOne’s LABScon 2026",
-        "Check Point Sees AI Security Spending Surge as 2027 Growth Setup Takes Shape",
-        "Check Point Software Technologies (CHKP) Launched New AI Security Tools, Is The Stock Still Undervalued?",
-        "Check Point (CHKP) Q2 2026 Earnings Call Transcript"
+        "Check Point Sees AI Security Spending Surge as 2027 Growth Setup Takes Shape"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -323,20 +326,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "BRL",
-        "samples": 251,
-        "last": 56.2,
-        "changeM1": 3.6,
-        "changeM3": 5.6,
-        "changeM6": -19.2,
-        "sma50": 55.1,
-        "sma200": 67.2,
-        "position52w": 23.5,
-        "drawdownFromHigh": -35.1,
-        "volatility20d": 48.1,
-        "volumeTrend": 104
+        "samples": 250,
+        "last": 55.5,
+        "changeM1": -2.2,
+        "changeM3": 0.4,
+        "changeM6": -20.1,
+        "sma50": 55.2,
+        "sma200": 66.9,
+        "position52w": 22,
+        "drawdownFromHigh": -35.8,
+        "volatility20d": 47.1,
+        "volumeTrend": 110.7
       },
-      "scoreEvaluatedAt": "2026-08-24T05:08:52.529Z",
-      "scoreValidUntil": "2026-08-25T05:08:52.529Z"
+      "scoreEvaluatedAt": "2026-08-27T05:46:13.115Z",
+      "scoreValidUntil": "2026-08-28T05:46:13.115Z"
     },
     {
       "date": "2026-09-03",
@@ -348,31 +351,30 @@
       "companyKey": "WATCHES OF SWITZERLAND",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 56,
-      "fundamentalScore": 56,
-      "fundamentalConfidence": 0.583,
-      "profitForecastPositive": null,
+      "baseScore": 67,
+      "fundamentalScore": 67,
+      "fundamentalConfidence": 0.781,
+      "profitForecastPositive": true,
       "fundamentalReasons": [
+        "Analysten erwarten leicht höheres EPS (+12%)",
+        "Umsatzschätzung nächstes Jahr +7%",
         "Kurs ueber der 200-Tage-Linie",
-        "Gesunde Position im 52-Wochen-Band (75%)"
+        "Gesunde Position im 52-Wochen-Band (76%)"
       ],
       "fundamentals": {
-        "source": "Yahoo quote",
-        "epsTrailingTwelveMonths": null,
-        "epsForward": null,
-        "epsCurrentYear": null,
-        "averageAnalystRating": null,
-        "fiftyTwoWeekChange": null,
-        "forwardPE": null,
-        "trailingPE": null,
-        "marketCap": null
+        "source": "finanzen.net Schätzungen",
+        "epsCurrentYearEstimate": 0.52,
+        "epsNextYearEstimate": 0.58,
+        "revenueCurrentYearEstimate": 1988.93,
+        "revenueNextYearEstimate": 2118.24
       },
-      "daysUntil": 10,
-      "baseLabel": "NEUTRAL",
+      "daysUntil": 7,
+      "baseLabel": "LEICHT POSITIV",
+      "estimateUrl": "https://www.finanzen.net/schaetzungen/watches_of_switzerland",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 0,
+          "delta": 11,
           "label": "Analystenschaetzungen"
         },
         {
@@ -388,7 +390,7 @@
       ],
       "chartDelta": 6,
       "newsDelta": 0,
-      "fundamentalDelta": 0,
+      "fundamentalDelta": 11,
       "newsGuidance": 0,
       "newsHeadlines": [
         "⚡Flash Heard: Swiss Luxury Watches Are on U.S. Time Now"
@@ -402,19 +404,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 254,
-        "last": 680,
-        "changeM1": -2.7,
-        "changeM3": -1.1,
-        "changeM6": 34.4,
-        "sma50": 730.5,
-        "sma200": 568.2,
-        "position52w": 74.8,
-        "drawdownFromHigh": -15.2,
-        "volatility20d": 28.5,
-        "volumeTrend": -36
+        "last": 685,
+        "changeM1": -4.7,
+        "changeM3": -3.8,
+        "changeM6": 32.5,
+        "sma50": 729.1,
+        "sma200": 571,
+        "position52w": 75.9,
+        "drawdownFromHigh": -14.5,
+        "volatility20d": 27.6,
+        "volumeTrend": -37.2
       },
-      "scoreEvaluatedAt": "2026-08-24T05:08:52.529Z",
-      "scoreValidUntil": "2026-08-25T05:08:52.529Z"
+      "scoreEvaluatedAt": "2026-08-27T05:46:13.115Z",
+      "scoreValidUntil": "2026-08-28T05:46:13.115Z"
     }
   ],
   "estimateAttemptCount": 5,
