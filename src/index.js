@@ -4,6 +4,7 @@ import core,{MarketPortfolio} from './index-core.js';
 import {agentStatusLite,shouldServeAgentLite} from './status-lite.js';
 import {verifyCloudflareAccess} from './access-auth.js';
 import {positionChartHistoryData} from './position-chart-history.js';
+import {buildLiveNewsFeed} from './live-news-feed.js';
 export {MarketPortfolio};
 
 const enc=new TextEncoder();
@@ -20,10 +21,15 @@ async function positionChartResponse(request,env){
  const p=env.PORTFOLIO.getByName('default-paper-portfolio'),u=new URL(request.url),data=await positionChartHistoryData(p,u);
  return Response.json(data,{status:data?.status||200,headers:{'cache-control':'no-store'}});
 }
+async function liveNewsFeedResponse(env){
+ const p=env.PORTFOLIO.getByName('default-paper-portfolio'),payload=await buildLiveNewsFeed(p,env,{limit:12});
+ return Response.json(payload,{headers:{'cache-control':'private, no-store, max-age=0'}});
+}
 export default{
  async fetch(request,env,ctx){
   const u=new URL(request.url),statusMethod=request.method==='GET'||request.method==='HEAD';
   if(statusMethod&&(u.pathname==='/api/status/lite'||(u.pathname==='/api/status'&&shouldServeAgentLite(request)))){try{return await liteStatusResponse(request,env)}catch(e){return Response.json({error:String(e?.message||e)},{status:500})}}
+  if(u.pathname==='/api/news-feed'&&request.method==='GET'){try{return await liveNewsFeedResponse(env)}catch(e){return Response.json({ok:false,error:String(e?.message||e),items:[]},{status:500,headers:{'cache-control':'no-store'}})}}
   if(u.pathname==='/api/position-chart'&&request.method==='GET'){try{return await positionChartResponse(request,env)}catch(e){return Response.json({error:String(e?.message||e)},{status:500,headers:{'cache-control':'no-store'}})}}
   if(u.pathname==='/api/manual-trade'&&request.method==='POST'){try{return await manualTradeResponse(request,env)}catch(e){return Response.json({ok:false,error:String(e?.message||e)},{status:500,headers:{'cache-control':'no-store'}})}}
   const response=await core.fetch(request,env,ctx);if(u.pathname==='/api/agent/universe'&&request.method==='POST')return enrichAgentUniverse(response,env,request.url);if(u.pathname==='/api/start'&&request.method==='POST')return normalizeStartResponse(response);return response
