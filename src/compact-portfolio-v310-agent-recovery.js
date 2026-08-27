@@ -31,11 +31,13 @@ export class MarketPortfolio extends BasePortfolio{
     }
   }
 
-  async status(){
-    const s=await super.status();
-    s.pcAgentScanRecovery={enabled:true,version:'31.0.1',mode:'fail-soft-agent-scan',...this.__pcAgentScanRecovery,rule:'PC-Heartbeat und Prefetch bleiben aktiv, auch wenn der interne Portfolio-Scan fehlschlaegt. Scanfehler werden sichtbar statt als undiagnostischer HTTP-500 die komplette Agent-Minute abzubrechen.'};
+  _withPcAgentRecovery(s={}){
+    s.pcAgentScanRecovery={enabled:true,version:'31.3.0',mode:'fail-soft-agent-scan',...this.__pcAgentScanRecovery,rule:'PC-Heartbeat und Prefetch bleiben aktiv, auch wenn der interne Portfolio-Scan scheitert. Dashboard- und Vollstatus zeigen denselben Recovery-Zustand, ohne fuer die PC-Abfrage den grossen Status aufzubauen.'};
     if(s.pcAgent)s.pcAgent={...s.pcAgent,lastScanError:this.__pcAgentScanRecovery.lastError,lastScanErrorAt:this.__pcAgentScanRecovery.lastErrorAt,lastSuccessfulAgentScanAt:this.__pcAgentScanRecovery.lastOkAt};
-    s.executionModel={...(s.executionModel||{}),pcAgentFailSoftScanRecoveryV3101:true};
+    s.executionModel={...(s.executionModel||{}),pcAgentFailSoftScanRecoveryV3101:true,pcAgentDirectLiteStatusV313:true};
     return s;
   }
+
+  async dashboardStatus(){return this._withPcAgentRecovery(await super.dashboardStatus())}
+  async status(){return this._withPcAgentRecovery(await super.status())}
 }
