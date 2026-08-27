@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '25 4 * * *'
   workflow_dispatch:
+  # Aenderungen an diesem Workflow starten genau einen Sofortlauf.
+  # Der Kalender-Commit selbst trifft diesen Pfad nicht und erzeugt daher keine Schleife.
+  push:
+    paths:
+      - '.github/workflows/update-agm-calendar.yml'
 
 permissions:
   contents: write
@@ -15,35 +20,50 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Verify AGM scoring rules
-        run: node tests/v276-agm-preview.test.mjs
+
+      # Der alte V27.6 Trading-Preview-Test gehoert in die Strategie-Regression,
+      # nicht vor die taegliche Datenaktualisierung. Er hatte erfolgreiche
+      # Kalender-Downloads blockiert und dadurch die Live-Datei tagelang alt gelassen.
       - name: Build current AGM calendar
         run: node scripts/update-agm-calendar.mjs
+
       - name: Enrich matched AGM firms with finanzen.net earnings estimates
         run: node scripts/enrich-agm-calendar-estimates.mjs
+
       - name: Evaluate AGM calendar exactly once for this daily run
         run: node scripts/score-agm-calendar-daily.mjs
+
       - name: Validate generated daily calendar
         run: |
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const j=JSON.parse(fs.readFileSync('public/agm-calendar.json','utf8'));
           if(!Array.isArray(j.events))throw new Error('agm-calendar.json events fehlt');
+          if(!j.events.length)throw new Error('agm-calendar.json enthaelt keine gematchten HV-Termine');
           if(Number(j.modelVersion)!==27.6)throw new Error(`Falsche AGM-Modellversion ${j.modelVersion}`);
           if(j.scoreEvaluationCadence!=='daily')throw new Error(`Falsche Bewertungsfrequenz ${j.scoreEvaluationCadence}`);
           if(j.scoreReevaluation!=='once daily only')throw new Error(`Score wird nicht als Tages-Snapshot markiert: ${j.scoreReevaluation}`);
+
+          const updated=Date.parse(String(j.updatedAt||''));
+          if(!Number.isFinite(updated))throw new Error(`Ungueltiger Aktualisierungszeitpunkt ${j.updatedAt}`);
+          const ageMin=(Date.now()-updated)/60000;
+          if(ageMin<0||ageMin>30)throw new Error(`HV-Kalender ist nach dem Tageslauf nicht frisch (${ageMin.toFixed(1)} Min.)`);
+
           for(const x of j.events){
             if(!/^\d{4}-\d{2}-\d{2}$/.test(String(x.date||'')))throw new Error(`Ungueltiges HV-Datum: ${x.date}`);
             if(!x.symbol||!x.name)throw new Error('Gematchter HV-Eintrag ohne Symbol/Name');
             const s=Number(x.baseScore);if(!Number.isFinite(s)||s<0||s>100)throw new Error(`Ungueltiger HV-Score ${s}`);
-            if(!x.scoreEvaluatedAt)throw new Error(`Kein Tages-Bewertungszeitpunkt fuer ${x.symbol}`);
+            const evaluated=Date.parse(String(x.scoreEvaluatedAt||''));
+            if(!Number.isFinite(evaluated))throw new Error(`Kein Tages-Bewertungszeitpunkt fuer ${x.symbol}`);
+            if(Math.abs(evaluated-updated)>10*60*1000)throw new Error(`Score ${x.symbol} stammt nicht aus dem aktuellen Tageslauf`);
           }
+
           if(j.events.length>=3){
             const scores=j.events.map(x=>Number(x.baseScore));
             if(scores.every(s=>s===scores[0]))throw new Error(`Alle HV-Termine tragen denselben Score ${scores[0]} - Tagesdaten pruefen`);
@@ -51,8 +71,9 @@ jobs:
             if(covered<Math.ceil(j.events.length*.5))throw new Error(`Zu wenige HV-Termine mit echten Tagessignalen (${covered}/${j.events.length})`);
           }
           const sc=j.events.map(x=>Number(x.baseScore));
-          console.log(`HV-Kalender Tagesbewertung OK: raw=${j.rawUpcomingCount||0}, gematcht=${j.events.length}, Zahlen=${j.fundamentalEstimateCount||0}, Charts=${j.chartProfileCount||0}, News=${j.newsProfileCount||0}, Score ${sc.length?Math.min(...sc):'-'}-${sc.length?Math.max(...sc):'-'}, Stand=${j.updatedAt}`);
+          console.log(`HV-Kalender Tagesbewertung OK: raw=${j.rawUpcomingCount||0}, gematcht=${j.events.length}, Zahlen=${j.fundamentalEstimateCount||0}, Charts=${j.chartProfileCount||0}, News=${j.newsProfileCount||0}, Score ${Math.min(...sc)}-${Math.max(...sc)}, Stand=${j.updatedAt}`);
           NODE
+
       - name: Commit daily calendar when changed
         run: |
           if git diff --quiet -- public/agm-calendar.json; then
