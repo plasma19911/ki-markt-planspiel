@@ -136,5 +136,26 @@
 <script src="/changelog-v302.js?v=20260821-1222" type="module"></script>
 <script src="/changelog-v303.js?v=20260821-1250" type="module"></script>
 <script src="/changelog-master-v290.js?v=20260821-1250" type="module"></script>
+<script>
+(() => {
+  const placeLiveNewsAtBottom = () => {
+    const ticker = document.getElementById('liveStockNews');
+    const setup = document.getElementById('setup');
+    if (!ticker || !setup) return;
+    if (ticker.nextElementSibling === setup) return;
+    setup.insertAdjacentElement('beforebegin', ticker);
+  };
+  const start = () => {
+    placeLiveNewsAtBottom();
+    const grid = document.querySelector('.dashboardGrid');
+    if (grid) new MutationObserver(placeLiveNewsAtBottom).observe(grid,{childList:true});
+    setTimeout(placeLiveNewsAtBottom,250);
+    setTimeout(placeLiveNewsAtBottom,1000);
+    setInterval(placeLiveNewsAtBottom,5000);
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, {once:true});
+  else start();
+})();
+</script>
 </body>
 </html>
