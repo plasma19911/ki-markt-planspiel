@@ -12,9 +12,12 @@ function directEventPrice(x){const p=Number(x?.execution_price??x?.price);return
 
 export async function positionChartHistoryData(p,u){
  const symbol=key(u.searchParams.get('symbol'));if(!symbol||symbol.length>32)return{error:'Ungültiges Aktiensymbol.',status:400};
+ const raw=String(u.searchParams.get('range')||'trade'),range=['trade','1d','5d','1mo'].includes(raw)?raw:'trade';
  const s=await p.status(),positions=s?.positions||[],history=s?.history||[],pos=positions.find(x=>key(x?.symbol)===symbol)||null,events=history.filter(x=>key(x?.symbol)===symbol&&isTrade(x)).sort((a,b)=>Date.parse(a.ts)-Date.parse(b.ts));
- if(!pos&&!events.length)return{error:'Dieses Symbol wurde im Planspiel noch nicht gehandelt.',status:404};
- const raw=String(u.searchParams.get('range')||'trade'),range=['trade','1d','5d','1mo'].includes(raw)?raw:'trade',q=new URL(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}`);let interval='5m',window=null;
+ // Der historische Trade-Bereich braucht einen Trade. Reine Kursbereiche dürfen dagegen
+ // jede valide News-/Scanner-Aktie öffnen, auch wenn sie noch nie im Depot lag.
+ if(range==='trade'&&!pos&&!events.length)return{error:'Dieses Symbol wurde im Planspiel noch nicht gehandelt.',status:404};
+ const q=new URL(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}`);let interval='5m',window=null;
  if(range==='trade'){
   window=eventWindow(events,pos);if(!window)return{error:'Kein Trade-Zeitraum verfügbar.',status:404};interval=tradeInterval(window.to-window.from);q.searchParams.set('period1',String(Math.floor(window.from/1000)));q.searchParams.set('period2',String(Math.floor(window.to/1000)));
  }else{interval=range==='1d'?'5m':range==='5d'?'15m':'60m';q.searchParams.set('range',range)}
@@ -25,5 +28,5 @@ export async function positionChartHistoryData(p,u){
  const name=pos?.name||events.find(x=>x?.name)?.name||res?.meta?.longName||res?.meta?.shortName||symbol,entryPrice=Number(pos?.entry_price||0),openedAt=pos?.opened_at||events.find(x=>BUY.has(String(x?.action||'').toUpperCase()))?.ts||null;
  const normalizedEvents=events.map(x=>({ts:x.ts,action:BUY.has(String(x?.action||'').toUpperCase())?'KAUF':'VERKAUF',price:directEventPrice(x),amount:Number(x?.amount||0),reason:String(x?.reason||'').slice(0,260)})).filter(x=>x.ts);
  if(pos&&openedAt&&entryPrice>0&&!normalizedEvents.some(x=>x.action==='KAUF'&&Math.abs(Date.parse(x.ts)-Date.parse(openedAt))<10*60*1000))normalizedEvents.push({ts:openedAt,action:'KAUF',price:entryPrice,amount:Number(pos?.invested||0),reason:'Aktueller Einstieg'});normalizedEvents.sort((a,b)=>Date.parse(a.ts)-Date.parse(b.ts));
- return{ok:true,symbol,name,range,interval,bars,events:normalizedEvents,tradeWindow:window?{from:new Date(window.from).toISOString(),to:new Date(window.to).toISOString()}:null,position:pos?{open:true,entryPrice,openedAt,invested:Number(pos?.invested||0),lastPrice:Number(pos?.last_price||res?.meta?.regularMarketPrice||bars.at(-1)?.close||0)}:{open:false,entryPrice:0,openedAt:null,invested:0},currency:res?.meta?.currency||pos?.currency||null,exchange:res?.meta?.exchangeName||null};
+ return{ok:true,symbol,name,range,interval,bars,events:normalizedEvents,tradeWindow:window?{from:new Date(window.from).toISOString(),to:new Date(window.to).toISOString()}:null,position:pos?{open:true,entryPrice,openedAt,invested:Number(pos?.invested||0),lastPrice:Number(pos?.last_price||res?.meta?.regularMarketPrice||bars.at(-1)?.close||0)}:{open:false,entryPrice:0,openedAt:null,invested:0,lastPrice:Number(res?.meta?.regularMarketPrice||bars.at(-1)?.close||0)},currency:res?.meta?.currency||pos?.currency||null,exchange:res?.meta?.exchangeName||null};
 }
