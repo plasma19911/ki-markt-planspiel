@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-27T13:51:24.659Z",
+  "checkedAt": "2026-08-27T13:52:56.732Z",
   "runtimeVersion": "V31.2",
   "liveDecisionVersion": "V31.2",
   "outcomeLearningVersion": "V31.2",
@@ -10,7 +10,7 @@
     "runtimeV312": true,
     "unifiedDecisionAuthority": true,
     "outcomeLearningV312": true,
-    "learningActuallyTracking": false,
+    "learningActuallyTracking": true,
     "continuousFeedback": true,
     "expectancy": true,
     "brokerMaster": true,
@@ -24,10 +24,8 @@
     "lastErrorClear": true,
     "positionCountWithinLimit": true
   },
-  "failedChecks": [
-    "learningActuallyTracking"
-  ],
-  "allRequiredChecksPassed": false,
+  "failedChecks": [],
+  "allRequiredChecksPassed": true,
   "outcomeLearningPolicy": {
     "enabled": true,
     "version": 31.2,
@@ -48,29 +46,95 @@
     "minForecastScore": 70,
     "maxPredictiveAllocationPct": 42,
     "maxOpenPositions": 4,
-    "mode": "WARMUP",
-    "matured": 0,
+    "mode": "BALANCED",
+    "matured": 72,
     "buySamples": 0,
     "buyHitRate": null,
-    "avg20mReturnPct": null,
-    "missedOpportunities": 0,
+    "avgBuy20mReturnPct": null,
+    "avg20mReturnPct": -0.062,
+    "missedOpportunities": 1,
     "badBuys": 0,
     "earlySells": 0,
-    "trackedSymbols": 0,
-    "currentCandidates": 0,
-    "weights": null,
-    "topForecasts": [],
+    "correctSells": 0,
+    "thresholdAdjustment": 0,
+    "allocationAdjustment": 0,
+    "trackedSymbols": 22,
+    "currentCandidates": 5,
+    "weights": {
+      "velocity": 2.9039159473246308,
+      "m5": 2.6226761238733065,
+      "m20": 2.7090497731671506,
+      "accel": 1.16223321693362,
+      "news": 1.8,
+      "confidence": 1.0949737287229473,
+      "direction": 1.2
+    },
+    "topForecasts": [
+      {
+        "symbol": "NET",
+        "score": 64.5,
+        "forecast20mScore": 66.65,
+        "velocity5": 0,
+        "confidence": 0.565,
+        "earlySignal": false,
+        "regime": "VOLATILE"
+      },
+      {
+        "symbol": "MANTA.HE",
+        "score": 25,
+        "forecast20mScore": 24.78,
+        "velocity5": 0,
+        "confidence": 0.458,
+        "earlySignal": false,
+        "regime": "BULL"
+      },
+      {
+        "symbol": "INTU",
+        "score": 18,
+        "forecast20mScore": 13.62,
+        "velocity5": 0,
+        "confidence": 0.369,
+        "earlySignal": false,
+        "regime": "SIDEWAYS"
+      },
+      {
+        "symbol": "OTKAR.IS",
+        "score": 16,
+        "forecast20mScore": 6.65,
+        "velocity5": -7.701,
+        "confidence": 0.35,
+        "earlySignal": false,
+        "regime": "SIDEWAYS"
+      },
+      {
+        "symbol": "FORTUM.HE",
+        "score": 0,
+        "forecast20mScore": 0,
+        "velocity5": 0,
+        "confidence": 0.405,
+        "earlySignal": false,
+        "regime": "SIDEWAYS"
+      }
+    ],
+    "recentMissedOpportunities": [
+      {
+        "symbol": "SAP.DE",
+        "returnPct": 0.6643,
+        "ts": 1787837012645
+      }
+    ],
+    "rule": "V31.2 verfolgt Kandidaten und Depotpositionen kontinuierlich. BUY/HOLD/SELL werden nach 5/20/60/240 Minuten mit dem echten späteren Kurs verglichen. Verpasste Chancen, Fehlkäufe und zu frühe Verkäufe fließen in Schwellen, Positionsgröße und die Gewichte für Score-Geschwindigkeit, Momentum, Beschleunigung, News, Konfidenz und Chart-Richtung ein. Neuere 20m-Ergebnisse werden stärker gewichtet.",
     "writeErrors": 0,
     "insideUnifiedAuthority": true
   },
-  "scanCount": 1710,
-  "lastScan": "2026-08-27T13:49:17.118Z",
+  "scanCount": 1711,
+  "lastScan": "2026-08-27T13:51:44.518Z",
   "lastError": null,
   "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 4 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · V3 · V30.9 Capital: 0 High-Score BUY · 0 Starte · V31.0 Expect · V31 Unified+Outcome: 0 finale Änderung(en), Lernmodus BALANCED.",
   "cash": 2988.831658714097,
-  "equity": 10022.601583554107,
-  "pnl": 22.601583554107492,
-  "marketValue": 7033.76992484001,
+  "equity": 10023.36160094902,
+  "pnl": 23.361600949019703,
+  "marketValue": 7034.529942234923,
   "accountingDelta": 0,
   "positions": 4,
   "positionRows": [
@@ -157,18 +221,18 @@
       "decisionScore": 66.3,
       "entryDecisionScore": 69.3,
       "scoreDeltaFromEntry": -3,
-      "scoreDeltaThisScan": 1,
+      "scoreDeltaThisScan": 0,
       "rawDecisionScore": 32.3,
       "chartMoveFromEntryPct": 0.213,
-      "chartMoveLastScanPct": -0.35,
-      "scoreFrozenPartial": false,
-      "scoreChartCapped": true,
+      "chartMoveLastScanPct": 0,
+      "scoreFrozenPartial": true,
+      "scoreChartCapped": false,
       "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
       "preDirectionalScore": 64.3,
       "scoreFloor": 66.3,
       "scoreCeiling": 72.3,
       "chartDirectionMode": "FLAT",
-      "scorePriorCorrected": true,
+      "scorePriorCorrected": false,
       "preProfitScore": 66.3,
       "profitScoreCeiling": 72.3,
       "profitScoreDeltaThisScan": 0,
@@ -185,7 +249,7 @@
       "invested": 1535.213703,
       "entry_fee": 1,
       "entry_price": 20.200180305480956,
-      "last_price": 20.06999969482422,
+      "last_price": 20.079999923706055,
       "entry_fx": 1,
       "last_fx": 1,
       "fx_verified": true,
@@ -196,7 +260,7 @@
       "opened_at": "2026-08-25T08:02:09.349Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 64,
+      "score": 64.2,
       "signal_confidence": 0.52,
       "zero_quantity": 76,
       "zero_whole_shares": 76,
@@ -205,25 +269,25 @@
       "zero_fee_model_version": "trade-republic-securities-2026-08-v1",
       "fx_stale": false,
       "legacy_position_score": -2.4000000000000004,
-      "decisionScore": 64,
+      "decisionScore": 64.2,
       "entryDecisionScore": 68.3,
-      "scoreDeltaFromEntry": -4.3,
+      "scoreDeltaFromEntry": -4.1,
       "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 31.8,
-      "chartMoveFromEntryPct": -0.644,
-      "chartMoveLastScanPct": -0.149,
+      "rawDecisionScore": 31.1,
+      "chartMoveFromEntryPct": -0.595,
+      "chartMoveLastScanPct": 0,
       "scoreFrozenPartial": false,
       "scoreChartCapped": true,
       "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
       "preDirectionalScore": 62.3,
-      "scoreFloor": 63.9,
+      "scoreFloor": 64.2,
       "scoreCeiling": 72.3,
       "chartDirectionMode": "DOWN",
       "scorePriorCorrected": false,
-      "preProfitScore": 64,
-      "profitScoreCeiling": 64,
+      "preProfitScore": 64.2,
+      "profitScoreCeiling": 64.2,
       "profitScoreDeltaThisScan": 0,
-      "daytradeChanceScore": 64,
+      "daytradeChanceScore": 64.2,
       "daytradeChanceLabel": "STARK",
       "daytradeChanceRank": 3
     },
@@ -260,7 +324,7 @@
       "entryDecisionScore": 65.3,
       "scoreDeltaFromEntry": -4,
       "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 46.6,
+      "rawDecisionScore": 47.3,
       "chartMoveFromEntryPct": 1.314,
       "chartMoveLastScanPct": 0,
       "scoreFrozenPartial": false,
@@ -282,8 +346,8 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-27T13:51:08.682Z",
-    "ageSeconds": 13,
+    "lastSeenAt": "2026-08-27T13:52:08.084Z",
+    "ageSeconds": 45,
     "fallbackAfterSeconds": 150,
     "prefetchFresh": true,
     "prefetchAt": "2026-08-27T13:50:17.212Z",
@@ -291,16 +355,16 @@
     "leaderHealthy": false,
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-08-27T13:51:08.682Z",
+      "lastSeenAt": "2026-08-27T13:52:08.084Z",
       "version": "2.2.1-csharp-pc-first-four-sta",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
       "storageBytes": 19532730,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.03,
+      "cpuPct": 0.02,
       "ramMb": 64.9,
-      "downloadedBytes": 2970838197,
-      "uploadedBytes": 70250775,
+      "downloadedBytes": 2973562278,
+      "uploadedBytes": 70419055,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-08-27T13:42:14.6714551Z",
@@ -315,7 +379,7 @@
   },
   "agmCalendar": {
     "updatedAt": "2026-08-27T05:46:13.115Z",
-    "ageHours": 8.09,
+    "ageHours": 8.11,
     "events": 5
   },
   "newsFeed": {
@@ -375,18 +439,84 @@
       "minForecastScore": 70,
       "maxPredictiveAllocationPct": 42,
       "maxOpenPositions": 4,
-      "mode": "WARMUP",
-      "matured": 0,
+      "mode": "BALANCED",
+      "matured": 72,
       "buySamples": 0,
       "buyHitRate": null,
-      "avg20mReturnPct": null,
-      "missedOpportunities": 0,
+      "avgBuy20mReturnPct": null,
+      "avg20mReturnPct": -0.062,
+      "missedOpportunities": 1,
       "badBuys": 0,
       "earlySells": 0,
-      "trackedSymbols": 0,
-      "currentCandidates": 0,
-      "weights": null,
-      "topForecasts": [],
+      "correctSells": 0,
+      "thresholdAdjustment": 0,
+      "allocationAdjustment": 0,
+      "trackedSymbols": 22,
+      "currentCandidates": 5,
+      "weights": {
+        "velocity": 2.9039159473246308,
+        "m5": 2.6226761238733065,
+        "m20": 2.7090497731671506,
+        "accel": 1.16223321693362,
+        "news": 1.8,
+        "confidence": 1.0949737287229473,
+        "direction": 1.2
+      },
+      "topForecasts": [
+        {
+          "symbol": "NET",
+          "score": 64.5,
+          "forecast20mScore": 66.65,
+          "velocity5": 0,
+          "confidence": 0.565,
+          "earlySignal": false,
+          "regime": "VOLATILE"
+        },
+        {
+          "symbol": "MANTA.HE",
+          "score": 25,
+          "forecast20mScore": 24.78,
+          "velocity5": 0,
+          "confidence": 0.458,
+          "earlySignal": false,
+          "regime": "BULL"
+        },
+        {
+          "symbol": "INTU",
+          "score": 18,
+          "forecast20mScore": 13.62,
+          "velocity5": 0,
+          "confidence": 0.369,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        },
+        {
+          "symbol": "OTKAR.IS",
+          "score": 16,
+          "forecast20mScore": 6.65,
+          "velocity5": -7.701,
+          "confidence": 0.35,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        },
+        {
+          "symbol": "FORTUM.HE",
+          "score": 0,
+          "forecast20mScore": 0,
+          "velocity5": 0,
+          "confidence": 0.405,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        }
+      ],
+      "recentMissedOpportunities": [
+        {
+          "symbol": "SAP.DE",
+          "returnPct": 0.6643,
+          "ts": 1787837012645
+        }
+      ],
+      "rule": "V31.2 verfolgt Kandidaten und Depotpositionen kontinuierlich. BUY/HOLD/SELL werden nach 5/20/60/240 Minuten mit dem echten späteren Kurs verglichen. Verpasste Chancen, Fehlkäufe und zu frühe Verkäufe fließen in Schwellen, Positionsgröße und die Gewichte für Score-Geschwindigkeit, Momentum, Beschleunigung, News, Konfidenz und Chart-Richtung ein. Neuere 20m-Ergebnisse werden stärker gewichtet.",
       "writeErrors": 0
     },
     "predictiveLearning": {
@@ -409,18 +539,84 @@
       "minForecastScore": 70,
       "maxPredictiveAllocationPct": 42,
       "maxOpenPositions": 4,
-      "mode": "WARMUP",
-      "matured": 0,
+      "mode": "BALANCED",
+      "matured": 72,
       "buySamples": 0,
       "buyHitRate": null,
-      "avg20mReturnPct": null,
-      "missedOpportunities": 0,
+      "avgBuy20mReturnPct": null,
+      "avg20mReturnPct": -0.062,
+      "missedOpportunities": 1,
       "badBuys": 0,
       "earlySells": 0,
-      "trackedSymbols": 0,
-      "currentCandidates": 0,
-      "weights": null,
-      "topForecasts": [],
+      "correctSells": 0,
+      "thresholdAdjustment": 0,
+      "allocationAdjustment": 0,
+      "trackedSymbols": 22,
+      "currentCandidates": 5,
+      "weights": {
+        "velocity": 2.9039159473246308,
+        "m5": 2.6226761238733065,
+        "m20": 2.7090497731671506,
+        "accel": 1.16223321693362,
+        "news": 1.8,
+        "confidence": 1.0949737287229473,
+        "direction": 1.2
+      },
+      "topForecasts": [
+        {
+          "symbol": "NET",
+          "score": 64.5,
+          "forecast20mScore": 66.65,
+          "velocity5": 0,
+          "confidence": 0.565,
+          "earlySignal": false,
+          "regime": "VOLATILE"
+        },
+        {
+          "symbol": "MANTA.HE",
+          "score": 25,
+          "forecast20mScore": 24.78,
+          "velocity5": 0,
+          "confidence": 0.458,
+          "earlySignal": false,
+          "regime": "BULL"
+        },
+        {
+          "symbol": "INTU",
+          "score": 18,
+          "forecast20mScore": 13.62,
+          "velocity5": 0,
+          "confidence": 0.369,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        },
+        {
+          "symbol": "OTKAR.IS",
+          "score": 16,
+          "forecast20mScore": 6.65,
+          "velocity5": -7.701,
+          "confidence": 0.35,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        },
+        {
+          "symbol": "FORTUM.HE",
+          "score": 0,
+          "forecast20mScore": 0,
+          "velocity5": 0,
+          "confidence": 0.405,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        }
+      ],
+      "recentMissedOpportunities": [
+        {
+          "symbol": "SAP.DE",
+          "returnPct": 0.6643,
+          "ts": 1787837012645
+        }
+      ],
+      "rule": "V31.2 verfolgt Kandidaten und Depotpositionen kontinuierlich. BUY/HOLD/SELL werden nach 5/20/60/240 Minuten mit dem echten späteren Kurs verglichen. Verpasste Chancen, Fehlkäufe und zu frühe Verkäufe fließen in Schwellen, Positionsgröße und die Gewichte für Score-Geschwindigkeit, Momentum, Beschleunigung, News, Konfidenz und Chart-Richtung ein. Neuere 20m-Ergebnisse werden stärker gewichtet.",
       "writeErrors": 0
     },
     "capital": {
@@ -448,7 +644,40 @@
       "reentryMinutes": 90,
       "minPositionEur": 2200
     },
-    "latest": null,
+    "latest": {
+      "changes": 0,
+      "outcome": {
+        "eligible": 0,
+        "injected": 0,
+        "reason": "NO_FREE_SLOT"
+      },
+      "predictive": {
+        "eligible": 0,
+        "injected": 0,
+        "reason": "NO_FREE_SLOT"
+      },
+      "capital": {
+        "brokerRows": 258,
+        "exactCandidates": 0,
+        "strong70Plus": 0,
+        "injected": 0,
+        "upgraded": 0,
+        "winnerTopups": 0,
+        "blockedMomentum": 0,
+        "blockedHard": 0,
+        "chosen": null,
+        "topup": null
+      },
+      "expectancy": {
+        "hardStops": 0,
+        "trailingSells": 0,
+        "minHoldBlocks": 0,
+        "reentryBlocks": 0,
+        "sizingUpgrades": 0,
+        "scoreScaleFixes": 0,
+        "equity": 10023.36
+      }
+    },
     "auditWriteErrors": 0,
     "rule": "Eine einzige äußere Entscheidungsautorität entscheidet final. V31.2 lernt aus jedem beobachtbaren Kandidaten und Depotentscheid: BUY/HOLD/SELL werden später mit realen 5/20/60/240m-Kursen verglichen. Verpasste Chancen, Fehlkäufe und zu frühe Verkäufe kalibrieren Signalgewichte, Schwellen und Positionsgröße; High-Score-Käufe, wirtschaftliche Positionsgröße, Preis-Stop, Mindesthaltezeit, Trailing und Re-Entry bleiben bindend.",
     "brokerMaster": {
