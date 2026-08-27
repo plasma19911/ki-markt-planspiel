@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-26T07:13:52.164493+00:00",
-  "berlinNow": "2026-08-26T09:13:52.164316+02:00",
+  "checkedAt": "2026-08-27T05:47:23.059407+00:00",
+  "berlinNow": "2026-08-27T07:47:23.059149+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 2827225,
-    "dashboard": 1947738
+    "full": 2896967,
+    "dashboard": 1977537
   },
   "checks": {
     "fullStatus200": true,
@@ -21,16 +21,16 @@
   "failedChecks": [],
   "allChecksPassed": true,
   "replay": {
-    "date": "2026-08-26",
+    "date": "2026-08-27",
     "status": "CAPTURING",
     "processed": 0,
-    "total": 53,
+    "total": 48,
     "provisional": true,
     "completedAt": null,
     "capture": {
-      "date": "2026-08-26",
-      "symbolCount": 53,
-      "updatedAt": "2026-08-26T07:13:33.000Z"
+      "date": "2026-08-27",
+      "symbolCount": 48,
+      "updatedAt": "2026-08-27T05:45:30.060Z"
     },
     "summary": {
       "provisional": true,
@@ -46,44 +46,36 @@
     }
   },
   "depot": {
-    "cash": 4447.42497751064,
-    "equity": 10008.094976810497,
-    "displayMarketValue": 5560.67,
-    "displayAccountingDelta": -7.001435733400285e-07,
+    "cash": 5045.684956714096,
+    "equity": 10056.754955558828,
+    "displayMarketValue": 5011.07,
+    "displayAccountingDelta": -1.1552674550330266e-06,
     "positions": [
-      {
-        "symbol": "YIT.HE",
-        "invested": 1246.565316,
-        "ratioValue": 1277.789999637829,
-        "quantityValue": 1277.79,
-        "displayValue": 1277.79,
-        "quantityUsed": true
-      },
       {
         "symbol": "FORTUM.HE",
         "invested": 1535.213703,
-        "ratioValue": 1533.6799997836636,
-        "quantityValue": 1533.68,
-        "displayValue": 1533.68,
+        "ratioValue": 1538.2399997830203,
+        "quantityValue": 1538.2399999999998,
+        "displayValue": 1538.2399999999998,
         "quantityUsed": true
       },
       {
-        "symbol": "TTALO.HE",
-        "invested": 1499.097637,
-        "ratioValue": 1489.9200003401897,
-        "quantityValue": 1489.92,
-        "displayValue": 1489.92,
+        "symbol": "FCT.MI",
+        "invested": 2189.277083,
+        "ratioValue": 2207.609999525717,
+        "quantityValue": 2207.61,
+        "displayValue": 2207.61,
         "quantityUsed": true
       },
       {
         "symbol": "MANTA.HE",
         "invested": 1260.539306,
-        "ratioValue": 1259.279999538174,
-        "quantityValue": 1259.28,
-        "displayValue": 1259.28,
+        "ratioValue": 1265.2199995359954,
+        "quantityValue": 1265.22,
+        "displayValue": 1265.22,
         "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: wed, 26 aug 2026 07:13:52 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=gbshp1erpgjcoqmd5wcvuik6ef2u3erjrzye4zuffiwitlwl8an3obmxrtpqgyum07qmhfzg0cgt0wqvzdr5z8mc%2f0awqd5dn7ayz6arctltjcdhq4g%2b%2bilm%2fhthdj2kqbcsoplcdzteao89%2b79%2bavv149s8fft%2b3bl3n6o%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a311094c0d1e6e05-sea\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: thu, 27 aug 2026 05:47:22 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=fw5tqxwcazacancv4z8bz5fo9mitt5gy5qg7zco54cuejilcgzco6zjqbb%2bv2zxczhgmubehb6jyjj41tg7bkosqmq6fxs0jekz4ooypa6mdrl9nkdnj3b%2fomioxwwfqdgiurhvv5rzfdxixgsal5pj2v5rnn6anjzatlmo%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a318c7fbabd121de-ord\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
