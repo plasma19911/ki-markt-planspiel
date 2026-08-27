@@ -13,7 +13,8 @@ const now=Date.parse('2026-08-25T12:00:00Z');
   assert.equal(a.action,'BUY','70+ exact-TR candidate with mild pullback should be buyable');
   assert.ok(Number(a.allocation_pct)>=22,'strong candidate should not remain a mini starter');
   assert.ok(out.audit.changes.length>=1,'decision changes must be audited');
-  assert.equal(out.audit.patch,'31.0-unified-decision-authority');
+  assert.equal(out.audit.patch,'31.0-unified-decision-authority+31.1-predictor');
+  assert.ok(out.audit.predictiveLearning,'predictive learning metadata must be part of the unified audit');
 }
 
 {
@@ -32,4 +33,4 @@ const now=Date.parse('2026-08-25T12:00:00Z');
   assert.equal(out.plan.actions.find(x=>x.symbol==='NEW.DE').action,'HOLD','fresh normal score sell should be blocked');
 }
 
-console.log('V31.0 unified decision authority regression OK');
+console.log('V31.0 unified authority + V31.1 predictive learning regression OK');
