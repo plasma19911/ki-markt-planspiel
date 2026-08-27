@@ -1,4 +1,4 @@
-name: Live Worker Health V31.1 Predictive
+name: Live Worker Health V31.2 Outcome Learning
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: live-health-v311
+  group: live-health-v312
   cancel-in-progress: true
 
 jobs:
@@ -25,29 +25,33 @@ jobs:
       - uses: actions/checkout@v4
       - name: Allow Cloudflare publish
         run: sleep 75
-      - name: Probe complete V31.1 production data chain
+      - name: Probe complete V31.2 production chain
         run: |
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const base='https://ki-markt-planspiel.orkimperium.workers.dev',q=Date.now();
           const get=async u=>{try{const r=await fetch(u,{headers:{'cache-control':'no-cache'}});return{status:r.status,ok:r.ok,text:await r.text()}}catch(e){return{status:0,ok:false,text:String(e)}}};
-          const [home,status,agent,scanner,manualUi,agmAsset]=await Promise.all([get(`${base}/?health=${q}`),get(`${base}/api/status?health=${q}`),get(`${base}/api/agent/status?health=${q}`),get(`${base}/single-scanner-ui.js?health=${q}`),get(`${base}/manual-trade-ui.js?health=${q}`),get(`${base}/agm-calendar.json?health=${q}`)]);
-          let s={},a={},agm={};try{s=JSON.parse(status.text)}catch{}try{a=JSON.parse(agent.text)}catch{}try{agm=JSON.parse(agmAsset.text)}catch{}
-          const positions=Array.isArray(s?.positions)?s.positions:[],c=s?.config||{},u=s?.unifiedDecisionCorePolicy||{},pred=s?.predictiveLearningPolicy||{},e=s?.expectancyCorePolicy||{},arch=s?.architecture||{},audit=Array.isArray(s?.decisionAuditRecent)?s.decisionAuditRecent:[],p=s?.profitOpportunityPolicy||{},rot=s?.relativeRotationPolicy||{},cash=s?.heldCashDeploymentPolicy||{},ch=s?.sellRebuyChurnPolicy||{},wr=s?.weakestPositionReplacementPolicy||{},m=s?.manualTradePolicy||{},ex=s?.executionModel||{},bm=m?.brokerMaster||{},ubm=u?.brokerMaster||{},capital=u?.capital||{},recovery=s?.pcAgentScanRecovery||{};
-          let market=0;for(const x of positions){const inv=Number(x?.invested)||0,ep=Number(x?.entry_price)||0,lp=Number(x?.last_price)||ep,ef=Number(x?.entry_fx)||1,lf=Number(x?.last_fx)||ef;market+=ep>0&&ef>0?inv*(lp/ep)*(lf/ef):inv}
-          const equity=Number(s?.equity)||0,cashEur=Number(c?.cash)||0,delta=equity-(cashEur+market);
-          let chart={status:null,ok:true,symbol:null,bars:0,lastBarTs:null,error:null};
-          if(positions[0]?.symbol){
-            chart.symbol=String(positions[0].symbol);
-            const cr=await get(`${base}/api/position-chart?symbol=${encodeURIComponent(chart.symbol)}&range=1d&health=${q}`);chart.status=cr.status;let cj={};try{cj=JSON.parse(cr.text)}catch{}
-            chart.bars=Array.isArray(cj?.bars)?cj.bars.length:0;chart.lastBarTs=chart.bars?cj.bars.at(-1)?.ts||null:null;chart.error=cj?.error||null;chart.ok=cr.ok&&cj?.ok===true&&chart.bars>0;
-          }
-          const agmEvents=Array.isArray(agm?.events)?agm.events:[],agmUpdated=Date.parse(String(agm?.updatedAt||'')),agmAgeHours=Number.isFinite(agmUpdated)?(Date.now()-agmUpdated)/3600000:Infinity;
-          const agmScoresValid=agmEvents.length>0&&agmEvents.every(x=>{const score=Number(x?.baseScore),t=Date.parse(String(x?.scoreEvaluatedAt||''));return Number.isFinite(score)&&score>=0&&score<=100&&Number.isFinite(t)});
-          const runtimeOk=['V31.0','V31.1'].includes(s?.runtimeVersion)&&['V31.0','V31.1'].includes(s?.liveDecisionVersion);
-          const predictorOk=s?.predictiveLearningVersion==='V31.1'&&pred?.enabled===true&&Number(pred?.version)===31.1&&pred?.insideUnifiedAuthority===true&&ex?.predictiveLearningV311===true&&ex?.predictiveEarlyEntry===true&&ex?.predictiveSelfCalibration===true&&arch?.persistentPredictiveLearning===true&&arch?.predictiveLearningStorageKey==='predictive-learning-v311';
-          const checks={homepage:home.ok,apiStatus:status.ok,agentEndpoint:agent.ok,scannerUiAsset:scanner.ok,manualTradeUiAsset:manualUi.ok,agmCalendarAsset:agmAsset.ok&&agmEvents.length>0,agmCalendarFresh:Number.isFinite(agmAgeHours)&&agmAgeHours>=0&&agmAgeHours<=26&&agm?.scoreEvaluationCadence==='daily'&&agm?.scoreReevaluation==='once daily only'&&agmScoresValid,runtimeV311Ready:runtimeOk,unifiedDecisionAuthority:u.enabled===true&&u.patch==='31.0-unified-decision-authority+31.1-predictor'&&u.architecture==='single-outer-decision-authority',predictiveLearningV311:predictorOk,singleOuterLayer:Number(arch.outerDecisionLayers)===1&&arch.outerAuthority==='UnifiedDecisionCoreV310',persistentDecisionAudit:arch.persistentDecisionAudit===true&&arch.auditStorageKey==='decision-audit-v310',expectancyInsideUnified:Number(e.hardStopPct)===-1.2&&Number(e.trailArmPct)===2.4&&Number(e.minHoldMinutes)===12&&Number(e.reentryMinutes)===90&&Number(e.minPositionEur)===2200,capitalV3093:capital?.patch==='30.9.3-held-master-enrichment'&&capital?.heldMasterEnrichment===true&&Number(capital?.maxAutoAllocationPct)===100,tradeRepublicMaster:Number(bm?.rowCount)>0&&String(bm?.source||'').includes('env.ASSETS')&&Number(ubm?.rowCount)>0,manualControlV307:Number(m.version)>=30.7&&m.enabled===true&&Number(m.maxAllocationPct)===100&&ex.tradeRepublicAssetsMaster===true,sellRebuyAntiChurnV306:Number(ch.version)>=30.6&&ch.enabled===true,weakestReplacement:wr.enabled===true,profitOpportunityV305:Number(p.version)>=30.5&&p.enabled===true,relativeRotation:Number(rot.version)>=30.4,heldCashDeployment:Number(cash.maxSinglePositionPct)===100,executionUnified:ex.unifiedDecisionCoreV310===true&&ex.expectancyCoreV310===true&&Number(ex.outerDecisionLayers)===1&&Number(ex.hardPriceStopPct)===-1.2,positionChartEndpoint:chart.ok,pcAgentRecovery:recovery.enabled===true,pcAgentFresh:a?.configured!==true||(a?.online===true&&Number(a?.ageSeconds)<=180),accountingConsistent:Math.abs(delta)<=0.05,lastErrorClear:!c?.last_error,positionCountWithinLimit:positions.length<=4};
-          const out={checkedAt:new Date().toISOString(),runtimeVersion:s?.runtimeVersion,liveDecisionVersion:s?.liveDecisionVersion,predictiveLearningVersion:s?.predictiveLearningVersion,http:{home:String(home.status),status:String(status.status),agent:String(agent.status),scannerUi:String(scanner.status),manualUi:String(manualUi.status),agmCalendar:String(agmAsset.status),positionChart:chart.status==null?'n/a':String(chart.status)},checks,failedChecks:Object.keys(checks).filter(k=>!checks[k]),allRequiredChecksPassed:Object.values(checks).every(Boolean),agmCalendar:{updatedAt:agm?.updatedAt||null,nextRefreshAfter:agm?.nextRefreshAfter||null,ageHours:Number.isFinite(agmAgeHours)?+agmAgeHours.toFixed(2):null,events:agmEvents.length,rawUpcomingCount:Number(agm?.rawUpcomingCount)||0,matchedUpcomingCount:Number(agm?.matchedUpcomingCount)||agmEvents.length,scoreEvaluationCadence:agm?.scoreEvaluationCadence||null,scoreReevaluation:agm?.scoreReevaluation||null,scoresValid:agmScoresValid,scoreRange:agmEvents.length?[Math.min(...agmEvents.map(x=>Number(x?.baseScore)).filter(Number.isFinite)),Math.max(...agmEvents.map(x=>Number(x?.baseScore)).filter(Number.isFinite))]:[]},pcAgent:{configured:a?.configured,online:a?.online,lastSeenAt:a?.lastSeenAt,ageSeconds:a?.ageSeconds,recovery},positionChart:chart,brokerMaster:{manual:bm,unified:ubm},capitalPolicy:capital,predictiveLearningPolicy:pred,running:c?.running,scanCount:c?.scan_count,lastScan:c?.last_scan,lastError:c?.last_error,aiLastSummary:c?.ai_last_summary,cash:cashEur,equity,pnl:s?.pnl,marketValue:market,accountingDelta:delta,positions:positions.length,positionRows:positions.slice(0,10),architecture:arch,unifiedDecisionCorePolicy:u,expectancyCorePolicy:e,decisionAuditRecent:audit.slice(0,20),manualTradePolicy:m,sellRebuyChurnPolicy:ch,weakestPositionReplacementPolicy:wr,profitOpportunityPolicy:p,relativeRotationPolicy:rot,heldCashDeploymentPolicy:cash,executionModel:ex};
+          const [home,status,agent,agmAsset,news]=await Promise.all([get(`${base}/?health=${q}`),get(`${base}/api/status?health=${q}`),get(`${base}/api/agent/status?health=${q}`),get(`${base}/agm-calendar.json?health=${q}`),get(`${base}/api/news-feed?health=${q}`)]);
+          let s={},a={},agm={},nf={};try{s=JSON.parse(status.text)}catch{}try{a=JSON.parse(agent.text)}catch{}try{agm=JSON.parse(agmAsset.text)}catch{}try{nf=JSON.parse(news.text)}catch{}
+          const positions=Array.isArray(s?.positions)?s.positions:[],c=s?.config||{},u=s?.unifiedDecisionCorePolicy||{},learn=s?.outcomeLearningPolicy||s?.predictiveLearningPolicy||{},e=s?.expectancyCorePolicy||{},arch=s?.architecture||{},m=s?.manualTradePolicy||{},ex=s?.executionModel||{},bm=m?.brokerMaster||{},ubm=u?.brokerMaster||{},capital=u?.capital||{},recovery=s?.pcAgentScanRecovery||{};
+          let market=0;for(const x of positions){const inv=Number(x?.invested)||0,ep=Number(x?.entry_price)||0,lp=Number(x?.last_price)||ep,ef=Number(x?.entry_fx)||1,lf=Number(x?.last_fx)||ef;market+=ep>0&&ef>0?inv*(lp/ep)*(lf/ef):inv}const equity=Number(s?.equity)||0,cash=Number(c?.cash)||0,delta=equity-(cash+market);
+          let chart={status:null,ok:true,symbol:null,bars:0};if(positions[0]?.symbol){chart.symbol=String(positions[0].symbol);const cr=await get(`${base}/api/position-chart?symbol=${encodeURIComponent(chart.symbol)}&range=1d&health=${q}`);chart.status=cr.status;let cj={};try{cj=JSON.parse(cr.text)}catch{}chart.bars=Array.isArray(cj?.bars)?cj.bars.length:0;chart.ok=cr.ok&&cj?.ok===true&&chart.bars>0}
+          const agmEvents=Array.isArray(agm?.events)?agm.events:[],agmUpdated=Date.parse(String(agm?.updatedAt||'')),agmAge=Number.isFinite(agmUpdated)?(Date.now()-agmUpdated)/3600000:Infinity;
+          const checks={
+            homepage:home.ok,apiStatus:status.ok,agentEndpoint:agent.ok,
+            runtimeV312:s?.runtimeVersion==='V31.2'&&s?.liveDecisionVersion==='V31.2'&&s?.outcomeLearningVersion==='V31.2',
+            unifiedDecisionAuthority:u?.enabled===true&&u?.patch==='31.0-unified-decision-authority+31.2-outcome-learning'&&Number(arch?.outerDecisionLayers)===1,
+            outcomeLearningV312:Number(learn?.version)===31.2&&learn?.enabled===true&&learn?.insideUnifiedAuthority===true&&arch?.persistentOutcomeLearning===true&&arch?.outcomeLearningStorageKey==='outcome-learning-v312'&&arch?.stateMergeUsesRawCandidates===true,
+            learningActuallyTracking:Number(learn?.trackedSymbols)>0,
+            continuousFeedback:ex?.outcomeLearningV312===true&&ex?.continuousCandidateTracking===true&&ex?.learnsMissedOpportunities===true&&ex?.learnsBadBuys===true&&ex?.learnsEarlySells===true&&ex?.learnsSignalWeights===true&&ex?.recentOutcomesWeightedHigher===true,
+            expectancy:Number(e?.hardStopPct)===-1.2&&Number(e?.trailArmPct)===2.4&&Number(e?.minHoldMinutes)===12&&Number(e?.reentryMinutes)===90,
+            brokerMaster:Number(bm?.rowCount)>0&&String(bm?.source||'').includes('env.ASSETS')&&Number(ubm?.rowCount)>0,
+            capital:capital?.patch==='30.9.3-held-master-enrichment'&&capital?.heldMasterEnrichment===true,
+            newsFeed:news.ok&&nf?.ok===true&&Number(nf?.refreshSeconds)===60,
+            agmCalendarFresh:agmAsset.ok&&agmEvents.length>0&&agmAge>=0&&agmAge<=26,
+            positionChart:chart.ok,pcAgentRecovery:recovery.enabled===true,pcAgentFresh:a?.configured!==true||(a?.online===true&&Number(a?.ageSeconds)<=180),accountingConsistent:Math.abs(delta)<=0.05,lastErrorClear:!c?.last_error,positionCountWithinLimit:positions.length<=4
+          };
+          const out={checkedAt:new Date().toISOString(),runtimeVersion:s?.runtimeVersion,liveDecisionVersion:s?.liveDecisionVersion,outcomeLearningVersion:s?.outcomeLearningVersion,checks,failedChecks:Object.keys(checks).filter(k=>!checks[k]),allRequiredChecksPassed:Object.values(checks).every(Boolean),outcomeLearningPolicy:learn,scanCount:c?.scan_count,lastScan:c?.last_scan,lastError:c?.last_error,aiLastSummary:c?.ai_last_summary,cash,equity,pnl:s?.pnl,marketValue:market,accountingDelta:delta,positions:positions.length,positionRows:positions.slice(0,10),pcAgent:a,positionChart:chart,agmCalendar:{updatedAt:agm?.updatedAt||null,ageHours:Number.isFinite(agmAge)?+agmAge.toFixed(2):null,events:agmEvents.length},newsFeed:{status:news.status,items:Array.isArray(nf?.items)?nf.items.length:0,refreshSeconds:nf?.refreshSeconds},architecture:arch,unifiedDecisionCorePolicy:u,executionModel:ex};
           fs.writeFileSync('/tmp/live-health-result.json',JSON.stringify(out,null,2)+'\n');console.log(JSON.stringify(out,null,2));if(out.failedChecks.length)process.exitCode=2;
           NODE
       - name: Publish diagnostic
@@ -57,13 +61,12 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           published=0
           for attempt in 1 2 3 4; do
-            echo "Diagnostic publish attempt $attempt/4"
             git fetch origin main
             git reset --hard origin/main
             cp /tmp/live-health-result.json live-health-result.json
             git add live-health-result.json
             if git diff --cached --quiet; then published=1; break; fi
-            git commit -m 'Update V31.1 predictive live health [skip ci]'
+            git commit -m 'Update V31.2 outcome-learning live health [skip ci]'
             if git push origin HEAD:main; then published=1; break; fi
             sleep $((attempt * 2))
           done
@@ -71,4 +74,4 @@ jobs:
       - name: Enforce health
         run: |
           cp /tmp/live-health-result.json live-health-result.json
-          node -e "const x=require('./live-health-result.json');if(x.failedChecks?.length){console.error(x.failedChecks);process.exit(1)}console.log('Worker healthy: V31.1 predictor + unified authority + persistent learning + execution chain live.')"
+          node -e "const x=require('./live-health-result.json');if(x.failedChecks?.length){console.error(x.failedChecks);process.exit(1)}console.log('Worker healthy: V31.2 continuous outcome learning live and tracking symbols.')"
