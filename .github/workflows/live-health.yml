@@ -13,6 +13,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: live-health-v3102
+  cancel-in-progress: true
+
 jobs:
   live-health:
     runs-on: ubuntu-latest
@@ -49,13 +53,31 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git fetch origin main
-          git reset --hard origin/main
-          cp /tmp/live-health-result.json live-health-result.json
-          git add live-health-result.json
-          if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'Update V31.0.2 data-chain live health [skip ci]'
-          git push origin HEAD:main
+          published=0
+          for attempt in 1 2 3 4; do
+            echo "Diagnostic publish attempt $attempt/4"
+            git fetch origin main
+            git reset --hard origin/main
+            cp /tmp/live-health-result.json live-health-result.json
+            git add live-health-result.json
+            if git diff --cached --quiet; then
+              echo 'Diagnostic already current.'
+              published=1
+              break
+            fi
+            git commit -m 'Update V31.0.2 data-chain live health [skip ci]'
+            if git push origin HEAD:main; then
+              published=1
+              break
+            fi
+            echo 'Concurrent main update detected; retrying from newest origin/main.'
+            sleep $((attempt * 2))
+          done
+          if [ "$published" != "1" ]; then
+            echo 'Could not publish live-health-result.json after four race-safe attempts.' >&2
+            exit 1
+          fi
       - name: Enforce health
         run: |
+          cp /tmp/live-health-result.json live-health-result.json
           node -e "const x=require('./live-health-result.json');if(x.failedChecks?.length){console.error(x.failedChecks);process.exit(1)}console.log('Worker healthy: V31.0 unified + TR master + position chart + PC agent + fresh daily AGM calendar live.')"
