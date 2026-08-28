@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-08-27T15:22:05.881Z",
-  "nextRefreshAfter": "2026-08-28T15:22:05.881Z",
+  "updatedAt": "2026-08-28T16:45:59.576Z",
+  "nextRefreshAfter": "2026-08-29T16:45:59.576Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,93 +14,12 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 17,
-  "matchedUpcomingCount": 5,
+  "rawUpcomingCount": 14,
+  "matchedUpcomingCount": 4,
   "fundamentalEstimateCount": 0,
   "universeGeneratedAt": "2026-08-24T04:09:57.222992Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
-    {
-      "date": "2026-08-26",
-      "sourceCompanyName": "Under Armour Inc.",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/under_armour",
-      "symbol": "UAA.VI",
-      "name": "Under Armour, Inc.",
-      "companyKey": "UNDER ARMOUR",
-      "currency": "EUR",
-      "matchConfidence": 1,
-      "baseScore": 19,
-      "fundamentalScore": 19,
-      "fundamentalConfidence": 0.92,
-      "profitForecastPositive": true,
-      "fundamentalReasons": [
-        "Analysten erwarten EPS-Wachstum ca. 82%",
-        "Umsatzschätzung nächstes Jahr +2%",
-        "Kurs unter der 200-Tage-Linie",
-        "Kurs faellt kurz vor der HV (-30% in 1 Monat)",
-        "Kurs faellt kurz vor der HV (-31% in 1 Monat)",
-        "3 positive von 10 frischen Meldungen"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 0.11,
-        "epsNextYearEstimate": 0.2,
-        "revenueCurrentYearEstimate": 4741.61,
-        "revenueNextYearEstimate": 4845.89
-      },
-      "daysUntil": -1,
-      "baseLabel": "NEGATIV",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": -22,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": -9,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 0,
-          "label": "10 frische Meldungen"
-        }
-      ],
-      "chartDelta": -9,
-      "newsDelta": 0,
-      "fundamentalDelta": -22,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "1 of Wall Street’s Favorite Stocks to Research Further and 2 We Avoid",
-        "Nike Is Shipping Less On Purpose, And That Is The Case For Nike Stock",
-        "Dick's Sporting Goods Stock Usually Heals Fast, But Not From Falls The Market Does Not Share",
-        "VF Corp, Levi's, Under Armour, Deckers, and Crocs Stocks Trade Down, What You Need To Know"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "EUR",
-        "samples": 254,
-        "last": 4.4,
-        "changeM1": -26.7,
-        "changeM3": -8.6,
-        "changeM6": -28.4,
-        "sma50": 5.5,
-        "sma200": 5.1,
-        "position52w": 25.6,
-        "drawdownFromHigh": -34,
-        "volatility20d": 46.2,
-        "volumeTrend": -29.4
-      },
-      "scoreEvaluatedAt": "2026-08-27T15:22:05.881Z",
-      "scoreValidUntil": "2026-08-28T15:22:05.881Z"
-    },
     {
       "date": "2026-08-28",
       "sourceCompanyName": "Aumann AG",
@@ -111,9 +30,9 @@
       "companyKey": "AUMANN",
       "currency": "EUR",
       "matchConfidence": 1,
-      "baseScore": 86,
-      "fundamentalScore": 86,
-      "fundamentalConfidence": 0.872,
+      "baseScore": 88,
+      "fundamentalScore": 88,
+      "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Wachstum ca. 80%",
@@ -130,7 +49,7 @@
         "revenueCurrentYearEstimate": 160.6,
         "revenueNextYearEstimate": 192.15
       },
-      "daysUntil": 1,
+      "daysUntil": 0,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -140,21 +59,24 @@
         },
         {
           "key": "CHART",
-          "delta": 12,
+          "delta": 14,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
           "delta": 0,
-          "label": "1 frische Meldungen"
+          "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": 12,
+      "chartDelta": 14,
       "newsDelta": 0,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Aumann Q2 Earnings Call Highlights"
+        "Macy’s, Inc. Board of Directors Declares Quarterly Dividend",
+        "La Paz, Baja California Sur, Brings Its Culinary Identity to the MICHELIN Guide",
+        "Consumer Sentiment Weakens Amid Worries Inflation to Remain High for 'Foreseeable Future,' Survey Shows",
+        "Gentex's Long-Term Strategy Takes Shape as Margin Questions Persist, UBS Says"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -164,20 +86,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 98,
-        "last": 14.7,
-        "changeM1": 7.7,
-        "changeM3": 6.9,
-        "changeM6": 12.2,
+        "samples": 99,
+        "last": 14.9,
+        "changeM1": 10.3,
+        "changeM3": 6,
+        "changeM6": 14.1,
         "sma50": 14.2,
         "sma200": 13.9,
-        "position52w": 69.8,
-        "drawdownFromHigh": -6.1,
+        "position52w": 77.8,
+        "drawdownFromHigh": -4.5,
         "volatility20d": 30.6,
         "volumeTrend": null
       },
-      "scoreEvaluatedAt": "2026-08-27T15:22:05.881Z",
-      "scoreValidUntil": "2026-08-28T15:22:05.881Z"
+      "scoreEvaluatedAt": "2026-08-28T16:45:59.576Z",
+      "scoreValidUntil": "2026-08-29T16:45:59.576Z"
     },
     {
       "date": "2026-09-02",
@@ -189,8 +111,8 @@
       "companyKey": "CASEY S GENERAL STORES",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 73,
-      "fundamentalScore": 73,
+      "baseScore": 77,
+      "fundamentalScore": 77,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -208,12 +130,12 @@
         "revenueCurrentYearEstimate": 20551.95,
         "revenueNextYearEstimate": 20732.86
       },
-      "daysUntil": 6,
+      "daysUntil": 5,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 20,
+          "delta": 23,
           "label": "Analystenschaetzungen"
         },
         {
@@ -223,19 +145,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 0,
+          "delta": 1,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": 3,
-      "newsDelta": 0,
-      "fundamentalDelta": 20,
+      "newsDelta": 1,
+      "fundamentalDelta": 23,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "D. Boral ARC Acquisition I, Exascale Labs Complete Merger",
+        "Casey's Stock: Analyst Estimates & Ratings",
         "UBS Adjusts Casey's General Stores Price Target to $925 From $945, Maintains Neutral Rating",
-        "UBS Adjusts Casey's General Stores Price Target to $925 From $945",
-        "Bloomberg 500 (B500) Index Adds Ten Securities Following September Reconstitution",
-        "Casey's Food and Grocery Categories Fuel Strong Inside Sales Momentum"
+        "UBS Adjusts Casey's General Stores Price Target to $925 From $945"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -246,19 +168,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 252,
-        "last": 779.5,
-        "changeM1": -10.1,
-        "changeM3": -0.2,
-        "changeM6": 14.2,
-        "sma50": 835,
-        "sma200": 720.6,
-        "position52w": 67.6,
-        "drawdownFromHigh": -14.9,
-        "volatility20d": 30.4,
-        "volumeTrend": -47.7
+        "last": 751.3,
+        "changeM1": -13.4,
+        "changeM3": -2.1,
+        "changeM6": 9.6,
+        "sma50": 832.7,
+        "sma200": 721.6,
+        "position52w": 60.9,
+        "drawdownFromHigh": -18,
+        "volatility20d": 33.5,
+        "volumeTrend": -41.1
       },
-      "scoreEvaluatedAt": "2026-08-27T15:22:05.881Z",
-      "scoreValidUntil": "2026-08-28T15:22:05.881Z"
+      "scoreEvaluatedAt": "2026-08-28T16:45:59.576Z",
+      "scoreValidUntil": "2026-08-29T16:45:59.576Z"
     },
     {
       "date": "2026-09-02",
@@ -270,8 +192,8 @@
       "companyKey": "CHECK POINT SOFTWARE TECHNOLOGIES",
       "currency": "BRL",
       "matchConfidence": 0.88,
-      "baseScore": 55,
-      "fundamentalScore": 55,
+      "baseScore": 54,
+      "fundamentalScore": 54,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -289,28 +211,28 @@
         "revenueCurrentYearEstimate": 2801.85,
         "revenueNextYearEstimate": 2959.61
       },
-      "daysUntil": 6,
+      "daysUntil": 5,
       "baseLabel": "NEUTRAL",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 8,
+          "delta": 5,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -3,
+          "delta": -1,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
           "delta": 0,
-          "label": "7 frische Meldungen"
+          "label": "6 frische Meldungen"
         }
       ],
-      "chartDelta": -3,
+      "chartDelta": -1,
       "newsDelta": 0,
-      "fundamentalDelta": 8,
+      "fundamentalDelta": 5,
       "newsGuidance": 0,
       "newsHeadlines": [
         "Lightspeed Commerce Appoints Rupal Hollenbeck to Board of Directors",
@@ -327,19 +249,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "BRL",
         "samples": 250,
-        "last": 55.6,
-        "changeM1": -2.1,
-        "changeM3": 0.3,
-        "changeM6": -20,
-        "sma50": 55.3,
-        "sma200": 66.7,
-        "position52w": 22.2,
-        "drawdownFromHigh": -35.8,
-        "volatility20d": 47.1,
-        "volumeTrend": 79.4
+        "last": 57.9,
+        "changeM1": 1.9,
+        "changeM3": 4.4,
+        "changeM6": -12.3,
+        "sma50": 55.4,
+        "sma200": 66.6,
+        "position52w": 27.9,
+        "drawdownFromHigh": -33.1,
+        "volatility20d": 49.3,
+        "volumeTrend": 126.3
       },
-      "scoreEvaluatedAt": "2026-08-27T15:22:05.881Z",
-      "scoreValidUntil": "2026-08-28T15:22:05.881Z"
+      "scoreEvaluatedAt": "2026-08-28T16:45:59.576Z",
+      "scoreValidUntil": "2026-08-29T16:45:59.576Z"
     },
     {
       "date": "2026-09-03",
@@ -351,9 +273,9 @@
       "companyKey": "WATCHES OF SWITZERLAND",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 73,
-      "fundamentalScore": 73,
-      "fundamentalConfidence": 0.853,
+      "baseScore": 79,
+      "fundamentalScore": 79,
+      "fundamentalConfidence": 0.886,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+12%)",
@@ -369,12 +291,12 @@
         "revenueCurrentYearEstimate": 1988.93,
         "revenueNextYearEstimate": 2118.24
       },
-      "daysUntil": 7,
+      "daysUntil": 6,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 17,
+          "delta": 23,
           "label": "Analystenschaetzungen"
         },
         {
@@ -390,7 +312,7 @@
       ],
       "chartDelta": 6,
       "newsDelta": 0,
-      "fundamentalDelta": 17,
+      "fundamentalDelta": 23,
       "newsGuidance": 0,
       "newsHeadlines": [
         "⚡Flash Heard: Swiss Luxury Watches Are on U.S. Time Now"
@@ -404,27 +326,27 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 255,
-        "last": 721,
-        "changeM1": 0.9,
-        "changeM3": 0.6,
-        "changeM6": 39.1,
-        "sma50": 729.1,
-        "sma200": 573.8,
-        "position52w": 83.3,
-        "drawdownFromHigh": -10,
-        "volatility20d": 31.2,
-        "volumeTrend": -24.2
+        "last": 718.5,
+        "changeM1": -3.4,
+        "changeM3": -0.8,
+        "changeM6": 40.6,
+        "sma50": 728.8,
+        "sma200": 575.2,
+        "position52w": 82.8,
+        "drawdownFromHigh": -10.4,
+        "volatility20d": 27.5,
+        "volumeTrend": -17
       },
-      "scoreEvaluatedAt": "2026-08-27T15:22:05.881Z",
-      "scoreValidUntil": "2026-08-28T15:22:05.881Z"
+      "scoreEvaluatedAt": "2026-08-28T16:45:59.576Z",
+      "scoreValidUntil": "2026-08-29T16:45:59.576Z"
     }
   ],
-  "estimateAttemptCount": 5,
+  "estimateAttemptCount": 4,
   "scoreModelVersion": 27.7,
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
-  "chartProfileCount": 5,
-  "newsProfileCount": 5,
+  "chartProfileCount": 4,
+  "newsProfileCount": 4,
   "neutralScoreCount": 0,
-  "signalCoveredCount": 5
+  "signalCoveredCount": 4
 }
