@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-08-28T16:45:59.576Z",
-  "nextRefreshAfter": "2026-08-29T16:45:59.576Z",
+  "updatedAt": "2026-08-29T11:14:54.617Z",
+  "nextRefreshAfter": "2026-08-30T11:14:54.617Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,7 +14,7 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 14,
+  "rawUpcomingCount": 10,
   "matchedUpcomingCount": 4,
   "fundamentalEstimateCount": 0,
   "universeGeneratedAt": "2026-08-24T04:09:57.222992Z",
@@ -30,9 +30,9 @@
       "companyKey": "AUMANN",
       "currency": "EUR",
       "matchConfidence": 1,
-      "baseScore": 88,
-      "fundamentalScore": 88,
-      "fundamentalConfidence": 0.92,
+      "baseScore": 86,
+      "fundamentalScore": 86,
+      "fundamentalConfidence": 0.872,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Wachstum ca. 80%",
@@ -49,7 +49,7 @@
         "revenueCurrentYearEstimate": 160.6,
         "revenueNextYearEstimate": 192.15
       },
-      "daysUntil": 0,
+      "daysUntil": -1,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -59,24 +59,21 @@
         },
         {
           "key": "CHART",
-          "delta": 14,
+          "delta": 12,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
           "delta": 0,
-          "label": "10 frische Meldungen"
+          "label": "1 frische Meldungen"
         }
       ],
-      "chartDelta": 14,
+      "chartDelta": 12,
       "newsDelta": 0,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Macy’s, Inc. Board of Directors Declares Quarterly Dividend",
-        "La Paz, Baja California Sur, Brings Its Culinary Identity to the MICHELIN Guide",
-        "Consumer Sentiment Weakens Amid Worries Inflation to Remain High for 'Foreseeable Future,' Survey Shows",
-        "Gentex's Long-Term Strategy Takes Shape as Margin Questions Persist, UBS Says"
+        "Aumann Q2 Earnings Call Highlights"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -86,20 +83,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 99,
-        "last": 14.9,
-        "changeM1": 10.3,
-        "changeM3": 6,
-        "changeM6": 14.1,
+        "samples": 98,
+        "last": 14.7,
+        "changeM1": 7.7,
+        "changeM3": 6.9,
+        "changeM6": 12.2,
         "sma50": 14.2,
         "sma200": 13.9,
-        "position52w": 77.8,
-        "drawdownFromHigh": -4.5,
+        "position52w": 69.8,
+        "drawdownFromHigh": -6.1,
         "volatility20d": 30.6,
         "volumeTrend": null
       },
-      "scoreEvaluatedAt": "2026-08-28T16:45:59.576Z",
-      "scoreValidUntil": "2026-08-29T16:45:59.576Z"
+      "scoreEvaluatedAt": "2026-08-29T11:14:54.617Z",
+      "scoreValidUntil": "2026-08-30T11:14:54.617Z"
     },
     {
       "date": "2026-09-02",
@@ -111,8 +108,8 @@
       "companyKey": "CASEY S GENERAL STORES",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 77,
-      "fundamentalScore": 77,
+      "baseScore": 78,
+      "fundamentalScore": 78,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -130,12 +127,12 @@
         "revenueCurrentYearEstimate": 20551.95,
         "revenueNextYearEstimate": 20732.86
       },
-      "daysUntil": 5,
+      "daysUntil": 4,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 23,
+          "delta": 24,
           "label": "Analystenschaetzungen"
         },
         {
@@ -151,7 +148,7 @@
       ],
       "chartDelta": 3,
       "newsDelta": 1,
-      "fundamentalDelta": 23,
+      "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
         "D. Boral ARC Acquisition I, Exascale Labs Complete Merger",
@@ -167,20 +164,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
-        "samples": 252,
-        "last": 751.3,
-        "changeM1": -13.4,
-        "changeM3": -2.1,
-        "changeM6": 9.6,
-        "sma50": 832.7,
-        "sma200": 721.6,
-        "position52w": 60.9,
-        "drawdownFromHigh": -18,
+        "samples": 250,
+        "last": 763.4,
+        "changeM1": -12,
+        "changeM3": -2.3,
+        "changeM6": 11.9,
+        "sma50": 834.7,
+        "sma200": 720.5,
+        "position52w": 63.7,
+        "drawdownFromHigh": -16.7,
         "volatility20d": 33.5,
-        "volumeTrend": -41.1
+        "volumeTrend": -36
       },
-      "scoreEvaluatedAt": "2026-08-28T16:45:59.576Z",
-      "scoreValidUntil": "2026-08-29T16:45:59.576Z"
+      "scoreEvaluatedAt": "2026-08-29T11:14:54.617Z",
+      "scoreValidUntil": "2026-08-30T11:14:54.617Z"
     },
     {
       "date": "2026-09-02",
@@ -192,8 +189,8 @@
       "companyKey": "CHECK POINT SOFTWARE TECHNOLOGIES",
       "currency": "BRL",
       "matchConfidence": 0.88,
-      "baseScore": 54,
-      "fundamentalScore": 54,
+      "baseScore": 53,
+      "fundamentalScore": 53,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -211,12 +208,12 @@
         "revenueCurrentYearEstimate": 2801.85,
         "revenueNextYearEstimate": 2959.61
       },
-      "daysUntil": 5,
+      "daysUntil": 4,
       "baseLabel": "NEUTRAL",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 5,
+          "delta": 4,
           "label": "Analystenschaetzungen"
         },
         {
@@ -227,12 +224,12 @@
         {
           "key": "NEWS",
           "delta": 0,
-          "label": "6 frische Meldungen"
+          "label": "5 frische Meldungen"
         }
       ],
       "chartDelta": -1,
       "newsDelta": 0,
-      "fundamentalDelta": 5,
+      "fundamentalDelta": 4,
       "newsGuidance": 0,
       "newsHeadlines": [
         "Lightspeed Commerce Appoints Rupal Hollenbeck to Board of Directors",
@@ -258,10 +255,10 @@
         "position52w": 27.9,
         "drawdownFromHigh": -33.1,
         "volatility20d": 49.3,
-        "volumeTrend": 126.3
+        "volumeTrend": 135.3
       },
-      "scoreEvaluatedAt": "2026-08-28T16:45:59.576Z",
-      "scoreValidUntil": "2026-08-29T16:45:59.576Z"
+      "scoreEvaluatedAt": "2026-08-29T11:14:54.617Z",
+      "scoreValidUntil": "2026-08-30T11:14:54.617Z"
     },
     {
       "date": "2026-09-03",
@@ -273,9 +270,9 @@
       "companyKey": "WATCHES OF SWITZERLAND",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 79,
-      "fundamentalScore": 79,
-      "fundamentalConfidence": 0.886,
+      "baseScore": 80,
+      "fundamentalScore": 80,
+      "fundamentalConfidence": 0.901,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+12%)",
@@ -291,12 +288,12 @@
         "revenueCurrentYearEstimate": 1988.93,
         "revenueNextYearEstimate": 2118.24
       },
-      "daysUntil": 6,
+      "daysUntil": 5,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 23,
+          "delta": 24,
           "label": "Analystenschaetzungen"
         },
         {
@@ -312,7 +309,7 @@
       ],
       "chartDelta": 6,
       "newsDelta": 0,
-      "fundamentalDelta": 23,
+      "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
         "⚡Flash Heard: Swiss Luxury Watches Are on U.S. Time Now"
@@ -325,20 +322,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 255,
-        "last": 718.5,
-        "changeM1": -3.4,
-        "changeM3": -0.8,
-        "changeM6": 40.6,
-        "sma50": 728.8,
-        "sma200": 575.2,
-        "position52w": 82.8,
-        "drawdownFromHigh": -10.4,
-        "volatility20d": 27.5,
+        "samples": 254,
+        "last": 721,
+        "changeM1": 0.9,
+        "changeM3": 0.6,
+        "changeM6": 39.1,
+        "sma50": 729.1,
+        "sma200": 573.8,
+        "position52w": 83.3,
+        "drawdownFromHigh": -10,
+        "volatility20d": 31.2,
         "volumeTrend": -17
       },
-      "scoreEvaluatedAt": "2026-08-28T16:45:59.576Z",
-      "scoreValidUntil": "2026-08-29T16:45:59.576Z"
+      "scoreEvaluatedAt": "2026-08-29T11:14:54.617Z",
+      "scoreValidUntil": "2026-08-30T11:14:54.617Z"
     }
   ],
   "estimateAttemptCount": 4,
