@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-08-29T11:14:54.617Z",
-  "nextRefreshAfter": "2026-08-30T11:14:54.617Z",
+  "updatedAt": "2026-08-30T10:01:12.845Z",
+  "nextRefreshAfter": "2026-08-31T10:01:12.845Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,90 +14,12 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 10,
-  "matchedUpcomingCount": 4,
+  "rawUpcomingCount": 8,
+  "matchedUpcomingCount": 3,
   "fundamentalEstimateCount": 0,
   "universeGeneratedAt": "2026-08-24T04:09:57.222992Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
-    {
-      "date": "2026-08-28",
-      "sourceCompanyName": "Aumann AG",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/aumann",
-      "symbol": "AAGG.VI",
-      "name": "Aumann AG",
-      "companyKey": "AUMANN",
-      "currency": "EUR",
-      "matchConfidence": 1,
-      "baseScore": 86,
-      "fundamentalScore": 86,
-      "fundamentalConfidence": 0.872,
-      "profitForecastPositive": true,
-      "fundamentalReasons": [
-        "Analysten erwarten EPS-Wachstum ca. 80%",
-        "Umsatzschätzung nächstes Jahr +20%",
-        "Kurs ueber der 200-Tage-Linie",
-        "Gesunde Position im 52-Wochen-Band (52%)",
-        "Gesunde Position im 52-Wochen-Band (49%)",
-        "Kurs unter der 200-Tage-Linie"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 0.5,
-        "epsNextYearEstimate": 0.9,
-        "revenueCurrentYearEstimate": 160.6,
-        "revenueNextYearEstimate": 192.15
-      },
-      "daysUntil": -1,
-      "baseLabel": "SEHR POSITIV",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": 24,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": 12,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 0,
-          "label": "1 frische Meldungen"
-        }
-      ],
-      "chartDelta": 12,
-      "newsDelta": 0,
-      "fundamentalDelta": 24,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "Aumann Q2 Earnings Call Highlights"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "EUR",
-        "samples": 98,
-        "last": 14.7,
-        "changeM1": 7.7,
-        "changeM3": 6.9,
-        "changeM6": 12.2,
-        "sma50": 14.2,
-        "sma200": 13.9,
-        "position52w": 69.8,
-        "drawdownFromHigh": -6.1,
-        "volatility20d": 30.6,
-        "volumeTrend": null
-      },
-      "scoreEvaluatedAt": "2026-08-29T11:14:54.617Z",
-      "scoreValidUntil": "2026-08-30T11:14:54.617Z"
-    },
     {
       "date": "2026-09-02",
       "sourceCompanyName": "Casey's General Stores Inc",
@@ -127,7 +49,7 @@
         "revenueCurrentYearEstimate": 20551.95,
         "revenueNextYearEstimate": 20732.86
       },
-      "daysUntil": 4,
+      "daysUntil": 3,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
@@ -164,20 +86,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
-        "samples": 250,
-        "last": 763.4,
-        "changeM1": -12,
-        "changeM3": -2.3,
-        "changeM6": 11.9,
-        "sma50": 834.7,
-        "sma200": 720.5,
-        "position52w": 63.7,
-        "drawdownFromHigh": -16.7,
-        "volatility20d": 33.5,
+        "samples": 251,
+        "last": 755.5,
+        "changeM1": -12.9,
+        "changeM3": -1.5,
+        "changeM6": 10.2,
+        "sma50": 832.8,
+        "sma200": 721.6,
+        "position52w": 61.9,
+        "drawdownFromHigh": -17.6,
+        "volatility20d": 33.4,
         "volumeTrend": -36
       },
-      "scoreEvaluatedAt": "2026-08-29T11:14:54.617Z",
-      "scoreValidUntil": "2026-08-30T11:14:54.617Z"
+      "scoreEvaluatedAt": "2026-08-30T10:01:12.845Z",
+      "scoreValidUntil": "2026-08-31T10:01:12.845Z"
     },
     {
       "date": "2026-09-02",
@@ -189,8 +111,8 @@
       "companyKey": "CHECK POINT SOFTWARE TECHNOLOGIES",
       "currency": "BRL",
       "matchConfidence": 0.88,
-      "baseScore": 53,
-      "fundamentalScore": 53,
+      "baseScore": 52,
+      "fundamentalScore": 52,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -208,12 +130,12 @@
         "revenueCurrentYearEstimate": 2801.85,
         "revenueNextYearEstimate": 2959.61
       },
-      "daysUntil": 4,
+      "daysUntil": 3,
       "baseLabel": "NEUTRAL",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 4,
+          "delta": 3,
           "label": "Analystenschaetzungen"
         },
         {
@@ -224,12 +146,12 @@
         {
           "key": "NEWS",
           "delta": 0,
-          "label": "5 frische Meldungen"
+          "label": "4 frische Meldungen"
         }
       ],
       "chartDelta": -1,
       "newsDelta": 0,
-      "fundamentalDelta": 4,
+      "fundamentalDelta": 3,
       "newsGuidance": 0,
       "newsHeadlines": [
         "Lightspeed Commerce Appoints Rupal Hollenbeck to Board of Directors",
@@ -257,8 +179,8 @@
         "volatility20d": 49.3,
         "volumeTrend": 135.3
       },
-      "scoreEvaluatedAt": "2026-08-29T11:14:54.617Z",
-      "scoreValidUntil": "2026-08-30T11:14:54.617Z"
+      "scoreEvaluatedAt": "2026-08-30T10:01:12.845Z",
+      "scoreValidUntil": "2026-08-31T10:01:12.845Z"
     },
     {
       "date": "2026-09-03",
@@ -272,7 +194,7 @@
       "matchConfidence": 1,
       "baseScore": 80,
       "fundamentalScore": 80,
-      "fundamentalConfidence": 0.901,
+      "fundamentalConfidence": 0.907,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+12%)",
@@ -288,7 +210,7 @@
         "revenueCurrentYearEstimate": 1988.93,
         "revenueNextYearEstimate": 2118.24
       },
-      "daysUntil": 5,
+      "daysUntil": 4,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
@@ -334,16 +256,16 @@
         "volatility20d": 31.2,
         "volumeTrend": -17
       },
-      "scoreEvaluatedAt": "2026-08-29T11:14:54.617Z",
-      "scoreValidUntil": "2026-08-30T11:14:54.617Z"
+      "scoreEvaluatedAt": "2026-08-30T10:01:12.845Z",
+      "scoreValidUntil": "2026-08-31T10:01:12.845Z"
     }
   ],
-  "estimateAttemptCount": 4,
+  "estimateAttemptCount": 3,
   "scoreModelVersion": 27.7,
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
-  "chartProfileCount": 4,
-  "newsProfileCount": 4,
+  "chartProfileCount": 3,
+  "newsProfileCount": 3,
   "neutralScoreCount": 0,
-  "signalCoveredCount": 4
+  "signalCoveredCount": 3
 }
