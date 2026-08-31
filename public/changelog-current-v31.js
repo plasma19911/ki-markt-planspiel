@@ -1,5 +1,17 @@
 const CURRENT_V31_CHANGELOG=[
   {
+    at:'31.08.2026 · 13:21',
+    title:'V31.4 · Shadow Learning repariert Signalbasis und kalibriert neue Käufe',
+    items:[
+      'Unfertige Yahoo-Minutenkerzen mit Volumen 0 setzen das Volumenverhältnis nicht mehr auf 0; stattdessen wird die letzte abgeschlossene Kerze verwendet.',
+      'Noch frische, bereits geprüfte Unternehmens-News werden in den nächsten Kandidatenscan übernommen, wenn der aktuelle Abruf keinen neuen Treffer liefert. Die zeitliche Abwertung bleibt aktiv.',
+      'History-Texte unterscheiden jetzt ausdrücklich zwischen Rohsignal 0–10 und finalem Signal 0–100; beide Skalen werden nicht mehr gleich benannt.',
+      'V31.4 misst alle verfügbaren Scan-Kandidaten als 60-Minuten-Shadow-Samples. Die Kaufschwelle wird erst mit mindestens 25 reifen Samples pro Score-Bucket datenbasiert angehoben.',
+      'Neue Käufe erhalten einen Deckel von zwei Positionen pro Thema, drei pro Währung und 20 Minuten Mindestabstand. SELL, HOLD, Hard-Stops und die einzige Unified-Entscheidungsautorität bleiben unverändert.',
+      'Der vorgeschlagene pauschale −3-Punkte-Baseline-Fix wurde bewusst nicht übernommen: Live ist der ausgeführte Einstiegsscore korrekt gespeichert; die spätere Veränderung folgt dem tatsächlichen Kurs und der bestehenden Chart-Hysterese.'
+    ]
+  },
+  {
     at:'31.08.2026 · 08:53',
     title:'Kapitalverlauf zeigt jetzt den gesamten Planspiel-Zeitraum',
     items:[
@@ -197,4 +209,4 @@ function settleCurrentV31(){
 }
 document.addEventListener('click',e=>{if(e.target.closest('#changelogToggle'))settleCurrentV31()});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',settleCurrentV31,{once:true});else settleCurrentV31();
-window.__CURRENT_V31_CHANGELOG__={latest:'31.08.2026 08:53',through:'V31.3-full-capital-timeline',entries:CURRENT_V31_CHANGELOG.length,sortedNewestFirst:true};
+window.__CURRENT_V31_CHANGELOG__={latest:'31.08.2026 13:21',through:'V31.4-shadow-learning',entries:CURRENT_V31_CHANGELOG.length,sortedNewestFirst:true};
