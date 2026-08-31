@@ -1,5 +1,16 @@
 const CURRENT_V31_CHANGELOG=[
   {
+    at:'31.08.2026 · 08:45',
+    title:'Kapitalchart zeigt Marktpausen und echte Scanzeit korrekt',
+    items:[
+      'Längere Datenpausen wie ein Wochenende werden im Kapitalverlauf nicht mehr durch eine künstliche steile Verbindungslinie überbrückt.',
+      'Die horizontale Position der Scanpunkte richtet sich jetzt nach den echten Zeitstempeln statt nur nach ihrer laufenden Nummer.',
+      'Eine längere Unterbrechung wird sichtbar als Marktpause gekennzeichnet; getrennte Handelsphasen bleiben getrennte Liniensegmente.',
+      'Die Kennzeichnung am Chart zeigt jetzt den Stand des letzten tatsächlichen Scanpunkts statt des geplanten Planspiel-Endes im Jahr 2027.',
+      'Der sichtbare Rückgang am 31.08. war ein echter Kurs-Gap von 012450.KS mit anschließendem Hard-Stop und rund 72,67 EUR realisiertem Verlust; die Buchhaltung selbst blieb konsistent.'
+    ]
+  },
+  {
     at:'27.08.2026 · 16:42',
     title:'PC-First entlastet Cloudflare und verhindert doppelte Arbeit',
     items:[
@@ -175,4 +186,4 @@ function settleCurrentV31(){
 }
 document.addEventListener('click',e=>{if(e.target.closest('#changelogToggle'))settleCurrentV31()});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',settleCurrentV31,{once:true});else settleCurrentV31();
-window.__CURRENT_V31_CHANGELOG__={latest:'27.08.2026 16:11',through:'V31.2',entries:CURRENT_V31_CHANGELOG.length,sortedNewestFirst:true};
+window.__CURRENT_V31_CHANGELOG__={latest:'31.08.2026 08:45',through:'V31.3-chart-gap-fix',entries:CURRENT_V31_CHANGELOG.length,sortedNewestFirst:true};
