@@ -83,7 +83,13 @@ function drawChart(rows, startCapital) {
   const c = fitCanvas($('chart'));
   if (!c) return;
   const { ctx, w, h } = c;
-  const values = arr(rows).map(r => num(r.equity)).filter(Number.isFinite);
+  const series = arr(rows).map((row, index) => ({
+    equity: Number(row?.equity),
+    ts: Date.parse(String(row?.ts || '')),
+    index
+  })).filter(point => Number.isFinite(point.equity));
+  series.sort((a, b) => Number.isFinite(a.ts) && Number.isFinite(b.ts) ? a.ts - b.ts : a.index - b.index);
+  const values = series.map(point => point.equity);
   if (!values.length) {
     ctx.fillStyle = '#7890a6';
     ctx.font = '14px Inter, system-ui, sans-serif';
@@ -97,7 +103,13 @@ function drawChart(rows, startCapital) {
   const lo = lo0 - pad, hi = hi0 + pad;
   const left = 8, right = w - 8, top = 18, bottom = h - 16;
   const yOf = v => bottom - (v - lo) / Math.max(1e-9, hi - lo) * (bottom - top);
-  const xOf = i => left + (values.length === 1 ? (right - left) / 2 : i / (values.length - 1) * (right - left));
+  const validTimes = series.filter(point => Number.isFinite(point.ts));
+  const firstTs = validTimes[0]?.ts;
+  const lastTs = validTimes.at(-1)?.ts;
+  const hasTimeScale = Number.isFinite(firstTs) && Number.isFinite(lastTs) && lastTs > firstTs;
+  const xOf = (point, i) => hasTimeScale && Number.isFinite(point.ts)
+    ? left + (point.ts - firstTs) / (lastTs - firstTs) * (right - left)
+    : left + (values.length === 1 ? (right - left) / 2 : i / (values.length - 1) * (right - left));
 
   ctx.strokeStyle = 'rgba(40,67,94,.55)';
   ctx.lineWidth = 1;
@@ -118,24 +130,77 @@ function drawChart(rows, startCapital) {
   const line = up ? '#4bd38c' : '#ff6f78';
   const grad = ctx.createLinearGradient(0, top, 0, bottom);
   grad.addColorStop(0, up ? 'rgba(75,211,140,.30)' : 'rgba(255,111,120,.26)');
-  grad.addColorStop(1, 'rgba(75,211,140,0)');
+  grad.addColorStop(1, up ? 'rgba(75,211,140,0)' : 'rgba(255,111,120,0)');
 
-  const pts = values.map((v, i) => ({ x: xOf(i), y: yOf(v) }));
-  ctx.beginPath();
-  pts.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
-  ctx.lineTo(pts.at(-1).x, bottom); ctx.lineTo(pts[0].x, bottom); ctx.closePath();
-  ctx.fillStyle = grad; ctx.fill();
+  const pts = series.map((point, i) => ({ ...point, x: xOf(point, i), y: yOf(point.equity) }));
+  const intervals = [];
+  for (let i = 1; i < pts.length; i++) {
+    const delta = pts[i].ts - pts[i - 1].ts;
+    if (Number.isFinite(delta) && delta > 0) intervals.push(delta);
+  }
+  intervals.sort((a, b) => a - b);
+  const typicalInterval = intervals.length ? intervals[Math.floor(intervals.length / 2)] : 60_000;
+  const gapThreshold = Math.max(15 * 60_000, typicalInterval * 8);
+  const segments = [];
+  const gaps = [];
+  let segment = [];
+  pts.forEach((point, i) => {
+    const previous = pts[i - 1];
+    const gap = previous && Number.isFinite(point.ts) && Number.isFinite(previous.ts)
+      ? point.ts - previous.ts
+      : 0;
+    if (previous && gap > gapThreshold) {
+      if (segment.length) segments.push(segment);
+      gaps.push({ from: previous, to: point, gap });
+      segment = [];
+    }
+    segment.push(point);
+  });
+  if (segment.length) segments.push(segment);
 
-  ctx.beginPath();
-  pts.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
-  ctx.strokeStyle = line; ctx.lineWidth = 2.5; ctx.lineJoin = 'round'; ctx.stroke();
+  // Längere Marktpausen werden nicht als künstlicher Kurssturz verbunden.
+  segments.forEach(points => {
+    if (points.length < 2) return;
+    ctx.beginPath();
+    points.forEach((point, i) => i ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y));
+    ctx.lineTo(points.at(-1).x, bottom); ctx.lineTo(points[0].x, bottom); ctx.closePath();
+    ctx.fillStyle = grad; ctx.fill();
+  });
 
-  const step=Math.max(1,Math.ceil(pts.length/36));
-  ctx.fillStyle=line;for(let i=0;i<pts.length;i+=step){ctx.beginPath();ctx.arc(pts[i].x,pts[i].y,1.7,0,Math.PI*2);ctx.fill()}
-  const end = pts.at(-1);
-  ctx.beginPath(); ctx.arc(end.x, end.y, 3.5, 0, Math.PI * 2);
+  segments.forEach(points => {
+    if (points.length < 2) return;
+    ctx.beginPath();
+    points.forEach((point, i) => i ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y));
+    ctx.strokeStyle = line; ctx.lineWidth = 2.5; ctx.lineJoin = 'round'; ctx.stroke();
+  });
+
+  gaps.forEach(({ from, to, gap }) => {
+    const x = (from.x + to.x) / 2;
+    ctx.setLineDash([3, 4]);
+    ctx.strokeStyle = 'rgba(143,165,186,.38)';
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x, top + 3); ctx.lineTo(x, bottom); ctx.stroke();
+    ctx.setLineDash([]);
+    if (gap >= 6 * 60 * 60_000 && to.x - from.x > 56) {
+      ctx.fillStyle = '#7890a6';
+      ctx.font = '10px Inter, system-ui, sans-serif';
+      ctx.fillText('Marktpause', Math.max(left + 2, x - 25), top + 10);
+    }
+  });
+
+  const step = Math.max(1, Math.ceil(pts.length / 36));
+  ctx.fillStyle = line;
+  for (let i = 0; i < pts.length; i += step) {
+    ctx.beginPath(); ctx.arc(pts[i].x, pts[i].y, 1.7, 0, Math.PI * 2); ctx.fill();
+  }
+  const endPoint = pts.at(-1);
+  ctx.beginPath(); ctx.arc(endPoint.x, endPoint.y, 3.5, 0, Math.PI * 2);
   ctx.fillStyle = line; ctx.fill();
-  if(Math.abs(hi0-lo0)<0.02&&values.length>1){ctx.fillStyle='#7890a6';ctx.font='10px Inter, system-ui, sans-serif';ctx.fillText(`Depotwert unverändert · ${values.length} Scanpunkte vorhanden`,left+2,bottom-3)}
+  if (Math.abs(hi0 - lo0) < 0.02 && values.length > 1) {
+    ctx.fillStyle = '#7890a6';
+    ctx.font = '10px Inter, system-ui, sans-serif';
+    ctx.fillText(`Depotwert unverändert · ${values.length} Scanpunkte vorhanden`, left + 2, bottom - 3);
+  }
 
   ctx.fillStyle = '#8fa5ba';
   ctx.font = '10px Inter, system-ui, sans-serif';
@@ -586,7 +651,13 @@ function render(s) {
   setText('sideEquity', money(s.equity));
   setText('sideCash', money(c.cash));
 
-  setText('endTime', c.ends_at ? `Ende ${dt(c.ends_at)}` : 'Live');
+  const latestChartPoint = arr(s.snapshots).reduce((latest, point) => {
+    const pointTs = Date.parse(String(point?.ts || ''));
+    const latestTs = Date.parse(String(latest?.ts || ''));
+    return Number.isFinite(pointTs) && (!Number.isFinite(latestTs) || pointTs > latestTs) ? point : latest;
+  }, null);
+  const chartTimestamp = latestChartPoint?.ts || c.last_scan;
+  setText('endTime', chartTimestamp ? `Stand ${dt(chartTimestamp)}` : 'Live');
   setText('scanInfo', `Scans ${num(c.scan_count)} · Letzter ${dt(c.last_scan)} · Universum ${c.universe_count || '–'} · Gebühren ${money(c.total_fees)}`);
   setText('aiSummary', `KI: ${c.ai_last_summary || 'noch keine Marktentscheidung'}`);
   setText('executionInfo', `${money(m.feeFixed ?? 0)} je Kauf/Verkauf · Ausführungspuffer ${fmt(m.slippagePercent ?? 0.1, 2)} % · nur Aktien · Paper Trading.`);
