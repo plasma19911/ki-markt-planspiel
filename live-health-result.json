@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-08-31T11:31:28.843Z",
+  "checkedAt": "2026-08-31T11:46:25.559Z",
   "runtimeVersion": "V31.4",
   "liveDecisionVersion": "V31.4",
   "outcomeLearningVersion": "V31.2",
@@ -54,7 +54,7 @@
     "buySamples": 1,
     "buyHitRate": 0,
     "avgBuy20mReturnPct": 0,
-    "avg20mReturnPct": -0.031,
+    "avg20mReturnPct": -0.025,
     "missedOpportunities": 2,
     "badBuys": 0,
     "earlySells": 0,
@@ -62,43 +62,70 @@
     "thresholdAdjustment": 0,
     "allocationAdjustment": 0,
     "trackedSymbols": 48,
-    "currentCandidates": 3,
+    "currentCandidates": 6,
     "weights": {
-      "velocity": 0.516266001429083,
-      "m5": 0.3495685056563241,
-      "m20": 2.1054611789632194,
-      "accel": 0.386867237914637,
+      "velocity": 0.25,
+      "m5": 0.4129624712411814,
+      "m20": 2.164054812402477,
+      "accel": 0.18641336329525668,
       "news": 2.739683880600539,
-      "confidence": 0.12199566764495977,
+      "confidence": 0.06617750735098785,
       "direction": 1.2
     },
     "topForecasts": [
       {
-        "symbol": "KOG.OL",
-        "score": 47,
-        "forecast20mScore": 49.27,
-        "velocity5": 18.129,
-        "confidence": 0.611,
+        "symbol": "IREN.SW",
+        "score": 34,
+        "forecast20mScore": 32.11,
+        "velocity5": 39.532,
+        "confidence": 0.559,
         "earlySignal": false,
         "regime": "BULL"
       },
       {
-        "symbol": "OTKAR.IS",
-        "score": 0,
-        "forecast20mScore": 0,
-        "velocity5": 0,
-        "confidence": 0.374,
+        "symbol": "CBK.DE",
+        "score": 25.620062619808305,
+        "forecast20mScore": 27.26,
+        "velocity5": 25.729,
+        "confidence": 0.586,
         "earlySignal": false,
-        "regime": "BEAR"
+        "regime": "SIDEWAYS"
       },
       {
-        "symbol": "ASELS.IS",
+        "symbol": "AM.PA",
+        "score": 25,
+        "forecast20mScore": 26.64,
+        "velocity5": 4.941,
+        "confidence": 0.458,
+        "earlySignal": false,
+        "regime": "SIDEWAYS"
+      },
+      {
+        "symbol": "FCT.MI",
+        "score": 25,
+        "forecast20mScore": 22.68,
+        "velocity5": 0,
+        "confidence": 0.411,
+        "earlySignal": false,
+        "regime": "SIDEWAYS"
+      },
+      {
+        "symbol": "BESI.AS",
+        "score": 8,
+        "forecast20mScore": 8.59,
+        "velocity5": 8.129,
+        "confidence": 0.403,
+        "earlySignal": false,
+        "regime": "SIDEWAYS"
+      },
+      {
+        "symbol": "KOG.OL",
         "score": 0,
         "forecast20mScore": 0,
-        "velocity5": 0,
-        "confidence": 0.35,
+        "velocity5": -20.589,
+        "confidence": 0.503,
         "earlySignal": false,
-        "regime": "BEAR"
+        "regime": "BULL"
       }
     ],
     "recentMissedOpportunities": [
@@ -117,8 +144,8 @@
     "writeErrors": 0,
     "insideUnifiedAuthority": true
   },
-  "scanCount": 177,
-  "lastScan": "2026-08-31T11:31:12.111Z",
+  "scanCount": 186,
+  "lastScan": "2026-08-31T11:44:22.910Z",
   "lastError": null,
   "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 2 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · V3 · V30.9 Capital: 0  · V31.4 Shadow: 0 reif,  · V3 · V31.4 Unified+Shadow: 0 finale Änderung(en), Lernmodus BALANCED.",
   "cash": 5422.355149123372,
@@ -234,28 +261,28 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-08-31T11:31:07.772Z",
-    "ageSeconds": 19,
+    "lastSeenAt": "2026-08-31T11:46:07.736Z",
+    "ageSeconds": 15,
     "fallbackAfterSeconds": 150,
     "prefetchFresh": true,
-    "prefetchAt": "2026-08-31T11:29:14.805Z",
+    "prefetchAt": "2026-08-31T11:44:16.507Z",
     "resolvedLeaderCount": 5,
     "leaderHealthy": false,
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-08-31T11:31:07.772Z",
+      "lastSeenAt": "2026-08-31T11:46:07.736Z",
       "version": "2.2.1-csharp-pc-first-four-sta",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 17022347,
+      "storageBytes": 17025101,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.04,
-      "ramMb": 70.7,
-      "downloadedBytes": 2211451654,
-      "uploadedBytes": 51397867,
+      "cpuPct": 0.03,
+      "ramMb": 58.2,
+      "downloadedBytes": 2301577134,
+      "uploadedBytes": 53007988,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
-      "lastLocalCleanupAt": "2026-08-31T11:04:49.3931997Z",
+      "lastLocalCleanupAt": "2026-08-31T11:35:21.8814473Z",
       "lastError": null
     }
   },
@@ -267,7 +294,7 @@
   },
   "agmCalendar": {
     "updatedAt": "2026-08-31T11:00:07.931Z",
-    "ageHours": 0.52,
+    "ageHours": 0.77,
     "events": 5
   },
   "newsFeed": {
@@ -335,7 +362,7 @@
       "buySamples": 1,
       "buyHitRate": 0,
       "avgBuy20mReturnPct": 0,
-      "avg20mReturnPct": -0.031,
+      "avg20mReturnPct": -0.025,
       "missedOpportunities": 2,
       "badBuys": 0,
       "earlySells": 0,
@@ -343,43 +370,70 @@
       "thresholdAdjustment": 0,
       "allocationAdjustment": 0,
       "trackedSymbols": 48,
-      "currentCandidates": 3,
+      "currentCandidates": 6,
       "weights": {
-        "velocity": 0.516266001429083,
-        "m5": 0.3495685056563241,
-        "m20": 2.1054611789632194,
-        "accel": 0.386867237914637,
+        "velocity": 0.25,
+        "m5": 0.4129624712411814,
+        "m20": 2.164054812402477,
+        "accel": 0.18641336329525668,
         "news": 2.739683880600539,
-        "confidence": 0.12199566764495977,
+        "confidence": 0.06617750735098785,
         "direction": 1.2
       },
       "topForecasts": [
         {
-          "symbol": "KOG.OL",
-          "score": 47,
-          "forecast20mScore": 49.27,
-          "velocity5": 18.129,
-          "confidence": 0.611,
+          "symbol": "IREN.SW",
+          "score": 34,
+          "forecast20mScore": 32.11,
+          "velocity5": 39.532,
+          "confidence": 0.559,
           "earlySignal": false,
           "regime": "BULL"
         },
         {
-          "symbol": "OTKAR.IS",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.374,
+          "symbol": "CBK.DE",
+          "score": 25.620062619808305,
+          "forecast20mScore": 27.26,
+          "velocity5": 25.729,
+          "confidence": 0.586,
           "earlySignal": false,
-          "regime": "BEAR"
+          "regime": "SIDEWAYS"
         },
         {
-          "symbol": "ASELS.IS",
+          "symbol": "AM.PA",
+          "score": 25,
+          "forecast20mScore": 26.64,
+          "velocity5": 4.941,
+          "confidence": 0.458,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        },
+        {
+          "symbol": "FCT.MI",
+          "score": 25,
+          "forecast20mScore": 22.68,
+          "velocity5": 0,
+          "confidence": 0.411,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        },
+        {
+          "symbol": "BESI.AS",
+          "score": 8,
+          "forecast20mScore": 8.59,
+          "velocity5": 8.129,
+          "confidence": 0.403,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        },
+        {
+          "symbol": "KOG.OL",
           "score": 0,
           "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.35,
+          "velocity5": -20.589,
+          "confidence": 0.503,
           "earlySignal": false,
-          "regime": "BEAR"
+          "regime": "BULL"
         }
       ],
       "recentMissedOpportunities": [
@@ -422,7 +476,7 @@
       "buySamples": 1,
       "buyHitRate": 0,
       "avgBuy20mReturnPct": 0,
-      "avg20mReturnPct": -0.031,
+      "avg20mReturnPct": -0.025,
       "missedOpportunities": 2,
       "badBuys": 0,
       "earlySells": 0,
@@ -430,43 +484,70 @@
       "thresholdAdjustment": 0,
       "allocationAdjustment": 0,
       "trackedSymbols": 48,
-      "currentCandidates": 3,
+      "currentCandidates": 6,
       "weights": {
-        "velocity": 0.516266001429083,
-        "m5": 0.3495685056563241,
-        "m20": 2.1054611789632194,
-        "accel": 0.386867237914637,
+        "velocity": 0.25,
+        "m5": 0.4129624712411814,
+        "m20": 2.164054812402477,
+        "accel": 0.18641336329525668,
         "news": 2.739683880600539,
-        "confidence": 0.12199566764495977,
+        "confidence": 0.06617750735098785,
         "direction": 1.2
       },
       "topForecasts": [
         {
-          "symbol": "KOG.OL",
-          "score": 47,
-          "forecast20mScore": 49.27,
-          "velocity5": 18.129,
-          "confidence": 0.611,
+          "symbol": "IREN.SW",
+          "score": 34,
+          "forecast20mScore": 32.11,
+          "velocity5": 39.532,
+          "confidence": 0.559,
           "earlySignal": false,
           "regime": "BULL"
         },
         {
-          "symbol": "OTKAR.IS",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.374,
+          "symbol": "CBK.DE",
+          "score": 25.620062619808305,
+          "forecast20mScore": 27.26,
+          "velocity5": 25.729,
+          "confidence": 0.586,
           "earlySignal": false,
-          "regime": "BEAR"
+          "regime": "SIDEWAYS"
         },
         {
-          "symbol": "ASELS.IS",
+          "symbol": "AM.PA",
+          "score": 25,
+          "forecast20mScore": 26.64,
+          "velocity5": 4.941,
+          "confidence": 0.458,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        },
+        {
+          "symbol": "FCT.MI",
+          "score": 25,
+          "forecast20mScore": 22.68,
+          "velocity5": 0,
+          "confidence": 0.411,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        },
+        {
+          "symbol": "BESI.AS",
+          "score": 8,
+          "forecast20mScore": 8.59,
+          "velocity5": 8.129,
+          "confidence": 0.403,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        },
+        {
+          "symbol": "KOG.OL",
           "score": 0,
           "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.35,
+          "velocity5": -20.589,
+          "confidence": 0.503,
           "earlySignal": false,
-          "regime": "BEAR"
+          "regime": "BULL"
         }
       ],
       "recentMissedOpportunities": [
@@ -516,7 +597,7 @@
         "currencyBlocks": 0,
         "spacingBlocks": 0,
         "belowCalibratedThreshold": 0,
-        "openSnapshots": 1,
+        "openSnapshots": 2,
         "maturedSamples": 0,
         "buyThreshold": 56,
         "calibrated": false,
@@ -613,7 +694,7 @@
       },
       "capital": {
         "brokerRows": 258,
-        "exactCandidates": 0,
+        "exactCandidates": 1,
         "strong70Plus": 0,
         "injected": 0,
         "upgraded": 0,
@@ -628,7 +709,7 @@
         "currencyBlocks": 0,
         "spacingBlocks": 0,
         "belowCalibratedThreshold": 0,
-        "openSnapshots": 1,
+        "openSnapshots": 2,
         "maturedSamples": 0,
         "buyThreshold": 56,
         "calibrated": false,
