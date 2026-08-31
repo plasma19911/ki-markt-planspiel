@@ -1,12 +1,13 @@
 const CURRENT_V31_CHANGELOG=[
   {
-    at:'31.08.2026 · 13:21',
+    at:'31.08.2026 · 13:44',
     title:'V31.4 · Shadow Learning repariert Signalbasis und kalibriert neue Käufe',
     items:[
       'Unfertige Yahoo-Minutenkerzen mit Volumen 0 setzen das Volumenverhältnis nicht mehr auf 0; stattdessen wird die letzte abgeschlossene Kerze verwendet.',
       'Noch frische, bereits geprüfte Unternehmens-News werden in den nächsten Kandidatenscan übernommen, wenn der aktuelle Abruf keinen neuen Treffer liefert. Die zeitliche Abwertung bleibt aktiv.',
       'History-Texte unterscheiden jetzt ausdrücklich zwischen Rohsignal 0–10 und finalem Signal 0–100; beide Skalen werden nicht mehr gleich benannt.',
       'V31.4 misst alle verfügbaren Scan-Kandidaten als 60-Minuten-Shadow-Samples. Die Kaufschwelle wird erst mit mindestens 25 reifen Samples pro Score-Bucket datenbasiert angehoben.',
+      'Live-Nachprüfung repariert: Shadow-Samples werden jetzt über die echte asynchrone Cloudflare-Durable-Object-Schnittstelle dauerhaft gespeichert; zuvor funktionierte die Speicherung nur im synchronen Test-KV.',
       'Neue Käufe erhalten einen Deckel von zwei Positionen pro Thema, drei pro Währung und 20 Minuten Mindestabstand. SELL, HOLD, Hard-Stops und die einzige Unified-Entscheidungsautorität bleiben unverändert.',
       'Der vorgeschlagene pauschale −3-Punkte-Baseline-Fix wurde bewusst nicht übernommen: Live ist der ausgeführte Einstiegsscore korrekt gespeichert; die spätere Veränderung folgt dem tatsächlichen Kurs und der bestehenden Chart-Hysterese.'
     ]

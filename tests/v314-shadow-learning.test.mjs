@@ -36,9 +36,8 @@ assert.equal(correlationGateV314('ASML',{theme:'SEMI',currency:'EUR'},positions,
 assert.equal(correlationGateV314('ASML',{theme:'SEMI',currency:'EUR'},positions,{lastEntryAt:t0-60000},t0).kind,'ENTRY_SPACING');
 
 const warmup={actions:[{symbol:'NEW',action:'BUY',allocation_pct:22}],summary:'x'};
-const storage={data:null,kv:{get(){return this.owner.data},put(k,v){this.owner.data=v},owner:null}};
-storage.kv.owner=storage;
-const out=enforceShadowLearningV314(warmup,{config:{slippage_percent:.1},candidates:[{symbol:'NEW',price:10,decisionScore:60,theme:'A',currency:'EUR'}],positions:[]},storage,t0);
+const storage={data:null,async get(){return this.data},async put(k,v){this.data=v}};
+const out=await enforceShadowLearningV314(warmup,{config:{slippage_percent:.1},candidates:[{symbol:'NEW',price:10,decisionScore:60,theme:'A',currency:'EUR'}],positions:[]},storage,t0);
 assert.equal(out.plan.actions[0].action,'BUY');
 assert.equal(out.persisted,true);
 assert.ok(storage.data);
@@ -46,7 +45,7 @@ assert.equal(storage.data.lastEntryAt,0,'nur tatsaechlich ausgefuehrte Einstiege
 assert.equal(estimatedRoundTripCostPctV314({config:{slippage_percent:.1,fee_fixed:0}}),.291);
 
 const pair={actions:[{symbol:'ONE',action:'BUY',allocation_pct:20},{symbol:'TWO',action:'BUY',allocation_pct:20}],summary:'x'};
-const pairOut=enforceShadowLearningV314(pair,{candidates:[
+const pairOut=await enforceShadowLearningV314(pair,{candidates:[
   {symbol:'ONE',price:10,decisionScore:65,theme:'A',currency:'EUR'},
   {symbol:'TWO',price:10,decisionScore:65,theme:'B',currency:'USD'}
 ],positions:[],history:[]},null,t0);

@@ -26,11 +26,11 @@ function candidateDiagnostics(state={}){return arr(state?.candidates).map(c=>({s
 function positionDiagnostics(state={}){return arr(state?.positions).map(p=>({symbol:key(p),score:canonicalScore(p?.decisionScore??p?.daytradeChanceScore??p?.score),rawScore:canonicalScore(p?.rawDecisionScore??p?.raw_score??p?.rawScore),entryScore:canonicalScore(p?.entryDecisionScore??p?.entry_score??p?.entryScore),entryPrice:num(p?.entry_price),lastPrice:num(p?.last_price),openedAt:p?.opened_at||null,direction:p?.chartDirectionMode??p?.direction??null})).filter(x=>x.symbol)}
 function learningAudit(status={}){return{version:status?.version||31.2,mode:status?.mode||'WARMUP',matured:num(status?.matured),buySamples:num(status?.buySamples),buyHitRate:status?.buyHitRate??null,avgBuy20mReturnPct:status?.avgBuy20mReturnPct??null,avg20mReturnPct:status?.avg20mReturnPct??null,missedOpportunities:num(status?.missedOpportunities),badBuys:num(status?.badBuys),earlySells:num(status?.earlySells),correctSells:num(status?.correctSells),trackedSymbols:num(status?.trackedSymbols),currentCandidates:num(status?.currentCandidates),thresholdAdjustment:num(status?.thresholdAdjustment),allocationAdjustment:num(status?.allocationAdjustment),weights:status?.weights||null}}
 
-export function enforceUnifiedDecisionCoreV310(plan,state={},input=null,brokerRows=[],now=Date.now(),outcomeLearning=null,shadowStorage=null){
+export async function enforceUnifiedDecisionCoreV310(plan,state={},input=null,brokerRows=[],now=Date.now(),outcomeLearning=null,shadowStorage=null){
   const original={...plan,actions:arr(plan?.actions).map(a=>({...a}))};
   const predictivePass=enforceOutcomeEarlyEntryV312({...plan,actions:arr(plan?.actions).map(a=>({...a}))},state,outcomeLearning||{},brokerRows);
   const buyPass=enforceHighScoreCapitalDeploymentV309(predictivePass.plan,state,input,brokerRows);
-  const shadowPass=enforceShadowLearningV314(buyPass.plan,state,shadowStorage,now);
+  const shadowPass=await enforceShadowLearningV314(buyPass.plan,state,shadowStorage,now);
   const expectancyPass=enforceExpectancyCoreV310(shadowPass.plan,state,now);
   const finalPlan=expectancyPass.plan;
   const changes=diffActions(original.actions,finalPlan.actions);
@@ -66,7 +66,7 @@ export class UnifiedDecisionCoreV310{
     const state=typeof this.getState==='function'?(this.getState()||{}):{};let brokerRows=[];if(typeof this.getBrokerRows==='function'){try{brokerRows=await this.getBrokerRows()}catch{}}
     const now=Date.now();let outcomeLearning={memory:null,predictions:{},status:this.predictiveStatus};
     try{const previous=typeof this.readOutcomeMemory==='function'?(await this.readOutcomeMemory()||{}):{};outcomeLearning=updateOutcomeLearningMemoryV312(previous,state,now)}catch{this.predictiveWriteErrors++}
-    const out=enforceUnifiedDecisionCoreV310(p,state,payload,brokerRows,now,outcomeLearning,this.shadowStorage);this.latest=out;
+    const out=await enforceUnifiedDecisionCoreV310(p,state,payload,brokerRows,now,outcomeLearning,this.shadowStorage);this.latest=out;
     try{
       const recorded=recordOutcomeDecisionsV312(outcomeLearning.memory||{},state,out.plan,outcomeLearning.predictions||{},now);this.predictiveStatus={...outcomeLearning.status,...recorded.status};out.audit.outcomeLearning=learningAudit(this.predictiveStatus);out.audit.predictiveLearning=out.audit.outcomeLearning;
       if(typeof this.writeOutcomeMemory==='function')await this.writeOutcomeMemory(recorded.memory);

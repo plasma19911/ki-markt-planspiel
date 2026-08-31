@@ -11,8 +11,16 @@ const key=v=>String(v?.symbol||v||'').toUpperCase().trim();
 const canonicalScore=v=>{let x=num(v);if(x>0&&x<=10)x*=10;return clamp(x,0,100)};
 const priceOf=v=>num(v?.price,v?.last_price);
 const fxOf=v=>num(v?.fx_rate??v?.fxRate??v?.last_fx,1)||1;
-const read=(storage,d)=>{try{return storage?.kv?.get(KEY)||d}catch{return d}};
-const write=(storage,v)=>{try{storage?.kv?.put(KEY,v);return true}catch{return false}};
+const read=async(storage,d)=>{try{
+  if(storage?.get)return(await storage.get(KEY))||d;
+  if(storage?.kv?.get)return(await storage.kv.get(KEY))||d;
+  return d;
+}catch{return d}};
+const write=async(storage,v)=>{try{
+  if(storage?.put){await storage.put(KEY,v);return true}
+  if(storage?.kv?.put){await storage.kv.put(KEY,v);return true}
+  return false;
+}catch{return false}};
 
 export const SHADOW_LEARNING_V314={
   version:31.4,storageKey:KEY,horizonMinutes:60,snapshotSpacingMinutes:5,
@@ -112,9 +120,9 @@ export function estimatedRoundTripCostPctV314(state={}){
   return +(2*Math.max(0,num(c?.slippage_percent,.1))+2*percent+2*brokerFee/notional*100).toFixed(3);
 }
 
-export function enforceShadowLearningV314(plan,state={},storage=null,now=Date.now(),roundTripCostPct=null,cfg=SHADOW_LEARNING_V314){
+export async function enforceShadowLearningV314(plan,state={},storage=null,now=Date.now(),roundTripCostPct=null,cfg=SHADOW_LEARNING_V314){
   if(!plan||!Array.isArray(plan.actions))return{plan,counters:{}};
-  let mem={...defaults(),...(read(storage,defaults())||{})};
+  let mem={...defaults(),...(await read(storage,defaults())||{})};
   mem.open={...(mem.open||{})};mem.matured=arr(mem.matured).slice();mem.stats={...defaults().stats,...(mem.stats||{})};
   const candidates=finalScoredCandidates(state,storage,now),cost=finite(roundTripCostPct)?Number(roundTripCostPct):estimatedRoundTripCostPctV314(state);
   matureShadowSnapshots(mem,candidates,now,cfg);recordShadowSnapshots(mem,candidates,now,cfg);
@@ -141,7 +149,7 @@ export function enforceShadowLearningV314(plan,state={},storage=null,now=Date.no
   }
   mem.lastEntryAt=actualEntryAt;mem.stats.themeBlocks+=counters.themeBlocks;mem.stats.currencyBlocks+=counters.currencyBlocks;
   mem.stats.spacingBlocks+=counters.spacingBlocks;mem.stats.thresholdBlocks+=counters.belowCalibratedThreshold;
-  mem.updatedAt=new Date(now).toISOString();const persisted=write(storage,mem);
+  mem.updatedAt=new Date(now).toISOString();const persisted=await write(storage,mem);
   plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,125)} · V31.4 Shadow: ${counters.maturedSamples} reif, Schwelle ${calibrated.threshold}${calibrated.calibrated?'':' Warmup'}, ${counters.themeBlocks+counters.currencyBlocks+counters.spacingBlocks+counters.belowCalibratedThreshold} BUY-Filter.`;
   return{plan,counters,calibration:calibrated,mem,persisted};
 }
