@@ -181,7 +181,7 @@ function drawChart(rows, startCapital) {
     ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(x, top + 3); ctx.lineTo(x, bottom); ctx.stroke();
     ctx.setLineDash([]);
-    if (gap >= 6 * 60 * 60_000 && to.x - from.x > 56) {
+    if (gap >= 24 * 60 * 60_000 && to.x - from.x > 56) {
       ctx.fillStyle = '#7890a6';
       ctx.font = '10px Inter, system-ui, sans-serif';
       ctx.fillText('Marktpause', Math.max(left + 2, x - 25), top + 10);
