@@ -4,6 +4,31 @@ import {OUTCOME_LEARNING_V312} from './outcome-learning-core-v312.js';
 import {PREDICTIVE_LEARNING_V311} from './predictive-learning-core-v311.js';
 
 const arr=v=>Array.isArray(v)?v:[];
+const finite=v=>Number.isFinite(Number(v));
+function compactCapitalTimeline(status,maxPoints=360){
+  const config=status?.config||{},byTime=new Map();
+  const put=point=>{
+    const ts=String(point?.ts||''),time=Date.parse(ts),equity=Number(point?.equity);
+    if(!Number.isFinite(time)||!Number.isFinite(equity))return;
+    byTime.set(ts,{...point,ts,equity});
+  };
+  if(config.started_at&&finite(config.start_capital))put({id:0,ts:config.started_at,equity:Number(config.start_capital),cash:Number(config.start_capital),source:'START'});
+  arr(status?.history).slice().reverse().forEach(row=>put({id:`h-${row?.id??''}`,ts:row?.end_ts||row?.ts,equity:row?.equity,cash:row?.cash_after,source:'HISTORY'}));
+  arr(status?.snapshots).forEach(row=>put(row));
+  const rows=Array.from(byTime.values()).sort((a,b)=>Date.parse(a.ts)-Date.parse(b.ts));
+  if(rows.length<=maxPoints)return rows;
+  const first=rows[0],last=rows.at(-1),middle=rows.slice(1,-1);
+  const bucketCount=Math.max(1,Math.floor((maxPoints-2)/2)),selected=[];
+  for(let bucket=0;bucket<bucketCount;bucket++){
+    const from=Math.floor(bucket*middle.length/bucketCount),to=Math.floor((bucket+1)*middle.length/bucketCount);
+    const part=middle.slice(from,Math.max(from+1,to));
+    if(!part.length)continue;
+    let low=part[0],high=part[0];
+    part.forEach(point=>{if(point.equity<low.equity)low=point;if(point.equity>high.equity)high=point});
+    [low,high].sort((a,b)=>Date.parse(a.ts)-Date.parse(b.ts)).forEach(point=>{if(!selected.length||selected.at(-1).ts!==point.ts)selected.push(point)});
+  }
+  return [first,...selected,last];
+}
 export class MarketPortfolio extends BasePortfolio{
   constructor(ctx,env){
     super(ctx,env);this.ctx=ctx;this.env=env;
@@ -20,7 +45,7 @@ export class MarketPortfolio extends BasePortfolio{
     const s=await super.status(),policy=this.unifiedDecisionCoreV310?.status?.()||{enabled:true,...UNIFIED_DECISION_CORE_V310},learning=policy.outcomeLearning||policy.predictiveLearning||{enabled:true,...OUTCOME_LEARNING_V312};
     s.runtimeVersion='V31.3';s.liveDecisionVersion='V31.3';s.predictiveLearningVersion='V31.2';s.outcomeLearningVersion='V31.2';s.unifiedDecisionCorePolicy={...policy,brokerMaster:{...(this.__brokerRowsMeta||{})}};s.predictiveLearningPolicy={enabled:true,...learning,insideUnifiedAuthority:true};s.outcomeLearningPolicy={enabled:true,...learning,insideUnifiedAuthority:true};s.expectancyCorePolicy={enabled:true,version:31.3,mode:'inside-unified-capital-velocity-authority',...policy.expectancy};
     s.architecture={version:'31.3-unified-capital-velocity+31.2-outcome-learning',outerDecisionLayers:1,outerAuthority:'UnifiedDecisionCoreV310',internalDecisionPasses:['V31.2 continuous outcome learning/early entry','V30.9 high-score capital deployment','V31.3 capital-velocity exits/rotation/sizing'],removedOuterWrapperStack:['FinalSellAuthorityV308','HighScoreCapitalDeploymentV309','ExpectancyCoreV310-as-separate-wrapper'],legacyExecutionBase:'V30.7 manual controls/anti-churn and lower execution core',persistentDecisionAudit:true,auditStorageKey:UNIFIED_DECISION_CORE_V310.auditStorageKey,persistentPredictiveLearning:true,persistentOutcomeLearning:true,predictiveLearningStorageKey:OUTCOME_LEARNING_V312.storageKey,outcomeLearningStorageKey:OUTCOME_LEARNING_V312.storageKey,stateMergeUsesRawCandidates:true,brokerMasterSource:this.__brokerRowsMeta?.source||'none'};
-    if(includeAudit)s.decisionAuditRecent=await this.decisionAudit(20);else{s.decisionAuditRecent=[];s.decisionAuditWindow=0;if(Array.isArray(s.history))s.history=s.history.slice(0,60);if(Array.isArray(s.aiLog))s.aiLog=s.aiLog.slice(0,40);if(Array.isArray(s.snapshots))s.snapshots=s.snapshots.slice(-60)}
+    if(includeAudit)s.decisionAuditRecent=await this.decisionAudit(20);else{s.decisionAuditRecent=[];s.decisionAuditWindow=0;s.snapshots=compactCapitalTimeline(s,360);if(Array.isArray(s.history))s.history=s.history.slice(0,60);if(Array.isArray(s.aiLog))s.aiLog=s.aiLog.slice(0,40)}
     s.canonicalScorePolicy={...(s.canonicalScorePolicy||{}),version:31.2,canonicalScale:'0-100',normalizeLegacyTenPointScores:true,scoreScaleLogged:true,predictiveForecastScale:'0-100',continuousOutcomeFeedback:true};
     s.executionModel={...(s.executionModel||{}),unifiedDecisionCoreV310:true,predictiveLearningV311:true,outcomeLearningV312:true,predictiveHorizonMinutes:20,outcomeHorizonsMinutes:[5,20,60,240],predictiveEarlyEntry:true,predictiveSelfCalibration:true,continuousCandidateTracking:true,learnsMissedOpportunities:true,learnsBadBuys:true,learnsEarlySells:true,learnsSignalWeights:true,recentOutcomesWeightedHigher:true,expectancyCoreV310:true,tradeRepublicAssetsMaster:true,hardPriceStopPct:-1.2,trailArmPct:2.4,runnerTrailArmPct:4.5,minHoldMinutes:8,reentryMinutes:45,reentryScoreImprovement:6,stagnationReviewMinutes:75,maxStagnationMinutes:180,stagnationBandPct:0.6,stagnationScoreCeiling:58,profitFadeReviewMinutes:90,profitFadeMinPct:0.8,minPositionEur:2200,outerDecisionLayers:1};
     return s;
