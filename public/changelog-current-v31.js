@@ -1,5 +1,16 @@
 const CURRENT_V31_CHANGELOG=[
   {
+    at:'31.08.2026 · 08:53',
+    title:'Kapitalverlauf zeigt jetzt den gesamten Planspiel-Zeitraum',
+    items:[
+      'Der Chart beginnt wieder beim tatsächlichen Planspiel-Start und endet beim neuesten Scan; die bisherige Beschränkung auf die letzten 60 Scanpunkte ist entfernt.',
+      'Bis zu 2.000 detaillierte Kapital-Snapshots werden aus dem gespeicherten Zustand für den Verlauf berücksichtigt.',
+      'Ältere Start-, Trade- und Verlaufswerte aus der vollständigen History werden mit den Scanpunkten zusammengeführt, damit auch der Anfang des laufenden Planspiels sichtbar bleibt.',
+      'Für die Browseranzeige wird der Gesamtverlauf auf höchstens 360 aussagekräftige Punkte verdichtet; Tiefs, Hochs, Anfang und Ende bleiben erhalten.',
+      'Der Worker überträgt dadurch keinen unnötig großen Rohdatenblock, obwohl der sichtbare Chart den vollständigen Zeitraum abbildet.'
+    ]
+  },
+  {
     at:'31.08.2026 · 08:45',
     title:'Kapitalchart zeigt Marktpausen und echte Scanzeit korrekt',
     items:[
@@ -186,4 +197,4 @@ function settleCurrentV31(){
 }
 document.addEventListener('click',e=>{if(e.target.closest('#changelogToggle'))settleCurrentV31()});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',settleCurrentV31,{once:true});else settleCurrentV31();
-window.__CURRENT_V31_CHANGELOG__={latest:'31.08.2026 08:45',through:'V31.3-chart-gap-fix',entries:CURRENT_V31_CHANGELOG.length,sortedNewestFirst:true};
+window.__CURRENT_V31_CHANGELOG__={latest:'31.08.2026 08:53',through:'V31.3-full-capital-timeline',entries:CURRENT_V31_CHANGELOG.length,sortedNewestFirst:true};
