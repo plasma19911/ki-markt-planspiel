@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-08-30T10:01:12.845Z",
-  "nextRefreshAfter": "2026-08-31T10:01:12.845Z",
+  "updatedAt": "2026-08-31T11:00:07.931Z",
+  "nextRefreshAfter": "2026-09-01T11:00:07.931Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,9 +14,9 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 8,
-  "matchedUpcomingCount": 3,
-  "fundamentalEstimateCount": 0,
+  "rawUpcomingCount": 19,
+  "matchedUpcomingCount": 5,
+  "fundamentalEstimateCount": 2,
   "universeGeneratedAt": "2026-08-24T04:09:57.222992Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
@@ -30,8 +30,8 @@
       "companyKey": "CASEY S GENERAL STORES",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 78,
-      "fundamentalScore": 78,
+      "baseScore": 77,
+      "fundamentalScore": 77,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -49,7 +49,7 @@
         "revenueCurrentYearEstimate": 20551.95,
         "revenueNextYearEstimate": 20732.86
       },
-      "daysUntil": 3,
+      "daysUntil": 2,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
@@ -64,19 +64,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 1,
+          "delta": 0,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": 3,
-      "newsDelta": 1,
+      "newsDelta": 0,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "D. Boral ARC Acquisition I, Exascale Labs Complete Merger",
         "Casey's Stock: Analyst Estimates & Ratings",
         "UBS Adjusts Casey's General Stores Price Target to $925 From $945, Maintains Neutral Rating",
-        "UBS Adjusts Casey's General Stores Price Target to $925 From $945"
+        "UBS Adjusts Casey's General Stores Price Target to $925 From $945",
+        "Bloomberg 500 (B500) Index Adds Ten Securities Following September Reconstitution"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -98,8 +98,8 @@
         "volatility20d": 33.4,
         "volumeTrend": -36
       },
-      "scoreEvaluatedAt": "2026-08-30T10:01:12.845Z",
-      "scoreValidUntil": "2026-08-31T10:01:12.845Z"
+      "scoreEvaluatedAt": "2026-08-31T11:00:07.931Z",
+      "scoreValidUntil": "2026-09-01T11:00:07.931Z"
     },
     {
       "date": "2026-09-02",
@@ -111,8 +111,8 @@
       "companyKey": "CHECK POINT SOFTWARE TECHNOLOGIES",
       "currency": "BRL",
       "matchConfidence": 0.88,
-      "baseScore": 52,
-      "fundamentalScore": 52,
+      "baseScore": 53,
+      "fundamentalScore": 53,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -130,17 +130,17 @@
         "revenueCurrentYearEstimate": 2801.85,
         "revenueNextYearEstimate": 2959.61
       },
-      "daysUntil": 3,
+      "daysUntil": 2,
       "baseLabel": "NEUTRAL",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 3,
+          "delta": 2,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -1,
+          "delta": 1,
           "label": "Kursstruktur 1 Jahr"
         },
         {
@@ -149,9 +149,9 @@
           "label": "4 frische Meldungen"
         }
       ],
-      "chartDelta": -1,
+      "chartDelta": 1,
       "newsDelta": 0,
-      "fundamentalDelta": 3,
+      "fundamentalDelta": 2,
       "newsGuidance": 0,
       "newsHeadlines": [
         "Lightspeed Commerce Appoints Rupal Hollenbeck to Board of Directors",
@@ -167,20 +167,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "BRL",
-        "samples": 250,
-        "last": 57.9,
-        "changeM1": 1.9,
-        "changeM3": 4.4,
-        "changeM6": -12.3,
-        "sma50": 55.4,
-        "sma200": 66.6,
-        "position52w": 27.9,
-        "drawdownFromHigh": -33.1,
-        "volatility20d": 49.3,
+        "samples": 251,
+        "last": 60,
+        "changeM1": 11.1,
+        "changeM3": 2.6,
+        "changeM6": -7.9,
+        "sma50": 55.5,
+        "sma200": 66.4,
+        "position52w": 33.2,
+        "drawdownFromHigh": -30.7,
+        "volatility20d": 47,
         "volumeTrend": 135.3
       },
-      "scoreEvaluatedAt": "2026-08-30T10:01:12.845Z",
-      "scoreValidUntil": "2026-08-31T10:01:12.845Z"
+      "scoreEvaluatedAt": "2026-08-31T11:00:07.931Z",
+      "scoreValidUntil": "2026-09-01T11:00:07.931Z"
     },
     {
       "date": "2026-09-03",
@@ -194,7 +194,7 @@
       "matchConfidence": 1,
       "baseScore": 80,
       "fundamentalScore": 80,
-      "fundamentalConfidence": 0.907,
+      "fundamentalConfidence": 0.91,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+12%)",
@@ -210,7 +210,7 @@
         "revenueCurrentYearEstimate": 1988.93,
         "revenueNextYearEstimate": 2118.24
       },
-      "daysUntil": 4,
+      "daysUntil": 3,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
@@ -244,28 +244,188 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 254,
-        "last": 721,
-        "changeM1": 0.9,
-        "changeM3": 0.6,
-        "changeM6": 39.1,
-        "sma50": 729.1,
-        "sma200": 573.8,
-        "position52w": 83.3,
-        "drawdownFromHigh": -10,
-        "volatility20d": 31.2,
+        "samples": 255,
+        "last": 718.5,
+        "changeM1": -3.4,
+        "changeM3": -0.8,
+        "changeM6": 40.6,
+        "sma50": 728.8,
+        "sma200": 575.2,
+        "position52w": 82.8,
+        "drawdownFromHigh": -10.4,
+        "volatility20d": 27.5,
         "volumeTrend": -17
       },
-      "scoreEvaluatedAt": "2026-08-30T10:01:12.845Z",
-      "scoreValidUntil": "2026-08-31T10:01:12.845Z"
+      "scoreEvaluatedAt": "2026-08-31T11:00:07.931Z",
+      "scoreValidUntil": "2026-09-01T11:00:07.931Z"
+    },
+    {
+      "date": "2026-09-09",
+      "sourceCompanyName": "NetApp Inc.",
+      "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/net_app",
+      "symbol": "NTAP",
+      "name": "NetApp, Inc.",
+      "companyKey": "NETAPP",
+      "currency": "USD",
+      "matchConfidence": 1,
+      "baseScore": 73,
+      "fundamentalScore": 73,
+      "fundamentalConfidence": 0.881,
+      "profitForecastPositive": true,
+      "fundamentalReasons": [
+        "Analysten erwarten leicht höheres EPS (+11%)",
+        "Umsatzschätzung nächstes Jahr +6%",
+        "Chart im Aufwaertstrend (Kurs > 50- > 200-Tage-Linie)",
+        "Gesunde Position im 52-Wochen-Band (82%)"
+      ],
+      "fundamentals": {
+        "source": "finanzen.net Schätzungen",
+        "epsCurrentYearEstimate": 9.02,
+        "epsNextYearEstimate": 10.03,
+        "revenueCurrentYearEstimate": 7537.01,
+        "revenueNextYearEstimate": 7968.88
+      },
+      "daysUntil": 9,
+      "baseLabel": "POSITIV",
+      "estimateUrl": "https://www.finanzen.net/schaetzungen/net_app",
+      "scoreParts": [
+        {
+          "key": "ZAHLEN",
+          "delta": 11,
+          "label": "Analystenschaetzungen"
+        },
+        {
+          "key": "CHART",
+          "delta": 12,
+          "label": "Kursstruktur 1 Jahr"
+        },
+        {
+          "key": "NEWS",
+          "delta": 0,
+          "label": "10 frische Meldungen"
+        }
+      ],
+      "chartDelta": 12,
+      "newsDelta": 0,
+      "fundamentalDelta": 11,
+      "newsGuidance": 0,
+      "newsHeadlines": [
+        "US Equity Investors to Focus on Corporate Earnings, Labor Market Health, Renewed Hostilities Against Iran This Week",
+        "How Analyst Optimism and Gartner Leadership Could Shape NetApp’s (NTAP) Earnings Narrative",
+        "Dell Holds Strong Before Earnings; Snowflake, Palo Alto Networks Headline Software Reports",
+        "What Analyst Projections for Key Metrics Reveal About NetApp (NTAP) Q1 Earnings"
+      ],
+      "dataQuality": {
+        "zahlen": true,
+        "chart": true,
+        "news": true
+      },
+      "chart": {
+        "source": "Yahoo chart 1y/1d",
+        "currency": "USD",
+        "samples": 251,
+        "last": 187,
+        "changeM1": 7.5,
+        "changeM3": 7.3,
+        "changeM6": 88.9,
+        "sma50": 176,
+        "sma200": 128.8,
+        "position52w": 82.2,
+        "drawdownFromHigh": -9.7,
+        "volatility20d": 39.3,
+        "volumeTrend": -27.3
+      },
+      "scoreEvaluatedAt": "2026-08-31T11:00:07.931Z",
+      "scoreValidUntil": "2026-09-01T11:00:07.931Z"
+    },
+    {
+      "date": "2026-09-10",
+      "sourceCompanyName": "Currys PLC Registered Shs",
+      "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/currys_1",
+      "symbol": "CURY.L",
+      "name": "Currys plc",
+      "companyKey": "CURRYS",
+      "currency": "GBp",
+      "matchConfidence": 1,
+      "baseScore": 65,
+      "fundamentalScore": 65,
+      "fundamentalConfidence": 0.801,
+      "profitForecastPositive": true,
+      "fundamentalReasons": [
+        "Analysten erwarten leicht höheres EPS (+7%)",
+        "Umsatzschätzung nächstes Jahr +3%",
+        "Kurs ueber der 200-Tage-Linie",
+        "Kurs faellt kurz vor der HV (-10% in 1 Monat)",
+        "Gesunde Position im 52-Wochen-Band (73%)",
+        "1 positive von 2 frischen Meldungen"
+      ],
+      "fundamentals": {
+        "source": "finanzen.net Schätzungen",
+        "epsCurrentYearEstimate": 0.14,
+        "epsNextYearEstimate": 0.15,
+        "revenueCurrentYearEstimate": 9543.87,
+        "revenueNextYearEstimate": 9787.56
+      },
+      "daysUntil": 10,
+      "baseLabel": "LEICHT POSITIV",
+      "estimateUrl": "https://www.finanzen.net/schaetzungen/currys_1",
+      "scoreParts": [
+        {
+          "key": "ZAHLEN",
+          "delta": 9,
+          "label": "Analystenschaetzungen"
+        },
+        {
+          "key": "CHART",
+          "delta": 3,
+          "label": "Kursstruktur 1 Jahr"
+        },
+        {
+          "key": "NEWS",
+          "delta": 3,
+          "label": "2 frische Meldungen"
+        }
+      ],
+      "chartDelta": 3,
+      "newsDelta": 3,
+      "fundamentalDelta": 9,
+      "newsGuidance": 0,
+      "newsHeadlines": [
+        "Could NICE (NICE)’s AI Growth Finally Offset its Legacy Revenue Drag?",
+        "Currys Transforms Customer Engagement with NiCE, Driving Higher NPS and Faster Resolution"
+      ],
+      "dataQuality": {
+        "zahlen": true,
+        "chart": true,
+        "news": true
+      },
+      "chart": {
+        "source": "Yahoo chart 1y/1d",
+        "currency": "GBp",
+        "samples": 255,
+        "last": 151.9,
+        "changeM1": -9.7,
+        "changeM3": 3.3,
+        "changeM6": -5.7,
+        "sma50": 159.2,
+        "sma200": 142.8,
+        "position52w": 73.4,
+        "drawdownFromHigh": -9.7,
+        "volatility20d": 22.1,
+        "volumeTrend": -48.4
+      },
+      "scoreEvaluatedAt": "2026-08-31T11:00:07.931Z",
+      "scoreValidUntil": "2026-09-01T11:00:07.931Z"
     }
   ],
-  "estimateAttemptCount": 3,
+  "estimateAttemptCount": 5,
   "scoreModelVersion": 27.7,
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
-  "chartProfileCount": 3,
-  "newsProfileCount": 3,
+  "chartProfileCount": 5,
+  "newsProfileCount": 5,
   "neutralScoreCount": 0,
-  "signalCoveredCount": 3
+  "signalCoveredCount": 5
 }
