@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-08-27T17:54:54.722826+00:00",
-  "berlinNow": "2026-08-27T19:54:54.722703+02:00",
+  "checkedAt": "2026-08-31T06:48:32.413755+00:00",
+  "berlinNow": "2026-08-31T08:48:32.413564+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 2212459,
-    "dashboard": 2212475
+    "full": 2591245,
+    "dashboard": 2591245
   },
   "checks": {
     "fullStatus200": true,
@@ -21,16 +21,16 @@
   "failedChecks": [],
   "allChecksPassed": true,
   "replay": {
-    "date": "2026-08-27",
+    "date": "2026-08-31",
     "status": "CAPTURING",
     "processed": 0,
-    "total": 120,
+    "total": 50,
     "provisional": true,
     "completedAt": null,
     "capture": {
-      "date": "2026-08-27",
-      "symbolCount": 120,
-      "updatedAt": "2026-08-27T17:53:20.723Z"
+      "date": "2026-08-31",
+      "symbolCount": 50,
+      "updatedAt": "2026-08-31T06:47:18.294Z"
     },
     "summary": {
       "provisional": true,
@@ -46,44 +46,52 @@
     }
   },
   "depot": {
-    "cash": 2312.8827944865734,
-    "equity": 10018.259330844237,
-    "displayMarketValue": 7705.376536891937,
-    "displayAccountingDelta": -5.34273567609489e-07,
+    "cash": 1712.9186990395833,
+    "equity": 9977.145352497582,
+    "displayMarketValue": 8264.22665304547,
+    "displayAccountingDelta": 4.125286068301648e-07,
     "positions": [
       {
-        "symbol": "SOLARINDS.NS",
-        "invested": 2031.727698,
-        "ratioValue": 2037.4200000000003,
-        "quantityValue": 2037.4199999999998,
-        "displayValue": 2037.4199999999998,
+        "symbol": "WDAY",
+        "invested": 2194.404364,
+        "ratioValue": 2314.5234704873305,
+        "quantityValue": 2314.5234703033448,
+        "displayValue": 2314.5234703033448,
         "quantityUsed": true
       },
       {
-        "symbol": "PSN",
-        "invested": 2170.377075,
-        "ratioValue": 2156.4592335566713,
-        "quantityValue": 2156.459234035492,
-        "displayValue": 2156.459234035492,
+        "symbol": "NOW",
+        "invested": 2089.650529,
+        "ratioValue": 2130.1092674581673,
+        "quantityValue": 2130.1092672775267,
+        "displayValue": 2130.1092672775267,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "SMR.AX",
+        "invested": 477.993758,
+        "ratioValue": 477.59350809623203,
+        "quantityValue": 477.59350800000004,
+        "displayValue": 477.59350800000004,
         "quantityUsed": true
       },
       {
         "symbol": "MANTA.HE",
         "invested": 1260.539306,
-        "ratioValue": 1273.139999533091,
-        "quantityValue": 1273.1399999999999,
-        "displayValue": 1273.1399999999999,
+        "ratioValue": 1281.0599995301864,
+        "quantityValue": 1281.06,
+        "displayValue": 1281.06,
         "quantityUsed": true
       },
       {
-        "symbol": "OKTA",
-        "invested": 2194.341203,
-        "ratioValue": 2238.357303267903,
-        "quantityValue": 2238.357302856445,
-        "displayValue": 2238.357302856445,
+        "symbol": "AMZN",
+        "invested": 2060.757231,
+        "ratioValue": 2060.9404078860825,
+        "quantityValue": 2060.9404074645995,
+        "displayValue": 2060.9404074645995,
         "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: thu, 27 aug 2026 17:54:54 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=6tewcifczuaztags5h2dgm3kb3u4mzxjbhv2b6b7hqvyfml6qqhm5evsoe4ieqeupo1a22pw4aoyzahoo%2b%2flglrdfnskxztrc6zwvpw9pm5nz6d1kp43gxky471dmzrwl6vwwxtn46yaz5pwr1ro9ddj9knbclhiyehopdq%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a31cf1b33cfaf037-sjc\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: mon, 31 aug 2026 06:48:32 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=pjawouvavm%2bgsrmm8feixz5x%2f6tqyu2louusxcvc56vc4kb3t%2bzgsz89nirie35xiaypfw9j%2bj0mjmigqqcjbj%2bwjmki9vtvovmdc%2bxzhe%2buoyjrrhuresxbh770osq0%2fzuc3wg438xjxdcedam62ur%2beapjkroaftelvom%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a33a17116bbfeb48-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
