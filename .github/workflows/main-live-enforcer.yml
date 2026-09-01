@@ -36,9 +36,12 @@ jobs:
           node --check src/execution-cost-overlay.js
           node --check src/compact-portfolio-v310-unified.js
           node --check src/compact-portfolio-v310-agent-recovery.js
+          node --check src/compact-portfolio-v10.js
+          node --check src/pc-agent-leader-blend-v3172.js
           node --check src/expectancy-core-v310.js
           node --check src/high-score-capital-deployment-v309.js
           node --check src/trade-republic-master.js
+          node tests/v3172-agent-leader-blend.test.mjs
           node tests/v312-outcome-learning.test.mjs
           node tests/v310-unified-decision-core.test.mjs
           node tests/v310-expectancy.test.mjs
@@ -75,12 +78,13 @@ jobs:
             try{
               const r=await fetch(`${base}/api/status?main_live=${Date.now()}`,{headers:{'cache-control':'no-cache'}}),s=await r.json(),u=s?.unifiedDecisionCorePolicy||{},a=s?.architecture||{},ex=s?.executionModel||{},m=s?.manualTradePolicy||{},bm=m?.brokerMaster||{},ubm=u?.brokerMaster||{},capital=u?.capital||{},learn=s?.outcomeLearningPolicy||s?.predictiveLearningPolicy||{},positions=Array.isArray(s?.positions)?s.positions:[];
               let chartOk=true,chartText='no-position';if(positions[0]?.symbol){const symbol=String(positions[0].symbol),cr=await fetch(`${base}/api/position-chart?symbol=${encodeURIComponent(symbol)}&range=1d&main_live=${Date.now()}`,{headers:{'cache-control':'no-cache'}});let cj={};try{cj=await cr.json()}catch{}chartOk=cr.ok&&cj?.ok===true&&Array.isArray(cj?.bars)&&cj.bars.length>0;chartText=`${symbol}:${cr.status}/${cj?.bars?.length||0}`}
-              const runtime=Number(String(s?.runtimeVersion||'').replace(/^V/i,'')),live=Number(String(s?.liveDecisionVersion||'').replace(/^V/i,''));
+              const runtime=Number(String(s?.runtimeVersion||'').replace(/^V/i,'')),live=Number(String(s?.liveDecisionVersion||'').replace(/^V/i,'')),outcomeVersion=Number(String(s?.outcomeLearningVersion||'').replace(/^V/i,''));
               const currentUnified=Number.isFinite(runtime)&&runtime>=31.7&&runtime===live&&u?.enabled===true&&/candidate-state-recovery/i.test(String(u?.patch||''))&&Number(a?.outerDecisionLayers)===1&&a?.outerAuthority==='UnifiedDecisionCoreV310';
-              const learningContract=Number(s?.outcomeLearningVersion)===31.2&&Number(learn?.version)===31.2&&learn?.insideUnifiedAuthority===true&&a?.persistentOutcomeLearning===true&&a?.outcomeLearningStorageKey==='outcome-learning-v312'&&ex?.outcomeLearningV312===true&&ex?.continuousCandidateTracking===true&&Number.isFinite(Number(learn?.trackedSymbols));
+              const learningContract=outcomeVersion===31.2&&Number(learn?.version)===31.2&&learn?.insideUnifiedAuthority===true&&a?.persistentOutcomeLearning===true&&a?.outcomeLearningStorageKey==='outcome-learning-v312'&&ex?.outcomeLearningV312===true&&ex?.continuousCandidateTracking===true&&Number.isFinite(Number(learn?.trackedSymbols));
               const brokerOk=Number(bm?.rowCount)>0&&String(bm?.source||'').includes('env.ASSETS')&&Number(ubm?.rowCount)>0;
-              const ok=r.ok&&currentUnified&&learningContract&&a?.persistentDecisionAudit===true&&ex?.unifiedDecisionCoreV310===true&&ex?.tradeRepublicAssetsMaster===true&&brokerOk&&capital?.heldMasterEnrichment===true&&positions.length<=4&&chartOk;
-              last=`status=${r.status} runtime=${s?.runtimeVersion}/${s?.liveDecisionVersion} learning=${learn?.mode}/${learn?.matured} tracked=${learn?.trackedSymbols} candidates=${learn?.currentCandidates} patch=${u?.patch} broker=${bm?.source}/${bm?.rowCount} chart=${chartText}`;
+              const entryBridge=Number(capital?.canonicalProposalScore)===60&&Number(capital?.canonicalMinDataQuality)===55&&Number(capital?.canonicalMinOrthogonalConfirmations)===1;
+              const ok=r.ok&&currentUnified&&learningContract&&entryBridge&&a?.persistentDecisionAudit===true&&ex?.unifiedDecisionCoreV310===true&&ex?.tradeRepublicAssetsMaster===true&&brokerOk&&capital?.heldMasterEnrichment===true&&positions.length<=4&&chartOk;
+              last=`status=${r.status} runtime=${s?.runtimeVersion}/${s?.liveDecisionVersion} learning=${learn?.mode}/${learn?.matured} tracked=${learn?.trackedSymbols} candidates=${learn?.currentCandidates} bridge=${capital?.patch}/${capital?.canonicalProposalScore} patch=${u?.patch} broker=${bm?.source}/${bm?.rowCount} chart=${chartText}`;
               if(ok){console.log('Main live V31.7+ verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
