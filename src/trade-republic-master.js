@@ -9,9 +9,11 @@ export function tradeRepublicMasterRows(data){
 }
 
 export function isExactTradeRepublicRow(r){
+  const mode=String(r?.brokerMatchMode||'').toUpperCase();
+  const uniqueVerifiedMode=mode==='EXACT_NORMALIZED_NAME'||mode==='UNIQUE_LEGAL_SUFFIX_NORMALIZED_NAME';
   return r?.brokerVerified===true
     && String(r?.assetClass||r?.type||'EQUITY').toUpperCase()==='EQUITY'
-    && String(r?.brokerMatchMode||'').toUpperCase()==='EXACT_NORMALIZED_NAME'
+    && uniqueVerifiedMode
     && /Trade Republic/i.test(String(r?.brokerVerificationSource||''))
     && /^[A-Z]{2}[A-Z0-9]{9}[0-9]$/.test(String(r?.isin||''));
 }
@@ -25,7 +27,7 @@ export async function loadTradeRepublicMaster(env,{legacyLoader=null}={}){
         const data=await r.json();
         const rows=tradeRepublicMasterRows(data).filter(isExactTradeRepublicRow);
         if(rows.length)return{rows,source:'env.ASSETS:/universe.json',generatedAt:data?.generated_at||null,error:null};
-        assetError='universe.json contains no exact Trade Republic rows';
+        assetError='universe.json contains no uniquely verified Trade Republic rows';
       }else assetError=`ASSETS HTTP ${r?.status||0}`;
     }else assetError='env.ASSETS binding unavailable';
   }catch(e){assetError=String(e?.message||e).slice(0,220)}
