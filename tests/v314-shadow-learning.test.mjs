@@ -2,7 +2,7 @@ import assert from 'node:assert';
 import {
   recordShadowSnapshots,matureShadowSnapshots,scoreCalibrationV314,
   calibratedBuyThresholdV314,correlationGateV314,enforceShadowLearningV314,
-  estimatedRoundTripCostPctV314,evidenceProfileV315,evidenceCalibrationV315
+  estimatedRoundTripCostPctV314,evidenceProfileV315,evidenceCalibrationV315,calibratedScoreBucketGateV315
 } from '../src/shadow-learning-v314.js';
 
 const base=()=>({version:31.4,open:{},matured:[],lastEntryAt:0,
@@ -28,8 +28,9 @@ assert.equal(threshold.threshold,70);
 const strongEvidence=evidenceProfileV315({momentum5:.3,momentum20:.7,volumeRatio:1.6,newsScore:.2,newsConfidence:.8,newsSources:['A','B'],rsi:60},[{momentum20:.1},{momentum20:.2}]);
 assert.equal(strongEvidence.pillarCount,4);
 assert.equal(strongEvidence.quality,100);
-const evidenceCalibration=evidenceCalibrationV315([{evidenceQuality:20,ret:-.4},{evidenceQuality:80,ret:1.1}]);
+const evidenceCalibration=evidenceCalibrationV315([{evidenceVersion:31.5,evidenceQuality:20,ret:-.4},{evidenceVersion:31.5,evidenceQuality:80,ret:1.1},{evidenceQuality:0,ret:-9}]);
 assert.ok(evidenceCalibration.find(x=>x.label==='CONFIRMED').avgReturnPct>1);
+assert.equal(evidenceCalibration.reduce((n,x)=>n+x.samples,0),2,'alte V31.4-Samples werden nicht als schwache V31.5-Evidenz fehlklassifiziert');
 
 // Die alte Rohskala 0-10 wird vor dem Lernen auf 0-100 normalisiert.
 const rawScale=recordShadowSnapshots(base(),[{symbol:'RAW',price:10,score:6.2,currency:'EUR'}],t0);
@@ -48,6 +49,11 @@ assert.equal(out.persisted,true);
 assert.ok(storage.data);
 assert.equal(storage.data.lastEntryAt,0,'nur tatsaechlich ausgefuehrte Einstiege werden dauerhaft als Abstandsbasis gespeichert');
 assert.equal(estimatedRoundTripCostPctV314({config:{slippage_percent:.1,fee_fixed:0}}),.291);
+
+const bucketStorage={data:{version:31.5,open:{},matured:Array.from({length:25},(_,i)=>({symbol:`B${i}`,score:66,ret:.02})),lastEntryAt:0,stats:{}},async get(){return this.data},async put(k,v){this.data=v}};
+const bucketOut=await enforceShadowLearningV314({actions:[{symbol:'BUCKET',action:'BUY',allocation_pct:20}],summary:'x'},{config:{slippage_percent:.1},candidates:[{symbol:'BUCKET',price:10,decisionScore:69,momentum5:.3,momentum20:.5}],positions:[]},bucketStorage,t0);
+assert.equal(bucketOut.counters.roundTripCostPct,.291,'nuller optionaler Kostenwert darf nicht als 0 Prozent interpretiert werden');
+assert.equal(calibratedScoreBucketGateV315(66,bucketOut.calibration,.291).ok,false);
 
 const pair={actions:[{symbol:'ONE',action:'BUY',allocation_pct:20},{symbol:'TWO',action:'BUY',allocation_pct:20}],summary:'x'};
 const pairOut=await enforceShadowLearningV314(pair,{candidates:[

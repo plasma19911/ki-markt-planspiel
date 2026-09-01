@@ -1,10 +1,13 @@
 const CURRENT_V31_CHANGELOG=[
   {
-    at:'01.09.2026 · 07:57',
+    at:'01.09.2026 · 08:12',
     title:'V31.5 · Wissenschaftliche Evidenz-Fusion statt blindem Einzelsignal',
     items:[
       'Neue Käufe werden jetzt entlang vier getrennt messbarer Säulen protokolliert: kurzfristiger Trend, relative Stärke gegenüber den übrigen Kandidaten, ungewöhnliches Volumen und frischer firmenspezifischer News-Katalysator.',
       'Der Evidenzfilter lernt zunächst ausschließlich im Shadow-Modus. Erst wenn mindestens 25 vergleichbare 60-Minuten-Ergebnisse vorliegen und schwach bestätigte Setups nach Kosten untragfähig waren, darf er solche neuen Käufe blockieren.',
+      'Die Kaufsteuerung ist jetzt flexibel nach Score-Bereich: Ein reifer Bereich wird nur gehandelt, wenn seine echte 60-Minuten-Rendite die Roundtrip-Kosten deckt. Dadurch kann beispielsweise 60–64 erlaubt und ein historisch schwächeres 65–69 gleichzeitig blockiert werden.',
+      'Kostenkorrektur: Ein nicht übergebener optionaler Kostenwert wurde durch JavaScript als 0 interpretiert. Die Kalibrierung verwendet jetzt wieder das vollständige Gebühren- und Slippage-Modell statt einer scheinbar kostenlosen Ausführung.',
+      'Alte V31.4-Samples ohne die neuen Evidenzfelder werden nicht mehr pauschal als schwache V31.5-Evidenz gewertet. Nur tatsächlich mit V31.5 gemessene Fälle kalibrieren den neuen Vier-Säulen-Filter.',
       'Stark negative Firmennachrichten blockieren einen neuen Kauf nur bei hoher Konfidenz und Bestätigung durch mindestens zwei Quellen. Einzelne oder unklare Meldungen erhalten keine harte Entscheidungsgewalt.',
       'News-Konfidenz, Quellen, Alter und Headlines bleiben jetzt im Kandidatenzustand erhalten, damit echte Nullsignale, alte Meldungen und fehlende Daten unterscheidbar und lernbar werden.',
       'Die Statusanzeige liest Shadow-Samples und Kalibrierung direkt aus dem dauerhaften Cloudflare-Speicher; latest=null trotz laufendem Lernen wird damit beseitigt.',

@@ -75,7 +75,7 @@ export function recordShadowSnapshots(mem,candidates,now,cfg=SHADOW_LEARNING_V31
     const id=`${symbol}@${Math.floor(now/spacing)}`;
     if(mem.open[id])continue;
     const evidence=evidenceProfileV315(c,candidates);
-    mem.open[id]={symbol,at:now,price,fx:fxOf(c),score:+score.toFixed(1),evidenceQuality:evidence.quality,evidencePillars:evidence.pillarCount,
+    mem.open[id]={symbol,at:now,price,fx:fxOf(c),score:+score.toFixed(1),evidenceVersion:31.5,evidenceQuality:evidence.quality,evidencePillars:evidence.pillarCount,
       theme:themeOf(c),currency:currencyOf(c),m5:num(c?.momentum5),m20:num(c?.momentum20),
       rsi:num(c?.rsi,50),day:num(c?.day_change??c?.dayChange)};
     mem.stats.snapshots++;
@@ -93,7 +93,7 @@ export function matureShadowSnapshots(mem,candidates,now,cfg=SHADOW_LEARNING_V31
     const current=prices.get(snap.symbol);
     if(!current||!(current.price>0)){if(age>horizon*3){delete mem.open[id];mem.stats.expired++}continue}
     const from=snap.price*num(snap.fx,1),to=current.price*current.fx;
-    if(from>0)mem.matured.push({symbol:snap.symbol,score:snap.score,theme:snap.theme,evidenceQuality:num(snap.evidenceQuality),evidencePillars:num(snap.evidencePillars),
+    if(from>0)mem.matured.push({symbol:snap.symbol,score:snap.score,theme:snap.theme,evidenceVersion:snap.evidenceVersion||null,evidenceQuality:num(snap.evidenceQuality),evidencePillars:num(snap.evidencePillars),
       ret:+(((to/from)-1)*100).toFixed(4),at:now});
     mem.stats.matured++;delete mem.open[id];
   }
@@ -102,9 +102,10 @@ export function matureShadowSnapshots(mem,candidates,now,cfg=SHADOW_LEARNING_V31
 }
 
 export function evidenceCalibrationV315(matured=[]){
+  const eligible=arr(matured).filter(x=>num(x.evidenceVersion)===31.5);
   return [
-    {label:'LOW',rows:arr(matured).filter(x=>num(x.evidenceQuality)<50)},
-    {label:'CONFIRMED',rows:arr(matured).filter(x=>num(x.evidenceQuality)>=50)}
+    {label:'LOW',rows:eligible.filter(x=>num(x.evidenceQuality)<50)},
+    {label:'CONFIRMED',rows:eligible.filter(x=>num(x.evidenceQuality)>=50)}
   ].map(group=>({label:group.label,samples:group.rows.length,avgReturnPct:group.rows.length?+(group.rows.reduce((s,x)=>s+num(x.ret),0)/group.rows.length).toFixed(3):null,hitRate:group.rows.length?+(group.rows.filter(x=>num(x.ret)>0).length/group.rows.length).toFixed(3):null}));
 }
 
@@ -119,13 +120,19 @@ export function scoreCalibrationV314(matured,cfg=SHADOW_LEARNING_V314){
 }
 
 export function calibratedBuyThresholdV314(matured,roundTripCostPct=.29,cfg=SHADOW_LEARNING_V314){
-  const calibration=scoreCalibrationV314(matured,cfg),need=roundTripCostPct*cfg.minEdgeCostMultiple;
+  const calibration=scoreCalibrationV314(matured,cfg),need=roundTripCostPct,highConvictionNeed=roundTripCostPct*cfg.minEdgeCostMultiple;
   for(const row of calibration)if(row.samples>=cfg.minBucketSamples&&num(row.avgReturnPct,-99)>=need)
-    return{threshold:row.bucket,calibrated:true,need:+need.toFixed(3),row,calibration};
+    return{threshold:row.bucket,calibrated:true,need:+need.toFixed(3),highConvictionNeed:+highConvictionNeed.toFixed(3),row,calibration};
   const best=calibration.filter(row=>row.samples>=cfg.minBucketSamples)
     .sort((a,b)=>num(b.avgReturnPct,-99)-num(a.avgReturnPct,-99))[0]||null;
-  return{threshold:best?Math.min(cfg.maxBuyThreshold,best.bucket+5):cfg.defaultBuyThreshold,
-    calibrated:Boolean(best),need:+need.toFixed(3),row:best,calibration};
+  return{threshold:best?best.bucket:cfg.defaultBuyThreshold,
+    calibrated:Boolean(best),need:+need.toFixed(3),highConvictionNeed:+highConvictionNeed.toFixed(3),row:best,calibration};
+}
+
+export function calibratedScoreBucketGateV315(score,calibrated,cost,cfg=SHADOW_LEARNING_V314){
+  const bucket=bucketOf(score,cfg),row=arr(calibrated?.calibration).find(x=>x.bucket===bucket);
+  if(!row||row.samples<cfg.minBucketSamples)return{ok:true,bucket,row,mature:false};
+  return{ok:num(row.avgReturnPct,-99)>=cost,bucket,row,mature:true};
 }
 
 export function correlationGateV314(symbol,candidate,positions,mem,now,cfg=SHADOW_LEARNING_V314){
@@ -150,14 +157,14 @@ export async function enforceShadowLearningV314(plan,state={},storage=null,now=D
   if(!plan||!Array.isArray(plan.actions))return{plan,counters:{}};
   let mem={...defaults(),...(await read(storage,defaults())||{})};
   mem.open={...(mem.open||{})};mem.matured=arr(mem.matured).slice();mem.stats={...defaults().stats,...(mem.stats||{})};
-  const candidates=finalScoredCandidates(state,storage,now),cost=finite(roundTripCostPct)?Number(roundTripCostPct):estimatedRoundTripCostPctV314(state);
+  const candidates=finalScoredCandidates(state,storage,now),cost=roundTripCostPct!=null&&finite(roundTripCostPct)?Number(roundTripCostPct):estimatedRoundTripCostPctV314(state);
   matureShadowSnapshots(mem,candidates,now,cfg);recordShadowSnapshots(mem,candidates,now,cfg);
   const calibrated=calibratedBuyThresholdV314(mem.matured,cost,cfg);
   const evidenceCalibration=evidenceCalibrationV315(mem.matured),lowEvidence=evidenceCalibration.find(x=>x.label==='LOW');mem.threshold={...calibrated,evidenceCalibration};
   const bySymbol=new Map(candidates.map(c=>[key(c),c])),positions=arr(state?.positions);
   const actions=plan.actions.map(a=>({...a})),counters={themeBlocks:0,currencyBlocks:0,spacingBlocks:0,
     belowCalibratedThreshold:0,openSnapshots:Object.keys(mem.open).length,maturedSamples:mem.matured.length,
-    buyThreshold:calibrated.threshold,calibrated:calibrated.calibrated,roundTripCostPct:cost,evidenceCalibration,negativeNewsBlocks:0,evidenceBlocks:0};
+    buyThreshold:calibrated.threshold,calibrated:calibrated.calibrated,roundTripCostPct:cost,evidenceCalibration,negativeNewsBlocks:0,evidenceBlocks:0,unprofitableBucketBlocks:0};
   const actualEntryAt=latestActualEntryAt(state);let gateEntryAt=actualEntryAt;
   for(let i=0;i<actions.length;i++){
     const action=actions[i],symbol=key(action);
@@ -168,6 +175,12 @@ export async function enforceShadowLearningV314(plan,state={},storage=null,now=D
       actions[i]={...action,action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'CONFIRMED_NEGATIVE_NEWS',evidenceQualityV315:evidence.quality,
         reason:`V31.5 NEWS-FILTER: ${symbol} hat bestätigte negative Firmennachrichten (${evidence.news.toFixed(2)}, ${evidence.newsSources} Quellen). Kein neuer Kauf gegen den Katalysator.`};
       counters.negativeNewsBlocks++;continue;
+    }
+    const bucketGate=calibratedScoreBucketGateV315(score,calibrated,cost,cfg);
+    if(!bucketGate.ok){
+      actions[i]={...action,action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'UNPROFITABLE_SCORE_BUCKET',evidenceQualityV315:evidence.quality,
+        reason:`V31.5 FLEX-BUCKET: Scorebereich ${bucketGate.bucket}–${bucketGate.bucket+4} erzielte mit ${bucketGate.row.samples} Samples Ø ${bucketGate.row.avgReturnPct.toFixed(2)}% und deckt ${cost.toFixed(2)}% Roundtrip-Kosten nicht.`};
+      counters.unprofitableBucketBlocks++;continue;
     }
     if(lowEvidence?.samples>=cfg.evidenceMinSamples&&num(lowEvidence.avgReturnPct,99)<cost&&evidence.quality<50){
       actions[i]={...action,action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'LOW_EVIDENCE_EXPECTANCY',evidenceQualityV315:evidence.quality,
@@ -188,6 +201,6 @@ export async function enforceShadowLearningV314(plan,state={},storage=null,now=D
   mem.lastEntryAt=actualEntryAt;mem.stats.themeBlocks+=counters.themeBlocks;mem.stats.currencyBlocks+=counters.currencyBlocks;
   mem.stats.spacingBlocks+=counters.spacingBlocks;mem.stats.thresholdBlocks+=counters.belowCalibratedThreshold;
   mem.updatedAt=new Date(now).toISOString();const persisted=await write(storage,mem);
-  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,118)} · V31.5 Evidence: ${counters.maturedSamples} reif, Schwelle ${calibrated.threshold}${calibrated.calibrated?'':' Warmup'}, ${counters.themeBlocks+counters.currencyBlocks+counters.spacingBlocks+counters.belowCalibratedThreshold+counters.negativeNewsBlocks+counters.evidenceBlocks} BUY-Filter.`;
+  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,112)} · V31.5 Flex: ${counters.maturedSamples} reif, bevorzugt ab ${calibrated.threshold}${calibrated.calibrated?'':' Warmup'}, ${counters.themeBlocks+counters.currencyBlocks+counters.spacingBlocks+counters.belowCalibratedThreshold+counters.negativeNewsBlocks+counters.evidenceBlocks+counters.unprofitableBucketBlocks} BUY-Filter.`;
   return{plan,counters,calibration:{...calibrated,evidenceCalibration},mem,persisted};
 }
