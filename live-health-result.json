@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-01T13:45:23.073Z",
+  "checkedAt": "2026-09-01T13:50:11.530Z",
   "runtimeVersion": "V31.7",
   "liveDecisionVersion": "V31.7",
   "outcomeLearningVersion": "V31.2",
@@ -10,7 +10,7 @@
     "runtimeCurrent": true,
     "unifiedDecisionAuthority": true,
     "outcomeLearningV312": true,
-    "learningActuallyTracking": true,
+    "learningActuallyTracking": false,
     "continuousFeedback": true,
     "expectancy": true,
     "brokerMaster": true,
@@ -24,8 +24,10 @@
     "lastErrorClear": true,
     "positionCountWithinLimit": true
   },
-  "failedChecks": [],
-  "allRequiredChecksPassed": true,
+  "failedChecks": [
+    "learningActuallyTracking"
+  ],
+  "allRequiredChecksPassed": false,
   "outcomeLearningPolicy": {
     "enabled": true,
     "version": 31.2,
@@ -46,87 +48,18 @@
     "minForecastScore": 70,
     "maxPredictiveAllocationPct": 42,
     "maxOpenPositions": 4,
-    "mode": "BALANCED",
-    "matured": 240,
+    "mode": "WARMUP",
+    "matured": 0,
     "buySamples": 0,
     "buyHitRate": null,
-    "avgBuy20mReturnPct": null,
-    "avg20mReturnPct": -0.034,
-    "missedOpportunities": 7,
+    "avg20mReturnPct": null,
+    "missedOpportunities": 0,
     "badBuys": 0,
     "earlySells": 0,
-    "correctSells": 0,
-    "thresholdAdjustment": 0,
-    "allocationAdjustment": 0,
-    "trackedSymbols": 48,
-    "currentCandidates": 2,
-    "weights": {
-      "velocity": 0.2992187500000007,
-      "m5": 0.7605668743958772,
-      "m20": 3.2215544639058495,
-      "accel": 0.23751028894364168,
-      "news": 2.0341861877553504,
-      "confidence": 0.376305127394513,
-      "direction": 1.2
-    },
-    "topForecasts": [
-      {
-        "symbol": "SAAB-B.ST",
-        "score": 38.30760632911392,
-        "forecast20mScore": 41.34,
-        "velocity5": 5.38,
-        "confidence": 0.683,
-        "earlySignal": false,
-        "regime": "SIDEWAYS"
-      },
-      {
-        "symbol": "SAF.PA",
-        "score": 0,
-        "forecast20mScore": 0,
-        "velocity5": 0,
-        "confidence": 0.389,
-        "earlySignal": false,
-        "regime": "SIDEWAYS"
-      }
-    ],
-    "recentMissedOpportunities": [
-      {
-        "symbol": "LDO.MI",
-        "returnPct": 0.6055,
-        "ts": 1788268407913
-      },
-      {
-        "symbol": "LDO.MI",
-        "returnPct": 1.1596,
-        "ts": 1788267440977
-      },
-      {
-        "symbol": "KOG.OL",
-        "returnPct": 0.8005,
-        "ts": 1788267318555
-      },
-      {
-        "symbol": "LDO.MI",
-        "returnPct": 0.6883,
-        "ts": 1788267148800
-      },
-      {
-        "symbol": "ZENTEC.NS",
-        "returnPct": 0.5133,
-        "ts": 1788256559856
-      },
-      {
-        "symbol": "ZENTEC.NS",
-        "returnPct": 1.354,
-        "ts": 1788255729335
-      },
-      {
-        "symbol": "ZENTEC.NS",
-        "returnPct": 1.0337,
-        "ts": 1788255439509
-      }
-    ],
-    "rule": "V31.2 verfolgt Kandidaten und Depotpositionen kontinuierlich. BUY/HOLD/SELL werden nach 5/20/60/240 Minuten mit dem echten späteren Kurs verglichen. Verpasste Chancen, Fehlkäufe und zu frühe Verkäufe fließen in Schwellen, Positionsgröße und die Gewichte für Score-Geschwindigkeit, Momentum, Beschleunigung, News, Konfidenz und Chart-Richtung ein. Neuere 20m-Ergebnisse werden stärker gewichtet.",
+    "trackedSymbols": 0,
+    "currentCandidates": 0,
+    "weights": null,
+    "topForecasts": [],
     "writeErrors": 0,
     "insideUnifiedAuthority": true
   },
@@ -152,29 +85,12 @@
     "reentryMinutes": 45,
     "decisionAuthority": false,
     "insideUnifiedAuthority": true,
-    "latest": {
-      "eligible": 0,
-      "injected": 0,
-      "reason": "NO_CONFIRMED_EXPLORATION_CANDIDATE",
-      "chosen": null,
-      "blocked": [
-        {
-          "ok": false,
-          "reason": "BROKER_NOT_EXACT",
-          "symbol": "SAAB-B.ST"
-        },
-        {
-          "ok": false,
-          "reason": "BROKER_NOT_EXACT",
-          "symbol": "SAF.PA"
-        }
-      ]
-    }
+    "latest": null
   },
-  "scanCount": 193,
-  "lastScan": "2026-09-01T13:44:20.057Z",
+  "scanCount": 197,
+  "lastScan": "2026-09-01T13:49:19.807Z",
   "lastError": null,
-  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 0 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · · V31.7 Score: BUY ab 60  · V31.7.2 Unified: 0 finale Änderung(en), 2 aktuelle Lernkandidaten, Probe nein.",
+  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 0 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · · V31.7 Score: BUY ab 60  · V31.7.2 Unified: 0 finale Änderung(en), 1 aktuelle Lernkandidaten, Probe nein.",
   "cash": 10000,
   "equity": 10000,
   "pnl": 0,
@@ -182,129 +98,23 @@
   "accountingDelta": 0,
   "positions": 0,
   "positionRows": [],
-  "candidateCount": 2,
+  "candidateCount": 1,
   "candidateRows": [
     {
-      "symbol": "SAAB-B.ST",
-      "name": "Saab",
-      "price": 620.2999877929688,
+      "symbol": "BESI.AS",
+      "name": "BE Semiconductor Industries",
+      "price": 191.4499969482422,
       "last": null,
       "last_price": null,
       "lastPrice": null,
       "currentPrice": null,
       "regularMarketPrice": null,
-      "decisionScore": 58.8,
-      "daytradeLiveScore": 61.4,
-      "score": 58.8,
-      "confidence": 0.7506,
-      "momentum5Pct": 0.2100141830321034,
-      "momentum20Pct": 0.27481608052457585,
-      "acceleration5Pct": null,
-      "newsScore": 0.03531645569620253,
-      "quoteAgeMinutes": null,
-      "brokerVerified": null,
-      "brokerMatchMode": null,
-      "brokerVerificationSource": null,
-      "isin": null,
-      "assetClass": null,
-      "keys": [
-        "symbol",
-        "name",
-        "instrument_type",
-        "theme",
-        "price",
-        "fx_rate",
-        "fx_verified",
-        "currency",
-        "quote_currency_raw",
-        "quote_price_scale",
-        "quote_unit_normalized",
-        "score",
-        "confidence",
-        "day_change",
-        "momentum5",
-        "momentum20",
-        "momentum_acceleration5",
-        "momentum_state",
-        "momentum_breakout_score",
-        "momentum_exhaustion_score",
-        "momentum_sell_signal",
-        "drawdown_from_20m_high_pct",
-        "rsi",
-        "volume_ratio",
-        "volume_ratio_source",
-        "volume_sample_count",
-        "news_score",
-        "news_confidence",
-        "news_sources",
-        "headlines",
-        "news_trading_age_hours",
-        "news_carried_forward",
-        "fresh",
-        "pro",
-        "contra",
-        "event_risk",
-        "event_text",
-        "reason",
-        "updated_at",
-        "legacy_raw_score",
-        "decisionScore",
-        "rawDecisionScore",
-        "scoreDeltaRaw",
-        "scoreDeltaStable",
-        "scoreSmoothed",
-        "scoreSource",
-        "qualityAdjustedRawScore",
-        "scoreAgeMinutes",
-        "scoreQualityFactor",
-        "scoreDrivers",
-        "scoreChartMovePct",
-        "scoreChartAccelerated",
-        "quoteAgeMinutes",
-        "quoteStale",
-        "preDaytradeDecisionScore",
-        "daytradeDecisionScore",
-        "daytradeMarketCapPoints",
-        "daytradeSizeTier",
-        "daytradeSizeLabel",
-        "marketCapUSD",
-        "preDipDecisionScore",
-        "daytradeDipScore",
-        "dipScorePoints",
-        "dipLabel",
-        "dipQuality",
-        "dipReason",
-        "dipMetrics",
-        "preTimingDecisionScore",
-        "daytradeEntryScore",
-        "timingScorePoints",
-        "timingLabel",
-        "timingQuality",
-        "timingReason",
-        "timingMetrics",
-        "preLiveFeedbackScore",
-        "daytradeLiveScore",
-        "liveFeedbackScorePoints",
-        "liveFeedbackLabel",
-        "legacy_score",
-        "legacy_decision_score"
-      ]
-    },
-    {
-      "symbol": "SAF.PA",
-      "name": "Safran",
-      "price": 331.5,
-      "last": null,
-      "last_price": null,
-      "lastPrice": null,
-      "currentPrice": null,
-      "regularMarketPrice": null,
-      "decisionScore": 49.3,
-      "daytradeLiveScore": 29.9,
-      "score": 49.3,
-      "confidence": 0.5657800000000001,
-      "momentum5Pct": 0,
-      "momentum20Pct": -0.03015865551112551,
+      "decisionScore": 46.3,
+      "daytradeLiveScore": 37.7,
+      "score": 46.3,
+      "confidence": 0.6538,
+      "momentum5Pct": -0.18248493115048392,
+      "momentum20Pct": 0.18314538647212775,
       "acceleration5Pct": null,
       "newsScore": 0,
       "quoteAgeMinutes": null,
@@ -400,15 +210,15 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-09-01T13:45:07.888Z",
-    "ageSeconds": 10,
+    "lastSeenAt": "2026-09-01T13:50:08.717Z",
+    "ageSeconds": 1,
     "fallbackAfterSeconds": 150,
     "lastScanAt": null,
     "scanAgeSeconds": null,
     "scanFresh": false,
     "scanGapFallbackAfterSeconds": 95,
     "prefetchFresh": true,
-    "prefetchAt": "2026-09-01T13:43:16.928Z",
+    "prefetchAt": "2026-09-01T13:49:16.672Z",
     "resolvedLeaderCount": 5,
     "selectedLeaderCount": 25,
     "leaderHealthy": false,
@@ -416,19 +226,19 @@
     "leaderCacheMode": "PC_AGENT_PARTIAL_BLEND",
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-09-01T13:45:07.888Z",
+      "lastSeenAt": "2026-09-01T13:50:08.717Z",
       "version": "2.2.1-csharp-pc-first-four-sta",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 17116354,
+      "storageBytes": 17114155,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.02,
-      "ramMb": 61.9,
-      "downloadedBytes": 2886827899,
-      "uploadedBytes": 68575135,
+      "cpuPct": 0.04,
+      "ramMb": 61.2,
+      "downloadedBytes": 2919020292,
+      "uploadedBytes": 69509021,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
-      "lastLocalCleanupAt": "2026-09-01T13:17:04.5366817Z",
+      "lastLocalCleanupAt": "2026-09-01T13:47:04.9617623Z",
       "lastError": null
     }
   },
@@ -440,7 +250,7 @@
   },
   "agmCalendar": {
     "updatedAt": "2026-09-01T09:30:49.148Z",
-    "ageHours": 4.24,
+    "ageHours": 4.32,
     "events": 5
   },
   "newsFeed": {
@@ -503,87 +313,18 @@
       "minForecastScore": 70,
       "maxPredictiveAllocationPct": 42,
       "maxOpenPositions": 4,
-      "mode": "BALANCED",
-      "matured": 240,
+      "mode": "WARMUP",
+      "matured": 0,
       "buySamples": 0,
       "buyHitRate": null,
-      "avgBuy20mReturnPct": null,
-      "avg20mReturnPct": -0.034,
-      "missedOpportunities": 7,
+      "avg20mReturnPct": null,
+      "missedOpportunities": 0,
       "badBuys": 0,
       "earlySells": 0,
-      "correctSells": 0,
-      "thresholdAdjustment": 0,
-      "allocationAdjustment": 0,
-      "trackedSymbols": 48,
-      "currentCandidates": 2,
-      "weights": {
-        "velocity": 0.2992187500000007,
-        "m5": 0.7605668743958772,
-        "m20": 3.2215544639058495,
-        "accel": 0.23751028894364168,
-        "news": 2.0341861877553504,
-        "confidence": 0.376305127394513,
-        "direction": 1.2
-      },
-      "topForecasts": [
-        {
-          "symbol": "SAAB-B.ST",
-          "score": 38.30760632911392,
-          "forecast20mScore": 41.34,
-          "velocity5": 5.38,
-          "confidence": 0.683,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "SAF.PA",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.389,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        }
-      ],
-      "recentMissedOpportunities": [
-        {
-          "symbol": "LDO.MI",
-          "returnPct": 0.6055,
-          "ts": 1788268407913
-        },
-        {
-          "symbol": "LDO.MI",
-          "returnPct": 1.1596,
-          "ts": 1788267440977
-        },
-        {
-          "symbol": "KOG.OL",
-          "returnPct": 0.8005,
-          "ts": 1788267318555
-        },
-        {
-          "symbol": "LDO.MI",
-          "returnPct": 0.6883,
-          "ts": 1788267148800
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 0.5133,
-          "ts": 1788256559856
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 1.354,
-          "ts": 1788255729335
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 1.0337,
-          "ts": 1788255439509
-        }
-      ],
-      "rule": "V31.2 verfolgt Kandidaten und Depotpositionen kontinuierlich. BUY/HOLD/SELL werden nach 5/20/60/240 Minuten mit dem echten späteren Kurs verglichen. Verpasste Chancen, Fehlkäufe und zu frühe Verkäufe fließen in Schwellen, Positionsgröße und die Gewichte für Score-Geschwindigkeit, Momentum, Beschleunigung, News, Konfidenz und Chart-Richtung ein. Neuere 20m-Ergebnisse werden stärker gewichtet.",
+      "trackedSymbols": 0,
+      "currentCandidates": 0,
+      "weights": null,
+      "topForecasts": [],
       "writeErrors": 0
     },
     "predictiveLearning": {
@@ -606,87 +347,18 @@
       "minForecastScore": 70,
       "maxPredictiveAllocationPct": 42,
       "maxOpenPositions": 4,
-      "mode": "BALANCED",
-      "matured": 240,
+      "mode": "WARMUP",
+      "matured": 0,
       "buySamples": 0,
       "buyHitRate": null,
-      "avgBuy20mReturnPct": null,
-      "avg20mReturnPct": -0.034,
-      "missedOpportunities": 7,
+      "avg20mReturnPct": null,
+      "missedOpportunities": 0,
       "badBuys": 0,
       "earlySells": 0,
-      "correctSells": 0,
-      "thresholdAdjustment": 0,
-      "allocationAdjustment": 0,
-      "trackedSymbols": 48,
-      "currentCandidates": 2,
-      "weights": {
-        "velocity": 0.2992187500000007,
-        "m5": 0.7605668743958772,
-        "m20": 3.2215544639058495,
-        "accel": 0.23751028894364168,
-        "news": 2.0341861877553504,
-        "confidence": 0.376305127394513,
-        "direction": 1.2
-      },
-      "topForecasts": [
-        {
-          "symbol": "SAAB-B.ST",
-          "score": 38.30760632911392,
-          "forecast20mScore": 41.34,
-          "velocity5": 5.38,
-          "confidence": 0.683,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "SAF.PA",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.389,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        }
-      ],
-      "recentMissedOpportunities": [
-        {
-          "symbol": "LDO.MI",
-          "returnPct": 0.6055,
-          "ts": 1788268407913
-        },
-        {
-          "symbol": "LDO.MI",
-          "returnPct": 1.1596,
-          "ts": 1788267440977
-        },
-        {
-          "symbol": "KOG.OL",
-          "returnPct": 0.8005,
-          "ts": 1788267318555
-        },
-        {
-          "symbol": "LDO.MI",
-          "returnPct": 0.6883,
-          "ts": 1788267148800
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 0.5133,
-          "ts": 1788256559856
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 1.354,
-          "ts": 1788255729335
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 1.0337,
-          "ts": 1788255439509
-        }
-      ],
-      "rule": "V31.2 verfolgt Kandidaten und Depotpositionen kontinuierlich. BUY/HOLD/SELL werden nach 5/20/60/240 Minuten mit dem echten späteren Kurs verglichen. Verpasste Chancen, Fehlkäufe und zu frühe Verkäufe fließen in Schwellen, Positionsgröße und die Gewichte für Score-Geschwindigkeit, Momentum, Beschleunigung, News, Konfidenz und Chart-Richtung ein. Neuere 20m-Ergebnisse werden stärker gewichtet.",
+      "trackedSymbols": 0,
+      "currentCandidates": 0,
+      "weights": null,
+      "topForecasts": [],
       "writeErrors": 0
     },
     "shadowLearning": {
@@ -725,134 +397,8 @@
       "mode": "canonical-entry-score+orthogonal-confirmation+probation",
       "decisionAuthority": false,
       "filtersNewBuys": true,
-      "latest": {
-        "themeBlocks": 0,
-        "currencyBlocks": 0,
-        "spacingBlocks": 0,
-        "belowCalibratedThreshold": 0,
-        "openSnapshots": 109,
-        "maturedSamples": 656,
-        "buyThreshold": 60,
-        "calibrated": true,
-        "roundTripCostPct": 0.291,
-        "evidenceCalibration": [
-          {
-            "label": "LOW",
-            "samples": 363,
-            "avgReturnPct": -0.153,
-            "hitRate": 0.361
-          },
-          {
-            "label": "CONFIRMED",
-            "samples": 54,
-            "avgReturnPct": -0.242,
-            "hitRate": 0.167
-          }
-        ],
-        "canonicalCalibration": [
-          {
-            "bucket": 50,
-            "samples": 43,
-            "avgReturnPct": -0.095,
-            "expectedNetEdgePct": -0.386,
-            "hitRate": 0.302
-          },
-          {
-            "bucket": 55,
-            "samples": 89,
-            "avgReturnPct": -0.217,
-            "expectedNetEdgePct": -0.508,
-            "hitRate": 0.202
-          },
-          {
-            "bucket": 60,
-            "samples": 1,
-            "avgReturnPct": -0.081,
-            "expectedNetEdgePct": -0.372,
-            "hitRate": 0
-          },
-          {
-            "bucket": 65,
-            "samples": 1,
-            "avgReturnPct": 0,
-            "expectedNetEdgePct": -0.291,
-            "hitRate": 0
-          },
-          {
-            "bucket": 70,
-            "samples": 0,
-            "avgReturnPct": null,
-            "expectedNetEdgePct": null,
-            "hitRate": null
-          },
-          {
-            "bucket": 75,
-            "samples": 0,
-            "avgReturnPct": null,
-            "expectedNetEdgePct": null,
-            "hitRate": null
-          },
-          {
-            "bucket": 80,
-            "samples": 0,
-            "avgReturnPct": null,
-            "expectedNetEdgePct": null,
-            "hitRate": null
-          }
-        ],
-        "negativeNewsBlocks": 0,
-        "evidenceBlocks": 0,
-        "unprofitableBucketBlocks": 0,
-        "canonicalScoreBlocks": 0,
-        "dataQualityBlocks": 1,
-        "orthogonalBlocks": 1,
-        "probationBlocks": 0,
-        "heldBuyBlocks": 0
-      },
-      "calibration": [
-        {
-          "bucket": 50,
-          "samples": 105,
-          "avgReturnPct": -1.025,
-          "hitRate": 0.333
-        },
-        {
-          "bucket": 55,
-          "samples": 65,
-          "avgReturnPct": 0.11,
-          "hitRate": 0.462
-        },
-        {
-          "bucket": 60,
-          "samples": 71,
-          "avgReturnPct": 0.207,
-          "hitRate": 0.479
-        },
-        {
-          "bucket": 65,
-          "samples": 43,
-          "avgReturnPct": -0.015,
-          "hitRate": 0.395
-        },
-        {
-          "bucket": 70,
-          "samples": 20,
-          "avgReturnPct": -0.334,
-          "hitRate": 0.2
-        },
-        {
-          "bucket": 75,
-          "samples": 23,
-          "avgReturnPct": -0.066,
-          "hitRate": 0.391
-        },
-        {
-          "bucket": 80,
-          "samples": 11,
-          "avgReturnPct": -0.283,
-          "hitRate": 0.273
-        }
-      ]
+      "latest": null,
+      "calibration": null
     },
     "paperExploration": {
       "version": 31.74,
@@ -876,24 +422,7 @@
       "reentryMinutes": 45,
       "decisionAuthority": false,
       "insideUnifiedAuthority": true,
-      "latest": {
-        "eligible": 0,
-        "injected": 0,
-        "reason": "NO_CONFIRMED_EXPLORATION_CANDIDATE",
-        "chosen": null,
-        "blocked": [
-          {
-            "ok": false,
-            "reason": "BROKER_NOT_EXACT",
-            "symbol": "SAAB-B.ST"
-          },
-          {
-            "ok": false,
-            "reason": "BROKER_NOT_EXACT",
-            "symbol": "SAF.PA"
-          }
-        ]
-      }
+      "latest": null
     },
     "capital": {
       "version": 30.9,
@@ -933,155 +462,14 @@
       "profitFadeMinPct": 0.8,
       "minPositionEur": 2200
     },
-    "latest": {
-      "changes": 1,
-      "outcome": {
-        "eligible": 0,
-        "injected": 0,
-        "learningMode": "BALANCED"
-      },
-      "predictive": {
-        "eligible": 0,
-        "injected": 0,
-        "learningMode": "BALANCED"
-      },
-      "capital": {
-        "brokerRows": 258,
-        "exactCandidates": 0,
-        "strong70Plus": 0,
-        "canonicalProposalCandidates": 0,
-        "injected": 0,
-        "canonicalInjected": 0,
-        "upgraded": 0,
-        "winnerTopups": 0,
-        "blockedMomentum": 0,
-        "blockedHard": 0,
-        "chosen": null,
-        "topup": null
-      },
-      "shadow": {
-        "themeBlocks": 0,
-        "currencyBlocks": 0,
-        "spacingBlocks": 0,
-        "belowCalibratedThreshold": 0,
-        "openSnapshots": 109,
-        "maturedSamples": 656,
-        "buyThreshold": 60,
-        "calibrated": true,
-        "roundTripCostPct": 0.291,
-        "evidenceCalibration": [
-          {
-            "label": "LOW",
-            "samples": 363,
-            "avgReturnPct": -0.153,
-            "hitRate": 0.361
-          },
-          {
-            "label": "CONFIRMED",
-            "samples": 54,
-            "avgReturnPct": -0.242,
-            "hitRate": 0.167
-          }
-        ],
-        "canonicalCalibration": [
-          {
-            "bucket": 50,
-            "samples": 43,
-            "avgReturnPct": -0.095,
-            "expectedNetEdgePct": -0.386,
-            "hitRate": 0.302
-          },
-          {
-            "bucket": 55,
-            "samples": 89,
-            "avgReturnPct": -0.217,
-            "expectedNetEdgePct": -0.508,
-            "hitRate": 0.202
-          },
-          {
-            "bucket": 60,
-            "samples": 1,
-            "avgReturnPct": -0.081,
-            "expectedNetEdgePct": -0.372,
-            "hitRate": 0
-          },
-          {
-            "bucket": 65,
-            "samples": 1,
-            "avgReturnPct": 0,
-            "expectedNetEdgePct": -0.291,
-            "hitRate": 0
-          },
-          {
-            "bucket": 70,
-            "samples": 0,
-            "avgReturnPct": null,
-            "expectedNetEdgePct": null,
-            "hitRate": null
-          },
-          {
-            "bucket": 75,
-            "samples": 0,
-            "avgReturnPct": null,
-            "expectedNetEdgePct": null,
-            "hitRate": null
-          },
-          {
-            "bucket": 80,
-            "samples": 0,
-            "avgReturnPct": null,
-            "expectedNetEdgePct": null,
-            "hitRate": null
-          }
-        ],
-        "negativeNewsBlocks": 0,
-        "evidenceBlocks": 0,
-        "unprofitableBucketBlocks": 0,
-        "canonicalScoreBlocks": 0,
-        "dataQualityBlocks": 1,
-        "orthogonalBlocks": 1,
-        "probationBlocks": 0,
-        "heldBuyBlocks": 0
-      },
-      "expectancy": {
-        "hardStops": 0,
-        "trailingSells": 0,
-        "pairedRotationSells": 0,
-        "failedSetupSells": 0,
-        "stagnationSells": 0,
-        "profitFadeSells": 0,
-        "minHoldBlocks": 0,
-        "reentryBlocks": 0,
-        "sizingUpgrades": 0,
-        "scoreScaleFixes": 0,
-        "equity": 10000
-      },
-      "exploration": {
-        "eligible": 0,
-        "injected": 0,
-        "reason": "NO_CONFIRMED_EXPLORATION_CANDIDATE",
-        "chosen": null,
-        "blocked": [
-          {
-            "ok": false,
-            "reason": "BROKER_NOT_EXACT",
-            "symbol": "SAAB-B.ST"
-          },
-          {
-            "ok": false,
-            "reason": "BROKER_NOT_EXACT",
-            "symbol": "SAF.PA"
-          }
-        ]
-      }
-    },
+    "latest": null,
     "auditWriteErrors": 0,
     "rule": "Eine einzige äußere Entscheidungsautorität entscheidet final. V31.7.2 nutzt aktuelle Prompt-Kandidaten und die persistente Outcome-Lernhistorie. Normale Käufe brauchen weiterhin die V31.7-Bestätigung. Nur bei einem nachgewiesenen Planspiel-Lern-Deadlock mit 0 BUY-Samples darf eine einzelne kleine, exakt brokerverifizierte Lernposition eröffnet werden; harte Risiko-, Markt-, News-, Quote- und Re-Entry-Sperren bleiben aktiv.",
     "brokerMaster": {
       "source": "env.ASSETS:/universe.json",
       "generatedAt": "2026-08-24T04:09:57.222992Z",
       "error": null,
-      "rowCount": 258
+      "rowCount": 3891
     }
   },
   "executionModel": {
