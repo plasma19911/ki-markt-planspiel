@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-09-01T06:09:34.002Z",
-  "runtimeVersion": "V31.5",
-  "liveDecisionVersion": "V31.5",
+  "checkedAt": "2026-09-01T06:22:00.197Z",
+  "runtimeVersion": "V31.6",
+  "liveDecisionVersion": "V31.6",
   "outcomeLearningVersion": "V31.2",
   "checks": {
     "homepage": true,
@@ -53,9 +53,9 @@
     "matured": 240,
     "buySamples": 9,
     "buyHitRate": 66.7,
-    "avgBuy20mReturnPct": 0.266,
-    "avg20mReturnPct": 0.083,
-    "missedOpportunities": 25,
+    "avgBuy20mReturnPct": 0.252,
+    "avg20mReturnPct": 0.09,
+    "missedOpportunities": 24,
     "badBuys": 0,
     "earlySells": 0,
     "correctSells": 1,
@@ -64,66 +64,66 @@
     "trackedSymbols": 48,
     "currentCandidates": 6,
     "weights": {
-      "velocity": 0.2757949443400882,
-      "m5": 0.9662805860657298,
-      "m20": 5.041740944638153,
-      "accel": 1.7215454098132046,
-      "news": 2.683257782118838,
-      "confidence": 2.0885660674459294,
+      "velocity": 0.25,
+      "m5": 0.466585051727749,
+      "m20": 4.5872342352663855,
+      "accel": 0.15,
+      "news": 2.661515508656055,
+      "confidence": 1.384926265348105,
       "direction": 1.2
     },
     "topForecasts": [
       {
-        "symbol": "7013.T",
-        "score": 39,
-        "forecast20mScore": 41.8,
-        "velocity5": 0,
-        "confidence": 0.518,
-        "earlySignal": false,
-        "regime": "BULL"
-      },
-      {
-        "symbol": "329180.KS",
-        "score": 34.5,
-        "forecast20mScore": 36.71,
-        "velocity5": -11.419,
-        "confidence": 0.468,
-        "earlySignal": false,
-        "regime": "BULL"
-      },
-      {
-        "symbol": "042660.KS",
-        "score": 30,
-        "forecast20mScore": 29.99,
-        "velocity5": -9.039,
-        "confidence": 0.488,
+        "symbol": "BSL.SI",
+        "score": 47,
+        "forecast20mScore": 52.17,
+        "velocity5": 32.662,
+        "confidence": 0.598,
         "earlySignal": false,
         "regime": "SIDEWAYS"
       },
       {
-        "symbol": "000660.KS",
+        "symbol": "9984.T",
+        "score": 39,
+        "forecast20mScore": 41.23,
+        "velocity5": 10.215,
+        "confidence": 0.592,
+        "earlySignal": false,
+        "regime": "BULL"
+      },
+      {
+        "symbol": "7013.T",
         "score": 29,
-        "forecast20mScore": 27.6,
-        "velocity5": -19.627,
+        "forecast20mScore": 25.61,
+        "velocity5": 0,
         "confidence": 0.435,
         "earlySignal": false,
         "regime": "BULL"
       },
       {
-        "symbol": "DATAPATTNS.NS",
-        "score": 16,
-        "forecast20mScore": 19.66,
-        "velocity5": 26.294,
-        "confidence": 0.497,
+        "symbol": "000660.KS",
+        "score": 15,
+        "forecast20mScore": 13.67,
+        "velocity5": -87.099,
+        "confidence": 0.351,
         "earlySignal": false,
         "regime": "SIDEWAYS"
       },
       {
-        "symbol": "3690.HK",
-        "score": 0,
-        "forecast20mScore": 0,
-        "velocity5": 0,
-        "confidence": 0.353,
+        "symbol": "6723.T",
+        "score": 6.000000000000001,
+        "forecast20mScore": 2.11,
+        "velocity5": -65.324,
+        "confidence": 0.35,
+        "earlySignal": false,
+        "regime": "SIDEWAYS"
+      },
+      {
+        "symbol": "7012.T",
+        "score": 6.000000000000001,
+        "forecast20mScore": 1.73,
+        "velocity5": -24.515,
+        "confidence": 0.35,
         "earlySignal": false,
         "regime": "BEAR"
       }
@@ -174,14 +174,14 @@
     "writeErrors": 0,
     "insideUnifiedAuthority": true
   },
-  "scanCount": 5,
-  "lastScan": "2026-09-01T06:09:14.687Z",
+  "scanCount": 13,
+  "lastScan": "2026-09-01T06:21:11.448Z",
   "lastError": null,
-  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 1 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · V3 · V30. · V31.5 Flex: 237 reif, bevorzugt ab  · V31.5 Unified+Evidence: 0 finale Änderung(en), Lernmodus CONFIDENT.",
+  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 1 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · V3 ·  · V31.6 Score: BUY ab 60, 237 alt/ne · V31.6 Unified+Canonical: 3 finale Änderung(en), Kaufsystem WARMUP.",
   "cash": 7784.942755,
-  "equity": 9997.995054600182,
-  "pnl": -2.004945399818098,
-  "marketValue": 2213.0522996001814,
+  "equity": 10001.615754599527,
+  "pnl": 1.6157545995265536,
+  "marketValue": 2216.6729995995274,
   "accountingDelta": 0,
   "positions": 1,
   "positionRows": [
@@ -194,7 +194,7 @@
       "invested": 2214.057245,
       "entry_fee": 1,
       "entry_price": 2751.749,
-      "last_price": 2750.5,
+      "last_price": 2755,
       "entry_fx": 0.0054,
       "last_fx": 0.0054,
       "fx_verified": true,
@@ -205,34 +205,34 @@
       "opened_at": "2026-09-01T06:06:12.139Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 65.9,
-      "signal_confidence": 0.63,
+      "score": 63.9,
+      "signal_confidence": 0.545,
       "zero_quantity": 149,
       "zero_whole_shares": 149,
       "zero_fractional_shares": 0,
       "zero_uses_fractional": false,
       "zero_fee_model_version": "trade-republic-securities-2026-08-v1",
       "fx_stale": false,
-      "legacy_position_score": 3.9,
-      "decisionScore": 65.9,
+      "legacy_position_score": 2.65,
+      "decisionScore": 63.9,
       "entryDecisionScore": 64.5,
-      "scoreDeltaFromEntry": 1.4,
-      "scoreDeltaThisScan": -1,
-      "rawDecisionScore": 63.8,
-      "chartMoveFromEntryPct": -0.045,
+      "scoreDeltaFromEntry": -0.6,
+      "scoreDeltaThisScan": -0.8,
+      "rawDecisionScore": 52.9,
+      "chartMoveFromEntryPct": 0.118,
       "chartMoveLastScanPct": 0,
       "scoreFrozenPartial": false,
       "scoreChartCapped": true,
       "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
-      "preDirectionalScore": 65.1,
+      "preDirectionalScore": 61.5,
       "scoreFloor": 61.5,
       "scoreCeiling": 67.5,
       "chartDirectionMode": "FLAT",
       "scorePriorCorrected": false,
-      "preProfitScore": 65.9,
-      "profitScoreCeiling": 65.9,
+      "preProfitScore": 63.9,
+      "profitScoreCeiling": 67.5,
       "profitScoreDeltaThisScan": 0,
-      "daytradeChanceScore": 65.9,
+      "daytradeChanceScore": 63.9,
       "daytradeChanceLabel": "STARK",
       "daytradeChanceRank": 1
     }
@@ -240,25 +240,25 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-09-01T06:09:07.880Z",
-    "ageSeconds": 24,
+    "lastSeenAt": "2026-09-01T06:21:06.017Z",
+    "ageSeconds": 51,
     "fallbackAfterSeconds": 150,
     "prefetchFresh": true,
-    "prefetchAt": "2026-09-01T06:07:16.269Z",
+    "prefetchAt": "2026-09-01T06:19:15.603Z",
     "resolvedLeaderCount": 5,
     "leaderHealthy": false,
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-09-01T06:09:07.880Z",
+      "lastSeenAt": "2026-09-01T06:21:06.017Z",
       "version": "2.2.1-csharp-pc-first-four-sta",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 17074103,
+      "storageBytes": 17084499,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.02,
-      "ramMb": 56.5,
-      "downloadedBytes": 271638960,
-      "uploadedBytes": 6930216,
+      "cpuPct": 0.04,
+      "ramMb": 57.8,
+      "downloadedBytes": 344834001,
+      "uploadedBytes": 8895323,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-09-01T05:57:04.6166473Z",
@@ -269,26 +269,26 @@
     "status": 200,
     "ok": true,
     "symbol": "7013.T",
-    "bars": 60
+    "bars": 63
   },
   "agmCalendar": {
     "updatedAt": "2026-08-31T11:00:07.931Z",
-    "ageHours": 19.16,
+    "ageHours": 19.36,
     "events": 5
   },
   "newsFeed": {
     "status": 200,
-    "items": 2,
+    "items": 4,
     "refreshSeconds": 60
   },
   "architecture": {
-    "version": "31.5-evidence-fusion+31.4-shadow-calibration+31.3-capital-velocity+31.2-outcome-learning",
+    "version": "31.6-canonical-entry-score+31.5-evidence-fusion+31.4-shadow-calibration",
     "outerDecisionLayers": 1,
     "outerAuthority": "UnifiedDecisionCoreV310",
     "internalDecisionPasses": [
       "V31.2 continuous outcome learning/early entry",
-      "V30.9 high-score capital deployment",
-      "V31.5 evidence/news/relative-strength calibration + concentration entry filter",
+      "V30.9 legacy opportunity proposal",
+      "V31.6 one canonical score/data quality/net edge final entry approval",
       "V31.3 capital-velocity exits/rotation/sizing"
     ],
     "removedOuterWrapperStack": [
@@ -310,8 +310,8 @@
   },
   "unifiedDecisionCorePolicy": {
     "enabled": true,
-    "version": 31.5,
-    "patch": "31.5-evidence-fusion+31.4-shadow-calibration+31.3-capital-velocity+31.2-outcome-learning",
+    "version": 31.6,
+    "patch": "31.6-canonical-entry-score+31.5-evidence-fusion+31.4-shadow-calibration",
     "architecture": "single-outer-decision-authority",
     "persistentAudit": true,
     "maxAuditRows": 500,
@@ -340,9 +340,9 @@
       "matured": 240,
       "buySamples": 9,
       "buyHitRate": 66.7,
-      "avgBuy20mReturnPct": 0.266,
-      "avg20mReturnPct": 0.083,
-      "missedOpportunities": 25,
+      "avgBuy20mReturnPct": 0.252,
+      "avg20mReturnPct": 0.09,
+      "missedOpportunities": 24,
       "badBuys": 0,
       "earlySells": 0,
       "correctSells": 1,
@@ -351,66 +351,66 @@
       "trackedSymbols": 48,
       "currentCandidates": 6,
       "weights": {
-        "velocity": 0.2757949443400882,
-        "m5": 0.9662805860657298,
-        "m20": 5.041740944638153,
-        "accel": 1.7215454098132046,
-        "news": 2.683257782118838,
-        "confidence": 2.0885660674459294,
+        "velocity": 0.25,
+        "m5": 0.466585051727749,
+        "m20": 4.5872342352663855,
+        "accel": 0.15,
+        "news": 2.661515508656055,
+        "confidence": 1.384926265348105,
         "direction": 1.2
       },
       "topForecasts": [
         {
-          "symbol": "7013.T",
-          "score": 39,
-          "forecast20mScore": 41.8,
-          "velocity5": 0,
-          "confidence": 0.518,
-          "earlySignal": false,
-          "regime": "BULL"
-        },
-        {
-          "symbol": "329180.KS",
-          "score": 34.5,
-          "forecast20mScore": 36.71,
-          "velocity5": -11.419,
-          "confidence": 0.468,
-          "earlySignal": false,
-          "regime": "BULL"
-        },
-        {
-          "symbol": "042660.KS",
-          "score": 30,
-          "forecast20mScore": 29.99,
-          "velocity5": -9.039,
-          "confidence": 0.488,
+          "symbol": "BSL.SI",
+          "score": 47,
+          "forecast20mScore": 52.17,
+          "velocity5": 32.662,
+          "confidence": 0.598,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
         {
-          "symbol": "000660.KS",
+          "symbol": "9984.T",
+          "score": 39,
+          "forecast20mScore": 41.23,
+          "velocity5": 10.215,
+          "confidence": 0.592,
+          "earlySignal": false,
+          "regime": "BULL"
+        },
+        {
+          "symbol": "7013.T",
           "score": 29,
-          "forecast20mScore": 27.6,
-          "velocity5": -19.627,
+          "forecast20mScore": 25.61,
+          "velocity5": 0,
           "confidence": 0.435,
           "earlySignal": false,
           "regime": "BULL"
         },
         {
-          "symbol": "DATAPATTNS.NS",
-          "score": 16,
-          "forecast20mScore": 19.66,
-          "velocity5": 26.294,
-          "confidence": 0.497,
+          "symbol": "000660.KS",
+          "score": 15,
+          "forecast20mScore": 13.67,
+          "velocity5": -87.099,
+          "confidence": 0.351,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
         {
-          "symbol": "3690.HK",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.353,
+          "symbol": "6723.T",
+          "score": 6.000000000000001,
+          "forecast20mScore": 2.11,
+          "velocity5": -65.324,
+          "confidence": 0.35,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        },
+        {
+          "symbol": "7012.T",
+          "score": 6.000000000000001,
+          "forecast20mScore": 1.73,
+          "velocity5": -24.515,
+          "confidence": 0.35,
           "earlySignal": false,
           "regime": "BEAR"
         }
@@ -484,9 +484,9 @@
       "matured": 240,
       "buySamples": 9,
       "buyHitRate": 66.7,
-      "avgBuy20mReturnPct": 0.266,
-      "avg20mReturnPct": 0.083,
-      "missedOpportunities": 25,
+      "avgBuy20mReturnPct": 0.252,
+      "avg20mReturnPct": 0.09,
+      "missedOpportunities": 24,
       "badBuys": 0,
       "earlySells": 0,
       "correctSells": 1,
@@ -495,66 +495,66 @@
       "trackedSymbols": 48,
       "currentCandidates": 6,
       "weights": {
-        "velocity": 0.2757949443400882,
-        "m5": 0.9662805860657298,
-        "m20": 5.041740944638153,
-        "accel": 1.7215454098132046,
-        "news": 2.683257782118838,
-        "confidence": 2.0885660674459294,
+        "velocity": 0.25,
+        "m5": 0.466585051727749,
+        "m20": 4.5872342352663855,
+        "accel": 0.15,
+        "news": 2.661515508656055,
+        "confidence": 1.384926265348105,
         "direction": 1.2
       },
       "topForecasts": [
         {
-          "symbol": "7013.T",
-          "score": 39,
-          "forecast20mScore": 41.8,
-          "velocity5": 0,
-          "confidence": 0.518,
-          "earlySignal": false,
-          "regime": "BULL"
-        },
-        {
-          "symbol": "329180.KS",
-          "score": 34.5,
-          "forecast20mScore": 36.71,
-          "velocity5": -11.419,
-          "confidence": 0.468,
-          "earlySignal": false,
-          "regime": "BULL"
-        },
-        {
-          "symbol": "042660.KS",
-          "score": 30,
-          "forecast20mScore": 29.99,
-          "velocity5": -9.039,
-          "confidence": 0.488,
+          "symbol": "BSL.SI",
+          "score": 47,
+          "forecast20mScore": 52.17,
+          "velocity5": 32.662,
+          "confidence": 0.598,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
         {
-          "symbol": "000660.KS",
+          "symbol": "9984.T",
+          "score": 39,
+          "forecast20mScore": 41.23,
+          "velocity5": 10.215,
+          "confidence": 0.592,
+          "earlySignal": false,
+          "regime": "BULL"
+        },
+        {
+          "symbol": "7013.T",
           "score": 29,
-          "forecast20mScore": 27.6,
-          "velocity5": -19.627,
+          "forecast20mScore": 25.61,
+          "velocity5": 0,
           "confidence": 0.435,
           "earlySignal": false,
           "regime": "BULL"
         },
         {
-          "symbol": "DATAPATTNS.NS",
-          "score": 16,
-          "forecast20mScore": 19.66,
-          "velocity5": 26.294,
-          "confidence": 0.497,
+          "symbol": "000660.KS",
+          "score": 15,
+          "forecast20mScore": 13.67,
+          "velocity5": -87.099,
+          "confidence": 0.351,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
         {
-          "symbol": "3690.HK",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.353,
+          "symbol": "6723.T",
+          "score": 6.000000000000001,
+          "forecast20mScore": 2.11,
+          "velocity5": -65.324,
+          "confidence": 0.35,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        },
+        {
+          "symbol": "7012.T",
+          "score": 6.000000000000001,
+          "forecast20mScore": 1.73,
+          "velocity5": -24.515,
+          "confidence": 0.35,
           "earlySignal": false,
           "regime": "BEAR"
         }
@@ -606,7 +606,7 @@
     },
     "shadowLearning": {
       "enabled": true,
-      "version": 31.5,
+      "version": 31.6,
       "storageKey": "shadow-learning-v314",
       "horizonMinutes": 60,
       "snapshotSpacingMinutes": 5,
@@ -629,21 +629,23 @@
       "maxPerCurrency": 3,
       "minEntrySpacingMinutes": 20,
       "evidenceMinSamples": 25,
+      "canonicalBuyScore": 60,
+      "canonicalMinDataQuality": 55,
       "negativeNewsBlock": -0.35,
       "negativeNewsMinConfidence": 0.6,
       "negativeNewsMinSources": 2,
-      "mode": "measurement+entry-filter-inside-unified",
+      "mode": "canonical-entry-score+measurement-inside-unified",
       "decisionAuthority": false,
       "filtersNewBuys": true,
       "latest": {
         "themeBlocks": 0,
         "currencyBlocks": 0,
-        "spacingBlocks": 0,
+        "spacingBlocks": 1,
         "belowCalibratedThreshold": 0,
-        "openSnapshots": 32,
+        "openSnapshots": 46,
         "maturedSamples": 237,
         "buyThreshold": 60,
-        "calibrated": true,
+        "calibrated": false,
         "roundTripCostPct": 0.291,
         "evidenceCalibration": [
           {
@@ -659,9 +661,62 @@
             "hitRate": null
           }
         ],
+        "canonicalCalibration": [
+          {
+            "bucket": 50,
+            "samples": 0,
+            "avgReturnPct": null,
+            "expectedNetEdgePct": null,
+            "hitRate": null
+          },
+          {
+            "bucket": 55,
+            "samples": 0,
+            "avgReturnPct": null,
+            "expectedNetEdgePct": null,
+            "hitRate": null
+          },
+          {
+            "bucket": 60,
+            "samples": 0,
+            "avgReturnPct": null,
+            "expectedNetEdgePct": null,
+            "hitRate": null
+          },
+          {
+            "bucket": 65,
+            "samples": 0,
+            "avgReturnPct": null,
+            "expectedNetEdgePct": null,
+            "hitRate": null
+          },
+          {
+            "bucket": 70,
+            "samples": 0,
+            "avgReturnPct": null,
+            "expectedNetEdgePct": null,
+            "hitRate": null
+          },
+          {
+            "bucket": 75,
+            "samples": 0,
+            "avgReturnPct": null,
+            "expectedNetEdgePct": null,
+            "hitRate": null
+          },
+          {
+            "bucket": 80,
+            "samples": 0,
+            "avgReturnPct": null,
+            "expectedNetEdgePct": null,
+            "hitRate": null
+          }
+        ],
         "negativeNewsBlocks": 0,
         "evidenceBlocks": 0,
-        "unprofitableBucketBlocks": 0
+        "unprofitableBucketBlocks": 0,
+        "canonicalScoreBlocks": 2,
+        "dataQualityBlocks": 0
       },
       "calibration": [
         {
@@ -741,7 +796,7 @@
       "minPositionEur": 2200
     },
     "latest": {
-      "changes": 0,
+      "changes": 3,
       "outcome": {
         "eligible": 0,
         "injected": 0,
@@ -767,12 +822,12 @@
       "shadow": {
         "themeBlocks": 0,
         "currencyBlocks": 0,
-        "spacingBlocks": 0,
+        "spacingBlocks": 1,
         "belowCalibratedThreshold": 0,
-        "openSnapshots": 32,
+        "openSnapshots": 46,
         "maturedSamples": 237,
         "buyThreshold": 60,
-        "calibrated": true,
+        "calibrated": false,
         "roundTripCostPct": 0.291,
         "evidenceCalibration": [
           {
@@ -788,9 +843,62 @@
             "hitRate": null
           }
         ],
+        "canonicalCalibration": [
+          {
+            "bucket": 50,
+            "samples": 0,
+            "avgReturnPct": null,
+            "expectedNetEdgePct": null,
+            "hitRate": null
+          },
+          {
+            "bucket": 55,
+            "samples": 0,
+            "avgReturnPct": null,
+            "expectedNetEdgePct": null,
+            "hitRate": null
+          },
+          {
+            "bucket": 60,
+            "samples": 0,
+            "avgReturnPct": null,
+            "expectedNetEdgePct": null,
+            "hitRate": null
+          },
+          {
+            "bucket": 65,
+            "samples": 0,
+            "avgReturnPct": null,
+            "expectedNetEdgePct": null,
+            "hitRate": null
+          },
+          {
+            "bucket": 70,
+            "samples": 0,
+            "avgReturnPct": null,
+            "expectedNetEdgePct": null,
+            "hitRate": null
+          },
+          {
+            "bucket": 75,
+            "samples": 0,
+            "avgReturnPct": null,
+            "expectedNetEdgePct": null,
+            "hitRate": null
+          },
+          {
+            "bucket": 80,
+            "samples": 0,
+            "avgReturnPct": null,
+            "expectedNetEdgePct": null,
+            "hitRate": null
+          }
+        ],
         "negativeNewsBlocks": 0,
         "evidenceBlocks": 0,
-        "unprofitableBucketBlocks": 0
+        "unprofitableBucketBlocks": 0,
+        "canonicalScoreBlocks": 2,
+        "dataQualityBlocks": 0
       },
       "expectancy": {
         "hardStops": 0,
@@ -802,11 +910,11 @@
         "reentryBlocks": 0,
         "sizingUpgrades": 0,
         "scoreScaleFixes": 0,
-        "equity": 9998
+        "equity": 10001.62
       }
     },
     "auditWriteErrors": 0,
-    "rule": "Eine einzige äußere Entscheidungsautorität entscheidet final. V31.3 lässt qualifizierte Paarrotationen passieren, prüft flache schwache Positionen ab 75 Minuten, löst bestätigte Stagnation nach 180 Minuten auf und erlaubt einen begründeten Profit-Fade-Exit ab +0.8% nach 90 Minuten. V31.2 lernt weiter aus BUY/HOLD/SELL und verpassten Chancen; Preis-Stop, Trailing, Broker-Prüfung, wirtschaftliche Positionsgröße und Anti-Churn bleiben bindend.",
+    "rule": "Eine einzige äußere Entscheidungsautorität entscheidet final. V31.6 verwendet für neue Käufe genau einen Einstiegsscore von 0 bis 100, prüft Datenqualität und lernt die Nettorendite je Scorebereich nach Kosten. V31.3 entscheidet Verkäufe separat über Hard-Stop, Trailing, Rotation, Stagnation und Profit-Fade. Broker-Prüfung, wirtschaftliche Positionsgröße und Anti-Churn bleiben bindend.",
     "brokerMaster": {
       "source": "env.ASSETS:/universe.json",
       "generatedAt": "2026-08-24T04:09:57.222992Z",
