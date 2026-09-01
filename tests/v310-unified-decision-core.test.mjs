@@ -16,6 +16,7 @@ const now=Date.parse('2026-08-25T12:00:00Z');
   assert.equal(out.audit.patch,'31.6-canonical-entry-score+31.5-evidence-fusion+31.4-shadow-calibration');
   assert.ok(out.audit.outcomeLearning,'outcome learning metadata must be part of the unified audit');
   assert.ok(out.audit.shadowLearning,'shadow calibration metadata must be part of the unified audit');
+  assert.equal(out.audit.finalActions[0].expectedNetEdgePctV316,null,'Warmup-Edge muss null bleiben und darf nicht als scheinbare 0-Prozent-Prognose erscheinen');
 }
 
 {
