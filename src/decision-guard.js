@@ -11,9 +11,9 @@ function symbolKey(x){return String(x?.symbol||'').toUpperCase()}
 
 function strictFallbackFastBuyEligible(action,fast){
   if(FAST_CALIBRATION.validated===true)return true;
-  const symbol=symbolKey(action),c=(fast?.context||[]).find(x=>symbolKey(x)===symbol),ratios=fast?.volumeConfirmation?.ratios||{},ratio=Object.prototype.hasOwnProperty.call(ratios,symbol)?num(ratios[symbol],NaN):NaN;
+  const symbol=symbolKey(action),c=(fast?.context||[]).find(x=>symbolKey(x)===symbol),g=(fast?.gapContext||[]).find(x=>symbolKey(x)===symbol),ratios=fast?.volumeConfirmation?.ratios||{},ratio=Object.prototype.hasOwnProperty.call(ratios,symbol)?num(ratios[symbol],NaN):NaN;
   const minVolume=num(fast?.volumeConfirmation?.minRatio,FAST_CALIBRATION.minRelativeVolume||1.10),minAdx=Math.max(22,num(FAST_CALIBRATION.minAdxBuy,18)+2),maxSpread=Math.min(.50,num(FAST_CALIBRATION.maxSpreadPct,.8)),spread=c?.liquidity?.spreadPct;
-  return Boolean(c&&c?.technical?.fresh===true&&num(c?.technical?.vwapDistancePct)>.10&&num(c?.technical?.adx)>=minAdx&&num(c?.multiTimeframe?.longVotes)>=3&&num(c?.multiTimeframe?.alignment)>=2&&c?.fxSafety?.valid!==false&&c?.evidenceDiversity?.enoughForFastBuy===true&&Number.isFinite(ratio)&&ratio>=minVolume&&spread!=null&&num(spread)<=maxSpread&&c?.regime!=='TREND_DOWN'&&c?.regime!=='VOLATILE');
+  return Boolean(c&&c?.technical?.fresh===true&&num(c?.technical?.vwapDistancePct)>.10&&num(c?.technical?.adx)>=minAdx&&num(c?.multiTimeframe?.longVotes)>=3&&c?.fxSafety?.valid!==false&&c?.evidenceDiversity?.enoughForFastBuy===true&&Number.isFinite(ratio)&&ratio>=minVolume&&spread!=null&&num(spread)<=maxSpread&&g?.blockBuy!==true&&c?.regionalBenchmark?.blockBuy!==true&&c?.regime!=='TREND_DOWN'&&c?.regime!=='VOLATILE');
 }
 
 // Ein Fast-BUY darf einen zu vorsichtigen/ausgefallenen AI-Plan ersetzen, aber nur wenn
