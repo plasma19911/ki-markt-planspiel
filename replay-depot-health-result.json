@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-01T12:36:24.471623+00:00",
-  "berlinNow": "2026-09-01T14:36:24.471445+02:00",
+  "checkedAt": "2026-09-01T13:20:19.602010+00:00",
+  "berlinNow": "2026-09-01T15:20:19.601835+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 3214085,
-    "dashboard": 3214073
+    "full": 3216513,
+    "dashboard": 3216439
   },
   "checks": {
     "fullStatus200": true,
@@ -24,13 +24,13 @@
     "date": "2026-09-01",
     "status": "CAPTURING",
     "processed": 0,
-    "total": 89,
+    "total": 90,
     "provisional": true,
     "completedAt": null,
     "capture": {
       "date": "2026-09-01",
-      "symbolCount": 89,
-      "updatedAt": "2026-09-01T12:34:19.160Z"
+      "symbolCount": 90,
+      "updatedAt": "2026-09-01T13:18:20.786Z"
     },
     "summary": {
       "provisional": true,
@@ -52,5 +52,5 @@
     "displayAccountingDelta": 0.0,
     "positions": []
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: tue, 01 sep 2026 12:36:24 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=satmqw6ywsingfg9yfwzpza%2fvxqcqwmzvz2skmdq2%2f1fysloqclmzb3qrymz3qe7jcfxcq4ls40zf1pueh75ta7opmotxvrnz4bke2n5xc800guguanpykdcgicntprkedgftxkvn6kpynqfzosxhtmffguhquacd3ybtvy%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a34452033a79d962-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: tue, 01 sep 2026 13:20:19 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=qbis%2fzwqfcfoxpsi0fgmobctcyt5ueif4ilkwlb3frtyluk7korx5igym0zg4osmvlbhjnx8x0g9dnyqzc6fuqiuzm9vj9pxt%2bavsevanr5hwpbn15%2fqrkiithgldxbn9jafohc4yk9fi%2fxvv7imntsoqcyl%2fylkcgzpnw4%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a34492597dbfceae-stl\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
