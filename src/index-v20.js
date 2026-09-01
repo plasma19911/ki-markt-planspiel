@@ -25,9 +25,22 @@ export default{
    return Response.json(j,{headers:{'cache-control':'no-store','x-pc-scanner':'v29.2','x-pc-score-pipeline':'all-pre-score+top400+deep240+final60'}})
   }
   if(u.pathname==='/api/status'&&request.method==='GET'&&dashboardRequest&&String(env?.ORDER_APPROVAL_MODE||'disabled').toLowerCase()!=='enabled'){
-   try{const status=await portfolio(env).dashboardStatus(),payload=dashboardView(status);return Response.json(payload,{headers:{'cache-control':'private, no-cache','x-planspiel-ui':'v31.3','x-worker-load':'dashboard-no-audit','x-scan-cadence':'pc-minute+cloudflare-5m-offline-only','x-action-score':'decision-score-56-v30.3-system','x-entry-model':'v30.2-live-feedback+v30.1-fresh-tape+v30.0-dips','x-position-model':'v29.7-profit+v29.6-directional-held-score','x-profit-model':'adaptive-profit-v29.7','x-scanner-breadth':'all-pc-pre-score+top400+deep240+final60+cf18'}})}catch(e){return Response.json({error:String(e?.message||e)},{status:500,headers:{'cache-control':'no-store'}})}
+   try{const status=await portfolio(env).dashboardStatus(),payload=dashboardView(status);return Response.json(payload,{headers:{'cache-control':'private, no-cache','x-planspiel-ui':'v31.3','x-worker-load':'dashboard-no-audit','x-scan-cadence':'pc-minute+cloudflare-gap95s+5m-offline','x-action-score':'decision-score-56-v30.3-system','x-entry-model':'v30.2-live-feedback+v30.1-fresh-tape+v30.0-dips','x-position-model':'v29.7-profit+v29.6-directional-held-score','x-profit-model':'adaptive-profit-v29.7','x-scanner-breadth':'all-pc-pre-score+top400+deep240+final60+cf18'}})}catch(e){return Response.json({error:String(e?.message||e)},{status:500,headers:{'cache-control':'no-store'}})}
   }
   return base.fetch(request,env,ctx)
  },
- async scheduled(controller,env,ctx){return base.scheduled?.(controller,env,ctx)}
+ async scheduled(controller,env,ctx){
+  const when=new Date(Number(controller?.scheduledTime)||Date.now()),session=gettexSessionState(when);
+  // Ein Heartbeat beweist nur, dass der Agent-Prozess lebt. Wenn der Agent online ist,
+  // aber sein letzter erfolgreicher Markt-Scan haengt, muss Cloudflare nach 95 Sekunden
+  // die Luecke einmal pro Cron-Tick fuellen. Komplett offline bleibt der tiefere 5m-
+  // Fallback zustaendig, damit der Free-Tier-Budgetpfad erhalten bleibt.
+  if(session.open){
+   ctx.waitUntil((async()=>{
+    const p=portfolio(env),agent=await p.agentStatus(),scanAt=Date.parse(String(agent?.lastScanAt||'')),age=Number.isFinite(scanAt)?Math.max(0,Date.now()-scanAt):Infinity;
+    if(agent?.online&&age>95_000)await p.scan();
+   })().catch(e=>console.error('PC online scan-gap fallback failed',e)));
+  }
+  return base.scheduled?.(controller,env,ctx)
+ }
 };
