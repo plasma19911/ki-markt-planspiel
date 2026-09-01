@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-01T11:13:38.417Z",
+  "checkedAt": "2026-09-01T11:19:51.819Z",
   "runtimeVersion": "V31.7",
   "liveDecisionVersion": "V31.7",
   "outcomeLearningVersion": "V31.2",
@@ -53,7 +53,7 @@
     "buySamples": 2,
     "buyHitRate": 50,
     "avgBuy20mReturnPct": -0.396,
-    "avg20mReturnPct": -0.058,
+    "avg20mReturnPct": -0.07,
     "missedOpportunities": 18,
     "badBuys": 1,
     "earlySells": 0,
@@ -61,32 +61,41 @@
     "thresholdAdjustment": 0,
     "allocationAdjustment": 0,
     "trackedSymbols": 48,
-    "currentCandidates": 6,
+    "currentCandidates": 5,
     "weights": {
-      "velocity": 0.25,
-      "m5": 0.2,
-      "m20": 2.2843168413844612,
-      "accel": 0.29137824759714137,
+      "velocity": 0.33978042390662416,
+      "m5": 0.2073070838524406,
+      "m20": 2.099242263685411,
+      "accel": 0.1819684918544276,
       "news": 2.1143002654434704,
-      "confidence": 0.2189676542219538,
+      "confidence": 0.06746091675167935,
       "direction": 1.2
     },
     "topForecasts": [
       {
         "symbol": "EXA.PA",
         "score": 35,
-        "forecast20mScore": 35.1,
+        "forecast20mScore": 35.33,
         "velocity5": 0,
-        "confidence": 0.471,
+        "confidence": 0.543,
         "earlySignal": false,
         "regime": "SIDEWAYS"
       },
       {
+        "symbol": "CBK.DE",
+        "score": 0,
+        "forecast20mScore": 0,
+        "velocity5": 0,
+        "confidence": 0.416,
+        "earlySignal": false,
+        "regime": "BEAR"
+      },
+      {
         "symbol": "OTKAR.IS",
         "score": 0,
-        "forecast20mScore": 0.4,
+        "forecast20mScore": 0,
         "velocity5": 0,
-        "confidence": 0.357,
+        "confidence": 0.35,
         "earlySignal": false,
         "regime": "SIDEWAYS"
       },
@@ -95,34 +104,16 @@
         "score": 0,
         "forecast20mScore": 0,
         "velocity5": 0,
-        "confidence": 0.375,
+        "confidence": 0.357,
         "earlySignal": false,
         "regime": "SIDEWAYS"
-      },
-      {
-        "symbol": "ADYEN.AS",
-        "score": 0,
-        "forecast20mScore": 0,
-        "velocity5": 0,
-        "confidence": 0.389,
-        "earlySignal": false,
-        "regime": "BEAR"
-      },
-      {
-        "symbol": "FCT.MI",
-        "score": 0,
-        "forecast20mScore": 0,
-        "velocity5": 0,
-        "confidence": 0.389,
-        "earlySignal": false,
-        "regime": "BEAR"
       },
       {
         "symbol": "ASELS.IS",
         "score": 0,
         "forecast20mScore": 0,
         "velocity5": 0,
-        "confidence": 0.471,
+        "confidence": 0.425,
         "earlySignal": false,
         "regime": "SIDEWAYS"
       }
@@ -173,8 +164,8 @@
     "writeErrors": 0,
     "insideUnifiedAuthority": true
   },
-  "scanCount": 79,
-  "lastScan": "2026-09-01T11:13:20.505Z",
+  "scanCount": 83,
+  "lastScan": "2026-09-01T11:19:20.817Z",
   "lastError": null,
   "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 0 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · · V31.7 Score: BUY ab 60 + un · V31.7.1 Unified: 0 finale Änderung(en), 6 aktuelle Lernkandidaten, Kaufsystem KALIBRIERT.",
   "cash": 10000,
@@ -187,28 +178,28 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-09-01T11:13:15.602Z",
-    "ageSeconds": 21,
+    "lastSeenAt": "2026-09-01T11:19:16.415Z",
+    "ageSeconds": 34,
     "fallbackAfterSeconds": 150,
     "prefetchFresh": true,
-    "prefetchAt": "2026-09-01T11:13:14.834Z",
+    "prefetchAt": "2026-09-01T11:19:15.651Z",
     "resolvedLeaderCount": 5,
     "leaderHealthy": false,
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-09-01T11:13:15.602Z",
+      "lastSeenAt": "2026-09-01T11:19:16.415Z",
       "version": "2.2.1-csharp-pc-first-four-sta",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 17096088,
+      "storageBytes": 17096127,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.03,
-      "ramMb": 59.5,
-      "downloadedBytes": 1969366231,
-      "uploadedBytes": 49017279,
+      "cpuPct": 0.04,
+      "ramMb": 57.5,
+      "downloadedBytes": 2005496277,
+      "uploadedBytes": 49890379,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
-      "lastLocalCleanupAt": "2026-09-01T10:44:03.8945074Z",
+      "lastLocalCleanupAt": "2026-09-01T11:14:04.4614259Z",
       "lastError": null
     }
   },
@@ -220,7 +211,7 @@
   },
   "agmCalendar": {
     "updatedAt": "2026-09-01T09:30:49.148Z",
-    "ageHours": 1.71,
+    "ageHours": 1.82,
     "events": 5
   },
   "newsFeed": {
@@ -288,7 +279,7 @@
       "buySamples": 2,
       "buyHitRate": 50,
       "avgBuy20mReturnPct": -0.396,
-      "avg20mReturnPct": -0.058,
+      "avg20mReturnPct": -0.07,
       "missedOpportunities": 18,
       "badBuys": 1,
       "earlySells": 0,
@@ -296,32 +287,41 @@
       "thresholdAdjustment": 0,
       "allocationAdjustment": 0,
       "trackedSymbols": 48,
-      "currentCandidates": 6,
+      "currentCandidates": 5,
       "weights": {
-        "velocity": 0.25,
-        "m5": 0.2,
-        "m20": 2.2843168413844612,
-        "accel": 0.29137824759714137,
+        "velocity": 0.33978042390662416,
+        "m5": 0.2073070838524406,
+        "m20": 2.099242263685411,
+        "accel": 0.1819684918544276,
         "news": 2.1143002654434704,
-        "confidence": 0.2189676542219538,
+        "confidence": 0.06746091675167935,
         "direction": 1.2
       },
       "topForecasts": [
         {
           "symbol": "EXA.PA",
           "score": 35,
-          "forecast20mScore": 35.1,
+          "forecast20mScore": 35.33,
           "velocity5": 0,
-          "confidence": 0.471,
+          "confidence": 0.543,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
         {
+          "symbol": "CBK.DE",
+          "score": 0,
+          "forecast20mScore": 0,
+          "velocity5": 0,
+          "confidence": 0.416,
+          "earlySignal": false,
+          "regime": "BEAR"
+        },
+        {
           "symbol": "OTKAR.IS",
           "score": 0,
-          "forecast20mScore": 0.4,
+          "forecast20mScore": 0,
           "velocity5": 0,
-          "confidence": 0.357,
+          "confidence": 0.35,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
@@ -330,34 +330,16 @@
           "score": 0,
           "forecast20mScore": 0,
           "velocity5": 0,
-          "confidence": 0.375,
+          "confidence": 0.357,
           "earlySignal": false,
           "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "ADYEN.AS",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.389,
-          "earlySignal": false,
-          "regime": "BEAR"
-        },
-        {
-          "symbol": "FCT.MI",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.389,
-          "earlySignal": false,
-          "regime": "BEAR"
         },
         {
           "symbol": "ASELS.IS",
           "score": 0,
           "forecast20mScore": 0,
           "velocity5": 0,
-          "confidence": 0.471,
+          "confidence": 0.425,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         }
@@ -432,7 +414,7 @@
       "buySamples": 2,
       "buyHitRate": 50,
       "avgBuy20mReturnPct": -0.396,
-      "avg20mReturnPct": -0.058,
+      "avg20mReturnPct": -0.07,
       "missedOpportunities": 18,
       "badBuys": 1,
       "earlySells": 0,
@@ -440,32 +422,41 @@
       "thresholdAdjustment": 0,
       "allocationAdjustment": 0,
       "trackedSymbols": 48,
-      "currentCandidates": 6,
+      "currentCandidates": 5,
       "weights": {
-        "velocity": 0.25,
-        "m5": 0.2,
-        "m20": 2.2843168413844612,
-        "accel": 0.29137824759714137,
+        "velocity": 0.33978042390662416,
+        "m5": 0.2073070838524406,
+        "m20": 2.099242263685411,
+        "accel": 0.1819684918544276,
         "news": 2.1143002654434704,
-        "confidence": 0.2189676542219538,
+        "confidence": 0.06746091675167935,
         "direction": 1.2
       },
       "topForecasts": [
         {
           "symbol": "EXA.PA",
           "score": 35,
-          "forecast20mScore": 35.1,
+          "forecast20mScore": 35.33,
           "velocity5": 0,
-          "confidence": 0.471,
+          "confidence": 0.543,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
         {
+          "symbol": "CBK.DE",
+          "score": 0,
+          "forecast20mScore": 0,
+          "velocity5": 0,
+          "confidence": 0.416,
+          "earlySignal": false,
+          "regime": "BEAR"
+        },
+        {
           "symbol": "OTKAR.IS",
           "score": 0,
-          "forecast20mScore": 0.4,
+          "forecast20mScore": 0,
           "velocity5": 0,
-          "confidence": 0.357,
+          "confidence": 0.35,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
@@ -474,34 +465,16 @@
           "score": 0,
           "forecast20mScore": 0,
           "velocity5": 0,
-          "confidence": 0.375,
+          "confidence": 0.357,
           "earlySignal": false,
           "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "ADYEN.AS",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.389,
-          "earlySignal": false,
-          "regime": "BEAR"
-        },
-        {
-          "symbol": "FCT.MI",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.389,
-          "earlySignal": false,
-          "regime": "BEAR"
         },
         {
           "symbol": "ASELS.IS",
           "score": 0,
           "forecast20mScore": 0,
           "velocity5": 0,
-          "confidence": 0.471,
+          "confidence": 0.425,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         }
@@ -593,22 +566,22 @@
         "spacingBlocks": 0,
         "belowCalibratedThreshold": 0,
         "openSnapshots": 154,
-        "maturedSamples": 493,
+        "maturedSamples": 498,
         "buyThreshold": 60,
         "calibrated": true,
         "roundTripCostPct": 0.291,
         "evidenceCalibration": [
           {
             "label": "LOW",
-            "samples": 218,
+            "samples": 222,
             "avgReturnPct": -0.193,
-            "hitRate": 0.376
+            "hitRate": 0.378
           },
           {
             "label": "CONFIRMED",
-            "samples": 36,
-            "avgReturnPct": -0.22,
-            "hitRate": 0.194
+            "samples": 37,
+            "avgReturnPct": -0.218,
+            "hitRate": 0.189
           }
         ],
         "canonicalCalibration": [
@@ -621,10 +594,10 @@
           },
           {
             "bucket": 55,
-            "samples": 34,
-            "avgReturnPct": -0.18,
-            "expectedNetEdgePct": -0.471,
-            "hitRate": 0.265
+            "samples": 35,
+            "avgReturnPct": -0.179,
+            "expectedNetEdgePct": -0.47,
+            "hitRate": 0.257
           },
           {
             "bucket": 60,
@@ -674,9 +647,9 @@
       "calibration": [
         {
           "bucket": 50,
-          "samples": 84,
-          "avgReturnPct": -1.212,
-          "hitRate": 0.393
+          "samples": 85,
+          "avgReturnPct": -1.2,
+          "hitRate": 0.388
         },
         {
           "bucket": 55,
@@ -765,7 +738,7 @@
       },
       "capital": {
         "brokerRows": 258,
-        "exactCandidates": 1,
+        "exactCandidates": 2,
         "strong70Plus": 0,
         "injected": 0,
         "upgraded": 0,
@@ -781,22 +754,22 @@
         "spacingBlocks": 0,
         "belowCalibratedThreshold": 0,
         "openSnapshots": 154,
-        "maturedSamples": 493,
+        "maturedSamples": 498,
         "buyThreshold": 60,
         "calibrated": true,
         "roundTripCostPct": 0.291,
         "evidenceCalibration": [
           {
             "label": "LOW",
-            "samples": 218,
+            "samples": 222,
             "avgReturnPct": -0.193,
-            "hitRate": 0.376
+            "hitRate": 0.378
           },
           {
             "label": "CONFIRMED",
-            "samples": 36,
-            "avgReturnPct": -0.22,
-            "hitRate": 0.194
+            "samples": 37,
+            "avgReturnPct": -0.218,
+            "hitRate": 0.189
           }
         ],
         "canonicalCalibration": [
@@ -809,10 +782,10 @@
           },
           {
             "bucket": 55,
-            "samples": 34,
-            "avgReturnPct": -0.18,
-            "expectedNetEdgePct": -0.471,
-            "hitRate": 0.265
+            "samples": 35,
+            "avgReturnPct": -0.179,
+            "expectedNetEdgePct": -0.47,
+            "hitRate": 0.257
           },
           {
             "bucket": 60,
