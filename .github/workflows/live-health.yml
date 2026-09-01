@@ -1,4 +1,4 @@
-name: Live Worker Health V31.3 Capital Velocity
+name: Live Worker Health V31.7+ Unified Learning
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: live-health-v313
+  group: live-health-unified-learning
   cancel-in-progress: true
 
 jobs:
@@ -22,10 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Allow Cloudflare publish
         run: sleep 75
-      - name: Probe complete V31.3 production chain
+      - name: Probe current production chain
         run: |
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
@@ -37,16 +37,18 @@ jobs:
           let market=0;for(const x of positions){const inv=Number(x?.invested)||0,ep=Number(x?.entry_price)||0,lp=Number(x?.last_price)||ep,ef=Number(x?.entry_fx)||1,lf=Number(x?.last_fx)||ef;market+=ep>0&&ef>0?inv*(lp/ep)*(lf/ef):inv}const equity=Number(s?.equity)||0,cash=Number(c?.cash)||0,delta=equity-(cash+market);
           let chart={status:null,ok:true,symbol:null,bars:0};if(positions[0]?.symbol){chart.symbol=String(positions[0].symbol);const cr=await get(`${base}/api/position-chart?symbol=${encodeURIComponent(chart.symbol)}&range=1d&health=${q}`);chart.status=cr.status;let cj={};try{cj=JSON.parse(cr.text)}catch{}chart.bars=Array.isArray(cj?.bars)?cj.bars.length:0;chart.ok=cr.ok&&cj?.ok===true&&chart.bars>0}
           const agmEvents=Array.isArray(agm?.events)?agm.events:[],agmUpdated=Date.parse(String(agm?.updatedAt||'')),agmAge=Number.isFinite(agmUpdated)?(Date.now()-agmUpdated)/3600000:Infinity;
+          const runtime=Number(String(s?.runtimeVersion||'').replace(/^V/i,'')),liveRuntime=Number(String(s?.liveDecisionVersion||'').replace(/^V/i,''));
+          const unifiedPatch=String(u?.patch||''),candidateRecovery=/candidate-state-recovery/i.test(unifiedPatch);
           const checks={
             homepage:home.ok,apiStatus:status.ok,agentEndpoint:agent.ok,
-            runtimeV313:s?.runtimeVersion==='V31.3'&&s?.liveDecisionVersion==='V31.3'&&s?.outcomeLearningVersion==='V31.2',
-            unifiedDecisionAuthority:u?.enabled===true&&u?.patch==='31.3-capital-velocity+31.2-outcome-learning'&&Number(arch?.outerDecisionLayers)===1,
+            runtimeCurrent:Number.isFinite(runtime)&&runtime>=31.7&&runtime===liveRuntime&&Number(s?.outcomeLearningVersion)===31.2,
+            unifiedDecisionAuthority:u?.enabled===true&&Number(arch?.outerDecisionLayers)===1&&arch?.outerAuthority==='UnifiedDecisionCoreV310'&&candidateRecovery,
             outcomeLearningV312:Number(learn?.version)===31.2&&learn?.enabled===true&&learn?.insideUnifiedAuthority===true&&arch?.persistentOutcomeLearning===true&&arch?.outcomeLearningStorageKey==='outcome-learning-v312'&&arch?.stateMergeUsesRawCandidates===true,
             learningActuallyTracking:Number(learn?.trackedSymbols)>0,
             continuousFeedback:ex?.outcomeLearningV312===true&&ex?.continuousCandidateTracking===true&&ex?.learnsMissedOpportunities===true&&ex?.learnsBadBuys===true&&ex?.learnsEarlySells===true&&ex?.learnsSignalWeights===true&&ex?.recentOutcomesWeightedHigher===true,
             expectancy:Number(e?.hardStopPct)===-1.2&&Number(e?.trailArmPct)===2.4&&Number(e?.minHoldMinutes)===8&&Number(e?.reentryMinutes)===45&&Number(e?.stagnationReviewMinutes)===75&&Number(e?.maxStagnationMinutes)===180,
             brokerMaster:Number(bm?.rowCount)>0&&String(bm?.source||'').includes('env.ASSETS')&&Number(ubm?.rowCount)>0,
-            capital:capital?.patch==='30.9.3-held-master-enrichment'&&capital?.heldMasterEnrichment===true,
+            capital:capital?.heldMasterEnrichment===true,
             newsFeed:news.ok&&nf?.ok===true&&Number(nf?.refreshSeconds)===60,
             agmCalendarFresh:agmAsset.ok&&agmEvents.length>0&&agmAge>=0&&agmAge<=26,
             positionChart:chart.ok,pcAgentRecovery:recovery.enabled===true,pcAgentFresh:a?.configured!==true||(a?.online===true&&Number(a?.ageSeconds)<=180),accountingConsistent:Math.abs(delta)<=0.05,lastErrorClear:!c?.last_error,positionCountWithinLimit:positions.length<=4
@@ -66,7 +68,7 @@ jobs:
             cp /tmp/live-health-result.json live-health-result.json
             git add live-health-result.json
             if git diff --cached --quiet; then published=1; break; fi
-            git commit -m 'Update V31.3 capital-velocity live health [skip ci]'
+            git commit -m 'Update unified learning live health [skip ci]'
             if git push origin HEAD:main; then published=1; break; fi
             sleep $((attempt * 2))
           done
@@ -74,4 +76,4 @@ jobs:
       - name: Enforce health
         run: |
           cp /tmp/live-health-result.json live-health-result.json
-          node -e "const x=require('./live-health-result.json');if(x.failedChecks?.length){console.error(x.failedChecks);process.exit(1)}console.log('Worker healthy: V31.3 capital velocity live; V31.2 outcome learning is tracking symbols.')"
+          node -e "const x=require('./live-health-result.json');if(x.failedChecks?.length){console.error(x.failedChecks);process.exit(1)}console.log('Worker healthy: unified authority live and outcome learning is tracking symbols.')"
