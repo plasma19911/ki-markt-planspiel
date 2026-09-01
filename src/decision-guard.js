@@ -9,15 +9,23 @@ function qualityRank(a){
 }
 function symbolKey(x){return String(x?.symbol||'').toUpperCase()}
 
+function strictFallbackFastBuyEligible(action,fast){
+  if(FAST_CALIBRATION.validated===true)return true;
+  const symbol=symbolKey(action),c=(fast?.context||[]).find(x=>symbolKey(x)===symbol),ratios=fast?.volumeConfirmation?.ratios||{},ratio=Object.prototype.hasOwnProperty.call(ratios,symbol)?num(ratios[symbol],NaN):NaN;
+  const minVolume=num(fast?.volumeConfirmation?.minRatio,FAST_CALIBRATION.minRelativeVolume||1.10),minAdx=Math.max(22,num(FAST_CALIBRATION.minAdxBuy,18)+2),maxSpread=Math.min(.50,num(FAST_CALIBRATION.maxSpreadPct,.8)),spread=c?.liquidity?.spreadPct;
+  return Boolean(c&&c?.technical?.fresh===true&&num(c?.technical?.vwapDistancePct)>.10&&num(c?.technical?.adx)>=minAdx&&num(c?.multiTimeframe?.longVotes)>=3&&num(c?.multiTimeframe?.alignment)>=2&&c?.fxSafety?.valid!==false&&c?.evidenceDiversity?.enoughForFastBuy===true&&Number.isFinite(ratio)&&ratio>=minVolume&&spread!=null&&num(spread)<=maxSpread&&c?.regime!=='TREND_DOWN'&&c?.regime!=='VOLATILE');
+}
+
 // Ein Fast-BUY darf einen zu vorsichtigen/ausgefallenen AI-Plan ersetzen, aber nur wenn
-// der Fast-Layer selbst bereits BUY geliefert hat. HOLD-Kontexte werden niemals in einen
-// Kauf umgewandelt. Damit bleibt Cash erlaubt, wenn kein positiv bestaetigtes Setup existiert.
+// der Fast-Layer selbst bereits BUY geliefert hat. Bei nicht validierter historischer
+// Kalibrierung ist Auto-Injection nur mit besonders strenger Live-Bestaetigung erlaubt.
 function bestValidatedFastBuy(fast,existingActions=[]){
   const existingSymbols=new Set((existingActions||[]).filter(x=>String(x?.action||'').toUpperCase()==='BUY').map(symbolKey));
   const blockedSymbols=new Set((existingActions||[]).filter(x=>String(x?.action||'').toUpperCase()==='SELL').map(symbolKey));
   return (fast?.actions||[])
     .filter(x=>String(x?.action||'').toUpperCase()==='BUY')
     .filter(x=>!existingSymbols.has(symbolKey(x))&&!blockedSymbols.has(symbolKey(x)))
+    .filter(x=>strictFallbackFastBuyEligible(x,fast))
     .sort((a,b)=>qualityRank(b)-qualityRank(a)||num(b.confidence)-num(a.confidence)||num(b.fastScore)-num(a.fastScore))[0]||null;
 }
 
@@ -61,7 +69,7 @@ export function enforceFastExecutionGuards(aiResponse,fast){
       if(c&&num(c?.multiTimeframe?.longVotes)<2)blocks.push('weniger als 2 positive Zeitebenen');if(c?.regime==='TREND_DOWN'&&num(c?.multiTimeframe?.longVotes)<3)blocks.push('Abwärtsregime ohne 3/4 MTF-Gegenbestätigung');
       const spread=c?.liquidity?.spreadPct;if(spread!=null&&num(spread)>maxSpread)blocks.push(`Spread ${num(spread).toFixed(2)}% > ${maxSpread.toFixed(2)}%`);const avgVolume=num(c?.liquidity?.avgVolume);if(avgVolume>0&&avgVolume<15000)blocks.push('Liquidität zu niedrig');
       const hasVolume=Object.prototype.hasOwnProperty.call(ratios,symbol)&&ratios[symbol]!=null;
-      if(hasVolume&&num(ratios[symbol])<minVolume){next.confidence=Math.min(num(next.confidence,.5),num(ratios[symbol])<.55?.60:.66);next.reason=`5m-Volumen x${num(ratios[symbol]).toFixed(2)} unter x${minVolume.toFixed(2)}: Konfidenz reduziert. ${String(next.reason||'').slice(0,220)}`}
+      if(hasVolume&&num(ratios[symbol])<minVolume)blocks.push(`5m-Volumen x${num(ratios[symbol]).toFixed(2)} < x${minVolume.toFixed(2)}`);
       if(!hasVolume){next.confidence=Math.min(num(next.confidence,.5),.64);next.reason=`Volumenbestätigung nicht verfügbar: Konfidenz reduziert. ${String(next.reason||'').slice(0,220)}`}
       const cost=estimateAiBuyCost(fast,next.allocation_pct,symbol);if(cost&&(!Number.isFinite(cost.costPct)||cost.costPct>cost.maxRoundTripCostPct))blocks.push(`geschätzte Roundtrip-Kosten ${Number.isFinite(cost.costPct)?cost.costPct.toFixed(1):'n/a'}% > ${num(cost.maxRoundTripCostPct).toFixed(1)}%`);
       if(!blocks.length)return{...next,fastScore:num(c?.fastScore,next.fastScore),buyScore:num(c?.buyScore,next.buyScore),sellScore:num(c?.sellScore,next.sellScore),liveScore:num(c?.liveScore,next.liveScore)};
@@ -82,7 +90,7 @@ export function enforceFastExecutionGuards(aiResponse,fast){
     const notes=[];
     if(blocked)notes.push(`${blocked} BUY durch Ausführungs-Schutz blockiert`);
     if(autoFastBuy)notes.push(`bester vollständig validierter BUY ${String(autoFastBuy.symbol||'')} (Qualitätsrang ${qualityRank(autoFastBuy).toFixed(2)}) übernommen`);
-    if(!hasExecutableBuy)notes.push('kein bestätigter BUY – Cash bleibt verfügbar');
+    if(!hasExecutableBuy)notes.push(FAST_CALIBRATION.validated===true?'kein bestätigter BUY – Cash bleibt verfügbar':'kein streng bestätigter BUY – Fast-Kalibrierung ist noch nicht validiert, Cash bleibt verfügbar');
     if(sized.scaled)notes.push('BUY-Summe auf maximal 100% gekappt');
     if(sized.removedForCost.length)notes.push(`Kostenfilter entfernte ${[...new Set(sized.removedForCost)].join(', ')}`);
     if(notes.length)j.summary=`${String(j.summary||'KI-Plan').slice(0,300)} · ${notes.join(' · ')}.`;
