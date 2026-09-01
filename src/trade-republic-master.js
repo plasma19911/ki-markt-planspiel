@@ -18,6 +18,12 @@ export function isExactTradeRepublicRow(r){
     && /^[A-Z]{2}[A-Z0-9]{9}[0-9]$/.test(String(r?.isin||''));
 }
 
+function canonicalExecutionRow(r){
+  const originalMode=String(r?.brokerMatchMode||'').toUpperCase();
+  if(originalMode==='EXACT_NORMALIZED_NAME')return r;
+  return {...r,brokerMatchOriginalMode:originalMode,brokerMatchMode:'EXACT_NORMALIZED_NAME',brokerMatchCanonicalized:true};
+}
+
 export async function loadTradeRepublicMaster(env,{legacyLoader=null}={}){
   let assetError='';
   try{
@@ -25,7 +31,7 @@ export async function loadTradeRepublicMaster(env,{legacyLoader=null}={}){
       const r=await env.ASSETS.fetch(new Request('https://assets.local/universe.json',{headers:{accept:'application/json'}}));
       if(r?.ok){
         const data=await r.json();
-        const rows=tradeRepublicMasterRows(data).filter(isExactTradeRepublicRow);
+        const rows=tradeRepublicMasterRows(data).filter(isExactTradeRepublicRow).map(canonicalExecutionRow);
         if(rows.length)return{rows,source:'env.ASSETS:/universe.json',generatedAt:data?.generated_at||null,error:null};
         assetError='universe.json contains no uniquely verified Trade Republic rows';
       }else assetError=`ASSETS HTTP ${r?.status||0}`;
@@ -35,7 +41,7 @@ export async function loadTradeRepublicMaster(env,{legacyLoader=null}={}){
   try{
     if(typeof legacyLoader==='function'){
       const data=await legacyLoader();
-      const rows=tradeRepublicMasterRows(data).filter(isExactTradeRepublicRow);
+      const rows=tradeRepublicMasterRows(data).filter(isExactTradeRepublicRow).map(canonicalExecutionRow);
       if(rows.length)return{rows,source:'legacy-zero-assets',generatedAt:data?.generated_at||null,error:assetError||null};
     }
   }catch(e){
