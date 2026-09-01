@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-01T12:27:18.663Z",
+  "checkedAt": "2026-09-01T12:30:35.071Z",
   "runtimeVersion": "V31.7",
   "liveDecisionVersion": "V31.7",
   "outcomeLearningVersion": "V31.2",
@@ -10,7 +10,7 @@
     "runtimeCurrent": false,
     "unifiedDecisionAuthority": true,
     "outcomeLearningV312": true,
-    "learningActuallyTracking": true,
+    "learningActuallyTracking": false,
     "continuousFeedback": true,
     "expectancy": true,
     "brokerMaster": true,
@@ -25,7 +25,8 @@
     "positionCountWithinLimit": true
   },
   "failedChecks": [
-    "runtimeCurrent"
+    "runtimeCurrent",
+    "learningActuallyTracking"
   ],
   "allRequiredChecksPassed": false,
   "outcomeLearningPolicy": {
@@ -48,115 +49,23 @@
     "minForecastScore": 70,
     "maxPredictiveAllocationPct": 42,
     "maxOpenPositions": 4,
-    "mode": "BALANCED",
-    "matured": 240,
+    "mode": "WARMUP",
+    "matured": 0,
     "buySamples": 0,
     "buyHitRate": null,
-    "avgBuy20mReturnPct": null,
-    "avg20mReturnPct": -0.034,
-    "missedOpportunities": 15,
+    "avg20mReturnPct": null,
+    "missedOpportunities": 0,
     "badBuys": 0,
     "earlySells": 0,
-    "correctSells": 1,
-    "thresholdAdjustment": 0,
-    "allocationAdjustment": 0,
-    "trackedSymbols": 48,
-    "currentCandidates": 4,
-    "weights": {
-      "velocity": 0.25,
-      "m5": 0.2,
-      "m20": 2.023209786495185,
-      "accel": 0.3559006261678967,
-      "news": 2.0341861877553504,
-      "confidence": 0.05,
-      "direction": 1.2
-    },
-    "topForecasts": [
-      {
-        "symbol": "OTKAR.IS",
-        "score": 0,
-        "forecast20mScore": 0.25,
-        "velocity5": -21.387,
-        "confidence": 0.452,
-        "earlySignal": false,
-        "regime": "BULL"
-      },
-      {
-        "symbol": "ASML.AS",
-        "score": 0,
-        "forecast20mScore": 0,
-        "velocity5": 0,
-        "confidence": 0.356,
-        "earlySignal": false,
-        "regime": "SIDEWAYS"
-      },
-      {
-        "symbol": "ASELS.IS",
-        "score": 0,
-        "forecast20mScore": 0,
-        "velocity5": 0,
-        "confidence": 0.404,
-        "earlySignal": false,
-        "regime": "SIDEWAYS"
-      },
-      {
-        "symbol": "EXA.PA",
-        "score": 0,
-        "forecast20mScore": 0,
-        "velocity5": -35.645,
-        "confidence": 0.35,
-        "earlySignal": false,
-        "regime": "SIDEWAYS"
-      }
-    ],
-    "recentMissedOpportunities": [
-      {
-        "symbol": "ZENTEC.NS",
-        "returnPct": 0.5133,
-        "ts": 1788256559856
-      },
-      {
-        "symbol": "ZENTEC.NS",
-        "returnPct": 1.354,
-        "ts": 1788255729335
-      },
-      {
-        "symbol": "ZENTEC.NS",
-        "returnPct": 1.0337,
-        "ts": 1788255439509
-      },
-      {
-        "symbol": "ZENTEC.NS",
-        "returnPct": 0.9055,
-        "ts": 1788254185530
-      },
-      {
-        "symbol": "ZENTEC.NS",
-        "returnPct": 1.1315,
-        "ts": 1788254185530
-      },
-      {
-        "symbol": "ZENTEC.NS",
-        "returnPct": 1.0503,
-        "ts": 1788254185530
-      },
-      {
-        "symbol": "ZENTEC.NS",
-        "returnPct": 1.1025,
-        "ts": 1788254185530
-      },
-      {
-        "symbol": "DATAPATTNS.NS",
-        "returnPct": 1.3927,
-        "ts": 1788254185530
-      }
-    ],
-    "rule": "V31.2 verfolgt Kandidaten und Depotpositionen kontinuierlich. BUY/HOLD/SELL werden nach 5/20/60/240 Minuten mit dem echten späteren Kurs verglichen. Verpasste Chancen, Fehlkäufe und zu frühe Verkäufe fließen in Schwellen, Positionsgröße und die Gewichte für Score-Geschwindigkeit, Momentum, Beschleunigung, News, Konfidenz und Chart-Richtung ein. Neuere 20m-Ergebnisse werden stärker gewichtet.",
+    "trackedSymbols": 0,
+    "currentCandidates": 0,
+    "weights": null,
+    "topForecasts": [],
     "writeErrors": 0,
     "insideUnifiedAuthority": true
   },
-  "scanCount": 124,
-  "lastScan": "2026-09-01T12:25:20.807Z",
+  "scanCount": 126,
+  "lastScan": "2026-09-01T12:30:19.377Z",
   "lastError": null,
   "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 0 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · · V31.7 Score: BUY ab 60 + un · V31.7.1 Unified: 0 finale Änderung(en), 6 aktuelle Lernkandidaten, Kaufsystem KALIBRIERT.",
   "cash": 10000,
@@ -169,11 +78,11 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-09-01T12:27:07.140Z",
-    "ageSeconds": 4,
+    "lastSeenAt": "2026-09-01T12:30:07.572Z",
+    "ageSeconds": 26,
     "fallbackAfterSeconds": 150,
     "prefetchFresh": true,
-    "prefetchAt": "2026-09-01T12:25:16.801Z",
+    "prefetchAt": "2026-09-01T12:28:16.039Z",
     "resolvedLeaderCount": 5,
     "selectedLeaderCount": 25,
     "leaderHealthy": false,
@@ -181,16 +90,16 @@
     "leaderCacheMode": "PC_AGENT_PARTIAL_BLEND",
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-09-01T12:27:07.140Z",
+      "lastSeenAt": "2026-09-01T12:30:07.572Z",
       "version": "2.2.1-csharp-pc-first-four-sta",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
       "storageBytes": 17097782,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.03,
+      "cpuPct": 0.02,
       "ramMb": 60.9,
-      "downloadedBytes": 2414809555,
-      "uploadedBytes": 58273611,
+      "downloadedBytes": 2432973018,
+      "uploadedBytes": 58609989,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-09-01T12:15:09.8199937Z",
@@ -205,7 +114,7 @@
   },
   "agmCalendar": {
     "updatedAt": "2026-09-01T09:30:49.148Z",
-    "ageHours": 2.94,
+    "ageHours": 3,
     "events": 5
   },
   "newsFeed": {
@@ -268,110 +177,18 @@
       "minForecastScore": 70,
       "maxPredictiveAllocationPct": 42,
       "maxOpenPositions": 4,
-      "mode": "BALANCED",
-      "matured": 240,
+      "mode": "WARMUP",
+      "matured": 0,
       "buySamples": 0,
       "buyHitRate": null,
-      "avgBuy20mReturnPct": null,
-      "avg20mReturnPct": -0.034,
-      "missedOpportunities": 15,
+      "avg20mReturnPct": null,
+      "missedOpportunities": 0,
       "badBuys": 0,
       "earlySells": 0,
-      "correctSells": 1,
-      "thresholdAdjustment": 0,
-      "allocationAdjustment": 0,
-      "trackedSymbols": 48,
-      "currentCandidates": 4,
-      "weights": {
-        "velocity": 0.25,
-        "m5": 0.2,
-        "m20": 2.023209786495185,
-        "accel": 0.3559006261678967,
-        "news": 2.0341861877553504,
-        "confidence": 0.05,
-        "direction": 1.2
-      },
-      "topForecasts": [
-        {
-          "symbol": "OTKAR.IS",
-          "score": 0,
-          "forecast20mScore": 0.25,
-          "velocity5": -21.387,
-          "confidence": 0.452,
-          "earlySignal": false,
-          "regime": "BULL"
-        },
-        {
-          "symbol": "ASML.AS",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.356,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "ASELS.IS",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.404,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "EXA.PA",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": -35.645,
-          "confidence": 0.35,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        }
-      ],
-      "recentMissedOpportunities": [
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 0.5133,
-          "ts": 1788256559856
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 1.354,
-          "ts": 1788255729335
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 1.0337,
-          "ts": 1788255439509
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 0.9055,
-          "ts": 1788254185530
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 1.1315,
-          "ts": 1788254185530
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 1.0503,
-          "ts": 1788254185530
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 1.1025,
-          "ts": 1788254185530
-        },
-        {
-          "symbol": "DATAPATTNS.NS",
-          "returnPct": 1.3927,
-          "ts": 1788254185530
-        }
-      ],
-      "rule": "V31.2 verfolgt Kandidaten und Depotpositionen kontinuierlich. BUY/HOLD/SELL werden nach 5/20/60/240 Minuten mit dem echten späteren Kurs verglichen. Verpasste Chancen, Fehlkäufe und zu frühe Verkäufe fließen in Schwellen, Positionsgröße und die Gewichte für Score-Geschwindigkeit, Momentum, Beschleunigung, News, Konfidenz und Chart-Richtung ein. Neuere 20m-Ergebnisse werden stärker gewichtet.",
+      "trackedSymbols": 0,
+      "currentCandidates": 0,
+      "weights": null,
+      "topForecasts": [],
       "writeErrors": 0
     },
     "predictiveLearning": {
@@ -394,110 +211,18 @@
       "minForecastScore": 70,
       "maxPredictiveAllocationPct": 42,
       "maxOpenPositions": 4,
-      "mode": "BALANCED",
-      "matured": 240,
+      "mode": "WARMUP",
+      "matured": 0,
       "buySamples": 0,
       "buyHitRate": null,
-      "avgBuy20mReturnPct": null,
-      "avg20mReturnPct": -0.034,
-      "missedOpportunities": 15,
+      "avg20mReturnPct": null,
+      "missedOpportunities": 0,
       "badBuys": 0,
       "earlySells": 0,
-      "correctSells": 1,
-      "thresholdAdjustment": 0,
-      "allocationAdjustment": 0,
-      "trackedSymbols": 48,
-      "currentCandidates": 4,
-      "weights": {
-        "velocity": 0.25,
-        "m5": 0.2,
-        "m20": 2.023209786495185,
-        "accel": 0.3559006261678967,
-        "news": 2.0341861877553504,
-        "confidence": 0.05,
-        "direction": 1.2
-      },
-      "topForecasts": [
-        {
-          "symbol": "OTKAR.IS",
-          "score": 0,
-          "forecast20mScore": 0.25,
-          "velocity5": -21.387,
-          "confidence": 0.452,
-          "earlySignal": false,
-          "regime": "BULL"
-        },
-        {
-          "symbol": "ASML.AS",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.356,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "ASELS.IS",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.404,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "EXA.PA",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": -35.645,
-          "confidence": 0.35,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        }
-      ],
-      "recentMissedOpportunities": [
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 0.5133,
-          "ts": 1788256559856
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 1.354,
-          "ts": 1788255729335
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 1.0337,
-          "ts": 1788255439509
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 0.9055,
-          "ts": 1788254185530
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 1.1315,
-          "ts": 1788254185530
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 1.0503,
-          "ts": 1788254185530
-        },
-        {
-          "symbol": "ZENTEC.NS",
-          "returnPct": 1.1025,
-          "ts": 1788254185530
-        },
-        {
-          "symbol": "DATAPATTNS.NS",
-          "returnPct": 1.3927,
-          "ts": 1788254185530
-        }
-      ],
-      "rule": "V31.2 verfolgt Kandidaten und Depotpositionen kontinuierlich. BUY/HOLD/SELL werden nach 5/20/60/240 Minuten mit dem echten späteren Kurs verglichen. Verpasste Chancen, Fehlkäufe und zu frühe Verkäufe fließen in Schwellen, Positionsgröße und die Gewichte für Score-Geschwindigkeit, Momentum, Beschleunigung, News, Konfidenz und Chart-Richtung ein. Neuere 20m-Ergebnisse werden stärker gewichtet.",
+      "trackedSymbols": 0,
+      "currentCandidates": 0,
+      "weights": null,
+      "topForecasts": [],
       "writeErrors": 0
     },
     "shadowLearning": {
@@ -536,134 +261,8 @@
       "mode": "canonical-entry-score+orthogonal-confirmation+probation",
       "decisionAuthority": false,
       "filtersNewBuys": true,
-      "latest": {
-        "themeBlocks": 0,
-        "currencyBlocks": 0,
-        "spacingBlocks": 0,
-        "belowCalibratedThreshold": 0,
-        "openSnapshots": 128,
-        "maturedSamples": 587,
-        "buyThreshold": 60,
-        "calibrated": true,
-        "roundTripCostPct": 0.291,
-        "evidenceCalibration": [
-          {
-            "label": "LOW",
-            "samples": 302,
-            "avgReturnPct": -0.191,
-            "hitRate": 0.351
-          },
-          {
-            "label": "CONFIRMED",
-            "samples": 46,
-            "avgReturnPct": -0.263,
-            "hitRate": 0.152
-          }
-        ],
-        "canonicalCalibration": [
-          {
-            "bucket": 50,
-            "samples": 28,
-            "avgReturnPct": -0.189,
-            "expectedNetEdgePct": -0.48,
-            "hitRate": 0.25
-          },
-          {
-            "bucket": 55,
-            "samples": 65,
-            "avgReturnPct": -0.269,
-            "expectedNetEdgePct": -0.56,
-            "hitRate": 0.185
-          },
-          {
-            "bucket": 60,
-            "samples": 1,
-            "avgReturnPct": -0.081,
-            "expectedNetEdgePct": -0.372,
-            "hitRate": 0
-          },
-          {
-            "bucket": 65,
-            "samples": 1,
-            "avgReturnPct": 0,
-            "expectedNetEdgePct": -0.291,
-            "hitRate": 0
-          },
-          {
-            "bucket": 70,
-            "samples": 0,
-            "avgReturnPct": null,
-            "expectedNetEdgePct": null,
-            "hitRate": null
-          },
-          {
-            "bucket": 75,
-            "samples": 0,
-            "avgReturnPct": null,
-            "expectedNetEdgePct": null,
-            "hitRate": null
-          },
-          {
-            "bucket": 80,
-            "samples": 0,
-            "avgReturnPct": null,
-            "expectedNetEdgePct": null,
-            "hitRate": null
-          }
-        ],
-        "negativeNewsBlocks": 0,
-        "evidenceBlocks": 0,
-        "unprofitableBucketBlocks": 0,
-        "canonicalScoreBlocks": 0,
-        "dataQualityBlocks": 0,
-        "orthogonalBlocks": 0,
-        "probationBlocks": 0,
-        "heldBuyBlocks": 0
-      },
-      "calibration": [
-        {
-          "bucket": 50,
-          "samples": 95,
-          "avgReturnPct": -1.096,
-          "hitRate": 0.358
-        },
-        {
-          "bucket": 55,
-          "samples": 62,
-          "avgReturnPct": 0.123,
-          "hitRate": 0.484
-        },
-        {
-          "bucket": 60,
-          "samples": 68,
-          "avgReturnPct": 0.228,
-          "hitRate": 0.5
-        },
-        {
-          "bucket": 65,
-          "samples": 43,
-          "avgReturnPct": -0.015,
-          "hitRate": 0.395
-        },
-        {
-          "bucket": 70,
-          "samples": 20,
-          "avgReturnPct": -0.334,
-          "hitRate": 0.2
-        },
-        {
-          "bucket": 75,
-          "samples": 23,
-          "avgReturnPct": -0.066,
-          "hitRate": 0.391
-        },
-        {
-          "bucket": 80,
-          "samples": 11,
-          "avgReturnPct": -0.283,
-          "hitRate": 0.273
-        }
-      ]
+      "latest": null,
+      "calibration": null
     },
     "capital": {
       "version": 30.9,
@@ -703,130 +302,7 @@
       "profitFadeMinPct": 0.8,
       "minPositionEur": 2200
     },
-    "latest": {
-      "changes": 0,
-      "outcome": {
-        "eligible": 0,
-        "injected": 0,
-        "learningMode": "BALANCED"
-      },
-      "predictive": {
-        "eligible": 0,
-        "injected": 0,
-        "learningMode": "BALANCED"
-      },
-      "capital": {
-        "brokerRows": 258,
-        "exactCandidates": 1,
-        "strong70Plus": 0,
-        "canonicalProposalCandidates": 0,
-        "injected": 0,
-        "canonicalInjected": 0,
-        "upgraded": 0,
-        "winnerTopups": 0,
-        "blockedMomentum": 0,
-        "blockedHard": 0,
-        "chosen": null,
-        "topup": null
-      },
-      "shadow": {
-        "themeBlocks": 0,
-        "currencyBlocks": 0,
-        "spacingBlocks": 0,
-        "belowCalibratedThreshold": 0,
-        "openSnapshots": 128,
-        "maturedSamples": 587,
-        "buyThreshold": 60,
-        "calibrated": true,
-        "roundTripCostPct": 0.291,
-        "evidenceCalibration": [
-          {
-            "label": "LOW",
-            "samples": 302,
-            "avgReturnPct": -0.191,
-            "hitRate": 0.351
-          },
-          {
-            "label": "CONFIRMED",
-            "samples": 46,
-            "avgReturnPct": -0.263,
-            "hitRate": 0.152
-          }
-        ],
-        "canonicalCalibration": [
-          {
-            "bucket": 50,
-            "samples": 28,
-            "avgReturnPct": -0.189,
-            "expectedNetEdgePct": -0.48,
-            "hitRate": 0.25
-          },
-          {
-            "bucket": 55,
-            "samples": 65,
-            "avgReturnPct": -0.269,
-            "expectedNetEdgePct": -0.56,
-            "hitRate": 0.185
-          },
-          {
-            "bucket": 60,
-            "samples": 1,
-            "avgReturnPct": -0.081,
-            "expectedNetEdgePct": -0.372,
-            "hitRate": 0
-          },
-          {
-            "bucket": 65,
-            "samples": 1,
-            "avgReturnPct": 0,
-            "expectedNetEdgePct": -0.291,
-            "hitRate": 0
-          },
-          {
-            "bucket": 70,
-            "samples": 0,
-            "avgReturnPct": null,
-            "expectedNetEdgePct": null,
-            "hitRate": null
-          },
-          {
-            "bucket": 75,
-            "samples": 0,
-            "avgReturnPct": null,
-            "expectedNetEdgePct": null,
-            "hitRate": null
-          },
-          {
-            "bucket": 80,
-            "samples": 0,
-            "avgReturnPct": null,
-            "expectedNetEdgePct": null,
-            "hitRate": null
-          }
-        ],
-        "negativeNewsBlocks": 0,
-        "evidenceBlocks": 0,
-        "unprofitableBucketBlocks": 0,
-        "canonicalScoreBlocks": 0,
-        "dataQualityBlocks": 0,
-        "orthogonalBlocks": 0,
-        "probationBlocks": 0,
-        "heldBuyBlocks": 0
-      },
-      "expectancy": {
-        "hardStops": 0,
-        "trailingSells": 0,
-        "pairedRotationSells": 0,
-        "failedSetupSells": 0,
-        "stagnationSells": 0,
-        "profitFadeSells": 0,
-        "minHoldBlocks": 0,
-        "reentryBlocks": 0,
-        "sizingUpgrades": 0,
-        "scoreScaleFixes": 0,
-        "equity": 10000
-      }
-    },
+    "latest": null,
     "auditWriteErrors": 0,
     "rule": "Eine einzige äußere Entscheidungsautorität entscheidet final. V31.7.1 nutzt fuer jeden Trading-Aufruf die Kandidaten des aktuellen Prompts als Lernzustand, falls der persistierte State leer ist. V31.7 verlangt fuer neue Käufe neben Trend/relativer Stärke mindestens positives Volumen oder bestätigte positive News und pausiert vorläufig verlustreiche Scorebereiche. Wiederholungs-BUYs auf Bestand sind gesperrt; harte Risiko- und Fehlsetup-Exits bleiben aktiv.",
     "brokerMaster": {
