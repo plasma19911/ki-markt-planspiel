@@ -15,6 +15,18 @@ const state={positions:[],history:[],candidates:[candidate],config:{cash:10000}}
   assert.equal(action.action,'BUY');
   assert.equal(action.allocation_pct,6);
   assert.equal(action.paperExplorationV3172,true);
+  assert.equal(action.explorationConfirmationMode,'DYNAMIC');
+}
+
+{
+  const amBroker={symbol:'AM.PA',name:'ArcelorMittal',isin:'LU1598757687',brokerVerified:true,brokerMatchMode:'EXACT_NORMALIZED_NAME',brokerVerificationSource:'Trade Republic master',assetClass:'EQUITY'};
+  const amCandidate={...amBroker,price:31,day_change:.7,momentum5Pct:.01,momentum20Pct:.06,acceleration5Pct:0,newsScore:0,intradayRsi:58,confidence:.645,quoteAgeMinutes:.5};
+  const amPrediction={symbol:'AM.PA',score:60.5,forecast20mScore:64.83,signalConfidence:.645,velocity5:0,agreement:1,regime:'SIDEWAYS',m5:.01,m20:.06,accel:0,news:0,day:.7,rsi:58,direction:''};
+  const out=enforcePaperExplorationV3172({actions:[{symbol:'AM.PA',action:'HOLD',reason:'data quality incomplete'}],summary:'test'},{positions:[],history:[],candidates:[amCandidate],config:{cash:10000}},{status:{matured:240,buySamples:0,missedOpportunities:7},predictions:{'AM.PA':amPrediction}},[amBroker],Date.now());
+  const action=out.plan.actions.find(x=>x.symbol==='AM.PA');
+  assert.equal(out.counters.injected,1,'a strong static forecast may seed the first paper BUY even before score velocity exists');
+  assert.equal(action.action,'BUY');
+  assert.equal(action.explorationConfirmationMode,'STATIC_FORECAST');
 }
 
 {
@@ -31,4 +43,4 @@ const state={positions:[],history:[],candidates:[candidate],config:{cash:10000}}
   assert.equal(out.counters.reason,'LEARNING_TRIGGER_NOT_MET');
 }
 
-console.log('V31.7.2 controlled paper exploration tests passed');
+console.log('V31.7.3 controlled paper exploration tests passed');
