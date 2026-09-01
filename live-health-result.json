@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-01T13:24:00.687Z",
+  "checkedAt": "2026-09-01T13:27:53.742Z",
   "runtimeVersion": "V31.7",
   "liveDecisionVersion": "V31.7",
   "outcomeLearningVersion": "V31.2",
@@ -51,7 +51,7 @@
     "buySamples": 0,
     "buyHitRate": null,
     "avgBuy20mReturnPct": null,
-    "avg20mReturnPct": -0.035,
+    "avg20mReturnPct": -0.034,
     "missedOpportunities": 7,
     "badBuys": 0,
     "earlySells": 0,
@@ -59,54 +59,17 @@
     "thresholdAdjustment": 0,
     "allocationAdjustment": 0,
     "trackedSymbols": 48,
-    "currentCandidates": 4,
+    "currentCandidates": 0,
     "weights": {
-      "velocity": 0.6889034591919573,
-      "m5": 0.7847466274021943,
-      "m20": 2.7622194169949976,
-      "accel": 0.7189373976035367,
+      "velocity": 0.25,
+      "m5": 0.7502064127313605,
+      "m20": 3.228333261621983,
+      "accel": 0.25282355297655135,
       "news": 2.0341861877553504,
       "confidence": 0.37754171078574283,
       "direction": 1.2
     },
-    "topForecasts": [
-      {
-        "symbol": "AM.PA",
-        "score": 60.5,
-        "forecast20mScore": 64.83,
-        "velocity5": 0,
-        "confidence": 0.645,
-        "earlySignal": false,
-        "regime": "SIDEWAYS"
-      },
-      {
-        "symbol": "EXA.PA",
-        "score": 35,
-        "forecast20mScore": 34.42,
-        "velocity5": 0,
-        "confidence": 0.425,
-        "earlySignal": false,
-        "regime": "SIDEWAYS"
-      },
-      {
-        "symbol": "HO.PA",
-        "score": 30,
-        "forecast20mScore": 31.33,
-        "velocity5": 0,
-        "confidence": 0.488,
-        "earlySignal": false,
-        "regime": "SIDEWAYS"
-      },
-      {
-        "symbol": "OTKAR.IS",
-        "score": 0,
-        "forecast20mScore": 0,
-        "velocity5": 0,
-        "confidence": 0.357,
-        "earlySignal": false,
-        "regime": "SIDEWAYS"
-      }
-    ],
+    "topForecasts": [],
     "recentMissedOpportunities": [
       {
         "symbol": "LDO.MI",
@@ -149,7 +112,7 @@
     "insideUnifiedAuthority": true
   },
   "paperExploration": {
-    "version": 31.72,
+    "version": 31.73,
     "enabled": true,
     "paperOnly": true,
     "minMatured": 80,
@@ -160,6 +123,10 @@
     "minSignalConfidence": 0.4,
     "minAgreement": 2,
     "minVelocity5": 0.5,
+    "staticMinScore": 58,
+    "staticMinForecastUplift": 2.5,
+    "staticMinConfidence": 0.6,
+    "staticMinAgreement": 1,
     "allocationPct": 6,
     "maxOpenPositionsForProbe": 0,
     "minMinutesBetweenProbes": 20,
@@ -170,13 +137,14 @@
       "eligible": 0,
       "injected": 0,
       "reason": "NO_CONFIRMED_EXPLORATION_CANDIDATE",
-      "chosen": null
+      "chosen": null,
+      "blocked": []
     }
   },
-  "scanCount": 176,
-  "lastScan": "2026-09-01T13:23:30.385Z",
+  "scanCount": 179,
+  "lastScan": "2026-09-01T13:27:19.436Z",
   "lastError": null,
-  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 0 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · · V31.7 Score: BUY ab 60  · V31.7.2 Unified: 1 finale Änderung(en), 6 aktuelle Lernkandidaten, Probe nein.",
+  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 0 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · · V31.7 Score: BUY ab 60  · V31.7.2 Unified: 0 finale Änderung(en), 6 aktuelle Lernkandidaten, Probe nein.",
   "cash": 10000,
   "equity": 10000,
   "pnl": 0,
@@ -187,15 +155,15 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-09-01T13:23:08.037Z",
-    "ageSeconds": 51,
+    "lastSeenAt": "2026-09-01T13:27:07.615Z",
+    "ageSeconds": 45,
     "fallbackAfterSeconds": 150,
     "lastScanAt": null,
     "scanAgeSeconds": null,
     "scanFresh": false,
     "scanGapFallbackAfterSeconds": 95,
     "prefetchFresh": true,
-    "prefetchAt": "2026-09-01T13:22:13.911Z",
+    "prefetchAt": "2026-09-01T13:25:14.721Z",
     "resolvedLeaderCount": 5,
     "selectedLeaderCount": 25,
     "leaderHealthy": false,
@@ -203,16 +171,16 @@
     "leaderCacheMode": "PC_AGENT_PARTIAL_BLEND",
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-09-01T13:23:08.037Z",
+      "lastSeenAt": "2026-09-01T13:27:07.615Z",
       "version": "2.2.1-csharp-pc-first-four-sta",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
       "storageBytes": 17115295,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0.02,
-      "ramMb": 62.5,
-      "downloadedBytes": 2761224262,
-      "uploadedBytes": 65165933,
+      "ramMb": 62.6,
+      "downloadedBytes": 2782434830,
+      "uploadedBytes": 65675476,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-09-01T13:17:04.5366817Z",
@@ -227,7 +195,7 @@
   },
   "agmCalendar": {
     "updatedAt": "2026-09-01T09:30:49.148Z",
-    "ageHours": 3.89,
+    "ageHours": 3.95,
     "events": 5
   },
   "newsFeed": {
@@ -295,7 +263,7 @@
       "buySamples": 0,
       "buyHitRate": null,
       "avgBuy20mReturnPct": null,
-      "avg20mReturnPct": -0.035,
+      "avg20mReturnPct": -0.034,
       "missedOpportunities": 7,
       "badBuys": 0,
       "earlySells": 0,
@@ -303,54 +271,17 @@
       "thresholdAdjustment": 0,
       "allocationAdjustment": 0,
       "trackedSymbols": 48,
-      "currentCandidates": 4,
+      "currentCandidates": 0,
       "weights": {
-        "velocity": 0.6889034591919573,
-        "m5": 0.7847466274021943,
-        "m20": 2.7622194169949976,
-        "accel": 0.7189373976035367,
+        "velocity": 0.25,
+        "m5": 0.7502064127313605,
+        "m20": 3.228333261621983,
+        "accel": 0.25282355297655135,
         "news": 2.0341861877553504,
         "confidence": 0.37754171078574283,
         "direction": 1.2
       },
-      "topForecasts": [
-        {
-          "symbol": "AM.PA",
-          "score": 60.5,
-          "forecast20mScore": 64.83,
-          "velocity5": 0,
-          "confidence": 0.645,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "EXA.PA",
-          "score": 35,
-          "forecast20mScore": 34.42,
-          "velocity5": 0,
-          "confidence": 0.425,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "HO.PA",
-          "score": 30,
-          "forecast20mScore": 31.33,
-          "velocity5": 0,
-          "confidence": 0.488,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "OTKAR.IS",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.357,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        }
-      ],
+      "topForecasts": [],
       "recentMissedOpportunities": [
         {
           "symbol": "LDO.MI",
@@ -416,7 +347,7 @@
       "buySamples": 0,
       "buyHitRate": null,
       "avgBuy20mReturnPct": null,
-      "avg20mReturnPct": -0.035,
+      "avg20mReturnPct": -0.034,
       "missedOpportunities": 7,
       "badBuys": 0,
       "earlySells": 0,
@@ -424,54 +355,17 @@
       "thresholdAdjustment": 0,
       "allocationAdjustment": 0,
       "trackedSymbols": 48,
-      "currentCandidates": 4,
+      "currentCandidates": 0,
       "weights": {
-        "velocity": 0.6889034591919573,
-        "m5": 0.7847466274021943,
-        "m20": 2.7622194169949976,
-        "accel": 0.7189373976035367,
+        "velocity": 0.25,
+        "m5": 0.7502064127313605,
+        "m20": 3.228333261621983,
+        "accel": 0.25282355297655135,
         "news": 2.0341861877553504,
         "confidence": 0.37754171078574283,
         "direction": 1.2
       },
-      "topForecasts": [
-        {
-          "symbol": "AM.PA",
-          "score": 60.5,
-          "forecast20mScore": 64.83,
-          "velocity5": 0,
-          "confidence": 0.645,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "EXA.PA",
-          "score": 35,
-          "forecast20mScore": 34.42,
-          "velocity5": 0,
-          "confidence": 0.425,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "HO.PA",
-          "score": 30,
-          "forecast20mScore": 31.33,
-          "velocity5": 0,
-          "confidence": 0.488,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "OTKAR.IS",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.357,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        }
-      ],
+      "topForecasts": [],
       "recentMissedOpportunities": [
         {
           "symbol": "LDO.MI",
@@ -553,7 +447,7 @@
         "currencyBlocks": 0,
         "spacingBlocks": 0,
         "belowCalibratedThreshold": 0,
-        "openSnapshots": 111,
+        "openSnapshots": 114,
         "maturedSamples": 643,
         "buyThreshold": 60,
         "calibrated": true,
@@ -627,8 +521,8 @@
         "evidenceBlocks": 0,
         "unprofitableBucketBlocks": 0,
         "canonicalScoreBlocks": 0,
-        "dataQualityBlocks": 1,
-        "orthogonalBlocks": 1,
+        "dataQualityBlocks": 0,
+        "orthogonalBlocks": 0,
         "probationBlocks": 0,
         "heldBuyBlocks": 0
       },
@@ -678,7 +572,7 @@
       ]
     },
     "paperExploration": {
-      "version": 31.72,
+      "version": 31.73,
       "enabled": true,
       "paperOnly": true,
       "minMatured": 80,
@@ -689,6 +583,10 @@
       "minSignalConfidence": 0.4,
       "minAgreement": 2,
       "minVelocity5": 0.5,
+      "staticMinScore": 58,
+      "staticMinForecastUplift": 2.5,
+      "staticMinConfidence": 0.6,
+      "staticMinAgreement": 1,
       "allocationPct": 6,
       "maxOpenPositionsForProbe": 0,
       "minMinutesBetweenProbes": 20,
@@ -699,7 +597,8 @@
         "eligible": 0,
         "injected": 0,
         "reason": "NO_CONFIRMED_EXPLORATION_CANDIDATE",
-        "chosen": null
+        "chosen": null,
+        "blocked": []
       }
     },
     "capital": {
@@ -741,7 +640,7 @@
       "minPositionEur": 2200
     },
     "latest": {
-      "changes": 1,
+      "changes": 0,
       "outcome": {
         "eligible": 0,
         "injected": 0,
@@ -771,7 +670,7 @@
         "currencyBlocks": 0,
         "spacingBlocks": 0,
         "belowCalibratedThreshold": 0,
-        "openSnapshots": 111,
+        "openSnapshots": 114,
         "maturedSamples": 643,
         "buyThreshold": 60,
         "calibrated": true,
@@ -845,8 +744,8 @@
         "evidenceBlocks": 0,
         "unprofitableBucketBlocks": 0,
         "canonicalScoreBlocks": 0,
-        "dataQualityBlocks": 1,
-        "orthogonalBlocks": 1,
+        "dataQualityBlocks": 0,
+        "orthogonalBlocks": 0,
         "probationBlocks": 0,
         "heldBuyBlocks": 0
       },
@@ -867,7 +766,8 @@
         "eligible": 0,
         "injected": 0,
         "reason": "NO_CONFIRMED_EXPLORATION_CANDIDATE",
-        "chosen": null
+        "chosen": null,
+        "blocked": []
       }
     },
     "auditWriteErrors": 0,
