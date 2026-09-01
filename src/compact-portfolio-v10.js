@@ -3,8 +3,10 @@ import {blendLeaderCacheV3172} from './pc-agent-leader-blend-v3172.js';
 
 const AGENT_STATE_KEY='state/windows-pc-agent-v1';
 const AGENT_PREFETCH_KEY='state/windows-pc-prefetch-v1';
+const AGENT_SCAN_KEY='state/windows-pc-last-scan-v1';
 const LEADER_CACHE_KV_KEY='cache/free-top25-leaders-v1';
 const AGENT_ONLINE_MS=150*1000;
+const AGENT_SCAN_GAP_MS=95*1000;
 const AGENT_PREFETCH_TTL_MS=12*60*1000;
 const LEADER_TARGET=25;
 const MIN_EXTERNAL_LEADERS=10;
@@ -111,9 +113,9 @@ export class MarketPortfolio extends BasePortfolio{
   }
 
   agentStatus(){
-    let h=null,p=null;try{h=this.ctx?.storage?.kv?.get(AGENT_STATE_KEY)||null;p=this.ctx?.storage?.kv?.get(AGENT_PREFETCH_KEY)||null}catch{}
-    const online=fresh(h?.lastSeenAt,AGENT_ONLINE_MS),ageMs=h?.lastSeenAt?Math.max(0,Date.now()-Date.parse(h.lastSeenAt)):null;
-    return{configured:Boolean(this.env?.PC_AGENT_TOKEN),online,lastSeenAt:h?.lastSeenAt||null,ageSeconds:Number.isFinite(ageMs)?Math.round(ageMs/1000):null,fallbackAfterSeconds:Math.round(AGENT_ONLINE_MS/1000),prefetchFresh:fresh(p?.receivedAt),prefetchAt:p?.receivedAt||null,resolvedLeaderCount:num(p?.resolvedLeaderCount),selectedLeaderCount:num(p?.selectedLeaderCount),leaderHealthy:Boolean(p?.leaderHealthy),leaderCacheUsable:Boolean(p?.leaderCacheUsable),leaderCacheMode:p?.leaderCacheMode||null,futureCandidates:num(p?.futureWatch?.candidateCount),metrics:h||null};
+    let h=null,p=null,q=null;try{h=this.ctx?.storage?.kv?.get(AGENT_STATE_KEY)||null;p=this.ctx?.storage?.kv?.get(AGENT_PREFETCH_KEY)||null;q=this.ctx?.storage?.kv?.get(AGENT_SCAN_KEY)||null}catch{}
+    const online=fresh(h?.lastSeenAt,AGENT_ONLINE_MS),ageMs=h?.lastSeenAt?Math.max(0,Date.now()-Date.parse(h.lastSeenAt)):null,scanAgeMs=q?.lastScanAt?Math.max(0,Date.now()-Date.parse(q.lastScanAt)):null;
+    return{configured:Boolean(this.env?.PC_AGENT_TOKEN),online,lastSeenAt:h?.lastSeenAt||null,ageSeconds:Number.isFinite(ageMs)?Math.round(ageMs/1000):null,fallbackAfterSeconds:Math.round(AGENT_ONLINE_MS/1000),lastScanAt:q?.lastScanAt||null,scanAgeSeconds:Number.isFinite(scanAgeMs)?Math.round(scanAgeMs/1000):null,scanFresh:Number.isFinite(scanAgeMs)&&scanAgeMs<=AGENT_SCAN_GAP_MS,scanGapFallbackAfterSeconds:Math.round(AGENT_SCAN_GAP_MS/1000),prefetchFresh:fresh(p?.receivedAt),prefetchAt:p?.receivedAt||null,resolvedLeaderCount:num(p?.resolvedLeaderCount),selectedLeaderCount:num(p?.selectedLeaderCount),leaderHealthy:Boolean(p?.leaderHealthy),leaderCacheUsable:Boolean(p?.leaderCacheUsable),leaderCacheMode:p?.leaderCacheMode||null,futureCandidates:num(p?.futureWatch?.candidateCount),metrics:h||null};
   }
 
   async _refreshFutureWatch(force=false){
@@ -126,11 +128,16 @@ export class MarketPortfolio extends BasePortfolio{
     return super._refreshFutureWatch(force);
   }
 
-  async scanFromAgent(payload={}){await this.agentHeartbeat(payload);const r=await this.scan();return{...r,scanSource:'WINDOWS_PC_AGENT'}}
+  async scanFromAgent(payload={}){
+    await this.agentHeartbeat(payload);
+    const r=await this.scan();
+    if(!r?.skipped&&!r?.aborted&&r?.ok!==false){try{this.ctx?.storage?.kv?.put(AGENT_SCAN_KEY,{lastScanAt:new Date().toISOString(),scanSource:'WINDOWS_PC_AGENT'})}catch{}}
+    return{...r,scanSource:'WINDOWS_PC_AGENT'};
+  }
 
   async status(){
     const s=await super.status(),agent=this.agentStatus();s.pcAgent=agent;
-    if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,pcAgentPreferred:true,cloudflareFallbackIntervalMinutes:5,cloudflareFallbackOnlyWhenPcOffline:true,pcAgentOnline:agent.online,pcAgentPrefetchFresh:agent.prefetchFresh,note:`Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; Cloudflare-Cron nur alle 5 Minuten als Fallback. ${s.freeTierBudget.note||''}`};
+    if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,pcAgentPreferred:true,cloudflareFallbackIntervalMinutes:5,cloudflareFallbackOnlyWhenPcOffline:false,cloudflareOnlineGapWatchdogSeconds:Math.round(AGENT_SCAN_GAP_MS/1000),pcAgentOnline:agent.online,pcAgentScanFresh:agent.scanFresh,pcAgentPrefetchFresh:agent.prefetchFresh,note:`Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; bei Online-Heartbeat aber >${Math.round(AGENT_SCAN_GAP_MS/1000)}s ohne erfolgreichen PC-Scan übernimmt Cloudflare sofort als Gap-Fallback. Bei komplett offlineem PC bleibt der 5-Minuten-Fallback aktiv. ${s.freeTierBudget.note||''}`};
     return s;
   }
 }
