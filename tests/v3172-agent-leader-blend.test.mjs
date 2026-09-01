@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {blendLeaderCacheV3172} from '../src/compact-portfolio-v10.js';
+import {blendLeaderCacheV3172} from '../src/pc-agent-leader-blend-v3172.js';
 
 const now=Date.parse('2026-09-01T12:00:00Z');
 const row=n=>({symbol:`S${String(n).padStart(2,'0')}.DE`,name:`Stock ${n}`});
