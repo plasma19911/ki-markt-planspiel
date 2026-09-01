@@ -13,17 +13,18 @@ function configFromPrompt(prompt){
 function brokerExecution(notional,type,price=0){
   const n=Math.max(0,num(notional)),t=String(type||'EQUITY').toUpperCase();if(!(n>0))return{tradeNotional:0,fees:0,exact:false,affordable:false};
   if(num(price)>0){
-    const exact=zeroRoundTripBrokerFees({notionalEur:n,priceEur:num(price),instrumentType:t,fractionalAllowed:t!=='ETF'});
+    const exact=zeroRoundTripBrokerFees({notionalEur:n,priceEur:num(price),instrumentType:t});
     if(exact.affordable)return{tradeNotional:num(exact.tradeNotional),fees:num(exact.total),exact:true,affordable:true,selectionReason:exact.selectionReason||null};
     return{tradeNotional:0,fees:0,exact:true,affordable:false,selectionReason:'NOT_AFFORDABLE'};
   }
-  return{tradeNotional:n,fees:n<ZERO_FEE_MODEL.smallOrderThresholdEur?2*ZERO_FEE_MODEL.smallOrderSurchargeEur:0,exact:false,affordable:true,selectionReason:'FALLBACK_NO_PRICE'};
+  const fallbackFees=2*Math.max(0,num(ZERO_FEE_MODEL.standardOrderFeeEur));
+  return{tradeNotional:n,fees:fallbackFees,exact:false,affordable:true,selectionReason:'FALLBACK_NO_PRICE_WITH_STANDARD_FEES'};
 }
 function estimate(cfg,allocationPct,type='EQUITY',price=0){
   const budgetNotional=Math.max(0,cfg.cash*Math.max(0,num(allocationPct))/100);if(!(budgetNotional>0))return{budgetNotional:0,notional:0,costPct:Infinity,estimatedCost:0,estimatedBrokerFees:0,affordable:false};
   const execution=brokerExecution(budgetNotional,type,price);if(!execution.affordable||!(execution.tradeNotional>0))return{budgetNotional,notional:0,costPct:Infinity,estimatedCost:0,estimatedBrokerFees:0,affordable:false,selectionReason:execution.selectionReason};
   const actualNotional=execution.tradeNotional,estimatedBrokerFees=execution.fees,executionCost=2*actualNotional*cfg.slippagePercent/100,estimatedCost=estimatedBrokerFees+executionCost,costPct=estimatedCost/actualNotional*100;
-  return{budgetNotional,notional:actualNotional,estimatedBrokerFees,estimatedExecutionCost:executionCost,estimatedCost,costPct,affordable:true,selectionReason:execution.selectionReason,feeEstimate:execution.exact?'ZERO quantity-aware actual-fill estimate':'ZERO conservative fallback; exact paper fill reconciles quantity'};
+  return{budgetNotional,notional:actualNotional,estimatedBrokerFees,estimatedExecutionCost:executionCost,estimatedCost,costPct,affordable:true,selectionReason:execution.selectionReason,feeEstimate:execution.exact?'Trade Republic quantity-aware actual-fill estimate':'Trade Republic conservative fallback with standard buy/sell fees; exact paper fill reconciles quantity'};
 }
 
 export function applyExecutionCostDiscipline(fast,prompt){
@@ -33,7 +34,7 @@ export function applyExecutionCostDiscipline(fast,prompt){
     const symbol=String(a.symbol||'').toUpperCase(),type=cfg.types[symbol]||'EQUITY',price=num(cfg.prices[symbol]),e=estimate(cfg,a.allocation_pct,type,price);
     bySymbol[symbol]={allocationPct:num(a.allocation_pct),instrumentType:type,referencePrice:price||null,budgetNotional:+e.budgetNotional.toFixed(2),notional:+e.notional.toFixed(2),estimatedBrokerFees:+e.estimatedBrokerFees.toFixed(2),estimatedExecutionCost:+e.estimatedExecutionCost.toFixed(2),estimatedRoundTripCost:+e.estimatedCost.toFixed(2),estimatedRoundTripCostPct:Number.isFinite(e.costPct)?+e.costPct.toFixed(2):null,blockBuy:!Number.isFinite(e.costPct)||e.costPct>cfg.maxRoundTripCostPct,feeEstimate:e.feeEstimate||null,selectionReason:e.selectionReason||null,initialSizingFloorApplied:false};
     if(!Number.isFinite(e.costPct)||e.costPct>cfg.maxRoundTripCostPct)continue;
-    actions.push(e.costPct>cfg.warnRoundTripCostPct?{...a,confidence:Math.min(num(a.confidence,.5),.75),reason:`${a.reason} · ZERO-Roundtrip-Kosten ca. ${e.costPct.toFixed(1)}%: Kostenwarnung, Positionsgröße wird NICHT künstlich erhöht`}:a)
+    actions.push(e.costPct>cfg.warnRoundTripCostPct?{...a,confidence:Math.min(num(a.confidence,.5),.75),reason:`${a.reason} · Trade-Republic-Roundtrip-Kosten ca. ${e.costPct.toFixed(1)}%: Kostenwarnung, Positionsgröße wird NICHT künstlich erhöht`}:a)
   }
   return{...fast,actions,executionCost:{...cfg,smallIdleSingleBuyFloorPct:null,smallIdlePortfolioMaxEur:null,forcedSizingFloor:false,minimumBuyFloorPct:null,bySymbol}};
 }
