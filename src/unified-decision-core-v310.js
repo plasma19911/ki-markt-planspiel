@@ -8,8 +8,8 @@ const key=v=>String(v?.symbol||v||'').toUpperCase().trim();
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 
 export const UNIFIED_DECISION_CORE_V310={
-  version:31.4,
-  patch:'31.4-shadow-calibration+31.3-capital-velocity+31.2-outcome-learning',
+  version:31.5,
+  patch:'31.5-evidence-fusion+31.4-shadow-calibration+31.3-capital-velocity+31.2-outcome-learning',
   architecture:'single-outer-decision-authority',
   persistentAudit:true,
   maxAuditRows:500,
@@ -50,10 +50,10 @@ export async function enforceUnifiedDecisionCoreV310(plan,state={},input=null,br
     changes,
     counters:{outcome:predictivePass.counters||{},predictive:predictivePass.counters||{},capital:buyPass.counters||{},shadow:shadowPass.counters||{},expectancy:expectancyPass.counters||{}},
     shadowLearning:{...shadowPass.counters,calibration:shadowPass.calibration?.calibration||[]},
-    ruleOrder:['hard safety from legacy core','V31.2 continuous outcome learning + early-entry','high-score capital deployment','V31.4 shadow calibration + concentration entry filter','V31.3 hard-stop/trailing/paired-rotation/stagnation/profit-fade/re-entry/sizing authority'],
-    note:'V31.4 bleibt innerhalb der einzigen äußeren Entscheidungsautorität. Kandidaten werden als 60-Minuten-Shadow-Samples gemessen; erst nach ausreichender Datenmenge filtert eine kalibrierte Schwelle neue BUYs. Themen-, Währungs- und Zeitabstandsfilter begrenzen neue Klumpen. SELL/HOLD und harte Safety werden nicht von einer zweiten Autorität überschrieben.'
+    ruleOrder:['hard safety from legacy core','V31.2 continuous outcome learning + early-entry','high-score capital deployment','V31.5 evidence/news/relative-strength calibration + concentration entry filter','V31.3 hard-stop/trailing/paired-rotation/stagnation/profit-fade/re-entry/sizing authority'],
+    note:'V31.5 bleibt innerhalb der einzigen äußeren Entscheidungsautorität. Preis-Momentum, relative Stärke, Volumen und frische Firmennachrichten werden getrennt gemessen. Schwache Evidenz wird erst nach ausreichenden Shadow-Samples gefiltert; bestätigte negative Firmennachrichten können neue BUYs sofort sperren. SELL/HOLD und harte Safety werden nicht überschrieben.'
   };
-  finalPlan.summary=`${String(finalPlan.summary||'').slice(0,155)} · V31.4 Unified+Shadow: ${changes.length} finale Änderung(en), Lernmodus ${outcomeLearning?.status?.mode||'WARMUP'}.`;
+  finalPlan.summary=`${String(finalPlan.summary||'').slice(0,150)} · V31.5 Unified+Evidence: ${changes.length} finale Änderung(en), Lernmodus ${outcomeLearning?.status?.mode||'WARMUP'}.`;
   return{plan:finalPlan,audit,counters:{changes:changes.length,outcome:predictivePass.counters||{},predictive:predictivePass.counters||{},capital:buyPass.counters||{},shadow:shadowPass.counters||{},expectancy:expectancyPass.counters||{}}};
 }
 

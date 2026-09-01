@@ -1,5 +1,18 @@
 const CURRENT_V31_CHANGELOG=[
   {
+    at:'01.09.2026 · 07:57',
+    title:'V31.5 · Wissenschaftliche Evidenz-Fusion statt blindem Einzelsignal',
+    items:[
+      'Neue Käufe werden jetzt entlang vier getrennt messbarer Säulen protokolliert: kurzfristiger Trend, relative Stärke gegenüber den übrigen Kandidaten, ungewöhnliches Volumen und frischer firmenspezifischer News-Katalysator.',
+      'Der Evidenzfilter lernt zunächst ausschließlich im Shadow-Modus. Erst wenn mindestens 25 vergleichbare 60-Minuten-Ergebnisse vorliegen und schwach bestätigte Setups nach Kosten untragfähig waren, darf er solche neuen Käufe blockieren.',
+      'Stark negative Firmennachrichten blockieren einen neuen Kauf nur bei hoher Konfidenz und Bestätigung durch mindestens zwei Quellen. Einzelne oder unklare Meldungen erhalten keine harte Entscheidungsgewalt.',
+      'News-Konfidenz, Quellen, Alter und Headlines bleiben jetzt im Kandidatenzustand erhalten, damit echte Nullsignale, alte Meldungen und fehlende Daten unterscheidbar und lernbar werden.',
+      'Die Statusanzeige liest Shadow-Samples und Kalibrierung direkt aus dem dauerhaften Cloudflare-Speicher; latest=null trotz laufendem Lernen wird damit beseitigt.',
+      'Forschungsbasis: Boudoukh et al. zur Trennung relevanter firmenspezifischer Nachrichten, Tetlock zur Gefahr alter wiederholter Information sowie Moreira/Muir zur risikobewussten Steuerung statt maximaler starrer Exposition.',
+      'Keine Gewinngarantie: V31.5 optimiert das Paper-Trading datenbasiert nach realen Folgepreisen und Kosten; neue Regeln werden nicht allein wegen historischer In-sample-Treffer scharfgeschaltet.'
+    ]
+  },
+  {
     at:'31.08.2026 · 13:44',
     title:'V31.4 · Shadow Learning repariert Signalbasis und kalibriert neue Käufe',
     items:[

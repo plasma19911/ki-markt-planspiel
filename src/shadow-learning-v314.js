@@ -23,10 +23,11 @@ const write=async(storage,v)=>{try{
 }catch{return false}};
 
 export const SHADOW_LEARNING_V314={
-  version:31.4,storageKey:KEY,horizonMinutes:60,snapshotSpacingMinutes:5,
+  version:31.5,storageKey:KEY,horizonMinutes:60,snapshotSpacingMinutes:5,
   maxOpenSnapshots:600,maxMaturedSamples:1500,buckets:[50,55,60,65,70,75,80],
   minBucketSamples:25,minEdgeCostMultiple:3,defaultBuyThreshold:56,
-  maxBuyThreshold:78,maxPerTheme:2,maxPerCurrency:3,minEntrySpacingMinutes:20
+  maxBuyThreshold:78,maxPerTheme:2,maxPerCurrency:3,minEntrySpacingMinutes:20,
+  evidenceMinSamples:25,negativeNewsBlock:-.35,negativeNewsMinConfidence:.6,negativeNewsMinSources:2
 };
 
 function defaults(){return{version:31.4,open:{},matured:[],lastEntryAt:0,
@@ -35,6 +36,20 @@ function defaults(){return{version:31.4,open:{},matured:[],lastEntryAt:0,
 const bucketOf=(score,cfg)=>{let out=null;for(const x of cfg.buckets)if(score>=x)out=x;return out};
 const themeOf=c=>String(c?.theme||c?.sector||c?.industry||'UNKNOWN').toUpperCase();
 const currencyOf=c=>String(c?.currency||c?.quote_currency||'EUR').toUpperCase();
+const median=values=>{const xs=values.filter(finite).map(Number).sort((a,b)=>a-b);if(!xs.length)return 0;const m=Math.floor(xs.length/2);return xs.length%2?xs[m]:(xs[m-1]+xs[m])/2};
+export function evidenceProfileV315(candidate={},universe=[]){
+  const m5=num(candidate?.momentum5Pct,candidate?.momentum5??candidate?.intraday5m),m20=num(candidate?.momentum20Pct,candidate?.momentum20??candidate?.intraday20m);
+  const peers=arr(universe).map(c=>num(c?.momentum20Pct,c?.momentum20??c?.intraday20m)).filter(finite),peerMedian=median(peers);
+  const volume=num(candidate?.volumeRatio??candidate?.volume_ratio,1),news=clamp(candidate?.newsScore??candidate?.news_score??candidate?.news,-1,1);
+  const newsConfidence=clamp(candidate?.newsConfidence??candidate?.news_confidence,0,1),sources=arr(candidate?.newsSources??candidate?.news_sources).length;
+  const rsi=num(candidate?.rsi??candidate?.intradayRsi,50),day=num(candidate?.day_change??candidate?.dayChange??candidate?.day),acc=num(candidate?.momentumAcceleration5??candidate?.momentum_acceleration5);
+  const pillars={trend:m5>0&&m20>0,relativeStrength:m20>peerMedian+.05,volume:volume>1.15,catalyst:news>=.08&&newsConfidence>=.4};
+  let quality=(pillars.trend?30:0)+(pillars.relativeStrength?25:0)+(pillars.volume?20:0)+(pillars.catalyst?25:0);
+  if(m5<0&&m20>0)quality-=15;if(rsi>=74||day>=4)quality-=15;if(acc<-.2)quality-=10;if(news<=-.15)quality-=20;
+  quality=clamp(quality,0,100);
+  return{quality:+quality.toFixed(1),pillarCount:Object.values(pillars).filter(Boolean).length,pillars,peerMedian20:+peerMedian.toFixed(3),
+    m5,m20,volume,news,newsConfidence,newsSources:sources,negativeNewsConfirmed:news<=SHADOW_LEARNING_V314.negativeNewsBlock&&newsConfidence>=SHADOW_LEARNING_V314.negativeNewsMinConfidence&&sources>=SHADOW_LEARNING_V314.negativeNewsMinSources};
+}
 function latestActualEntryAt(state={}){
   let latest=0;
   for(const p of arr(state?.positions)){const at=Date.parse(String(p?.opened_at??p?.openedAt??''));if(Number.isFinite(at))latest=Math.max(latest,at)}
@@ -44,7 +59,10 @@ function latestActualEntryAt(state={}){
 function finalScoredCandidates(state,storage,now){
   try{
     const ranked=arr(daytradeLiveScoresV302(state,storage,now)?.ranking);
-    if(ranked.length)return ranked;
+    if(ranked.length){const raw=new Map(arr(state?.candidates).map(c=>[key(c),c]));return ranked.map(r=>{const c=raw.get(key(r))||{};return{...c,...r,
+      newsScore:r?.newsScore??r?.news_score??c?.newsScore??c?.news_score,newsConfidence:r?.newsConfidence??r?.news_confidence??c?.newsConfidence??c?.news_confidence,
+      newsSources:r?.newsSources??r?.news_sources??c?.newsSources??c?.news_sources,headlines:r?.headlines??c?.headlines,
+      volumeRatio:r?.volumeRatio??r?.volume_ratio??c?.volumeRatio??c?.volume_ratio};})}
   }catch{}
   return arr(state?.candidates);
 }
@@ -56,7 +74,8 @@ export function recordShadowSnapshots(mem,candidates,now,cfg=SHADOW_LEARNING_V31
     if(!symbol||!(price>0)||bucketOf(score,cfg)===null)continue;
     const id=`${symbol}@${Math.floor(now/spacing)}`;
     if(mem.open[id])continue;
-    mem.open[id]={symbol,at:now,price,fx:fxOf(c),score:+score.toFixed(1),
+    const evidence=evidenceProfileV315(c,candidates);
+    mem.open[id]={symbol,at:now,price,fx:fxOf(c),score:+score.toFixed(1),evidenceQuality:evidence.quality,evidencePillars:evidence.pillarCount,
       theme:themeOf(c),currency:currencyOf(c),m5:num(c?.momentum5),m20:num(c?.momentum20),
       rsi:num(c?.rsi,50),day:num(c?.day_change??c?.dayChange)};
     mem.stats.snapshots++;
@@ -74,12 +93,19 @@ export function matureShadowSnapshots(mem,candidates,now,cfg=SHADOW_LEARNING_V31
     const current=prices.get(snap.symbol);
     if(!current||!(current.price>0)){if(age>horizon*3){delete mem.open[id];mem.stats.expired++}continue}
     const from=snap.price*num(snap.fx,1),to=current.price*current.fx;
-    if(from>0)mem.matured.push({symbol:snap.symbol,score:snap.score,theme:snap.theme,
+    if(from>0)mem.matured.push({symbol:snap.symbol,score:snap.score,theme:snap.theme,evidenceQuality:num(snap.evidenceQuality),evidencePillars:num(snap.evidencePillars),
       ret:+(((to/from)-1)*100).toFixed(4),at:now});
     mem.stats.matured++;delete mem.open[id];
   }
   if(mem.matured.length>cfg.maxMaturedSamples)mem.matured=mem.matured.slice(-cfg.maxMaturedSamples);
   return mem;
+}
+
+export function evidenceCalibrationV315(matured=[]){
+  return [
+    {label:'LOW',rows:arr(matured).filter(x=>num(x.evidenceQuality)<50)},
+    {label:'CONFIRMED',rows:arr(matured).filter(x=>num(x.evidenceQuality)>=50)}
+  ].map(group=>({label:group.label,samples:group.rows.length,avgReturnPct:group.rows.length?+(group.rows.reduce((s,x)=>s+num(x.ret),0)/group.rows.length).toFixed(3):null,hitRate:group.rows.length?+(group.rows.filter(x=>num(x.ret)>0).length/group.rows.length).toFixed(3):null}));
 }
 
 export function scoreCalibrationV314(matured,cfg=SHADOW_LEARNING_V314){
@@ -127,15 +153,27 @@ export async function enforceShadowLearningV314(plan,state={},storage=null,now=D
   const candidates=finalScoredCandidates(state,storage,now),cost=finite(roundTripCostPct)?Number(roundTripCostPct):estimatedRoundTripCostPctV314(state);
   matureShadowSnapshots(mem,candidates,now,cfg);recordShadowSnapshots(mem,candidates,now,cfg);
   const calibrated=calibratedBuyThresholdV314(mem.matured,cost,cfg);mem.threshold=calibrated;
+  const evidenceCalibration=evidenceCalibrationV315(mem.matured),lowEvidence=evidenceCalibration.find(x=>x.label==='LOW');
   const bySymbol=new Map(candidates.map(c=>[key(c),c])),positions=arr(state?.positions);
   const actions=plan.actions.map(a=>({...a})),counters={themeBlocks:0,currencyBlocks:0,spacingBlocks:0,
     belowCalibratedThreshold:0,openSnapshots:Object.keys(mem.open).length,maturedSamples:mem.matured.length,
-    buyThreshold:calibrated.threshold,calibrated:calibrated.calibrated,roundTripCostPct:cost};
+    buyThreshold:calibrated.threshold,calibrated:calibrated.calibrated,roundTripCostPct:cost,evidenceCalibration,negativeNewsBlocks:0,evidenceBlocks:0};
   const actualEntryAt=latestActualEntryAt(state);let gateEntryAt=actualEntryAt;
   for(let i=0;i<actions.length;i++){
     const action=actions[i],symbol=key(action);
     if(!symbol||String(action?.action||'').toUpperCase()!=='BUY'||positions.some(p=>key(p)===symbol))continue;
     const candidate=bySymbol.get(symbol)||{},score=canonicalScore(candidate?.daytradeLiveScore??candidate?.decisionScore??candidate?.score??action?.entryDecisionScore);
+    const evidence=evidenceProfileV315(candidate,candidates);
+    if(evidence.negativeNewsConfirmed){
+      actions[i]={...action,action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'CONFIRMED_NEGATIVE_NEWS',evidenceQualityV315:evidence.quality,
+        reason:`V31.5 NEWS-FILTER: ${symbol} hat bestätigte negative Firmennachrichten (${evidence.news.toFixed(2)}, ${evidence.newsSources} Quellen). Kein neuer Kauf gegen den Katalysator.`};
+      counters.negativeNewsBlocks++;continue;
+    }
+    if(lowEvidence?.samples>=cfg.evidenceMinSamples&&num(lowEvidence.avgReturnPct,99)<cost&&evidence.quality<50){
+      actions[i]={...action,action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'LOW_EVIDENCE_EXPECTANCY',evidenceQualityV315:evidence.quality,
+        reason:`V31.5 EVIDENZ-FILTER: ${symbol} nur ${evidence.pillarCount}/4 unabhängige Bestätigungen; ${lowEvidence.samples} vergleichbare Shadow-Samples lagen nach Kosten nicht tragfähig.`};
+      counters.evidenceBlocks++;continue;
+    }
     if(calibrated.calibrated&&score<calibrated.threshold){
       actions[i]={...action,action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'CALIBRATED_THRESHOLD',
         reason:`V31.4 KALIBRIERUNG: ${symbol} Score ${score.toFixed(1)} liegt unter der gelernten Schwelle ${calibrated.threshold}. ${mem.matured.length} reife 60-Minuten-Samples, Roundtrip ${cost.toFixed(2)}%.`};
@@ -150,6 +188,6 @@ export async function enforceShadowLearningV314(plan,state={},storage=null,now=D
   mem.lastEntryAt=actualEntryAt;mem.stats.themeBlocks+=counters.themeBlocks;mem.stats.currencyBlocks+=counters.currencyBlocks;
   mem.stats.spacingBlocks+=counters.spacingBlocks;mem.stats.thresholdBlocks+=counters.belowCalibratedThreshold;
   mem.updatedAt=new Date(now).toISOString();const persisted=await write(storage,mem);
-  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,125)} · V31.4 Shadow: ${counters.maturedSamples} reif, Schwelle ${calibrated.threshold}${calibrated.calibrated?'':' Warmup'}, ${counters.themeBlocks+counters.currencyBlocks+counters.spacingBlocks+counters.belowCalibratedThreshold} BUY-Filter.`;
-  return{plan,counters,calibration:calibrated,mem,persisted};
+  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,118)} · V31.5 Evidence: ${counters.maturedSamples} reif, Schwelle ${calibrated.threshold}${calibrated.calibrated?'':' Warmup'}, ${counters.themeBlocks+counters.currencyBlocks+counters.spacingBlocks+counters.belowCalibratedThreshold+counters.negativeNewsBlocks+counters.evidenceBlocks} BUY-Filter.`;
+  return{plan,counters,calibration:{...calibrated,evidenceCalibration},mem,persisted};
 }

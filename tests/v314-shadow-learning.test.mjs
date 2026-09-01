@@ -2,7 +2,7 @@ import assert from 'node:assert';
 import {
   recordShadowSnapshots,matureShadowSnapshots,scoreCalibrationV314,
   calibratedBuyThresholdV314,correlationGateV314,enforceShadowLearningV314,
-  estimatedRoundTripCostPctV314
+  estimatedRoundTripCostPctV314,evidenceProfileV315,evidenceCalibrationV315
 } from '../src/shadow-learning-v314.js';
 
 const base=()=>({version:31.4,open:{},matured:[],lastEntryAt:0,
@@ -25,6 +25,11 @@ assert.ok(calibration.find(row=>row.bucket===50).avgReturnPct<0);
 const threshold=calibratedBuyThresholdV314(mem.matured,.29);
 assert.equal(threshold.calibrated,true);
 assert.equal(threshold.threshold,70);
+const strongEvidence=evidenceProfileV315({momentum5:.3,momentum20:.7,volumeRatio:1.6,newsScore:.2,newsConfidence:.8,newsSources:['A','B'],rsi:60},[{momentum20:.1},{momentum20:.2}]);
+assert.equal(strongEvidence.pillarCount,4);
+assert.equal(strongEvidence.quality,100);
+const evidenceCalibration=evidenceCalibrationV315([{evidenceQuality:20,ret:-.4},{evidenceQuality:80,ret:1.1}]);
+assert.ok(evidenceCalibration.find(x=>x.label==='CONFIRMED').avgReturnPct>1);
 
 // Die alte Rohskala 0-10 wird vor dem Lernen auf 0-100 normalisiert.
 const rawScale=recordShadowSnapshots(base(),[{symbol:'RAW',price:10,score:6.2,currency:'EUR'}],t0);
@@ -51,4 +56,8 @@ const pairOut=await enforceShadowLearningV314(pair,{candidates:[
 ],positions:[],history:[]},null,t0);
 assert.equal(pairOut.plan.actions[0].action,'BUY');
 assert.equal(pairOut.plan.actions[1].shadowBlockKind,'ENTRY_SPACING');
-console.log('OK — V31.4 Shadow Learning, canonical score, cost model and concentration filter');
+const negativeNews=await enforceShadowLearningV314({actions:[{symbol:'BAD',action:'BUY',allocation_pct:20}],summary:'x'},{candidates:[
+  {symbol:'BAD',price:10,decisionScore:75,newsScore:-.6,newsConfidence:.9,newsSources:['OFFICIAL','WIRE'],momentum5:.3,momentum20:.5}
+],positions:[],history:[]},null,t0);
+assert.equal(negativeNews.plan.actions[0].shadowBlockKind,'CONFIRMED_NEGATIVE_NEWS');
+console.log('OK — V31.5 evidence fusion, news gate, shadow learning, cost model and concentration filter');
