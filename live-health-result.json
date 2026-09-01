@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-01T06:03:23.476Z",
+  "checkedAt": "2026-09-01T06:09:34.002Z",
   "runtimeVersion": "V31.5",
   "liveDecisionVersion": "V31.5",
   "outcomeLearningVersion": "V31.2",
@@ -10,7 +10,7 @@
     "runtimeV313": false,
     "unifiedDecisionAuthority": false,
     "outcomeLearningV312": true,
-    "learningActuallyTracking": false,
+    "learningActuallyTracking": true,
     "continuousFeedback": true,
     "expectancy": true,
     "brokerMaster": true,
@@ -26,8 +26,7 @@
   },
   "failedChecks": [
     "runtimeV313",
-    "unifiedDecisionAuthority",
-    "learningActuallyTracking"
+    "unifiedDecisionAuthority"
   ],
   "allRequiredChecksPassed": false,
   "outcomeLearningPolicy": {
@@ -50,54 +49,216 @@
     "minForecastScore": 70,
     "maxPredictiveAllocationPct": 42,
     "maxOpenPositions": 4,
-    "mode": "WARMUP",
-    "matured": 0,
-    "buySamples": 0,
-    "buyHitRate": null,
-    "avg20mReturnPct": null,
-    "missedOpportunities": 0,
+    "mode": "CONFIDENT",
+    "matured": 240,
+    "buySamples": 9,
+    "buyHitRate": 66.7,
+    "avgBuy20mReturnPct": 0.266,
+    "avg20mReturnPct": 0.083,
+    "missedOpportunities": 25,
     "badBuys": 0,
     "earlySells": 0,
-    "trackedSymbols": 0,
-    "currentCandidates": 0,
-    "weights": null,
-    "topForecasts": [],
+    "correctSells": 1,
+    "thresholdAdjustment": -2,
+    "allocationAdjustment": 6,
+    "trackedSymbols": 48,
+    "currentCandidates": 6,
+    "weights": {
+      "velocity": 0.2757949443400882,
+      "m5": 0.9662805860657298,
+      "m20": 5.041740944638153,
+      "accel": 1.7215454098132046,
+      "news": 2.683257782118838,
+      "confidence": 2.0885660674459294,
+      "direction": 1.2
+    },
+    "topForecasts": [
+      {
+        "symbol": "7013.T",
+        "score": 39,
+        "forecast20mScore": 41.8,
+        "velocity5": 0,
+        "confidence": 0.518,
+        "earlySignal": false,
+        "regime": "BULL"
+      },
+      {
+        "symbol": "329180.KS",
+        "score": 34.5,
+        "forecast20mScore": 36.71,
+        "velocity5": -11.419,
+        "confidence": 0.468,
+        "earlySignal": false,
+        "regime": "BULL"
+      },
+      {
+        "symbol": "042660.KS",
+        "score": 30,
+        "forecast20mScore": 29.99,
+        "velocity5": -9.039,
+        "confidence": 0.488,
+        "earlySignal": false,
+        "regime": "SIDEWAYS"
+      },
+      {
+        "symbol": "000660.KS",
+        "score": 29,
+        "forecast20mScore": 27.6,
+        "velocity5": -19.627,
+        "confidence": 0.435,
+        "earlySignal": false,
+        "regime": "BULL"
+      },
+      {
+        "symbol": "DATAPATTNS.NS",
+        "score": 16,
+        "forecast20mScore": 19.66,
+        "velocity5": 26.294,
+        "confidence": 0.497,
+        "earlySignal": false,
+        "regime": "SIDEWAYS"
+      },
+      {
+        "symbol": "3690.HK",
+        "score": 0,
+        "forecast20mScore": 0,
+        "velocity5": 0,
+        "confidence": 0.353,
+        "earlySignal": false,
+        "regime": "BEAR"
+      }
+    ],
+    "recentMissedOpportunities": [
+      {
+        "symbol": "042660.KS",
+        "returnPct": 2.0349,
+        "ts": 1788242772139
+      },
+      {
+        "symbol": "329180.KS",
+        "returnPct": 2.1445,
+        "ts": 1788242534347
+      },
+      {
+        "symbol": "005930.KS",
+        "returnPct": 0.5792,
+        "ts": 1788242427976
+      },
+      {
+        "symbol": "9984.T",
+        "returnPct": 0.5696,
+        "ts": 1788242427976
+      },
+      {
+        "symbol": "ASB.AX",
+        "returnPct": 0.5747,
+        "ts": 1788242427976
+      },
+      {
+        "symbol": "9984.T",
+        "returnPct": 0.6084,
+        "ts": 1788242300623
+      },
+      {
+        "symbol": "ASB.AX",
+        "returnPct": 0.6889,
+        "ts": 1788242080920
+      },
+      {
+        "symbol": "TSLA",
+        "returnPct": 0.7217,
+        "ts": 1788206447131
+      }
+    ],
+    "rule": "V31.2 verfolgt Kandidaten und Depotpositionen kontinuierlich. BUY/HOLD/SELL werden nach 5/20/60/240 Minuten mit dem echten späteren Kurs verglichen. Verpasste Chancen, Fehlkäufe und zu frühe Verkäufe fließen in Schwellen, Positionsgröße und die Gewichte für Score-Geschwindigkeit, Momentum, Beschleunigung, News, Konfidenz und Chart-Richtung ein. Neuere 20m-Ergebnisse werden stärker gewichtet.",
     "writeErrors": 0,
     "insideUnifiedAuthority": true
   },
-  "scanCount": 1,
-  "lastScan": "2026-09-01T06:02:16.752Z",
+  "scanCount": 5,
+  "lastScan": "2026-09-01T06:09:14.687Z",
   "lastError": null,
-  "aiLastSummary": "Keine frischen handelbaren Kurse – keine Orderentscheidung.",
-  "cash": 10000,
-  "equity": 10000,
-  "pnl": 0,
-  "marketValue": 0,
+  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 1 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · V3 · V30. · V31.5 Flex: 237 reif, bevorzugt ab  · V31.5 Unified+Evidence: 0 finale Änderung(en), Lernmodus CONFIDENT.",
+  "cash": 7784.942755,
+  "equity": 9997.995054600182,
+  "pnl": -2.004945399818098,
+  "marketValue": 2213.0522996001814,
   "accountingDelta": 0,
-  "positions": 0,
-  "positionRows": [],
+  "positions": 1,
+  "positionRows": [
+    {
+      "symbol": "7013.T",
+      "name": "IHI",
+      "instrument_type": "EQUITY",
+      "theme": "DEFENSE",
+      "company_key": "IHI",
+      "invested": 2214.057245,
+      "entry_fee": 1,
+      "entry_price": 2751.749,
+      "last_price": 2750.5,
+      "entry_fx": 0.0054,
+      "last_fx": 0.0054,
+      "fx_verified": true,
+      "currency": "JPY",
+      "quote_currency_raw": "JPY",
+      "quote_price_scale": 1,
+      "quote_unit_normalized": true,
+      "opened_at": "2026-09-01T06:06:12.139Z",
+      "last_added_at": null,
+      "add_count": 0,
+      "score": 65.9,
+      "signal_confidence": 0.63,
+      "zero_quantity": 149,
+      "zero_whole_shares": 149,
+      "zero_fractional_shares": 0,
+      "zero_uses_fractional": false,
+      "zero_fee_model_version": "trade-republic-securities-2026-08-v1",
+      "fx_stale": false,
+      "legacy_position_score": 3.9,
+      "decisionScore": 65.9,
+      "entryDecisionScore": 64.5,
+      "scoreDeltaFromEntry": 1.4,
+      "scoreDeltaThisScan": -1,
+      "rawDecisionScore": 63.8,
+      "chartMoveFromEntryPct": -0.045,
+      "chartMoveLastScanPct": 0,
+      "scoreFrozenPartial": false,
+      "scoreChartCapped": true,
+      "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
+      "preDirectionalScore": 65.1,
+      "scoreFloor": 61.5,
+      "scoreCeiling": 67.5,
+      "chartDirectionMode": "FLAT",
+      "scorePriorCorrected": false,
+      "preProfitScore": 65.9,
+      "profitScoreCeiling": 65.9,
+      "profitScoreDeltaThisScan": 0,
+      "daytradeChanceScore": 65.9,
+      "daytradeChanceLabel": "STARK",
+      "daytradeChanceRank": 1
+    }
+  ],
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-09-01T06:03:08.140Z",
-    "ageSeconds": 14,
+    "lastSeenAt": "2026-09-01T06:09:07.880Z",
+    "ageSeconds": 24,
     "fallbackAfterSeconds": 150,
     "prefetchFresh": true,
-    "prefetchAt": "2026-09-01T06:01:16.329Z",
+    "prefetchAt": "2026-09-01T06:07:16.269Z",
     "resolvedLeaderCount": 5,
     "leaderHealthy": false,
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-09-01T06:03:08.140Z",
+      "lastSeenAt": "2026-09-01T06:09:07.880Z",
       "version": "2.2.1-csharp-pc-first-four-sta",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 17099809,
+      "storageBytes": 17074103,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.03,
-      "ramMb": 57.2,
-      "downloadedBytes": 235085810,
-      "uploadedBytes": 5947965,
+      "cpuPct": 0.02,
+      "ramMb": 56.5,
+      "downloadedBytes": 271638960,
+      "uploadedBytes": 6930216,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-09-01T05:57:04.6166473Z",
@@ -105,19 +266,19 @@
     }
   },
   "positionChart": {
-    "status": null,
+    "status": 200,
     "ok": true,
-    "symbol": null,
-    "bars": 0
+    "symbol": "7013.T",
+    "bars": 60
   },
   "agmCalendar": {
     "updatedAt": "2026-08-31T11:00:07.931Z",
-    "ageHours": 19.05,
+    "ageHours": 19.16,
     "events": 5
   },
   "newsFeed": {
     "status": 200,
-    "items": 0,
+    "items": 2,
     "refreshSeconds": 60
   },
   "architecture": {
@@ -175,18 +336,128 @@
       "minForecastScore": 70,
       "maxPredictiveAllocationPct": 42,
       "maxOpenPositions": 4,
-      "mode": "WARMUP",
-      "matured": 0,
-      "buySamples": 0,
-      "buyHitRate": null,
-      "avg20mReturnPct": null,
-      "missedOpportunities": 0,
+      "mode": "CONFIDENT",
+      "matured": 240,
+      "buySamples": 9,
+      "buyHitRate": 66.7,
+      "avgBuy20mReturnPct": 0.266,
+      "avg20mReturnPct": 0.083,
+      "missedOpportunities": 25,
       "badBuys": 0,
       "earlySells": 0,
-      "trackedSymbols": 0,
-      "currentCandidates": 0,
-      "weights": null,
-      "topForecasts": [],
+      "correctSells": 1,
+      "thresholdAdjustment": -2,
+      "allocationAdjustment": 6,
+      "trackedSymbols": 48,
+      "currentCandidates": 6,
+      "weights": {
+        "velocity": 0.2757949443400882,
+        "m5": 0.9662805860657298,
+        "m20": 5.041740944638153,
+        "accel": 1.7215454098132046,
+        "news": 2.683257782118838,
+        "confidence": 2.0885660674459294,
+        "direction": 1.2
+      },
+      "topForecasts": [
+        {
+          "symbol": "7013.T",
+          "score": 39,
+          "forecast20mScore": 41.8,
+          "velocity5": 0,
+          "confidence": 0.518,
+          "earlySignal": false,
+          "regime": "BULL"
+        },
+        {
+          "symbol": "329180.KS",
+          "score": 34.5,
+          "forecast20mScore": 36.71,
+          "velocity5": -11.419,
+          "confidence": 0.468,
+          "earlySignal": false,
+          "regime": "BULL"
+        },
+        {
+          "symbol": "042660.KS",
+          "score": 30,
+          "forecast20mScore": 29.99,
+          "velocity5": -9.039,
+          "confidence": 0.488,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        },
+        {
+          "symbol": "000660.KS",
+          "score": 29,
+          "forecast20mScore": 27.6,
+          "velocity5": -19.627,
+          "confidence": 0.435,
+          "earlySignal": false,
+          "regime": "BULL"
+        },
+        {
+          "symbol": "DATAPATTNS.NS",
+          "score": 16,
+          "forecast20mScore": 19.66,
+          "velocity5": 26.294,
+          "confidence": 0.497,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        },
+        {
+          "symbol": "3690.HK",
+          "score": 0,
+          "forecast20mScore": 0,
+          "velocity5": 0,
+          "confidence": 0.353,
+          "earlySignal": false,
+          "regime": "BEAR"
+        }
+      ],
+      "recentMissedOpportunities": [
+        {
+          "symbol": "042660.KS",
+          "returnPct": 2.0349,
+          "ts": 1788242772139
+        },
+        {
+          "symbol": "329180.KS",
+          "returnPct": 2.1445,
+          "ts": 1788242534347
+        },
+        {
+          "symbol": "005930.KS",
+          "returnPct": 0.5792,
+          "ts": 1788242427976
+        },
+        {
+          "symbol": "9984.T",
+          "returnPct": 0.5696,
+          "ts": 1788242427976
+        },
+        {
+          "symbol": "ASB.AX",
+          "returnPct": 0.5747,
+          "ts": 1788242427976
+        },
+        {
+          "symbol": "9984.T",
+          "returnPct": 0.6084,
+          "ts": 1788242300623
+        },
+        {
+          "symbol": "ASB.AX",
+          "returnPct": 0.6889,
+          "ts": 1788242080920
+        },
+        {
+          "symbol": "TSLA",
+          "returnPct": 0.7217,
+          "ts": 1788206447131
+        }
+      ],
+      "rule": "V31.2 verfolgt Kandidaten und Depotpositionen kontinuierlich. BUY/HOLD/SELL werden nach 5/20/60/240 Minuten mit dem echten späteren Kurs verglichen. Verpasste Chancen, Fehlkäufe und zu frühe Verkäufe fließen in Schwellen, Positionsgröße und die Gewichte für Score-Geschwindigkeit, Momentum, Beschleunigung, News, Konfidenz und Chart-Richtung ein. Neuere 20m-Ergebnisse werden stärker gewichtet.",
       "writeErrors": 0
     },
     "predictiveLearning": {
@@ -209,18 +480,128 @@
       "minForecastScore": 70,
       "maxPredictiveAllocationPct": 42,
       "maxOpenPositions": 4,
-      "mode": "WARMUP",
-      "matured": 0,
-      "buySamples": 0,
-      "buyHitRate": null,
-      "avg20mReturnPct": null,
-      "missedOpportunities": 0,
+      "mode": "CONFIDENT",
+      "matured": 240,
+      "buySamples": 9,
+      "buyHitRate": 66.7,
+      "avgBuy20mReturnPct": 0.266,
+      "avg20mReturnPct": 0.083,
+      "missedOpportunities": 25,
       "badBuys": 0,
       "earlySells": 0,
-      "trackedSymbols": 0,
-      "currentCandidates": 0,
-      "weights": null,
-      "topForecasts": [],
+      "correctSells": 1,
+      "thresholdAdjustment": -2,
+      "allocationAdjustment": 6,
+      "trackedSymbols": 48,
+      "currentCandidates": 6,
+      "weights": {
+        "velocity": 0.2757949443400882,
+        "m5": 0.9662805860657298,
+        "m20": 5.041740944638153,
+        "accel": 1.7215454098132046,
+        "news": 2.683257782118838,
+        "confidence": 2.0885660674459294,
+        "direction": 1.2
+      },
+      "topForecasts": [
+        {
+          "symbol": "7013.T",
+          "score": 39,
+          "forecast20mScore": 41.8,
+          "velocity5": 0,
+          "confidence": 0.518,
+          "earlySignal": false,
+          "regime": "BULL"
+        },
+        {
+          "symbol": "329180.KS",
+          "score": 34.5,
+          "forecast20mScore": 36.71,
+          "velocity5": -11.419,
+          "confidence": 0.468,
+          "earlySignal": false,
+          "regime": "BULL"
+        },
+        {
+          "symbol": "042660.KS",
+          "score": 30,
+          "forecast20mScore": 29.99,
+          "velocity5": -9.039,
+          "confidence": 0.488,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        },
+        {
+          "symbol": "000660.KS",
+          "score": 29,
+          "forecast20mScore": 27.6,
+          "velocity5": -19.627,
+          "confidence": 0.435,
+          "earlySignal": false,
+          "regime": "BULL"
+        },
+        {
+          "symbol": "DATAPATTNS.NS",
+          "score": 16,
+          "forecast20mScore": 19.66,
+          "velocity5": 26.294,
+          "confidence": 0.497,
+          "earlySignal": false,
+          "regime": "SIDEWAYS"
+        },
+        {
+          "symbol": "3690.HK",
+          "score": 0,
+          "forecast20mScore": 0,
+          "velocity5": 0,
+          "confidence": 0.353,
+          "earlySignal": false,
+          "regime": "BEAR"
+        }
+      ],
+      "recentMissedOpportunities": [
+        {
+          "symbol": "042660.KS",
+          "returnPct": 2.0349,
+          "ts": 1788242772139
+        },
+        {
+          "symbol": "329180.KS",
+          "returnPct": 2.1445,
+          "ts": 1788242534347
+        },
+        {
+          "symbol": "005930.KS",
+          "returnPct": 0.5792,
+          "ts": 1788242427976
+        },
+        {
+          "symbol": "9984.T",
+          "returnPct": 0.5696,
+          "ts": 1788242427976
+        },
+        {
+          "symbol": "ASB.AX",
+          "returnPct": 0.5747,
+          "ts": 1788242427976
+        },
+        {
+          "symbol": "9984.T",
+          "returnPct": 0.6084,
+          "ts": 1788242300623
+        },
+        {
+          "symbol": "ASB.AX",
+          "returnPct": 0.6889,
+          "ts": 1788242080920
+        },
+        {
+          "symbol": "TSLA",
+          "returnPct": 0.7217,
+          "ts": 1788206447131
+        }
+      ],
+      "rule": "V31.2 verfolgt Kandidaten und Depotpositionen kontinuierlich. BUY/HOLD/SELL werden nach 5/20/60/240 Minuten mit dem echten späteren Kurs verglichen. Verpasste Chancen, Fehlkäufe und zu frühe Verkäufe fließen in Schwellen, Positionsgröße und die Gewichte für Score-Geschwindigkeit, Momentum, Beschleunigung, News, Konfidenz und Chart-Richtung ein. Neuere 20m-Ergebnisse werden stärker gewichtet.",
       "writeErrors": 0
     },
     "shadowLearning": {
@@ -254,8 +635,78 @@
       "mode": "measurement+entry-filter-inside-unified",
       "decisionAuthority": false,
       "filtersNewBuys": true,
-      "latest": null,
-      "calibration": null
+      "latest": {
+        "themeBlocks": 0,
+        "currencyBlocks": 0,
+        "spacingBlocks": 0,
+        "belowCalibratedThreshold": 0,
+        "openSnapshots": 32,
+        "maturedSamples": 237,
+        "buyThreshold": 60,
+        "calibrated": true,
+        "roundTripCostPct": 0.291,
+        "evidenceCalibration": [
+          {
+            "label": "LOW",
+            "samples": 0,
+            "avgReturnPct": null,
+            "hitRate": null
+          },
+          {
+            "label": "CONFIRMED",
+            "samples": 0,
+            "avgReturnPct": null,
+            "hitRate": null
+          }
+        ],
+        "negativeNewsBlocks": 0,
+        "evidenceBlocks": 0,
+        "unprofitableBucketBlocks": 0
+      },
+      "calibration": [
+        {
+          "bucket": 50,
+          "samples": 61,
+          "avgReturnPct": 0.13,
+          "hitRate": 0.492
+        },
+        {
+          "bucket": 55,
+          "samples": 45,
+          "avgReturnPct": 0.22,
+          "hitRate": 0.578
+        },
+        {
+          "bucket": 60,
+          "samples": 47,
+          "avgReturnPct": 0.411,
+          "hitRate": 0.66
+        },
+        {
+          "bucket": 65,
+          "samples": 37,
+          "avgReturnPct": 0.022,
+          "hitRate": 0.432
+        },
+        {
+          "bucket": 70,
+          "samples": 16,
+          "avgReturnPct": -0.286,
+          "hitRate": 0.188
+        },
+        {
+          "bucket": 75,
+          "samples": 22,
+          "avgReturnPct": 0.032,
+          "hitRate": 0.409
+        },
+        {
+          "bucket": 80,
+          "samples": 9,
+          "avgReturnPct": -0.057,
+          "hitRate": 0.333
+        }
+      ]
     },
     "capital": {
       "version": 30.9,
@@ -289,7 +740,71 @@
       "profitFadeMinPct": 0.8,
       "minPositionEur": 2200
     },
-    "latest": null,
+    "latest": {
+      "changes": 0,
+      "outcome": {
+        "eligible": 0,
+        "injected": 0,
+        "learningMode": "CONFIDENT"
+      },
+      "predictive": {
+        "eligible": 0,
+        "injected": 0,
+        "learningMode": "CONFIDENT"
+      },
+      "capital": {
+        "brokerRows": 258,
+        "exactCandidates": 0,
+        "strong70Plus": 0,
+        "injected": 0,
+        "upgraded": 0,
+        "winnerTopups": 0,
+        "blockedMomentum": 0,
+        "blockedHard": 0,
+        "chosen": null,
+        "topup": null
+      },
+      "shadow": {
+        "themeBlocks": 0,
+        "currencyBlocks": 0,
+        "spacingBlocks": 0,
+        "belowCalibratedThreshold": 0,
+        "openSnapshots": 32,
+        "maturedSamples": 237,
+        "buyThreshold": 60,
+        "calibrated": true,
+        "roundTripCostPct": 0.291,
+        "evidenceCalibration": [
+          {
+            "label": "LOW",
+            "samples": 0,
+            "avgReturnPct": null,
+            "hitRate": null
+          },
+          {
+            "label": "CONFIRMED",
+            "samples": 0,
+            "avgReturnPct": null,
+            "hitRate": null
+          }
+        ],
+        "negativeNewsBlocks": 0,
+        "evidenceBlocks": 0,
+        "unprofitableBucketBlocks": 0
+      },
+      "expectancy": {
+        "hardStops": 0,
+        "trailingSells": 0,
+        "pairedRotationSells": 0,
+        "stagnationSells": 0,
+        "profitFadeSells": 0,
+        "minHoldBlocks": 0,
+        "reentryBlocks": 0,
+        "sizingUpgrades": 0,
+        "scoreScaleFixes": 0,
+        "equity": 9998
+      }
+    },
     "auditWriteErrors": 0,
     "rule": "Eine einzige äußere Entscheidungsautorität entscheidet final. V31.3 lässt qualifizierte Paarrotationen passieren, prüft flache schwache Positionen ab 75 Minuten, löst bestätigte Stagnation nach 180 Minuten auf und erlaubt einen begründeten Profit-Fade-Exit ab +0.8% nach 90 Minuten. V31.2 lernt weiter aus BUY/HOLD/SELL und verpassten Chancen; Preis-Stop, Trailing, Broker-Prüfung, wirtschaftliche Positionsgröße und Anti-Churn bleiben bindend.",
     "brokerMaster": {
