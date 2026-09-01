@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-08-31T11:00:07.931Z",
-  "nextRefreshAfter": "2026-09-01T11:00:07.931Z",
+  "updatedAt": "2026-09-01T09:30:49.148Z",
+  "nextRefreshAfter": "2026-09-02T09:30:49.148Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -16,7 +16,7 @@
   "sourceErrors": [],
   "rawUpcomingCount": 19,
   "matchedUpcomingCount": 5,
-  "fundamentalEstimateCount": 2,
+  "fundamentalEstimateCount": 0,
   "universeGeneratedAt": "2026-08-24T04:09:57.222992Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
@@ -49,7 +49,7 @@
         "revenueCurrentYearEstimate": 20551.95,
         "revenueNextYearEstimate": 20732.86
       },
-      "daysUntil": 2,
+      "daysUntil": 1,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
@@ -73,10 +73,10 @@
       "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "Opendoor Sinks 4% on Modest Market Pullback: Is High-Beta Selling the Whole Story?",
         "Casey's Stock: Analyst Estimates & Ratings",
-        "UBS Adjusts Casey's General Stores Price Target to $925 From $945, Maintains Neutral Rating",
-        "UBS Adjusts Casey's General Stores Price Target to $925 From $945",
-        "Bloomberg 500 (B500) Index Adds Ten Securities Following September Reconstitution"
+        "Can OPEN Reach Adjusted Net Income Breakeven at $9B Revenue Run Rate?",
+        "UBS Adjusts Casey's General Stores Price Target to $925 From $945, Maintains Neutral Rating"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -86,20 +86,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
-        "samples": 251,
-        "last": 755.5,
-        "changeM1": -12.9,
-        "changeM3": -1.5,
-        "changeM6": 10.2,
+        "samples": 250,
+        "last": 752.2,
+        "changeM1": -13.3,
+        "changeM3": -1.9,
+        "changeM6": 9.7,
         "sma50": 832.8,
         "sma200": 721.6,
-        "position52w": 61.9,
-        "drawdownFromHigh": -17.6,
-        "volatility20d": 33.4,
-        "volumeTrend": -36
+        "position52w": 60.8,
+        "drawdownFromHigh": -17.9,
+        "volatility20d": 33.5,
+        "volumeTrend": -36.5
       },
-      "scoreEvaluatedAt": "2026-08-31T11:00:07.931Z",
-      "scoreValidUntil": "2026-09-01T11:00:07.931Z"
+      "scoreEvaluatedAt": "2026-09-01T09:30:49.148Z",
+      "scoreValidUntil": "2026-09-02T09:30:49.148Z"
     },
     {
       "date": "2026-09-02",
@@ -111,8 +111,8 @@
       "companyKey": "CHECK POINT SOFTWARE TECHNOLOGIES",
       "currency": "BRL",
       "matchConfidence": 0.88,
-      "baseScore": 53,
-      "fundamentalScore": 53,
+      "baseScore": 54,
+      "fundamentalScore": 54,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -130,12 +130,12 @@
         "revenueCurrentYearEstimate": 2801.85,
         "revenueNextYearEstimate": 2959.61
       },
-      "daysUntil": 2,
+      "daysUntil": 1,
       "baseLabel": "NEUTRAL",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 2,
+          "delta": 3,
           "label": "Analystenschaetzungen"
         },
         {
@@ -151,7 +151,7 @@
       ],
       "chartDelta": 1,
       "newsDelta": 0,
-      "fundamentalDelta": 2,
+      "fundamentalDelta": 3,
       "newsGuidance": 0,
       "newsHeadlines": [
         "Lightspeed Commerce Appoints Rupal Hollenbeck to Board of Directors",
@@ -167,20 +167,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "BRL",
-        "samples": 251,
+        "samples": 250,
         "last": 60,
         "changeM1": 11.1,
-        "changeM3": 2.6,
+        "changeM3": 2.2,
         "changeM6": -7.9,
-        "sma50": 55.5,
-        "sma200": 66.4,
+        "sma50": 55.7,
+        "sma200": 66.3,
         "position52w": 33.2,
         "drawdownFromHigh": -30.7,
         "volatility20d": 47,
         "volumeTrend": 135.3
       },
-      "scoreEvaluatedAt": "2026-08-31T11:00:07.931Z",
-      "scoreValidUntil": "2026-09-01T11:00:07.931Z"
+      "scoreEvaluatedAt": "2026-09-01T09:30:49.148Z",
+      "scoreValidUntil": "2026-09-02T09:30:49.148Z"
     },
     {
       "date": "2026-09-03",
@@ -192,16 +192,17 @@
       "companyKey": "WATCHES OF SWITZERLAND",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 80,
-      "fundamentalScore": 80,
-      "fundamentalConfidence": 0.91,
+      "baseScore": 77,
+      "fundamentalScore": 77,
+      "fundamentalConfidence": 0.911,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+12%)",
         "Umsatzschätzung nächstes Jahr +7%",
         "Kurs ueber der 200-Tage-Linie",
         "Gesunde Position im 52-Wochen-Band (76%)",
-        "Gesunde Position im 52-Wochen-Band (83%)"
+        "Gesunde Position im 52-Wochen-Band (83%)",
+        "Gesunde Position im 52-Wochen-Band (74%)"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -210,7 +211,7 @@
         "revenueCurrentYearEstimate": 1988.93,
         "revenueNextYearEstimate": 2118.24
       },
-      "daysUntil": 3,
+      "daysUntil": 2,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
@@ -220,7 +221,7 @@
         },
         {
           "key": "CHART",
-          "delta": 6,
+          "delta": 3,
           "label": "Kursstruktur 1 Jahr"
         },
         {
@@ -229,7 +230,7 @@
           "label": "1 frische Meldungen"
         }
       ],
-      "chartDelta": 6,
+      "chartDelta": 3,
       "newsDelta": 0,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
@@ -244,20 +245,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 255,
-        "last": 718.5,
-        "changeM1": -3.4,
-        "changeM3": -0.8,
-        "changeM6": 40.6,
-        "sma50": 728.8,
-        "sma200": 575.2,
-        "position52w": 82.8,
-        "drawdownFromHigh": -10.4,
-        "volatility20d": 27.5,
-        "volumeTrend": -17
+        "samples": 254,
+        "last": 674.5,
+        "changeM1": -7.5,
+        "changeM3": -5.4,
+        "changeM6": 36.9,
+        "sma50": 727.9,
+        "sma200": 576.4,
+        "position52w": 73.7,
+        "drawdownFromHigh": -15.8,
+        "volatility20d": 33.9,
+        "volumeTrend": -11.8
       },
-      "scoreEvaluatedAt": "2026-08-31T11:00:07.931Z",
-      "scoreValidUntil": "2026-09-01T11:00:07.931Z"
+      "scoreEvaluatedAt": "2026-09-01T09:30:49.148Z",
+      "scoreValidUntil": "2026-09-02T09:30:49.148Z"
     },
     {
       "date": "2026-09-09",
@@ -269,15 +270,16 @@
       "companyKey": "NETAPP",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 73,
-      "fundamentalScore": 73,
-      "fundamentalConfidence": 0.881,
+      "baseScore": 86,
+      "fundamentalScore": 86,
+      "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+11%)",
         "Umsatzschätzung nächstes Jahr +6%",
         "Chart im Aufwaertstrend (Kurs > 50- > 200-Tage-Linie)",
-        "Gesunde Position im 52-Wochen-Band (82%)"
+        "Gesunde Position im 52-Wochen-Band (82%)",
+        "Gesunde Position im 52-Wochen-Band (81%)"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -286,13 +288,12 @@
         "revenueCurrentYearEstimate": 7537.01,
         "revenueNextYearEstimate": 7968.88
       },
-      "daysUntil": 9,
-      "baseLabel": "POSITIV",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/net_app",
+      "daysUntil": 8,
+      "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 11,
+          "delta": 23,
           "label": "Analystenschaetzungen"
         },
         {
@@ -302,19 +303,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 0,
+          "delta": 1,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": 12,
-      "newsDelta": 0,
-      "fundamentalDelta": 11,
+      "newsDelta": 1,
+      "fundamentalDelta": 23,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "US Equity Investors to Focus on Corporate Earnings, Labor Market Health, Renewed Hostilities Against Iran This Week",
-        "How Analyst Optimism and Gartner Leadership Could Shape NetApp’s (NTAP) Earnings Narrative",
-        "Dell Holds Strong Before Earnings; Snowflake, Palo Alto Networks Headline Software Reports",
-        "What Analyst Projections for Key Metrics Reveal About NetApp (NTAP) Q1 Earnings"
+        "NetApp Earnings: What To Look For From NTAP",
+        "The Ceiling SanDisk Wrote Into Its Own Contracts",
+        "NetApp's Q1 Results, Q2 Guidance Seen Beating Expectations, Wedbush Says",
+        "NetApp Sees Strong Storage Demand With AI-Related Tailwinds, BofA Securities Says"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -324,20 +325,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
-        "samples": 251,
-        "last": 187,
-        "changeM1": 7.5,
-        "changeM3": 7.3,
-        "changeM6": 88.9,
+        "samples": 250,
+        "last": 185.3,
+        "changeM1": 6.5,
+        "changeM3": 6.3,
+        "changeM6": 87.1,
         "sma50": 176,
-        "sma200": 128.8,
-        "position52w": 82.2,
-        "drawdownFromHigh": -9.7,
-        "volatility20d": 39.3,
-        "volumeTrend": -27.3
+        "sma200": 128.7,
+        "position52w": 80.7,
+        "drawdownFromHigh": -10.5,
+        "volatility20d": 40.1,
+        "volumeTrend": -21.7
       },
-      "scoreEvaluatedAt": "2026-08-31T11:00:07.931Z",
-      "scoreValidUntil": "2026-09-01T11:00:07.931Z"
+      "scoreEvaluatedAt": "2026-09-01T09:30:49.148Z",
+      "scoreValidUntil": "2026-09-02T09:30:49.148Z"
     },
     {
       "date": "2026-09-10",
@@ -349,9 +350,9 @@
       "companyKey": "CURRYS",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 65,
-      "fundamentalScore": 65,
-      "fundamentalConfidence": 0.801,
+      "baseScore": 71,
+      "fundamentalScore": 71,
+      "fundamentalConfidence": 0.882,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+7%)",
@@ -368,13 +369,12 @@
         "revenueCurrentYearEstimate": 9543.87,
         "revenueNextYearEstimate": 9787.56
       },
-      "daysUntil": 10,
+      "daysUntil": 9,
       "baseLabel": "LEICHT POSITIV",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/currys_1",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 9,
+          "delta": 15,
           "label": "Analystenschaetzungen"
         },
         {
@@ -390,7 +390,7 @@
       ],
       "chartDelta": 3,
       "newsDelta": 3,
-      "fundamentalDelta": 9,
+      "fundamentalDelta": 15,
       "newsGuidance": 0,
       "newsHeadlines": [
         "Could NICE (NICE)’s AI Growth Finally Offset its Legacy Revenue Drag?",
@@ -404,20 +404,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 255,
-        "last": 151.9,
-        "changeM1": -9.7,
-        "changeM3": 3.3,
-        "changeM6": -5.7,
-        "sma50": 159.2,
-        "sma200": 142.8,
-        "position52w": 73.4,
-        "drawdownFromHigh": -9.7,
-        "volatility20d": 22.1,
-        "volumeTrend": -48.4
+        "samples": 254,
+        "last": 148.1,
+        "changeM1": -11.8,
+        "changeM3": 0.5,
+        "changeM6": -4.4,
+        "sma50": 159.1,
+        "sma200": 142.9,
+        "position52w": 67.2,
+        "drawdownFromHigh": -12,
+        "volatility20d": 23.2,
+        "volumeTrend": -50.7
       },
-      "scoreEvaluatedAt": "2026-08-31T11:00:07.931Z",
-      "scoreValidUntil": "2026-09-01T11:00:07.931Z"
+      "scoreEvaluatedAt": "2026-09-01T09:30:49.148Z",
+      "scoreValidUntil": "2026-09-02T09:30:49.148Z"
     }
   ],
   "estimateAttemptCount": 5,
