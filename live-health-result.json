@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-01T12:24:39.707Z",
+  "checkedAt": "2026-09-01T12:27:18.663Z",
   "runtimeVersion": "V31.7",
   "liveDecisionVersion": "V31.7",
   "outcomeLearningVersion": "V31.2",
@@ -61,7 +61,7 @@
     "thresholdAdjustment": 0,
     "allocationAdjustment": 0,
     "trackedSymbols": 48,
-    "currentCandidates": 6,
+    "currentCandidates": 4,
     "weights": {
       "velocity": 0.25,
       "m5": 0.2,
@@ -73,38 +73,20 @@
     },
     "topForecasts": [
       {
-        "symbol": "EXA.PA",
-        "score": 35,
-        "forecast20mScore": 35.29,
-        "velocity5": 0,
-        "confidence": 0.471,
+        "symbol": "OTKAR.IS",
+        "score": 0,
+        "forecast20mScore": 0.25,
+        "velocity5": -21.387,
+        "confidence": 0.452,
         "earlySignal": false,
-        "regime": "SIDEWAYS"
+        "regime": "BULL"
       },
       {
         "symbol": "ASML.AS",
         "score": 0,
-        "forecast20mScore": 0.12,
+        "forecast20mScore": 0,
         "velocity5": 0,
-        "confidence": 0.405,
-        "earlySignal": false,
-        "regime": "SIDEWAYS"
-      },
-      {
-        "symbol": "SAAB-B.ST",
-        "score": 5.364604651162791,
-        "forecast20mScore": 0,
-        "velocity5": -62.735,
-        "confidence": 0.41,
-        "earlySignal": false,
-        "regime": "SIDEWAYS"
-      },
-      {
-        "symbol": "OTKAR.IS",
-        "score": 0,
-        "forecast20mScore": 0,
-        "velocity5": -57.279,
-        "confidence": 0.35,
+        "confidence": 0.356,
         "earlySignal": false,
         "regime": "SIDEWAYS"
       },
@@ -113,18 +95,18 @@
         "score": 0,
         "forecast20mScore": 0,
         "velocity5": 0,
-        "confidence": 0.357,
+        "confidence": 0.404,
         "earlySignal": false,
         "regime": "SIDEWAYS"
       },
       {
-        "symbol": "ASM.AS",
+        "symbol": "EXA.PA",
         "score": 0,
         "forecast20mScore": 0,
-        "velocity5": 0,
-        "confidence": 0.387,
+        "velocity5": -35.645,
+        "confidence": 0.35,
         "earlySignal": false,
-        "regime": "BEAR"
+        "regime": "SIDEWAYS"
       }
     ],
     "recentMissedOpportunities": [
@@ -173,8 +155,8 @@
     "writeErrors": 0,
     "insideUnifiedAuthority": true
   },
-  "scanCount": 123,
-  "lastScan": "2026-09-01T12:24:11.359Z",
+  "scanCount": 124,
+  "lastScan": "2026-09-01T12:25:20.807Z",
   "lastError": null,
   "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 0 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · · V31.7 Score: BUY ab 60 + un · V31.7.1 Unified: 0 finale Änderung(en), 6 aktuelle Lernkandidaten, Kaufsystem KALIBRIERT.",
   "cash": 10000,
@@ -187,11 +169,11 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-09-01T12:24:07.061Z",
-    "ageSeconds": 31,
+    "lastSeenAt": "2026-09-01T12:27:07.140Z",
+    "ageSeconds": 4,
     "fallbackAfterSeconds": 150,
     "prefetchFresh": true,
-    "prefetchAt": "2026-09-01T12:22:15.887Z",
+    "prefetchAt": "2026-09-01T12:25:16.801Z",
     "resolvedLeaderCount": 5,
     "selectedLeaderCount": 25,
     "leaderHealthy": false,
@@ -199,16 +181,16 @@
     "leaderCacheMode": "PC_AGENT_PARTIAL_BLEND",
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-09-01T12:24:07.061Z",
+      "lastSeenAt": "2026-09-01T12:27:07.140Z",
       "version": "2.2.1-csharp-pc-first-four-sta",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 17097752,
+      "storageBytes": 17097782,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0.03,
-      "ramMb": 62.4,
-      "downloadedBytes": 2396588182,
-      "uploadedBytes": 57931377,
+      "ramMb": 60.9,
+      "downloadedBytes": 2414809555,
+      "uploadedBytes": 58273611,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-09-01T12:15:09.8199937Z",
@@ -223,7 +205,7 @@
   },
   "agmCalendar": {
     "updatedAt": "2026-09-01T09:30:49.148Z",
-    "ageHours": 2.9,
+    "ageHours": 2.94,
     "events": 5
   },
   "newsFeed": {
@@ -299,7 +281,7 @@
       "thresholdAdjustment": 0,
       "allocationAdjustment": 0,
       "trackedSymbols": 48,
-      "currentCandidates": 6,
+      "currentCandidates": 4,
       "weights": {
         "velocity": 0.25,
         "m5": 0.2,
@@ -311,38 +293,20 @@
       },
       "topForecasts": [
         {
-          "symbol": "EXA.PA",
-          "score": 35,
-          "forecast20mScore": 35.29,
-          "velocity5": 0,
-          "confidence": 0.471,
+          "symbol": "OTKAR.IS",
+          "score": 0,
+          "forecast20mScore": 0.25,
+          "velocity5": -21.387,
+          "confidence": 0.452,
           "earlySignal": false,
-          "regime": "SIDEWAYS"
+          "regime": "BULL"
         },
         {
           "symbol": "ASML.AS",
           "score": 0,
-          "forecast20mScore": 0.12,
+          "forecast20mScore": 0,
           "velocity5": 0,
-          "confidence": 0.405,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "SAAB-B.ST",
-          "score": 5.364604651162791,
-          "forecast20mScore": 0,
-          "velocity5": -62.735,
-          "confidence": 0.41,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "OTKAR.IS",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": -57.279,
-          "confidence": 0.35,
+          "confidence": 0.356,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
@@ -351,18 +315,18 @@
           "score": 0,
           "forecast20mScore": 0,
           "velocity5": 0,
-          "confidence": 0.357,
+          "confidence": 0.404,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
         {
-          "symbol": "ASM.AS",
+          "symbol": "EXA.PA",
           "score": 0,
           "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.387,
+          "velocity5": -35.645,
+          "confidence": 0.35,
           "earlySignal": false,
-          "regime": "BEAR"
+          "regime": "SIDEWAYS"
         }
       ],
       "recentMissedOpportunities": [
@@ -443,7 +407,7 @@
       "thresholdAdjustment": 0,
       "allocationAdjustment": 0,
       "trackedSymbols": 48,
-      "currentCandidates": 6,
+      "currentCandidates": 4,
       "weights": {
         "velocity": 0.25,
         "m5": 0.2,
@@ -455,38 +419,20 @@
       },
       "topForecasts": [
         {
-          "symbol": "EXA.PA",
-          "score": 35,
-          "forecast20mScore": 35.29,
-          "velocity5": 0,
-          "confidence": 0.471,
+          "symbol": "OTKAR.IS",
+          "score": 0,
+          "forecast20mScore": 0.25,
+          "velocity5": -21.387,
+          "confidence": 0.452,
           "earlySignal": false,
-          "regime": "SIDEWAYS"
+          "regime": "BULL"
         },
         {
           "symbol": "ASML.AS",
           "score": 0,
-          "forecast20mScore": 0.12,
+          "forecast20mScore": 0,
           "velocity5": 0,
-          "confidence": 0.405,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "SAAB-B.ST",
-          "score": 5.364604651162791,
-          "forecast20mScore": 0,
-          "velocity5": -62.735,
-          "confidence": 0.41,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "OTKAR.IS",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": -57.279,
-          "confidence": 0.35,
+          "confidence": 0.356,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
@@ -495,18 +441,18 @@
           "score": 0,
           "forecast20mScore": 0,
           "velocity5": 0,
-          "confidence": 0.357,
+          "confidence": 0.404,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
         {
-          "symbol": "ASM.AS",
+          "symbol": "EXA.PA",
           "score": 0,
           "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.387,
+          "velocity5": -35.645,
+          "confidence": 0.35,
           "earlySignal": false,
-          "regime": "BEAR"
+          "regime": "SIDEWAYS"
         }
       ],
       "recentMissedOpportunities": [
@@ -595,17 +541,17 @@
         "currencyBlocks": 0,
         "spacingBlocks": 0,
         "belowCalibratedThreshold": 0,
-        "openSnapshots": 131,
-        "maturedSamples": 584,
+        "openSnapshots": 128,
+        "maturedSamples": 587,
         "buyThreshold": 60,
         "calibrated": true,
         "roundTripCostPct": 0.291,
         "evidenceCalibration": [
           {
             "label": "LOW",
-            "samples": 299,
-            "avgReturnPct": -0.195,
-            "hitRate": 0.344
+            "samples": 302,
+            "avgReturnPct": -0.191,
+            "hitRate": 0.351
           },
           {
             "label": "CONFIRMED",
@@ -788,17 +734,17 @@
         "currencyBlocks": 0,
         "spacingBlocks": 0,
         "belowCalibratedThreshold": 0,
-        "openSnapshots": 131,
-        "maturedSamples": 584,
+        "openSnapshots": 128,
+        "maturedSamples": 587,
         "buyThreshold": 60,
         "calibrated": true,
         "roundTripCostPct": 0.291,
         "evidenceCalibration": [
           {
             "label": "LOW",
-            "samples": 299,
-            "avgReturnPct": -0.195,
-            "hitRate": 0.344
+            "samples": 302,
+            "avgReturnPct": -0.191,
+            "hitRate": 0.351
           },
           {
             "label": "CONFIRMED",
