@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-01T11:51:41.921Z",
+  "checkedAt": "2026-09-01T12:06:46.355Z",
   "runtimeVersion": "V31.7",
   "liveDecisionVersion": "V31.7",
   "outcomeLearningVersion": "V31.2",
@@ -50,81 +50,72 @@
     "maxOpenPositions": 4,
     "mode": "BALANCED",
     "matured": 240,
-    "buySamples": 2,
-    "buyHitRate": 50,
-    "avgBuy20mReturnPct": -0.396,
-    "avg20mReturnPct": -0.07,
-    "missedOpportunities": 18,
-    "badBuys": 1,
+    "buySamples": 1,
+    "buyHitRate": 100,
+    "avgBuy20mReturnPct": 0.193,
+    "avg20mReturnPct": -0.051,
+    "missedOpportunities": 16,
+    "badBuys": 0,
     "earlySells": 0,
     "correctSells": 1,
     "thresholdAdjustment": 0,
     "allocationAdjustment": 0,
     "trackedSymbols": 48,
-    "currentCandidates": 6,
+    "currentCandidates": 5,
     "weights": {
-      "velocity": 0.326814131373906,
-      "m5": 0.2741601793177051,
-      "m20": 2.21548061793266,
-      "accel": 0.704800251258203,
-      "news": 2.1143002654434704,
-      "confidence": 0.05,
+      "velocity": 0.25,
+      "m5": 0.22011837675643917,
+      "m20": 2.108425511297736,
+      "accel": 0.4356043850719037,
+      "news": 2.0341861877553504,
+      "confidence": 0.08347697892271669,
       "direction": 1.2
     },
     "topForecasts": [
       {
         "symbol": "OTKAR.IS",
-        "score": 35,
-        "forecast20mScore": 36.59,
-        "velocity5": 0,
-        "confidence": 0.518,
+        "score": 39,
+        "forecast20mScore": 40.47,
+        "velocity5": 6.663,
+        "confidence": 0.611,
         "earlySignal": false,
         "regime": "BULL"
       },
       {
-        "symbol": "ASML.AS",
-        "score": 35,
-        "forecast20mScore": 34.6,
-        "velocity5": 0,
-        "confidence": 0.471,
+        "symbol": "KOG.OL",
+        "score": 28,
+        "forecast20mScore": 26.76,
+        "velocity5": -3.331,
+        "confidence": 0.553,
         "earlySignal": false,
         "regime": "SIDEWAYS"
-      },
-      {
-        "symbol": "EXA.PA",
-        "score": 21,
-        "forecast20mScore": 21.27,
-        "velocity5": 9.636,
-        "confidence": 0.387,
-        "earlySignal": false,
-        "regime": "SIDEWAYS"
-      },
-      {
-        "symbol": "ADYEN.AS",
-        "score": 0,
-        "forecast20mScore": 0,
-        "velocity5": 0,
-        "confidence": 0.35,
-        "earlySignal": false,
-        "regime": "BEAR"
       },
       {
         "symbol": "ASELS.IS",
-        "score": 0,
-        "forecast20mScore": 0,
+        "score": 25,
+        "forecast20mScore": 25.89,
         "velocity5": 0,
-        "confidence": 0.359,
+        "confidence": 0.458,
+        "earlySignal": false,
+        "regime": "BULL"
+      },
+      {
+        "symbol": "ASM.AS",
+        "score": 25,
+        "forecast20mScore": 25.86,
+        "velocity5": 24.986,
+        "confidence": 0.602,
         "earlySignal": false,
         "regime": "SIDEWAYS"
       },
       {
-        "symbol": "FCT.MI",
-        "score": 0,
-        "forecast20mScore": 0,
+        "symbol": "ASML.AS",
+        "score": 21,
+        "forecast20mScore": 18.53,
         "velocity5": 0,
-        "confidence": 0.435,
+        "confidence": 0.35,
         "earlySignal": false,
-        "regime": "BEAR"
+        "regime": "SIDEWAYS"
       }
     ],
     "recentMissedOpportunities": [
@@ -173,10 +164,10 @@
     "writeErrors": 0,
     "insideUnifiedAuthority": true
   },
-  "scanCount": 104,
-  "lastScan": "2026-09-01T11:51:11.396Z",
+  "scanCount": 112,
+  "lastScan": "2026-09-01T12:06:10.251Z",
   "lastError": null,
-  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 0 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · · V31.7 Score: BUY ab 60 + un · V31.7.1 Unified: 0 finale Änderung(en), 6 aktuelle Lernkandidaten, Kaufsystem KALIBRIERT.",
+  "aiLastSummary": "FINAL-CONTROLLER V27.8: 0 BUY · 0 SELL · 0 HOLD · 0 widersprüchliche EXIT-HOLD/HARD-EXIT(s) abgefang · · V31.7 Score: BUY ab 60 + un · V31.7.1 Unified: 1 finale Änderung(en), 6 aktuelle Lernkandidaten, Kaufsystem KALIBRIERT.",
   "cash": 10000,
   "equity": 10000,
   "pnl": 0,
@@ -187,25 +178,25 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-09-01T11:51:06.434Z",
-    "ageSeconds": 34,
+    "lastSeenAt": "2026-09-01T12:06:06.851Z",
+    "ageSeconds": 38,
     "fallbackAfterSeconds": 150,
     "prefetchFresh": true,
-    "prefetchAt": "2026-09-01T11:49:16.399Z",
+    "prefetchAt": "2026-09-01T12:04:13.968Z",
     "resolvedLeaderCount": 5,
     "leaderHealthy": false,
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-09-01T11:51:06.434Z",
+      "lastSeenAt": "2026-09-01T12:06:06.851Z",
       "version": "2.2.1-csharp-pc-first-four-sta",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 17096227,
+      "storageBytes": 17101458,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0.02,
-      "ramMb": 59.5,
-      "downloadedBytes": 2195623049,
-      "uploadedBytes": 53832257,
+      "ramMb": 61.8,
+      "downloadedBytes": 2287401739,
+      "uploadedBytes": 55683510,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-09-01T11:45:08.7324268Z",
@@ -220,7 +211,7 @@
   },
   "agmCalendar": {
     "updatedAt": "2026-09-01T09:30:49.148Z",
-    "ageHours": 2.35,
+    "ageHours": 2.6,
     "events": 5
   },
   "newsFeed": {
@@ -285,81 +276,72 @@
       "maxOpenPositions": 4,
       "mode": "BALANCED",
       "matured": 240,
-      "buySamples": 2,
-      "buyHitRate": 50,
-      "avgBuy20mReturnPct": -0.396,
-      "avg20mReturnPct": -0.07,
-      "missedOpportunities": 18,
-      "badBuys": 1,
+      "buySamples": 1,
+      "buyHitRate": 100,
+      "avgBuy20mReturnPct": 0.193,
+      "avg20mReturnPct": -0.051,
+      "missedOpportunities": 16,
+      "badBuys": 0,
       "earlySells": 0,
       "correctSells": 1,
       "thresholdAdjustment": 0,
       "allocationAdjustment": 0,
       "trackedSymbols": 48,
-      "currentCandidates": 6,
+      "currentCandidates": 5,
       "weights": {
-        "velocity": 0.326814131373906,
-        "m5": 0.2741601793177051,
-        "m20": 2.21548061793266,
-        "accel": 0.704800251258203,
-        "news": 2.1143002654434704,
-        "confidence": 0.05,
+        "velocity": 0.25,
+        "m5": 0.22011837675643917,
+        "m20": 2.108425511297736,
+        "accel": 0.4356043850719037,
+        "news": 2.0341861877553504,
+        "confidence": 0.08347697892271669,
         "direction": 1.2
       },
       "topForecasts": [
         {
           "symbol": "OTKAR.IS",
-          "score": 35,
-          "forecast20mScore": 36.59,
-          "velocity5": 0,
-          "confidence": 0.518,
+          "score": 39,
+          "forecast20mScore": 40.47,
+          "velocity5": 6.663,
+          "confidence": 0.611,
           "earlySignal": false,
           "regime": "BULL"
         },
         {
-          "symbol": "ASML.AS",
-          "score": 35,
-          "forecast20mScore": 34.6,
-          "velocity5": 0,
-          "confidence": 0.471,
+          "symbol": "KOG.OL",
+          "score": 28,
+          "forecast20mScore": 26.76,
+          "velocity5": -3.331,
+          "confidence": 0.553,
           "earlySignal": false,
           "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "EXA.PA",
-          "score": 21,
-          "forecast20mScore": 21.27,
-          "velocity5": 9.636,
-          "confidence": 0.387,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "ADYEN.AS",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.35,
-          "earlySignal": false,
-          "regime": "BEAR"
         },
         {
           "symbol": "ASELS.IS",
-          "score": 0,
-          "forecast20mScore": 0,
+          "score": 25,
+          "forecast20mScore": 25.89,
           "velocity5": 0,
-          "confidence": 0.359,
+          "confidence": 0.458,
+          "earlySignal": false,
+          "regime": "BULL"
+        },
+        {
+          "symbol": "ASM.AS",
+          "score": 25,
+          "forecast20mScore": 25.86,
+          "velocity5": 24.986,
+          "confidence": 0.602,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
         {
-          "symbol": "FCT.MI",
-          "score": 0,
-          "forecast20mScore": 0,
+          "symbol": "ASML.AS",
+          "score": 21,
+          "forecast20mScore": 18.53,
           "velocity5": 0,
-          "confidence": 0.435,
+          "confidence": 0.35,
           "earlySignal": false,
-          "regime": "BEAR"
+          "regime": "SIDEWAYS"
         }
       ],
       "recentMissedOpportunities": [
@@ -429,81 +411,72 @@
       "maxOpenPositions": 4,
       "mode": "BALANCED",
       "matured": 240,
-      "buySamples": 2,
-      "buyHitRate": 50,
-      "avgBuy20mReturnPct": -0.396,
-      "avg20mReturnPct": -0.07,
-      "missedOpportunities": 18,
-      "badBuys": 1,
+      "buySamples": 1,
+      "buyHitRate": 100,
+      "avgBuy20mReturnPct": 0.193,
+      "avg20mReturnPct": -0.051,
+      "missedOpportunities": 16,
+      "badBuys": 0,
       "earlySells": 0,
       "correctSells": 1,
       "thresholdAdjustment": 0,
       "allocationAdjustment": 0,
       "trackedSymbols": 48,
-      "currentCandidates": 6,
+      "currentCandidates": 5,
       "weights": {
-        "velocity": 0.326814131373906,
-        "m5": 0.2741601793177051,
-        "m20": 2.21548061793266,
-        "accel": 0.704800251258203,
-        "news": 2.1143002654434704,
-        "confidence": 0.05,
+        "velocity": 0.25,
+        "m5": 0.22011837675643917,
+        "m20": 2.108425511297736,
+        "accel": 0.4356043850719037,
+        "news": 2.0341861877553504,
+        "confidence": 0.08347697892271669,
         "direction": 1.2
       },
       "topForecasts": [
         {
           "symbol": "OTKAR.IS",
-          "score": 35,
-          "forecast20mScore": 36.59,
-          "velocity5": 0,
-          "confidence": 0.518,
+          "score": 39,
+          "forecast20mScore": 40.47,
+          "velocity5": 6.663,
+          "confidence": 0.611,
           "earlySignal": false,
           "regime": "BULL"
         },
         {
-          "symbol": "ASML.AS",
-          "score": 35,
-          "forecast20mScore": 34.6,
-          "velocity5": 0,
-          "confidence": 0.471,
+          "symbol": "KOG.OL",
+          "score": 28,
+          "forecast20mScore": 26.76,
+          "velocity5": -3.331,
+          "confidence": 0.553,
           "earlySignal": false,
           "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "EXA.PA",
-          "score": 21,
-          "forecast20mScore": 21.27,
-          "velocity5": 9.636,
-          "confidence": 0.387,
-          "earlySignal": false,
-          "regime": "SIDEWAYS"
-        },
-        {
-          "symbol": "ADYEN.AS",
-          "score": 0,
-          "forecast20mScore": 0,
-          "velocity5": 0,
-          "confidence": 0.35,
-          "earlySignal": false,
-          "regime": "BEAR"
         },
         {
           "symbol": "ASELS.IS",
-          "score": 0,
-          "forecast20mScore": 0,
+          "score": 25,
+          "forecast20mScore": 25.89,
           "velocity5": 0,
-          "confidence": 0.359,
+          "confidence": 0.458,
+          "earlySignal": false,
+          "regime": "BULL"
+        },
+        {
+          "symbol": "ASM.AS",
+          "score": 25,
+          "forecast20mScore": 25.86,
+          "velocity5": 24.986,
+          "confidence": 0.602,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
         {
-          "symbol": "FCT.MI",
-          "score": 0,
-          "forecast20mScore": 0,
+          "symbol": "ASML.AS",
+          "score": 21,
+          "forecast20mScore": 18.53,
           "velocity5": 0,
-          "confidence": 0.435,
+          "confidence": 0.35,
           "earlySignal": false,
-          "regime": "BEAR"
+          "regime": "SIDEWAYS"
         }
       ],
       "recentMissedOpportunities": [
@@ -592,23 +565,23 @@
         "currencyBlocks": 0,
         "spacingBlocks": 0,
         "belowCalibratedThreshold": 0,
-        "openSnapshots": 150,
-        "maturedSamples": 543,
+        "openSnapshots": 154,
+        "maturedSamples": 552,
         "buyThreshold": 60,
         "calibrated": true,
         "roundTripCostPct": 0.291,
         "evidenceCalibration": [
           {
             "label": "LOW",
-            "samples": 263,
-            "avgReturnPct": -0.219,
-            "hitRate": 0.338
+            "samples": 271,
+            "avgReturnPct": -0.218,
+            "hitRate": 0.339
           },
           {
             "label": "CONFIRMED",
-            "samples": 41,
-            "avgReturnPct": -0.263,
-            "hitRate": 0.171
+            "samples": 42,
+            "avgReturnPct": -0.262,
+            "hitRate": 0.167
           }
         ],
         "canonicalCalibration": [
@@ -621,10 +594,10 @@
           },
           {
             "bucket": 55,
-            "samples": 49,
-            "avgReturnPct": -0.296,
-            "expectedNetEdgePct": -0.587,
-            "hitRate": 0.184
+            "samples": 56,
+            "avgReturnPct": -0.294,
+            "expectedNetEdgePct": -0.585,
+            "hitRate": 0.196
           },
           {
             "bucket": 60,
@@ -666,23 +639,23 @@
         "evidenceBlocks": 0,
         "unprofitableBucketBlocks": 0,
         "canonicalScoreBlocks": 0,
-        "dataQualityBlocks": 0,
-        "orthogonalBlocks": 0,
+        "dataQualityBlocks": 1,
+        "orthogonalBlocks": 1,
         "probationBlocks": 0,
         "heldBuyBlocks": 0
       },
       "calibration": [
         {
           "bucket": 50,
-          "samples": 89,
-          "avgReturnPct": -1.149,
-          "hitRate": 0.371
+          "samples": 90,
+          "avgReturnPct": -1.138,
+          "hitRate": 0.367
         },
         {
           "bucket": 55,
-          "samples": 60,
-          "avgReturnPct": 0.131,
-          "hitRate": 0.5
+          "samples": 61,
+          "avgReturnPct": 0.125,
+          "hitRate": 0.492
         },
         {
           "bucket": 60,
@@ -752,7 +725,7 @@
       "minPositionEur": 2200
     },
     "latest": {
-      "changes": 0,
+      "changes": 1,
       "outcome": {
         "eligible": 0,
         "injected": 0,
@@ -765,7 +738,7 @@
       },
       "capital": {
         "brokerRows": 258,
-        "exactCandidates": 1,
+        "exactCandidates": 0,
         "strong70Plus": 0,
         "injected": 0,
         "upgraded": 0,
@@ -780,23 +753,23 @@
         "currencyBlocks": 0,
         "spacingBlocks": 0,
         "belowCalibratedThreshold": 0,
-        "openSnapshots": 150,
-        "maturedSamples": 543,
+        "openSnapshots": 154,
+        "maturedSamples": 552,
         "buyThreshold": 60,
         "calibrated": true,
         "roundTripCostPct": 0.291,
         "evidenceCalibration": [
           {
             "label": "LOW",
-            "samples": 263,
-            "avgReturnPct": -0.219,
-            "hitRate": 0.338
+            "samples": 271,
+            "avgReturnPct": -0.218,
+            "hitRate": 0.339
           },
           {
             "label": "CONFIRMED",
-            "samples": 41,
-            "avgReturnPct": -0.263,
-            "hitRate": 0.171
+            "samples": 42,
+            "avgReturnPct": -0.262,
+            "hitRate": 0.167
           }
         ],
         "canonicalCalibration": [
@@ -809,10 +782,10 @@
           },
           {
             "bucket": 55,
-            "samples": 49,
-            "avgReturnPct": -0.296,
-            "expectedNetEdgePct": -0.587,
-            "hitRate": 0.184
+            "samples": 56,
+            "avgReturnPct": -0.294,
+            "expectedNetEdgePct": -0.585,
+            "hitRate": 0.196
           },
           {
             "bucket": 60,
@@ -854,8 +827,8 @@
         "evidenceBlocks": 0,
         "unprofitableBucketBlocks": 0,
         "canonicalScoreBlocks": 0,
-        "dataQualityBlocks": 0,
-        "orthogonalBlocks": 0,
+        "dataQualityBlocks": 1,
+        "orthogonalBlocks": 1,
         "probationBlocks": 0,
         "heldBuyBlocks": 0
       },
