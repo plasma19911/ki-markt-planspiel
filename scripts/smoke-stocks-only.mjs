@@ -28,15 +28,19 @@ assert.match(v7,/return `\$\{prefix\}\$\{policy\}\$\{p\.marker\}\$\{JSON\.string
 assert.doesNotMatch(v7,/JSON\.stringify\(held\)[^`]*AKTIEN-ONLY/,'Hinter Gehalten-JSON darf niemals Policy-Text angehängt werden');
 
 // Aktuelles Ausführungsmodell: Trade Republic, reguläre Aktienorders als ganze Stücke.
-// Der alte Validator verlangte noch ein längst entferntes Fractional-/ZERO-Fillmodell.
 assert.match(fees,/broker:'Trade Republic'/,'Gebührenmodell muss dem aktuellen Trade-Republic-Paper-Broker entsprechen');
 assert.match(fees,/standardOrderFeeEur:1/,'Reguläre Aktienorder muss mit 1 EUR Abwicklungspauschale modelliert sein');
 assert.match(fees,/fractionalExecution:'disabled/i,'Produktionsmodell darf keine erfundene Bruchstück-Ausführung voraussetzen');
 assert.match(fees,/ETFs, Derivate und Krypto sind im Planspiel ausgeschlossen/,'Gebührenmodell muss den Aktien-only-Umfang dokumentieren');
 
+// Universe-Erneuerung muss weiterhin ausschließlich den verifizierten Trade-Republic-
+// Aktienmaster aktualisieren. Früher hieß derselbe Schritt "stock master pool"; die
+// aktuelle Workflow-Bezeichnung darf deshalb nicht als Fehler gewertet werden.
 assert.doesNotMatch(workflow,/refresh_etfs/,'Universe-Workflow darf ETF-Refresh nicht mehr aufrufen');
-assert.match(workflow,/stock master pool/i);
+assert.match(workflow,/Refresh Trade Republic verified stock master/i,'Universe-Workflow muss den verifizierten Trade-Republic-Aktienmaster aktualisieren');
+assert.match(workflow,/scripts\/refresh_universe\.py/,'Universe-Workflow muss den aktuellen Aktien-Refresh ausführen');
+assert.match(workflow,/public\/universe\.json/,'Universe-Workflow muss den produktiven Aktienmaster persistieren');
 assert.match(ui,/Nur Aktien/i,'Live-UI muss Aktien-only sichtbar machen');
 assert.match(ui,/ETFs und Hebelprodukte sind ausgeschlossen/,'UI muss den Ausschluss eindeutig erklären');
 
-console.log(JSON.stringify({ok:true,stocksOnly:true,productionStartInCore:true,wholeShareBrokerModel:true,parserInvariant:true,coreEtfs:CORE_ETFS.length,leveragedEtfs:LEVERAGED_ETFS.length,etfMasterCount:ZERO_ETF_MASTER_COUNT},null,2));
+console.log(JSON.stringify({ok:true,stocksOnly:true,productionStartInCore:true,wholeShareBrokerModel:true,currentTradeRepublicUniverse:true,parserInvariant:true,coreEtfs:CORE_ETFS.length,leveragedEtfs:LEVERAGED_ETFS.length,etfMasterCount:ZERO_ETF_MASTER_COUNT},null,2));
