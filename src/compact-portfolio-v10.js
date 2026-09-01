@@ -5,8 +5,10 @@ const AGENT_PREFETCH_KEY='state/windows-pc-prefetch-v1';
 const LEADER_CACHE_KV_KEY='cache/free-top25-leaders-v1';
 const AGENT_ONLINE_MS=150*1000;
 const AGENT_PREFETCH_TTL_MS=12*60*1000;
+const PREVIOUS_LEADER_TTL_MS=45*60*1000;
 const LEADER_TARGET=25;
 const MIN_EXTERNAL_LEADERS=10;
+const MIN_USABLE_LEADERS=10;
 
 const key=v=>String(v||'').toUpperCase().trim();
 const baseSymbol=v=>key(v).split('.')[0];
@@ -15,6 +17,7 @@ const cleanText=(v,max=180)=>String(v??'').replace(/[\u0000-\u001f\u007f]/g,' ')
 const arr=v=>Array.isArray(v)?v:[];
 
 function fresh(ts,ttl=AGENT_PREFETCH_TTL_MS){const n=Date.parse(String(ts||''));return Number.isFinite(n)&&Date.now()-n>=0&&Date.now()-n<ttl}
+function freshEpoch(ts,ttl=PREVIOUS_LEADER_TTL_MS){const n=num(ts,NaN);return Number.isFinite(n)&&Date.now()-n>=0&&Date.now()-n<ttl}
 function cpu(v){return Math.max(0,Math.min(100,num(v,0)))}
 function bytes(v){return Math.max(0,Math.round(num(v,0)))}
 
@@ -72,6 +75,14 @@ function buildLeaderCache(entries,rows){
   return{leaders,meta:{updatedAt,target:LEADER_TARGET,externalResolved:matched,externalHealthy:matched>=MIN_EXTERNAL_LEADERS,sourceStats:[...sourceStats.values()],selected:leaders.length,mode:'PC_AGENT_TOP_25'}};
 }
 
+export function blendLeaderCacheV3172(current,previous=null,now=Date.now()){
+  const cur=arr(current?.leaders),meta=current?.meta||{},resolved=Math.max(0,Math.min(cur.length,Math.round(num(meta.externalResolved)))),externalHealthy=Boolean(meta.externalHealthy),previousFresh=previous&&Number.isFinite(num(previous?.at,NaN))&&now-num(previous.at)<PREVIOUS_LEADER_TTL_MS&&now-num(previous.at)>=0;
+  const dynamic=cur.slice(0,resolved),old=previousFresh?arr(previous?.leaders):[],fallback=cur.slice(resolved),out=[],seen=new Set();
+  for(const row of [...dynamic,...old,...fallback]){const s=key(row?.symbol);if(!s||seen.has(s))continue;seen.add(s);out.push({...row});if(out.length>=LEADER_TARGET)break}
+  const usable=resolved>0&&out.length>=MIN_USABLE_LEADERS,previousUsed=previousFresh&&old.some(x=>out.some(y=>key(y?.symbol)===key(x?.symbol))&&!dynamic.some(d=>key(d?.symbol)===key(x?.symbol)));
+  return{at:now,leaders:out,meta:{...meta,selected:out.length,externalHealthy,usable,previousUsed,mode:externalHealthy?'PC_AGENT_TOP_25':usable?(previousUsed?'PC_AGENT_PARTIAL_BLEND':'PC_AGENT_PARTIAL_MASTER_FALLBACK'):'PC_AGENT_INSUFFICIENT'}};
+}
+
 function normalizeFutureWatch(input,index){
   if(!input||typeof input!=='object'||(!arr(input.candidates).length&&!arr(input.activeThemes).length))return null;
   const candidates=[];
@@ -99,18 +110,20 @@ export class MarketPortfolio extends BasePortfolio{
   async agentPrefetch(payload={}){
     const heartbeat=normalizeHeartbeat(payload?.metrics||payload);try{this.ctx?.storage?.kv?.put(AGENT_STATE_KEY,heartbeat)}catch{}
     const entries=normalizeLeaderEntries(payload);let data=null;try{data=await this.zeroAssets?._load?.()}catch{}
-    const rows=arr(data?.equities).filter(x=>x?.symbol),index=masterIndex(rows),leader=buildLeaderCache(entries,rows),futureWatch=normalizeFutureWatch(payload?.futureWatch,index),leaderHealthy=Boolean(leader.meta.externalHealthy);
-    const prefetch={receivedAt:new Date().toISOString(),leaderUpdatedAt:payload?.leaderUpdatedAt?cleanText(payload.leaderUpdatedAt,50):new Date().toISOString(),futureUpdatedAt:futureWatch?.updatedAt||null,leaderEntryCount:entries.length,resolvedLeaderCount:leader.meta.externalResolved,leaderHealthy,futureWatch,metrics:heartbeat};
-    try{this.ctx?.storage?.kv?.put(AGENT_PREFETCH_KEY,prefetch);if(leaderHealthy)this.ctx?.storage?.kv?.put(LEADER_CACHE_KV_KEY,{at:Date.now(),leaders:leader.leaders,meta:leader.meta})}catch{}
-    if(leaderHealthy&&this.zeroAssets){this.zeroAssets.leaderCache=null;this.zeroAssets.leaderCacheAt=0;this.zeroAssets.lastLeaderMeta=leader.meta}
+    const rows=arr(data?.equities).filter(x=>x?.symbol),index=masterIndex(rows),leader=buildLeaderCache(entries,rows),futureWatch=normalizeFutureWatch(payload?.futureWatch,index),leaderHealthy=Boolean(leader.meta.externalHealthy);let previous=null;
+    try{previous=this.ctx?.storage?.kv?.get(LEADER_CACHE_KV_KEY)||null}catch{}
+    const blended=blendLeaderCacheV3172(leader,previous),leaderUsable=Boolean(blended.meta.usable);
+    const prefetch={receivedAt:new Date().toISOString(),leaderUpdatedAt:payload?.leaderUpdatedAt?cleanText(payload.leaderUpdatedAt,50):new Date().toISOString(),futureUpdatedAt:futureWatch?.updatedAt||null,leaderEntryCount:entries.length,resolvedLeaderCount:leader.meta.externalResolved,selectedLeaderCount:blended.leaders.length,leaderHealthy,leaderCacheUsable:leaderUsable,leaderCacheMode:blended.meta.mode,futureWatch,metrics:heartbeat};
+    try{this.ctx?.storage?.kv?.put(AGENT_PREFETCH_KEY,prefetch);if(leaderUsable)this.ctx?.storage?.kv?.put(LEADER_CACHE_KV_KEY,blended)}catch{}
+    if(leaderUsable&&this.zeroAssets){this.zeroAssets.leaderCache=null;this.zeroAssets.leaderCacheAt=0;this.zeroAssets.lastLeaderMeta=blended.meta}
     if(futureWatch&&this.engine?.store?.update){await this.engine.store.update(s=>{s.futureWatch=futureWatch;return true})}
-    return{ok:true,agent:'WINDOWS_PC_AGENT',prefetch:{receivedAt:prefetch.receivedAt,leaderEntryCount:entries.length,resolvedLeaderCount:leader.meta.externalResolved,leaderHealthy,futureCandidates:futureWatch?.candidateCount||0},heartbeat};
+    return{ok:true,agent:'WINDOWS_PC_AGENT',prefetch:{receivedAt:prefetch.receivedAt,leaderEntryCount:entries.length,resolvedLeaderCount:leader.meta.externalResolved,selectedLeaderCount:blended.leaders.length,leaderHealthy,leaderCacheUsable:leaderUsable,leaderCacheMode:blended.meta.mode,futureCandidates:futureWatch?.candidateCount||0},heartbeat};
   }
 
   agentStatus(){
     let h=null,p=null;try{h=this.ctx?.storage?.kv?.get(AGENT_STATE_KEY)||null;p=this.ctx?.storage?.kv?.get(AGENT_PREFETCH_KEY)||null}catch{}
     const online=fresh(h?.lastSeenAt,AGENT_ONLINE_MS),ageMs=h?.lastSeenAt?Math.max(0,Date.now()-Date.parse(h.lastSeenAt)):null;
-    return{configured:Boolean(this.env?.PC_AGENT_TOKEN),online,lastSeenAt:h?.lastSeenAt||null,ageSeconds:Number.isFinite(ageMs)?Math.round(ageMs/1000):null,fallbackAfterSeconds:Math.round(AGENT_ONLINE_MS/1000),prefetchFresh:fresh(p?.receivedAt),prefetchAt:p?.receivedAt||null,resolvedLeaderCount:num(p?.resolvedLeaderCount),leaderHealthy:Boolean(p?.leaderHealthy),futureCandidates:num(p?.futureWatch?.candidateCount),metrics:h||null};
+    return{configured:Boolean(this.env?.PC_AGENT_TOKEN),online,lastSeenAt:h?.lastSeenAt||null,ageSeconds:Number.isFinite(ageMs)?Math.round(ageMs/1000):null,fallbackAfterSeconds:Math.round(AGENT_ONLINE_MS/1000),prefetchFresh:fresh(p?.receivedAt),prefetchAt:p?.receivedAt||null,resolvedLeaderCount:num(p?.resolvedLeaderCount),selectedLeaderCount:num(p?.selectedLeaderCount),leaderHealthy:Boolean(p?.leaderHealthy),leaderCacheUsable:Boolean(p?.leaderCacheUsable),leaderCacheMode:p?.leaderCacheMode||null,futureCandidates:num(p?.futureWatch?.candidateCount),metrics:h||null};
   }
 
   async _refreshFutureWatch(force=false){
