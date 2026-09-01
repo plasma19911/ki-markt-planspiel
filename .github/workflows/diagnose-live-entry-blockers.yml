@@ -19,9 +19,13 @@ jobs:
         run: |
           node --input-type=module <<'NODE'
           const base='https://ki-markt-planspiel.orkimperium.workers.dev';
-          const r=await fetch(`${base}/api/status?entry_diag=${Date.now()}`,{headers:{'cache-control':'no-cache','user-agent':'github-actions-entry-diagnostic'}});
+          const [r,ar]=await Promise.all([
+            fetch(`${base}/api/status?entry_diag=${Date.now()}`,{headers:{'cache-control':'no-cache','user-agent':'github-actions-entry-diagnostic'}}),
+            fetch(`${base}/api/agent/status?entry_diag=${Date.now()}`,{headers:{'cache-control':'no-cache','user-agent':'github-actions-entry-diagnostic'}})
+          ]);
           if(!r.ok) throw new Error(`status HTTP ${r.status}`);
           const s=await r.json();
+          let agent={};try{agent=await ar.json()}catch{}
           const candidates=Array.isArray(s?.candidates)?s.candidates:[];
           const top=candidates.slice(0,12).map(c=>({
             symbol:c?.symbol,name:c?.name,score:c?.score,decisionScore:c?.decisionScore,
@@ -38,8 +42,9 @@ jobs:
             quoteAgeMinutes:c?.quoteAgeMinutes,stale:c?.stale,rsi:c?.rsi??c?.intradayRsi,day:c?.dayPct??c?.day_change??c?.day,
             brokerVerified:c?.brokerVerified,brokerMatchMode:c?.brokerMatchMode,isin:c?.isin
           }));
+          const rawAgentCandidates=(agent?.prefetch?.candidates||agent?.pcFirst?.candidates||agent?.candidates||[]).slice?.(0,12)||[];
           const audit=Array.isArray(s?.decisionAuditRecent)?s.decisionAuditRecent[0]:null;
-          const out={checkedAt:new Date().toISOString(),scanCount:s?.config?.scan_count,lastScan:s?.config?.last_scan,cash:s?.config?.cash,positions:Array.isArray(s?.positions)?s.positions.length:0,aiLastSummary:s?.config?.ai_last_summary,topCandidates:top,lastDecisionAudit:audit,outcome:s?.outcomeLearningPolicy,canonical:s?.canonicalScorePolicy,capital:s?.unifiedDecisionCorePolicy?.latest?.capital,shadow:s?.unifiedDecisionCorePolicy?.latest?.shadow};
+          const out={checkedAt:new Date().toISOString(),scanCount:s?.config?.scan_count,lastScan:s?.config?.last_scan,cash:s?.config?.cash,positions:Array.isArray(s?.positions)?s.positions.length:0,aiLastSummary:s?.config?.ai_last_summary,topCandidates:top,lastDecisionAudit:audit,outcome:s?.outcomeLearningPolicy,canonical:s?.canonicalScorePolicy,capital:s?.unifiedDecisionCorePolicy?.latest?.capital,shadow:s?.unifiedDecisionCorePolicy?.latest?.shadow,agentHttp:ar.status,agentKeys:Object.keys(agent||{}),agentSummary:agent,rawAgentCandidates};
           console.log('ENTRY_BLOCKER_DIAGNOSTIC_START');
           console.log(JSON.stringify(out,null,2));
           console.log('ENTRY_BLOCKER_DIAGNOSTIC_END');
