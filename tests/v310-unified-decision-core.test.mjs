@@ -13,7 +13,7 @@ const now=Date.parse('2026-08-25T12:00:00Z');
   assert.equal(a.action,'BUY','70+ exact-TR candidate with mild pullback should be buyable');
   assert.ok(Number(a.allocation_pct)>=22,'strong candidate should not remain a mini starter');
   assert.ok(out.audit.changes.length>=1,'decision changes must be audited');
-  assert.equal(out.audit.patch,'31.7.1-candidate-state-recovery+orthogonal-confirmation+probation+failed-setup-exit');
+  assert.equal(out.audit.patch,'31.7.2-candidate-state-recovery+orthogonal-confirmation+probation+failed-setup-exit+controlled-paper-exploration');
   assert.ok(out.audit.outcomeLearning,'outcome learning metadata must be part of the unified audit');
   assert.ok(out.audit.shadowLearning,'shadow calibration metadata must be part of the unified audit');
   assert.equal(out.audit.finalActions[0].expectedNetEdgePctV316,null,'Warmup-Edge muss null bleiben und darf nicht als scheinbare 0-Prozent-Prognose erscheinen');
@@ -69,4 +69,4 @@ const now=Date.parse('2026-08-25T12:00:00Z');
   assert.equal(core.latest.audit.candidateStateSource,'PROMPT_CURRENT_SCAN');
   assert.equal(core.latest.audit.currentCandidateCount,1);
 }
-console.log('V31.7.1 candidate recovery + orthogonal entry + unified capital velocity regression OK');
+console.log('V31.7.2 candidate recovery + orthogonal entry + controlled paper exploration + unified capital velocity regression OK');
