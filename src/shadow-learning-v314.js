@@ -30,7 +30,7 @@ export const SHADOW_LEARNING_V314={
   evidenceMinSamples:25,negativeNewsBlock:-.35,negativeNewsMinConfidence:.6,negativeNewsMinSources:2
 };
 
-function defaults(){return{version:31.4,open:{},matured:[],lastEntryAt:0,
+function defaults(){return{version:31.5,open:{},matured:[],lastEntryAt:0,
   stats:{snapshots:0,matured:0,expired:0,themeBlocks:0,currencyBlocks:0,spacingBlocks:0,thresholdBlocks:0},
   threshold:null,updatedAt:null}}
 const bucketOf=(score,cfg)=>{let out=null;for(const x of cfg.buckets)if(score>=x)out=x;return out};
@@ -152,8 +152,8 @@ export async function enforceShadowLearningV314(plan,state={},storage=null,now=D
   mem.open={...(mem.open||{})};mem.matured=arr(mem.matured).slice();mem.stats={...defaults().stats,...(mem.stats||{})};
   const candidates=finalScoredCandidates(state,storage,now),cost=finite(roundTripCostPct)?Number(roundTripCostPct):estimatedRoundTripCostPctV314(state);
   matureShadowSnapshots(mem,candidates,now,cfg);recordShadowSnapshots(mem,candidates,now,cfg);
-  const calibrated=calibratedBuyThresholdV314(mem.matured,cost,cfg);mem.threshold=calibrated;
-  const evidenceCalibration=evidenceCalibrationV315(mem.matured),lowEvidence=evidenceCalibration.find(x=>x.label==='LOW');
+  const calibrated=calibratedBuyThresholdV314(mem.matured,cost,cfg);
+  const evidenceCalibration=evidenceCalibrationV315(mem.matured),lowEvidence=evidenceCalibration.find(x=>x.label==='LOW');mem.threshold={...calibrated,evidenceCalibration};
   const bySymbol=new Map(candidates.map(c=>[key(c),c])),positions=arr(state?.positions);
   const actions=plan.actions.map(a=>({...a})),counters={themeBlocks:0,currencyBlocks:0,spacingBlocks:0,
     belowCalibratedThreshold:0,openSnapshots:Object.keys(mem.open).length,maturedSamples:mem.matured.length,
