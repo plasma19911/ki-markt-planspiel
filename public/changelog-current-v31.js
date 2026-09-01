@@ -1,5 +1,19 @@
 const CURRENT_V31_CHANGELOG=[
   {
+    at:'01.09.2026 · 08:17',
+    title:'V31.6 · Ein verbindlicher, flexibler Einstiegsscore',
+    items:[
+      'Pro Aktie und Scan gibt es für neue Käufe jetzt genau einen verbindlichen Einstiegsscore von 0 bis 100. Abweichende ältere Roh-, Timing- und Modellwerte bleiben ausschließlich als Diagnose sichtbar und dürfen die finale Kaufzahl nicht mehr ersetzen.',
+      'Der Score kombiniert kurzfristigen Trend, relative Stärke im aktuellen Universum, belastbares Volumen und bestätigte Nachrichten. Stark überkaufte, überdehnte oder als HIGH_CHASE erkannte Setups erhalten einen nachvollziehbaren Risikoabschlag.',
+      'Fehlende Volumen- oder Nachrichtendaten werden nicht mehr still wie ein neutrales Signal behandelt: Sie reduzieren die separat ausgewiesene Datenqualität. Unter 55/100 Datenqualität wird kein neuer Kauf freigegeben.',
+      'Die vorläufige Kaufzone beginnt bei 60/100. Sie bleibt flexibel: Jeder Fünf-Punkte-Bereich wird nach 25 neuen V31.6-Shadow-Ergebnissen nur weiter gehandelt, wenn seine echte 60-Minuten-Rendite die vollständigen Roundtrip-Kosten übersteigt.',
+      'Jeder Kandidat wird weiterhin als kostenlose Shadow-Stichprobe verfolgt. Score, Datenqualität, Komponenten, Stichprobenzahl und erwartete Nettorendite nach Kosten stehen im Status und im Entscheidungs-Audit.',
+      'Einstieg und Ausstieg sind bewusst getrennt: Der Einstiegsscore steuert neue Käufe; Hard-Stop, Trailing, Rotation, Stagnation, Profit-Fade und Anti-Churn bleiben für schnelle, aber kontrollierte Verkäufe zuständig.',
+      'Die Oberfläche und das KI-Protokoll kennzeichnen eindeutig V31.6 sowie KAUFZONE, BEOBACHTEN oder ZU SCHWACH. Während der neuen Kalibrierung steht der Kauflernmodus sichtbar auf WARMUP statt einen alten CONFIDENT-Status vorzutäuschen.',
+      'Keine Gewinngarantie: Die Änderung beseitigt widersprüchliche Scores und lernt nach realen Folgepreisen inklusive Kosten; sie kann Marktverluste oder fehlerhafte externe Kurs- und Nachrichtendaten nicht ausschließen.'
+    ]
+  },
+  {
     at:'01.09.2026 · 08:12',
     title:'V31.5 · Wissenschaftliche Evidenz-Fusion statt blindem Einzelsignal',
     items:[

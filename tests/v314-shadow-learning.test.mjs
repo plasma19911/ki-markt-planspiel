@@ -2,7 +2,8 @@ import assert from 'node:assert';
 import {
   recordShadowSnapshots,matureShadowSnapshots,scoreCalibrationV314,
   calibratedBuyThresholdV314,correlationGateV314,enforceShadowLearningV314,
-  estimatedRoundTripCostPctV314,evidenceProfileV315,evidenceCalibrationV315,calibratedScoreBucketGateV315
+  estimatedRoundTripCostPctV314,evidenceProfileV315,evidenceCalibrationV315,calibratedScoreBucketGateV315,
+  canonicalEntryAssessmentV316,canonicalCalibrationV316
 } from '../src/shadow-learning-v314.js';
 
 const base=()=>({version:31.4,open:{},matured:[],lastEntryAt:0,
@@ -32,6 +33,21 @@ const evidenceCalibration=evidenceCalibrationV315([{evidenceVersion:31.5,evidenc
 assert.ok(evidenceCalibration.find(x=>x.label==='CONFIRMED').avgReturnPct>1);
 assert.equal(evidenceCalibration.reduce((n,x)=>n+x.samples,0),2,'alte V31.4-Samples werden nicht als schwache V31.5-Evidenz fehlklassifiziert');
 
+const canonicalUniverse=[
+  {symbol:'GOOD',momentum5Pct:.3,momentum20Pct:.8,volumeRatio:2,volumeRatioSource:'PREVIOUS_COMPLETED',newsScore:.6,newsConfidence:.9,newsSources:['OFFICIAL','WIRE']},
+  {symbol:'PEER1',momentum5Pct:.1,momentum20Pct:.2},{symbol:'PEER2',momentum5Pct:0,momentum20Pct:0},{symbol:'PEER3',momentum5Pct:-.1,momentum20Pct:-.2}
+];
+const canonical=canonicalEntryAssessmentV316(canonicalUniverse[0],canonicalUniverse,[],.291);
+assert.ok(canonical.score>=70,'mehrere unabhaengige bestaetigte Signale muessen klar herausstechen');
+assert.equal(canonical.dataQuality,100);
+const incomplete=canonicalEntryAssessmentV316({symbol:'MISS',momentum5Pct:.3,momentum20Pct:.8},canonicalUniverse,[],.291);
+assert.ok(incomplete.dataQuality<canonical.dataQuality,'fehlende News- und Volumendaten muessen die Datenqualitaet senken');
+const learnedRows=Array.from({length:25},(_,i)=>({symbol:`C${i}`,entryScoreVersion:31.6,entryScoreV316:canonical.score,ret:.6}));
+const learned=canonicalEntryAssessmentV316(canonicalUniverse[0],canonicalUniverse,learnedRows,.291);
+assert.equal(learned.mature,true);
+assert.ok(learned.expectedNetEdgePct>0);
+assert.equal(canonicalCalibrationV316(learnedRows,.291).find(x=>x.bucket===learned.bucket).samples,25);
+
 // Die alte Rohskala 0-10 wird vor dem Lernen auf 0-100 normalisiert.
 const rawScale=recordShadowSnapshots(base(),[{symbol:'RAW',price:10,score:6.2,currency:'EUR'}],t0);
 assert.equal(Object.values(rawScale.open)[0].score,62);
@@ -43,7 +59,7 @@ assert.equal(correlationGateV314('ASML',{theme:'SEMI',currency:'EUR'},positions,
 
 const warmup={actions:[{symbol:'NEW',action:'BUY',allocation_pct:22}],summary:'x'};
 const storage={data:null,async get(){return this.data},async put(k,v){this.data=v}};
-const out=await enforceShadowLearningV314(warmup,{config:{slippage_percent:.1},candidates:[{symbol:'NEW',price:10,decisionScore:60,theme:'A',currency:'EUR'}],positions:[]},storage,t0);
+const out=await enforceShadowLearningV314(warmup,{config:{slippage_percent:.1},candidates:[{symbol:'NEW',price:10,decisionScore:60,theme:'A',currency:'EUR',momentum5:.2,momentum20:.5,momentumAcceleration5:.1,volumeRatio:1.5,volumeRatioSource:'PREVIOUS_COMPLETED',newsScore:.2,newsConfidence:.8,newsSources:['OFFICIAL','WIRE']}],positions:[]},storage,t0);
 assert.equal(out.plan.actions[0].action,'BUY');
 assert.equal(out.persisted,true);
 assert.ok(storage.data);
@@ -57,8 +73,8 @@ assert.equal(calibratedScoreBucketGateV315(66,bucketOut.calibration,.291).ok,fal
 
 const pair={actions:[{symbol:'ONE',action:'BUY',allocation_pct:20},{symbol:'TWO',action:'BUY',allocation_pct:20}],summary:'x'};
 const pairOut=await enforceShadowLearningV314(pair,{candidates:[
-  {symbol:'ONE',price:10,decisionScore:65,theme:'A',currency:'EUR'},
-  {symbol:'TWO',price:10,decisionScore:65,theme:'B',currency:'USD'}
+  {symbol:'ONE',price:10,decisionScore:65,theme:'A',currency:'EUR',momentum5:.2,momentum20:.5,volumeRatio:1.5,volumeRatioSource:'PREVIOUS_COMPLETED',newsScore:.2,newsConfidence:.8,newsSources:['A','B']},
+  {symbol:'TWO',price:10,decisionScore:65,theme:'B',currency:'USD',momentum5:.2,momentum20:.5,volumeRatio:1.5,volumeRatioSource:'PREVIOUS_COMPLETED',newsScore:.2,newsConfidence:.8,newsSources:['A','B']}
 ],positions:[],history:[]},null,t0);
 assert.equal(pairOut.plan.actions[0].action,'BUY');
 assert.equal(pairOut.plan.actions[1].shadowBlockKind,'ENTRY_SPACING');
@@ -66,4 +82,4 @@ const negativeNews=await enforceShadowLearningV314({actions:[{symbol:'BAD',actio
   {symbol:'BAD',price:10,decisionScore:75,newsScore:-.6,newsConfidence:.9,newsSources:['OFFICIAL','WIRE'],momentum5:.3,momentum20:.5}
 ],positions:[],history:[]},null,t0);
 assert.equal(negativeNews.plan.actions[0].shadowBlockKind,'CONFIRMED_NEGATIVE_NEWS');
-console.log('OK — V31.5 evidence fusion, news gate, shadow learning, cost model and concentration filter');
+console.log('OK — V31.6 canonical score, evidence fusion, news gate, cost model and concentration filter');

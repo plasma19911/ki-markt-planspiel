@@ -5,7 +5,7 @@ const exact={isin:'DE000A1EWWW0',assetClass:'EQUITY',brokerVerified:true,brokerM
 const now=Date.parse('2026-08-25T12:00:00Z');
 
 {
-  const candidate={symbol:'TEST.DE',name:'Test AG',decisionScore:72,momentum5Pct:-0.15,momentum20Pct:-0.25,entryQualityScore:68,...exact};
+  const candidate={symbol:'TEST.DE',name:'Test AG',decisionScore:72,momentum5Pct:.2,momentum20Pct:.5,momentumAcceleration5:.08,volumeRatio:1.5,volumeRatioSource:'PREVIOUS_COMPLETED',newsScore:.2,newsConfidence:.8,newsSources:['OFFICIAL','WIRE'],entryQualityScore:68,...exact};
   const state={config:{cash:10000,scan_count:1},positions:[],candidates:[candidate],history:[]};
   const plan={actions:[{symbol:'TEST.DE',action:'HOLD',allocation_pct:0,reason:'soft timing hold'}],summary:'test'};
   const out=await enforceUnifiedDecisionCoreV310(plan,state,null,[candidate],now);
@@ -13,7 +13,7 @@ const now=Date.parse('2026-08-25T12:00:00Z');
   assert.equal(a.action,'BUY','70+ exact-TR candidate with mild pullback should be buyable');
   assert.ok(Number(a.allocation_pct)>=22,'strong candidate should not remain a mini starter');
   assert.ok(out.audit.changes.length>=1,'decision changes must be audited');
-  assert.equal(out.audit.patch,'31.5-evidence-fusion+31.4-shadow-calibration+31.3-capital-velocity+31.2-outcome-learning');
+  assert.equal(out.audit.patch,'31.6-canonical-entry-score+31.5-evidence-fusion+31.4-shadow-calibration');
   assert.ok(out.audit.outcomeLearning,'outcome learning metadata must be part of the unified audit');
   assert.ok(out.audit.shadowLearning,'shadow calibration metadata must be part of the unified audit');
 }
@@ -43,4 +43,4 @@ const now=Date.parse('2026-08-25T12:00:00Z');
   assert.equal(a.action,'SELL','unified authority must preserve a qualified paired rotation');
   assert.equal(a.pairedRotationApprovedV313,true);
 }
-console.log('V31.4 unified shadow calibration + V31.3 capital velocity regression OK');
+console.log('V31.6 canonical entry score + unified capital velocity regression OK');
