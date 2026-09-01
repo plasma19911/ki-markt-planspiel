@@ -1,5 +1,20 @@
 const CURRENT_V31_CHANGELOG=[
   {
+    at:'01.09.2026 · 10:04',
+    title:'V31.7 · Heutige Fehlkäufe ausgewertet und Kaufbestätigung gehärtet',
+    items:[
+      'Der komplette heutige Ablauf wurde aus Live-History und Entscheidungs-Audit geprüft: IHI um 08:06 Uhr, Solar Industries India um 08:27 Uhr, Infineon um 09:39 Uhr und ASELS um 10:00 Uhr. Infineon erreichte um 10:03 Uhr korrekt den −1,2-%-Hard-Stop und wurde mit −31,44 EUR Netto-Tradeergebnis verkauft; der Planspielstand lag danach bei rund −56,51 EUR.',
+      'Hauptfehler Solar Industries: Der V31.6-Score zeigte 77,4/100 und „SEHR STARK“, obwohl Volumen und News beide fehlten. Trend und relative Stärke stammen weitgehend aus derselben Kursbewegung und durften deshalb nicht wie zwei unabhängige Bestätigungen einen Kauf auslösen.',
+      'Derselbe Fehler wurde während der Prüfung erneut live bestätigt: ASELS wurde mit 70,3/100 und Datenqualität 70 gekauft, obwohl ebenfalls keine positive Volumen- oder News-Bestätigung vorlag. V31.7 hätte beide Käufe auf höchstens 59,9/100 begrenzt.',
+      'V31.7 verlangt für jeden neuen Kauf mindestens eine positive unabhängige Bestätigung: belastbares Volumenverhältnis ab 1,15 oder positive News ab 0,08 mit mindestens 0,40 Konfidenz. Fehlt beides, werden Datenqualität auf höchstens 50 und Score auf höchstens 59,9 begrenzt – damit bleibt reines Momentum außerhalb der Kaufzone.',
+      'Ein später Impuls mit starkem 20-Minuten-Anstieg, aber bereits abgeflachtem 5-Minuten-Momentum erhält zusätzlich einen Late-Impulse-Abschlag. Das adressiert den Infineon-Einstieg, dessen 20-Minuten-Bewegung stark, das unmittelbare 5-Minuten-Signal beim Kauf aber nahezu neutral war.',
+      'Warmup-Sicherheitsbremse: Hat ein noch nicht voll kalibrierter Scorebereich mindestens zwei kompatible Vorproben, null Treffer und eine negative Durchschnittsrendite, pausieren neue Käufe in diesem Bereich. Shadow-Samples laufen weiter und können die Sperre mit besserer Evidenz wieder lösen.',
+      'Automatische Wiederholungs-BUYs auf bereits gehaltene Aktien werden jetzt schon im finalen Unified-Plan auf HOLD gesetzt. Der heutige nachgelagerte erneute IFX-BUY-Vorschlag war zwar von der Ausführung abgefangen worden, darf aber auch im Audit nicht mehr als Kauf erscheinen.',
+      'Neue Fehlsetup-Regel für schnellere Kapitalfreigabe: Ab 90 Minuten darf eine Verlustposition verkauft werden, wenn gleichzeitig Kursverlust von mindestens 0,35 %, RawScore höchstens 45, Chart-Richtung DOWN sowie negatives 5m- und 20m-Momentum vorliegen. Alter allein löst weiterhin keinen Verkauf aus.',
+      'Hard-Stop bei −1,2 %, Trailing, Gewinnsicherung, Reentry-Schutz, Brokerprüfung und Klumpenfilter bleiben bindend. V31.7 garantiert keinen Gewinn, verhindert aber genau die heute belegten unbestätigten Momentum-Käufe und irreführenden Wiederholungs-BUYs.'
+    ]
+  },
+  {
     at:'01.09.2026 · 08:17',
     title:'V31.6 · Ein verbindlicher, flexibler Einstiegsscore',
     items:[

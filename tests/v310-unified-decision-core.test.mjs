@@ -13,10 +13,17 @@ const now=Date.parse('2026-08-25T12:00:00Z');
   assert.equal(a.action,'BUY','70+ exact-TR candidate with mild pullback should be buyable');
   assert.ok(Number(a.allocation_pct)>=22,'strong candidate should not remain a mini starter');
   assert.ok(out.audit.changes.length>=1,'decision changes must be audited');
-  assert.equal(out.audit.patch,'31.6-canonical-entry-score+31.5-evidence-fusion+31.4-shadow-calibration');
+  assert.equal(out.audit.patch,'31.7-orthogonal-confirmation+probation+failed-setup-exit');
   assert.ok(out.audit.outcomeLearning,'outcome learning metadata must be part of the unified audit');
   assert.ok(out.audit.shadowLearning,'shadow calibration metadata must be part of the unified audit');
   assert.equal(out.audit.finalActions[0].expectedNetEdgePctV316,null,'Warmup-Edge muss null bleiben und darf nicht als scheinbare 0-Prozent-Prognose erscheinen');
+}
+
+{
+  const held={symbol:'HELD.DE',name:'Held AG',invested:2200,entry_price:100,last_price:100.1,entry_fx:1,last_fx:1,opened_at:'2026-08-25T11:00:00Z',decisionScore:75,rawDecisionScore:60,...exact};
+  const state={config:{cash:5000,scan_count:2},positions:[held],candidates:[held],history:[]};
+  const out=await enforceUnifiedDecisionCoreV310({actions:[{symbol:'HELD.DE',action:'BUY',allocation_pct:60,reason:'legacy repeat buy'}],summary:'x'},state,null,[held],now);
+  assert.equal(out.plan.actions.find(x=>x.symbol==='HELD.DE').action,'HOLD','bereits gehaltene Aktie darf nicht erneut automatisch gekauft werden');
 }
 
 {
@@ -44,4 +51,4 @@ const now=Date.parse('2026-08-25T12:00:00Z');
   assert.equal(a.action,'SELL','unified authority must preserve a qualified paired rotation');
   assert.equal(a.pairedRotationApprovedV313,true);
 }
-console.log('V31.6 canonical entry score + unified capital velocity regression OK');
+console.log('V31.7 orthogonal entry + unified capital velocity regression OK');

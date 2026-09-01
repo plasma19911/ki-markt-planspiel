@@ -23,15 +23,16 @@ const write=async(storage,v)=>{try{
 }catch{return false}};
 
 export const SHADOW_LEARNING_V314={
-  version:31.6,storageKey:KEY,horizonMinutes:60,snapshotSpacingMinutes:5,
+  version:31.7,canonicalVersion:31.7,storageKey:KEY,horizonMinutes:60,snapshotSpacingMinutes:5,
   maxOpenSnapshots:600,maxMaturedSamples:1500,buckets:[50,55,60,65,70,75,80],
   minBucketSamples:25,minEdgeCostMultiple:3,defaultBuyThreshold:56,
   maxBuyThreshold:78,maxPerTheme:2,maxPerCurrency:3,minEntrySpacingMinutes:20,
-  evidenceMinSamples:25,canonicalBuyScore:60,canonicalMinDataQuality:55,
+  evidenceMinSamples:25,canonicalBuyScore:60,canonicalMinDataQuality:55,canonicalMinOrthogonalConfirmations:1,
+  probationMinCompatibleSamples:2,
   negativeNewsBlock:-.35,negativeNewsMinConfidence:.6,negativeNewsMinSources:2
 };
 
-function defaults(){return{version:31.6,open:{},matured:[],lastEntryAt:0,
+function defaults(){return{version:31.7,open:{},matured:[],lastEntryAt:0,
   stats:{snapshots:0,matured:0,expired:0,themeBlocks:0,currencyBlocks:0,spacingBlocks:0,thresholdBlocks:0},
   threshold:null,updatedAt:null}}
 const bucketOf=(score,cfg)=>{let out=null;for(const x of cfg.buckets)if(score>=x)out=x;return out};
@@ -58,22 +59,29 @@ export function canonicalEntryAssessmentV316(candidate={},universe=[],matured=[]
   const volume=num(candidate?.volumeRatio??candidate?.volume_ratio,1),volumeSource=String(candidate?.volumeRatioSource??candidate?.volume_ratio_source??''),volumeAvailable=(volumeSource&&volumeSource!=='NO_RELIABLE_VOLUME')||Math.abs(volume-1)>.01;
   const news=clamp(candidate?.newsScore??candidate?.news_score??candidate?.news,-1,1),newsConfidence=clamp(candidate?.newsConfidence??candidate?.news_confidence,0,1),newsSources=arr(candidate?.newsSources??candidate?.news_sources).length,headlines=arr(candidate?.headlines).length,newsAvailable=Math.abs(news)>.001||newsSources>0||headlines>0;
   const rsi=num(candidate?.rsi??candidate?.intradayRsi,50),day=num(candidate?.day_change??candidate?.dayChange??candidate?.day);
+  const volumeConfirmed=volumeAvailable&&volume>=1.15,newsConfirmed=newsAvailable&&news>=.08&&newsConfidence>=.4,orthogonalConfirmations=Number(volumeConfirmed)+Number(newsConfirmed);
   const trendScore=clamp(50+35*Math.tanh((.65*m20+.35*m5)/.6),0,100),relativeScore=relative*100,volumeScore=clamp(50+(volume-1)*35,0,100),newsScore=clamp(50+news*newsConfidence*50,0,100);
-  const parts=[{name:'trend',score:trendScore,weight:.45,available:true},{name:'relativeStrength',score:relativeScore,weight:.25,available:peers.length>=3},{name:'volume',score:volumeScore,weight:.15,available:volumeAvailable},{name:'news',score:newsScore,weight:.15,available:newsAvailable}];
+  const parts=[{name:'trend',score:trendScore,weight:.45,available:true,confirmed:m5>0&&m20>0},{name:'relativeStrength',score:relativeScore,weight:.25,available:peers.length>=3,confirmed:relative>=.6},{name:'volume',score:volumeScore,weight:.15,available:volumeAvailable,confirmed:volumeConfirmed},{name:'news',score:newsScore,weight:.15,available:newsAvailable,confirmed:newsConfirmed}];
   const active=parts.filter(x=>x.available),weight=active.reduce((s,x)=>s+x.weight,0),raw=weight?active.reduce((s,x)=>s+x.score*x.weight,0)/weight:50,coverage=clamp(weight,0,1);
   const chaseLabel=String(candidate?.liveFeedbackLabel??candidate?.dipLabel??candidate?.entryTimingLabel??'').toUpperCase();
-  let riskPenalty=0;if(rsi>72)riskPenalty+=Math.min(15,(rsi-72)*1.5);if(day>4)riskPenalty+=Math.min(10,(day-4)*2.5);if(acc<-.2)riskPenalty+=Math.min(10,Math.abs(acc+.2)*15);if(news<=-.15)riskPenalty+=Math.min(15,Math.abs(news)*20);if(chaseLabel.includes('HIGH_CHASE'))riskPenalty+=12;
-  const score=clamp(50+(raw-50)*(.55+.45*coverage)-riskPenalty,0,100),dataQuality=clamp(coverage*100,0,100),bucket=bucketOf(score,cfg);
-  const rows=arr(matured).filter(x=>num(x?.entryScoreVersion)===31.6&&bucketOf(num(x?.entryScoreV316),cfg)===bucket),mature=rows.length>=cfg.minBucketSamples;
+  let riskPenalty=0;if(rsi>72)riskPenalty+=Math.min(15,(rsi-72)*1.5);if(day>4)riskPenalty+=Math.min(10,(day-4)*2.5);if(acc<-.2)riskPenalty+=Math.min(10,Math.abs(acc+.2)*15);if(news<=-.15)riskPenalty+=Math.min(15,Math.abs(news)*20);if(chaseLabel.includes('HIGH_CHASE'))riskPenalty+=12;if(m20>=.8&&m5<.08)riskPenalty+=10;
+  let score=clamp(50+(raw-50)*(.55+.45*coverage)-riskPenalty,0,100),dataQuality=clamp(coverage*100,0,100);
+  if(orthogonalConfirmations<cfg.canonicalMinOrthogonalConfirmations){score=Math.min(score,59.9);dataQuality=Math.min(dataQuality,50)}
+  const bucket=bucketOf(score,cfg),rowScore=x=>finite(x?.entryScoreV317)?num(x.entryScoreV317):num(x?.entryScoreV316);
+  const rows=arr(matured).filter(x=>num(x?.entryScoreVersion)===31.7&&bucketOf(rowScore(x),cfg)===bucket),mature=rows.length>=cfg.minBucketSamples;
+  const compatibleRows=arr(matured).filter(x=>bucketOf(rowScore(x),cfg)===bucket&&(num(x?.entryScoreVersion)===31.7||(num(x?.entryScoreVersion)===31.6&&num(x?.dataQualityV316)>=85)));
   const avgReturnPct=rows.length?rows.reduce((s,x)=>s+num(x.ret),0)/rows.length:null,hitRate=rows.length?rows.filter(x=>num(x.ret)>0).length/rows.length:null,expectedNetEdgePct=avgReturnPct==null?null:avgReturnPct-roundTripCostPct;
+  const probationAvgReturnPct=compatibleRows.length?compatibleRows.reduce((s,x)=>s+num(x.ret),0)/compatibleRows.length:null,probationHitRate=compatibleRows.length?compatibleRows.filter(x=>num(x.ret)>0).length/compatibleRows.length:null;
+  const probationExpectedNetEdgePct=probationAvgReturnPct==null?null:probationAvgReturnPct-roundTripCostPct,probationBlocked=!mature&&compatibleRows.length>=cfg.probationMinCompatibleSamples&&probationHitRate===0&&probationAvgReturnPct<=0;
   const label=score>=70?'SEHR STARK':score>=cfg.canonicalBuyScore?'KAUFZONE':score>=55?'BEOBACHTEN':'ZU SCHWACH';
-  return{score:+score.toFixed(1),label,dataQuality:+dataQuality.toFixed(1),coverage:+coverage.toFixed(3),riskPenalty:+riskPenalty.toFixed(1),bucket,
+  return{version:31.7,score:+score.toFixed(1),label,dataQuality:+dataQuality.toFixed(1),coverage:+coverage.toFixed(3),orthogonalConfirmations,riskPenalty:+riskPenalty.toFixed(1),bucket,
     expectedNetEdgePct:expectedNetEdgePct==null?null:+expectedNetEdgePct.toFixed(3),samples:rows.length,hitRate:hitRate==null?null:+hitRate.toFixed(3),mature,
-    components:Object.fromEntries(parts.map(x=>[x.name,{score:+x.score.toFixed(1),available:x.available,weight:x.weight}]))};
+    probationSamples:compatibleRows.length,probationExpectedNetEdgePct:probationExpectedNetEdgePct==null?null:+probationExpectedNetEdgePct.toFixed(3),probationHitRate:probationHitRate==null?null:+probationHitRate.toFixed(3),probationBlocked,
+    components:Object.fromEntries(parts.map(x=>[x.name,{score:+x.score.toFixed(1),available:x.available,confirmed:x.confirmed,weight:x.weight}]))};
 }
 
 export function canonicalCalibrationV316(matured=[],cost=.291,cfg=SHADOW_LEARNING_V314){
-  return cfg.buckets.map((bucket,index)=>{const hi=cfg.buckets[index+1]??101,rows=arr(matured).filter(x=>num(x?.entryScoreVersion)===31.6&&num(x?.entryScoreV316)>=bucket&&num(x?.entryScoreV316)<hi);if(!rows.length)return{bucket,samples:0,avgReturnPct:null,expectedNetEdgePct:null,hitRate:null};const avg=rows.reduce((s,x)=>s+num(x.ret),0)/rows.length;return{bucket,samples:rows.length,avgReturnPct:+avg.toFixed(3),expectedNetEdgePct:+(avg-cost).toFixed(3),hitRate:+(rows.filter(x=>num(x.ret)>0).length/rows.length).toFixed(3)}});
+  return cfg.buckets.map((bucket,index)=>{const hi=cfg.buckets[index+1]??101,rows=arr(matured).filter(x=>num(x?.entryScoreVersion)===31.7&&num(x?.entryScoreV317,x?.entryScoreV316)>=bucket&&num(x?.entryScoreV317,x?.entryScoreV316)<hi);if(!rows.length)return{bucket,samples:0,avgReturnPct:null,expectedNetEdgePct:null,hitRate:null};const avg=rows.reduce((s,x)=>s+num(x.ret),0)/rows.length;return{bucket,samples:rows.length,avgReturnPct:+avg.toFixed(3),expectedNetEdgePct:+(avg-cost).toFixed(3),hitRate:+(rows.filter(x=>num(x.ret)>0).length/rows.length).toFixed(3)}});
 }
 function latestActualEntryAt(state={}){
   let latest=0;
@@ -100,7 +108,7 @@ export function recordShadowSnapshots(mem,candidates,now,cfg=SHADOW_LEARNING_V31
     const id=`${symbol}@${Math.floor(now/spacing)}`;
     if(mem.open[id])continue;
     const evidence=evidenceProfileV315(c,candidates),entry=canonicalEntryAssessmentV316(c,candidates,mem.matured||[],.291,cfg);
-    mem.open[id]={symbol,at:now,price,fx:fxOf(c),score:+score.toFixed(1),evidenceVersion:31.5,evidenceQuality:evidence.quality,evidencePillars:evidence.pillarCount,entryScoreVersion:31.6,entryScoreV316:entry.score,dataQualityV316:entry.dataQuality,
+    mem.open[id]={symbol,at:now,price,fx:fxOf(c),score:+score.toFixed(1),evidenceVersion:31.5,evidenceQuality:evidence.quality,evidencePillars:evidence.pillarCount,entryScoreVersion:31.7,entryScoreV317:entry.score,entryScoreV316:entry.score,dataQualityV317:entry.dataQuality,dataQualityV316:entry.dataQuality,
       theme:themeOf(c),currency:currencyOf(c),m5:num(c?.momentum5),m20:num(c?.momentum20),
       rsi:num(c?.rsi,50),day:num(c?.day_change??c?.dayChange)};
     mem.stats.snapshots++;
@@ -118,8 +126,8 @@ export function matureShadowSnapshots(mem,candidates,now,cfg=SHADOW_LEARNING_V31
     const current=prices.get(snap.symbol);
     if(!current||!(current.price>0)){if(age>horizon*3){delete mem.open[id];mem.stats.expired++}continue}
     const from=snap.price*num(snap.fx,1),to=current.price*current.fx;
-    if(from>0)mem.matured.push({symbol:snap.symbol,score:snap.score,theme:snap.theme,evidenceVersion:snap.evidenceVersion||null,evidenceQuality:num(snap.evidenceQuality),evidencePillars:num(snap.evidencePillars),entryScoreVersion:snap.entryScoreVersion||null,entryScoreV316:finite(snap.entryScoreV316)?num(snap.entryScoreV316):null,dataQualityV316:finite(snap.dataQualityV316)?num(snap.dataQualityV316):null,
-      ret:+(((to/from)-1)*100).toFixed(4),at:now});
+    if(from>0)mem.matured.push({symbol:snap.symbol,score:snap.score,theme:snap.theme,evidenceVersion:snap.evidenceVersion||null,evidenceQuality:num(snap.evidenceQuality),evidencePillars:num(snap.evidencePillars),entryScoreVersion:snap.entryScoreVersion||null,entryScoreV317:finite(snap.entryScoreV317)?num(snap.entryScoreV317):null,entryScoreV316:finite(snap.entryScoreV316)?num(snap.entryScoreV316):null,dataQualityV317:finite(snap.dataQualityV317)?num(snap.dataQualityV317):null,dataQualityV316:finite(snap.dataQualityV316)?num(snap.dataQualityV316):null,
+      ret:+(((to/from)-1)*100).toFixed(4),sampleAt:num(snap.at),at:now});
     mem.stats.matured++;delete mem.open[id];
   }
   if(mem.matured.length>cfg.maxMaturedSamples)mem.matured=mem.matured.slice(-cfg.maxMaturedSamples);
@@ -180,47 +188,51 @@ export function estimatedRoundTripCostPctV314(state={}){
 
 export async function enforceShadowLearningV314(plan,state={},storage=null,now=Date.now(),roundTripCostPct=null,cfg=SHADOW_LEARNING_V314){
   if(!plan||!Array.isArray(plan.actions))return{plan,counters:{}};
-  let mem={...defaults(),...(await read(storage,defaults())||{})};
+  let mem={...defaults(),...(await read(storage,defaults())||{})};mem.version=31.7;
   mem.open={...(mem.open||{})};mem.matured=arr(mem.matured).slice();mem.stats={...defaults().stats,...(mem.stats||{})};
   const candidates=finalScoredCandidates(state,storage,now),cost=roundTripCostPct!=null&&finite(roundTripCostPct)?Number(roundTripCostPct):estimatedRoundTripCostPctV314(state);
   matureShadowSnapshots(mem,candidates,now,cfg);recordShadowSnapshots(mem,candidates,now,cfg);
   const calibrated=calibratedBuyThresholdV314(mem.matured,cost,cfg);
-  const evidenceCalibration=evidenceCalibrationV315(mem.matured),canonicalCalibration=canonicalCalibrationV316(mem.matured,cost,cfg);mem.threshold={...calibrated,evidenceCalibration,canonicalCalibration,canonicalBuyScore:cfg.canonicalBuyScore};
+  const evidenceCalibration=evidenceCalibrationV315(mem.matured),canonicalCalibration=canonicalCalibrationV316(mem.matured,cost,cfg);mem.threshold={...calibrated,evidenceCalibration,canonicalCalibration,canonicalVersion:31.7,canonicalBuyScore:cfg.canonicalBuyScore};
   const bySymbol=new Map(candidates.map(c=>[key(c),c])),positions=arr(state?.positions);
   const actions=plan.actions.map(a=>({...a})),counters={themeBlocks:0,currencyBlocks:0,spacingBlocks:0,
     belowCalibratedThreshold:0,openSnapshots:Object.keys(mem.open).length,maturedSamples:mem.matured.length,
-    buyThreshold:cfg.canonicalBuyScore,calibrated:canonicalCalibration.some(x=>x.samples>=cfg.minBucketSamples),roundTripCostPct:cost,evidenceCalibration,canonicalCalibration,negativeNewsBlocks:0,evidenceBlocks:0,unprofitableBucketBlocks:0,canonicalScoreBlocks:0,dataQualityBlocks:0};
+    buyThreshold:cfg.canonicalBuyScore,calibrated:canonicalCalibration.some(x=>x.samples>=cfg.minBucketSamples),roundTripCostPct:cost,evidenceCalibration,canonicalCalibration,negativeNewsBlocks:0,evidenceBlocks:0,unprofitableBucketBlocks:0,canonicalScoreBlocks:0,dataQualityBlocks:0,orthogonalBlocks:0,probationBlocks:0,heldBuyBlocks:0};
   const actualEntryAt=latestActualEntryAt(state);let gateEntryAt=actualEntryAt;
   for(let i=0;i<actions.length;i++){
     const action=actions[i],symbol=key(action);
-    if(!symbol||String(action?.action||'').toUpperCase()!=='BUY'||positions.some(p=>key(p)===symbol))continue;
+    if(!symbol||String(action?.action||'').toUpperCase()!=='BUY')continue;
+    if(positions.some(p=>key(p)===symbol)){actions[i]={...action,action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'ALREADY_HELD_NO_AUTO_SCALEUP',reason:`V31.7 BESTANDSSCHUTZ: ${symbol} ist bereits im Depot. Ein erneutes automatisches BUY/Aufstocken wird nicht ausgeführt.`};counters.heldBuyBlocks++;continue}
     const candidate=bySymbol.get(symbol)||{},score=canonicalScore(candidate?.daytradeLiveScore??candidate?.decisionScore??candidate?.score??action?.entryDecisionScore);
     const evidence=evidenceProfileV315(candidate,candidates);
-    const entry=canonicalEntryAssessmentV316(candidate,candidates,mem.matured,cost,cfg);actions[i]={...action,entryScoreV316:entry.score,dataQualityV316:entry.dataQuality,expectedNetEdgePctV316:entry.expectedNetEdgePct,legacyDecisionScore:score};
+    const entry=canonicalEntryAssessmentV316(candidate,candidates,mem.matured,cost,cfg);actions[i]={...action,entryScoreV317:entry.score,dataQualityV317:entry.dataQuality,expectedNetEdgePctV317:entry.expectedNetEdgePct,entryScoreV316:entry.score,dataQualityV316:entry.dataQuality,expectedNetEdgePctV316:entry.expectedNetEdgePct,orthogonalConfirmationsV317:entry.orthogonalConfirmations,legacyDecisionScore:score};
     if(evidence.negativeNewsConfirmed){
       actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'CONFIRMED_NEGATIVE_NEWS',evidenceQualityV315:evidence.quality,
-        reason:`V31.6 NEWS-FILTER: ${symbol} hat bestätigte negative Firmennachrichten (${evidence.news.toFixed(2)}, ${evidence.newsSources} Quellen). Kein neuer Kauf gegen den Katalysator.`};
+        reason:`V31.7 NEWS-FILTER: ${symbol} hat bestätigte negative Firmennachrichten (${evidence.news.toFixed(2)}, ${evidence.newsSources} Quellen). Kein neuer Kauf gegen den Katalysator.`};
       counters.negativeNewsBlocks++;continue;
     }
     if(entry.dataQuality<cfg.canonicalMinDataQuality){
-      actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'LOW_DATA_QUALITY',reason:`V31.6 DATENQUALITÄT: ${symbol} nur ${entry.dataQuality.toFixed(0)}/100. Fehlende unabhängige Daten werden nicht mehr als neutrales Kaufsignal behandelt.`};counters.dataQualityBlocks++;continue;
+      actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'LOW_DATA_QUALITY',reason:`V31.7 DATENQUALITÄT: ${symbol} nur ${entry.dataQuality.toFixed(0)}/100. Ohne positives Volumen- oder News-Signal darf korreliertes Momentum keinen Kauf erzeugen.`};counters.dataQualityBlocks++;if(entry.orthogonalConfirmations<cfg.canonicalMinOrthogonalConfirmations)counters.orthogonalBlocks++;continue;
     }
     if(entry.score<cfg.canonicalBuyScore){
-      actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'CANONICAL_SCORE_BELOW_BUY',reason:`V31.6 KAUFSCORE: ${symbol} ${entry.score.toFixed(1)}/100 (${entry.label}) < ${cfg.canonicalBuyScore}; Datenqualität ${entry.dataQuality.toFixed(0)}/100.`};counters.canonicalScoreBlocks++;continue;
+      actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'CANONICAL_SCORE_BELOW_BUY',reason:`V31.7 KAUFSCORE: ${symbol} ${entry.score.toFixed(1)}/100 (${entry.label}) < ${cfg.canonicalBuyScore}; Datenqualität ${entry.dataQuality.toFixed(0)}/100.`};counters.canonicalScoreBlocks++;continue;
+    }
+    if(entry.probationBlocked){
+      actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'NEGATIVE_WARMUP_PROBATION',reason:`V31.7 WARMUP-BREMSE: Scorebereich ${entry.bucket}–${entry.bucket+4} hat in ${entry.probationSamples} kompatiblen Vorproben 0 Treffer und ${entry.probationExpectedNetEdgePct.toFixed(2)}% nach Kosten. Shadow-Messung läuft weiter; echtes Geld bleibt bis zu besserer Evidenz frei.`};counters.probationBlocks++;continue;
     }
     if(entry.mature&&num(entry.expectedNetEdgePct,-99)<=0){
-      actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'NEGATIVE_CANONICAL_EDGE',reason:`V31.6 NETTO-EDGE: Scorebereich ${entry.bucket}–${entry.bucket+4} erzielt nach ${entry.samples} neuen Samples ${entry.expectedNetEdgePct.toFixed(2)}% nach Kosten.`};
+      actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'NEGATIVE_CANONICAL_EDGE',reason:`V31.7 NETTO-EDGE: Scorebereich ${entry.bucket}–${entry.bucket+4} erzielt nach ${entry.samples} neuen Samples ${entry.expectedNetEdgePct.toFixed(2)}% nach Kosten.`};
       counters.unprofitableBucketBlocks++;continue;
     }
     const gate=correlationGateV314(symbol,candidate,positions,{lastEntryAt:gateEntryAt},now,cfg);
-    if(gate.ok){actions[i]={...actions[i],reason:`V31.6 KAUFZONE ${entry.score.toFixed(1)}/100 · Daten ${entry.dataQuality.toFixed(0)}/100 · Netto-Edge ${entry.expectedNetEdgePct==null?'Warmup':`${entry.expectedNetEdgePct>=0?'+':''}${entry.expectedNetEdgePct.toFixed(2)}%`} · ${String(action.reason||'').slice(0,260)}`};gateEntryAt=now;continue}
+    if(gate.ok){actions[i]={...actions[i],reason:`V31.7 KAUFZONE ${entry.score.toFixed(1)}/100 · Daten ${entry.dataQuality.toFixed(0)}/100 · unabhängige Bestätigung ${entry.orthogonalConfirmations} · Netto-Edge ${entry.expectedNetEdgePct==null?'Warmup':`${entry.expectedNetEdgePct>=0?'+':''}${entry.expectedNetEdgePct.toFixed(2)}%`} · ${String(action.reason||'').slice(0,250)}`};gateEntryAt=now;continue}
     actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:gate.kind,
-      reason:`V31.6 KLUMPENFILTER: ${symbol} · ${gate.kind==='THEME_CLUSTER'?`bereits ${cfg.maxPerTheme} Positionen im Thema ${gate.theme}`:gate.kind==='CURRENCY_CLUSTER'?`bereits ${cfg.maxPerCurrency} Positionen in ${gate.currency}`:`letzter Einstieg vor ${gate.minutesSinceLastEntry} Min.; Mindestabstand ${cfg.minEntrySpacingMinutes} Min.`}`};
+      reason:`V31.7 KLUMPENFILTER: ${symbol} · ${gate.kind==='THEME_CLUSTER'?`bereits ${cfg.maxPerTheme} Positionen im Thema ${gate.theme}`:gate.kind==='CURRENCY_CLUSTER'?`bereits ${cfg.maxPerCurrency} Positionen in ${gate.currency}`:`letzter Einstieg vor ${gate.minutesSinceLastEntry} Min.; Mindestabstand ${cfg.minEntrySpacingMinutes} Min.`}`};
     if(gate.kind==='THEME_CLUSTER')counters.themeBlocks++;else if(gate.kind==='CURRENCY_CLUSTER')counters.currencyBlocks++;else counters.spacingBlocks++;
   }
   mem.lastEntryAt=actualEntryAt;mem.stats.themeBlocks+=counters.themeBlocks;mem.stats.currencyBlocks+=counters.currencyBlocks;
   mem.stats.spacingBlocks+=counters.spacingBlocks;mem.stats.thresholdBlocks+=counters.belowCalibratedThreshold;
   mem.updatedAt=new Date(now).toISOString();const persisted=await write(storage,mem);
-  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,108)} · V31.6 Score: BUY ab ${cfg.canonicalBuyScore}, ${counters.maturedSamples} alt/neu reif, ${counters.themeBlocks+counters.currencyBlocks+counters.spacingBlocks+counters.negativeNewsBlocks+counters.evidenceBlocks+counters.unprofitableBucketBlocks+counters.canonicalScoreBlocks+counters.dataQualityBlocks} Filter.`;
+  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,102)} · V31.7 Score: BUY ab ${cfg.canonicalBuyScore} + unabhängige Bestätigung, ${counters.maturedSamples} reif, ${counters.themeBlocks+counters.currencyBlocks+counters.spacingBlocks+counters.negativeNewsBlocks+counters.evidenceBlocks+counters.unprofitableBucketBlocks+counters.canonicalScoreBlocks+counters.dataQualityBlocks+counters.probationBlocks+counters.heldBuyBlocks} Filter.`;
   return{plan,counters,calibration:{...calibrated,evidenceCalibration,canonicalCalibration},mem,persisted};
 }

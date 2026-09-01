@@ -51,6 +51,19 @@ function p(extra={}){return {symbol:'TEST.DE',name:'Test',invested:2500,entry_pr
  assert.equal(out.plan.actions[0].stagnationExitV313,true);
 }
 {
+ const failed=p({opened_at:new Date(now-95*60000).toISOString(),last_price:99.45,decisionScore:55,rawDecisionScore:39,chartDirectionMode:'DOWN',momentum5Pct:-0.12,momentum20Pct:-0.25});
+ const plan={actions:[{symbol:'TEST.DE',action:'HOLD',reason:'legacy hold'}],summary:'x'};
+ const out=enforceExpectancyCoreV310(plan,{positions:[failed],candidates:[failed]},now);
+ assert.equal(out.plan.actions[0].action,'SELL','nach 90 Min mehrfach bestaetigtes verlustreiches Fehlsetup muss Kapital freigeben');
+ assert.equal(out.plan.actions[0].failedSetupExitV317,true);
+}
+{
+ const recovering=p({opened_at:new Date(now-150*60000).toISOString(),last_price:99.45,decisionScore:60,rawDecisionScore:39,chartDirectionMode:'UP',momentum5Pct:.12,momentum20Pct:.25});
+ const plan={actions:[{symbol:'TEST.DE',action:'HOLD',reason:'recovery'}],summary:'x'};
+ const out=enforceExpectancyCoreV310(plan,{positions:[recovering],candidates:[recovering]},now);
+ assert.equal(out.plan.actions[0].action,'HOLD','Zeit und kleiner Verlust allein duerfen weiterhin keinen Verkauf ausloesen');
+}
+{
  const strong=p({opened_at:new Date(now-300*60000).toISOString(),last_price:100.2,decisionScore:74,rawDecisionScore:71,momentum5Pct:0.12,momentum20Pct:0.28});
  const plan={actions:[{symbol:'TEST.DE',action:'HOLD',reason:'strong'}],summary:'x'};
  const out=enforceExpectancyCoreV310(plan,{positions:[strong],candidates:[strong]},now);
@@ -69,4 +82,4 @@ function p(extra={}){return {symbol:'TEST.DE',name:'Test',invested:2500,entry_pr
  const out=enforceExpectancyCoreV310(plan,state,now);
  assert.equal(out.plan.actions[0].action,'BUY','nach 45 Min darf ein valider Reentry wieder flexibel möglich sein');
 }
-console.log('V31.3 capital-velocity expectancy regression OK');
+console.log('V31.7 capital-velocity and failed-setup regression OK');

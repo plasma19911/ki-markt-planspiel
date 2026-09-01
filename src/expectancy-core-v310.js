@@ -4,8 +4,8 @@ const key=v=>String(v?.symbol||v||'').toUpperCase().trim();
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,num(v)));
 
 export const EXPECTANCY_CORE_V310={
-  version:31.3,
-  patch:'31.3.0-capital-velocity',
+  version:31.7,
+  patch:'31.7.0-failed-setup-exit',
   hardStopPct:-1.2,
   trailArmPct:2.4,
   trailGivebackPct:0.9,
@@ -16,6 +16,9 @@ export const EXPECTANCY_CORE_V310={
   reentryScoreImprovement:6,
   minPositionEur:2200,
   stagnationReviewMinutes:75,
+  failedSetupReviewMinutes:90,
+  failedSetupLossPct:-.35,
+  failedSetupRawScoreMax:45,
   maxStagnationMinutes:180,
   stagnationBandPct:0.6,
   stagnationScoreCeiling:58,
@@ -40,7 +43,7 @@ export function enforceExpectancyCoreV310(plan,state={},now=Date.now()){
  if(!plan||!Array.isArray(plan.actions))return{plan,counters:{}};
  const cfg=EXPECTANCY_CORE_V310,actions=plan.actions.map(a=>({...a})),idx=actionMap(actions),positions=arr(state?.positions),history=arr(state?.history);
  const candidates=new Map(arr(state?.candidates).map(c=>[key(c),c]));
- let hardStops=0,trailingSells=0,pairedRotationSells=0,stagnationSells=0,profitFadeSells=0,minHoldBlocks=0,reentryBlocks=0,sizingUpgrades=0,scoreScaleFixes=0;
+ let hardStops=0,trailingSells=0,pairedRotationSells=0,failedSetupSells=0,stagnationSells=0,profitFadeSells=0,minHoldBlocks=0,reentryBlocks=0,sizingUpgrades=0,scoreScaleFixes=0;
 
  // Position exits: price expectancy is authoritative. Existing hard SELLs stay SELL.
  for(const p of positions){
@@ -56,9 +59,11 @@ export function enforceExpectancyCoreV310(plan,state={},now=Date.now()){
    const momentumValues=[c?.momentum5Pct,c?.momentum5,c?.momentum20Pct,c?.momentum20];
    const hasMomentum=momentumValues.some(v=>Number.isFinite(Number(v)));
    const m5=num(c?.momentum5Pct??c?.momentum5,0),m20=num(c?.momentum20Pct??c?.momentum20,0);
+   const direction=String(c?.chartDirectionMode??c?.chartDirection20m??c?.direction20m??'').toUpperCase();
    const flat=Math.abs(pl)<=cfg.stagnationBandPct;
    const weakScore=hasScore&&Math.min(score,rawScore)<=cfg.stagnationScoreCeiling;
    const stagnantEvidence=flat&&weakScore&&hasMomentum&&m5<=0&&m20<=0;
+   const failedSetupEvidence=pl<=cfg.failedSetupLossPct&&rawScore<=cfg.failedSetupRawScoreMax&&direction==='DOWN'&&hasMomentum&&m5<=0&&m20<=0;
    const pairedRotation=act==='SELL'&&(old?.relativeRotationV304===true||old?.relativeOpportunityExit===true||old?.weakestReplacementV3061===true||Boolean(old?.pairedReplacementSymbol));
    let next=old;
    if(pl<=cfg.hardStopPct){
@@ -71,6 +76,8 @@ export function enforceExpectancyCoreV310(plan,state={},now=Date.now()){
        next={...old,symbol:s,action:'SELL',expectancyCoreV310:true,trailingProfitV310:true,reason:`V31.3 TRAIL: Peak ${peak.toFixed(2)}%, aktuell ${pl.toFixed(2)}%, Ruecklauf ${(peak-pl).toFixed(2)}% >= ${giveback.toFixed(2)}%. Aufgebauter Gewinn wird nach echtem Ruecklauf gesichert.`};trailingSells++;
      }else if(pairedRotation){
        next={...old,symbol:s,action:'SELL',expectancyCoreV310:true,capitalVelocityV313:true,pairedRotationApprovedV313:true,reason:`${String(old?.reason||'ROTATION').slice(0,500)} · V31.3 CAPITAL-VELOCITY: Die bereits score- und momentumgepruefte Paarrotation bleibt SELL; die aeussere Expectancy-Schicht dreht sie nicht mehr auf HOLD.`};pairedRotationSells++;
+     }else if(age>=cfg.failedSetupReviewMinutes&&failedSetupEvidence){
+       next={...old,symbol:s,action:'SELL',allocation_pct:0,expectancyCoreV310:true,capitalVelocityV317:true,failedSetupExitV317:true,reason:`V31.7 FEHLSETUP-EXIT: ${s} ist nach ${age.toFixed(0)} Min. ${pl.toFixed(2)}% im Minus, RawScore ${rawScore.toFixed(1)} <= ${cfg.failedSetupRawScoreMax}, Richtung DOWN und Momentum 5m ${m5.toFixed(2)}% / 20m ${m20.toFixed(2)}%. Mehrfach bestätigtes Scheitern beendet die Position; Zeit allein reicht weiterhin nicht.`};failedSetupSells++;
      }else if(age>=cfg.maxStagnationMinutes&&stagnantEvidence){
        next={...old,symbol:s,action:'SELL',allocation_pct:0,expectancyCoreV310:true,capitalVelocityV313:true,stagnationExitV313:true,reason:`V31.3 STAGNATION-EXIT: ${s} ist seit ${age.toFixed(0)} Min. gebunden, P/L ${pl.toFixed(2)}%, Score ${score.toFixed(1)}/Raw ${rawScore.toFixed(1)}, Momentum 5m ${m5.toFixed(2)}% und 20m ${m20.toFixed(2)}%. Nach ${cfg.maxStagnationMinutes} Min. ohne Fortschritt wird Kapital freigegeben.`};stagnationSells++;
      }else if(act==='SELL'&&age>=cfg.stagnationReviewMinutes&&stagnantEvidence){
@@ -95,12 +102,12 @@ export function enforceExpectancyCoreV310(plan,state={},now=Date.now()){
    if(cash>cfg.minPositionEur&&eur>0&&eur<cfg.minPositionEur){const minPct=clamp(100*cfg.minPositionEur/cash,0,100);actions[i]={...a,allocation_pct:+Math.max(pct,minPct).toFixed(2),expectancyCoreV310:true,minEconomicTicketV310:true,reason:`${String(a?.reason||'BUY').slice(0,450)} · V31.3 SIZE: Position auf mindestens ca. ${cfg.minPositionEur.toFixed(0)} EUR angehoben, damit Fixkosten/Slippage nicht einen zu grossen Anteil der Zielbewegung fressen.`};sizingUpgrades++}
  }
 
- plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,150)} · V31.3 Capital-Velocity: ${hardStops} Hard-Stop · ${trailingSells} Trail · ${pairedRotationSells} Rotation · ${stagnationSells} Stagnation · ${profitFadeSells} Profit-Fade · ${minHoldBlocks} Frueh-Sells blockiert · ${reentryBlocks} Re-Entries blockiert.`;
- return{plan,counters:{hardStops,trailingSells,pairedRotationSells,stagnationSells,profitFadeSells,minHoldBlocks,reentryBlocks,sizingUpgrades,scoreScaleFixes,equity:+equity.toFixed(2)}};
+ plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,142)} · V31.7 Capital-Velocity: ${hardStops} Hard-Stop · ${failedSetupSells} Fehlsetup · ${trailingSells} Trail · ${pairedRotationSells} Rotation · ${stagnationSells} Stagnation · ${profitFadeSells} Profit-Fade · ${minHoldBlocks} Frueh-Sells blockiert.`;
+ return{plan,counters:{hardStops,trailingSells,pairedRotationSells,failedSetupSells,stagnationSells,profitFadeSells,minHoldBlocks,reentryBlocks,sizingUpgrades,scoreScaleFixes,equity:+equity.toFixed(2)}};
 }
 
 export class ExpectancyCoreV310{
  constructor(inner,{getState}={}){this.inner=inner;this.getState=getState;this.latest=null}
  async run(model,input){const legacy=input===undefined&&model&&typeof model==='object',payload=legacy?model:input,r=legacy?await this.inner.run(payload):await this.inner.run(model,payload);if(!isTradingInput(payload))return r;const p=parsePlan(r);if(!p)return r;const state=typeof this.getState==='function'?(this.getState()||{}):{};const out=enforceExpectancyCoreV310(p,state);this.latest=out;return encode(r,out.plan)}
- status(){return{enabled:true,...EXPECTANCY_CORE_V310,mode:'expectancy-capital-velocity-authority',latest:this.latest?.counters||null,rule:'V31.3 verbindet Preisrisiko mit Kapitalgeschwindigkeit: -1.2%-Hard-Stop, 8-Minuten-Mindesthaltezeit, freigegebene qualifizierte Paarrotationen, Stagnationspruefung ab 75 Minuten, spaetestens nach 180 Minuten Exit bei flachem Kurs plus schwachem Score und nicht positivem Momentum, Profit-Fade ab +0.8%/90 Minuten sowie 45-Minuten-Reentry-Hysterese. Gewinner duerfen ueber den Haupt-Trail weiterlaufen.'}}
+ status(){return{enabled:true,...EXPECTANCY_CORE_V310,mode:'expectancy-capital-velocity-authority',latest:this.latest?.counters||null,rule:'V31.7 verbindet Preisrisiko mit Kapitalgeschwindigkeit: -1.2%-Hard-Stop, 8-Minuten-Mindesthaltezeit und ein Fehlsetup-Exit ab 90 Minuten nur bei gleichzeitigem Verlust, RawScore <=45, Richtung DOWN sowie negativem 5m/20m-Momentum. Starke Positionen werden nie nur wegen Zeit verkauft; Stagnation, Profit-Fade, Rotation und Reentry-Hysterese bleiben aktiv.'}}
 }

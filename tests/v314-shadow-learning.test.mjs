@@ -42,11 +42,15 @@ assert.ok(canonical.score>=70,'mehrere unabhaengige bestaetigte Signale muessen 
 assert.equal(canonical.dataQuality,100);
 const incomplete=canonicalEntryAssessmentV316({symbol:'MISS',momentum5Pct:.3,momentum20Pct:.8},canonicalUniverse,[],.291);
 assert.ok(incomplete.dataQuality<canonical.dataQuality,'fehlende News- und Volumendaten muessen die Datenqualitaet senken');
-const learnedRows=Array.from({length:25},(_,i)=>({symbol:`C${i}`,entryScoreVersion:31.6,entryScoreV316:canonical.score,ret:.6}));
+assert.ok(incomplete.score<60,'reines Momentum ohne unabhaengige Bestaetigung darf nicht in die Kaufzone');
+assert.equal(incomplete.orthogonalConfirmations,0);
+const learnedRows=Array.from({length:25},(_,i)=>({symbol:`C${i}`,entryScoreVersion:31.7,entryScoreV317:canonical.score,ret:.6}));
 const learned=canonicalEntryAssessmentV316(canonicalUniverse[0],canonicalUniverse,learnedRows,.291);
 assert.equal(learned.mature,true);
 assert.ok(learned.expectedNetEdgePct>0);
 assert.equal(canonicalCalibrationV316(learnedRows,.291).find(x=>x.bucket===learned.bucket).samples,25);
+const probationRows=[{symbol:'OLD1',entryScoreVersion:31.6,entryScoreV316:canonical.score,dataQualityV316:85,ret:-.2},{symbol:'OLD2',entryScoreVersion:31.6,entryScoreV316:canonical.score,dataQualityV316:85,ret:-.4}];
+assert.equal(canonicalEntryAssessmentV316(canonicalUniverse[0],canonicalUniverse,probationRows,.291).probationBlocked,true,'zwei kompatible verlustreiche Nulltreffer muessen den Warmup-Bereich vorlaeufig pausieren');
 
 // Die alte Rohskala 0-10 wird vor dem Lernen auf 0-100 normalisiert.
 const rawScale=recordShadowSnapshots(base(),[{symbol:'RAW',price:10,score:6.2,currency:'EUR'}],t0);
@@ -78,8 +82,10 @@ const pairOut=await enforceShadowLearningV314(pair,{candidates:[
 ],positions:[],history:[]},null,t0);
 assert.equal(pairOut.plan.actions[0].action,'BUY');
 assert.equal(pairOut.plan.actions[1].shadowBlockKind,'ENTRY_SPACING');
+const heldOut=await enforceShadowLearningV314({actions:[{symbol:'HELD',action:'BUY',allocation_pct:40}],summary:'x'},{candidates:[{symbol:'HELD',price:10}],positions:[{symbol:'HELD',entry_price:10,last_price:10}]},null,t0);
+assert.equal(heldOut.plan.actions[0].shadowBlockKind,'ALREADY_HELD_NO_AUTO_SCALEUP','automatisches Wiederholungs-BUY auf Bestand muss im finalen Plan verschwinden');
 const negativeNews=await enforceShadowLearningV314({actions:[{symbol:'BAD',action:'BUY',allocation_pct:20}],summary:'x'},{candidates:[
   {symbol:'BAD',price:10,decisionScore:75,newsScore:-.6,newsConfidence:.9,newsSources:['OFFICIAL','WIRE'],momentum5:.3,momentum20:.5}
 ],positions:[],history:[]},null,t0);
 assert.equal(negativeNews.plan.actions[0].shadowBlockKind,'CONFIRMED_NEGATIVE_NEWS');
-console.log('OK — V31.6 canonical score, evidence fusion, news gate, cost model and concentration filter');
+console.log('OK — V31.7 orthogonal confirmation, probation, repeat-BUY protection and shadow learning');
