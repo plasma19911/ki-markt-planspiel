@@ -1,14 +1,13 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v9.js';
+import {blendLeaderCacheV3172} from './pc-agent-leader-blend-v3172.js';
 
 const AGENT_STATE_KEY='state/windows-pc-agent-v1';
 const AGENT_PREFETCH_KEY='state/windows-pc-prefetch-v1';
 const LEADER_CACHE_KV_KEY='cache/free-top25-leaders-v1';
 const AGENT_ONLINE_MS=150*1000;
 const AGENT_PREFETCH_TTL_MS=12*60*1000;
-const PREVIOUS_LEADER_TTL_MS=45*60*1000;
 const LEADER_TARGET=25;
 const MIN_EXTERNAL_LEADERS=10;
-const MIN_USABLE_LEADERS=10;
 
 const key=v=>String(v||'').toUpperCase().trim();
 const baseSymbol=v=>key(v).split('.')[0];
@@ -17,7 +16,6 @@ const cleanText=(v,max=180)=>String(v??'').replace(/[\u0000-\u001f\u007f]/g,' ')
 const arr=v=>Array.isArray(v)?v:[];
 
 function fresh(ts,ttl=AGENT_PREFETCH_TTL_MS){const n=Date.parse(String(ts||''));return Number.isFinite(n)&&Date.now()-n>=0&&Date.now()-n<ttl}
-function freshEpoch(ts,ttl=PREVIOUS_LEADER_TTL_MS){const n=num(ts,NaN);return Number.isFinite(n)&&Date.now()-n>=0&&Date.now()-n<ttl}
 function cpu(v){return Math.max(0,Math.min(100,num(v,0)))}
 function bytes(v){return Math.max(0,Math.round(num(v,0)))}
 
@@ -73,14 +71,6 @@ function buildLeaderCache(entries,rows){
   const leaders=ranked.slice(0,LEADER_TARGET).map((x,i)=>({...x.row,externalLeaderRank:i+1,externalLeaderScore:+x.score.toFixed(3),externalLeaderSources:x.sources}));
   const matched=[...scores.values()].length,updatedAt=new Date().toISOString();
   return{leaders,meta:{updatedAt,target:LEADER_TARGET,externalResolved:matched,externalHealthy:matched>=MIN_EXTERNAL_LEADERS,sourceStats:[...sourceStats.values()],selected:leaders.length,mode:'PC_AGENT_TOP_25'}};
-}
-
-export function blendLeaderCacheV3172(current,previous=null,now=Date.now()){
-  const cur=arr(current?.leaders),meta=current?.meta||{},resolved=Math.max(0,Math.min(cur.length,Math.round(num(meta.externalResolved)))),externalHealthy=Boolean(meta.externalHealthy),previousFresh=previous&&Number.isFinite(num(previous?.at,NaN))&&now-num(previous.at)<PREVIOUS_LEADER_TTL_MS&&now-num(previous.at)>=0;
-  const dynamic=cur.slice(0,resolved),old=previousFresh?arr(previous?.leaders):[],fallback=cur.slice(resolved),out=[],seen=new Set();
-  for(const row of [...dynamic,...old,...fallback]){const s=key(row?.symbol);if(!s||seen.has(s))continue;seen.add(s);out.push({...row});if(out.length>=LEADER_TARGET)break}
-  const usable=resolved>0&&out.length>=MIN_USABLE_LEADERS,previousUsed=previousFresh&&old.some(x=>out.some(y=>key(y?.symbol)===key(x?.symbol))&&!dynamic.some(d=>key(d?.symbol)===key(x?.symbol)));
-  return{at:now,leaders:out,meta:{...meta,selected:out.length,externalHealthy,usable,previousUsed,mode:externalHealthy?'PC_AGENT_TOP_25':usable?(previousUsed?'PC_AGENT_PARTIAL_BLEND':'PC_AGENT_PARTIAL_MASTER_FALLBACK'):'PC_AGENT_INSUFFICIENT'}};
 }
 
 function normalizeFutureWatch(input,index){
