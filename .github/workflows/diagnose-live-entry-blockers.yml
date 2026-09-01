@@ -1,0 +1,46 @@
+name: Diagnose Live Entry Blockers
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/diagnose-live-entry-blockers.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Read live decision state
+        run: |
+          node --input-type=module <<'NODE'
+          const base='https://ki-markt-planspiel.orkimperium.workers.dev';
+          const r=await fetch(`${base}/api/status?entry_diag=${Date.now()}`,{headers:{'cache-control':'no-cache','user-agent':'github-actions-entry-diagnostic'}});
+          if(!r.ok) throw new Error(`status HTTP ${r.status}`);
+          const s=await r.json();
+          const candidates=Array.isArray(s?.candidates)?s.candidates:[];
+          const top=candidates.slice(0,12).map(c=>({
+            symbol:c?.symbol,name:c?.name,score:c?.score,decisionScore:c?.decisionScore,
+            legacyScore:c?.legacy_score,legacyDecisionScore:c?.legacy_decision_score,
+            entryScoreV317:c?.entryScoreV317,entryLabelV317:c?.entryLabelV317,
+            dataQualityV317:c?.dataQualityV317,orthogonalConfirmationsV317:c?.orthogonalConfirmationsV317,
+            expectedNetEdgePctV317:c?.expectedNetEdgePctV317,probationSamplesV317:c?.probationSamplesV317,
+            probationExpectedNetEdgePctV317:c?.probationExpectedNetEdgePctV317,probationBlockedV317:c?.probationBlockedV317,
+            pcDeepScore:c?.pcDeepScore,pcPreScore:c?.pcPreScore,
+            momentum5Pct:c?.momentum5Pct??c?.momentum5,momentum20Pct:c?.momentum20Pct??c?.momentum20,
+            acceleration5Pct:c?.acceleration5Pct??c?.momentumAcceleration5,
+            volumeRatio:c?.volumeRatio??c?.volume_ratio,volumeRatioSource:c?.volumeRatioSource??c?.volume_ratio_source,
+            newsScore:c?.newsScore??c?.news_score??c?.news,newsConfidence:c?.newsConfidence??c?.news_confidence,
+            quoteAgeMinutes:c?.quoteAgeMinutes,stale:c?.stale,rsi:c?.rsi??c?.intradayRsi,day:c?.dayPct??c?.day_change??c?.day,
+            brokerVerified:c?.brokerVerified,brokerMatchMode:c?.brokerMatchMode,isin:c?.isin
+          }));
+          const audit=Array.isArray(s?.decisionAuditRecent)?s.decisionAuditRecent[0]:null;
+          const out={checkedAt:new Date().toISOString(),scanCount:s?.config?.scan_count,lastScan:s?.config?.last_scan,cash:s?.config?.cash,positions:Array.isArray(s?.positions)?s.positions.length:0,aiLastSummary:s?.config?.ai_last_summary,topCandidates:top,lastDecisionAudit:audit,outcome:s?.outcomeLearningPolicy,canonical:s?.canonicalScorePolicy,capital:s?.unifiedDecisionCorePolicy?.latest?.capital,shadow:s?.unifiedDecisionCorePolicy?.latest?.shadow};
+          console.log('ENTRY_BLOCKER_DIAGNOSTIC_START');
+          console.log(JSON.stringify(out,null,2));
+          console.log('ENTRY_BLOCKER_DIAGNOSTIC_END');
+          NODE
