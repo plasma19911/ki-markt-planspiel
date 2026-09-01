@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-01T06:01:28.292794+00:00",
-  "berlinNow": "2026-09-01T08:01:28.292514+02:00",
+  "checkedAt": "2026-09-01T06:03:27.975727+00:00",
+  "berlinNow": "2026-09-01T08:03:27.975559+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 3180604,
-    "dashboard": 3180598
+    "full": 3008987,
+    "dashboard": 3008987
   },
   "checks": {
     "fullStatus200": true,
@@ -24,13 +24,13 @@
     "date": "2026-09-01",
     "status": "CAPTURING",
     "processed": 0,
-    "total": 49,
+    "total": 50,
     "provisional": true,
     "completedAt": null,
     "capture": {
       "date": "2026-09-01",
-      "symbolCount": 49,
-      "updatedAt": "2026-09-01T06:00:27.976Z"
+      "symbolCount": 50,
+      "updatedAt": "2026-09-01T06:02:16.752Z"
     },
     "summary": {
       "provisional": true,
@@ -46,44 +46,11 @@
     }
   },
   "depot": {
-    "cash": 1164.3715873986375,
-    "equity": 9834.986528465754,
-    "displayMarketValue": 8670.614941,
-    "displayAccountingDelta": 6.711707101203501e-08,
-    "positions": [
-      {
-        "symbol": "ASB.AX",
-        "invested": 2196.758641,
-        "ratioValue": 2214.744025036036,
-        "quantityValue": 2214.744025,
-        "displayValue": 2214.744025,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "NET",
-        "invested": 2081.151052,
-        "ratioValue": 2100.8654163853057,
-        "quantityValue": 2100.865416,
-        "displayValue": 2100.865416,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "7013.T",
-        "invested": 2184.735653,
-        "ratioValue": 2180.9654999001727,
-        "quantityValue": 2180.9655000000002,
-        "displayValue": 2180.9655000000002,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "CBK.DE",
-        "invested": 2188.105895,
-        "ratioValue": 2174.0399997456034,
-        "quantityValue": 2174.04,
-        "displayValue": 2174.04,
-        "quantityUsed": true
-      }
-    ]
+    "cash": 10000.0,
+    "equity": 10000.0,
+    "displayMarketValue": 0.0,
+    "displayAccountingDelta": 0.0,
+    "positions": []
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: tue, 01 sep 2026 06:01:28 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=axit6eadx%2fgmsiqa6y%2bordrmxazc3%2b0negglwrdsygdsu6yvcvjneynnr2e7kula6xt0zzff6ji2h6bthcgl2w5yd8x6xtjfitxvmjey80wa%2b%2ftm8cove0pmknxddihbyves%2binvppyeijrj7v%2fulwe7oge8v%2bgixcjgcne%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a3420f7e6d52311e-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: tue, 01 sep 2026 06:03:27 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=ac1glabakz3ljy265gkthb6qdpybebovcfg9nk1l4z8uevshq3vu68fykmbth5ra77h1npwwp8u5brevqtibnyszzgqhh%2fkzewunikmfbwsfuadpsa21yyeo5klw%2bho66rzlpcbcrzq4hzggcxmsjai43rpjhd5eelxuwmy%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a342126a8a6059c1-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
