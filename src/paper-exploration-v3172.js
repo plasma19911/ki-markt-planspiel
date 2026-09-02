@@ -8,24 +8,29 @@ const canonicalScore=v=>{let x=num(v);if(x>0&&x<=10)x*=10;return clamp(x,0,100)}
 const normName=v=>String(v||'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/&/g,' AND ').replace(/\b(SE|SA|AG|NV|PLC|ASA|AB|OYJ|SPA|S P A|INC|CORP|CORPORATION|LTD|LIMITED|HOLDING|HOLDINGS|GROUP|GROUPE)\b/g,' ').replace(/[^A-Z0-9]+/g,' ').replace(/\s+/g,' ').trim();
 
 export const PAPER_EXPLORATION_V3172={
-  version:31.77,
+  version:31.78,
   enabled:true,
   paperOnly:true,
   minMatured:80,
   minMissedOpportunities:5,
   maxExistingBuySamples:8,
-  minScore:28,
-  minForecastScore:28,
-  minSignalConfidence:.40,
-  minAgreement:2,
+  minScore:50,
+  minForecastScore:52,
+  minSignalConfidence:.55,
+  minAgreement:3,
   minVelocity5:.5,
+  minDynamicM5:.05,
+  minDynamicM20:0,
+  maxVelocityRank:6,
+  minNetLearningHitRatePct:50,
+  minNetLearningAvgPct:0,
   staticMinScore:58,
   staticMinForecastUplift:2.5,
   staticMinConfidence:.60,
   staticMinAgreement:1,
-  allocationPct:6,
+  allocationPct:8,
   maxOpenPositionsForProbe:3,
-  maxProbeExposurePct:18,
+  maxProbeExposurePct:24,
   minMinutesBetweenProbes:20,
   reentryMinutes:45,
   maxQuoteAgeMinutes:5,
@@ -97,18 +102,18 @@ function commonBlock(c,a,state,now,cfg){
 function candidateEligible(p,c,a,state,now,cfg){
   const common=commonBlock(c,a,state,now,cfg);if(!common.ok)return common;
   const symbol=common.symbol,score=canonicalScore(p?.score??c?.daytradeLiveScore??c?.decisionScore??c?.score),forecast=num(p?.forecast20mScore,score),confidence=clamp(num(p?.signalConfidence,c?.liveConfidence??c?.confidence??.5),0,1),velocity=num(p?.velocity5),agreement=Math.max(0,Math.round(num(p?.agreement,candidateAgreement(c)))),m5=num(p?.m5,c?.momentum5Pct??c?.momentum5),m20=num(p?.m20,c?.momentum20Pct??c?.momentum20),acc=num(p?.accel,c?.acceleration5Pct??c?.momentumAcceleration5),news=clamp(num(p?.news,c?.newsScore??c?.news_score??c?.news),-1,1),day=num(p?.day,c?.day_change??c?.dayChange??c?.day),rsi=num(p?.rsi,c?.intradayRsi??c?.rsi??50),direction=String(p?.direction||c?.chartDirectionMode||c?.chartDirection20m||'').toUpperCase(),regime=String(p?.regime||'').toUpperCase(),uplift=forecast-score;
-  const diag={symbol,score:+score.toFixed(1),forecast:+forecast.toFixed(2),uplift:+uplift.toFixed(2),confidence:+confidence.toFixed(3),velocity:+velocity.toFixed(2),agreement,m5:+m5.toFixed(3),m20:+m20.toFixed(3),direction,regime};
+  const velocityRank=clamp(velocity,-cfg.maxVelocityRank,cfg.maxVelocityRank),diag={symbol,score:+score.toFixed(1),forecast:+forecast.toFixed(2),uplift:+uplift.toFixed(2),confidence:+confidence.toFixed(3),velocity:+velocity.toFixed(2),velocityRank:+velocityRank.toFixed(2),agreement,m5:+m5.toFixed(3),m20:+m20.toFixed(3),direction,regime};
   if(score<cfg.minScore||forecast<cfg.minForecastScore||forecast<score-1)return{ok:false,reason:'SCORE',...diag};
   if(regime==='BEAR'||regime==='VOLATILE'||news<=-.25||day<=-3.5||day>=4||rsi>=74)return{ok:false,reason:'RISK_PROFILE',...diag};
-  const dynamicConfirm=confidence>=cfg.minSignalConfidence&&velocity>=cfg.minVelocity5&&agreement>=cfg.minAgreement;
+  const dynamicConfirm=confidence>=cfg.minSignalConfidence&&velocity>=cfg.minVelocity5&&agreement>=cfg.minAgreement&&m5>=cfg.minDynamicM5&&m20>=cfg.minDynamicM20;
   const staticConfirm=score>=cfg.staticMinScore&&uplift>=cfg.staticMinForecastUplift&&confidence>=cfg.staticMinConfidence&&agreement>=cfg.staticMinAgreement;
   const currentTapeConfirm=p?.currentTapeFallback===true&&score>=cfg.staticMinScore&&confidence>=cfg.staticMinConfidence&&agreement>=2&&m5>=.03&&m20>=.04&&news>-.15;
   if(!dynamicConfirm&&!staticConfirm&&!currentTapeConfirm)return{ok:false,reason:'CONFIRMATION',dynamicConfirm,staticConfirm,currentTapeConfirm,...diag};
-  const directional=(m5>0||m20>0||direction==='UP'),notFalling=m5>=-.08&&m20>=-.12,impulse=(m5>=.03||m20>=.04||acc>=.005||direction==='UP');
-  const learnedStaticTape=(staticConfirm||currentTapeConfirm)&&agreement>=2&&m5>=-.03&&m20>=-.05;
+  const directional=(m5>0||m20>0||direction==='UP'),notFalling=m5>=0&&m20>=0,impulse=(m5>=.03||m20>=.04||acc>=.005||direction==='UP');
+  const learnedStaticTape=(staticConfirm||currentTapeConfirm)&&agreement>=2&&m5>=0&&m20>=0;
   if((!directional||!notFalling||!impulse)&&!learnedStaticTape)return{ok:false,reason:'NO_POSITIVE_TAPE',dynamicConfirm,staticConfirm,currentTapeConfirm,...diag};
-  const rank=forecast+score*.35+velocity*.35+confidence*8+agreement*1.5+Math.max(0,m5)*2+Math.max(0,m20);
-  return{ok:true,rank,score,forecast,confidence,velocity,agreement,m5,m20,acc,news,day,rsi,confirmationMode:dynamicConfirm?'DYNAMIC':staticConfirm?'STATIC_FORECAST':'CURRENT_TAPE'};
+  const rank=forecast+score*.35+velocityRank*.35+confidence*8+agreement*1.5+Math.max(0,m5)*2+Math.max(0,m20);
+  return{ok:true,rank,score,forecast,confidence,velocity,velocityRank,agreement,m5,m20,acc,news,day,rsi,confirmationMode:dynamicConfirm?'DYNAMIC':staticConfirm?'STATIC_FORECAST':'CURRENT_TAPE'};
 }
 function deadlockEligible(c,a,state,now,cfg){
   const common=commonBlock(c,a,state,now,cfg);if(!common.ok)return common;
@@ -127,10 +132,11 @@ export function enforcePaperExplorationV3172(plan,state={},learning={},brokerRow
   const profile=learning?.status||{},positions=arr(state?.positions);
   if(positions.length>=cfg.maxOpenPositionsForProbe)return{plan,counters:{...counters,reason:'PROBE_POSITION_LIMIT'}};
   if(arr(plan.actions).some(a=>String(a?.action||'').toUpperCase()==='BUY'))return{plan,counters:{...counters,reason:'NORMAL_BUY_ALREADY_EXISTS'}};
-  const learningTrigger=num(profile?.matured)>=cfg.minMatured&&num(profile?.buySamples)<=cfg.maxExistingBuySamples&&num(profile?.missedOpportunities)>=cfg.minMissedOpportunities;
-  const staticDeadlockTrigger=!learningTrigger&&positions.length<cfg.maxOpenPositionsForProbe&&num(profile?.buySamples)<=cfg.maxExistingBuySamples;
+  const buySamples=num(profile?.buySamples),buyHit=num(profile?.buyHitRate,100),avgBuy=num(profile?.avgBuy20mNetReturnPct,profile?.avgBuy20mReturnPct??0),performanceWeak=buySamples>=3&&(String(profile?.mode||'').toUpperCase()==='DEFENSIVE'||buyHit<cfg.minNetLearningHitRatePct||avgBuy<=cfg.minNetLearningAvgPct);
+  const learningTrigger=!performanceWeak&&num(profile?.matured)>=cfg.minMatured&&buySamples<=cfg.maxExistingBuySamples&&num(profile?.missedOpportunities)>=cfg.minMissedOpportunities;
+  const staticDeadlockTrigger=!learningTrigger&&positions.length<cfg.maxOpenPositionsForProbe&&buySamples<=cfg.maxExistingBuySamples;
   if(!learningTrigger&&!staticDeadlockTrigger)return{plan,counters:{...counters,reason:'LEARNING_TRIGGER_NOT_MET'}};
-  counters.triggerMode=learningTrigger?'LEARNED_DEADLOCK':'STATIC_CANONICAL_DEADLOCK';
+  counters.triggerMode=learningTrigger?'LEARNED_NET_EDGE':'STATIC_CANONICAL_DEADLOCK';
   if(recentGlobalProbeBlocked(state,now,cfg))return{plan,counters:{...counters,reason:'PROBE_SPACING'}};
   const cmap=brokerMap(state,brokerRows),predictions=learning?.predictions||{},actions=plan.actions.map(a=>({...a})),idx=new Map();actions.forEach((a,i)=>{const s=key(a);if(s&&!idx.has(s))idx.set(s,i)});
   const rows=[],blocked=[],symbols=new Set([...Object.keys(predictions).map(key),...arr(state?.candidates).map(key)]);
@@ -143,11 +149,11 @@ export function enforcePaperExplorationV3172(plan,state={},learning={},brokerRow
     if(assessment.ok)rows.push({s,c,a,i,...assessment});else blocked.push(assessment);
   }
   rows.sort((a,b)=>b.rank-a.rank);counters.eligible=rows.length;counters.blocked=blocked.slice(0,10);
-  const chosen=rows[0];if(!chosen)return{plan,counters:{...counters,reason:'NO_CONFIRMED_EXPLORATION_CANDIDATE'}};
-  const pct=cfg.allocationPct,profileText=learningTrigger?`Nach ${num(profile.matured)} ausgewerteten 20m-Fällen, ${num(profile.missedOpportunities)} verpassten Chancen und erst ${num(profile.buySamples)} BUY-Samples`:`Bei ${positions.length} offenen Paper-Position(en) und ohne ausführbaren normalen BUY trotz bestätigter V31.7-Kaufzone`;
-  const buy={...chosen.a,symbol:chosen.s,name:chosen.c?.name||chosen.s,action:'BUY',allocation_pct:pct,confidence:chosen.confidence,paperExplorationV3172:true,outcomeLearningProbeV3172:learningTrigger,staticDeadlockProbeV3176:!learningTrigger,multiProbeV3177:true,explorationConfirmationMode:chosen.confirmationMode,forecast20mScore:+chosen.forecast.toFixed(2),scoreVelocity5m:+chosen.velocity.toFixed(2),entryDecisionScore:+chosen.score.toFixed(1),reason:`V31.7.7 PAPER-EXPLORATION: ${profileText} wird genau eine kleine Lernposition eröffnet. ${chosen.s}: Score ${chosen.score.toFixed(1)}, Konfidenz ${(chosen.confidence*100).toFixed(0)}%, Bestätigungen ${chosen.agreement}, Modus ${chosen.confirmationMode}, Momentum 5m ${chosen.m5.toFixed(2)}% / 20m ${chosen.m20.toFixed(2)}%. ${chosen.dataQuality!=null?`Datenqualität ${chosen.dataQuality.toFixed(0)}/100, orthogonale Bestätigungen ${chosen.orthogonalConfirmations}. `:''}Trade-Republic-Asset ist exakt verifiziert; frischer Kurs sowie harte News-, Markt-, Quote-, FX- und Re-Entry-Sperren bleiben bindend. Maximal ${cfg.maxOpenPositionsForProbe} Probe-Slots, ${cfg.maxProbeExposurePct}% Probe-Exposure, Starter ${pct.toFixed(1)}%.`};
+  const chosen=rows[0];if(!chosen)return{plan,counters:{...counters,reason:performanceWeak?'NET_BUY_PERFORMANCE_WEAK':'NO_CONFIRMED_EXPLORATION_CANDIDATE'}};
+  const pct=cfg.allocationPct,profileText=learningTrigger?`Nach ${num(profile.matured)} ausgewerteten 20m-Fällen, ${num(profile.missedOpportunities)} verpassten Chancen und ${buySamples} kostenbereinigten BUY-Samples`:`Bei ${positions.length} offenen Paper-Position(en) und ohne profitabel bestätigten Lern-BUY wird nur ein strenger V31.7-Kanonical-Starter zugelassen`;
+  const buy={...chosen.a,symbol:chosen.s,name:chosen.c?.name||chosen.s,action:'BUY',allocation_pct:pct,confidence:chosen.confidence,paperExplorationV3172:true,outcomeLearningProbeV3172:learningTrigger,staticDeadlockProbeV3176:!learningTrigger,multiProbeV3177:true,netProfitEntryV3178:true,explorationConfirmationMode:chosen.confirmationMode,forecast20mScore:+chosen.forecast.toFixed(2),scoreVelocity5m:+chosen.velocity.toFixed(2),entryDecisionScore:+chosen.score.toFixed(1),reason:`V31.7.8 NET-PROFIT-EXPLORATION: ${profileText}. ${chosen.s}: Score ${chosen.score.toFixed(1)}, Konfidenz ${(chosen.confidence*100).toFixed(0)}%, Bestätigungen ${chosen.agreement}, Modus ${chosen.confirmationMode}, Momentum 5m ${chosen.m5.toFixed(2)}% / 20m ${chosen.m20.toFixed(2)}%. Velocity wird für das Ranking auf ±${cfg.maxVelocityRank} begrenzt; niedrige Scores können nicht mehr nur wegen eines Score-Spikes gewinnen. ${chosen.dataQuality!=null?`Datenqualität ${chosen.dataQuality.toFixed(0)}/100, orthogonale Bestätigungen ${chosen.orthogonalConfirmations}. `:''}Trade-Republic-Asset ist exakt verifiziert; frischer Kurs sowie harte News-, Markt-, Quote-, FX- und Re-Entry-Sperren bleiben bindend. Maximal ${cfg.maxOpenPositionsForProbe} Probe-Slots, ${cfg.maxProbeExposurePct}% Probe-Exposure, kosten-effizienterer Starter ${pct.toFixed(1)}%.`};
   if(chosen.i===undefined)actions.push(buy);else actions[chosen.i]=buy;
-  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,112)} · V31.7.7 ${learningTrigger?'Lern':'Deadlock'}-Probe BUY ${chosen.s} ${pct.toFixed(1)}%.`;
-  counters.injected=1;counters.reason=learningTrigger?'CONTROLLED_PAPER_EXPLORATION':'STATIC_CANONICAL_DEADLOCK_PROBE';counters.chosen={symbol:chosen.s,score:+chosen.score.toFixed(1),forecast:+chosen.forecast.toFixed(1),confidence:+chosen.confidence.toFixed(3),velocity:+chosen.velocity.toFixed(2),agreement:chosen.agreement,confirmationMode:chosen.confirmationMode,allocationPct:pct,dataQuality:chosen.dataQuality??null,orthogonalConfirmations:chosen.orthogonalConfirmations??null};
+  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,112)} · V31.7.8 ${learningTrigger?'Net-Lern':'Canonical'}-Probe BUY ${chosen.s} ${pct.toFixed(1)}%.`;
+  counters.injected=1;counters.reason=learningTrigger?'CONTROLLED_NET_PROFIT_EXPLORATION':'STATIC_CANONICAL_DEADLOCK_PROBE';counters.chosen={symbol:chosen.s,score:+chosen.score.toFixed(1),forecast:+chosen.forecast.toFixed(1),confidence:+chosen.confidence.toFixed(3),velocity:+chosen.velocity.toFixed(2),velocityRank:+num(chosen.velocityRank,0).toFixed(2),agreement:chosen.agreement,confirmationMode:chosen.confirmationMode,allocationPct:pct,dataQuality:chosen.dataQuality??null,orthogonalConfirmations:chosen.orthogonalConfirmations??null};
   return{plan,counters};
 }
