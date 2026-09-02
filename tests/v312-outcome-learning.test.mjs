@@ -44,10 +44,13 @@ test('small raw BUY gain is correctly classified as a net loss after fees and sl
   assert.ok(l.status.avgBuy20mNetReturnPct<0);
 });
 
-test('three weak historical BUYs switch learning to defensive even if raw returns were slightly positive',()=>{
-  const recent20=[0,1,2].map(i=>({ts:t0-i*60000,symbol:`B${i}`,action:'BUY',returnPct:.18,score:55,forecast20mScore:58,theme:'TEST',regime:'SIDEWAYS'}));
+test('three weak historical BUYs switch learning to defensive once the learning window is mature',()=>{
+  const buyRows=[0,1,2].map(i=>({ts:t0-i*60000,symbol:`B${i}`,action:'BUY',returnPct:.18,score:55,forecast20mScore:58,theme:'TEST',regime:'SIDEWAYS'}));
+  const holdRows=Array.from({length:17},(_,i)=>({ts:t0-(i+3)*60000,symbol:`H${i}`,action:'HOLD',returnPct:0,score:50,forecast20mScore:50,theme:'TEST',regime:'SIDEWAYS'}));
+  const recent20=[...buyRows,...holdRows];
   const memory={version:31.2,weights:{},symbols:{},recent20,stats:{},groupStats:{regime:{},theme:{},source:{}}};
   const l=updateOutcomeLearningMemoryV312(memory,{candidates:[],positions:[]},t0+60000);
+  assert.equal(l.status.matured,20);
   assert.equal(l.status.buySamples,3);
   assert.equal(l.status.mode,'DEFENSIVE');
   assert.equal(l.status.buyHitRate,0);
