@@ -21,9 +21,16 @@ PRIMARY_EXCHANGES = {"us":{"NMS","NYQ","NGM","NCM","ASE","PCX"},"ca":{"TOR","VAN
 REGION_PAGE_OFFSETS = range(0, 1250, 250)
 BROAD_PAGE_OFFSETS = range(0, 15000, 250)
 MAX_PLAUSIBLE_MCAP_USD = 10_000_000_000_000.0
-MIN_SAFE_OUTPUT = 1500
+# This is a verified-only intersection, not the size of the full TR catalogue.
+# The old 1,500-row guard made every refresh fail even when hundreds of uniquely
+# verified equities were found. 120 still catches catastrophic provider/parser
+# collapse while allowing the conservative verified subset to refresh.
+MIN_SAFE_OUTPUT = 120
 ISIN_RE = re.compile(r"\b([A-Z]{2}[A-Z0-9]{9}[0-9])\b")
-LEGAL_WORDS = {"INC","INCORPORATED","CORP","CORPORATION","CO","COMPANY","LTD","LIMITED","PLC","AG","SE","NV","SA","SPA","SAS","AB","ASA","OYJ","A/S","HOLDING","HOLDINGS","GROUP","THE","REGISTERED","ORDINARY","SHARES","SHARE","STOCK","ADR","ADS"}
+# Only legal-entity suffixes are relaxed. Share-class / instrument markers such
+# as ADR, ADS, ORDINARY, SHARE(S) and STOCK deliberately remain significant so
+# a unique legal-suffix match cannot silently cross to another security class.
+LEGAL_WORDS = {"INC","INCORPORATED","CORP","CORPORATION","CO","COMPANY","LTD","LIMITED","PLC","AG","SE","NV","SA","SPA","SAS","AB","ASA","OYJ","A/S","HOLDING","HOLDINGS","GROUP","THE","REGISTERED"}
 
 
 def scalar(v, default=0):
@@ -109,14 +116,19 @@ def build_name_indexes(records):
 
 
 def unique_match(name, exact, relaxed):
-    # HARD BROKER RULE: only an exact normalized official catalog name is allowed.
-    # The former legal-suffix-relaxed fallback could map the right company to the
-    # wrong share class/listing/ISIN and therefore create a paper BUY that is not
-    # actually searchable in Trade Republic.
+    # First choice stays an exact normalized official-catalogue name.
     ek = exact_name_key(name)
-    a = exact.get(ek, [])
-    if len(a) == 1:
-        return a[0], "EXACT_NORMALIZED_NAME"
+    exact_candidates = exact.get(ek, [])
+    if len(exact_candidates) == 1:
+        return exact_candidates[0], "EXACT_NORMALIZED_NAME"
+
+    # Safe breadth recovery: allow only a UNIQUE match after stripping legal
+    # entity suffixes. Security-class markers are never stripped (see
+    # LEGAL_WORDS), and ambiguous relaxed matches remain rejected.
+    rk = relaxed_name_key(name)
+    relaxed_candidates = relaxed.get(rk, []) if rk else []
+    if len(relaxed_candidates) == 1:
+        return relaxed_candidates[0], "UNIQUE_LEGAL_SUFFIX_NORMALIZED_NAME"
     return None, None
 
 
@@ -255,7 +267,7 @@ def main():
             "brokerTarget": "Trade Republic",
             "venueTarget": "Trade Republic Bestpreis",
             "brokerCatalogCandidate": True,
-            "brokerVerified": match_mode == "EXACT_NORMALIZED_NAME",
+            "brokerVerified": match_mode in ("EXACT_NORMALIZED_NAME", "UNIQUE_LEGAL_SUFFIX_NORMALIZED_NAME"),
             "brokerVerificationSource": "official Trade Republic Trading Universe PDF",
             "brokerMatchMode": match_mode,
         }
@@ -274,6 +286,10 @@ def main():
     if len(equities) < MIN_SAFE_OUTPUT:
         raise RuntimeError(f"Only {len(equities)} conservatively matched Trade Republic stocks found; refusing overwrite. Failures: {failures[:5]}")
 
+    match_counts = {
+        "exact": sum(1 for x in equities if x.get("brokerMatchMode") == "EXACT_NORMALIZED_NAME"),
+        "unique_legal_suffix": sum(1 for x in equities if x.get("brokerMatchMode") == "UNIQUE_LEGAL_SUFFIX_NORMALIZED_NAME"),
+    }
     payload = {
         "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "source": "official Trade Republic Trading Universe PDF intersected with Yahoo/yfinance EQUITY listings",
@@ -284,7 +300,7 @@ def main():
         "stocks_only": True,
         "exact_broker_catalog": True,
         "catalog_is_conservative_subset": True,
-        "symbol_mapping_mode": "official ISIN/name catalog -> exact normalized Yahoo equity name mapping only",
+        "symbol_mapping_mode": "official ISIN/name catalog -> exact normalized or unique legal-suffix-normalized Yahoo equity name",
         "broker_verification_required_before_live_order": True,
         "temporary_broker_unavailability_possible": True,
         "official_catalog_instruments_parsed": len(official),
@@ -293,11 +309,12 @@ def main():
         "raw_unique_symbols": len(by_symbol),
         "duplicate_listings_collapsed": max(0, len(by_symbol) - len(equities)),
         "rejected_implausible_market_caps": rejected_caps,
-        "selection_note": "Nur normale Aktien, die im offiziellen Trade-Republic-Handelsuniversum per exaktem normalisiertem Namen eindeutig wiedergefunden wurden, werden an Scanner und Paper-Trading weitergegeben. Relaxed/Fuzzy-Namensmatches sind verboten. Vor einer spaeteren echten Order muss die aktuelle Verfuegbarkeit in Trade Republic trotzdem erneut geprueft werden.",
+        "match_counts": match_counts,
+        "selection_note": "Nur normale Aktien, die im offiziellen Trade-Republic-Handelsuniversum entweder per exaktem normalisiertem Namen oder per eindeutigem Legal-Suffix-Match wiedergefunden wurden, werden an Scanner und Paper-Trading weitergegeben. Share-Class-/ADR-/ADS-Marker bleiben beim Relaxed-Match signifikant; mehrdeutige oder fuzzy Matches sind verboten. Vor einer spaeteren echten Order muss die aktuelle Verfuegbarkeit in Trade Republic trotzdem erneut geprueft werden.",
         "equities": equities,
     }
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Wrote {len(equities)} exact Trade Republic stock candidates from {len(official)} official catalog instruments")
+    print(f"Wrote {len(equities)} verified Trade Republic stock candidates from {len(official)} official catalog instruments ({match_counts})")
     if failures:
         print("Warnings:", failures)
 
