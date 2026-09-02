@@ -40,10 +40,24 @@ import {PROFIT_EXIT_V297,requiredProfitScoreDeltaV297,profitDecisionV297} from '
   const d=profitDecisionV297({entryScore:60,currentScore:66,chartMovePct:2.2});
   assert.equal(d.action,'HOLD','+2% still needs +7 score unless high-score adjustment applies');
 }
+{
+  const d=profitDecisionV297({entryScore:73.7,currentScore:69.7,chartMovePct:1.906,scoreDeltaThisScan:0,chartMoveLastScanPct:0});
+  assert.equal(d.action,'SELL','a profitable position with a >=3 point score fade and no renewed acceleration should protect the gain');
+  assert.equal(d.reason,'profit_fade_lock');
+}
+{
+  const d=profitDecisionV297({entryScore:73.7,currentScore:69.7,chartMovePct:1.906,scoreDeltaThisScan:1.2,chartMoveLastScanPct:.2});
+  assert.equal(d.action,'HOLD','a winner that is accelerating again must not be sold only because the score is below its entry level');
+}
+{
+  const d=profitDecisionV297({entryScore:73.7,currentScore:71.0,chartMovePct:1.2,scoreDeltaThisScan:0,chartMoveLastScanPct:0});
+  assert.equal(d.action,'HOLD','a small score fade below the configured 3 point drop must not trigger the profit fade lock');
+}
 
 assert.equal(PROFIT_EXIT_V297.minProfitPct,.8);
 assert.equal(PROFIT_EXIT_V297.mediumProfitPct,2);
 assert.equal(PROFIT_EXIT_V297.largeProfitPct,3.5);
 assert.equal(PROFIT_EXIT_V297.profitLockPct,5);
+assert.equal(PROFIT_EXIT_V297.profitFadeScoreDrop,3);
 assert.equal(PROFIT_EXIT_V297.highScoreTarget,99);
-console.log('V29.7 adaptive profit exit tests: OK');
+console.log('V29.7.1 adaptive profit exit tests: OK');
