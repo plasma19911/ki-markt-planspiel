@@ -5,6 +5,7 @@ import {gettexSessionState} from '../src/gettex-session.js';
 const read=p=>fs.readFileSync(new URL(`../${p}`,import.meta.url),'utf8');
 const wrangler=read('wrangler.jsonc');
 const index=read('src/index.js');
+const indexCore=read('src/index-core.js');
 const index20=read('src/index-v20.js');
 const compact=read('src/compact-portfolio.js');
 const constants=read('src/constants.js');
@@ -28,7 +29,8 @@ assert.match(wrangler,/"crons"\s*:\s*\["\* 5-22 \* \* 1-5"\]/,'Cloudflare-Cron m
 assert.match(index20,/age>95_000/,'Cloudflare darf nur bei echter >95s Scan-Lücke übernehmen');
 assert.match(wrangler,/"head_sampling_rate"\s*:\s*0\.1/,'Observability-Sampling muss fuer Free reduziert sein');
 assert.match(wrangler,/"main"\s*:\s*"src\/index-v20\.js"/,'Produktionsentry muss die Dashboard/Gap-Fill-Schicht verwenden');
-assert.match(index,/compact-portfolio-v11\.js/,'API muss den Produktions-Kompatibilitätspfad verwenden');
+assert.match(index,/index-core\.js/,'API-Wrapper muss an den aktuellen Produktions-Kompatibilitätspfad index-core.js delegieren');
+assert.match(indexCore,/compact-portfolio-v11\.js/,'index-core.js muss den Produktions-Kompatibilitätsportfolio-Pfad verwenden');
 assert.match(v11,/compact-portfolio-v304-relative-rotation\.js/,'V11 muss den aktuellen V30.4 Relative-Rotation-Wrapper aktivieren');
 assert.match(v304,/compact-portfolio-v303-system-validation\.js/,'V30.4 muss den V30.3 System-/Validierungs-Wrapper darunter behalten');
 assert.match(v288,/compact-portfolio-v287-calibrated-breadth\.js/,'V28.8 muss V28.7 als sicheren Fallback behalten');
