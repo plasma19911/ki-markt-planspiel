@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-01T09:30:49.148Z",
-  "nextRefreshAfter": "2026-09-02T09:30:49.148Z",
+  "updatedAt": "2026-09-02T08:53:34.748Z",
+  "nextRefreshAfter": "2026-09-03T08:53:34.748Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,10 +14,10 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 19,
-  "matchedUpcomingCount": 5,
-  "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-08-24T04:09:57.222992Z",
+  "rawUpcomingCount": 18,
+  "matchedUpcomingCount": 6,
+  "fundamentalEstimateCount": 1,
+  "universeGeneratedAt": "2026-09-02T08:50:51.498508Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -49,7 +49,7 @@
         "revenueCurrentYearEstimate": 20551.95,
         "revenueNextYearEstimate": 20732.86
       },
-      "daysUntil": 1,
+      "daysUntil": 0,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
@@ -73,10 +73,10 @@
       "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "🍕The Gas-Station Chain Eating Domino’s Lunch",
+        "Casey's General Stores (CASY) Earnings Expected to Grow: What to Know Ahead of Next Week's Release",
         "Opendoor Sinks 4% on Modest Market Pullback: Is High-Beta Selling the Whole Story?",
-        "Casey's Stock: Analyst Estimates & Ratings",
-        "Can OPEN Reach Adjusted Net Income Breakeven at $9B Revenue Run Rate?",
-        "UBS Adjusts Casey's General Stores Price Target to $925 From $945, Maintains Neutral Rating"
+        "Casey's Stock: Analyst Estimates & Ratings"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -86,20 +86,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
-        "samples": 250,
-        "last": 752.2,
-        "changeM1": -13.3,
-        "changeM3": -1.9,
-        "changeM6": 9.7,
-        "sma50": 832.8,
-        "sma200": 721.6,
-        "position52w": 60.8,
-        "drawdownFromHigh": -17.9,
-        "volatility20d": 33.5,
-        "volumeTrend": -36.5
+        "samples": 251,
+        "last": 766.9,
+        "changeM1": -12,
+        "changeM3": 2.9,
+        "changeM6": 11.6,
+        "sma50": 831.2,
+        "sma200": 722.7,
+        "position52w": 64.3,
+        "drawdownFromHigh": -16.3,
+        "volatility20d": 34.5,
+        "volumeTrend": -34.1
       },
-      "scoreEvaluatedAt": "2026-09-01T09:30:49.148Z",
-      "scoreValidUntil": "2026-09-02T09:30:49.148Z"
+      "scoreEvaluatedAt": "2026-09-02T08:53:34.748Z",
+      "scoreValidUntil": "2026-09-03T08:53:34.748Z"
     },
     {
       "date": "2026-09-02",
@@ -111,8 +111,8 @@
       "companyKey": "CHECK POINT SOFTWARE TECHNOLOGIES",
       "currency": "BRL",
       "matchConfidence": 0.88,
-      "baseScore": 54,
-      "fundamentalScore": 54,
+      "baseScore": 50,
+      "fundamentalScore": 50,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -130,12 +130,12 @@
         "revenueCurrentYearEstimate": 2801.85,
         "revenueNextYearEstimate": 2959.61
       },
-      "daysUntil": 1,
+      "daysUntil": 0,
       "baseLabel": "NEUTRAL",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 3,
+          "delta": 4,
           "label": "Analystenschaetzungen"
         },
         {
@@ -145,19 +145,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 0,
+          "delta": -5,
           "label": "4 frische Meldungen"
         }
       ],
       "chartDelta": 1,
-      "newsDelta": 0,
-      "fundamentalDelta": 3,
+      "newsDelta": -5,
+      "fundamentalDelta": 4,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "CrowdStrike Stock Rises 96% YTD: Time to Hold or Book Profits?",
         "Lightspeed Commerce Appoints Rupal Hollenbeck to Board of Directors",
         "CrowdStrike Set to Report Q2 Earnings: Buy, Sell or Hold the Stock?",
-        "Professor James Mickens, Katie Moussouris, and Dino Dai Zovi to Keynote SentinelOne’s LABScon 2026",
-        "Check Point Sees AI Security Spending Surge as 2027 Growth Setup Takes Shape"
+        "Professor James Mickens, Katie Moussouris, and Dino Dai Zovi to Keynote SentinelOne’s LABScon 2026"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -167,20 +167,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "BRL",
-        "samples": 250,
-        "last": 60,
-        "changeM1": 11.1,
-        "changeM3": 2.2,
-        "changeM6": -7.9,
-        "sma50": 55.7,
-        "sma200": 66.3,
-        "position52w": 33.2,
-        "drawdownFromHigh": -30.7,
-        "volatility20d": 47,
-        "volumeTrend": 135.3
+        "samples": 251,
+        "last": 58.1,
+        "changeM1": 11,
+        "changeM3": 0.7,
+        "changeM6": -16.6,
+        "sma50": 55.8,
+        "sma200": 66.2,
+        "position52w": 28.4,
+        "drawdownFromHigh": -32.9,
+        "volatility20d": 47.2,
+        "volumeTrend": 165
       },
-      "scoreEvaluatedAt": "2026-09-01T09:30:49.148Z",
-      "scoreValidUntil": "2026-09-02T09:30:49.148Z"
+      "scoreEvaluatedAt": "2026-09-02T08:53:34.748Z",
+      "scoreValidUntil": "2026-09-03T08:53:34.748Z"
     },
     {
       "date": "2026-09-03",
@@ -194,7 +194,7 @@
       "matchConfidence": 1,
       "baseScore": 77,
       "fundamentalScore": 77,
-      "fundamentalConfidence": 0.911,
+      "fundamentalConfidence": 0.912,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+12%)",
@@ -211,7 +211,7 @@
         "revenueCurrentYearEstimate": 1988.93,
         "revenueNextYearEstimate": 2118.24
       },
-      "daysUntil": 2,
+      "daysUntil": 1,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
@@ -246,19 +246,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 254,
-        "last": 674.5,
-        "changeM1": -7.5,
-        "changeM3": -5.4,
-        "changeM6": 36.9,
-        "sma50": 727.9,
-        "sma200": 576.4,
-        "position52w": 73.7,
-        "drawdownFromHigh": -15.8,
-        "volatility20d": 33.9,
-        "volumeTrend": -11.8
+        "last": 680.5,
+        "changeM1": -6.3,
+        "changeM3": -5.1,
+        "changeM6": 47.2,
+        "sma50": 727.8,
+        "sma200": 577.6,
+        "position52w": 74.9,
+        "drawdownFromHigh": -15.1,
+        "volatility20d": 30.1,
+        "volumeTrend": 5.6
       },
-      "scoreEvaluatedAt": "2026-09-01T09:30:49.148Z",
-      "scoreValidUntil": "2026-09-02T09:30:49.148Z"
+      "scoreEvaluatedAt": "2026-09-02T08:53:34.748Z",
+      "scoreValidUntil": "2026-09-03T08:53:34.748Z"
     },
     {
       "date": "2026-09-09",
@@ -270,8 +270,8 @@
       "companyKey": "NETAPP",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 86,
-      "fundamentalScore": 86,
+      "baseScore": 85,
+      "fundamentalScore": 85,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -279,7 +279,8 @@
         "Umsatzschätzung nächstes Jahr +6%",
         "Chart im Aufwaertstrend (Kurs > 50- > 200-Tage-Linie)",
         "Gesunde Position im 52-Wochen-Band (82%)",
-        "Gesunde Position im 52-Wochen-Band (81%)"
+        "Gesunde Position im 52-Wochen-Band (81%)",
+        "Gesunde Position im 52-Wochen-Band (79%)"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -288,17 +289,17 @@
         "revenueCurrentYearEstimate": 7537.01,
         "revenueNextYearEstimate": 7968.88
       },
-      "daysUntil": 8,
+      "daysUntil": 7,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 23,
+          "delta": 24,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": 12,
+          "delta": 10,
           "label": "Kursstruktur 1 Jahr"
         },
         {
@@ -307,15 +308,15 @@
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": 12,
+      "chartDelta": 10,
       "newsDelta": 1,
-      "fundamentalDelta": 23,
+      "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "CMS Approves New Technology Add-on Payment for Reflow Medical’s Spur® Peripheral Retrievable Stent System",
+        "BofA Securities Adjusts Price Target on NetApp to $206 From $180",
         "NetApp Earnings: What To Look For From NTAP",
-        "The Ceiling SanDisk Wrote Into Its Own Contracts",
-        "NetApp's Q1 Results, Q2 Guidance Seen Beating Expectations, Wedbush Says",
-        "NetApp Sees Strong Storage Demand With AI-Related Tailwinds, BofA Securities Says"
+        "The Ceiling SanDisk Wrote Into Its Own Contracts"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -325,20 +326,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
-        "samples": 250,
-        "last": 185.3,
-        "changeM1": 6.5,
-        "changeM3": 6.3,
-        "changeM6": 87.1,
-        "sma50": 176,
-        "sma200": 128.7,
-        "position52w": 80.7,
-        "drawdownFromHigh": -10.5,
-        "volatility20d": 40.1,
-        "volumeTrend": -21.7
+        "samples": 251,
+        "last": 183.2,
+        "changeM1": 2.6,
+        "changeM3": 1.9,
+        "changeM6": 82.9,
+        "sma50": 176.4,
+        "sma200": 129.1,
+        "position52w": 78.8,
+        "drawdownFromHigh": -11.6,
+        "volatility20d": 39.5,
+        "volumeTrend": -20.2
       },
-      "scoreEvaluatedAt": "2026-09-01T09:30:49.148Z",
-      "scoreValidUntil": "2026-09-02T09:30:49.148Z"
+      "scoreEvaluatedAt": "2026-09-02T08:53:34.748Z",
+      "scoreValidUntil": "2026-09-03T08:53:34.748Z"
     },
     {
       "date": "2026-09-10",
@@ -350,9 +351,9 @@
       "companyKey": "CURRYS",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 71,
-      "fundamentalScore": 71,
-      "fundamentalConfidence": 0.882,
+      "baseScore": 77,
+      "fundamentalScore": 77,
+      "fundamentalConfidence": 0.919,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+7%)",
@@ -369,12 +370,12 @@
         "revenueCurrentYearEstimate": 9543.87,
         "revenueNextYearEstimate": 9787.56
       },
-      "daysUntil": 9,
-      "baseLabel": "LEICHT POSITIV",
+      "daysUntil": 8,
+      "baseLabel": "POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 15,
+          "delta": 21,
           "label": "Analystenschaetzungen"
         },
         {
@@ -390,7 +391,7 @@
       ],
       "chartDelta": 3,
       "newsDelta": 3,
-      "fundamentalDelta": 15,
+      "fundamentalDelta": 21,
       "newsGuidance": 0,
       "newsHeadlines": [
         "Could NICE (NICE)’s AI Growth Finally Offset its Legacy Revenue Drag?",
@@ -405,27 +406,108 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 254,
-        "last": 148.1,
-        "changeM1": -11.8,
-        "changeM3": 0.5,
-        "changeM6": -4.4,
+        "last": 150.7,
+        "changeM1": -8.3,
+        "changeM3": 1.8,
+        "changeM6": 1.5,
         "sma50": 159.1,
-        "sma200": 142.9,
-        "position52w": 67.2,
-        "drawdownFromHigh": -12,
-        "volatility20d": 23.2,
-        "volumeTrend": -50.7
+        "sma200": 143,
+        "position52w": 71.5,
+        "drawdownFromHigh": -10.4,
+        "volatility20d": 21.3,
+        "volumeTrend": -49.5
       },
-      "scoreEvaluatedAt": "2026-09-01T09:30:49.148Z",
-      "scoreValidUntil": "2026-09-02T09:30:49.148Z"
+      "scoreEvaluatedAt": "2026-09-02T08:53:34.748Z",
+      "scoreValidUntil": "2026-09-03T08:53:34.748Z"
+    },
+    {
+      "date": "2026-09-10",
+      "sourceCompanyName": "Ryanair",
+      "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/ryanair",
+      "symbol": "RYAAY",
+      "name": "Ryanair Holdings plc",
+      "companyKey": "RYANAIR",
+      "currency": "USD",
+      "matchConfidence": 1,
+      "baseScore": 46,
+      "fundamentalScore": 46,
+      "fundamentalConfidence": 0.881,
+      "profitForecastPositive": true,
+      "fundamentalReasons": [
+        "Analysten erwarten leicht höheres EPS (+10%)",
+        "Umsatzschätzung nächstes Jahr +8%",
+        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
+        "Kurs faellt kurz vor der HV (-8% in 1 Monat)",
+        "Kurs nahe 52-Wochen-Tief"
+      ],
+      "fundamentals": {
+        "source": "finanzen.net Schätzungen",
+        "epsCurrentYearEstimate": 1.72,
+        "epsNextYearEstimate": 1.89,
+        "revenueCurrentYearEstimate": 15925.44,
+        "revenueNextYearEstimate": 17205.48
+      },
+      "daysUntil": 8,
+      "baseLabel": "NEUTRAL",
+      "estimateUrl": "https://www.finanzen.net/schaetzungen/ryanair",
+      "scoreParts": [
+        {
+          "key": "ZAHLEN",
+          "delta": 11,
+          "label": "Analystenschaetzungen"
+        },
+        {
+          "key": "CHART",
+          "delta": -16,
+          "label": "Kursstruktur 1 Jahr"
+        },
+        {
+          "key": "NEWS",
+          "delta": 1,
+          "label": "10 frische Meldungen"
+        }
+      ],
+      "chartDelta": -16,
+      "newsDelta": 1,
+      "fundamentalDelta": 11,
+      "newsGuidance": 0,
+      "newsHeadlines": [
+        "Ryanair August Traffic Rises 6%",
+        "Auto & Transport Roundup: Market Talk",
+        "Is RYAAY a Buy as Strong Traffic Faces Higher Costs and Lower Fares?",
+        "Morgan Stanley Initiates Ryanair Holdings at Overweight, With $62.90 Price Target"
+      ],
+      "dataQuality": {
+        "zahlen": true,
+        "chart": true,
+        "news": true
+      },
+      "chart": {
+        "source": "Yahoo chart 1y/1d",
+        "currency": "USD",
+        "samples": 251,
+        "last": 53.8,
+        "changeM1": -8,
+        "changeM3": -9.3,
+        "changeM6": -17.6,
+        "sma50": 60.4,
+        "sma200": 62.8,
+        "position52w": 2.8,
+        "drawdownFromHigh": -27.1,
+        "volatility20d": 25.4,
+        "volumeTrend": 2.9
+      },
+      "scoreEvaluatedAt": "2026-09-02T08:53:34.748Z",
+      "scoreValidUntil": "2026-09-03T08:53:34.748Z"
     }
   ],
-  "estimateAttemptCount": 5,
+  "estimateAttemptCount": 6,
   "scoreModelVersion": 27.7,
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
-  "chartProfileCount": 5,
-  "newsProfileCount": 5,
-  "neutralScoreCount": 0,
-  "signalCoveredCount": 5
+  "chartProfileCount": 6,
+  "newsProfileCount": 6,
+  "neutralScoreCount": 1,
+  "signalCoveredCount": 6
 }
