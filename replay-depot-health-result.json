@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-02T08:51:17.226461+00:00",
-  "berlinNow": "2026-09-02T10:51:17.226241+02:00",
+  "checkedAt": "2026-09-02T08:55:26.172869+00:00",
+  "berlinNow": "2026-09-02T10:55:26.172556+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 3307442,
-    "dashboard": 3307392
+    "full": 3311335,
+    "dashboard": 3311347
   },
   "checks": {
     "fullStatus200": true,
@@ -24,13 +24,13 @@
     "date": "2026-09-02",
     "status": "CAPTURING",
     "processed": 0,
-    "total": 72,
+    "total": 73,
     "provisional": true,
     "completedAt": null,
     "capture": {
       "date": "2026-09-02",
-      "symbolCount": 72,
-      "updatedAt": "2026-09-02T08:49:11.568Z"
+      "symbolCount": 73,
+      "updatedAt": "2026-09-02T08:55:12.983Z"
     },
     "summary": {
       "provisional": true,
@@ -47,9 +47,9 @@
   },
   "depot": {
     "cash": 7221.299713358845,
-    "equity": 10024.023225457253,
-    "displayMarketValue": 2802.7235122070315,
-    "displayAccountingDelta": -1.0862459021154791e-07,
+    "equity": 10023.623216302192,
+    "displayMarketValue": 2802.323503051758,
+    "displayAccountingDelta": -1.0841176845133305e-07,
     "positions": [
       {
         "symbol": "3690.HK",
@@ -62,12 +62,12 @@
       {
         "symbol": "HAG.DE",
         "invested": 410.109712,
-        "ratioValue": 409.700011988012,
-        "quantityValue": 409.70001220703125,
-        "displayValue": 409.70001220703125,
+        "ratioValue": 409.30000283295243,
+        "quantityValue": 409.3000030517578,
+        "displayValue": 409.3000030517578,
         "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: wed, 02 sep 2026 08:51:17 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=t%2fnycy09ekat7iaui0psiqk8qvmyzhytttoxlthwpkxszwiab1kcw%2bh62z1yc%2ffelrgspqgrqdu4dtujogjkays7jtm0ef7kas0j26ik6%2fpqyapssukmhxmfmvdwmvlqqwiv5vrpauvuyp3fr5bwitfagasnwyde2w3ohfa%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a34b459f8e0bc9b5-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: wed, 02 sep 2026 08:55:26 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=ueyjoqhcioiohxcahzyb7dr3cnfelolfx1zvi0ab7w0leoily6cmibmhqrk4eln%2fitbkmro29cxt9hvrwmv1ke1rlvnxvdc7ln%2fnhzk%2foc%2b81ptybgbkfiqsbpffxw2qvask47amrgez%2fsevltjkhb2x9lguwywnyqj1qzw%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a34b4bb31eeb8acf-sjc\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
