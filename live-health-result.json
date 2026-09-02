@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-02T08:49:22.109Z",
+  "checkedAt": "2026-09-02T08:51:16.485Z",
   "runtimeVersion": "V31.7",
   "liveDecisionVersion": "V31.7",
   "outcomeLearningVersion": "V31.2",
@@ -73,56 +73,56 @@
       {
         "symbol": "ZENTEC.NS",
         "score": 54.5,
-        "forecast20mScore": 55.81,
-        "velocity5": 30.227,
-        "confidence": 0.671,
+        "forecast20mScore": 50.71,
+        "velocity5": 20.944,
+        "confidence": 0.559,
         "earlySignal": false,
         "regime": "BULL"
       },
       {
-        "symbol": "BESI.AS",
-        "score": 38.5,
-        "forecast20mScore": 41.55,
-        "velocity5": 27.257,
-        "confidence": 0.611,
+        "symbol": "ASELS.IS",
+        "score": 39.5,
+        "forecast20mScore": 41.67,
+        "velocity5": 59.398,
+        "confidence": 0.565,
         "earlySignal": false,
-        "regime": "SIDEWAYS"
+        "regime": "BULL"
       },
       {
         "symbol": "PARAS.NS",
         "score": 39,
-        "forecast20mScore": 40.95,
-        "velocity5": 41.777,
-        "confidence": 0.565,
+        "forecast20mScore": 39.68,
+        "velocity5": 0,
+        "confidence": 0.518,
         "earlySignal": false,
         "regime": "SIDEWAYS"
       },
       {
-        "symbol": "HAG.DE",
-        "score": 35,
-        "forecast20mScore": 36.87,
-        "velocity5": 133.807,
-        "confidence": 0.565,
+        "symbol": "BESI.AS",
+        "score": 38.5,
+        "forecast20mScore": 39.36,
+        "velocity5": 12.819,
+        "confidence": 0.505,
         "earlySignal": false,
         "regime": "SIDEWAYS"
       },
       {
         "symbol": "SAP.DE",
         "score": 35,
-        "forecast20mScore": 35.47,
-        "velocity5": 9.912,
+        "forecast20mScore": 35.34,
+        "velocity5": 4.661,
         "confidence": 0.518,
         "earlySignal": false,
         "regime": "SIDEWAYS"
       },
       {
-        "symbol": "ASELS.IS",
-        "score": 26,
-        "forecast20mScore": 22.69,
-        "velocity5": -21.456,
-        "confidence": 0.565,
+        "symbol": "HAG.DE",
+        "score": 35,
+        "forecast20mScore": 35.25,
+        "velocity5": 0,
+        "confidence": 0.374,
         "earlySignal": false,
-        "regime": "BULL"
+        "regime": "BEAR"
       }
     ],
     "recentMissedOpportunities": [
@@ -206,48 +206,11 @@
     "decisionAuthority": false,
     "insideUnifiedAuthority": true,
     "latest": {
-      "eligible": 1,
-      "injected": 1,
-      "reason": "CONTROLLED_PAPER_EXPLORATION",
-      "chosen": {
-        "symbol": "HAG.DE",
-        "score": 35,
-        "forecast": 36.9,
-        "confidence": 0.565,
-        "velocity": 133.81,
-        "agreement": 4,
-        "confirmationMode": "DYNAMIC",
-        "allocationPct": 6,
-        "dataQuality": null,
-        "orthogonalConfirmations": null
-      },
-      "blocked": [
-        {
-          "ok": false,
-          "reason": "BROKER_NOT_EXACT",
-          "symbol": "ZENTEC.NS"
-        },
-        {
-          "ok": false,
-          "reason": "BROKER_NOT_EXACT",
-          "symbol": "BESI.AS"
-        },
-        {
-          "ok": false,
-          "reason": "BROKER_NOT_EXACT",
-          "symbol": "PARAS.NS"
-        },
-        {
-          "ok": false,
-          "reason": "BROKER_NOT_EXACT",
-          "symbol": "SAP.DE"
-        },
-        {
-          "ok": false,
-          "reason": "BROKER_NOT_EXACT",
-          "symbol": "ASELS.IS"
-        }
-      ],
+      "eligible": 0,
+      "injected": 0,
+      "reason": "PROBE_SPACING",
+      "chosen": null,
+      "blocked": [],
       "triggerMode": "LEARNED_DEADLOCK"
     }
   },
@@ -333,7 +296,7 @@
       "opened_at": "2026-09-02T08:49:11.568Z",
       "last_added_at": null,
       "add_count": 0,
-      "score": 45,
+      "score": 46.2,
       "signal_confidence": 0.63,
       "zero_quantity": 5,
       "zero_whole_shares": 5,
@@ -341,17 +304,25 @@
       "zero_uses_fractional": false,
       "zero_fee_model_version": "trade-republic-securities-2026-08-v1",
       "legacy_position_score": 3.5,
-      "decisionScore": 45,
+      "decisionScore": 46.2,
       "entryDecisionScore": 44,
-      "scoreDeltaFromEntry": 1,
+      "scoreDeltaFromEntry": 2.2,
       "scoreDeltaThisScan": 1,
-      "rawDecisionScore": 45.3,
+      "rawDecisionScore": 53.1,
       "chartMoveFromEntryPct": -0.1,
       "chartMoveLastScanPct": 0,
       "scoreFrozenPartial": false,
       "scoreChartCapped": true,
-      "scoreSource": "V29.6_COHERENT_CHART_ANCHORED_DECISION",
-      "daytradeChanceScore": 45,
+      "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
+      "preDirectionalScore": 46,
+      "scoreFloor": 41,
+      "scoreCeiling": 47,
+      "chartDirectionMode": "FLAT",
+      "scorePriorCorrected": false,
+      "preProfitScore": 46.2,
+      "profitScoreCeiling": 46.2,
+      "profitScoreDeltaThisScan": 0,
+      "daytradeChanceScore": 46.2,
       "daytradeChanceLabel": "SCHWACH",
       "daytradeChanceRank": 2
     }
@@ -368,7 +339,7 @@
       "currentPrice": null,
       "regularMarketPrice": null,
       "decisionScore": 55.6,
-      "daytradeLiveScore": 58.8,
+      "daytradeLiveScore": 62.8,
       "score": 55.6,
       "confidence": 0.7308,
       "momentum5Pct": 0.939330287398743,
@@ -474,7 +445,7 @@
       "currentPrice": null,
       "regularMarketPrice": null,
       "decisionScore": 54.7,
-      "daytradeLiveScore": 41.8,
+      "daytradeLiveScore": 48.2,
       "score": 54.7,
       "confidence": 0.63,
       "momentum5Pct": 0.4490057729313657,
@@ -580,7 +551,7 @@
       "currentPrice": null,
       "regularMarketPrice": null,
       "decisionScore": 51.4,
-      "daytradeLiveScore": 49.6,
+      "daytradeLiveScore": 51.2,
       "score": 51.4,
       "confidence": 0.63,
       "momentum5Pct": 0.2900095277925674,
@@ -686,7 +657,7 @@
       "currentPrice": null,
       "regularMarketPrice": null,
       "decisionScore": 50.8,
-      "daytradeLiveScore": 43.8,
+      "daytradeLiveScore": 48.6,
       "score": 50.8,
       "confidence": 0.63,
       "momentum5Pct": -0.032753336058888305,
@@ -792,7 +763,7 @@
       "currentPrice": null,
       "regularMarketPrice": null,
       "decisionScore": 43.3,
-      "daytradeLiveScore": 48.7,
+      "daytradeLiveScore": 56.4,
       "score": 43.3,
       "confidence": 0.63,
       "momentum5Pct": 0.06392218849875508,
@@ -898,7 +869,7 @@
       "currentPrice": null,
       "regularMarketPrice": null,
       "decisionScore": 34.7,
-      "daytradeLiveScore": 42.3,
+      "daytradeLiveScore": 50.1,
       "score": 34.7,
       "confidence": 0.63,
       "momentum5Pct": 0.14666676488588326,
@@ -998,15 +969,15 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-09-02T08:49:06.699Z",
-    "ageSeconds": 12,
+    "lastSeenAt": "2026-09-02T08:51:07.730Z",
+    "ageSeconds": 6,
     "fallbackAfterSeconds": 150,
     "lastScanAt": null,
     "scanAgeSeconds": null,
     "scanFresh": false,
     "scanGapFallbackAfterSeconds": 95,
     "prefetchFresh": true,
-    "prefetchAt": "2026-09-02T08:47:15.773Z",
+    "prefetchAt": "2026-09-02T08:50:14.350Z",
     "resolvedLeaderCount": 5,
     "selectedLeaderCount": 25,
     "leaderHealthy": false,
@@ -1014,16 +985,16 @@
     "leaderCacheMode": "PC_AGENT_PARTIAL_BLEND",
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-09-02T08:49:06.699Z",
+      "lastSeenAt": "2026-09-02T08:51:07.730Z",
       "version": "2.2.1-csharp-pc-first-four-sta",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 17137138,
+      "storageBytes": 17139336,
       "maxStorageBytes": 2147483648,
       "cpuPct": 0.03,
-      "ramMb": 63.6,
-      "downloadedBytes": 765502617,
-      "uploadedBytes": 20586778,
+      "ramMb": 61.4,
+      "downloadedBytes": 780385012,
+      "uploadedBytes": 20882584,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-09-02T08:45:04.6789983Z",
@@ -1038,7 +1009,7 @@
   },
   "agmCalendar": {
     "updatedAt": "2026-09-01T09:30:49.148Z",
-    "ageHours": 23.31,
+    "ageHours": 23.34,
     "events": 5
   },
   "newsFeed": {
@@ -1128,56 +1099,56 @@
         {
           "symbol": "ZENTEC.NS",
           "score": 54.5,
-          "forecast20mScore": 55.81,
-          "velocity5": 30.227,
-          "confidence": 0.671,
+          "forecast20mScore": 50.71,
+          "velocity5": 20.944,
+          "confidence": 0.559,
           "earlySignal": false,
           "regime": "BULL"
         },
         {
-          "symbol": "BESI.AS",
-          "score": 38.5,
-          "forecast20mScore": 41.55,
-          "velocity5": 27.257,
-          "confidence": 0.611,
+          "symbol": "ASELS.IS",
+          "score": 39.5,
+          "forecast20mScore": 41.67,
+          "velocity5": 59.398,
+          "confidence": 0.565,
           "earlySignal": false,
-          "regime": "SIDEWAYS"
+          "regime": "BULL"
         },
         {
           "symbol": "PARAS.NS",
           "score": 39,
-          "forecast20mScore": 40.95,
-          "velocity5": 41.777,
-          "confidence": 0.565,
+          "forecast20mScore": 39.68,
+          "velocity5": 0,
+          "confidence": 0.518,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
         {
-          "symbol": "HAG.DE",
-          "score": 35,
-          "forecast20mScore": 36.87,
-          "velocity5": 133.807,
-          "confidence": 0.565,
+          "symbol": "BESI.AS",
+          "score": 38.5,
+          "forecast20mScore": 39.36,
+          "velocity5": 12.819,
+          "confidence": 0.505,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
         {
           "symbol": "SAP.DE",
           "score": 35,
-          "forecast20mScore": 35.47,
-          "velocity5": 9.912,
+          "forecast20mScore": 35.34,
+          "velocity5": 4.661,
           "confidence": 0.518,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
         {
-          "symbol": "ASELS.IS",
-          "score": 26,
-          "forecast20mScore": 22.69,
-          "velocity5": -21.456,
-          "confidence": 0.565,
+          "symbol": "HAG.DE",
+          "score": 35,
+          "forecast20mScore": 35.25,
+          "velocity5": 0,
+          "confidence": 0.374,
           "earlySignal": false,
-          "regime": "BULL"
+          "regime": "BEAR"
         }
       ],
       "recentMissedOpportunities": [
@@ -1272,56 +1243,56 @@
         {
           "symbol": "ZENTEC.NS",
           "score": 54.5,
-          "forecast20mScore": 55.81,
-          "velocity5": 30.227,
-          "confidence": 0.671,
+          "forecast20mScore": 50.71,
+          "velocity5": 20.944,
+          "confidence": 0.559,
           "earlySignal": false,
           "regime": "BULL"
         },
         {
-          "symbol": "BESI.AS",
-          "score": 38.5,
-          "forecast20mScore": 41.55,
-          "velocity5": 27.257,
-          "confidence": 0.611,
+          "symbol": "ASELS.IS",
+          "score": 39.5,
+          "forecast20mScore": 41.67,
+          "velocity5": 59.398,
+          "confidence": 0.565,
           "earlySignal": false,
-          "regime": "SIDEWAYS"
+          "regime": "BULL"
         },
         {
           "symbol": "PARAS.NS",
           "score": 39,
-          "forecast20mScore": 40.95,
-          "velocity5": 41.777,
-          "confidence": 0.565,
+          "forecast20mScore": 39.68,
+          "velocity5": 0,
+          "confidence": 0.518,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
         {
-          "symbol": "HAG.DE",
-          "score": 35,
-          "forecast20mScore": 36.87,
-          "velocity5": 133.807,
-          "confidence": 0.565,
+          "symbol": "BESI.AS",
+          "score": 38.5,
+          "forecast20mScore": 39.36,
+          "velocity5": 12.819,
+          "confidence": 0.505,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
         {
           "symbol": "SAP.DE",
           "score": 35,
-          "forecast20mScore": 35.47,
-          "velocity5": 9.912,
+          "forecast20mScore": 35.34,
+          "velocity5": 4.661,
           "confidence": 0.518,
           "earlySignal": false,
           "regime": "SIDEWAYS"
         },
         {
-          "symbol": "ASELS.IS",
-          "score": 26,
-          "forecast20mScore": 22.69,
-          "velocity5": -21.456,
-          "confidence": 0.565,
+          "symbol": "HAG.DE",
+          "score": 35,
+          "forecast20mScore": 35.25,
+          "velocity5": 0,
+          "confidence": 0.374,
           "earlySignal": false,
-          "regime": "BULL"
+          "regime": "BEAR"
         }
       ],
       "recentMissedOpportunities": [
@@ -1410,7 +1381,7 @@
         "currencyBlocks": 0,
         "spacingBlocks": 0,
         "belowCalibratedThreshold": 0,
-        "openSnapshots": 119,
+        "openSnapshots": 125,
         "maturedSamples": 925,
         "buyThreshold": 60,
         "calibrated": true,
@@ -1484,8 +1455,8 @@
         "evidenceBlocks": 0,
         "unprofitableBucketBlocks": 0,
         "canonicalScoreBlocks": 0,
-        "dataQualityBlocks": 2,
-        "orthogonalBlocks": 2,
+        "dataQualityBlocks": 1,
+        "orthogonalBlocks": 1,
         "probationBlocks": 0,
         "heldBuyBlocks": 0
       },
@@ -1569,48 +1540,11 @@
       "decisionAuthority": false,
       "insideUnifiedAuthority": true,
       "latest": {
-        "eligible": 1,
-        "injected": 1,
-        "reason": "CONTROLLED_PAPER_EXPLORATION",
-        "chosen": {
-          "symbol": "HAG.DE",
-          "score": 35,
-          "forecast": 36.9,
-          "confidence": 0.565,
-          "velocity": 133.81,
-          "agreement": 4,
-          "confirmationMode": "DYNAMIC",
-          "allocationPct": 6,
-          "dataQuality": null,
-          "orthogonalConfirmations": null
-        },
-        "blocked": [
-          {
-            "ok": false,
-            "reason": "BROKER_NOT_EXACT",
-            "symbol": "ZENTEC.NS"
-          },
-          {
-            "ok": false,
-            "reason": "BROKER_NOT_EXACT",
-            "symbol": "BESI.AS"
-          },
-          {
-            "ok": false,
-            "reason": "BROKER_NOT_EXACT",
-            "symbol": "PARAS.NS"
-          },
-          {
-            "ok": false,
-            "reason": "BROKER_NOT_EXACT",
-            "symbol": "SAP.DE"
-          },
-          {
-            "ok": false,
-            "reason": "BROKER_NOT_EXACT",
-            "symbol": "ASELS.IS"
-          }
-        ],
+        "eligible": 0,
+        "injected": 0,
+        "reason": "PROBE_SPACING",
+        "chosen": null,
+        "blocked": [],
         "triggerMode": "LEARNED_DEADLOCK"
       }
     },
@@ -1653,7 +1587,7 @@
       "minPositionEur": 2200
     },
     "latest": {
-      "changes": 3,
+      "changes": 1,
       "outcome": {
         "eligible": 0,
         "injected": 0,
@@ -1683,7 +1617,7 @@
         "currencyBlocks": 0,
         "spacingBlocks": 0,
         "belowCalibratedThreshold": 0,
-        "openSnapshots": 119,
+        "openSnapshots": 125,
         "maturedSamples": 925,
         "buyThreshold": 60,
         "calibrated": true,
@@ -1757,8 +1691,8 @@
         "evidenceBlocks": 0,
         "unprofitableBucketBlocks": 0,
         "canonicalScoreBlocks": 0,
-        "dataQualityBlocks": 2,
-        "orthogonalBlocks": 2,
+        "dataQualityBlocks": 1,
+        "orthogonalBlocks": 1,
         "probationBlocks": 0,
         "heldBuyBlocks": 0
       },
@@ -1773,51 +1707,14 @@
         "reentryBlocks": 0,
         "sizingUpgrades": 0,
         "scoreScaleFixes": 0,
-        "equity": 10025.43
+        "equity": 10024.02
       },
       "exploration": {
-        "eligible": 1,
-        "injected": 1,
-        "reason": "CONTROLLED_PAPER_EXPLORATION",
-        "chosen": {
-          "symbol": "HAG.DE",
-          "score": 35,
-          "forecast": 36.9,
-          "confidence": 0.565,
-          "velocity": 133.81,
-          "agreement": 4,
-          "confirmationMode": "DYNAMIC",
-          "allocationPct": 6,
-          "dataQuality": null,
-          "orthogonalConfirmations": null
-        },
-        "blocked": [
-          {
-            "ok": false,
-            "reason": "BROKER_NOT_EXACT",
-            "symbol": "ZENTEC.NS"
-          },
-          {
-            "ok": false,
-            "reason": "BROKER_NOT_EXACT",
-            "symbol": "BESI.AS"
-          },
-          {
-            "ok": false,
-            "reason": "BROKER_NOT_EXACT",
-            "symbol": "PARAS.NS"
-          },
-          {
-            "ok": false,
-            "reason": "BROKER_NOT_EXACT",
-            "symbol": "SAP.DE"
-          },
-          {
-            "ok": false,
-            "reason": "BROKER_NOT_EXACT",
-            "symbol": "ASELS.IS"
-          }
-        ],
+        "eligible": 0,
+        "injected": 0,
+        "reason": "PROBE_SPACING",
+        "chosen": null,
+        "blocked": [],
         "triggerMode": "LEARNED_DEADLOCK"
       }
     },
