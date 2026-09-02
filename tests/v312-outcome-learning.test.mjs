@@ -21,15 +21,38 @@ test('learns a missed HOLD opportunity after 20 minutes',()=>{
   assert.ok(l.status.weights.velocity!==undefined);
 });
 
-test('BUY outcome updates online weights and buy statistics',()=>{
-  let l=updateOutcomeLearningMemoryV312({}, {candidates:[candidate(100,64)],positions:[]},t0);
-  let rec=recordOutcomeDecisionsV312(l.memory,{candidates:[candidate(100,64)],positions:[]},{actions:[{symbol:'TEST',action:'BUY'}]},l.predictions,t0);
+test('BUY outcome updates online weights and buy statistics using net return',()=>{
+  let l=updateOutcomeLearningMemoryV312({}, {candidates:[candidate(100,64)],positions:[],config:{cash:10000,slippage_percent:.1}},t0);
+  let rec=recordOutcomeDecisionsV312(l.memory,{candidates:[candidate(100,64)],positions:[],config:{cash:10000,slippage_percent:.1}},{actions:[{symbol:'TEST',action:'BUY',allocation_pct:20}]},l.predictions,t0);
   const before={...rec.memory.weights};
-  l=updateOutcomeLearningMemoryV312(rec.memory,{candidates:[candidate(101,69)],positions:[]},t0+21*60000);
+  l=updateOutcomeLearningMemoryV312(rec.memory,{candidates:[candidate(101,69)],positions:[],config:{cash:8000,slippage_percent:.1}},t0+21*60000);
   assert.equal(l.status.matured,1);
   assert.equal(l.status.buySamples,1);
   assert.equal(l.status.buyHitRate,100);
+  assert.ok(l.status.avgBuy20mNetReturnPct<l.status.avgBuy20mRawReturnPct);
   assert.ok(Object.keys(before).some(k=>Math.abs(before[k]-l.status.weights[k])>1e-9));
+});
+
+test('small raw BUY gain is correctly classified as a net loss after fees and slippage',()=>{
+  let l=updateOutcomeLearningMemoryV312({}, {candidates:[candidate(100,60)],positions:[],config:{cash:10000,slippage_percent:.1}},t0);
+  let rec=recordOutcomeDecisionsV312(l.memory,{candidates:[candidate(100,60)],positions:[],config:{cash:10000,slippage_percent:.1}},{actions:[{symbol:'TEST',action:'BUY',allocation_pct:6}]},l.predictions,t0);
+  l=updateOutcomeLearningMemoryV312(rec.memory,{candidates:[candidate(100.2,61)],positions:[],config:{cash:9400,slippage_percent:.1}},t0+21*60000);
+  assert.equal(l.status.buySamples,1);
+  assert.equal(l.status.buyHitRate,0);
+  assert.equal(l.status.badBuys,1);
+  assert.ok(l.status.avgBuy20mRawReturnPct>0);
+  assert.ok(l.status.avgBuy20mNetReturnPct<0);
+});
+
+test('three weak historical BUYs switch learning to defensive even if raw returns were slightly positive',()=>{
+  const recent20=[0,1,2].map(i=>({ts:t0-i*60000,symbol:`B${i}`,action:'BUY',returnPct:.18,score:55,forecast20mScore:58,theme:'TEST',regime:'SIDEWAYS'}));
+  const memory={version:31.2,weights:{},symbols:{},recent20,stats:{},groupStats:{regime:{},theme:{},source:{}}};
+  const l=updateOutcomeLearningMemoryV312(memory,{candidates:[],positions:[]},t0+60000);
+  assert.equal(l.status.buySamples,3);
+  assert.equal(l.status.mode,'DEFENSIVE');
+  assert.equal(l.status.buyHitRate,0);
+  assert.ok(l.status.avgBuy20mNetReturnPct<0);
+  assert.ok(l.status.thresholdAdjustment>0);
 });
 
 test('safe learned forecast may convert HOLD to bounded BUY',()=>{
@@ -41,4 +64,11 @@ test('safe learned forecast may convert HOLD to bounded BUY',()=>{
   assert.equal(out.plan.actions[0].action,'BUY');
   assert.equal(out.plan.actions[0].outcomeEntryV312,true);
   assert.ok(out.plan.actions[0].allocation_pct<=42);
+});
+
+test('defensive net BUY history disables predictive early-entry',()=>{
+  const c=candidate(100,64),learning={status:{mode:'DEFENSIVE'},predictions:{TEST:{symbol:'TEST',score:64,forecast20mScore:76,velocity5:10,signalConfidence:.8,earlySignal:true}}};
+  const out=enforceOutcomeEarlyEntryV312({actions:[{symbol:'TEST',action:'HOLD',reason:'wait'}]}, {positions:[],candidates:[c]},learning,[exact]);
+  assert.equal(out.plan.actions[0].action,'HOLD');
+  assert.equal(out.counters.reason,'NET_BUY_LEARNING_DEFENSIVE');
 });
