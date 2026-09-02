@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-09-02T08:44:27.349571+00:00",
-  "commit": "21f2a62de1b570739080fbc8a2e8c6b49144d6bf",
+  "checkedAt": "2026-09-02T08:45:48.057126+00:00",
+  "commit": "40ce242e687b1e8d627b019bf0dcff1f71e71163",
   "suite": "V31 production stack",
   "install": {
     "ok": true,
-    "tail": "\nadded 38 packages in 5s\n"
+    "tail": "\nadded 38 packages in 14s\n"
   },
   "checks": {
     "syntax_index": {
@@ -58,18 +58,20 @@
       "tail": ""
     },
     "production_decisions": {
-      "ok": true,
-      "exitCode": 0,
-      "tail": "g score plus confirming tape\nok 1 - V31.1 builds an early signal from rising score plus confirming tape\n  ---\n  duration_ms: 1.947519\n  type: 'test'\n  ...\n# Subtest: V31.1 can convert a safe HOLD into a bounded predictive BUY\nok 2 - V31.1 can convert a safe HOLD into a bounded predictive BUY\n  ---\n  duration_ms: 1.001526\n  type: 'test'\n  ...\n# Subtest: hard event risk still blocks predictive early entry\nok 3 - hard event risk still blocks predictive early entry\n  ---\n  duration_ms: 0.398054\n  type: 'test'\n  ...\n# Subtest: matured early signals are scored against the later price\nok 4 - matured early signals are scored against the later price\n  ---\n  duration_ms: 0.211435\n  type: 'test'\n  ...\n1..4\n# tests 4\n# suites 0\n# pass 4\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 11.571503\nV31.7.2 candidate recovery + orthogonal entry + controlled paper exploration + unified capital velocity regression OK\nV31.7 capital-velocity and failed-setup regression OK\nV30.9.4 canonical proposal bridge + capital deployment regression OK\n{\"ok\":true,\"rawOnlyHeld\":true,\"confirmedMatureSell\":true,\"freshSellBlocked\":true,\"liveExtremeRawFalseSellsRegressed\":true,\"existingSellLocked\":true,\"yitHeld\":true,\"strongWinnerProtected\":true}\n{\n  \"ok\": true,\n  \"manualSell\": true,\n  \"manualBuy100Pct\": true,\n  \"slotRotation\": true,\n  \"antiChurnStillHard\": true\n}\nV30.6.1 weakest-position replacement regression OK\n{\n  \"ok\": true,\n  \"yitLikeChurnBlocked\": true,\n  \"higherPriceRebuyBlocked\": true,\n  \"exceptionalReentryPreserved\": true,\n  \"absoluteCooldown\": true,\n  \"hardExitCooldown\": true,\n  \"sameCycleFlipBlocked\": true\n}\n{\n  \"ok\": true,\n  \"patch\": \"30.7-dynamic-allocation\",\n  \"staleBrokerFalseNegativeRecovered\": true,\n  \"hardSafetyPreserved\": true,\n  \"unverifiedStillBlocked\": true,\n  \"maxSinglePositionPct\": 100\n}\n{\n  \"ok\": true,\n  \"topups\": 1,\n  \"maxAllocationPct\": 95,\n  \"unverifiedBlocked\": true,\n  \"noFixed25PctCap\": true\n}\nstatus-lite PC-agent regression: OK\n{\n  \"ok\": true,\n  \"broker\": \"Trade Republic\",\n  \"stocksOnly\": true,\n  \"blockedEtfBuy\": true,\n  \"resizedCash\": 98.5,\n  \"resizedInvested\": 500.5,\n  \"resizedEntryFee\": 1,\n  \"scaleUpReconciled\": 1,\n  \"blockedLegacyEtfScaleUp\": true\n}\n{\n  \"ok\": true,\n  \"ventureBlocked\": true,\n  \"missingVerificationBlocked\": true,\n  \"relaxedMatchBlocked\": true,\n  \"exactVerifiedAllowed\": true,\n  \"executionFailsafe\": true,\n  \"guard\": \"TRADE-REPUBLIC-BLOCK\"\n}\n{\n  \"ok\": true,\n  \"nullPricesCannotBecomeZero\": true,\n  \"quoteFallback\": true,\n  \"sanitized\": 5\n}\n"
+      "ok": false,
+      "exitCode": 1,
+      "tail": "\n> ki-markt-planspiel-cloudflare@2.0.0 test:decisions\n> node tests/v3172-paper-exploration.test.mjs && node tests/v3172-agent-leader-blend.test.mjs && node tests/v314-shadow-learning.test.mjs && node tests/trade-republic-master.test.mjs && node tests/v311-predictive-learning.test.mjs && node tests/v310-unified-decision-core.test.mjs && node tests/v310-expectancy.test.mjs && node tests/v309-high-score-capital-deployment.test.mjs && node tests/v308-final-sell-authority.test.mjs && node tests/v307-manual-trade.test.mjs && node tests/v3061-weakest-position-replacement.test.mjs && node tests/v306-sell-rebuy-churn.test.mjs && node tests/v3053-profit-opportunity.test.mjs && node tests/v304-relative-rotation-cash.test.mjs && node tests/status-lite-pc-agent.test.mjs && node scripts/smoke-zero-accounting.mjs && node scripts/smoke-target-venue-guard.mjs && node scripts/smoke-yahoo-null-sanity.mjs\n\nnode:internal/modules/run_main:123\n    triggerUncaughtException(\n    ^\n\nAssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n1 !== 0\n\n    at file:///home/runner/work/ki-markt-planspiel/ki-markt-planspiel/tests/v3172-paper-exploration.test.mjs:43:10\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {\n  generatedMessage: true,\n  code: 'ERR_ASSERTION',\n  actual: 1,\n  expected: 0,\n  operator: 'strictEqual',\n  diff: 'simple'\n}\n\nNode.js v22.23.2\n"
     },
     "wrangler_dryrun": {
       "ok": true,
       "exitCode": 0,
-      "tail": "\n ⛅️ wrangler 4.128.0\n────────────────────\n✨ Read 88 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 1639.20 KiB / gzip: 395.71 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
+      "tail": "\n ⛅️ wrangler 4.128.0\n────────────────────\n✨ Read 88 files from the assets directory /home/runner/work/ki-markt-planspiel/ki-markt-planspiel/public\nTotal Upload: 1639.54 KiB / gzip: 395.82 KiB\nYour Worker has access to the following bindings:\nBinding                              Resource            \nenv.PORTFOLIO (MarketPortfolio)      Durable Object      \nenv.AI                               AI                  \nenv.ASSETS                           Assets              \n\n--dry-run: exiting now.\n\nCloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md\n"
     }
   },
-  "failedChecks": [],
-  "allCodeAndRegressionChecksPassed": true,
+  "failedChecks": [
+    "production_decisions"
+  ],
+  "allCodeAndRegressionChecksPassed": false,
   "legacySuiteEnforced": false,
   "note": "V31 production validation. Historical strategy regressions remain available via npm run test:legacy but do not gate current production."
 }
