@@ -8,12 +8,12 @@ const canonicalScore=v=>{let x=num(v);if(x>0&&x<=10)x*=10;return clamp(x,0,100)}
 const normName=v=>String(v||'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/&/g,' AND ').replace(/\b(SE|SA|AG|NV|PLC|ASA|AB|OYJ|SPA|S P A|INC|CORP|CORPORATION|LTD|LIMITED|HOLDING|HOLDINGS|GROUP|GROUPE)\b/g,' ').replace(/[^A-Z0-9]+/g,' ').replace(/\s+/g,' ').trim();
 
 export const PAPER_EXPLORATION_V3172={
-  version:31.76,
+  version:31.77,
   enabled:true,
   paperOnly:true,
   minMatured:80,
   minMissedOpportunities:5,
-  maxExistingBuySamples:0,
+  maxExistingBuySamples:8,
   minScore:28,
   minForecastScore:28,
   minSignalConfidence:.40,
@@ -24,7 +24,8 @@ export const PAPER_EXPLORATION_V3172={
   staticMinConfidence:.60,
   staticMinAgreement:1,
   allocationPct:6,
-  maxOpenPositionsForProbe:0,
+  maxOpenPositionsForProbe:3,
+  maxProbeExposurePct:18,
   minMinutesBetweenProbes:20,
   reentryMinutes:45,
   maxQuoteAgeMinutes:5,
@@ -84,6 +85,7 @@ function candidatePrediction(c={}){
 function commonBlock(c,a,state,now,cfg){
   const symbol=key(c);
   if(!c||!brokerExact(c))return{ok:false,reason:'BROKER_NOT_EXACT',symbol};
+  if(arr(state?.positions).some(p=>key(p)===symbol))return{ok:false,reason:'SYMBOL_ALREADY_OPEN',symbol};
   if(!candidateFresh(c,now,cfg))return{ok:false,reason:'CANDIDATE_NOT_FRESH',symbol,fresh:c?.fresh??null,updatedAt:c?.updated_at||c?.updatedAt||null};
   if(HARD.test(String(a?.reason||''))||eventOf(c)==='HIGH'||sellOf(c)==='STRONG')return{ok:false,reason:'HARD_RISK',symbol};
   if(recentSellBlocked(state,symbol,now,cfg))return{ok:false,reason:'REENTRY_COOLDOWN',symbol};
@@ -123,10 +125,10 @@ export function enforcePaperExplorationV3172(plan,state={},learning={},brokerRow
   const counters={eligible:0,injected:0,reason:null,chosen:null,blocked:[],triggerMode:null};
   if(!plan||!Array.isArray(plan.actions)||cfg.enabled!==true)return{plan,counters:{...counters,reason:'DISABLED_OR_INVALID'}};
   const profile=learning?.status||{},positions=arr(state?.positions);
-  if(positions.length>cfg.maxOpenPositionsForProbe)return{plan,counters:{...counters,reason:'POSITION_ALREADY_OPEN'}};
+  if(positions.length>=cfg.maxOpenPositionsForProbe)return{plan,counters:{...counters,reason:'PROBE_POSITION_LIMIT'}};
   if(arr(plan.actions).some(a=>String(a?.action||'').toUpperCase()==='BUY'))return{plan,counters:{...counters,reason:'NORMAL_BUY_ALREADY_EXISTS'}};
   const learningTrigger=num(profile?.matured)>=cfg.minMatured&&num(profile?.buySamples)<=cfg.maxExistingBuySamples&&num(profile?.missedOpportunities)>=cfg.minMissedOpportunities;
-  const staticDeadlockTrigger=!learningTrigger&&positions.length===0&&num(profile?.buySamples)<=cfg.maxExistingBuySamples;
+  const staticDeadlockTrigger=!learningTrigger&&positions.length<cfg.maxOpenPositionsForProbe&&num(profile?.buySamples)<=cfg.maxExistingBuySamples;
   if(!learningTrigger&&!staticDeadlockTrigger)return{plan,counters:{...counters,reason:'LEARNING_TRIGGER_NOT_MET'}};
   counters.triggerMode=learningTrigger?'LEARNED_DEADLOCK':'STATIC_CANONICAL_DEADLOCK';
   if(recentGlobalProbeBlocked(state,now,cfg))return{plan,counters:{...counters,reason:'PROBE_SPACING'}};
@@ -142,10 +144,10 @@ export function enforcePaperExplorationV3172(plan,state={},learning={},brokerRow
   }
   rows.sort((a,b)=>b.rank-a.rank);counters.eligible=rows.length;counters.blocked=blocked.slice(0,10);
   const chosen=rows[0];if(!chosen)return{plan,counters:{...counters,reason:'NO_CONFIRMED_EXPLORATION_CANDIDATE'}};
-  const pct=cfg.allocationPct,profileText=learningTrigger?`Nach ${num(profile.matured)} ausgewerteten 20m-Fällen, ${num(profile.missedOpportunities)} verpassten Chancen und weiterhin 0 BUY-Samples`:`Bei leerem Paper-Depot und ohne ausführbaren normalen BUY trotz bestätigter V31.7-Kaufzone`;
-  const buy={...chosen.a,symbol:chosen.s,name:chosen.c?.name||chosen.s,action:'BUY',allocation_pct:pct,confidence:chosen.confidence,paperExplorationV3172:true,outcomeLearningProbeV3172:learningTrigger,staticDeadlockProbeV3176:!learningTrigger,explorationConfirmationMode:chosen.confirmationMode,forecast20mScore:+chosen.forecast.toFixed(2),scoreVelocity5m:+chosen.velocity.toFixed(2),entryDecisionScore:+chosen.score.toFixed(1),reason:`V31.7.6 PAPER-EXPLORATION: ${profileText} wird genau eine kleine Lernposition eröffnet. ${chosen.s}: Score ${chosen.score.toFixed(1)}, Konfidenz ${(chosen.confidence*100).toFixed(0)}%, Bestätigungen ${chosen.agreement}, Modus ${chosen.confirmationMode}, Momentum 5m ${chosen.m5.toFixed(2)}% / 20m ${chosen.m20.toFixed(2)}%. ${chosen.dataQuality!=null?`Datenqualität ${chosen.dataQuality.toFixed(0)}/100, orthogonale Bestätigungen ${chosen.orthogonalConfirmations}. `:''}Trade-Republic-Asset ist exakt verifiziert; frischer Kurs sowie harte News-, Markt-, Quote-, FX- und Re-Entry-Sperren bleiben bindend. Starter ${pct.toFixed(1)}%.`};
+  const pct=cfg.allocationPct,profileText=learningTrigger?`Nach ${num(profile.matured)} ausgewerteten 20m-Fällen, ${num(profile.missedOpportunities)} verpassten Chancen und erst ${num(profile.buySamples)} BUY-Samples`:`Bei ${positions.length} offenen Paper-Position(en) und ohne ausführbaren normalen BUY trotz bestätigter V31.7-Kaufzone`;
+  const buy={...chosen.a,symbol:chosen.s,name:chosen.c?.name||chosen.s,action:'BUY',allocation_pct:pct,confidence:chosen.confidence,paperExplorationV3172:true,outcomeLearningProbeV3172:learningTrigger,staticDeadlockProbeV3176:!learningTrigger,multiProbeV3177:true,explorationConfirmationMode:chosen.confirmationMode,forecast20mScore:+chosen.forecast.toFixed(2),scoreVelocity5m:+chosen.velocity.toFixed(2),entryDecisionScore:+chosen.score.toFixed(1),reason:`V31.7.7 PAPER-EXPLORATION: ${profileText} wird genau eine kleine Lernposition eröffnet. ${chosen.s}: Score ${chosen.score.toFixed(1)}, Konfidenz ${(chosen.confidence*100).toFixed(0)}%, Bestätigungen ${chosen.agreement}, Modus ${chosen.confirmationMode}, Momentum 5m ${chosen.m5.toFixed(2)}% / 20m ${chosen.m20.toFixed(2)}%. ${chosen.dataQuality!=null?`Datenqualität ${chosen.dataQuality.toFixed(0)}/100, orthogonale Bestätigungen ${chosen.orthogonalConfirmations}. `:''}Trade-Republic-Asset ist exakt verifiziert; frischer Kurs sowie harte News-, Markt-, Quote-, FX- und Re-Entry-Sperren bleiben bindend. Maximal ${cfg.maxOpenPositionsForProbe} Probe-Slots, ${cfg.maxProbeExposurePct}% Probe-Exposure, Starter ${pct.toFixed(1)}%.`};
   if(chosen.i===undefined)actions.push(buy);else actions[chosen.i]=buy;
-  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,112)} · V31.7.6 ${learningTrigger?'Lern':'Deadlock'}-Probe BUY ${chosen.s} ${pct.toFixed(1)}%.`;
+  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,112)} · V31.7.7 ${learningTrigger?'Lern':'Deadlock'}-Probe BUY ${chosen.s} ${pct.toFixed(1)}%.`;
   counters.injected=1;counters.reason=learningTrigger?'CONTROLLED_PAPER_EXPLORATION':'STATIC_CANONICAL_DEADLOCK_PROBE';counters.chosen={symbol:chosen.s,score:+chosen.score.toFixed(1),forecast:+chosen.forecast.toFixed(1),confidence:+chosen.confidence.toFixed(3),velocity:+chosen.velocity.toFixed(2),agreement:chosen.agreement,confirmationMode:chosen.confirmationMode,allocationPct:pct,dataQuality:chosen.dataQuality??null,orthogonalConfirmations:chosen.orthogonalConfirmations??null};
   return{plan,counters};
 }
