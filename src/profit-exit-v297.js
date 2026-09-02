@@ -11,7 +11,8 @@ const readKey=(storage,k,d)=>{try{return storage?.kv?.get(k)||d}catch{return d}}
 const writeKey=(storage,k,v)=>{try{storage?.kv?.put(k,v)}catch{}};
 
 export const PROFIT_EXIT_V297={
-  version:29.7,
+  version:29.71,
+  profitabilityPatch:'29.7.1-profit-fade-lock',
   minProfitPct:.8,
   mediumProfitPct:2.0,
   largeProfitPct:3.5,
@@ -19,6 +20,11 @@ export const PROFIT_EXIT_V297={
   smallProfitScoreDelta:10,
   mediumProfitScoreDelta:7,
   largeProfitScoreDelta:4,
+  smallProfitFadeDelta:-3,
+  mediumProfitFadeDelta:-1,
+  largeProfitFadeDelta:0,
+  fadeScoreStep:-1.0,
+  fadeChartStepPct:-.12,
   highScoreTarget:99,
   strongRiseScoreStep:1.0,
   strongRiseChartStepPct:.15,
@@ -26,7 +32,7 @@ export const PROFIT_EXIT_V297={
   maxProfitScoreDistance:30
 };
 
-function defaults(){return{version:29.7,positions:{},audit:{},stats:{updates:0,profitScoreAdjusted:0,profitSells:0,profitLocks:0,strongRiseHolds:0,oldProfitSellsSuppressed:0},updatedAt:null}}
+function defaults(){return{version:29.71,positions:{},audit:{},stats:{updates:0,profitScoreAdjusted:0,profitSells:0,profitLocks:0,profitFadeLocks:0,strongRiseHolds:0,oldProfitSellsSuppressed:0},updatedAt:null}}
 function reentryDefaults(){return{version:29.6,locks:{},stats:{locksCreated:0,blocks:0,unlocks:0,terminalLocks:0},updatedAt:null}}
 
 export function requiredProfitScoreDeltaV297(entryScore=0,chartMovePct=0){
@@ -36,18 +42,23 @@ export function requiredProfitScoreDeltaV297(entryScore=0,chartMovePct=0){
   const highScoreHeadroom=Math.max(0,c.highScoreTarget-entry);
   return +Math.min(base,highScoreHeadroom).toFixed(1);
 }
+function profitFadeLimit(chart=0){const c=PROFIT_EXIT_V297;return chart>=c.largeProfitPct?c.largeProfitFadeDelta:chart>=c.mediumProfitPct?c.mediumProfitFadeDelta:c.smallProfitFadeDelta}
 
 export function profitDecisionV297({entryScore=0,currentScore=0,chartMovePct=0,scoreDeltaThisScan=0,chartMoveLastScanPct=0}={}){
-  const c=PROFIT_EXIT_V297,entry=clamp(entryScore,0,100),current=clamp(currentScore,0,100),chart=num(chartMovePct,0),delta=+(current-entry).toFixed(1);
-  const strongRise=num(scoreDeltaThisScan,0)>=c.strongRiseScoreStep&&num(chartMoveLastScanPct,0)>=c.strongRiseChartStepPct;
-  if(chart<c.minProfitPct)return{action:'HOLD',reason:'profit_below_minimum',entryScore:entry,currentScore:current,delta,chartMovePct:chart,requiredDelta:Infinity,strongRise};
+  const c=PROFIT_EXIT_V297,entry=clamp(entryScore,0,100),current=clamp(currentScore,0,100),chart=num(chartMovePct,0),delta=+(current-entry).toFixed(1),scoreStep=num(scoreDeltaThisScan,0),chartStep=num(chartMoveLastScanPct,0);
+  const strongRise=scoreStep>=c.strongRiseScoreStep&&chartStep>=c.strongRiseChartStepPct;
+  if(chart<c.minProfitPct)return{action:'HOLD',reason:'profit_below_minimum',entryScore:entry,currentScore:current,delta,chartMovePct:chart,requiredDelta:Infinity,fadeLimit:null,scoreStep,chartStep,strongRise};
   if(chart>=c.profitLockPct){
-    if(strongRise)return{action:'HOLD',reason:'profit_5_strong_rise',entryScore:entry,currentScore:current,delta,chartMovePct:chart,requiredDelta:0,strongRise};
-    return{action:'SELL',reason:'profit_lock_5',entryScore:entry,currentScore:current,delta,chartMovePct:chart,requiredDelta:0,strongRise};
+    if(strongRise)return{action:'HOLD',reason:'profit_5_strong_rise',entryScore:entry,currentScore:current,delta,chartMovePct:chart,requiredDelta:0,fadeLimit:0,scoreStep,chartStep,strongRise};
+    return{action:'SELL',reason:'profit_lock_5',entryScore:entry,currentScore:current,delta,chartMovePct:chart,requiredDelta:0,fadeLimit:0,scoreStep,chartStep,strongRise};
   }
-  const requiredDelta=requiredProfitScoreDeltaV297(entry,chart);
-  if(delta>=requiredDelta)return{action:'SELL',reason:chart>=c.largeProfitPct?'profit_3_5_score_4':chart>=c.mediumProfitPct?'profit_2_score_7':'profit_0_8_score_10',entryScore:entry,currentScore:current,delta,chartMovePct:chart,requiredDelta,strongRise};
-  return{action:'HOLD',reason:'profit_score_not_ready',entryScore:entry,currentScore:current,delta,chartMovePct:chart,requiredDelta,strongRise};
+  if(strongRise)return{action:'HOLD',reason:'profit_strong_rise',entryScore:entry,currentScore:current,delta,chartMovePct:chart,requiredDelta:requiredProfitScoreDeltaV297(entry,chart),fadeLimit:profitFadeLimit(chart),scoreStep,chartStep,strongRise};
+  const fadeLimit=profitFadeLimit(chart),scoreFade=delta<=fadeLimit,jointFade=scoreStep<=c.fadeScoreStep&&chartStep<=c.fadeChartStepPct,mediumFade=chart>=c.mediumProfitPct&&(scoreStep<=c.fadeScoreStep||chartStep<=c.fadeChartStepPct),largeFade=chart>=c.largeProfitPct&&(delta<=c.largeProfitFadeDelta||scoreStep<0||chartStep<0);
+  if(scoreFade||jointFade||mediumFade||largeFade){
+    const reason=chart>=c.largeProfitPct?'profit_3_5_fade_lock':chart>=c.mediumProfitPct?'profit_2_fade_lock':'profit_0_8_fade_lock';
+    return{action:'SELL',reason,entryScore:entry,currentScore:current,delta,chartMovePct:chart,requiredDelta:requiredProfitScoreDeltaV297(entry,chart),fadeLimit,scoreStep,chartStep,strongRise,scoreFade,jointFade,mediumFade,largeFade};
+  }
+  return{action:'HOLD',reason:'profit_running_not_fading',entryScore:entry,currentScore:current,delta,chartMovePct:chart,requiredDelta:requiredProfitScoreDeltaV297(entry,chart),fadeLimit,scoreStep,chartStep,strongRise};
 }
 
 function profitScoreCeiling(entryScore,chartMovePct){
@@ -84,7 +95,7 @@ export function profitAdjustedPositionScoresV297(state={},storage=null,now=Date.
     }
   }
   if(update){const held=new Set(arr(state?.positions).map(key).filter(Boolean));for(const s of Object.keys(mem.positions))if(!held.has(s))delete mem.positions[s];mem.stats.updates++;mem.updatedAt=new Date(now).toISOString();writeKey(storage,KEY,mem)}
-  rows.sort((a,b)=>b.decisionScore-a.decisionScore);return{version:29.7,positionScores:rows,audit:mem.audit,stats:mem.stats,mem};
+  rows.sort((a,b)=>b.decisionScore-a.decisionScore);return{version:29.71,positionScores:rows,audit:mem.audit,stats:mem.stats,mem};
 }
 
 function parsePlan(r){const raw=String(r?.response||r?.result?.response||''),a=raw.indexOf('{'),b=raw.lastIndexOf('}');if(a<0||b<=a)return null;try{const j=JSON.parse(raw.slice(a,b+1));return Array.isArray(j?.actions)?j:null}catch{return null}}
@@ -95,7 +106,7 @@ export function enforceProfitExitV297(plan,state={},storage=null,now=Date.now())
   if(!plan||!Array.isArray(plan.actions))return{plan,counters:{}};
   const out=profitAdjustedPositionScoresV297(state,storage,now,true),by=new Map(out.positionScores.map(r=>[r.symbol,r])),actions=plan.actions.map(a=>({...a})),idx=new Map();actions.forEach((a,i)=>{const s=key(a);if(s&&!idx.has(s))idx.set(s,i)});
   const re={...reentryDefaults(),...readKey(storage,REENTRY_KEY,reentryDefaults())};re.locks={...(re.locks||{})};re.stats={...reentryDefaults().stats,...(re.stats||{})};
-  const counters={profitSells:0,profitLocks:0,strongRiseHolds:0,oldProfitSellsSuppressed:0};
+  const counters={profitSells:0,profitLocks:0,profitFadeLocks:0,strongRiseHolds:0,oldProfitSellsSuppressed:0};
   for(const p of arr(state?.positions)){
     const s=key(p),row=by.get(s);if(!s||!row)continue;let i=idx.get(s),a=i===undefined?null:actions[i];
     if(a&&String(a?.action||'').toUpperCase()==='SELL'&&a?.emergencyExitV296===true)continue;
@@ -103,20 +114,20 @@ export function enforceProfitExitV297(plan,state={},storage=null,now=Date.now())
     const d=profitDecisionV297({entryScore:row.entryDecisionScore,currentScore:row.decisionScore,chartMovePct:row.chartMoveFromEntryPct,scoreDeltaThisScan:row.profitScoreDeltaThisScan,chartMoveLastScanPct:row.chartMoveLastScanPct});
     if(d.action==='SELL'){
       if(i===undefined){i=actions.length;idx.set(s,i);actions.push({symbol:s,action:'HOLD',allocation_pct:0});a=actions[i]}
-      const tier=d.reason==='profit_lock_5'?'5_PERCENT_LOCK':d.reason==='profit_3_5_score_4'?'3_5_PERCENT_PLUS_4':d.reason==='profit_2_score_7'?'2_PERCENT_PLUS_7':'0_8_PERCENT_PLUS_10';
-      actions[i]={...a,symbol:s,action:'SELL',allocation_pct:0,confidence:.9,scoreExitV294:false,scoreExitV297:true,scoreExitKind:'PLUS_10',profitExitV297:true,profitExitTierV297:tier,scoreExitEntry:d.entryScore,scoreExitCurrent:d.currentScore,scoreExitDelta:d.delta,scoreExitChartMovePct:d.chartMovePct,requiredProfitScoreDeltaV297:d.requiredDelta,reason:`V29.7 GEWINN-SELL: ${s} Chart +${d.chartMovePct.toFixed(2)}%, Einstiegsscore ${d.entryScore.toFixed(1)} -> ${d.currentScore.toFixed(1)} (${d.delta>=0?'+':''}${d.delta.toFixed(1)}). ${tier==='5_PERCENT_LOCK'?'Ab +5% Gewinn wird gesichert, weil Score/Chart nicht mehr stark gemeinsam steigen.':`Erforderliche Scoreverbesserung ${d.requiredDelta.toFixed(1)} erreicht.`}`};
-      const rearmScore=Math.max(56,d.currentScore-PROFIT_EXIT_V297.reentryPullbackPoints);re.locks[s]={at:now,kind:'PLUS_10',exitScore:d.currentScore,rearmScore,source:'V29.7_PROFIT_EXIT'};re.stats.locksCreated=num(re.stats.locksCreated)+1;counters.profitSells++;if(tier==='5_PERCENT_LOCK')counters.profitLocks++;continue;
+      const tier=d.reason==='profit_lock_5'?'5_PERCENT_LOCK':d.reason==='profit_3_5_fade_lock'?'3_5_PERCENT_FADE_LOCK':d.reason==='profit_2_fade_lock'?'2_PERCENT_FADE_LOCK':'0_8_PERCENT_FADE_LOCK';
+      actions[i]={...a,symbol:s,action:'SELL',allocation_pct:0,confidence:.9,scoreExitV294:false,scoreExitV297:true,scoreExitKind:'PROFIT_FADE_LOCK',profitExitV297:true,profitExitTierV297:tier,profitFadeExitV297:d.reason!=='profit_lock_5',scoreExitEntry:d.entryScore,scoreExitCurrent:d.currentScore,scoreExitDelta:d.delta,scoreExitChartMovePct:d.chartMovePct,requiredProfitScoreDeltaV297:d.requiredDelta,profitFadeLimitV297:d.fadeLimit,reason:`V29.7.1 GEWINN-SICHERUNG: ${s} Chart +${d.chartMovePct.toFixed(2)}%, Einstiegsscore ${d.entryScore.toFixed(1)} -> ${d.currentScore.toFixed(1)} (${d.delta>=0?'+':''}${d.delta.toFixed(1)}). ${tier==='5_PERCENT_LOCK'?'Ab +5% wird der Gewinn gesichert, weil Score und Chart nicht mehr stark gemeinsam steigen.':`Der Gewinn läuft nicht mehr sauber weiter: Fade-Grenze ${Number.isFinite(d.fadeLimit)?d.fadeLimit.toFixed(1):'n/a'} Scorepunkte, letzter Score-Schritt ${d.scoreStep>=0?'+':''}${d.scoreStep.toFixed(2)}, letzter Chart-Schritt ${d.chartStep>=0?'+':''}${d.chartStep.toFixed(2)}%.`}`};
+      const rearmScore=Math.max(56,d.currentScore-PROFIT_EXIT_V297.reentryPullbackPoints);re.locks[s]={at:now,kind:'PROFIT_FADE_LOCK',exitScore:d.currentScore,rearmScore,source:'V29.7.1_PROFIT_FADE_EXIT'};re.stats.locksCreated=num(re.stats.locksCreated)+1;counters.profitSells++;if(tier==='5_PERCENT_LOCK')counters.profitLocks++;else counters.profitFadeLocks++;continue;
     }
-    if(d.reason==='profit_5_strong_rise')counters.strongRiseHolds++;
+    if(d.reason==='profit_5_strong_rise'||d.reason==='profit_strong_rise')counters.strongRiseHolds++;
     const oldPositiveSell=a&&String(a?.action||'').toUpperCase()==='SELL'&&(String(a?.scoreExitKind||'')==='PLUS_10'||num(a?.scoreExitDelta,0)>0||String(a?.reason||'').includes('DIRECTIONAL SCORE-EXIT'));
-    if(oldPositiveSell){actions[i]={...a,action:'HOLD',allocation_pct:0,scoreExitV294:false,scoreExitV297:false,profitExitV297:false,reason:`V29.7 PROFIT-HOLD: ${s} Chart ${d.chartMovePct>=0?'+':''}${d.chartMovePct.toFixed(2)}%, Score ${d.currentScore.toFixed(1)} (${d.delta>=0?'+':''}${d.delta.toFixed(1)} seit Kauf). ${d.reason==='profit_below_minimum'?'Unter +0,8% wird kein normaler Gewinn-SELL ausgeführt.':d.reason==='profit_5_strong_rise'?'Über +5%, aber Score und Chart steigen aktuell noch stark gemeinsam; Gewinn darf weiterlaufen.':`Für diesen Gewinnbereich werden noch ${Number.isFinite(d.requiredDelta)?d.requiredDelta.toFixed(1):'mehr'} Scorepunkte Verbesserung benötigt.`}`};counters.oldProfitSellsSuppressed++;if(re.locks[s]?.kind==='PLUS_10')delete re.locks[s]}
+    if(oldPositiveSell){actions[i]={...a,action:'HOLD',allocation_pct:0,scoreExitV294:false,scoreExitV297:false,profitExitV297:false,reason:`V29.7.1 PROFIT-HOLD: ${s} Chart ${d.chartMovePct>=0?'+':''}${d.chartMovePct.toFixed(2)}%, Score ${d.currentScore.toFixed(1)} (${d.delta>=0?'+':''}${d.delta.toFixed(1)} seit Kauf). ${d.reason==='profit_below_minimum'?'Unter +0,8% wird kein normaler Gewinn-SELL ausgeführt.':d.reason==='profit_5_strong_rise'||d.reason==='profit_strong_rise'?'Score und Chart steigen aktuell noch stark gemeinsam; Gewinner darf weiterlaufen.':'Der Gewinn zeigt noch keinen bestätigten Fade; ein alter scorebasierter Gewinn-SELL wird unterdrückt.'}`};counters.oldProfitSellsSuppressed++;if(['PLUS_10','PROFIT_FADE_LOCK'].includes(String(re.locks[s]?.kind||'')))delete re.locks[s]}
   }
-  const mem=out.mem;for(const k of ['profitSells','profitLocks','strongRiseHolds','oldProfitSellsSuppressed'])mem.stats[k]=num(mem.stats[k])+num(counters[k]);writeKey(storage,KEY,mem);re.updatedAt=new Date(now).toISOString();writeKey(storage,REENTRY_KEY,re);
-  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,130)} · V29.7 Gewinn: ${counters.profitSells} SELL · ${counters.strongRiseHolds} weiterlaufen · ${counters.oldProfitSellsSuppressed} alte Gewinn-SELL blockiert.`;return{plan,counters,positionScores:out.positionScores,audit:out.audit}
+  const mem=out.mem;for(const k of ['profitSells','profitLocks','profitFadeLocks','strongRiseHolds','oldProfitSellsSuppressed'])mem.stats[k]=num(mem.stats[k])+num(counters[k]);writeKey(storage,KEY,mem);re.updatedAt=new Date(now).toISOString();writeKey(storage,REENTRY_KEY,re);
+  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,130)} · V29.7.1 Gewinn: ${counters.profitSells} SELL (${counters.profitFadeLocks} Fade-Lock) · ${counters.strongRiseHolds} Gewinner weiterlaufen.`;return{plan,counters,positionScores:out.positionScores,audit:out.audit}
 }
 
 export class ProfitExitGuardV297{
   constructor(inner,{getState,storage,now}={}){this.inner=inner;this.getState=getState;this.storage=storage;this.now=now;this.latest=null}
   async run(model,input){const legacy=input===undefined&&model&&typeof model==='object',payload=legacy?model:input,state=typeof this.getState==='function'?(this.getState()||{}):{},r=legacy?await this.inner.run(payload):await this.inner.run(model,payload);if(!isTradingPlanInput(payload))return r;const p=parsePlan(r);if(!p)return r;const out=enforceProfitExitV297(p,state,this.storage,typeof this.now==='function'?this.now():Date.now());this.latest=out;return encode(r,out.plan)}
-  status(){const state=typeof this.getState==='function'?(this.getState()||{}):{},out=profitAdjustedPositionScoresV297(state,this.storage,typeof this.now==='function'?this.now():Date.now(),false);return{enabled:true,version:29.7,authoritativeProfitExit:true,thresholds:PROFIT_EXIT_V297,positionScores:out.positionScores,audit:out.audit,stats:out.stats,latest:this.latest?.counters||null,rule:'Gewinn-SELL gestaffelt: unter +0,8% HOLD; ab +0,8% +10 Score, ab +2% +7, ab +3,5% +4. Hohe Einstiegsscores bekommen ein erreichbares Ziel bis Score 99. Ab +5% wird Gewinn gesichert, außer Score und Chart steigen im letzten Schritt noch stark gemeinsam. -15 Schwäche-Exit bleibt separat unverändert.'}}
+  status(){const state=typeof this.getState==='function'?(this.getState()||{}):{},out=profitAdjustedPositionScoresV297(state,this.storage,typeof this.now==='function'?this.now():Date.now(),false);return{enabled:true,version:29.71,profitabilityPatch:PROFIT_EXIT_V297.profitabilityPatch,authoritativeProfitExit:true,thresholds:PROFIT_EXIT_V297,positionScores:out.positionScores,audit:out.audit,stats:out.stats,latest:this.latest?.counters||null,rule:'V29.7.1 Gewinn-Sicherung: unter +0,8% kein normaler Profit-Exit. Oberhalb davon werden Gewinner nicht mehr verkauft, nur weil der Score steigt. Sie dürfen bei gemeinsam stark steigendem Score+Chart weiterlaufen; SELL erfolgt bei nachlassendem Score/Chart gestaffelt ab +0,8%, +2% und +3,5%. Ab +5% wird Gewinn gesichert, außer die Bewegung beschleunigt weiterhin klar. Harte Verlust-/Safety-Exits bleiben separat unverändert.'}}
 }
