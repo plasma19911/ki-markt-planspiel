@@ -1,10 +1,10 @@
 // Automatisch erzeugt durch scripts/calibrate_fast_signals.py.
 export const FAST_CALIBRATION={
   version:'historical-15m-purged-holdout-v2',
-  generatedAt:'2026-09-01T09:35:22.356487+00:00',
-  sampleCount:13247,
-  trainSampleCount:9159,
-  holdoutSampleCount:3872,
+  generatedAt:'2026-09-02T09:00:43.343962+00:00',
+  sampleCount:17798,
+  trainSampleCount:12307,
+  holdoutSampleCount:5203,
   validated:false,
   buyThreshold:4.20,
   sellThreshold:4.00,
@@ -14,5 +14,5 @@ export const FAST_CALIBRATION={
   maxAtrPctBuy:2.50,
   minRelativeVolume:1.10,
   trailing:{activatePnlPct:2.0,minGivebackPct:0.8,maxGivebackPct:2.2,givebackShare:0.34},
-  validation:{trainBuySamples:227,trainBuyHitRate:0.5859,trainBuyMeanPct:0.6674,holdoutBuySamples:112,holdoutBuyHitRate:0.4643,holdoutBuyMeanPct:-0.2022,trainSellSamples:461,trainSellHitRate:0.5336,trainSellMeanPct:0.0940,holdoutSellSamples:106,holdoutSellHitRate:0.5000,holdoutSellMeanPct:0.2293,symbols:9,purgeBars:12}
+  validation:{trainBuySamples:248,trainBuyHitRate:0.5766,trainBuyMeanPct:0.2104,holdoutBuySamples:116,holdoutBuyHitRate:0.5259,holdoutBuyMeanPct:0.0497,trainSellSamples:534,trainSellHitRate:0.5131,trainSellMeanPct:-0.0163,holdoutSellSamples:162,holdoutSellHitRate:0.5062,holdoutSellMeanPct:0.1411,symbols:12,purgeBars:12}
 };
