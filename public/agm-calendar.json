@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-02T08:53:34.748Z",
-  "nextRefreshAfter": "2026-09-03T08:53:34.748Z",
+  "updatedAt": "2026-09-03T09:03:23.234Z",
+  "nextRefreshAfter": "2026-09-04T09:03:23.234Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -16,8 +16,8 @@
   "sourceErrors": [],
   "rawUpcomingCount": 18,
   "matchedUpcomingCount": 6,
-  "fundamentalEstimateCount": 1,
-  "universeGeneratedAt": "2026-09-02T08:50:51.498508Z",
+  "fundamentalEstimateCount": 0,
+  "universeGeneratedAt": "2026-09-03T08:08:03.264779Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -49,7 +49,7 @@
         "revenueCurrentYearEstimate": 20551.95,
         "revenueNextYearEstimate": 20732.86
       },
-      "daysUntil": 0,
+      "daysUntil": -1,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
@@ -73,10 +73,10 @@
       "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "🍕The Gas-Station Chain Eating Domino’s Lunch",
-        "Casey's General Stores (CASY) Earnings Expected to Grow: What to Know Ahead of Next Week's Release",
-        "Opendoor Sinks 4% on Modest Market Pullback: Is High-Beta Selling the Whole Story?",
-        "Casey's Stock: Analyst Estimates & Ratings"
+        "Offerpad Rallies 7%, Opendoor Edges Higher: Is Rate Relief Reaching the iBuyers?",
+        "Seeking Clues to Casey's (CASY) Q1 Earnings? A Peek Into Wall Street Projections for Key Metrics",
+        "Offerpad Founder and CEO Brian Bair Recognized for Vision and Leadership in Housing",
+        "🍕The Gas-Station Chain Eating Domino’s Lunch"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -86,20 +86,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
-        "samples": 251,
-        "last": 766.9,
-        "changeM1": -12,
-        "changeM3": 2.9,
-        "changeM6": 11.6,
-        "sma50": 831.2,
-        "sma200": 722.7,
-        "position52w": 64.3,
-        "drawdownFromHigh": -16.3,
-        "volatility20d": 34.5,
-        "volumeTrend": -34.1
+        "samples": 252,
+        "last": 753.6,
+        "changeM1": -11.4,
+        "changeM3": -2.7,
+        "changeM6": 10.2,
+        "sma50": 828.2,
+        "sma200": 724.9,
+        "position52w": 61.1,
+        "drawdownFromHigh": -17.8,
+        "volatility20d": 34.6,
+        "volumeTrend": -27.1
       },
-      "scoreEvaluatedAt": "2026-09-02T08:53:34.748Z",
-      "scoreValidUntil": "2026-09-03T08:53:34.748Z"
+      "scoreEvaluatedAt": "2026-09-03T09:03:23.234Z",
+      "scoreValidUntil": "2026-09-04T09:03:23.234Z"
     },
     {
       "date": "2026-09-02",
@@ -111,8 +111,8 @@
       "companyKey": "CHECK POINT SOFTWARE TECHNOLOGIES",
       "currency": "BRL",
       "matchConfidence": 0.88,
-      "baseScore": 50,
-      "fundamentalScore": 50,
+      "baseScore": 48,
+      "fundamentalScore": 48,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -130,12 +130,12 @@
         "revenueCurrentYearEstimate": 2801.85,
         "revenueNextYearEstimate": 2959.61
       },
-      "daysUntil": 0,
+      "daysUntil": -1,
       "baseLabel": "NEUTRAL",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 4,
+          "delta": 0,
           "label": "Analystenschaetzungen"
         },
         {
@@ -145,19 +145,19 @@
         },
         {
           "key": "NEWS",
-          "delta": -5,
-          "label": "4 frische Meldungen"
+          "delta": -3,
+          "label": "6 frische Meldungen"
         }
       ],
       "chartDelta": 1,
-      "newsDelta": -5,
-      "fundamentalDelta": 4,
+      "newsDelta": -3,
+      "fundamentalDelta": 0,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "Varonis (VRNS) Surges 10.4%: Is This an Indication of Further Gains?",
+        "Check Point Software Shareholders Approve All 2026 Annual General Meeting Proposals",
         "CrowdStrike Stock Rises 96% YTD: Time to Hold or Book Profits?",
-        "Lightspeed Commerce Appoints Rupal Hollenbeck to Board of Directors",
-        "CrowdStrike Set to Report Q2 Earnings: Buy, Sell or Hold the Stock?",
-        "Professor James Mickens, Katie Moussouris, and Dino Dai Zovi to Keynote SentinelOne’s LABScon 2026"
+        "Lightspeed Commerce Appoints Rupal Hollenbeck to Board of Directors"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -168,19 +168,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "BRL",
         "samples": 251,
-        "last": 58.1,
-        "changeM1": 11,
-        "changeM3": 0.7,
-        "changeM6": -16.6,
-        "sma50": 55.8,
-        "sma200": 66.2,
-        "position52w": 28.4,
-        "drawdownFromHigh": -32.9,
-        "volatility20d": 47.2,
-        "volumeTrend": 165
+        "last": 57.4,
+        "changeM1": 9.7,
+        "changeM3": -0.4,
+        "changeM6": -17.6,
+        "sma50": 55.9,
+        "sma200": 66,
+        "position52w": 26.7,
+        "drawdownFromHigh": -33.7,
+        "volatility20d": 47.5,
+        "volumeTrend": 153.2
       },
-      "scoreEvaluatedAt": "2026-09-02T08:53:34.748Z",
-      "scoreValidUntil": "2026-09-03T08:53:34.748Z"
+      "scoreEvaluatedAt": "2026-09-03T09:03:23.234Z",
+      "scoreValidUntil": "2026-09-04T09:03:23.234Z"
     },
     {
       "date": "2026-09-03",
@@ -211,7 +211,7 @@
         "revenueCurrentYearEstimate": 1988.93,
         "revenueNextYearEstimate": 2118.24
       },
-      "daysUntil": 1,
+      "daysUntil": 0,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
@@ -246,19 +246,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 254,
-        "last": 680.5,
-        "changeM1": -6.3,
-        "changeM3": -5.1,
-        "changeM6": 47.2,
-        "sma50": 727.8,
-        "sma200": 577.6,
-        "position52w": 74.9,
-        "drawdownFromHigh": -15.1,
-        "volatility20d": 30.1,
-        "volumeTrend": 5.6
+        "last": 670.5,
+        "changeM1": -8.6,
+        "changeM3": -4.4,
+        "changeM6": 38,
+        "sma50": 727,
+        "sma200": 578.8,
+        "position52w": 71.7,
+        "drawdownFromHigh": -16.3,
+        "volatility20d": 30,
+        "volumeTrend": 15.6
       },
-      "scoreEvaluatedAt": "2026-09-02T08:53:34.748Z",
-      "scoreValidUntil": "2026-09-03T08:53:34.748Z"
+      "scoreEvaluatedAt": "2026-09-03T09:03:23.234Z",
+      "scoreValidUntil": "2026-09-04T09:03:23.234Z"
     },
     {
       "date": "2026-09-09",
@@ -270,8 +270,8 @@
       "companyKey": "NETAPP",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 85,
-      "fundamentalScore": 85,
+      "baseScore": 95,
+      "fundamentalScore": 95,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -289,7 +289,7 @@
         "revenueCurrentYearEstimate": 7537.01,
         "revenueNextYearEstimate": 7968.88
       },
-      "daysUntil": 7,
+      "daysUntil": 6,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -304,19 +304,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 1,
+          "delta": 11,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": 10,
-      "newsDelta": 1,
+      "newsDelta": 11,
       "fundamentalDelta": 24,
-      "newsGuidance": 0,
+      "newsGuidance": 1,
       "newsHeadlines": [
-        "CMS Approves New Technology Add-on Payment for Reflow Medical’s Spur® Peripheral Retrievable Stent System",
-        "BofA Securities Adjusts Price Target on NetApp to $206 From $180",
-        "NetApp Earnings: What To Look For From NTAP",
-        "The Ceiling SanDisk Wrote Into Its Own Contracts"
+        "NetApp Inc (NTAP) (Q1 2027) Earnings Call Highlights: Record Revenue Surges 30% on AI-Driven Demand",
+        "Dow Jones Futures: Snowflake, Broadcom, HPE Are Big Earnings Movers; Tesla Cybercab Event Due",
+        "NetApp Q1 Earnings Call Highlights",
+        "Compared to Estimates, NetApp (NTAP) Q1 Earnings: A Look at Key Metrics"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -326,20 +326,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
-        "samples": 251,
-        "last": 183.2,
-        "changeM1": 2.6,
-        "changeM3": 1.9,
-        "changeM6": 82.9,
-        "sma50": 176.4,
-        "sma200": 129.1,
-        "position52w": 78.8,
-        "drawdownFromHigh": -11.6,
-        "volatility20d": 39.5,
-        "volumeTrend": -20.2
+        "samples": 252,
+        "last": 180.8,
+        "changeM1": -5.1,
+        "changeM3": -0.2,
+        "changeM6": 81.6,
+        "sma50": 177.5,
+        "sma200": 129.8,
+        "position52w": 76.7,
+        "drawdownFromHigh": -12.7,
+        "volatility20d": 35.3,
+        "volumeTrend": -18.7
       },
-      "scoreEvaluatedAt": "2026-09-02T08:53:34.748Z",
-      "scoreValidUntil": "2026-09-03T08:53:34.748Z"
+      "scoreEvaluatedAt": "2026-09-03T09:03:23.234Z",
+      "scoreValidUntil": "2026-09-04T09:03:23.234Z"
     },
     {
       "date": "2026-09-10",
@@ -351,9 +351,9 @@
       "companyKey": "CURRYS",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 77,
-      "fundamentalScore": 77,
-      "fundamentalConfidence": 0.919,
+      "baseScore": 83,
+      "fundamentalScore": 83,
+      "fundamentalConfidence": 0.916,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+7%)",
@@ -370,32 +370,31 @@
         "revenueCurrentYearEstimate": 9543.87,
         "revenueNextYearEstimate": 9787.56
       },
-      "daysUntil": 8,
-      "baseLabel": "POSITIV",
+      "daysUntil": 7,
+      "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 21,
+          "delta": 24,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": 3,
+          "delta": 6,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
           "delta": 3,
-          "label": "2 frische Meldungen"
+          "label": "1 frische Meldungen"
         }
       ],
-      "chartDelta": 3,
+      "chartDelta": 6,
       "newsDelta": 3,
-      "fundamentalDelta": 21,
+      "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Could NICE (NICE)’s AI Growth Finally Offset its Legacy Revenue Drag?",
-        "Currys Transforms Customer Engagement with NiCE, Driving Higher NPS and Faster Resolution"
+        "Could NICE (NICE)’s AI Growth Finally Offset its Legacy Revenue Drag?"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -406,19 +405,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 254,
-        "last": 150.7,
-        "changeM1": -8.3,
-        "changeM3": 1.8,
-        "changeM6": 1.5,
+        "last": 150.3,
+        "changeM1": -7.5,
+        "changeM3": 1.2,
+        "changeM6": -0.3,
         "sma50": 159.1,
-        "sma200": 143,
-        "position52w": 71.5,
-        "drawdownFromHigh": -10.4,
-        "volatility20d": 21.3,
-        "volumeTrend": -49.5
+        "sma200": 143.1,
+        "position52w": 69.8,
+        "drawdownFromHigh": -10.6,
+        "volatility20d": 21.7,
+        "volumeTrend": -46.2
       },
-      "scoreEvaluatedAt": "2026-09-02T08:53:34.748Z",
-      "scoreValidUntil": "2026-09-03T08:53:34.748Z"
+      "scoreEvaluatedAt": "2026-09-03T09:03:23.234Z",
+      "scoreValidUntil": "2026-09-04T09:03:23.234Z"
     },
     {
       "date": "2026-09-10",
@@ -430,16 +429,17 @@
       "companyKey": "RYANAIR",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 46,
-      "fundamentalScore": 46,
-      "fundamentalConfidence": 0.881,
+      "baseScore": 33,
+      "fundamentalScore": 33,
+      "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+10%)",
         "Umsatzschätzung nächstes Jahr +8%",
         "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
         "Kurs faellt kurz vor der HV (-8% in 1 Monat)",
-        "Kurs nahe 52-Wochen-Tief"
+        "Kurs nahe 52-Wochen-Tief",
+        "Kurs faellt kurz vor der HV (-10% in 1 Monat)"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -448,35 +448,34 @@
         "revenueCurrentYearEstimate": 15925.44,
         "revenueNextYearEstimate": 17205.48
       },
-      "daysUntil": 8,
-      "baseLabel": "NEUTRAL",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/ryanair",
+      "daysUntil": 7,
+      "baseLabel": "VORSICHT",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 11,
+          "delta": -4,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -16,
+          "delta": -13,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": 1,
+          "delta": 0,
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": -16,
-      "newsDelta": 1,
-      "fundamentalDelta": 11,
+      "chartDelta": -13,
+      "newsDelta": 0,
+      "fundamentalDelta": -4,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Ryanair August Traffic Rises 6%",
-        "Auto & Transport Roundup: Market Talk",
-        "Is RYAAY a Buy as Strong Traffic Faces Higher Costs and Lower Fares?",
-        "Morgan Stanley Initiates Ryanair Holdings at Overweight, With $62.90 Price Target"
+        "Ryanair Holdings (ISE:RYA) Could Be 46% Undervalued After Fuel Cost Warning",
+        "Ryanair (ISE:RYA) Stock May Trade At A Discount Despite Traffic Target Cuts",
+        "RYAAY August Traffic Remains Flat Sequentially, FY27 Traffic View Down",
+        "Ryanair Warns Some Airlines Could Struggle with Jet Fuel Price Spike"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -486,20 +485,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
-        "samples": 251,
-        "last": 53.8,
-        "changeM1": -8,
-        "changeM3": -9.3,
-        "changeM6": -17.6,
-        "sma50": 60.4,
-        "sma200": 62.8,
-        "position52w": 2.8,
-        "drawdownFromHigh": -27.1,
-        "volatility20d": 25.4,
-        "volumeTrend": 2.9
+        "samples": 252,
+        "last": 54.4,
+        "changeM1": -9.6,
+        "changeM3": -4.8,
+        "changeM6": -16.4,
+        "sma50": 60.1,
+        "sma200": 62.7,
+        "position52w": 5.7,
+        "drawdownFromHigh": -26.3,
+        "volatility20d": 24.6,
+        "volumeTrend": -14.4
       },
-      "scoreEvaluatedAt": "2026-09-02T08:53:34.748Z",
-      "scoreValidUntil": "2026-09-03T08:53:34.748Z"
+      "scoreEvaluatedAt": "2026-09-03T09:03:23.234Z",
+      "scoreValidUntil": "2026-09-04T09:03:23.234Z"
     }
   ],
   "estimateAttemptCount": 6,
@@ -508,6 +507,6 @@
   "scoreReevaluation": "once daily only",
   "chartProfileCount": 6,
   "newsProfileCount": 6,
-  "neutralScoreCount": 1,
+  "neutralScoreCount": 0,
   "signalCoveredCount": 6
 }
