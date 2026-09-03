@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-03T03:13:26.984Z",
+  "checkedAt": "2026-09-03T10:57:17.805Z",
   "runtimeVersion": "V31.7",
   "liveDecisionVersion": "V31.7",
   "outcomeLearningVersion": "V31.2",
@@ -10,7 +10,7 @@
     "runtimeCurrent": true,
     "unifiedDecisionAuthority": true,
     "outcomeLearningV312": true,
-    "learningActuallyTracking": false,
+    "learningActuallyTracking": true,
     "continuousFeedback": true,
     "expectancy": true,
     "brokerMaster": true,
@@ -19,16 +19,13 @@
     "agmCalendarFresh": true,
     "positionChart": true,
     "pcAgentRecovery": true,
-    "pcAgentFresh": false,
+    "pcAgentFresh": true,
     "accountingConsistent": true,
     "lastErrorClear": true,
     "positionCountWithinLimit": true
   },
-  "failedChecks": [
-    "learningActuallyTracking",
-    "pcAgentFresh"
-  ],
-  "allRequiredChecksPassed": false,
+  "failedChecks": [],
+  "allRequiredChecksPassed": true,
   "outcomeLearningPolicy": {
     "enabled": true,
     "version": 31.2,
@@ -53,18 +50,71 @@
     "defaultBuyRoundTripCostPct": 0.45,
     "minNetBuyWinPct": 0.1,
     "defensiveAfterBuySamples": 3,
-    "mode": "WARMUP",
-    "matured": 0,
-    "buySamples": 0,
-    "buyHitRate": null,
-    "avg20mReturnPct": null,
-    "missedOpportunities": 0,
-    "badBuys": 0,
+    "mode": "BALANCED",
+    "matured": 240,
+    "buySamples": 1,
+    "buyHitRate": 0,
+    "avgBuy20mReturnPct": -0.222,
+    "avgBuy20mNetReturnPct": -0.222,
+    "avgBuy20mRawReturnPct": 0.069,
+    "avg20mReturnPct": -0.056,
+    "missedOpportunities": 7,
+    "badBuys": 1,
     "earlySells": 0,
-    "trackedSymbols": 0,
+    "correctSells": 0,
+    "thresholdAdjustment": 0,
+    "allocationAdjustment": 0,
+    "costAwareBuyLearning": true,
+    "trackedSymbols": 48,
     "currentCandidates": 0,
-    "weights": null,
+    "weights": {
+      "velocity": 0.25,
+      "m5": 0.40409382226794915,
+      "m20": 2.4224409346980975,
+      "accel": 0.25878206037841917,
+      "news": 0.634222359805214,
+      "confidence": 0.05,
+      "direction": 1.2
+    },
     "topForecasts": [],
+    "recentMissedOpportunities": [
+      {
+        "symbol": "IDR.MC",
+        "returnPct": 0.5092,
+        "ts": 1788425238452
+      },
+      {
+        "symbol": "DTE.DE",
+        "returnPct": 0.6401,
+        "ts": 1788424776114
+      },
+      {
+        "symbol": "SOLARINDS.NS",
+        "returnPct": 0.5587,
+        "ts": 1788424417354
+      },
+      {
+        "symbol": "DTE.DE",
+        "returnPct": 0.5552,
+        "ts": 1788424091327
+      },
+      {
+        "symbol": "SOLARINDS.NS",
+        "returnPct": 0.5378,
+        "ts": 1788423797634
+      },
+      {
+        "symbol": "SOLARINDS.NS",
+        "returnPct": 0.6554,
+        "ts": 1788423514530
+      },
+      {
+        "symbol": "SOLARINDS.NS",
+        "returnPct": 0.5619,
+        "ts": 1788423215681
+      }
+    ],
+    "rule": "V31.2.1 verfolgt BUY/HOLD/SELL nach 5/20/60/240 Minuten. BUY-Lernen bewertet die Netto-Bewegung nach konservativ geschätzten Trade-Republic-Roundtrip-Kosten statt nur den Rohkurs. Schwache BUY-Samples verschärfen die Schwelle bereits ab drei auswertbaren Käufen; Velocity darf einen fallenden kurzfristigen Kurs nicht allein zum Early-Entry machen.",
     "writeErrors": 0,
     "insideUnifiedAuthority": true
   },
@@ -107,136 +157,75 @@
     "deadlockMaxRsi": 74,
     "decisionAuthority": false,
     "insideUnifiedAuthority": true,
-    "latest": null
-  },
-  "scanCount": 756,
-  "lastScan": "2026-09-02T20:50:49.727Z",
-  "lastError": null,
-  "aiLastSummary": "Keine frischen handelbaren Kurse – keine Orderentscheidung.",
-  "cash": 5378.215762686883,
-  "equity": 9958.439213846677,
-  "pnl": -41.560786153322624,
-  "marketValue": 4580.223451159794,
-  "accountingDelta": 0,
-  "positions": 2,
-  "positionRows": [
-    {
-      "symbol": "RHM.DE",
-      "name": "Rheinmetall AG",
-      "instrument_type": "EQUITY",
-      "theme": null,
-      "company_key": "RHEINMETALL",
-      "invested": 2197.395151,
-      "entry_fee": 1,
-      "entry_price": 1098.6975755615233,
-      "last_price": 1093.5999755859375,
-      "entry_fx": 1,
-      "last_fx": 1,
-      "fx_verified": true,
-      "currency": "EUR",
-      "quote_currency_raw": "EUR",
-      "quote_price_scale": 1,
-      "quote_unit_normalized": true,
-      "opened_at": "2026-09-02T13:59:32.109Z",
-      "last_added_at": null,
-      "add_count": 0,
-      "score": 81.8,
-      "signal_confidence": 0.63,
-      "zero_quantity": 2,
-      "zero_whole_shares": 2,
-      "zero_fractional_shares": 0,
-      "zero_uses_fractional": false,
-      "zero_fee_model_version": "trade-republic-securities-2026-08-v1",
-      "fx_stale": false,
-      "legacy_position_score": 5.3188,
-      "decisionScore": 81.8,
-      "entryDecisionScore": 84,
-      "scoreDeltaFromEntry": -2.2,
-      "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 81.8,
-      "chartMoveFromEntryPct": -0.464,
-      "chartMoveLastScanPct": 0,
-      "scoreFrozenPartial": true,
-      "scoreChartCapped": false,
-      "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
-      "preDirectionalScore": 81.8,
-      "scoreFloor": 80.5,
-      "scoreCeiling": 88,
-      "chartDirectionMode": "DOWN",
-      "scorePriorCorrected": false,
-      "preProfitScore": 81.8,
-      "profitScoreCeiling": 81.8,
-      "profitScoreDeltaThisScan": 0,
-      "daytradeChanceScore": 81.8,
-      "daytradeChanceLabel": "SEHR STARK",
-      "daytradeChanceRank": 1
-    },
-    {
-      "symbol": "3690.HK",
-      "name": "Meituan",
-      "instrument_type": "EQUITY",
-      "theme": null,
-      "company_key": "MEITUAN",
-      "invested": 2348.26855,
-      "entry_fee": 1,
-      "entry_price": 77.27719694519043,
-      "last_price": 78.75,
-      "entry_fx": 0.1101,
-      "last_fx": 0.1101,
-      "fx_verified": true,
-      "currency": "HKD",
-      "quote_currency_raw": "HKD",
-      "quote_price_scale": 1,
-      "quote_unit_normalized": true,
-      "opened_at": "2026-09-02T05:45:31.135Z",
-      "last_added_at": null,
-      "add_count": 0,
-      "score": 69.7,
-      "signal_confidence": 0.47699248000000005,
-      "zero_quantity": 276,
-      "zero_whole_shares": 276,
-      "zero_fractional_shares": 0,
-      "zero_uses_fractional": false,
-      "zero_fee_model_version": "trade-republic-securities-2026-08-v1",
-      "fx_stale": false,
-      "legacy_position_score": 2.1245520260195496,
-      "decisionScore": 69.7,
-      "entryDecisionScore": 73.7,
-      "scoreDeltaFromEntry": -4,
-      "scoreDeltaThisScan": 0,
-      "rawDecisionScore": 49.3,
-      "chartMoveFromEntryPct": 1.906,
-      "chartMoveLastScanPct": 0,
-      "scoreFrozenPartial": true,
-      "scoreChartCapped": false,
-      "scoreSource": "V29.7_ADAPTIVE_PROFIT_SCORE",
-      "preDirectionalScore": 58.7,
-      "scoreFloor": 69.7,
-      "scoreCeiling": 85.3,
-      "chartDirectionMode": "UP",
-      "scorePriorCorrected": false,
-      "preProfitScore": 69.7,
-      "profitScoreCeiling": 85.9,
-      "profitScoreDeltaThisScan": 0,
-      "daytradeChanceScore": 69.7,
-      "daytradeChanceLabel": "STARK",
-      "daytradeChanceRank": 2
+    "latest": {
+      "eligible": 0,
+      "injected": 0,
+      "reason": "NO_CONFIRMED_EXPLORATION_CANDIDATE",
+      "chosen": null,
+      "blocked": [
+        {
+          "ok": false,
+          "reason": "CANDIDATE_NOT_FRESH",
+          "symbol": "DTE.DE",
+          "fresh": null,
+          "updatedAt": null
+        },
+        {
+          "ok": false,
+          "reason": "BROKER_NOT_EXACT",
+          "symbol": "FCT.MI"
+        },
+        {
+          "ok": false,
+          "reason": "CANDIDATE_NOT_FRESH",
+          "symbol": "SAF.PA",
+          "fresh": null,
+          "updatedAt": null
+        },
+        {
+          "ok": false,
+          "reason": "BROKER_NOT_EXACT",
+          "symbol": "ASELS.IS"
+        },
+        {
+          "ok": false,
+          "reason": "BROKER_NOT_EXACT",
+          "symbol": "BESI.AS"
+        },
+        {
+          "ok": false,
+          "reason": "BROKER_NOT_EXACT",
+          "symbol": "HAG.DE"
+        }
+      ],
+      "triggerMode": "LEARNED_NET_EDGE"
     }
-  ],
+  },
+  "scanCount": 0,
+  "lastScan": null,
+  "lastError": null,
+  "aiLastSummary": null,
+  "cash": 10000,
+  "equity": 10000,
+  "pnl": 0,
+  "marketValue": 0,
+  "accountingDelta": 0,
+  "positions": 0,
+  "positionRows": [],
   "candidateCount": 0,
   "candidateRows": [],
   "pcAgent": {
     "configured": true,
-    "online": false,
-    "lastSeenAt": "2026-09-02T18:03:13.756Z",
-    "ageSeconds": 33010,
+    "online": true,
+    "lastSeenAt": "2026-09-03T10:57:06.028Z",
+    "ageSeconds": 10,
     "fallbackAfterSeconds": 150,
     "lastScanAt": null,
     "scanAgeSeconds": null,
     "scanFresh": false,
     "scanGapFallbackAfterSeconds": 95,
-    "prefetchFresh": false,
-    "prefetchAt": "2026-09-02T18:03:12.996Z",
+    "prefetchFresh": true,
+    "prefetchAt": "2026-09-03T10:56:12.691Z",
     "resolvedLeaderCount": 5,
     "selectedLeaderCount": 25,
     "leaderHealthy": false,
@@ -244,31 +233,31 @@
     "leaderCacheMode": "PC_AGENT_PARTIAL_BLEND",
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-09-02T18:03:13.756Z",
+      "lastSeenAt": "2026-09-03T10:57:06.028Z",
       "version": "2.2.1-csharp-pc-first-four-sta",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 17299188,
+      "storageBytes": 17357252,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.02,
-      "ramMb": 61.5,
-      "downloadedBytes": 3188768183,
-      "uploadedBytes": 85125774,
+      "cpuPct": 0.03,
+      "ramMb": 58.6,
+      "downloadedBytes": 1968981057,
+      "uploadedBytes": 53855546,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
-      "lastLocalCleanupAt": "2026-09-02T17:34:08.3153708Z",
+      "lastLocalCleanupAt": "2026-09-03T10:36:05.1291934Z",
       "lastError": null
     }
   },
   "positionChart": {
-    "status": 200,
+    "status": null,
     "ok": true,
-    "symbol": "RHM.DE",
-    "bars": 103
+    "symbol": null,
+    "bars": 0
   },
   "agmCalendar": {
-    "updatedAt": "2026-09-02T08:53:34.748Z",
-    "ageHours": 18.33,
+    "updatedAt": "2026-09-03T09:03:23.234Z",
+    "ageHours": 1.9,
     "events": 6
   },
   "newsFeed": {
@@ -284,7 +273,8 @@
       "V31.2 continuous outcome learning/early entry",
       "V30.9 legacy opportunity proposal",
       "V31.7 canonical score/orthogonal confirmation/probation approval",
-      "V31.7 capital-velocity exits/failed-setup/rotation/sizing"
+      "V31.7 capital-velocity exits/failed-setup/rotation/sizing",
+      "V31.7.10 fresh-news catalyst proposal inside unified authority"
     ],
     "removedOuterWrapperStack": [
       "FinalSellAuthorityV308",
@@ -335,18 +325,71 @@
       "defaultBuyRoundTripCostPct": 0.45,
       "minNetBuyWinPct": 0.1,
       "defensiveAfterBuySamples": 3,
-      "mode": "WARMUP",
-      "matured": 0,
-      "buySamples": 0,
-      "buyHitRate": null,
-      "avg20mReturnPct": null,
-      "missedOpportunities": 0,
-      "badBuys": 0,
+      "mode": "BALANCED",
+      "matured": 240,
+      "buySamples": 1,
+      "buyHitRate": 0,
+      "avgBuy20mReturnPct": -0.222,
+      "avgBuy20mNetReturnPct": -0.222,
+      "avgBuy20mRawReturnPct": 0.069,
+      "avg20mReturnPct": -0.056,
+      "missedOpportunities": 7,
+      "badBuys": 1,
       "earlySells": 0,
-      "trackedSymbols": 0,
+      "correctSells": 0,
+      "thresholdAdjustment": 0,
+      "allocationAdjustment": 0,
+      "costAwareBuyLearning": true,
+      "trackedSymbols": 48,
       "currentCandidates": 0,
-      "weights": null,
+      "weights": {
+        "velocity": 0.25,
+        "m5": 0.40409382226794915,
+        "m20": 2.4224409346980975,
+        "accel": 0.25878206037841917,
+        "news": 0.634222359805214,
+        "confidence": 0.05,
+        "direction": 1.2
+      },
       "topForecasts": [],
+      "recentMissedOpportunities": [
+        {
+          "symbol": "IDR.MC",
+          "returnPct": 0.5092,
+          "ts": 1788425238452
+        },
+        {
+          "symbol": "DTE.DE",
+          "returnPct": 0.6401,
+          "ts": 1788424776114
+        },
+        {
+          "symbol": "SOLARINDS.NS",
+          "returnPct": 0.5587,
+          "ts": 1788424417354
+        },
+        {
+          "symbol": "DTE.DE",
+          "returnPct": 0.5552,
+          "ts": 1788424091327
+        },
+        {
+          "symbol": "SOLARINDS.NS",
+          "returnPct": 0.5378,
+          "ts": 1788423797634
+        },
+        {
+          "symbol": "SOLARINDS.NS",
+          "returnPct": 0.6554,
+          "ts": 1788423514530
+        },
+        {
+          "symbol": "SOLARINDS.NS",
+          "returnPct": 0.5619,
+          "ts": 1788423215681
+        }
+      ],
+      "rule": "V31.2.1 verfolgt BUY/HOLD/SELL nach 5/20/60/240 Minuten. BUY-Lernen bewertet die Netto-Bewegung nach konservativ geschätzten Trade-Republic-Roundtrip-Kosten statt nur den Rohkurs. Schwache BUY-Samples verschärfen die Schwelle bereits ab drei auswertbaren Käufen; Velocity darf einen fallenden kurzfristigen Kurs nicht allein zum Early-Entry machen.",
       "writeErrors": 0
     },
     "predictiveLearning": {
@@ -373,18 +416,71 @@
       "defaultBuyRoundTripCostPct": 0.45,
       "minNetBuyWinPct": 0.1,
       "defensiveAfterBuySamples": 3,
-      "mode": "WARMUP",
-      "matured": 0,
-      "buySamples": 0,
-      "buyHitRate": null,
-      "avg20mReturnPct": null,
-      "missedOpportunities": 0,
-      "badBuys": 0,
+      "mode": "BALANCED",
+      "matured": 240,
+      "buySamples": 1,
+      "buyHitRate": 0,
+      "avgBuy20mReturnPct": -0.222,
+      "avgBuy20mNetReturnPct": -0.222,
+      "avgBuy20mRawReturnPct": 0.069,
+      "avg20mReturnPct": -0.056,
+      "missedOpportunities": 7,
+      "badBuys": 1,
       "earlySells": 0,
-      "trackedSymbols": 0,
+      "correctSells": 0,
+      "thresholdAdjustment": 0,
+      "allocationAdjustment": 0,
+      "costAwareBuyLearning": true,
+      "trackedSymbols": 48,
       "currentCandidates": 0,
-      "weights": null,
+      "weights": {
+        "velocity": 0.25,
+        "m5": 0.40409382226794915,
+        "m20": 2.4224409346980975,
+        "accel": 0.25878206037841917,
+        "news": 0.634222359805214,
+        "confidence": 0.05,
+        "direction": 1.2
+      },
       "topForecasts": [],
+      "recentMissedOpportunities": [
+        {
+          "symbol": "IDR.MC",
+          "returnPct": 0.5092,
+          "ts": 1788425238452
+        },
+        {
+          "symbol": "DTE.DE",
+          "returnPct": 0.6401,
+          "ts": 1788424776114
+        },
+        {
+          "symbol": "SOLARINDS.NS",
+          "returnPct": 0.5587,
+          "ts": 1788424417354
+        },
+        {
+          "symbol": "DTE.DE",
+          "returnPct": 0.5552,
+          "ts": 1788424091327
+        },
+        {
+          "symbol": "SOLARINDS.NS",
+          "returnPct": 0.5378,
+          "ts": 1788423797634
+        },
+        {
+          "symbol": "SOLARINDS.NS",
+          "returnPct": 0.6554,
+          "ts": 1788423514530
+        },
+        {
+          "symbol": "SOLARINDS.NS",
+          "returnPct": 0.5619,
+          "ts": 1788423215681
+        }
+      ],
+      "rule": "V31.2.1 verfolgt BUY/HOLD/SELL nach 5/20/60/240 Minuten. BUY-Lernen bewertet die Netto-Bewegung nach konservativ geschätzten Trade-Republic-Roundtrip-Kosten statt nur den Rohkurs. Schwache BUY-Samples verschärfen die Schwelle bereits ab drei auswertbaren Käufen; Velocity darf einen fallenden kurzfristigen Kurs nicht allein zum Early-Entry machen.",
       "writeErrors": 0
     },
     "shadowLearning": {
@@ -423,8 +519,134 @@
       "mode": "canonical-entry-score+orthogonal-confirmation+probation",
       "decisionAuthority": false,
       "filtersNewBuys": true,
-      "latest": null,
-      "calibration": null
+      "latest": {
+        "themeBlocks": 0,
+        "currencyBlocks": 0,
+        "spacingBlocks": 0,
+        "belowCalibratedThreshold": 0,
+        "openSnapshots": 162,
+        "maturedSamples": 1500,
+        "buyThreshold": 60,
+        "calibrated": true,
+        "roundTripCostPct": 0.291,
+        "evidenceCalibration": [
+          {
+            "label": "LOW",
+            "samples": 1262,
+            "avgReturnPct": 0.073,
+            "hitRate": 0.499
+          },
+          {
+            "label": "CONFIRMED",
+            "samples": 238,
+            "avgReturnPct": 3.707,
+            "hitRate": 0.513
+          }
+        ],
+        "canonicalCalibration": [
+          {
+            "bucket": 50,
+            "samples": 196,
+            "avgReturnPct": 0.108,
+            "expectedNetEdgePct": -0.183,
+            "hitRate": 0.464
+          },
+          {
+            "bucket": 55,
+            "samples": 402,
+            "avgReturnPct": 0.059,
+            "expectedNetEdgePct": -0.232,
+            "hitRate": 0.475
+          },
+          {
+            "bucket": 60,
+            "samples": 13,
+            "avgReturnPct": 0.442,
+            "expectedNetEdgePct": 0.151,
+            "hitRate": 0.615
+          },
+          {
+            "bucket": 65,
+            "samples": 16,
+            "avgReturnPct": 51.977,
+            "expectedNetEdgePct": 51.686,
+            "hitRate": 0.688
+          },
+          {
+            "bucket": 70,
+            "samples": 3,
+            "avgReturnPct": 0.672,
+            "expectedNetEdgePct": 0.381,
+            "hitRate": 0.667
+          },
+          {
+            "bucket": 75,
+            "samples": 5,
+            "avgReturnPct": -0.133,
+            "expectedNetEdgePct": -0.424,
+            "hitRate": 0.2
+          },
+          {
+            "bucket": 80,
+            "samples": 0,
+            "avgReturnPct": null,
+            "expectedNetEdgePct": null,
+            "hitRate": null
+          }
+        ],
+        "negativeNewsBlocks": 0,
+        "evidenceBlocks": 0,
+        "unprofitableBucketBlocks": 0,
+        "canonicalScoreBlocks": 0,
+        "dataQualityBlocks": 0,
+        "orthogonalBlocks": 0,
+        "probationBlocks": 0,
+        "heldBuyBlocks": 0
+      },
+      "calibration": [
+        {
+          "bucket": 50,
+          "samples": 157,
+          "avgReturnPct": 0.114,
+          "hitRate": 0.51
+        },
+        {
+          "bucket": 55,
+          "samples": 142,
+          "avgReturnPct": 0.297,
+          "hitRate": 0.563
+        },
+        {
+          "bucket": 60,
+          "samples": 110,
+          "avgReturnPct": 0.172,
+          "hitRate": 0.473
+        },
+        {
+          "bucket": 65,
+          "samples": 68,
+          "avgReturnPct": 0.016,
+          "hitRate": 0.544
+        },
+        {
+          "bucket": 70,
+          "samples": 29,
+          "avgReturnPct": 28.787,
+          "hitRate": 0.69
+        },
+        {
+          "bucket": 75,
+          "samples": 11,
+          "avgReturnPct": -0.391,
+          "hitRate": 0.182
+        },
+        {
+          "bucket": 80,
+          "samples": 16,
+          "avgReturnPct": -0.684,
+          "hitRate": 0.188
+        }
+      ]
     },
     "paperExploration": {
       "version": 31.78,
@@ -465,7 +687,49 @@
       "deadlockMaxRsi": 74,
       "decisionAuthority": false,
       "insideUnifiedAuthority": true,
-      "latest": null
+      "latest": {
+        "eligible": 0,
+        "injected": 0,
+        "reason": "NO_CONFIRMED_EXPLORATION_CANDIDATE",
+        "chosen": null,
+        "blocked": [
+          {
+            "ok": false,
+            "reason": "CANDIDATE_NOT_FRESH",
+            "symbol": "DTE.DE",
+            "fresh": null,
+            "updatedAt": null
+          },
+          {
+            "ok": false,
+            "reason": "BROKER_NOT_EXACT",
+            "symbol": "FCT.MI"
+          },
+          {
+            "ok": false,
+            "reason": "CANDIDATE_NOT_FRESH",
+            "symbol": "SAF.PA",
+            "fresh": null,
+            "updatedAt": null
+          },
+          {
+            "ok": false,
+            "reason": "BROKER_NOT_EXACT",
+            "symbol": "ASELS.IS"
+          },
+          {
+            "ok": false,
+            "reason": "BROKER_NOT_EXACT",
+            "symbol": "BESI.AS"
+          },
+          {
+            "ok": false,
+            "reason": "BROKER_NOT_EXACT",
+            "symbol": "HAG.DE"
+          }
+        ],
+        "triggerMode": "LEARNED_NET_EDGE"
+      }
     },
     "capital": {
       "version": 30.9,
@@ -505,14 +769,180 @@
       "profitFadeMinPct": 0.8,
       "minPositionEur": 2200
     },
-    "latest": null,
+    "latest": {
+      "changes": 0,
+      "outcome": {
+        "eligible": 0,
+        "injected": 0,
+        "learningMode": "BALANCED"
+      },
+      "predictive": {
+        "eligible": 0,
+        "injected": 0,
+        "learningMode": "BALANCED"
+      },
+      "capital": {
+        "brokerRows": 4022,
+        "exactCandidates": 2,
+        "strong70Plus": 0,
+        "canonicalProposalCandidates": 0,
+        "injected": 0,
+        "canonicalInjected": 0,
+        "upgraded": 0,
+        "winnerTopups": 0,
+        "blockedMomentum": 0,
+        "blockedHard": 0,
+        "chosen": null,
+        "topup": null
+      },
+      "shadow": {
+        "themeBlocks": 0,
+        "currencyBlocks": 0,
+        "spacingBlocks": 0,
+        "belowCalibratedThreshold": 0,
+        "openSnapshots": 162,
+        "maturedSamples": 1500,
+        "buyThreshold": 60,
+        "calibrated": true,
+        "roundTripCostPct": 0.291,
+        "evidenceCalibration": [
+          {
+            "label": "LOW",
+            "samples": 1262,
+            "avgReturnPct": 0.073,
+            "hitRate": 0.499
+          },
+          {
+            "label": "CONFIRMED",
+            "samples": 238,
+            "avgReturnPct": 3.707,
+            "hitRate": 0.513
+          }
+        ],
+        "canonicalCalibration": [
+          {
+            "bucket": 50,
+            "samples": 196,
+            "avgReturnPct": 0.108,
+            "expectedNetEdgePct": -0.183,
+            "hitRate": 0.464
+          },
+          {
+            "bucket": 55,
+            "samples": 402,
+            "avgReturnPct": 0.059,
+            "expectedNetEdgePct": -0.232,
+            "hitRate": 0.475
+          },
+          {
+            "bucket": 60,
+            "samples": 13,
+            "avgReturnPct": 0.442,
+            "expectedNetEdgePct": 0.151,
+            "hitRate": 0.615
+          },
+          {
+            "bucket": 65,
+            "samples": 16,
+            "avgReturnPct": 51.977,
+            "expectedNetEdgePct": 51.686,
+            "hitRate": 0.688
+          },
+          {
+            "bucket": 70,
+            "samples": 3,
+            "avgReturnPct": 0.672,
+            "expectedNetEdgePct": 0.381,
+            "hitRate": 0.667
+          },
+          {
+            "bucket": 75,
+            "samples": 5,
+            "avgReturnPct": -0.133,
+            "expectedNetEdgePct": -0.424,
+            "hitRate": 0.2
+          },
+          {
+            "bucket": 80,
+            "samples": 0,
+            "avgReturnPct": null,
+            "expectedNetEdgePct": null,
+            "hitRate": null
+          }
+        ],
+        "negativeNewsBlocks": 0,
+        "evidenceBlocks": 0,
+        "unprofitableBucketBlocks": 0,
+        "canonicalScoreBlocks": 0,
+        "dataQualityBlocks": 0,
+        "orthogonalBlocks": 0,
+        "probationBlocks": 0,
+        "heldBuyBlocks": 0
+      },
+      "expectancy": {
+        "hardStops": 0,
+        "trailingSells": 0,
+        "pairedRotationSells": 0,
+        "failedSetupSells": 0,
+        "stagnationSells": 0,
+        "profitFadeSells": 0,
+        "minHoldBlocks": 0,
+        "reentryBlocks": 0,
+        "sizingUpgrades": 0,
+        "scoreScaleFixes": 0,
+        "equity": 10000
+      },
+      "exploration": {
+        "eligible": 0,
+        "injected": 0,
+        "reason": "NO_CONFIRMED_EXPLORATION_CANDIDATE",
+        "chosen": null,
+        "blocked": [
+          {
+            "ok": false,
+            "reason": "CANDIDATE_NOT_FRESH",
+            "symbol": "DTE.DE",
+            "fresh": null,
+            "updatedAt": null
+          },
+          {
+            "ok": false,
+            "reason": "BROKER_NOT_EXACT",
+            "symbol": "FCT.MI"
+          },
+          {
+            "ok": false,
+            "reason": "CANDIDATE_NOT_FRESH",
+            "symbol": "SAF.PA",
+            "fresh": null,
+            "updatedAt": null
+          },
+          {
+            "ok": false,
+            "reason": "BROKER_NOT_EXACT",
+            "symbol": "ASELS.IS"
+          },
+          {
+            "ok": false,
+            "reason": "BROKER_NOT_EXACT",
+            "symbol": "BESI.AS"
+          },
+          {
+            "ok": false,
+            "reason": "BROKER_NOT_EXACT",
+            "symbol": "HAG.DE"
+          }
+        ],
+        "triggerMode": "LEARNED_NET_EDGE"
+      }
+    },
     "auditWriteErrors": 0,
     "rule": "Eine einzige äußere Entscheidungsautorität entscheidet final. V31.7.2 nutzt aktuelle Prompt-Kandidaten und die persistente Outcome-Lernhistorie. Normale Käufe brauchen weiterhin die V31.7-Bestätigung. Nur bei einem nachgewiesenen Planspiel-Lern-Deadlock mit 0 BUY-Samples darf eine einzelne kleine, exakt brokerverifizierte Lernposition eröffnet werden; harte Risiko-, Markt-, News-, Quote- und Re-Entry-Sperren bleiben aktiv.",
     "brokerMaster": {
       "source": "env.ASSETS:/universe.json",
-      "generatedAt": "2026-09-02T08:50:51.498508Z",
+      "generatedAt": "2026-09-03T08:08:03.264779Z",
       "error": null,
-      "rowCount": 3997
+      "rowCount": 4022
     }
   },
   "executionModel": {
@@ -743,6 +1173,10 @@
     "outerDecisionLayers": 1,
     "pcAgentFailSoftScanRecoveryV3101": true,
     "pcAgentDirectLiteStatusV313": true,
-    "paperExplorationExecutionReconcileV3175": true
+    "paperExplorationExecutionReconcileV3175": true,
+    "freshNewsCatalystV31710": true,
+    "newsRequiresMarketReaction": true,
+    "newsAloneCannotBuy": true,
+    "negativeCatalystExitConfirmation": true
   }
 }
