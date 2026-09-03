@@ -1,17 +1,8 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v310-agent-recovery.js';
 import {refreshNewsCatalystsV31710,applyNewsCatalystSnapshotV31710,NewsCatalystGuardV31710,NEWS_CATALYST_V31710} from './news-catalyst-v31710.js';
+import {PAPER_START_PERSISTENCE_V31711,hasExistingPaperRunV31711,durationMinutesV31711,existingRunSnapshotV31711} from './paper-start-persistence-v31711.js';
 
 const arr=v=>Array.isArray(v)?v:[];
-const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
-
-export const PAPER_START_PERSISTENCE_V31711={version:31.711,patch:'31.7.11-idempotent-start-preserves-paper-ledger'};
-export function hasExistingPaperRunV31711(state={}){
-  const c=state?.config||{};
-  return Boolean(c?.started_at)&&(
-    num(c?.scan_count)>0||arr(state?.positions).length>0||arr(state?.history).some(x=>!['START'].includes(String(x?.action||'').toUpperCase()))||arr(state?.snapshots).length>1
-  );
-}
-function durationMinutesV31711(o={}){const v=Math.max(1,Math.floor(num(o?.durationValue,7))),u=String(o?.durationUnit||'days');return v*(u==='hours'?60:u==='weeks'?10080:1440)}
 
 export class MarketPortfolio extends BasePortfolio{
   constructor(ctx,env){
@@ -34,12 +25,12 @@ export class MarketPortfolio extends BasePortfolio{
     let loaded=null;try{loaded=await this.engine?.store?.load?.(true)}catch{}
     const existing=loaded?.state||null;
     if(existing&&hasExistingPaperRunV31711(existing)&&options?.forceNewRun!==true){
-      const wasRunning=Boolean(existing?.config?.running),now=Date.now(),oldEnd=Date.parse(String(existing?.config?.ends_at||'')),expired=Number.isFinite(oldEnd)&&oldEnd<=now;
-      if((!wasRunning||expired)&&this.engine?.store?.update){
+      const snap=existingRunSnapshotV31711(existing),now=Date.now(),oldEnd=Date.parse(String(existing?.config?.ends_at||'')),expired=Number.isFinite(oldEnd)&&oldEnd<=now;
+      if((!snap.running||expired)&&this.engine?.store?.update){
         await this.engine.store.update(s=>{s.config.running=1;s.config.scan_lock_until=0;if(expired)s.config.ends_at=new Date(now+durationMinutesV31711(options)*60000).toISOString();return true});
       }
-      this.__startPersistenceV31711={...PAPER_START_PERSISTENCE_V31711,lastAction:'RESUME_EXISTING',at:new Date().toISOString(),wasRunning,scanCount:num(existing?.config?.scan_count),positionCount:arr(existing?.positions).length,historyCount:arr(existing?.history).length};
-      return{ok:true,alreadyStarted:true,resumed:!wasRunning||expired,preservedPaperState:true,scanCount:num(existing?.config?.scan_count),positions:arr(existing?.positions).length,startCapital:num(existing?.config?.start_capital),cash:num(existing?.config?.cash)};
+      this.__startPersistenceV31711={...PAPER_START_PERSISTENCE_V31711,lastAction:'RESUME_EXISTING',at:new Date().toISOString(),wasRunning:snap.running,scanCount:snap.scanCount,positionCount:snap.positions,historyCount:snap.history};
+      return{ok:true,alreadyStarted:true,resumed:!snap.running||expired,preservedPaperState:true,scanCount:snap.scanCount,positions:snap.positions,startCapital:snap.startCapital,cash:snap.cash};
     }
     const result=await super.start(options);this.__startPersistenceV31711={...PAPER_START_PERSISTENCE_V31711,lastAction:'NEW_RUN',at:new Date().toISOString()};return{...result,preservedPaperState:false};
   }
