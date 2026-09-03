@@ -1,0 +1,19 @@
+name: Diagnose live changelog
+on:
+  push:
+    branches: [fix/changelog-core-cache]
+    paths: [.github/workflows/diagnose-live-changelog.yml]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check live changelog asset
+        run: |
+          set -e
+          base='https://ki-markt-planspiel.orkimperium.workers.dev'
+          echo '--- index markers ---'
+          curl -fsSL -H 'Cache-Control: no-cache' "$base/?diag=$(date +%s)" | grep -E 'changelog-(ui|current-v31712)' || true
+          echo '--- recent asset ---'
+          curl -fsSL -H 'Cache-Control: no-cache' "$base/changelog-current-v31712.js?diag=$(date +%s)" | head -n 12
+          echo '--- required text ---'
+          curl -fsSL -H 'Cache-Control: no-cache' "$base/changelog-current-v31712.js?diag=$(date +%s)" | grep -F 'V31.7.12 · Aktiencharts und News wirklich anklickbar'
