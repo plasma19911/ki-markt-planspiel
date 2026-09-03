@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-02T18:11:14.555705+00:00",
-  "berlinNow": "2026-09-02T20:11:14.555247+02:00",
+  "checkedAt": "2026-09-03T10:57:19.589539+00:00",
+  "berlinNow": "2026-09-03T12:57:19.589356+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 3653321,
-    "dashboard": 3653309
+    "full": 3695370,
+    "dashboard": 3695371
   },
   "checks": {
     "fullStatus200": true,
@@ -21,16 +21,16 @@
   "failedChecks": [],
   "allChecksPassed": true,
   "replay": {
-    "date": "2026-09-02",
+    "date": "2026-09-03",
     "status": "CAPTURING",
     "processed": 0,
-    "total": 120,
+    "total": 65,
     "provisional": true,
     "completedAt": null,
     "capture": {
-      "date": "2026-09-02",
-      "symbolCount": 120,
-      "updatedAt": "2026-09-02T18:11:01.307Z"
+      "date": "2026-09-03",
+      "symbolCount": 65,
+      "updatedAt": "2026-09-03T10:55:35.445Z"
     },
     "summary": {
       "provisional": true,
@@ -46,36 +46,11 @@
     }
   },
   "depot": {
-    "cash": 3247.7226647689063,
-    "equity": 9960.14927849869,
-    "displayMarketValue": 6712.426613928223,
-    "displayAccountingDelta": -1.9843901100102812e-07,
-    "positions": [
-      {
-        "symbol": "RHM.DE",
-        "invested": 2197.395151,
-        "ratioValue": 2187.1999510493993,
-        "quantityValue": 2187.199951171875,
-        "displayValue": 2187.199951171875,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "3690.HK",
-        "invested": 2348.26855,
-        "ratioValue": 2393.0235001103956,
-        "quantityValue": 2393.0235000000002,
-        "displayValue": 2393.0235000000002,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "NVDA",
-        "invested": 2135.926071,
-        "ratioValue": 2132.203162569989,
-        "quantityValue": 2132.203162756348,
-        "displayValue": 2132.203162756348,
-        "quantityUsed": true
-      }
-    ]
+    "cash": 10000.0,
+    "equity": 10000.0,
+    "displayMarketValue": 0.0,
+    "displayAccountingDelta": 0.0,
+    "positions": []
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: wed, 02 sep 2026 18:11:14 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=xye3ajw0m1cf5f08cruyjunqqdmffkznmqmjsvxcbyg0y1%2bppluaonah9w4eznfkyqoaylkzijaf1hjdlcfpwtba1gferxyxkwxescdeztvst9pyziun3og4fmy8hiwn01owntke3zsa7bg3ryqyktbhlxtarl%2bsqy89oc8%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a34e79ddbe13e240-mrs\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: thu, 03 sep 2026 10:57:19 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=desfpldivzbkpfbj2enrhgyhiyrl6gmik3dzcygr9qcvzksmxa7ghxvntsbclz22lezq9h5jxgtqam%2fg6x3aywsflm%2b6px873wsha3p74dpvjfz8d1onhhacfuermmnxyphydo6iwwvvhvd9aq33njkhxcppd303nt%2bldgy%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a3543b9fefa76d84-dfw\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
