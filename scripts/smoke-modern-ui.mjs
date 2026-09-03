@@ -31,7 +31,7 @@ assert.match(app,/includeEtfs\s*:\s*false/,'UI-Start darf ETFs nicht wieder akti
 assert.ok(app.includes('companySummary'),'Einfache Firmenbeschreibung fehlt');
 assert.ok(app.includes('candidateInfluence'),'Einfache News-/Einfluss-Erklärung fehlt');
 assert.ok(app.includes('renderFutureWatch')&&app.includes('renderReplay')&&app.includes('renderActivity'),'Live-Renderer fehlen');
-assert.ok(html.includes('Was macht die Firma?')&&html.includes('Was bewegt die Aktie gerade?'),'Einfache Kandidaten-Spalten fehlen');
+assert.ok(html.includes('Was macht die Firma?')&&html.includes('Was bewegt sie gerade?'),'Einfache Kandidaten-Spalten fehlen');
 assert.ok(!html.includes('Perfekt vs. KI')&&!html.includes('2026-Auswertung'),'Historische 2026-Auswertung muss aus der UI entfernt sein');
 assert.ok(!app.includes('weekTabBtn')&&!app.includes('analysisRunBtn'),'App darf keine 2026-Tab-Bindings mehr enthalten');
 assert.ok(!analysis.includes('/analysis-2026.json'),'Historische 2026-Datei darf nicht mehr im UI geladen werden');
