@@ -10,6 +10,7 @@ const css=[
 const app=readFileSync('public/app.js','utf8');
 const analysis=readFileSync('public/analysis-ui.js','utf8');
 const focus=readFileSync('public/focus-ui.js','utf8');
+const clickable=readFileSync('public/clickable-market-ui-v31712.js','utf8');
 
 const requiredIds=[
  'statusPill','marketHeaderStatus','pcHeaderStatus','cloudHeaderStatus','scanHeaderStatus',
@@ -26,7 +27,7 @@ for(const marker of ['appShell','sidebar','heroKpis','dashboardGrid','positionCa
  assert.ok(css.includes(`.${marker}`),`CSS-Komponente fehlt: ${marker}`);
 }
 
-assert.ok(app.includes("includeEtfs:false"),'UI-Start darf ETFs nicht wieder aktivieren');
+assert.match(app,/includeEtfs\s*:\s*false/,'UI-Start darf ETFs nicht wieder aktivieren');
 assert.ok(app.includes('companySummary'),'Einfache Firmenbeschreibung fehlt');
 assert.ok(app.includes('candidateInfluence'),'Einfache News-/Einfluss-Erklärung fehlt');
 assert.ok(app.includes('renderFutureWatch')&&app.includes('renderReplay')&&app.includes('renderActivity'),'Live-Renderer fehlen');
@@ -40,5 +41,8 @@ assert.ok(focus.includes('Einstellungen'),'Einstellungen müssen aus der Hauptü
 assert.ok(css.includes('height:118px!important'),'Desktop-Diagramme müssen deutlich kleiner sein');
 assert.ok(css.includes('height:96px!important'),'Handy-Diagramme müssen kompakt sein');
 assert.ok(html.includes('KI-Markt-Planspiel'),'Branding fehlt');
+assert.ok(clickable.includes('data-stock-symbol')&&clickable.includes('openPlanspielStockChart'),'V31.7.12 Kandidaten-/News-Charts müssen klickbar bleiben');
+assert.ok(clickable.includes('/api/position-chart?symbol=')&&clickable.includes('/api/news-feed'),'V31.7.12 Chart-/News-Endpunkte müssen verwendet werden');
+assert.ok(clickable.includes('marketNewsLink')&&clickable.includes('googleNewsUrl'),'News-Überschriften brauchen Direktlink oder Such-Fallback');
 
-console.log(JSON.stringify({ok:true,requiredIds:requiredIds.length,focusedHierarchy:true,collapsibleSecondary:true,compactCharts:true,plainCandidateLanguage:true,historical2026Removed:true,stocksOnlyStart:true},null,2));
+console.log(JSON.stringify({ok:true,requiredIds:requiredIds.length,focusedHierarchy:true,collapsibleSecondary:true,compactCharts:true,plainCandidateLanguage:true,historical2026Removed:true,stocksOnlyStart:true,clickableCharts:true,clickableNews:true},null,2));
