@@ -1,0 +1,20 @@
+name: Diagnose live changelog after PR44
+on:
+  push:
+    branches: [diag/live-changelog-after-44]
+    paths: [.github/workflows/diagnose-live-changelog-after-44.yml]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify current live changelog
+        run: |
+          set -euo pipefail
+          base='https://ki-markt-planspiel.orkimperium.workers.dev'
+          q=$(date +%s)
+          index=$(curl -fsSL -H 'Cache-Control: no-cache' "$base/?diag=$q")
+          echo "$index" | grep -F '/changelog-current-v31712.js?v=20260903-1830'
+          asset=$(curl -fsSL -H 'Cache-Control: no-cache' "$base/changelog-current-v31712.js?diag=$q")
+          echo "$asset" | grep -F "Aktualisiert bis 03.09.2026 · V31.7.12 · neueste zuerst."
+          echo "$asset" | grep -F "V31.7.12 · Aktiencharts und News wirklich anklickbar"
+          echo 'LIVE_CHANGELOG_V31712_OK'
