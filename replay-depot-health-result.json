@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-03T11:08:17.101800+00:00",
-  "berlinNow": "2026-09-03T13:08:17.101617+02:00",
+  "checkedAt": "2026-09-03T16:00:34.067139+00:00",
+  "berlinNow": "2026-09-03T18:00:34.066941+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 3763124,
-    "dashboard": 3763124
+    "full": 4080574,
+    "dashboard": 4080564
   },
   "checks": {
     "fullStatus200": true,
@@ -24,13 +24,13 @@
     "date": "2026-09-03",
     "status": "CAPTURING",
     "processed": 0,
-    "total": 65,
+    "total": 120,
     "provisional": true,
     "completedAt": null,
     "capture": {
       "date": "2026-09-03",
-      "symbolCount": 65,
-      "updatedAt": "2026-09-03T11:06:44.119Z"
+      "symbolCount": 120,
+      "updatedAt": "2026-09-03T15:59:46.833Z"
     },
     "summary": {
       "provisional": true,
@@ -46,11 +46,36 @@
     }
   },
   "depot": {
-    "cash": 10000.0,
-    "equity": 10000.0,
-    "displayMarketValue": 0.0,
-    "displayAccountingDelta": 0.0,
-    "positions": []
+    "cash": 5194.067966588724,
+    "equity": 10056.287357841817,
+    "displayMarketValue": 4862.219391656494,
+    "displayAccountingDelta": -4.034009180031717e-07,
+    "positions": [
+      {
+        "symbol": "ORCL",
+        "invested": 2183.485259,
+        "ratioValue": 2246.154328905746,
+        "quantityValue": 2246.1543292541505,
+        "displayValue": 2246.1543292541505,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "DELL",
+        "invested": 1777.796328,
+        "ratioValue": 1809.4823624788794,
+        "quantityValue": 1809.4823624023436,
+        "displayValue": 1809.4823624023436,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "COST.L",
+        "invested": 797.183517,
+        "ratioValue": 806.5826998684674,
+        "quantityValue": 806.5826999999999,
+        "displayValue": 806.5826999999999,
+        "quantityUsed": true
+      }
+    ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: thu, 03 sep 2026 11:08:16 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=xbaa71uh8e27xg235xmrjqsiw7pk%2bsktyusxebvd%2bfjllj6bkuujt7hjykpb%2f8xx%2bwo5kx8wapc4ybsswqgcdyi9hs3wwa3hcynp648zqdrduldjqih%2bbx3r7v7cs2sy3nqbzvo4p0c0wkjljkl4mgevrpie57bnqdmimyi%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a3544bad68370862-dfw\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: thu, 03 sep 2026 16:00:33 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=zjltschzgzaznfecuipvhayd2nxexypydoktdqukymob6cs1r2eousfynagvm1mbgmlgig2st39pod50cmzvhusszsctdn9vqbxdanmusluy5a0iiunr2%2fdxrctmfjyfr5b1uoxzougdrzdcojztpag0gm3ylhgjjmff8c0%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a355f7d25cd23578-waw\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
