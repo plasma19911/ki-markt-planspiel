@@ -17,15 +17,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
         with:
-          node-version: '22'
+          node-version: '24'
       - name: JavaScript syntax
         run: |
           node --check public/app.js
           node --check public/analysis-ui.js
           node --check public/focus-ui.js
           node --check public/investment-ui.js
+          node --check public/clickable-market-ui-v31712.js
       - name: Dashboard smoke test
         run: node scripts/smoke-modern-ui.mjs
