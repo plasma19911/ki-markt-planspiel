@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-03T16:00:34.067139+00:00",
-  "berlinNow": "2026-09-03T18:00:34.066941+02:00",
+  "checkedAt": "2026-09-03T16:06:00.332099+00:00",
+  "berlinNow": "2026-09-03T18:06:00.331954+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 4080574,
-    "dashboard": 4080564
+    "full": 4094830,
+    "dashboard": 4086354
   },
   "checks": {
     "fullStatus200": true,
@@ -30,7 +30,7 @@
     "capture": {
       "date": "2026-09-03",
       "symbolCount": 120,
-      "updatedAt": "2026-09-03T15:59:46.833Z"
+      "updatedAt": "2026-09-03T16:05:52.242Z"
     },
     "summary": {
       "provisional": true,
@@ -47,35 +47,35 @@
   },
   "depot": {
     "cash": 5194.067966588724,
-    "equity": 10056.287357841817,
-    "displayMarketValue": 4862.219391656494,
-    "displayAccountingDelta": -4.034009180031717e-07,
+    "equity": 10062.567142278269,
+    "displayMarketValue": 4868.4991760925295,
+    "displayAccountingDelta": -4.029843694297597e-07,
     "positions": [
       {
         "symbol": "ORCL",
         "invested": 2183.485259,
-        "ratioValue": 2246.154328905746,
-        "quantityValue": 2246.1543292541505,
-        "displayValue": 2246.1543292541505,
-        "quantityUsed": true
-      },
-      {
-        "symbol": "DELL",
-        "invested": 1777.796328,
-        "ratioValue": 1809.4823624788794,
-        "quantityValue": 1809.4823624023436,
-        "displayValue": 1809.4823624023436,
+        "ratioValue": 2245.4545757442334,
+        "quantityValue": 2245.4545760925294,
+        "displayValue": 2245.4545760925294,
         "quantityUsed": true
       },
       {
         "symbol": "COST.L",
         "invested": 797.183517,
-        "ratioValue": 806.5826998684674,
-        "quantityValue": 806.5826999999999,
-        "displayValue": 806.5826999999999,
+        "ratioValue": 806.5133998684788,
+        "quantityValue": 806.5133999999999,
+        "displayValue": 806.5133999999999,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "DELL",
+        "invested": 1777.796328,
+        "ratioValue": 1816.531200076834,
+        "quantityValue": 1816.5312,
+        "displayValue": 1816.5312,
         "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: thu, 03 sep 2026 16:00:33 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=zjltschzgzaznfecuipvhayd2nxexypydoktdqukymob6cs1r2eousfynagvm1mbgmlgig2st39pod50cmzvhusszsctdn9vqbxdanmusluy5a0iiunr2%2fdxrctmfjyfr5b1uoxzougdrzdcojztpag0gm3ylhgjjmff8c0%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a355f7d25cd23578-waw\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: thu, 03 sep 2026 16:06:00 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=nna%2bdqlappr9uhfbj7k1thfx9qwggnpi5b48%2fmy52nkrueffplztfapqoec0r3sobm67h%2fuupsjpg0cqpzgmwsez1ncjlwkzlro3hzblqsauf76jzdvnglxg1gylmylqwrlpqr4mvzdxzdyq0xewi37tixudr3ac%2bzc5zni%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a355ffca3efbed93-mxp\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
