@@ -35,6 +35,7 @@ assert.match(index21,/from '\.\/index-v20\.js'/,'V31.7.12 muss an die Dashboard/
 assert.match(index21,/positionChartHistoryData/,'V31.7.12 muss universelle Charts am Produktionsentry bereitstellen');
 assert.match(index21,/buildLiveNewsFeed/,'V31.7.12 muss den klickbaren Live-News-Feed am Produktionsentry bereitstellen');
 assert.match(index,/index-core\.js/,'API-Wrapper muss an den aktuellen Produktions-Kompatibilitätspfad index-core.js delegieren');
+assert.match(index,/core\.fetch/,'Äußere API-Schicht muss nicht selbst implementierte Routen an index-core delegieren');
 assert.match(indexCore,/compact-portfolio-v11\.js/,'index-core.js muss den Produktions-Kompatibilitätsportfolio-Pfad verwenden');
 assert.match(v11,/compact-portfolio-v31712-learning-status\.js/,'V11 muss V31.7.12 Lernstatus-Recovery aktivieren');
 assert.match(v31712,/compact-portfolio-v31710-news-catalyst\.js/,'V31.7.12 muss die Fresh-News-/Start-Persistenz-Schicht behalten');
@@ -42,10 +43,10 @@ assert.match(v31710,/compact-portfolio-v310-agent-recovery\.js/,'V31.7.10 muss U
 assert.match(v288,/compact-portfolio-v287-calibrated-breadth\.js/,'V28.8 muss V28.7 als sicheren Fallback behalten');
 assert.match(v22,/FinalDecisionController/,'Finaler Entscheidungscontroller muss aktiv bleiben');
 
-assert.match(index,/\/api\/agent\/universe/,'PC-Agent braucht den deduplizierten Aktien-Master vom Server');
-assert.match(index,/PC_AGENT_TOKEN/,'PC-Agent-Endpunkte muessen per Secret geschützt sein');
-assert.match(index,/\/api\/agent\/prefetch/,'PC-Agent muss verdichtete Kandidaten hochladen können');
-assert.match(index,/\/api\/agent\/scan/,'PC-Agent muss den finalen Minuten-Scan auslösen können');
+assert.match(index,/\/api\/agent\/universe/,'Äußerer Wrapper muss den PC-Aktien-Master mit Broker-Metadaten anreichern können');
+assert.match(indexCore,/PC_AGENT_TOKEN/,'Die tatsächlichen PC-Agent-Endpunkte müssen im Route-Owner per Secret geschützt sein');
+assert.match(indexCore,/\/api\/agent\/prefetch/,'PC-Agent muss im Route-Owner verdichtete Kandidaten hochladen können');
+assert.match(indexCore,/\/api\/agent\/scan/,'PC-Agent muss im Route-Owner den finalen Minuten-Scan auslösen können');
 assert.match(index20,/PC_FIRST_FULL_MASTER_STAGED/,'Universe-Profil muss PC-FIRST Staging beschreiben');
 assert.match(index20,/stage2Target:400/);assert.match(index20,/deepTarget:240/);assert.match(index20,/finalistTarget:60/);assert.match(index20,/cloudflareValidationTarget:18/);
 
