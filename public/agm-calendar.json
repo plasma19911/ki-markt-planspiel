@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-03T09:03:23.234Z",
-  "nextRefreshAfter": "2026-09-04T09:03:23.234Z",
+  "updatedAt": "2026-09-04T08:56:27.525Z",
+  "nextRefreshAfter": "2026-09-05T08:56:27.525Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,174 +14,12 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 18,
-  "matchedUpcomingCount": 6,
+  "rawUpcomingCount": 15,
+  "matchedUpcomingCount": 4,
   "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-09-03T08:08:03.264779Z",
+  "universeGeneratedAt": "2026-09-04T08:02:48.748937Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
-    {
-      "date": "2026-09-02",
-      "sourceCompanyName": "Casey's General Stores Inc",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/caseys_general_stores",
-      "symbol": "CASY",
-      "name": "Casey's General Stores, Inc.",
-      "companyKey": "CASEY S GENERAL STORES",
-      "currency": "USD",
-      "matchConfidence": 1,
-      "baseScore": 77,
-      "fundamentalScore": 77,
-      "fundamentalConfidence": 0.92,
-      "profitForecastPositive": true,
-      "fundamentalReasons": [
-        "Analysten erwarten leicht höheres EPS (+11%)",
-        "Kurs ueber der 200-Tage-Linie",
-        "Gesunde Position im 52-Wochen-Band (81%)",
-        "Gesunde Position im 52-Wochen-Band (74%)",
-        "Kurs faellt kurz vor der HV (-10% in 1 Monat)",
-        "Gesunde Position im 52-Wochen-Band (68%)"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 21.32,
-        "epsNextYearEstimate": 23.61,
-        "revenueCurrentYearEstimate": 20551.95,
-        "revenueNextYearEstimate": 20732.86
-      },
-      "daysUntil": -1,
-      "baseLabel": "POSITIV",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": 24,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": 3,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 0,
-          "label": "10 frische Meldungen"
-        }
-      ],
-      "chartDelta": 3,
-      "newsDelta": 0,
-      "fundamentalDelta": 24,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "Offerpad Rallies 7%, Opendoor Edges Higher: Is Rate Relief Reaching the iBuyers?",
-        "Seeking Clues to Casey's (CASY) Q1 Earnings? A Peek Into Wall Street Projections for Key Metrics",
-        "Offerpad Founder and CEO Brian Bair Recognized for Vision and Leadership in Housing",
-        "🍕The Gas-Station Chain Eating Domino’s Lunch"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "USD",
-        "samples": 252,
-        "last": 753.6,
-        "changeM1": -11.4,
-        "changeM3": -2.7,
-        "changeM6": 10.2,
-        "sma50": 828.2,
-        "sma200": 724.9,
-        "position52w": 61.1,
-        "drawdownFromHigh": -17.8,
-        "volatility20d": 34.6,
-        "volumeTrend": -27.1
-      },
-      "scoreEvaluatedAt": "2026-09-03T09:03:23.234Z",
-      "scoreValidUntil": "2026-09-04T09:03:23.234Z"
-    },
-    {
-      "date": "2026-09-02",
-      "sourceCompanyName": "Check Point Software Ltd.",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/check_point_software",
-      "symbol": "C1HK34.SA",
-      "name": "Check Point Software Technologies Ltd.",
-      "companyKey": "CHECK POINT SOFTWARE TECHNOLOGIES",
-      "currency": "BRL",
-      "matchConfidence": 0.88,
-      "baseScore": 48,
-      "fundamentalScore": 48,
-      "fundamentalConfidence": 0.92,
-      "profitForecastPositive": true,
-      "fundamentalReasons": [
-        "Analysten erwarten leicht höheres EPS (+8%)",
-        "Umsatzschätzung nächstes Jahr +6%",
-        "Kurs unter der 200-Tage-Linie",
-        "Umsatz zieht vor der HV an (+104%)",
-        "Umsatz zieht vor der HV an (+111%)",
-        "Umsatz zieht vor der HV an (+79%)"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 10.44,
-        "epsNextYearEstimate": 11.28,
-        "revenueCurrentYearEstimate": 2801.85,
-        "revenueNextYearEstimate": 2959.61
-      },
-      "daysUntil": -1,
-      "baseLabel": "NEUTRAL",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": 0,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": 1,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": -3,
-          "label": "6 frische Meldungen"
-        }
-      ],
-      "chartDelta": 1,
-      "newsDelta": -3,
-      "fundamentalDelta": 0,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "Varonis (VRNS) Surges 10.4%: Is This an Indication of Further Gains?",
-        "Check Point Software Shareholders Approve All 2026 Annual General Meeting Proposals",
-        "CrowdStrike Stock Rises 96% YTD: Time to Hold or Book Profits?",
-        "Lightspeed Commerce Appoints Rupal Hollenbeck to Board of Directors"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "BRL",
-        "samples": 251,
-        "last": 57.4,
-        "changeM1": 9.7,
-        "changeM3": -0.4,
-        "changeM6": -17.6,
-        "sma50": 55.9,
-        "sma200": 66,
-        "position52w": 26.7,
-        "drawdownFromHigh": -33.7,
-        "volatility20d": 47.5,
-        "volumeTrend": 153.2
-      },
-      "scoreEvaluatedAt": "2026-09-03T09:03:23.234Z",
-      "scoreValidUntil": "2026-09-04T09:03:23.234Z"
-    },
     {
       "date": "2026-09-03",
       "sourceCompanyName": "The Watches of Switzerland Group",
@@ -211,7 +49,7 @@
         "revenueCurrentYearEstimate": 1988.93,
         "revenueNextYearEstimate": 2118.24
       },
-      "daysUntil": 0,
+      "daysUntil": -1,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
@@ -246,19 +84,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 254,
-        "last": 670.5,
-        "changeM1": -8.6,
-        "changeM3": -4.4,
-        "changeM6": 38,
-        "sma50": 727,
-        "sma200": 578.8,
-        "position52w": 71.7,
-        "drawdownFromHigh": -16.3,
-        "volatility20d": 30,
-        "volumeTrend": 15.6
+        "last": 681.5,
+        "changeM1": -8.5,
+        "changeM3": -4,
+        "changeM6": 41.4,
+        "sma50": 726.4,
+        "sma200": 580,
+        "position52w": 73.7,
+        "drawdownFromHigh": -15,
+        "volatility20d": 31.9,
+        "volumeTrend": 25.2
       },
-      "scoreEvaluatedAt": "2026-09-03T09:03:23.234Z",
-      "scoreValidUntil": "2026-09-04T09:03:23.234Z"
+      "scoreEvaluatedAt": "2026-09-04T08:56:27.525Z",
+      "scoreValidUntil": "2026-09-05T08:56:27.525Z"
     },
     {
       "date": "2026-09-09",
@@ -270,8 +108,8 @@
       "companyKey": "NETAPP",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 95,
-      "fundamentalScore": 95,
+      "baseScore": 86,
+      "fundamentalScore": 86,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -289,7 +127,7 @@
         "revenueCurrentYearEstimate": 7537.01,
         "revenueNextYearEstimate": 7968.88
       },
-      "daysUntil": 6,
+      "daysUntil": 5,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -304,19 +142,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 11,
+          "delta": 2,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": 10,
-      "newsDelta": 11,
+      "newsDelta": 2,
       "fundamentalDelta": 24,
-      "newsGuidance": 1,
+      "newsGuidance": 0,
       "newsHeadlines": [
-        "NetApp Inc (NTAP) (Q1 2027) Earnings Call Highlights: Record Revenue Surges 30% on AI-Driven Demand",
-        "Dow Jones Futures: Snowflake, Broadcom, HPE Are Big Earnings Movers; Tesla Cybercab Event Due",
-        "NetApp Q1 Earnings Call Highlights",
-        "Compared to Estimates, NetApp (NTAP) Q1 Earnings: A Look at Key Metrics"
+        "How To Earn $500 A Month From NetApp Stock Ahead Of Q1 Earnings",
+        "NTAP Q2 Deep Dive: AI, Cloud, and Product Innovation Drive Market Outperformance",
+        "NetApp CEO defends growth outlook as investors remain divided",
+        "NetApp Stock Climbs After Earnings Beat, Shaking Off Initial Slide"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -327,19 +165,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 252,
-        "last": 180.8,
-        "changeM1": -5.1,
-        "changeM3": -0.2,
-        "changeM6": 81.6,
-        "sma50": 177.5,
-        "sma200": 129.8,
-        "position52w": 76.7,
-        "drawdownFromHigh": -12.7,
-        "volatility20d": 35.3,
-        "volumeTrend": -18.7
+        "last": 185.4,
+        "changeM1": -0.7,
+        "changeM3": 3.6,
+        "changeM6": 81.5,
+        "sma50": 178.1,
+        "sma200": 130.2,
+        "position52w": 80.8,
+        "drawdownFromHigh": -10.5,
+        "volatility20d": 35.9,
+        "volumeTrend": -3.5
       },
-      "scoreEvaluatedAt": "2026-09-03T09:03:23.234Z",
-      "scoreValidUntil": "2026-09-04T09:03:23.234Z"
+      "scoreEvaluatedAt": "2026-09-04T08:56:27.525Z",
+      "scoreValidUntil": "2026-09-05T08:56:27.525Z"
     },
     {
       "date": "2026-09-10",
@@ -353,7 +191,7 @@
       "matchConfidence": 1,
       "baseScore": 83,
       "fundamentalScore": 83,
-      "fundamentalConfidence": 0.916,
+      "fundamentalConfidence": 0.914,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+7%)",
@@ -370,7 +208,7 @@
         "revenueCurrentYearEstimate": 9543.87,
         "revenueNextYearEstimate": 9787.56
       },
-      "daysUntil": 7,
+      "daysUntil": 6,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -405,19 +243,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 254,
-        "last": 150.3,
-        "changeM1": -7.5,
-        "changeM3": 1.2,
-        "changeM6": -0.3,
-        "sma50": 159.1,
-        "sma200": 143.1,
-        "position52w": 69.8,
-        "drawdownFromHigh": -10.6,
-        "volatility20d": 21.7,
-        "volumeTrend": -46.2
+        "last": 151.5,
+        "changeM1": -6.9,
+        "changeM3": 0.8,
+        "changeM6": 1.5,
+        "sma50": 159,
+        "sma200": 143.2,
+        "position52w": 66.9,
+        "drawdownFromHigh": -10,
+        "volatility20d": 21.3,
+        "volumeTrend": -49.2
       },
-      "scoreEvaluatedAt": "2026-09-03T09:03:23.234Z",
-      "scoreValidUntil": "2026-09-04T09:03:23.234Z"
+      "scoreEvaluatedAt": "2026-09-04T08:56:27.525Z",
+      "scoreValidUntil": "2026-09-05T08:56:27.525Z"
     },
     {
       "date": "2026-09-10",
@@ -429,8 +267,8 @@
       "companyKey": "RYANAIR",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 33,
-      "fundamentalScore": 33,
+      "baseScore": 20,
+      "fundamentalScore": 20,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -448,12 +286,12 @@
         "revenueCurrentYearEstimate": 15925.44,
         "revenueNextYearEstimate": 17205.48
       },
-      "daysUntil": 7,
-      "baseLabel": "VORSICHT",
+      "daysUntil": 6,
+      "baseLabel": "NEGATIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -4,
+          "delta": -17,
           "label": "Analystenschaetzungen"
         },
         {
@@ -469,13 +307,13 @@
       ],
       "chartDelta": -13,
       "newsDelta": 0,
-      "fundamentalDelta": -4,
+      "fundamentalDelta": -17,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "Ryanair Signs Collective Agreement With Swedish Union",
         "Ryanair Holdings (ISE:RYA) Could Be 46% Undervalued After Fuel Cost Warning",
         "Ryanair (ISE:RYA) Stock May Trade At A Discount Despite Traffic Target Cuts",
-        "RYAAY August Traffic Remains Flat Sequentially, FY27 Traffic View Down",
-        "Ryanair Warns Some Airlines Could Struggle with Jet Fuel Price Spike"
+        "RYAAY August Traffic Remains Flat Sequentially, FY27 Traffic View Down"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -486,27 +324,27 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 252,
-        "last": 54.4,
-        "changeM1": -9.6,
-        "changeM3": -4.8,
-        "changeM6": -16.4,
-        "sma50": 60.1,
+        "last": 54.7,
+        "changeM1": -10.6,
+        "changeM3": -4,
+        "changeM6": -11.6,
+        "sma50": 60,
         "sma200": 62.7,
-        "position52w": 5.7,
-        "drawdownFromHigh": -26.3,
-        "volatility20d": 24.6,
-        "volumeTrend": -14.4
+        "position52w": 7.1,
+        "drawdownFromHigh": -25.9,
+        "volatility20d": 23.6,
+        "volumeTrend": -25.4
       },
-      "scoreEvaluatedAt": "2026-09-03T09:03:23.234Z",
-      "scoreValidUntil": "2026-09-04T09:03:23.234Z"
+      "scoreEvaluatedAt": "2026-09-04T08:56:27.525Z",
+      "scoreValidUntil": "2026-09-05T08:56:27.525Z"
     }
   ],
-  "estimateAttemptCount": 6,
+  "estimateAttemptCount": 4,
   "scoreModelVersion": 27.7,
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
-  "chartProfileCount": 6,
-  "newsProfileCount": 6,
+  "chartProfileCount": 4,
+  "newsProfileCount": 4,
   "neutralScoreCount": 0,
-  "signalCoveredCount": 6
+  "signalCoveredCount": 4
 }
