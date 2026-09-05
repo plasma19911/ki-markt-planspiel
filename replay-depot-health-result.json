@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-03T16:32:50.774227+00:00",
-  "berlinNow": "2026-09-03T18:32:50.774048+02:00",
+  "checkedAt": "2026-09-05T21:23:01.849664+00:00",
+  "berlinNow": "2026-09-05T23:23:01.849493+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 4082428,
-    "dashboard": 4082428
+    "full": 4359837,
+    "dashboard": 4359837
   },
   "checks": {
     "fullStatus200": true,
@@ -22,60 +22,479 @@
   "allChecksPassed": true,
   "replay": {
     "date": "2026-09-03",
-    "status": "CAPTURING",
-    "processed": 0,
-    "total": 120,
-    "provisional": true,
-    "completedAt": null,
-    "capture": {
-      "date": "2026-09-03",
-      "symbolCount": 120,
-      "updatedAt": "2026-09-03T16:32:08.089Z"
-    },
+    "status": "COMPLETE",
+    "processed": 72,
+    "total": 72,
+    "provisional": null,
+    "completedAt": "2026-09-03T21:55:41.143Z",
+    "capture": {},
     "summary": {
-      "provisional": true,
-      "symbolsAnalysed": 0,
+      "symbolsAnalysed": 72,
       "errors": 0,
-      "mistakes": {},
+      "mistakes": {
+        "MISSED_SAFE_MOVE": 59,
+        "LATE_DISCOVERY": 24
+      },
       "churn": {
         "rapidRoundTrips": 0,
         "totalRapidTradePnl": 0,
         "fees": 0,
         "rows": []
-      }
+      },
+      "bestMissed": [
+        {
+          "symbol": "HPE",
+          "name": "Hewlett Packard Enterprise",
+          "firstSeenAt": "2026-09-03T19:21:09.772Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788460500000,
+            "price": 50.779998779296875,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.4,
+              "m20": 0.974,
+              "accel": 0.405,
+              "draw": 0.395,
+              "day": -2.026,
+              "rsi": 62.5
+            },
+            "forward": {
+              "f15": 0.522,
+              "f30": 1.487,
+              "f60": 4.145,
+              "f120": null,
+              "mfe120": 7.208,
+              "mae120": 0.345
+            },
+            "quality": 7.188
+          },
+          "firstSafeAfterSeen": null,
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "BE",
+          "name": "Bloom Energy Corporation",
+          "firstSeenAt": "2026-09-03T16:39:46.273Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE",
+            "BREAKOUT"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788447000000,
+            "price": 219.86000061035156,
+            "mode": "NORMAL",
+            "metrics": {
+              "m5": 0.061,
+              "m20": 0.701,
+              "accel": -0.164,
+              "draw": -0.541,
+              "day": 1.187,
+              "rsi": 50.3
+            },
+            "forward": {
+              "f15": 4.328,
+              "f30": 5.776,
+              "f60": 6.75,
+              "f120": 7.105,
+              "mfe120": 7.159,
+              "mae120": 1.155
+            },
+            "quality": 11.277
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1788453600000,
+            "price": 234.97999572753906,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "m5": 0.109,
+              "m20": 0.013,
+              "accel": 0.444,
+              "draw": -0.227,
+              "day": 8.146,
+              "rsi": 58.1
+            },
+            "forward": {
+              "f15": 0.087,
+              "f30": 0.996,
+              "f60": 0.66,
+              "f120": 1.155,
+              "mfe120": 1.234,
+              "mae120": -0.06
+            },
+            "quality": 1.407
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "042660.KS",
+          "name": "Hanwha Ocean",
+          "firstSeenAt": "2026-09-03T05:30:45.906Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788395400000,
+            "price": 83500,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.24,
+              "m20": 0.361,
+              "accel": 0.36,
+              "draw": 0.12,
+              "day": 1.829,
+              "rsi": 50
+            },
+            "forward": {
+              "f15": 0.838,
+              "f30": 2.635,
+              "f60": 4.79,
+              "f120": 3.713,
+              "mfe120": 4.79,
+              "mae120": 0.359
+            },
+            "quality": 7.389
+          },
+          "firstSafeAfterSeen": null,
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "DELL",
+          "name": "Dell Technologies",
+          "firstSeenAt": "2026-09-03T13:59:28.541Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788447300000,
+            "price": 505.3500061035156,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.352,
+              "m20": 0.252,
+              "accel": 0.085,
+              "draw": 0.252,
+              "day": 2.672,
+              "rsi": 65.9
+            },
+            "forward": {
+              "f15": 1.872,
+              "f30": 1.219,
+              "f60": 4.159,
+              "f120": 2.458,
+              "mfe120": 4.621,
+              "mae120": 0.35
+            },
+            "quality": 6.204
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1788447300000,
+            "price": 505.3500061035156,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.352,
+              "m20": 0.252,
+              "accel": 0.085,
+              "draw": 0.252,
+              "day": 2.672,
+              "rsi": 65.9
+            },
+            "forward": {
+              "f15": 1.872,
+              "f30": 1.219,
+              "f60": 4.159,
+              "f120": 2.458,
+              "mfe120": 4.621,
+              "mae120": 0.35
+            },
+            "quality": 6.204
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE"
+          ]
+        },
+        {
+          "symbol": "U",
+          "name": "Unity Software",
+          "firstSeenAt": "2026-09-03T16:15:02.365Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788456600000,
+            "price": 41.349998474121094,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.267,
+              "m20": 0.315,
+              "accel": 0.194,
+              "draw": 0.267,
+              "day": 1.447,
+              "rsi": 43
+            },
+            "forward": {
+              "f15": 0.484,
+              "f30": 4.595,
+              "f60": 2.612,
+              "f120": 1.669,
+              "mfe120": 4.595,
+              "mae120": 0.218
+            },
+            "quality": 5.828
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1788455400000,
+            "price": 41.220001220703125,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.097,
+              "m20": 0.194,
+              "accel": 0.061,
+              "draw": 0.097,
+              "day": 1.129,
+              "rsi": 37.3
+            },
+            "forward": {
+              "f15": 0.049,
+              "f30": 0.558,
+              "f60": 2.353,
+              "f120": 1.674,
+              "mfe120": 4.925,
+              "mae120": -0.085
+            },
+            "quality": 4.225
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE"
+          ]
+        },
+        {
+          "symbol": "CLS",
+          "name": "Celestica Inc.",
+          "firstSeenAt": "2026-09-03T13:52:36.086Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE",
+            "BREAKOUT"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788446100000,
+            "price": 295.5199890136719,
+            "mode": "NORMAL",
+            "metrics": {
+              "m5": -0.012,
+              "m20": 0.075,
+              "accel": 0.431,
+              "draw": -0.455,
+              "day": 6.39,
+              "rsi": 50
+            },
+            "forward": {
+              "f15": -0.233,
+              "f30": 0.799,
+              "f60": 1.7,
+              "f120": 4.27,
+              "mfe120": 4.561,
+              "mae120": -0.545
+            },
+            "quality": 3.277
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1788444000000,
+            "price": 294.5625,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "m5": 0.149,
+              "m20": 2.339,
+              "accel": 0.735,
+              "draw": -0.439,
+              "day": 6.045,
+              "rsi": 50
+            },
+            "forward": {
+              "f15": 0.25,
+              "f30": 0.337,
+              "f60": 1.045,
+              "f120": 2.647,
+              "mfe120": 2.684,
+              "mae120": -0.87
+            },
+            "quality": 1.624
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE"
+          ]
+        },
+        {
+          "symbol": "AI",
+          "name": "C3.ai",
+          "firstSeenAt": "2026-09-03T15:33:28.996Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788448500000,
+            "price": 10.5649995803833,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "m5": 0.047,
+              "m20": 0.811,
+              "accel": 1.217,
+              "draw": -1.123,
+              "day": 0.428,
+              "rsi": 46.3
+            },
+            "forward": {
+              "f15": 1.655,
+              "f30": 2.366,
+              "f60": 2.366,
+              "f120": 2.366,
+              "mfe120": 3.455,
+              "mae120": -0.189
+            },
+            "quality": 4.3
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1788451500000,
+            "price": 10.835000038146973,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "m5": 0.371,
+              "m20": 0.185,
+              "accel": 1.606,
+              "draw": -0.869,
+              "day": 2.994,
+              "rsi": 68.4
+            },
+            "forward": {
+              "f15": -0.046,
+              "f30": -0.231,
+              "f60": 0,
+              "f120": -0.068,
+              "mfe120": 1.292,
+              "mae120": -0.6
+            },
+            "quality": 0.042
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "ASB.AX",
+          "name": "Austal",
+          "firstSeenAt": "2026-09-03T05:32:48.671Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE",
+            "TRADED"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788401100000,
+            "price": 4.164999961853027,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.12,
+              "m20": 0.483,
+              "accel": 0.12,
+              "draw": 0.12,
+              "day": -0.597,
+              "rsi": 71
+            },
+            "forward": {
+              "f15": 1.681,
+              "f30": 1.921,
+              "f60": 3.001,
+              "f120": 2.881,
+              "mfe120": 3.361,
+              "mae120": 0.6
+            },
+            "quality": 4.85
+          },
+          "firstSafeAfterSeen": null,
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        }
+      ],
+      "worstEntries": []
     }
   },
   "depot": {
-    "cash": 5194.067966588724,
-    "equity": 10031.319847215344,
-    "displayMarketValue": 4837.251881030273,
-    "displayAccountingDelta": -4.0365375753026456e-07,
+    "cash": 2885.134872455825,
+    "equity": 10056.67104624319,
+    "displayMarketValue": 7171.536173877259,
+    "displayAccountingDelta": -8.989445632323623e-08,
     "positions": [
+      {
+        "symbol": "MRVL",
+        "invested": 2091.841702,
+        "ratioValue": 2100.06014444717,
+        "quantityValue": 2100.0601443969726,
+        "displayValue": 2100.0601443969726,
+        "quantityUsed": true
+      },
       {
         "symbol": "ORCL",
         "invested": 2183.485259,
-        "ratioValue": 2242.228383416853,
-        "quantityValue": 2242.2283837646482,
-        "displayValue": 2242.2283837646482,
+        "ratioValue": 2308.425806113189,
+        "quantityValue": 2308.4258064712526,
+        "displayValue": 2308.4258064712526,
         "quantityUsed": true
       },
       {
         "symbol": "COST.L",
         "invested": 797.183517,
-        "ratioValue": 806.4440998684902,
-        "quantityValue": 806.4440999999999,
-        "displayValue": 806.4440999999999,
+        "ratioValue": 814.9841698670975,
+        "quantityValue": 814.98417,
+        "displayValue": 814.98417,
         "quantityUsed": true
       },
       {
-        "symbol": "DELL",
-        "invested": 1777.796328,
-        "ratioValue": 1788.5793973412765,
-        "quantityValue": 1788.579397265625,
-        "displayValue": 1788.579397265625,
+        "symbol": "AMAT",
+        "invested": 1959.686878,
+        "ratioValue": 1948.066053359907,
+        "quantityValue": 1948.066053009033,
+        "displayValue": 1948.066053009033,
         "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: thu, 03 sep 2026 16:32:50 gmt\ncontent-type: text/javascript\ncf-cache-status: miss\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=wat2gourqxkkplghk2tyonw12troxl04fnd%2b5ls0zw6elaqb1gekbjqxxmpj3niesnq29xgccbfpjldfg7j3yx%2fe8mnl%2f8qjfmdyht%2fvay4dqhm%2bgznb%2b6x%2fe1yvskuvylq8qa07kx2emstjkypfngveyixc12li8i3ibvo%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a3562719acaddf3a-gig\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: sat, 05 sep 2026 21:23:01 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"a91d1d102f96486d7bc539e752ebf2a4\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=re646siu5%2buw8flqxlm0w%2ffw3rywd152xd5cortcznjcj8tjriisv9zpzprfszjscpis2fmbrthpwfkjl%2fzbwuboiocn7d20qbebbgb9%2bgsgaffe5gajs%2bqpo%2fevbhfknc3wo8mgmiiqwrhs45il3biradqzk20bgryqoam%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a3684aeef8362ca8-dfw\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
