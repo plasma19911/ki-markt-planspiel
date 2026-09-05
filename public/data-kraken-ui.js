@@ -415,15 +415,20 @@ function renderOrganDock(){
   const count=$('krakenDockCount');if(count)count.textContent=`${cards.length} verbunden`;
 }
 
+function concealOnePagerOrgans(){
+  if(!document.body.classList.contains('krakenOnePager'))return;
+  document.querySelectorAll('#livePanel .dashboardGrid > .krakenOrgan:not(.organFocused)').forEach(card=>card.style.setProperty('display','none','important'));
+}
+
 function closeOrganDetail(){
   const card=document.querySelector('#livePanel .krakenOrgan.organFocused');
-  if(card){card.classList.remove('organFocused');card.removeAttribute('role');card.removeAttribute('aria-modal');setOrganExpanded(card,false,false)}
+  if(card){card.classList.remove('organFocused');card.removeAttribute('role');card.removeAttribute('aria-modal');setOrganExpanded(card,false,false);card.style.setProperty('display','none','important')}
   activeOrganKey='';document.body.classList.remove('krakenOrganDetailOpen');const backdrop=$('krakenOrganBackdrop');if(backdrop)backdrop.hidden=true;requestAnimationFrame(()=>{drawLinks();drawPageLinks()});
 }
 
 function openOrganDetail(key){
   const card=[...document.querySelectorAll('#livePanel .krakenOrgan')].find(node=>node.dataset.krakenKey===key);if(!card)return;
-  closeOrganDetail();activeOrganKey=key;setOrganExpanded(card,true,false);card.classList.add('organFocused');card.setAttribute('role','dialog');card.setAttribute('aria-modal','true');document.body.classList.add('krakenOrganDetailOpen');
+  closeOrganDetail();activeOrganKey=key;setOrganExpanded(card,true,false);card.classList.add('organFocused');card.style.setProperty('display','block','important');card.setAttribute('role','dialog');card.setAttribute('aria-modal','true');document.body.classList.add('krakenOrganDetailOpen');
   const backdrop=$('krakenOrganBackdrop'),title=String(card.querySelector('h2,h3')?.textContent||card.dataset.krakenOrgan||'Bereich').trim();if(backdrop)backdrop.hidden=false;if($('krakenDetailTitle'))$('krakenDetailTitle').textContent=title;
   requestAnimationFrame(()=>{card.scrollTop=0;card.querySelector('.tableWrap,.chat')?.scrollTo?.({top:0});setTimeout(()=>window.dispatchEvent(new Event('resize')),80)});
 }
@@ -469,7 +474,7 @@ function decoratePageOrgans(){
   for(const [selector,label,family,key] of PAGE_ORGANS)document.querySelectorAll(selector).forEach(card=>decorateOrgan(card,{selector,label,family,key}));
   document.querySelectorAll('#livePanel .dashboardGrid > .card:not(.krakenOrgan)').forEach(card=>decorateOrgan(card));
   if(latestStatus)updateOrganSummaries(latestStatus);
-  updateOrganCount();renderOrganDock();requestAnimationFrame(drawPageLinks);
+  updateOrganCount();renderOrganDock();concealOnePagerOrgans();requestAnimationFrame(drawPageLinks);
 }
 
 function scheduleKrakenSync(){if(organSyncPending)return;organSyncPending=true;requestAnimationFrame(()=>{organSyncPending=false;decoratePageOrgans()})}
@@ -477,9 +482,9 @@ function scheduleKrakenSync(){if(organSyncPending)return;organSyncPending=true;r
 function watchDynamicOrgans(){
   const root=document.querySelector('.mainArea');if(!root)return;
   new MutationObserver(mutations=>{
-    const relevant=mutations.some(mutation=>[...mutation.addedNodes].some(node=>node.nodeType===1&&(node.matches?.('.card,#scannerLiveBar')||node.querySelector?.('.card,#scannerLiveBar'))));
+    const relevant=mutations.some(mutation=>mutation.type==='attributes'?(mutation.target.matches?.('.krakenOrgan:not(.organFocused)')&&mutation.target.style.getPropertyValue('display')!=='none'):[...mutation.addedNodes].some(node=>node.nodeType===1&&(node.matches?.('.card,#scannerLiveBar')||node.querySelector?.('.card,#scannerLiveBar'))));
     if(relevant)scheduleKrakenSync();
-  }).observe(root,{childList:true,subtree:true});
+  }).observe(root,{childList:true,subtree:true,attributes:true,attributeFilter:['style']});
 }
 
 function drawPageLinks(){
@@ -547,7 +552,7 @@ function render(status){
   updateOrganSummaries(status);
   renderExpectedWeekendPause();
   updateThought();
-  requestAnimationFrame(()=>{enforceCollapsedLayout();drawLinks();drawPageLinks()});
+  requestAnimationFrame(()=>{enforceCollapsedLayout();concealOnePagerOrgans();drawLinks();drawPageLinks()});
 
   const signature=JSON.stringify([
     status.config?.last_scan,

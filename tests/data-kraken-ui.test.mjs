@@ -51,6 +51,8 @@ assert.match(ui,/EXPANDED_ORGAN_COLUMNS/,'dynamic organs must regain useful widt
 assert.match(ui,/function renderOrganDock/,'all organs must render into the simultaneous onepage overview');
 assert.match(ui,/function openOrganDetail/,'an organ tile must open its full detail without leaving the overview');
 assert.match(ui,/function closeOrganDetail/,'organ details must return directly to the onepage center');
+assert.match(ui,/function concealOnePagerOrgans/,'legacy inline display rules must not leak hidden charts into the onepager');
+assert.match(ui,/attributeFilter:\['style'\]/,'late inline chart visibility changes must be observed and corrected');
 assert.match(ui,/event\.key==='Escape'/,'Escape must close an open organ detail');
 assert.match(ui,/drawPageLinks/,'the dashboard organs must be connected visually');
 assert.match(ui,/normalizedScore\(b\)-normalizedScore\(a\)/,'focus stocks must be sorted strongest first');
