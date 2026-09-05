@@ -47,6 +47,8 @@ function scanFresh(status){
   return Boolean(config.running)&&Number.isFinite(stamp)&&Date.now()-stamp<180_000;
 }
 
+function weekendPause(){const day=new Date().getUTCDay();return day===0||day===6}
+
 function agentOnline(status){
   const agent=status?.pcAgent||{};
   const stamp=Date.parse(String(agent.lastSeenAt||agent.last_seen_at||agent.updatedAt||''));
@@ -151,7 +153,8 @@ function renderSources(status){
   const online=agentOnline(status);
   const agent=status.pcAgent||{};
   const finalists=num(agent.finalists_count,num(agent.finalistCount,num(agent.candidates_count,candidates.length)));
-  setSource('pc',online?`${finalists||candidates.length} Finalisten · PC online`:'Offline · wartet auf PC-Scanner',online?'ok':'off');
+  const weekend=weekendPause();
+  setSource('pc',online?`${finalists||candidates.length} Finalisten · PC online`:weekend?'Wochenendpause · startet zum Börsenfenster':'Offline · wartet auf PC-Scanner',online?'ok':weekend?'warn':'off');
 
   const quoteCount=candidates.filter(c=>num(c.last_price,num(c.price))>0).length+arr(status.positions).length;
   setSource('quotes',`${quoteCount} Werte · ${config.market_mode==='NEWS_ONLY'?'Börsen zu':'Kurse aktiv'}`,config.market_mode==='NEWS_ONLY'?'warn':'ok');
@@ -350,7 +353,7 @@ function updateThought(){
   core?.classList.remove('processing');
   if(!fresh){
     pulsePageOrgans('');
-    if(thought)thought.textContent=latestStatus.config?.running?'Ruhezustand · wartet auf frische Scannerdaten …':'Bereit für den nächsten Planspiel-Start …';
+    if(thought)thought.textContent=weekendPause()?'Wochenendpause · News und Risiko bleiben bereit …':latestStatus.config?.running?'Ruhezustand · wartet auf frische Scannerdaten …':'Bereit für den nächsten Planspiel-Start …';
     return;
   }
   const [target,text]=PHASES[phaseIndex%PHASES.length];
@@ -367,7 +370,7 @@ function render(status){
   const stamp=Date.parse(String(status.config?.last_scan||''));
   const minutes=Number.isFinite(stamp)?Math.max(0,Math.floor((Date.now()-stamp)/60_000)):null;
   const freshness=$('krakenFreshness');
-  freshness.textContent=fresh?'LIVE · verarbeitet':status.config?.running?`PAUSE · Scan vor ${minutes??'–'} Min.`:'BEREIT · gestoppt';
+  freshness.textContent=fresh?'LIVE · verarbeitet':weekendPause()?'WOCHENENDPAUSE':status.config?.running?`PAUSE · Scan vor ${minutes??'–'} Min.`:'BEREIT · gestoppt';
   freshness.className=`tag ${fresh?'fresh':'stale'}`;
   $('krakenStage').classList.toggle('is-stale',!fresh);
   $('livePanel')?.classList.toggle('krakenDataFresh',fresh);
