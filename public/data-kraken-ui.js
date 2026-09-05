@@ -29,6 +29,7 @@ let phaseIndex=0;
 let latestSignature='';
 let latestFocusSignature='';
 let latestNewsSignature='';
+let latestPlanktonSignature='';
 let resizeTimer=null;
 
 const PAGE_ORGANS=[
@@ -86,6 +87,53 @@ function ageLabel(value){
 
 function decisionNews(status){return arr(status?.newsCatalystPolicy?.symbols).filter(item=>item?.headline)}
 
+function importanceOf(item={}){
+  const confirmed=item.positiveConfirmed||item.negativeConfirmed;
+  return Math.max(0,Math.min(100,num(item.importance,num(item.impact)*13)+(confirmed?24:0)+(item.negative?8:0)+(item.chaseRisk?7:0)));
+}
+
+function newsState(item={}){
+  if(item.negativeConfirmed)return{level:'urgent',state:'VERKAUF PRÜFEN',title:`${item.symbol} · negatives Risiko bestätigt`,reason:'Meldung und fallende Marktreaktion stimmen überein.'};
+  if(item.negative)return{level:'urgent',state:'KAUF GESPERRT',title:`${item.symbol} · strukturelle Negativ-News`,reason:'Kein Einstieg gegen die Meldung; für einen Verkauf fehlt noch die Kursbestätigung.'};
+  if(item.chaseRisk)return{level:'high',state:'NICHT JAGEN',title:`${item.symbol} · positiver Sprung bereits ausgedehnt`,reason:'Die Meldung ist relevant, der Kurs bietet aber gerade keinen sauberen Einstieg.'};
+  if(item.positiveConfirmed)return{level:'high',state:'KAUF PRÜFEN',title:`${item.symbol} · News und Kurs bestätigen sich`,reason:'Die Meldung zählt als unabhängige Bestätigung, entscheidet aber nicht allein.'};
+  if(item.positive)return{level:'watch',state:'ABWARTEN',title:`${item.symbol} · positive Meldung erkannt`,reason:'Firma und Frische passen; die Marktreaktion bestätigt den Impuls noch nicht.'};
+  return{level:'watch',state:'EINORDNEN',title:`${item.symbol} · neue Meldung wird geprüft`,reason:'Die Meldung ist zugeordnet, aber noch kein belastbares Handelssignal.'};
+}
+
+function topPriority(status){
+  const rows=decisionNews(status).sort((a,b)=>importanceOf(b)-importanceOf(a)||num(a.ageMinutes,999)-num(b.ageMinutes,999));
+  if(rows[0])return{type:'news',item:rows[0],...newsState(rows[0])};
+  const held=new Set(arr(status.positions).map(position=>symbolKey(position.symbol)));
+  const candidate=arr(status.candidates).filter(x=>x?.symbol&&!held.has(symbolKey(x.symbol))).sort((a,b)=>normalizedScore(b)-normalizedScore(a))[0];
+  if(candidate){const score=normalizedScore(candidate);return{type:'candidate',item:candidate,level:score>=68?'high':'watch',state:score>=60?'PRÜFEN':'BEOBACHTEN',title:`${candidate.symbol} · ${score.toFixed(1).replace('.',',')}/100`,reason:focusReason(candidate,status)}}
+  return null;
+}
+
+function setPipeline(states={}){
+  document.querySelectorAll('#krakenDecisionPipeline [data-pipeline]').forEach(node=>{
+    const state=states[node.dataset.pipeline]||'idle';node.dataset.state=state;
+  });
+}
+
+function renderCommandDeck(status){
+  const top=topPriority(status),priority=$('krakenPriority');
+  if(!top){
+    priority.dataset.level='idle';$('krakenPriorityTitle').textContent='Wartet auf frische Daten';$('krakenPriorityReason').textContent='Die Krake hebt hier nur bestätigte oder dringende Signale hervor.';$('krakenPriorityState').textContent='RUHE';setPipeline({});
+  }else{
+    priority.dataset.level=top.level;$('krakenPriorityTitle').textContent=top.title;$('krakenPriorityReason').textContent=top.reason;$('krakenPriorityState').textContent=top.state;
+    if(top.type==='news'){
+      const item=top.item,confirmed=item.positiveConfirmed||item.negativeConfirmed;
+      setPipeline({detect:'done',identity:'done',fresh:num(item.ageMinutes,999)<=num(status.newsCatalystPolicy?.maxAgeMinutes,120)?'done':'warn',reaction:confirmed?'done':'wait',decision:item.negative||item.chaseRisk||confirmed?'done':'wait',learn:'wait'});
+    }else setPipeline({detect:'done',identity:'idle',fresh:'idle',reaction:'wait',decision:normalizedScore(top.item)>=60?'wait':'idle',learn:'wait'});
+  }
+  const learning=status.outcomeLearningPolicy||status.predictiveLearningPolicy||status.unifiedDecisionCorePolicy?.outcomeLearning||{};
+  const mode=String(learning.mode||'WARMUP').replaceAll('_',' '),samples=num(learning.matured,num(learning.samples)),buySamples=num(learning.buySamples),newsSamples=num(learning.newsSamples);
+  const newsWeight=num(learning.weights?.news,1.8);
+  $('krakenLearningMode').textContent=mode;
+  $('krakenLearningDetail').textContent=`${samples} Outcomes · ${buySamples} Käufe · ${newsSamples} News-Samples · Gewicht ${newsWeight.toFixed(2).replace('.',',')}`;
+}
+
 function positionValue(position){
   const invested=num(position?.invested);
   const entry=Math.max(.000001,num(position?.entry_price,1));
@@ -116,8 +164,8 @@ function renderSources(status){
     const stamp=Date.parse(String(item.news_at||item.ts||''));
     return Number.isFinite(stamp)&&Date.now()-stamp<6*60*60*1000;
   }).length;
-  const confirmed=decisionRows.filter(item=>item.positiveConfirmed||item.negativeConfirmed).length;
-  const decisionText=decisionRows.length?`${decisionRows.length} geprüft · ${confirmed} kursbestätigt · ${ageLabel(policy.updatedAt)}`:`${news.length} Radar-Meldungen · ${freshNews} frisch`;
+  const confirmed=decisionRows.filter(item=>item.positiveConfirmed||item.negativeConfirmed).length,pipeline=policy.pipeline||{};
+  const decisionText=decisionRows.length?`${num(pipeline.companyMatched,decisionRows.length)} Firmen · ${confirmed} kursbestätigt · ${num(pipeline.blocked)} geschützt · ${ageLabel(policy.updatedAt)}`:`${news.length} Radar-Meldungen · ${freshNews} frisch`;
   setSource('news',decisionText,policy.refreshError?'warn':decisionRows.length||news.length?'ok':'warn');
 
   const breadth=status.marketBreadth||status.marketRegime||{};
@@ -212,6 +260,24 @@ function renderNewsFlights(status){
   }).join('');
 }
 
+function hashText(value=''){let h=2166136261;for(const c of String(value)){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return Math.abs(h)}
+
+function renderPlankton(status){
+  const policy=status.newsCatalystPolicy||{},rows=decisionNews(status).sort((a,b)=>importanceOf(b)-importanceOf(a));
+  const signature=JSON.stringify(rows.map(x=>[x.symbol,x.headline,x.sourceCount,x.positiveConfirmed,x.negativeConfirmed]));
+  if(signature===latestPlanktonSignature)return;latestPlanktonSignature=signature;
+  const particles=[];
+  for(const row of rows.slice(0,6)){
+    const count=Math.max(1,Math.min(3,num(row.sourceCount,1))),importance=importanceOf(row),state=row.negative?'danger':row.positiveConfirmed?'hot':row.positive?'warm':'neutral';
+    for(let n=0;n<count&&particles.length<12;n++){
+      const seed=hashText(`${row.symbol}|${row.headline}|${n}`),lane=seed%7,delay=-((seed%650)/100),scale=(.68+(importance/100)*.58+(n?-.14:0)).toFixed(2),label=n===0&&importance>=45?`${row.symbol} · ${String(row.eventType||'NEWS').replaceAll('_',' ')}`:'';
+      particles.push(`<span class="krakenPlankton ${state} ${label?'labeled':''}" style="--lane:${lane};--delay:${delay}s;--scale:${scale}" title="${esc(row.headline)}"><i></i>${label?`<b>${esc(label)}</b>`:''}</span>`);
+    }
+  }
+  const field=$('krakenPlanktonField');field.innerHTML=particles.join('');field.dataset.empty=particles.length?'false':'true';
+  field.setAttribute('aria-label',`${particles.length} visualisierte News-Partikel aus ${num(policy.targets)} priorisierten Zielen`);
+}
+
 function pointOnBox(box,side,stage){
   return {
     x:(side==='right'?box.right:side==='left'?box.left:box.left+box.width/2)-stage.left,
@@ -267,9 +333,11 @@ function drawPageLinks(){
 
 function pulsePageOrgans(phase){
   document.querySelectorAll('.krakenOrgan.organProcessing').forEach(card=>card.classList.remove('organProcessing'));
+  document.querySelectorAll('.krakenPageLinks path.active').forEach(path=>path.classList.remove('active'));
   for(const family of PHASE_ORGANS[phase]||[]){
     const cards=[...document.querySelectorAll(`.krakenOrgan[data-kraken-family="${family}"]`)];
     const card=cards[phaseIndex%Math.max(1,cards.length)];card?.classList.add('organProcessing');
+    document.querySelectorAll(`.krakenPageLinks path.${family}`).forEach(path=>path.classList.add('active'));
   }
 }
 
@@ -307,7 +375,9 @@ function render(status){
   renderSources(status);
   renderCore(status);
   renderFocus(status);
+  renderCommandDeck(status);
   renderNewsFlights(status);
+  renderPlankton(status);
   updateThought();
   requestAnimationFrame(()=>{drawLinks();drawPageLinks()});
 

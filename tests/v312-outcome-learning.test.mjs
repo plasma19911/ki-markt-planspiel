@@ -19,6 +19,9 @@ test('learns a missed HOLD opportunity after 20 minutes',()=>{
   assert.equal(l.status.matured,1);
   assert.equal(l.status.missedOpportunities,1);
   assert.ok(l.status.weights.velocity!==undefined);
+  assert.equal(l.status.newsSamples,1);
+  assert.equal(l.status.positiveNewsSamples,1);
+  assert.equal(l.status.newsOutcomeLearning,true);
 });
 
 test('BUY outcome updates online weights and buy statistics using net return',()=>{

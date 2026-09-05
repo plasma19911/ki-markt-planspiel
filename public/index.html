@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="/changelog-ui.css?v=20260820-0946">
   <link rel="stylesheet" href="/mobile-ui-v3.css?v=20260819-1257">
   <link rel="stylesheet" href="/mobile-ui-v5.css?v=20260819-1546">
-  <link rel="stylesheet" href="/data-kraken.css?v=20260905-02">
+  <link rel="stylesheet" href="/data-kraken.css?v=20260905-03">
 </head>
 <body>
 <div class="appShell">
@@ -70,9 +70,30 @@
           <div><span class="sectionEyebrow">LIVE-DATENFLUSS</span><h2 id="dataKrakenTitle">So denkt das Markt-System</h2><p>Die Datenarme sammeln Informationen. In der Mitte werden sie geprüft und fürs Depot zusammengeführt. Rechts rücken die derzeit interessantesten Aktien nach vorn.</p></div>
           <span id="krakenFreshness" class="tag">wartet auf Status …</span>
         </div>
+        <div class="krakenCommandDeck" aria-label="Aktuelle Verarbeitung und Priorität">
+          <article id="krakenPriority" class="krakenPriority" data-level="idle">
+            <div class="krakenPriorityFlag"><i></i><span>JETZT WICHTIG</span></div>
+            <div class="krakenPriorityCopy"><strong id="krakenPriorityTitle">Wartet auf frische Daten</strong><small id="krakenPriorityReason">Die Krake hebt hier nur bestätigte oder dringende Signale hervor.</small></div>
+            <span id="krakenPriorityState" class="krakenPriorityState">RUHE</span>
+          </article>
+          <ol id="krakenDecisionPipeline" class="krakenDecisionPipeline" aria-label="Verarbeitungskette">
+            <li data-pipeline="detect"><i></i><span>Erkannt</span></li>
+            <li data-pipeline="identity"><i></i><span>Firma geprüft</span></li>
+            <li data-pipeline="fresh"><i></i><span>Frische geprüft</span></li>
+            <li data-pipeline="reaction"><i></i><span>Kurs bestätigt</span></li>
+            <li data-pipeline="decision"><i></i><span>Entscheidung</span></li>
+            <li data-pipeline="learn"><i></i><span>Outcome lernen</span></li>
+          </ol>
+          <article class="krakenLearningCell">
+            <span>SELBSTLERN-SCHLEIFE</span>
+            <strong id="krakenLearningMode">WARMUP</strong>
+            <small id="krakenLearningDetail">Wartet auf auswertbare Outcomes</small>
+          </article>
+        </div>
         <div id="krakenStage" class="krakenStage">
           <svg id="krakenLinks" class="krakenLinks" aria-hidden="true"></svg>
           <div id="krakenNewsFlights" class="krakenNewsFlights" aria-hidden="true"></div>
+          <div id="krakenPlanktonField" class="krakenPlanktonField" aria-hidden="true"></div>
 
           <div class="krakenInputs" aria-label="Eingehende Datenquellen">
             <article class="krakenNode" data-kraken-source="pc"><span class="krakenNodeIcon">PC</span><div><b>PC-Scanner</b><small id="krakenPc">Volluniversum wird geprüft</small></div><i></i></article>
@@ -104,7 +125,7 @@
             <a class="krakenAllLink" href="#signals">Alle Kandidaten und Begründungen ansehen →</a>
           </aside>
         </div>
-        <div class="krakenLegend"><span><i class="flowDot input"></i>Daten fließen zur Prüfung</span><span><i class="flowDot output"></i>bewertete Aktien</span><span><i class="flowDot hot"></i>hohe aktuelle Relevanz</span><small>Die Darstellung erklärt den Live-Prozess. Sie ändert keine Kauf- oder Verkaufsregel.</small></div>
+        <div class="krakenLegend"><span><i class="flowDot input"></i>Daten fließen zur Prüfung</span><span><i class="flowDot plankton"></i>News-Plankton wird gefiltert</span><span><i class="flowDot output"></i>bewertete Aktien</span><span><i class="flowDot hot"></i>hohe aktuelle Relevanz</span><small>Wichtiges wird groß und hell; Wiederholungen und unbestätigte Meldungen bleiben klein.</small></div>
       </section>
 
       <main class="dashboardGrid">
@@ -169,7 +190,7 @@
 </div>
 <script src="/quota-guard.js?v=20260820-2155" type="module"></script>
 <script src="/app.js?v=20260831-0853" type="module"></script>
-<script src="/data-kraken-ui.js?v=20260905-02" type="module"></script>
+<script src="/data-kraken-ui.js?v=20260905-03" type="module"></script>
 <script src="/candidate-simple-ui.js?v=20260820-2155" type="module"></script>
 <script src="/v287-live-ui.js?v=20260820-2155" type="module"></script>
 <script src="/ui-v283-fix.js?v=20260820-2155" type="module"></script>

@@ -9,6 +9,8 @@ const changelog=readFileSync(new URL('../public/changelog-current-v31712.js',imp
 assert.match(index,/id="dataFlow"/,'dashboard must contain the central data-flow section');
 assert.match(index,/id="krakenCore"/,'depot core must be present');
 assert.match(index,/id="krakenPageLinks"/,'the whole dashboard must connect to the central data core');
+assert.match(index,/id="krakenDecisionPipeline"/,'the active decision pipeline must be visible');
+assert.match(index,/id="krakenPlanktonField"/,'news plankton field must be present');
 assert.match(index,/data-kraken-source="pc"/,'PC scanner must be shown as an input');
 assert.match(index,/data-kraken-source="news"/,'news must be shown as an input');
 assert.match(index,/data-kraken-ui\.js/,'living UI module must be loaded');
@@ -22,6 +24,9 @@ for(const phase of ['Sammelt','Prüft','Ordnet','Priorisiert','Wägt','Sortiert'
 }
 assert.match(ui,/scanFresh/,'animation must distinguish fresh from stale data');
 assert.match(ui,/newsCatalystPolicy/,'UI must show the news that actually reaches the decision layer');
+assert.match(ui,/function renderCommandDeck/,'the top priority and processing chain must be rendered');
+assert.match(ui,/function renderPlankton/,'news must drive the plankton visualization');
+assert.match(ui,/newsSamples/,'the bounded news outcome-learning sample count must be visible');
 assert.match(ui,/decoratePageOrgans/,'the complete dashboard must become part of the data organism');
 assert.match(ui,/drawPageLinks/,'the dashboard organs must be connected visually');
 assert.match(ui,/normalizedScore\(b\)-normalizedScore\(a\)/,'focus stocks must be sorted strongest first');
@@ -31,6 +36,9 @@ assert.match(ui,/held\.has/,'held positions must not duplicate the opportunity f
 assert.match(css,/@keyframes krakenFlow/,'data arms must visibly flow');
 assert.match(css,/@keyframes corePulse/,'depot core must pulse');
 assert.match(css,/@keyframes newsFly/,'fresh news must visibly fly into processing');
+assert.match(css,/@keyframes planktonIn/,'news plankton must flow into the depot core');
+assert.match(css,/\.krakenDecisionPipeline/,'decision processing must be legible');
+assert.match(css,/prefers-reduced-motion/,'all living UI motion must respect reduced-motion preferences');
 assert.match(css,/\.krakenOrgan/,'dashboard cards must be styled as connected organs');
 assert.match(css,/@keyframes pageTentacleFlow/,'page-wide data arms must flow');
 assert.match(css,/\.krakenStage\.is-stale/,'stale status must slow or stop activity');

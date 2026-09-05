@@ -12,8 +12,8 @@ const HEADERS={'accept':'application/json,application/rss+xml,text/xml,*/*;q=.6'
 const cache=new Map();
 
 export const NEWS_CATALYST_V31710={
-  version:31.713,
-  patch:'31.7.13-strict-company-identity+fresh-news+market-reaction-confirmation',
+  version:31.714,
+  patch:'31.7.14-urgent-first+event-clustering+transparent-pipeline',
   paperOnly:true,
   cacheSeconds:90,
   maxLookupsPerScan:2,
@@ -26,7 +26,7 @@ export const NEWS_CATALYST_V31710={
   negativeM20Max:-.25,
   relativeVolumeConfirm:1.10,
   maxNewsScoreAbs:.70,
-  rule:'Frische News sind nur ein Katalysator. Positive News werden erst mit positiver 5m/20m-Kursreaktion und Volumen/Impuls zur BUY-Bestaetigung. Strukturell negative News blockieren neue BUYs; gehaltene Positionen werden nur bei bestaetigter negativer Reaktion oder mehrfach bestaetigtem kritischem Ereignis zum SELL vorgeschlagen.'
+  rule:'Dringende Depot- und Kursrisiken werden innerhalb des unveraenderten Zwei-Abrufe-Budgets zuerst aktualisiert. Nahezu gleiche Agenturmeldungen zaehlen als ein Ereignis. Positive News werden erst mit positiver 5m/20m-Kursreaktion und Volumen/Impuls zur BUY-Bestaetigung; strukturell negative News blockieren neue BUYs.'
 };
 
 function tokens(v=''){const stop=new Set(['inc','corp','corporation','company','group','holdings','holding','plc','ag','se','sa','nv','ltd','limited','registered','shares','ordinary','class','stock','aktie','aktien']);return normal(v).split(' ').filter(x=>x.length>=3&&!stop.has(x))}
@@ -58,7 +58,14 @@ export function matchesCompanyNewsV31713(x={},headline=''){
 function publishedIso(raw){const n=Number(raw);if(Number.isFinite(n)&&n>1e9)return new Date(n*(n<1e12?1000:1)).toISOString();const t=Date.parse(String(raw||''));return Number.isFinite(t)?new Date(t).toISOString():null}
 function ageMinutes(row,now=Date.now()){const t=Date.parse(String(row?.publishedAt||''));return Number.isFinite(t)?Math.max(0,(now-t)/60000):Infinity}
 function freshness(age){return age<=15?1:age<=45?.90:age<=90?.76:age<=120?.58:0}
-function uniqRows(rows=[]){const seen=new Set(),out=[];for(const r of arr(rows).sort((a,b)=>(Date.parse(b?.publishedAt)||0)-(Date.parse(a?.publishedAt)||0))){const k=normal(r?.headline).slice(0,180);if(!k||seen.has(k))continue;seen.add(k);out.push(r)}return out}
+const EVENT_STOP=new Set(['after','amid','ahead','says','said','stock','stocks','share','shares','company','market','markets','update','news','latest','today','report']);
+function eventTokens(value=''){return new Set(normal(value).split(' ').filter(x=>x.length>=4&&!EVENT_STOP.has(x)))}
+function sameEvent(a='',b=''){
+  const aa=eventTokens(a),bb=eventTokens(b);if(!aa.size||!bb.size)return normal(a)===normal(b);
+  let common=0;for(const token of aa)if(bb.has(token))common++;
+  return common/Math.max(1,Math.min(aa.size,bb.size))>=.72;
+}
+function uniqRows(rows=[]){const out=[];for(const r of arr(rows).sort((a,b)=>(Date.parse(b?.publishedAt)||0)-(Date.parse(a?.publishedAt)||0))){if(!normal(r?.headline)||out.some(old=>sameEvent(old?.headline,r?.headline)&&clean(old?.source)===clean(r?.source)))continue;out.push(r)}return out}
 
 async function yahooRows(target){
   const q=new URL('https://query2.finance.yahoo.com/v1/finance/search');q.searchParams.set('q',`${companyName(target)} ${base(target)}`);q.searchParams.set('quotesCount','0');q.searchParams.set('newsCount','10');q.searchParams.set('enableFuzzyQuery','false');
@@ -81,21 +88,32 @@ function metrics(x={}){return{
 }}
 export function scoreNewsCatalystV31710(target={},rows=[],now=Date.now()){
   const fresh=uniqRows(rows).filter(r=>ageMinutes(r,now)<=NEWS_CATALYST_V31710.maxAgeMinutes),ranked=fresh.map(r=>{const impact=classifyNewsImpact(r.headline),age=ageMinutes(r,now),freshnessWeight=freshness(age),strength=impact.direction*(impact.impact/5)*freshnessWeight;return{...r,impact,ageMinutes:+age.toFixed(1),freshnessWeight:+freshnessWeight.toFixed(3),strength:+strength.toFixed(4)}}).filter(r=>r.freshnessWeight>0).sort((a,b)=>Math.abs(b.strength)-Math.abs(a.strength)||(Date.parse(b.publishedAt)||0)-(Date.parse(a.publishedAt)||0));
-  const best=ranked[0]||null,m=metrics(target),sources=[...new Set(ranked.slice(0,6).map(r=>r.source).filter(Boolean))],sourceCount=sources.length,confidence=best?clamp(.30+best.impact.impact*.07+Math.min(.20,sourceCount*.07)+best.freshnessWeight*.15,.30,.92):0;
+  const best=ranked[0]||null,m=metrics(target),eventRows=best?ranked.filter(r=>sameEvent(best.headline,r.headline)):[],sources=[...new Set(eventRows.map(r=>r.source).filter(Boolean))],allSources=[...new Set(ranked.slice(0,6).map(r=>r.source).filter(Boolean))],sourceCount=sources.length,confidence=best?clamp(.30+best.impact.impact*.07+Math.min(.20,sourceCount*.07)+best.freshnessWeight*.15,.30,.92):0;
   const positiveReaction=m.m5>=NEWS_CATALYST_V31710.positiveM5Min&&m.m20>=NEWS_CATALYST_V31710.positiveM20Min&&(m.volume>=NEWS_CATALYST_V31710.relativeVolumeConfirm||m.m5+m.m20>=.35);
   const negativeReaction=m.m5<=NEWS_CATALYST_V31710.negativeM5Max||m.m20<=NEWS_CATALYST_V31710.negativeM20Max||(m.direction==='DOWN'&&(m.scoreStep<=-1||m.chartStep<=-.10));
   const positive=Boolean(best&&best.impact.direction>0&&best.impact.impact>=NEWS_CATALYST_V31710.positiveImpactMin),negative=Boolean(best&&best.impact.direction<0&&best.impact.impact>=NEWS_CATALYST_V31710.negativeImpactMin),criticalNegative=Boolean(negative&&best.impact.impact>=5&&best.impact.structural===true&&best.freshnessWeight>=.76&&(sourceCount>=2||negativeReaction));
   const positiveConfirmed=positive&&positiveReaction&&!((m.day>=4||m.m20>=2)&&m.m5<.12),negativeConfirmed=negative&&(negativeReaction||criticalNegative),chaseRisk=positive&&(m.day>=4||m.m20>=2)&&m.m5<.12;
   const rawStrength=best?clamp(best.strength,-NEWS_CATALYST_V31710.maxNewsScoreAbs,NEWS_CATALYST_V31710.maxNewsScoreAbs):0;
-  return{symbol:key(target),headline:best?.headline||'',eventType:best?.impact?.type||'NONE',direction:best?.impact?.direction||0,impact:best?.impact?.impact||0,structural:best?.impact?.structural===true,publishedAt:best?.publishedAt||null,ageMinutes:best?.ageMinutes??null,newsScore:+rawStrength.toFixed(3),confidence:+confidence.toFixed(3),sources,sourceCount,positive,negative,positiveReaction,negativeReaction,positiveConfirmed,negativeConfirmed,criticalNegative,chaseRisk,m5:m.m5,m20:m.m20,volume:m.volume,rows:ranked.slice(0,6)};
+  const decisionState=negativeConfirmed?'NEGATIVE_CONFIRMED':negative?'NEGATIVE_BLOCK':chaseRisk?'CHASE_BLOCK':positiveConfirmed?'POSITIVE_CONFIRMED':positive?'WAITING_FOR_MARKET':'NO_ACTIONABLE_NEWS',importance=best?clamp(best.impact.impact*13+(positiveConfirmed||negativeConfirmed?24:0)+(negative?8:0)+(chaseRisk?7:0),0,100):0;
+  return{symbol:key(target),headline:best?.headline||'',eventType:best?.impact?.type||'NONE',direction:best?.impact?.direction||0,impact:best?.impact?.impact||0,importance:+importance.toFixed(1),decisionState,identityMatched:Boolean(best),fresh:Boolean(best),structural:best?.impact?.structural===true,publishedAt:best?.publishedAt||null,ageMinutes:best?.ageMinutes??null,newsScore:+rawStrength.toFixed(3),confidence:+confidence.toFixed(3),sources,sourceCount,allSources,allSourceCount:allSources.length,clusteredStories:eventRows.length,positive,negative,positiveReaction,negativeReaction,positiveConfirmed,negativeConfirmed,criticalNegative,chaseRisk,m5:m.m5,m20:m.m20,volume:m.volume,rows:ranked.slice(0,6)};
 }
-function targetList(state={}){const map=new Map(),add=(x,priority)=>{const s=key(x);if(!s)return;const old=map.get(s),score=num(x?.daytradeLiveScore,x?.decisionScore??x?.score);if(!old||priority>old.priority)map.set(s,{...x,symbol:s,priority,score})};for(const p of arr(state?.positions))add(p,3);for(const c of arr(state?.candidates)){const score=num(c?.daytradeLiveScore,c?.decisionScore??c?.score),move=Math.abs(num(c?.day_change??c?.dayChange));if(score>=50||move>=2)add(c,score>=58?2:1)}return[...map.values()].sort((a,b)=>b.priority-a.priority||b.score-a.score).slice(0,10)}
+function targetList(state={}){const map=new Map(),add=(x,priority,held=false)=>{const s=key(x);if(!s)return;const old=map.get(s),score=num(x?.daytradeLiveScore,x?.decisionScore??x?.score),m=metrics(x),priorNews=x?.newsCatalystV31710||{},urgent=held&&(priorNews.negative===true||m.m5<=NEWS_CATALYST_V31710.negativeM5Max||m.m20<=NEWS_CATALYST_V31710.negativeM20Max||m.scoreStep<=-2)||(!held&&score>=68&&(Math.abs(m.m5)>=.3||Math.abs(m.day)>=3));if(!old||priority>old.priority||urgent&&!old.urgent)map.set(s,{...x,symbol:s,priority,score,held,urgent})};for(const p of arr(state?.positions))add(p,3,true);for(const c of arr(state?.candidates)){const score=num(c?.daytradeLiveScore,c?.decisionScore??c?.score),move=Math.abs(num(c?.day_change??c?.dayChange));if(score>=50||move>=2)add(c,score>=58?2:1,false)}return[...map.values()].sort((a,b)=>Number(b.urgent)-Number(a.urgent)||b.priority-a.priority||b.score-a.score).slice(0,10)}
+
+export function selectNewsRefreshTargetsV31714(targets=[],cacheTimes={},now=Date.now()){
+  const expired=arr(targets).filter(t=>now-num(cacheTimes[key(t)])>=NEWS_CATALYST_V31710.cacheSeconds*1000),rank=(a,b)=>Number(b.urgent)-Number(a.urgent)||b.priority-a.priority||num(cacheTimes[key(a)])-num(cacheTimes[key(b)])||b.score-a.score,picked=[];
+  const take=row=>{if(row&&!picked.some(x=>key(x)===key(row)))picked.push(row)};
+  for(const row of expired.filter(x=>x.urgent).sort(rank))if(picked.length<NEWS_CATALYST_V31710.maxLookupsPerScan)take(row);
+  if(picked.length<NEWS_CATALYST_V31710.maxLookupsPerScan)take(expired.filter(x=>x.held&&!x.urgent).sort(rank)[0]);
+  if(picked.length<NEWS_CATALYST_V31710.maxLookupsPerScan)take(expired.filter(x=>!x.held&&!x.urgent).sort(rank)[0]);
+  for(const row of expired.sort(rank))if(picked.length<NEWS_CATALYST_V31710.maxLookupsPerScan)take(row);
+  return picked.slice(0,NEWS_CATALYST_V31710.maxLookupsPerScan);
+}
 
 export async function refreshNewsCatalystsV31710(state={},now=Date.now()){
-  const targets=targetList(state),expired=targets.filter(t=>{const c=cache.get(key(t));return!c||now-c.at>=NEWS_CATALYST_V31710.cacheSeconds*1000}).sort((a,b)=>(cache.get(key(a))?.at||0)-(cache.get(key(b))?.at||0)||b.priority-a.priority).slice(0,NEWS_CATALYST_V31710.maxLookupsPerScan);
+  const targets=targetList(state),cacheTimes=Object.fromEntries(targets.map(t=>[key(t),cache.get(key(t))?.at||0])),expired=selectNewsRefreshTargetsV31714(targets,cacheTimes,now);
   await Promise.all(expired.map(async t=>cache.set(key(t),await fetchTarget(t))));
-  const symbols=targets.map(t=>{const c=cache.get(key(t))||{at:0,rows:[],latencyMs:0,error:null};return{...scoreNewsCatalystV31710(t,c.rows,now),fetchedAt:c.at?new Date(c.at).toISOString():null,latencyMs:c.latencyMs||0,error:c.error||null}});
-  return{enabled:true,...NEWS_CATALYST_V31710,updatedAt:new Date(now).toISOString(),targets:targets.length,lookups:expired.length,symbols};
+  const symbols=targets.map(t=>{const c=cache.get(key(t))||{at:0,rows:[],latencyMs:0,error:null};return{...scoreNewsCatalystV31710(t,c.rows,now),priority:t.priority,held:t.held===true,urgent:t.urgent===true,fetchedAt:c.at?new Date(c.at).toISOString():null,latencyMs:c.latencyMs||0,error:c.error||null}}),matched=symbols.filter(x=>x.identityMatched).length,confirmed=symbols.filter(x=>x.positiveConfirmed||x.negativeConfirmed).length,waiting=symbols.filter(x=>x.positive&&!x.positiveConfirmed).length,blocked=symbols.filter(x=>x.negative||x.chaseRisk).length;
+  return{enabled:true,...NEWS_CATALYST_V31710,updatedAt:new Date(now).toISOString(),targets:targets.length,lookups:expired.length,urgentTargets:targets.filter(x=>x.urgent).length,pipeline:{detected:symbols.reduce((n,x)=>n+num(x.allSourceCount),0),companyMatched:matched,fresh:matched,marketConfirmed:confirmed,waiting,blocked,used:confirmed+blocked},symbols};
 }
 function mergeHeadlines(target={},old=[],profile={}){const news=arr(profile.rows).map(r=>({headline:r.headline,title:r.headline,publishedAt:r.publishedAt,source:r.source,url:r.url||null,impactType:r.impact?.type,impact:r.impact?.impact,direction:r.impact?.direction,freshNewsCatalystV31710:true})),safeOld=arr(old).filter(r=>matchesCompanyNewsV31713(target,typeof r==='string'?r:r?.headline||r?.title)),seen=new Set(),out=[];for(const r of [...news,...safeOld]){const h=normal(typeof r==='string'?r:r?.headline||r?.title);if(!h||seen.has(h))continue;seen.add(h);out.push(r)}return out.slice(0,12)}
 function enrichRow(row={},profile=null){if(!profile)return row;const headlines=mergeHeadlines(row,row?.headlines,profile);if(!profile.headline)return{...row,headlines};const existing=clamp(row?.newsScore??row?.news_score??0,-1,1),shouldApplyPositive=profile.positiveConfirmed,shouldApplyNegative=profile.negative,score=shouldApplyPositive?Math.max(existing,profile.newsScore):shouldApplyNegative?Math.min(existing,profile.newsScore):existing,sources=[...new Set([...arr(row?.newsSources??row?.news_sources),...profile.sources])].slice(0,8);return{...row,newsScore:+score.toFixed(3),news_score:+score.toFixed(3),newsConfidence:Math.max(num(row?.newsConfidence??row?.news_confidence),profile.confidence),news_confidence:Math.max(num(row?.newsConfidence??row?.news_confidence),profile.confidence),newsSources:sources,news_sources:sources,headlines,newsCatalystV31710:profile,eventRisk:profile.criticalNegative?'HIGH':row?.eventRisk??row?.event_risk,event_risk:profile.criticalNegative?'HIGH':row?.event_risk??row?.eventRisk}}

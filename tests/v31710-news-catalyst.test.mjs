@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {scoreNewsCatalystV31710,applyNewsCatalystSnapshotV31710,enforceNewsCatalystPlanV31710,matchesCompanyNewsV31713} from '../src/news-catalyst-v31710.js';
+import {scoreNewsCatalystV31710,applyNewsCatalystSnapshotV31710,enforceNewsCatalystPlanV31710,matchesCompanyNewsV31713,selectNewsRefreshTargetsV31714} from '../src/news-catalyst-v31710.js';
 
 const now=Date.UTC(2026,8,3,10,30,0),iso=new Date(now-5*60000).toISOString();
 const row=(headline,source='Reuters')=>({headline,publishedAt:iso,source});
@@ -65,6 +65,34 @@ const row=(headline,source='Reuters')=>({headline,publishedAt:iso,source});
   const costco={symbol:'COST',name:'Costco Wholesale Corporation'};
   assert.equal(matchesCompanyNewsV31713(costco,'COST stock rises after earnings'),true,'explicit uppercase US ticker plus stock context remains valid');
   assert.equal(matchesCompanyNewsV31713(costco,'The cost of food rises again'),false,'ordinary lowercase word is not a ticker match');
+}
+
+{
+  const c={symbol:'CLUSTER',name:'Cluster Systems AG',momentum5Pct:.3,momentum20Pct:.2,volumeRatio:1.2};
+  const p=scoreNewsCatalystV31710(c,[
+    row('Cluster Systems raises full-year guidance after record orders','Reuters'),
+    row('Cluster Systems raises full year guidance after record orders','Bloomberg'),
+    row('Cluster Systems appoints a new finance director','Company Wire')
+  ],now);
+  assert.equal(p.sourceCount,2,'only sources corroborating the same top event may raise event confidence');
+  assert.equal(p.allSourceCount,3,'the diagnostic may still expose all distinct sources');
+  assert.equal(p.clusteredStories,2,'syndicated variants must form one event cluster');
+  assert.equal(p.decisionState,'POSITIVE_CONFIRMED');
+  assert.ok(p.importance>=60);
+}
+
+{
+  const targets=[
+    {symbol:'HELD1',held:true,urgent:false,priority:3,score:55},
+    {symbol:'HELD2',held:true,urgent:false,priority:3,score:54},
+    {symbol:'NEW1',held:false,urgent:false,priority:2,score:66}
+  ];
+  const selected=selectNewsRefreshTargetsV31714(targets,{},now).map(x=>x.symbol);
+  assert.equal(selected.length,2);
+  assert.ok(selected.some(x=>x.startsWith('HELD')),'one normal position gets refreshed');
+  assert.ok(selected.includes('NEW1'),'one opportunity must not be starved by normal positions');
+  const urgent=selectNewsRefreshTargetsV31714(targets.map(x=>({...x,urgent:x.held})),{},now);
+  assert.deepEqual(urgent.map(x=>x.symbol),['HELD1','HELD2'],'two genuine risk targets may consume both protected slots');
 }
 
 console.log('V31.7.10 fresh news catalyst regression OK');
