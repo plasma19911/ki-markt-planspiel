@@ -40,6 +40,10 @@ const PAGE_ORGANS=[
   ['#brain','ABWÄGEN','trade'],['.dashboardHistory','ARCHIVIEREN','learn'],['#setup','STEUERN','risk']
 ];
 const PHASE_ORGANS={pc:['scan'],quotes:['scan'],charts:['scan'],news:['news'],macro:['news'],learning:['learn'],central:['trade']};
+const ORGAN_PREF_KEY='ki-markt-kraken-organs-v1';
+const DEFAULT_OPEN_ORGANS=new Set(['signals','chart','positions','live-news']);
+let organPreferences={};
+try{organPreferences=JSON.parse(localStorage.getItem(ORGAN_PREF_KEY)||'{}')||{}}catch{}
 
 function scanFresh(status){
   const config=status?.config||{};
@@ -311,15 +315,55 @@ function drawLinks(){
   svg.innerHTML=inputs.map(path=>`<path d="${path}"></path>`).join('')+outputs.map(item=>`<path class="output${item.hot?' hot':''}" d="${item.path}"></path>`).join('');
 }
 
+function organKey(card,selector){
+  if(selector==='#signals')return'signals';if(selector==='#positions')return'positions';if(selector==='#futureCard')return'future';if(selector==='#liveStockNews')return'live-news';if(selector==='#replayCard')return'replay';if(selector==='#analysis')return'analysis';if(selector==='#brain')return'brain';if(selector==='#setup')return'setup';
+  if(card.classList.contains('dashboardChart'))return'chart';if(card.classList.contains('dashboardAllocation'))return'allocation';if(card.classList.contains('activityCard'))return'activity';if(card.classList.contains('dashboardNews'))return'news';if(card.classList.contains('dashboardStats'))return'stats';if(card.classList.contains('dashboardHealth'))return'health';if(card.classList.contains('dashboardHistory'))return'history';return selector.replace(/[^a-z0-9]+/gi,'-');
+}
+
+function setOrganExpanded(card,expanded,persist=true){
+  card.classList.toggle('organCollapsed',!expanded);card.classList.toggle('organExpanded',expanded);
+  const button=card.querySelector(':scope > .cardTitle .krakenOrganToggle,:scope > .liveNewsHead .krakenOrganToggle');
+  if(button){button.textContent=expanded?'−':'+';button.setAttribute('aria-expanded',String(expanded));button.title=expanded?'Bereich verkleinern':'Bereich aufklappen'}
+  if(persist){organPreferences[card.dataset.krakenKey]=expanded;try{localStorage.setItem(ORGAN_PREF_KEY,JSON.stringify(organPreferences))}catch{}}
+  requestAnimationFrame(drawPageLinks);
+}
+
+function setAllOrgans(expanded){document.querySelectorAll('.krakenOrgan').forEach(card=>setOrganExpanded(card,expanded,true))}
+
+function organSummary(status,card){
+  const key=card.dataset.krakenKey,candidates=arr(status.candidates),positions=arr(status.positions),policy=status.newsCatalystPolicy||{},learning=status.outcomeLearningPolicy||status.predictiveLearningPolicy||{},top=[...candidates].sort((a,b)=>normalizedScore(b)-normalizedScore(a))[0],confirmed=decisionNews(status).filter(x=>x.positiveConfirmed||x.negativeConfirmed),negative=decisionNews(status).filter(x=>x.negative),currency=status.config?.currency||'EUR';let text='Bereit',importance='quiet';
+  if(key==='signals'){text=candidates.length?`${candidates.length} Kandidaten · Spitze ${normalizedScore(top).toFixed(1).replace('.',',')}/100`:'Keine frischen Kandidaten';importance=normalizedScore(top)>=68?'hot':normalizedScore(top)>=60?'watch':'quiet'}
+  else if(key==='chart'){text=`${money(status.equity,currency)} · P/L ${percent(status.pnl_pct)}`;importance=num(status.pnl)<0?'warn':'watch'}
+  else if(key==='future'){text=`${arr(status.futureWatch?.candidates).length} Katalysatoren · ${String(status.config?.market_regime||'neutral').replaceAll('_',' ')}`}
+  else if(key==='positions'){const losers=positions.filter(x=>positionPnl(x)<0).length;text=`${positions.length} Positionen · ${losers} unter Einstand · Cash ${money(status.config?.cash,currency)}`;importance=losers?'watch':'quiet'}
+  else if(key==='allocation'){const share=num(status.equity)>0?num(status.config?.cash)/num(status.equity)*100:100;text=`${share.toFixed(1).replace('.',',')} % Cash · ${positions.length} aktive Werte`}
+  else if(key==='live-news'||key==='news'){text=`${num(policy.pipeline?.companyMatched,decisionNews(status).length)} Firmenmeldungen · ${confirmed.length} bestätigt · ${negative.length} negativ`;importance=negative.some(x=>x.negativeConfirmed)?'urgent':confirmed.length?'hot':negative.length?'warn':'quiet'}
+  else if(key==='replay'){text=`${num(learning.matured)} Outcomes · ${num(learning.buySamples)} Käufe · ${String(learning.mode||'WARMUP').replaceAll('_',' ')}`}
+  else if(key==='activity'){const last=arr(status.history).at(-1);text=last?`Letzte Aktion: ${String(last.action||'SCAN')} ${last.symbol||''}`:'Noch keine Aktivität'}
+  else if(key==='analysis'){text=`${arr(status.investmentDossiers).length} Unternehmensprofile · ${candidates.length} aktuelle Kandidaten`}
+  else if(key==='stats'){text=`Gesamt P/L ${percent(status.pnl_pct)} · nach Kosten`;importance=num(status.pnl)<0?'warn':'watch'}
+  else if(key==='health'){text=weekendPause()?'Planmäßige Wochenendpause':agentOnline(status)?'PC-Scanner online · Quellen werden überwacht':'PC-Scanner ohne frischen Kontakt';importance=weekendPause()?'quiet':agentOnline(status)?'watch':'warn'}
+  else if(key==='brain'){text=String(arr(status.aiLog).at(-1)?.message||arr(status.aiLog).at(-1)?.text||status.config?.learning_mode||'Entscheidungslog bereit').slice(0,120)}
+  else if(key==='history'){text=`${arr(status.history).length} protokollierte Ereignisse · neueste zuerst`}
+  else if(key==='setup'){text=`${String(status.config?.risk_mode||'offensiv')} · Paper Trading · ${currency}`}
+  card.dataset.importance=importance;return text;
+}
+
+function updateOrganSummaries(status){for(const card of document.querySelectorAll('.krakenOrgan')){const summary=card.querySelector(':scope > .krakenOrganSummary');if(summary)summary.textContent=organSummary(status,card)}}
+
 function decoratePageOrgans(){
   const grid=document.querySelector('.dashboardGrid');
   grid?.classList.add('krakenOrganGrid');
   for(const [selector,label,family] of PAGE_ORGANS){
     const card=document.querySelector(selector);if(!card)continue;
-    card.classList.add('krakenOrgan');card.dataset.krakenFamily=family;card.dataset.krakenOrgan=label;
+    const key=organKey(card,selector);card.classList.add('krakenOrgan');card.dataset.krakenFamily=family;card.dataset.krakenOrgan=label;card.dataset.krakenKey=key;
     if(!card.querySelector(':scope > .krakenOrganBadge')){
       const badge=document.createElement('span');badge.className='krakenOrganBadge';badge.textContent=label;const eyebrow=card.querySelector('.sectionEyebrow');if(eyebrow)eyebrow.insertAdjacentElement('afterend',badge);else card.prepend(badge);
     }
+    const head=card.querySelector(':scope > .cardTitle,:scope > .liveNewsHead');
+    if(head&&!head.querySelector('.krakenOrganToggle')){const button=document.createElement('button');button.type='button';button.className='krakenOrganToggle';button.setAttribute('aria-label',`${label} auf- oder zuklappen`);head.append(button)}
+    if(!card.querySelector(':scope > .krakenOrganSummary')){const summary=document.createElement('div');summary.className='krakenOrganSummary';summary.textContent='Live-Zusammenfassung wird geladen …';head?.insertAdjacentElement('afterend',summary)}
+    const expanded=key in organPreferences?organPreferences[key]===true:DEFAULT_OPEN_ORGANS.has(key);setOrganExpanded(card,expanded,false);
   }
 }
 
@@ -381,6 +425,7 @@ function render(status){
   renderCommandDeck(status);
   renderNewsFlights(status);
   renderPlankton(status);
+  updateOrganSummaries(status);
   updateThought();
   requestAnimationFrame(()=>{drawLinks();drawPageLinks()});
 
@@ -399,6 +444,9 @@ function render(status){
 }
 
 document.addEventListener('planspiel:status',event=>render(event.detail||{}));
+document.addEventListener('click',event=>{const button=event.target.closest?.('.krakenOrganToggle');if(!button)return;const card=button.closest('.krakenOrgan');if(card)setOrganExpanded(card,card.classList.contains('organCollapsed'),true)});
+$('krakenCompactAll')?.addEventListener('click',()=>setAllOrgans(false));
+$('krakenExpandAll')?.addEventListener('click',()=>setAllOrgans(true));
 window.addEventListener('resize',()=>{
   clearTimeout(resizeTimer);
   resizeTimer=setTimeout(()=>{drawLinks();drawPageLinks()},120);
