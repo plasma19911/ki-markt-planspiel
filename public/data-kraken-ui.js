@@ -31,6 +31,7 @@ let latestFocusSignature='';
 let latestNewsSignature='';
 let latestPlanktonSignature='';
 let resizeTimer=null;
+let activeOrganKey='';
 
 const PAGE_ORGANS=[
   ['#signals','ENTDECKEN','scan','signals'],['.dashboardChart','ERINNERN','learn','chart'],['#futureCard','VORAUSDENKEN','news','future'],
@@ -398,7 +399,34 @@ function organSummary(status,card){
   card.dataset.importance=importance;return text;
 }
 
-function updateOrganSummaries(status){for(const card of document.querySelectorAll('.krakenOrgan')){const summary=card.querySelector(':scope > .krakenOrganSummary');if(summary)summary.textContent=organSummary(status,card)}}
+function updateOrganSummaries(status){for(const card of document.querySelectorAll('.krakenOrgan')){const summary=card.querySelector(':scope > .krakenOrganSummary');if(summary)summary.textContent=organSummary(status,card)}renderOrganDock()}
+
+function renderOrganDock(){
+  const root=$('krakenOrganTiles');if(!root)return;
+  const cards=[...document.querySelectorAll('#livePanel .krakenOrgan')],liveKeys=new Set();
+  root.querySelector('.krakenDockEmpty')?.remove();
+  for(const card of cards){
+    const key=card.dataset.krakenKey||slug(card.id),family=card.dataset.krakenFamily||'scan',label=card.dataset.krakenOrgan||'VERARBEITEN',title=String(card.querySelector('h2,h3')?.textContent||label).trim(),summary=String(card.querySelector(':scope > .krakenOrganSummary')?.textContent||'Live-Status wird geladen …').trim();liveKeys.add(key);
+    let tile=root.querySelector(`[data-organ-tile="${CSS.escape(key)}"]`);
+    if(!tile){tile=document.createElement('button');tile.type='button';tile.className='krakenOrganTile';tile.dataset.organTile=key;tile.innerHTML='<i class="krakenOrganTileNode"></i><div><span></span><b></b><small></small></div><em aria-hidden="true">+</em>';root.appendChild(tile)}
+    tile.dataset.krakenFamily=family;tile.dataset.importance=card.dataset.importance||'quiet';tile.title=`${title} groß öffnen`;tile.setAttribute('aria-label',`${title} öffnen: ${summary}`);tile.querySelector('span').textContent=label;tile.querySelector('b').textContent=title;tile.querySelector('small').textContent=summary;
+  }
+  root.querySelectorAll('.krakenOrganTile').forEach(tile=>{if(!liveKeys.has(tile.dataset.organTile))tile.remove()});
+  const count=$('krakenDockCount');if(count)count.textContent=`${cards.length} verbunden`;
+}
+
+function closeOrganDetail(){
+  const card=document.querySelector('#livePanel .krakenOrgan.organFocused');
+  if(card){card.classList.remove('organFocused');card.removeAttribute('role');card.removeAttribute('aria-modal');setOrganExpanded(card,false,false)}
+  activeOrganKey='';document.body.classList.remove('krakenOrganDetailOpen');const backdrop=$('krakenOrganBackdrop');if(backdrop)backdrop.hidden=true;requestAnimationFrame(()=>{drawLinks();drawPageLinks()});
+}
+
+function openOrganDetail(key){
+  const card=[...document.querySelectorAll('#livePanel .krakenOrgan')].find(node=>node.dataset.krakenKey===key);if(!card)return;
+  closeOrganDetail();activeOrganKey=key;setOrganExpanded(card,true,false);card.classList.add('organFocused');card.setAttribute('role','dialog');card.setAttribute('aria-modal','true');document.body.classList.add('krakenOrganDetailOpen');
+  const backdrop=$('krakenOrganBackdrop'),title=String(card.querySelector('h2,h3')?.textContent||card.dataset.krakenOrgan||'Bereich').trim();if(backdrop)backdrop.hidden=false;if($('krakenDetailTitle'))$('krakenDetailTitle').textContent=title;
+  requestAnimationFrame(()=>{card.scrollTop=0;card.querySelector('.tableWrap,.chat')?.scrollTo?.({top:0});setTimeout(()=>window.dispatchEvent(new Event('resize')),80)});
+}
 
 function decorateOrgan(card,definition=organDefinition(card)){
     if(!card||card.id==='dataFlow')return false;
@@ -441,7 +469,7 @@ function decoratePageOrgans(){
   for(const [selector,label,family,key] of PAGE_ORGANS)document.querySelectorAll(selector).forEach(card=>decorateOrgan(card,{selector,label,family,key}));
   document.querySelectorAll('#livePanel .dashboardGrid > .card:not(.krakenOrgan)').forEach(card=>decorateOrgan(card));
   if(latestStatus)updateOrganSummaries(latestStatus);
-  updateOrganCount();requestAnimationFrame(drawPageLinks);
+  updateOrganCount();renderOrganDock();requestAnimationFrame(drawPageLinks);
 }
 
 function scheduleKrakenSync(){if(organSyncPending)return;organSyncPending=true;requestAnimationFrame(()=>{organSyncPending=false;decoratePageOrgans()})}
@@ -458,7 +486,7 @@ function drawPageLinks(){
   const page=$('livePanel'),svg=$('krakenPageLinks'),core=$('krakenCore');
   if(!page||!svg||!core||getComputedStyle(svg).display==='none')return;
   const pageBox=page.getBoundingClientRect(),coreBox=core.getBoundingClientRect(),from={x:coreBox.left+coreBox.width/2-pageBox.left,y:coreBox.top+coreBox.height/2-pageBox.top};
-  const targets=[...page.querySelectorAll('.krakenScannerNerve,.krakenSense,.krakenOrgan')];
+  const targets=[...page.querySelectorAll(document.body.classList.contains('krakenOnePager')?'.krakenScannerNerve,.krakenSense,.krakenOrganTile':'.krakenScannerNerve,.krakenSense,.krakenOrgan')];
   const paths=targets.map(card=>{
     const box=card.getBoundingClientRect(),right=box.left+box.width/2>coreBox.left+coreBox.width/2,above=box.bottom<coreBox.top,sense=card.matches('.krakenScannerNerve,.krakenSense'),to=sense?{x:box.left+box.width/2-pageBox.left,y:box.bottom-pageBox.top}:{x:(right?box.left:box.right)-pageBox.left,y:(above?box.bottom:box.top)+Math.min(26,box.height/3)-pageBox.top},midY=(from.y+to.y)/2,family=card.dataset.krakenFamily||'scan';
     return `<path class="${esc(family)}" d="M ${from.x.toFixed(1)} ${from.y.toFixed(1)} C ${from.x.toFixed(1)} ${midY.toFixed(1)}, ${to.x.toFixed(1)} ${midY.toFixed(1)}, ${to.x.toFixed(1)} ${to.y.toFixed(1)}"></path>`;
@@ -468,10 +496,12 @@ function drawPageLinks(){
 
 function pulsePageOrgans(phase){
   document.querySelectorAll('.krakenOrgan.organProcessing').forEach(card=>card.classList.remove('organProcessing'));
+  document.querySelectorAll('.krakenOrganTile.organProcessing').forEach(tile=>tile.classList.remove('organProcessing'));
   document.querySelectorAll('.krakenPageLinks path.active').forEach(path=>path.classList.remove('active'));
   for(const family of PHASE_ORGANS[phase]||[]){
     const cards=[...document.querySelectorAll(`.krakenOrgan[data-kraken-family="${family}"]`)];
     const card=cards[phaseIndex%Math.max(1,cards.length)];card?.classList.add('organProcessing');
+    const tiles=[...document.querySelectorAll(`.krakenOrganTile[data-kraken-family="${family}"]`)];tiles[phaseIndex%Math.max(1,tiles.length)]?.classList.add('organProcessing');
     document.querySelectorAll(`.krakenPageLinks path.${family}`).forEach(path=>path.classList.add('active'));
   }
 }
@@ -534,8 +564,15 @@ function render(status){
 }
 
 document.addEventListener('planspiel:status',event=>render(event.detail||{}));
-document.addEventListener('click',event=>{const button=event.target.closest?.('.krakenOrganToggle');if(!button)return;const card=button.closest('.krakenOrgan');if(card)setOrganExpanded(card,card.classList.contains('organCollapsed'),true)});
-$('krakenCompactAll')?.addEventListener('click',()=>setAllOrgans(false));
+document.addEventListener('click',event=>{
+  const tile=event.target.closest?.('.krakenOrganTile');if(tile){event.preventDefault();openOrganDetail(tile.dataset.organTile);return}
+  const close=event.target.closest?.('#krakenDetailClose');if(close){closeOrganDetail();return}
+  const backdrop=event.target.closest?.('#krakenOrganBackdrop');if(backdrop&&event.target===backdrop){closeOrganDetail();return}
+  const link=event.target.closest?.('a[href^="#"]'),target=link?document.querySelector(link.getAttribute('href')):null;if(link&&target?.classList.contains('krakenOrgan')&&document.body.classList.contains('krakenOnePager')){event.preventDefault();openOrganDetail(target.dataset.krakenKey);return}
+  const button=event.target.closest?.('.krakenOrganToggle');if(!button)return;const card=button.closest('.krakenOrgan');if(card?.classList.contains('organFocused'))closeOrganDetail();else if(card)setOrganExpanded(card,card.classList.contains('organCollapsed'),true)
+});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&activeOrganKey)closeOrganDetail()});
+$('krakenCompactAll')?.addEventListener('click',()=>{closeOrganDetail();setAllOrgans(false)});
 $('krakenExpandAll')?.addEventListener('click',()=>setAllOrgans(true));
 window.addEventListener('resize',()=>{
   clearTimeout(resizeTimer);

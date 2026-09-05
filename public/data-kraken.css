@@ -107,3 +107,89 @@
 .sidebar{overflow:hidden}.sidebar:after{content:"";position:absolute;left:20px;top:82px;bottom:172px;width:1px;background:linear-gradient(transparent,#2d739c 14%,#7869c5 50%,#4cba87 82%,transparent);opacity:.32;box-shadow:0 0 11px rgba(69,148,198,.2);animation:sidebarNerve 7s linear infinite}.sideNav a,.sideNavButton{position:relative;z-index:1}.sideNav a:before,.sideNavButton:before{content:"";position:absolute;left:-12px;top:50%;width:5px;height:5px;border-radius:50%;background:#315a74;box-shadow:0 0 8px rgba(63,135,180,.35)}.sideNav a.active:before{background:#55d398;box-shadow:0 0 11px #55d398}@keyframes sidebarNerve{50%{filter:hue-rotate(24deg);opacity:.56}}
 .krakenPage:before{content:"";position:fixed;inset:58px 0 0 228px;z-index:-1;pointer-events:none;background:radial-gradient(circle at 28% 18%,rgba(35,112,155,.055),transparent 24%),radial-gradient(circle at 76% 48%,rgba(78,180,137,.035),transparent 26%)}
 @media(max-width:850px){.krakenPage:before{inset:100px 0 0}.sidebar:after{display:none}}
+
+/* V31.7.16: Das Dashboard ist ein echter Onepager. Die grossen historischen
+   Karten bleiben als Detail-Ebenen erhalten; im Zentrum sind alle Organe
+   gleichzeitig als kompakte, live aktualisierte Nervenzellen sichtbar. */
+html.krakenOnePager,body.krakenOnePager{height:100%;overflow:hidden!important}
+body.krakenOnePager .appShell{height:100vh;min-height:0;overflow:hidden}
+body.krakenOnePager .mainArea{height:100vh;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding-bottom:6px}
+body.krakenOnePager .topbar{flex:0 0 auto;min-height:56px}
+body.krakenOnePager .appTabs,body.krakenOnePager .mobileNav,body.krakenOnePager footer{display:none!important}
+body.krakenOnePager #livePanel{flex:1;min-height:0;height:auto;display:grid!important;grid-template-rows:42px 62px minmax(0,1fr);gap:6px;overflow:hidden}
+body.krakenOnePager #livePanel>#scannerLiveBar{grid-row:1;margin:0!important;min-height:0!important;height:42px;padding:6px 10px!important}
+body.krakenOnePager #livePanel>#scannerLiveBar .scannerLiveMain small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.krakenOnePager #overview{grid-row:2;margin:0!important;gap:6px!important;grid-template-columns:1.25fr 1fr .8fr .9fr 1fr!important;min-height:0}
+body.krakenOnePager #overview>.kpiCard{grid-column:auto!important;min-height:0!important;height:62px!important;padding:7px 9px!important;border-radius:10px!important}
+body.krakenOnePager #overview .kpiCard strong{font-size:16px!important;margin:3px 0 1px!important}
+body.krakenOnePager #overview .kpiCard span,body.krakenOnePager #overview .kpiCard small{font-size:7px!important}
+body.krakenOnePager #overview .kpiIcon{width:23px!important;height:23px!important;font-size:12px!important}
+body.krakenOnePager #overview .radarPulse{width:27px!important;height:27px!important}
+body.krakenOnePager #dataFlow{grid-row:3;min-height:0;height:auto;margin:0;padding:9px 10px;display:flex;flex-direction:column;overflow:hidden}
+body.krakenOnePager .dataKrakenHead{flex:0 0 auto;margin-bottom:5px;gap:10px;align-items:center}
+body.krakenOnePager .dataKrakenHead h2{margin:1px 0 2px;font-size:14px}
+body.krakenOnePager .dataKrakenHead p{max-width:680px;font-size:7px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.krakenOnePager .dataKrakenHead .sectionEyebrow{font-size:6px}
+body.krakenOnePager .krakenHeadControls{flex-wrap:nowrap}
+body.krakenOnePager #krakenExpandAll{display:none!important}
+body.krakenOnePager .krakenCommandDeck{flex:0 0 auto;grid-template-columns:minmax(240px,1.05fr) minmax(360px,1.7fr) minmax(150px,.65fr);gap:5px;margin:0 0 5px}
+body.krakenOnePager .krakenPriority{padding:5px 7px;gap:6px}
+body.krakenOnePager .krakenPriorityCopy strong{font-size:8px}body.krakenOnePager .krakenPriorityCopy small{font-size:6px}
+body.krakenOnePager .krakenDecisionPipeline{padding:4px 6px}body.krakenOnePager .krakenLearningCell{padding:4px 7px}
+body.krakenOnePager .krakenStage{flex:1;min-height:0;height:auto;padding:0;display:block;position:relative;overflow:hidden}
+body.krakenOnePager .krakenLegend{display:none}
+body.krakenOnePager .krakenFocus{display:none!important}
+body.krakenOnePager .krakenLinks,body.krakenOnePager .krakenNewsFlights,body.krakenOnePager .krakenPlanktonField{display:block}
+body.krakenOnePager .krakenInputs{display:block;position:absolute;inset:0 34% 0 0;width:auto;min-width:0}
+body.krakenOnePager .krakenNode{position:absolute!important;width:172px!important;min-height:48px!important;padding:6px 8px!important;grid-template-columns:27px 1fr 6px!important}
+body.krakenOnePager .krakenNodeIcon{width:27px!important;height:27px!important}
+body.krakenOnePager .krakenNode b{font-size:8px}body.krakenOnePager .krakenNode small{font-size:6.5px;margin-top:1px}
+body.krakenOnePager .krakenCoreWrap{position:absolute;left:29%;top:24%;width:252px;height:218px;margin:0;transform:none}
+body.krakenOnePager .krakenCore{inset:7px 14px 0 0}
+body.krakenOnePager .krakenCore>strong{font-size:22px;margin:5px 0 2px}
+body.krakenOnePager .krakenCoreStats{margin-top:7px}body.krakenOnePager .krakenHoldings{margin-top:5px}
+.krakenOrganDock{position:absolute;right:7px;top:7px;bottom:7px;width:33%;min-width:315px;z-index:9;display:flex;flex-direction:column;padding:7px;border:1px solid #27465d;border-radius:18px 8px 18px 8px;background:linear-gradient(150deg,rgba(8,24,37,.96),rgba(7,18,29,.985));box-shadow:-12px 0 32px rgba(0,0,0,.22),0 0 28px rgba(48,130,178,.08);backdrop-filter:blur(8px)}
+.krakenOrganDockHead{flex:0 0 auto;display:flex;align-items:flex-end;justify-content:space-between;gap:6px;margin:0 2px 6px}.krakenOrganDockHead span{display:block;color:#658da8;font-size:5.5px;font-weight:950;letter-spacing:.12em}.krakenOrganDockHead b{display:block;margin-top:1px;font-size:9px}.krakenOrganDockHead small{color:#8d7fd8;font-size:6px;font-weight:900;white-space:nowrap}
+.krakenOrganTiles{flex:1;min-height:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(9,minmax(0,1fr));gap:4px}.krakenDockEmpty{grid-column:1/-1;display:grid;place-items:center;color:#71889d;font-size:7px}
+.krakenOrganTile{--tile-color:#4a98c6;position:relative;min-width:0;min-height:0;height:auto;padding:4px 25px 4px 7px;display:grid;grid-template-columns:7px minmax(0,1fr);align-items:center;gap:5px;border:1px solid color-mix(in srgb,var(--tile-color) 34%,#20384b);border-radius:10px 5px 10px 5px;background:linear-gradient(135deg,color-mix(in srgb,var(--tile-color) 7%,#0b1b29),#081722);color:#dbe8f2;text-align:left;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.14);transition:transform .17s ease,border-color .17s ease,filter .17s ease}
+.krakenOrganTile:hover,.krakenOrganTile:focus-visible{transform:translateY(-1px);border-color:color-mix(in srgb,var(--tile-color) 72%,#29475d);filter:brightness(1.12);outline:none}.krakenOrganTileNode{width:6px;height:6px;border-radius:2px;background:var(--tile-color);box-shadow:0 0 8px var(--tile-color)}.krakenOrganTile div{min-width:0}.krakenOrganTile span{display:block;color:color-mix(in srgb,var(--tile-color) 75%,#a9bdcb);font-size:4.5px;font-weight:950;letter-spacing:.08em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.krakenOrganTile b{display:block;margin:1px 0;color:#d9e7f1;font-size:7px;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.krakenOrganTile small{display:block;color:#7890a3;font-size:5.5px;line-height:1.05;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.krakenOrganTile em{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:17px;height:17px;display:grid;place-items:center;border:1px solid color-mix(in srgb,var(--tile-color) 48%,#274257);border-radius:50%;background:#091724;color:color-mix(in srgb,var(--tile-color) 82%,#fff);font-size:12px;font-style:normal;line-height:1}
+.krakenOrganTile[data-kraken-family="news"]{--tile-color:#d3a644;border-radius:12px 4px 12px 4px}.krakenOrganTile[data-kraken-family="trade"]{--tile-color:#4fc48f;border-radius:4px 12px 4px 12px}.krakenOrganTile[data-kraken-family="learn"]{--tile-color:#8c7bd8;border-radius:12px}.krakenOrganTile[data-kraken-family="risk"]{--tile-color:#d06c78;border-radius:4px 10px 4px 10px}.krakenOrganTile[data-importance="hot"],.krakenOrganTile[data-importance="urgent"]{border-color:var(--tile-color);box-shadow:0 0 13px color-mix(in srgb,var(--tile-color) 18%,transparent)}.krakenOrganTile[data-importance="urgent"]{animation:tileUrgent 1.8s ease-in-out infinite}.krakenOrganTile.organProcessing{animation:tileReceive .8s ease-out}
+@keyframes tileReceive{50%{filter:brightness(1.55);transform:scale(1.025)}}@keyframes tileUrgent{50%{filter:brightness(1.18)}}
+body.krakenOnePager #livePanel>.dashboardGrid{position:fixed!important;inset:0!important;z-index:200!important;width:100%!important;height:100%!important;display:block!important;visibility:hidden!important;pointer-events:none!important}
+body.krakenOnePager #livePanel>.dashboardGrid>.krakenOrgan:not(.organFocused){display:none!important}
+body.krakenOnePager #livePanel>.dashboardGrid>.krakenOrgan.organFocused{position:fixed!important;inset:70px 24px 22px 212px!important;z-index:202!important;display:block!important;visibility:visible!important;pointer-events:auto!important;width:auto!important;max-width:none!important;height:auto!important;min-height:0!important;max-height:none!important;grid-column:auto!important;overflow:auto!important;transform:none!important;border:1px solid var(--organ-color)!important;border-radius:18px!important;background:#091826!important;box-shadow:0 28px 90px rgba(0,0,0,.62),0 0 45px color-mix(in srgb,var(--organ-color) 15%,transparent)!important}
+body.krakenOnePager #livePanel>.dashboardGrid>.krakenOrgan.organFocused .krakenOrganSummary{display:none!important}
+body.krakenOnePager #livePanel>.dashboardGrid>.krakenOrgan.organFocused .krakenOrganToggle{position:sticky;top:0;z-index:5}
+.krakenOrganBackdrop{position:fixed;inset:0;z-index:201;display:block;background:rgba(3,10,17,.76);backdrop-filter:blur(8px)}.krakenOrganBackdrop[hidden]{display:none!important}.krakenOrganBackdrop>div{position:absolute;left:225px;top:25px;display:flex;align-items:baseline;gap:8px}.krakenOrganBackdrop span{color:#6f91aa;font-size:7px;font-weight:950;letter-spacing:.13em}.krakenOrganBackdrop b{font-size:13px}.krakenOrganBackdrop>button{position:absolute;right:25px;top:21px;width:35px;height:35px;padding:0;border:1px solid #45627a;border-radius:50%;background:#0b1b29;color:#e8f2f9;font-size:24px;line-height:1}.krakenOrganBackdrop>button:hover{background:#173047;color:#fff}
+body.krakenOnePager.krakenOrganDetailOpen .sidebar{filter:brightness(.55)}
+
+@media(max-width:1080px) and (min-width:761px){body.krakenOnePager #livePanel>.dashboardGrid>.krakenOrgan.organFocused{left:94px!important}.krakenOrganBackdrop>div{left:108px}.krakenOrganDock{width:35%;min-width:285px}body.krakenOnePager .krakenCoreWrap{left:25%;transform:scale(.9);transform-origin:center}}
+@media(max-height:760px) and (min-width:761px){body.krakenOnePager #livePanel{grid-template-rows:36px 52px minmax(0,1fr)}body.krakenOnePager #livePanel>#scannerLiveBar{height:36px;padding:3px 8px!important}body.krakenOnePager #overview>.kpiCard{height:52px!important;padding:5px 7px!important}body.krakenOnePager #overview .kpiCard small{display:none}body.krakenOnePager .dataKrakenHead p{display:none}body.krakenOnePager .krakenCoreWrap{top:18%;transform:scale(.82);transform-origin:center}.krakenOrganTile small{display:none}}
+
+@media(max-width:760px){
+ html.krakenOnePager,body.krakenOnePager{overflow:hidden!important}
+ body.krakenOnePager .mainArea{padding:0 5px 4px!important}
+ body.krakenOnePager .topbar{flex:0 0 auto;min-height:0;padding:4px 0}
+ body.krakenOnePager #livePanel{grid-template-rows:34px 48px minmax(0,1fr);gap:4px}
+ body.krakenOnePager #livePanel>#scannerLiveBar{height:34px!important;display:flex!important;align-items:center!important;gap:6px!important;padding:4px 6px!important;margin:0!important}
+ body.krakenOnePager #livePanel>#scannerLiveBar .scannerLiveBadge{font-size:6px!important}body.krakenOnePager #livePanel>#scannerLiveBar .scannerLiveMain{display:block!important;min-width:0}body.krakenOnePager #livePanel>#scannerLiveBar .scannerLiveMain b{font-size:8px!important;white-space:nowrap!important}body.krakenOnePager #livePanel>#scannerLiveBar .scannerLiveMain small,body.krakenOnePager #livePanel>#scannerLiveBar .scannerLiveSpeed{display:none!important}
+ body.krakenOnePager #overview{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:3px!important}
+ body.krakenOnePager #overview>.kpiCard{grid-column:auto!important;height:48px!important;min-height:0!important;padding:5px!important;border-radius:7px!important}
+ body.krakenOnePager #overview .kpiCard:before,body.krakenOnePager #overview .kpiCard small,body.krakenOnePager #overview .kpiIcon,body.krakenOnePager #overview .radarPulse{display:none!important}
+ body.krakenOnePager #overview .kpiCard span{font-size:5.5px!important}body.krakenOnePager #overview .kpiCard strong{font-size:10px!important;margin:3px 0 0!important}
+ body.krakenOnePager #dataFlow{padding:5px}
+ body.krakenOnePager .dataKrakenHead{display:flex;gap:4px;margin-bottom:3px}body.krakenOnePager .dataKrakenHead p{display:none}body.krakenOnePager .dataKrakenHead h2{font-size:10px}body.krakenOnePager .dataKrakenHead .sectionEyebrow{font-size:5px}
+ body.krakenOnePager .krakenHeadControls{margin-left:auto}body.krakenOnePager .krakenHeadControls button,body.krakenOnePager #krakenFreshness{display:none!important}body.krakenOnePager .krakenOrganCount{font-size:5.5px;padding:4px 5px}
+ body.krakenOnePager .krakenCommandDeck{display:block;margin-bottom:3px}body.krakenOnePager .krakenDecisionPipeline,body.krakenOnePager .krakenLearningCell{display:none!important}body.krakenOnePager .krakenPriority{min-height:30px;padding:3px 5px}body.krakenOnePager .krakenPriorityFlag,body.krakenOnePager .krakenPriorityCopy small{display:none}body.krakenOnePager .krakenPriorityCopy strong{font-size:7px}
+ body.krakenOnePager .krakenStage{display:block!important;padding:0!important}
+ body.krakenOnePager .krakenInputs,body.krakenOnePager .krakenLinks,body.krakenOnePager .krakenNewsFlights{display:none!important}
+ body.krakenOnePager .krakenPlanktonField{display:block!important;opacity:.4}
+ body.krakenOnePager .krakenCoreWrap{position:absolute;left:50%;top:-30px;width:250px;height:215px;margin:0;transform:translateX(-50%) scale(.62);transform-origin:top center}
+ .krakenOrganDock{left:2px;right:2px;top:137px;bottom:2px;width:auto;min-width:0;padding:4px;border-radius:12px}
+ .krakenOrganDockHead{margin:0 2px 3px}.krakenOrganDockHead span{display:none}.krakenOrganDockHead b{font-size:7px}.krakenOrganDockHead small{font-size:5.5px}
+ .krakenOrganTiles{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(6,minmax(0,1fr));gap:3px}
+ .krakenOrganTile{padding:3px 19px 3px 5px;grid-template-columns:5px minmax(0,1fr);gap:3px;border-radius:7px!important}.krakenOrganTileNode{width:4px;height:4px}.krakenOrganTile span,.krakenOrganTile small{display:none}.krakenOrganTile b{font-size:5.8px;line-height:1.05}.krakenOrganTile em{right:3px;width:13px;height:13px;font-size:9px}
+ body.krakenOnePager #livePanel>.dashboardGrid>.krakenOrgan.organFocused{inset:62px 6px 6px 6px!important;padding:9px!important;border-radius:12px!important}
+ .krakenOrganBackdrop>div{left:10px;top:18px}.krakenOrganBackdrop>div span{display:none}.krakenOrganBackdrop>div b{font-size:10px}.krakenOrganBackdrop>button{right:9px;top:10px;width:34px;height:34px}
+}
+@media(prefers-reduced-motion:reduce){.krakenOrganTile,.krakenOrganTile.organProcessing,.krakenOrganTile[data-importance="urgent"]{animation:none!important;transition:none!important}}

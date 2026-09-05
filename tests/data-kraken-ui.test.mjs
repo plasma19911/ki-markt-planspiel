@@ -14,6 +14,10 @@ assert.match(index,/id="krakenPlanktonField"/,'news plankton field must be prese
 assert.match(index,/id="krakenCompactAll"/,'the user must be able to collapse all organs into an overview');
 assert.match(index,/id="krakenExpandAll"/,'the user must be able to open every organ');
 assert.match(index,/id="krakenOrganCount"/,'the complete overview must show its connected organ count');
+assert.match(index,/class="krakenOnePager"/,'the Kraken must be the default viewport-sized onepager');
+assert.match(index,/id="krakenOrganDock"/,'all organs must have a simultaneous onepage dock');
+assert.match(index,/id="krakenOrganTiles"/,'the onepage dock must expose live organ tiles');
+assert.match(index,/id="krakenOrganBackdrop"/,'large organ details must open above the onepager');
 assert.match(index,/data-kraken-source="pc"/,'PC scanner must be shown as an input');
 assert.match(index,/data-kraken-source="news"/,'news must be shown as an input');
 assert.match(index,/data-kraken-ui\.js/,'living UI module must be loaded');
@@ -44,6 +48,10 @@ assert.match(ui,/MutationObserver/,'later UI modules must be discovered automati
 assert.match(ui,/krakenScannerNerve/,'the scanner status must be inside the connected overview');
 assert.match(ui,/KPI_SENSES/,'depot KPIs must be represented as live sensory cells');
 assert.match(ui,/EXPANDED_ORGAN_COLUMNS/,'dynamic organs must regain useful widths when opened');
+assert.match(ui,/function renderOrganDock/,'all organs must render into the simultaneous onepage overview');
+assert.match(ui,/function openOrganDetail/,'an organ tile must open its full detail without leaving the overview');
+assert.match(ui,/function closeOrganDetail/,'organ details must return directly to the onepage center');
+assert.match(ui,/event\.key==='Escape'/,'Escape must close an open organ detail');
 assert.match(ui,/drawPageLinks/,'the dashboard organs must be connected visually');
 assert.match(ui,/normalizedScore\(b\)-normalizedScore\(a\)/,'focus stocks must be sorted strongest first');
 assert.match(ui,/normalizedScore\(candidate\)>=50/,'weak candidates must not be pulled into the foreground');
@@ -59,10 +67,13 @@ assert.match(css,/\.krakenOrganToggle/,'organ expand controls must be styled con
 assert.match(css,/prefers-reduced-motion/,'all living UI motion must respect reduced-motion preferences');
 assert.match(css,/\.krakenOrgan/,'dashboard cards must be styled as connected organs');
 assert.match(css,/#newsLearning[^}]*\.krakenOrgan\{display:block!important\}/,'legacy rescue CSS must not hide the connected news-learning organ');
+assert.match(css,/html\.krakenOnePager,body\.krakenOnePager\{height:100%;overflow:hidden!important\}/,'the main Kraken onepager must not create page scrolling');
+assert.match(css,/\.krakenOrganTiles\{[^}]*grid-template-columns:repeat\(2/,'all desktop organ tiles must be visible in a compact matrix');
+assert.match(css,/\.krakenOrgan\.organFocused\{position:fixed!important/,'opened organs must use a viewport detail layer');
 assert.match(css,/@keyframes pageTentacleFlow/,'page-wide data arms must flow');
 assert.match(css,/\.krakenStage\.is-stale/,'stale status must slow or stop activity');
 assert.match(css,/@container \(max-width:620px\)/,'visualization must remain usable on mobile');
-assert.match(changelog,/05\.09\.2026 · 23:59/,'newest UI change must be documented first');
+assert.match(changelog,/06\.09\.2026 · 00:32/,'newest UI change must be documented first');
 assert.match(changelog,/keine zusätzlichen Cloudflare-Statusaufrufe/,'load behavior must be documented');
 
 console.log('data-kraken-ui tests passed');

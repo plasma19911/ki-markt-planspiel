@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="de" class="krakenOnePager">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -12,9 +12,9 @@
   <link rel="stylesheet" href="/changelog-ui.css?v=20260820-0946">
   <link rel="stylesheet" href="/mobile-ui-v3.css?v=20260819-1257">
   <link rel="stylesheet" href="/mobile-ui-v5.css?v=20260819-1546">
-  <link rel="stylesheet" href="/data-kraken.css?v=20260905-07">
+  <link rel="stylesheet" href="/data-kraken.css?v=20260906-10">
 </head>
-<body>
+<body class="krakenOnePager">
 <div class="appShell">
   <aside class="sidebar">
     <div class="brand"><img src="/icon.svg" alt="" class="brandIcon"><div><b>KI-Markt</b><span>Planspiel</span></div></div>
@@ -67,8 +67,8 @@
 
       <section id="dataFlow" class="card dataKraken" aria-labelledby="dataKrakenTitle">
         <div class="dataKrakenHead">
-          <div><span class="sectionEyebrow">LIVE-DATENFLUSS</span><h2 id="dataKrakenTitle">So denkt das Markt-System</h2><p>Das Depot ist der Mittelpunkt. Daten werden gesammelt, geprüft und priorisiert; die übrigen Bereiche arbeiten als aufklappbare Organe um dieses Zentrum.</p></div>
-          <div class="krakenHeadControls"><span id="krakenOrganCount" class="krakenOrganCount">0 Organe · 0 Sinne</span><span id="krakenFreshness" class="tag">wartet auf Status …</span><button id="krakenCompactAll" type="button" title="Alle Organe als kompakte Übersicht zeigen">Übersicht</button><button id="krakenExpandAll" type="button" title="Alle Organe vollständig öffnen">Alles öffnen</button></div>
+          <div><span class="sectionEyebrow">LIVE-DATENFLUSS · ONEPAGER</span><h2 id="dataKrakenTitle">Kraken-Zentrum · so denkt das Markt-System</h2><p>Depot, Datenquellen und alle Organe bleiben gleichzeitig im Blick. Details öffnen sich über das Plus, ohne die Übersicht zu verlassen.</p></div>
+          <div class="krakenHeadControls"><span id="krakenOrganCount" class="krakenOrganCount">0 Organe · 0 Sinne</span><span id="krakenFreshness" class="tag">wartet auf Status …</span><button id="krakenCompactAll" type="button" title="Zur vollständigen Kraken-Übersicht zurückkehren">Zentrum</button><button id="krakenExpandAll" type="button" title="Nur im klassischen Layout alle Organe öffnen">Alles öffnen</button></div>
         </div>
         <div class="krakenCommandDeck" aria-label="Aktuelle Verarbeitung und Priorität">
           <article id="krakenPriority" class="krakenPriority" data-level="idle">
@@ -123,6 +123,11 @@
             <div class="krakenFocusHead"><div><span>ERGEBNIS</span><b>Aktien rücken nach vorn</b></div><small>stärkste zuerst</small></div>
             <div id="krakenFocusList" class="krakenFocusList"><div class="krakenEmpty">Noch keine Kandidaten.</div></div>
             <a class="krakenAllLink" href="#signals">Alle Kandidaten und Begründungen ansehen →</a>
+          </aside>
+
+          <aside id="krakenOrganDock" class="krakenOrganDock" aria-label="Alle verbundenen Kraken-Organe">
+            <div class="krakenOrganDockHead"><div><span>GESAMTER ORGANISMUS</span><b>Alle Bereiche auf einen Blick</b></div><small id="krakenDockCount">0 verbunden</small></div>
+            <div id="krakenOrganTiles" class="krakenOrganTiles"><div class="krakenDockEmpty">Organe werden verbunden …</div></div>
           </aside>
         </div>
         <div class="krakenLegend"><span><i class="flowDot input"></i>Daten fließen zur Prüfung</span><span><i class="flowDot plankton"></i>News-Plankton wird gefiltert</span><span><i class="flowDot output"></i>bewertete Aktien</span><span><i class="flowDot hot"></i>hohe aktuelle Relevanz</span><small>Wichtiges wird groß und hell; Wiederholungen und unbestätigte Meldungen bleiben klein.</small></div>
@@ -183,6 +188,10 @@
           <div class="checks"><label><input id="aiEnabled" type="checkbox" checked> Cloudflare-KI als Entscheidungsstufe</label></div><div id="executionInfo" class="muted"></div><div class="buttons"><button id="startBtn">Neu starten</button><button id="scanBtn" class="secondary">Jetzt scannen</button><button id="stopBtn" class="warn">Stop</button><button id="resetBtn" class="ghost">Reset</button></div><div class="notice"><b>Nur Planspiel.</b> Keine Broker-Verbindung und keine echten Orders.</div><div id="errorBox" class="error"></div>
         </section>
       </main>
+      <div id="krakenOrganBackdrop" class="krakenOrganBackdrop" hidden>
+        <div><span>ORGAN-DETAIL</span><b id="krakenDetailTitle">Bereich</b></div>
+        <button id="krakenDetailClose" type="button" aria-label="Organ schließen" title="Zur Kraken-Übersicht zurück">×</button>
+      </div>
     </div>
 
     <footer>KI-Markt-Planspiel · Paper Trading · Aktien · Ein-Scanner + Cloudflare</footer>
@@ -190,7 +199,7 @@
 </div>
 <script src="/quota-guard.js?v=20260820-2155" type="module"></script>
 <script src="/app.js?v=20260831-0853" type="module"></script>
-<script src="/data-kraken-ui.js?v=20260905-08" type="module"></script>
+<script src="/data-kraken-ui.js?v=20260906-10" type="module"></script>
 <script src="/candidate-simple-ui.js?v=20260820-2155" type="module"></script>
 <script src="/v287-live-ui.js?v=20260820-2155" type="module"></script>
 <script src="/ui-v283-fix.js?v=20260820-2155" type="module"></script>
@@ -208,7 +217,7 @@
 <script src="/changelog-v302.js?v=20260821-1222" type="module"></script>
 <script src="/changelog-v303.js?v=20260821-1250" type="module"></script>
 <script src="/changelog-current-v31.js?v=20260901-1004" type="module"></script>
-<script src="/changelog-current-v31712.js?v=20260905-2359" type="module"></script>
+<script src="/changelog-current-v31712.js?v=20260906-0032" type="module"></script>
 <script src="/changelog-master-v290.js?v=20260821-1250" type="module"></script>
 <script>
 (() => {
