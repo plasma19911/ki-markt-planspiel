@@ -25,6 +25,7 @@ assert.match(ui,/newsCatalystPolicy/,'UI must show the news that actually reache
 assert.match(ui,/decoratePageOrgans/,'the complete dashboard must become part of the data organism');
 assert.match(ui,/drawPageLinks/,'the dashboard organs must be connected visually');
 assert.match(ui,/normalizedScore\(b\)-normalizedScore\(a\)/,'focus stocks must be sorted strongest first');
+assert.match(ui,/normalizedScore\(candidate\)>=50/,'weak candidates must not be pulled into the foreground');
 assert.match(ui,/held\.has/,'held positions must not duplicate the opportunity focus');
 
 assert.match(css,/@keyframes krakenFlow/,'data arms must visibly flow');

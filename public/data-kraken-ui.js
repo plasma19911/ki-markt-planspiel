@@ -126,12 +126,10 @@ function renderSources(status){
   setSource('macro',`${regime} · ${watchCount} Katalysatoren`,watchCount?'ok':'warn');
 
   const learning=status.outcomeLearningPolicy||status.predictiveLearningPolicy||status.outcomeLearning||status.shadowLearningPolicy||status.expectancyCorePolicy||{};
-  const samples=num(learning.samples,
-    num(learning.buySamples,
-      num(learning.maturedSamples,
-        num(learning.latest?.maturedSamples,num(status.statistics?.closedTrades)))));
+  const samples=num(learning.matured,num(learning.samples,num(learning.maturedSamples,num(learning.latest?.maturedSamples,num(status.statistics?.closedTrades)))));
+  const buySamples=num(learning.buySamples);
   const mode=String(learning.mode||learning.learningMode||config.learning_mode||'lernt').replaceAll('_',' ');
-  setSource('learning',`${samples} Samples · ${mode}`,samples?'ok':'warn');
+  setSource('learning',`${samples} Outcomes · ${buySamples} Käufe · ${mode}`,samples?'ok':'warn');
 }
 
 function renderCore(status){
@@ -182,7 +180,7 @@ function renderFocus(status){
     const key=symbolKey(candidate.symbol);
     if(!unique.has(key)||normalizedScore(candidate)>normalizedScore(unique.get(key)))unique.set(key,candidate);
   }
-  const ranked=[...unique.values()].sort((a,b)=>normalizedScore(b)-normalizedScore(a)).slice(0,5);
+  const ranked=[...unique.values()].filter(candidate=>normalizedScore(candidate)>=50).sort((a,b)=>normalizedScore(b)-normalizedScore(a)).slice(0,5);
   const list=$('krakenFocusList');
   const signature=JSON.stringify(ranked.map(candidate=>[candidate.symbol,normalizedScore(candidate),focusReason(candidate,status)]));
   if(signature===latestFocusSignature)return;
@@ -251,7 +249,7 @@ function decoratePageOrgans(){
     const card=document.querySelector(selector);if(!card)continue;
     card.classList.add('krakenOrgan');card.dataset.krakenFamily=family;card.dataset.krakenOrgan=label;
     if(!card.querySelector(':scope > .krakenOrganBadge')){
-      const badge=document.createElement('span');badge.className='krakenOrganBadge';badge.textContent=label;card.prepend(badge);
+      const badge=document.createElement('span');badge.className='krakenOrganBadge';badge.textContent=label;const eyebrow=card.querySelector('.sectionEyebrow');if(eyebrow)eyebrow.insertAdjacentElement('afterend',badge);else card.prepend(badge);
     }
   }
 }
