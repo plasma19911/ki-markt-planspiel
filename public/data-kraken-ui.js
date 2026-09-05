@@ -53,6 +53,18 @@ function scanFresh(status){
 
 function weekendPause(){const day=new Date().getUTCDay();return day===0||day===6}
 
+function renderExpectedWeekendPause(){
+  if(!weekendPause())return;
+  requestAnimationFrame(()=>{
+    const market=$('marketHeaderStatus'),pc=$('pcHeaderStatus'),pill=$('statusPill'),mode=$('marketMode'),bar=$('scannerLiveBar');
+    if(market){market.textContent='Wochenendpause';market.classList.remove('good','bad');market.classList.add('yellow')}
+    if(pc){pc.textContent='Börsenpause';pc.classList.remove('good','bad');pc.classList.add('yellow')}
+    if(pill){pill.textContent='WOCHENENDPAUSE · News bereit';pill.className='pill off'}
+    if(mode)mode.textContent='NEWS-BEREIT';
+    if(bar){bar.classList.remove('bad','ok');bar.classList.add('warn');const title=bar.querySelector('#scannerLiveTitle'),meta=bar.querySelector('#scannerLiveMeta');if(title)title.textContent='PC-Scanner in Wochenendpause';if(meta)meta.textContent='Planmäßig keine Kurs-Scans · startet wieder zum nächsten Börsenfenster.'}
+  });
+}
+
 function agentOnline(status){
   const agent=status?.pcAgent||{};
   const stamp=Date.parse(String(agent.lastSeenAt||agent.last_seen_at||agent.updatedAt||''));
@@ -426,6 +438,7 @@ function render(status){
   renderNewsFlights(status);
   renderPlankton(status);
   updateOrganSummaries(status);
+  renderExpectedWeekendPause();
   updateThought();
   requestAnimationFrame(()=>{drawLinks();drawPageLinks()});
 

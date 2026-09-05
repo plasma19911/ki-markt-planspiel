@@ -26,6 +26,8 @@ for(const phase of ['Sammelt','Prüft','Ordnet','Priorisiert','Wägt','Sortiert'
 }
 assert.match(ui,/scanFresh/,'animation must distinguish fresh from stale data');
 assert.match(ui,/WOCHENENDPAUSE/,'expected weekend downtime must not be shown as an outage');
+assert.match(ui,/marketHeaderStatus/,'the legacy market header must agree with the weekend state');
+assert.match(ui,/scannerLiveTitle/,'the legacy scanner banner must agree with the weekend state');
 assert.match(ui,/newsCatalystPolicy/,'UI must show the news that actually reaches the decision layer');
 assert.match(ui,/function renderCommandDeck/,'the top priority and processing chain must be rendered');
 assert.match(ui,/function renderPlankton/,'news must drive the plankton visualization');
