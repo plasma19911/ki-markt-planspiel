@@ -1,4 +1,5 @@
 const RECENT_CHANGELOG_V31712=[
+  {at:'05.09.2026 · 23:15',title:'Oberfläche · Lebendes Depot-Zentrum und Daten-Krake',items:['Das Depot steht jetzt sichtbar in der Mitte – mit Gesamtwert, P/L, Cash, Positionen und ihren aktuellen Ergebnissen.','PC-Scanner, Live-Kurse, Chart/Volumen, News, Markt/Makro sowie Lernen/Risiko fließen als animierte Datenarme in die gemeinsame Bewertung.','Der Denkstatus wechselt sichtbar zwischen Sammeln, Prüfen, Einordnen, Priorisieren, Abwägen, Sortieren, Verwerten und Entscheiden.','Neue Meldungen fliegen in die Verarbeitung; die stärksten noch nicht gehaltenen Aktien rücken automatisch in den Vordergrund.','Die Darstellung verwendet das bereits geladene Statuspaket und erzeugt deshalb keine zusätzlichen Cloudflare-Statusaufrufe.','Bei einem veralteten oder gestoppten Scanner zeigt die Oberfläche ehrlich Ruhezustand; Handelsregeln und Schwellen wurden nicht verändert.']},
   {at:'03.09.2026 · 18:09',title:'V31.7.12 · Produktionsprüfungen an die aktuelle Architektur angepasst',items:['Dashboard-, Free-Tier- und Produktionsprüfungen prüfen jetzt die aktuelle V31.7.12-Architektur statt veralteter Dateinamen und UI-Texte.','Klickbare Aktiencharts, verlinkte News, index-v21 sowie die Delegation an die Gap-Fill-Schicht werden explizit geprüft.','Keine Kauf-/Verkaufsschwelle wurde dadurch verändert.']},
   {at:'03.09.2026 · 17:59',title:'V31.7.12 · Aktiencharts und News wirklich anklickbar',items:['Scanner-Kandidaten, Depotwerte, Katalysator- und News-Aktien öffnen einen universellen Live-Chart – auch ohne bisherigen Paper-Trade.','Charts unterstützen 1 Tag, 5 Tage und 1 Monat; nur die reine Trade-Ansicht braucht einen vorhandenen Trade.','News-Überschriften sind echte Links; ohne direkten Artikel wird auf Quellenlink oder exakte Google-News-Suche zurückgefallen.','Persistenter Outcome-Lernstatus wird nach Worker-Neustarts wieder sichtbar.','Die Kaufzone bleibt bei 60/100 mit unabhängiger Bestätigung.']},
   {at:'03.09.2026 · 13:06',title:'V31.7.11 · Paper-Depot bleibt bei Reconnect und erneutem Start erhalten',items:['Ein erneuter /api/start-Aufruf löscht bei einem laufenden Planspiel keine Positionen, History, P/L oder Snapshots mehr.','Vorhandene aktive oder gestoppte Runs werden wieder aufgenommen, ohne das Paper-Ledger neu anzulegen.','Ein neues Planspiel entsteht weiterhin nur aus einem leeren bzw. explizit zurückgesetzten Zustand.']},
@@ -20,7 +21,7 @@ function patchRecentChangelog(){
   const list=root?.querySelector('.changelogList');
   if(!root||!list)return false;
   const note=root.querySelector('.changelogHead p');
-  if(note)note.textContent='Aktualisiert bis 03.09.2026 · V31.7.12 · neueste zuerst.';
+  if(note)note.textContent='Aktualisiert bis 05.09.2026 · Daten-Krake · neueste zuerst.';
   root.dataset.changelogVersion='V31.7.12';
   if(!list.querySelector('[data-recent-v31712-changelog]')){
     const frag=document.createDocumentFragment();
@@ -53,4 +54,4 @@ changelogButton?.addEventListener('click',()=>{
 });
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ensureRecentChangelog,{once:true});
 else ensureRecentChangelog();
-window.__CHANGELOG_RECENT_V31712__={version:'31.7.12',through:'03.09.2026',entries:RECENT_CHANGELOG_V31712.length};
+window.__CHANGELOG_RECENT_V31712__={version:'31.7.12',through:'05.09.2026',entries:RECENT_CHANGELOG_V31712.length};
