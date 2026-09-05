@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {scoreNewsCatalystV31710,applyNewsCatalystSnapshotV31710,enforceNewsCatalystPlanV31710} from '../src/news-catalyst-v31710.js';
+import {scoreNewsCatalystV31710,applyNewsCatalystSnapshotV31710,enforceNewsCatalystPlanV31710,matchesCompanyNewsV31713} from '../src/news-catalyst-v31710.js';
 
 const now=Date.UTC(2026,8,3,10,30,0),iso=new Date(now-5*60000).toISOString();
 const row=(headline,source='Reuters')=>({headline,publishedAt:iso,source});
@@ -46,6 +46,25 @@ const row=(headline,source='Reuters')=>({headline,publishedAt:iso,source});
   const old=new Date(now-3*60*60000).toISOString(),c={symbol:'OLD',name:'Old News AG',momentum5Pct:.4,momentum20Pct:.5,volumeRatio:1.4};
   const p=scoreNewsCatalystV31710(c,[{headline:'Old News AG raises guidance',publishedAt:old,source:'Reuters'}],now);
   assert.equal(p.eventType,'NONE');assert.equal(p.positiveConfirmed,false);assert.equal(p.newsScore,0);
+}
+
+{
+  // COST.L is Costain, not Costco and not the normal English word "cost".
+  const costain={symbol:'COST.L',name:'Costain Group PLC',momentum5Pct:.3,momentum20Pct:.2,volumeRatio:1.3};
+  assert.equal(matchesCompanyNewsV31713(costain,'A Career Change Could Cost More Than You Think'),false);
+  assert.equal(matchesCompanyNewsV31713(costain,"Apple's first foldable iPhone may cost $2,000"),false);
+  assert.equal(matchesCompanyNewsV31713(costain,'Costain wins major UK infrastructure contract'),true);
+  const good=scoreNewsCatalystV31710(costain,[row('Costain wins major UK infrastructure contract')],now);
+  const merged=applyNewsCatalystSnapshotV31710({candidates:[{...costain,headlines:[{headline:'A Career Change Could Cost More Than You Think'}]}],positions:[]},{symbols:[good]});
+  assert.equal(merged.candidates[0].headlines.some(x=>String(x?.headline||x).includes('Career Change')),false,'old unrelated headlines must be removed');
+  const cleaned=applyNewsCatalystSnapshotV31710({candidates:[{...costain,headlines:[{headline:"Apple's first foldable iPhone may cost $2,000"}]}],positions:[]},{symbols:[{symbol:'COST.L',headline:'',rows:[]}]});
+  assert.equal(cleaned.candidates[0].headlines.length,0,'unrelated cached headlines must also be removed when no new matching story exists');
+}
+
+{
+  const costco={symbol:'COST',name:'Costco Wholesale Corporation'};
+  assert.equal(matchesCompanyNewsV31713(costco,'COST stock rises after earnings'),true,'explicit uppercase US ticker plus stock context remains valid');
+  assert.equal(matchesCompanyNewsV31713(costco,'The cost of food rises again'),false,'ordinary lowercase word is not a ticker match');
 }
 
 console.log('V31.7.10 fresh news catalyst regression OK');

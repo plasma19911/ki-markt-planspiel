@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="/changelog-ui.css?v=20260820-0946">
   <link rel="stylesheet" href="/mobile-ui-v3.css?v=20260819-1257">
   <link rel="stylesheet" href="/mobile-ui-v5.css?v=20260819-1546">
-  <link rel="stylesheet" href="/data-kraken.css?v=20260905-01">
+  <link rel="stylesheet" href="/data-kraken.css?v=20260905-02">
 </head>
 <body>
 <div class="appShell">
@@ -55,7 +55,8 @@
       <a href="#overview">Depot</a><a href="#positions">Positionen</a><a href="#signals">Kandidaten</a><a href="#futureCard">News</a><a href="#replayCard">Replay</a><a href="#setup">Setup</a><button type="button" onclick="document.getElementById('changelogToggle')?.click()">Änderungen</button>
     </div>
 
-    <div id="livePanel" class="tabPanel">
+    <div id="livePanel" class="tabPanel krakenPage">
+      <svg id="krakenPageLinks" class="krakenPageLinks" aria-hidden="true"></svg>
       <section id="overview" class="heroKpis">
         <article class="kpiCard primary"><div><span>Gesamtwert</span><strong id="equity">–</strong><small>Gesamt P/L <b id="pnl">–</b></small></div><div class="kpiIcon">↗</div></article>
         <article class="kpiCard"><div><span>Cash</span><strong id="cash">–</strong><small id="cashShare">Verfügbares Kapital</small></div><div class="kpiIcon blue">◫</div></article>
@@ -168,7 +169,7 @@
 </div>
 <script src="/quota-guard.js?v=20260820-2155" type="module"></script>
 <script src="/app.js?v=20260831-0853" type="module"></script>
-<script src="/data-kraken-ui.js?v=20260905-01" type="module"></script>
+<script src="/data-kraken-ui.js?v=20260905-02" type="module"></script>
 <script src="/candidate-simple-ui.js?v=20260820-2155" type="module"></script>
 <script src="/v287-live-ui.js?v=20260820-2155" type="module"></script>
 <script src="/ui-v283-fix.js?v=20260820-2155" type="module"></script>
@@ -186,7 +187,7 @@
 <script src="/changelog-v302.js?v=20260821-1222" type="module"></script>
 <script src="/changelog-v303.js?v=20260821-1250" type="module"></script>
 <script src="/changelog-current-v31.js?v=20260901-1004" type="module"></script>
-<script src="/changelog-current-v31712.js?v=20260905-2315" type="module"></script>
+<script src="/changelog-current-v31712.js?v=20260905-2327" type="module"></script>
 <script src="/changelog-master-v290.js?v=20260821-1250" type="module"></script>
 <script>
 (() => {

@@ -12,8 +12,8 @@ const HEADERS={'accept':'application/json,application/rss+xml,text/xml,*/*;q=.6'
 const cache=new Map();
 
 export const NEWS_CATALYST_V31710={
-  version:31.710,
-  patch:'31.7.10-fresh-news+market-reaction-confirmation',
+  version:31.713,
+  patch:'31.7.13-strict-company-identity+fresh-news+market-reaction-confirmation',
   paperOnly:true,
   cacheSeconds:90,
   maxLookupsPerScan:2,
@@ -31,12 +31,29 @@ export const NEWS_CATALYST_V31710={
 
 function tokens(v=''){const stop=new Set(['inc','corp','corporation','company','group','holdings','holding','plc','ag','se','sa','nv','ltd','limited','registered','shares','ordinary','class','stock','aktie','aktien']);return normal(v).split(' ').filter(x=>x.length>=3&&!stop.has(x))}
 function companyName(x={}){return clean(x?.name||x?.companyName||x?.tradeRepublicName||base(x))}
-function matchesCompany(x={},headline=''){
+function tickerMentionIsSpecific(x={},headline=''){
+  const symbol=key(x),ticker=base(x),escaped=ticker.replace(/[-/\\^$*+?.()|[\]{}]/g,'\\$&');
+  if(!ticker||ticker.length<2)return false;
+  // Börsenkürzel mit Suffix (z. B. COST.L) sind häufig normale Wörter. Sie
+  // dürfen nie durch ein loses "cost" im Text einer falschen Firma zugeordnet
+  // werden. Zulässig bleiben nur eindeutige Börsen-/Ticker-Schreibweisen.
+  const explicit=new RegExp(`(?:\\$${escaped}\\b|\\((?:NASDAQ|NYSE|LSE|XETRA|EPA|AMS|STO|OSL)?\\s*:?\\s*${escaped}\\)|(?:NASDAQ|NYSE|LSE|XETRA|EPA|AMS|STO|OSL)\\s*:\\s*${escaped}\\b)`,'i');
+  if(explicit.test(headline))return true;
+  if(symbol.includes('.'))return false;
+  // Bei kurzen US-Tickern verlangen wir zusätzlich den Aktienkontext und die
+  // originale Großschreibung. Längere Ticker bleiben als Großwort eindeutig.
+  if(ticker.length<=4){
+    const contextual=new RegExp(`\\b${escaped}\\b\\s+(?:stock|stocks|shares|earnings|guidance)\\b`);
+    return contextual.test(headline);
+  }
+  return new RegExp(`\\b${escaped}\\b`).test(headline);
+}
+export function matchesCompanyNewsV31713(x={},headline=''){
   const h=` ${normal(headline)} `,words=tokens(companyName(x)),ticker=base(x).toLowerCase().replace(/[^a-z0-9]/g,'');
   if(!h.trim())return false;
   if(words.length>=2&&h.includes(` ${words[0]} ${words[1]} `))return true;
   if(words[0]?.length>=5&&h.includes(` ${words[0]} `))return true;
-  return ticker.length>=4&&new RegExp(`(^|\\s)${ticker}(\\s|$)`,'i').test(h);
+  return ticker.length>=2&&tickerMentionIsSpecific(x,String(headline||''));
 }
 function publishedIso(raw){const n=Number(raw);if(Number.isFinite(n)&&n>1e9)return new Date(n*(n<1e12?1000:1)).toISOString();const t=Date.parse(String(raw||''));return Number.isFinite(t)?new Date(t).toISOString():null}
 function ageMinutes(row,now=Date.now()){const t=Date.parse(String(row?.publishedAt||''));return Number.isFinite(t)?Math.max(0,(now-t)/60000):Infinity}
@@ -46,14 +63,14 @@ function uniqRows(rows=[]){const seen=new Set(),out=[];for(const r of arr(rows).
 async function yahooRows(target){
   const q=new URL('https://query2.finance.yahoo.com/v1/finance/search');q.searchParams.set('q',`${companyName(target)} ${base(target)}`);q.searchParams.set('quotesCount','0');q.searchParams.set('newsCount','10');q.searchParams.set('enableFuzzyQuery','false');
   const r=await fetch(q,{headers:HEADERS,redirect:'follow'});if(!r.ok)throw new Error(`Yahoo HTTP ${r.status}`);const j=await r.json(),rows=[];
-  for(const x of arr(j?.news)){const headline=clean(x?.title),publishedAt=publishedIso(x?.providerPublishTime||x?.publishedAt),source=clean(x?.publisher||x?.provider?.displayName||'Yahoo Finance');if(headline&&publishedAt&&matchesCompany(target,headline))rows.push({headline,publishedAt,source,url:clean(x?.link||x?.url),origin:'YAHOO'})}
+  for(const x of arr(j?.news)){const headline=clean(x?.title),publishedAt=publishedIso(x?.providerPublishTime||x?.publishedAt),source=clean(x?.publisher||x?.provider?.displayName||'Yahoo Finance');if(headline&&publishedAt&&matchesCompanyNewsV31713(target,headline))rows.push({headline,publishedAt,source,url:clean(x?.link||x?.url),origin:'YAHOO'})}
   return rows;
 }
 function decodeXml(v){return clean(v).replace(/<!\[CDATA\[|\]\]>/g,'').replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/<[^>]+>/g,' ').trim()}
 async function googleRows(target){
   const q=new URL('https://news.google.com/rss/search');q.searchParams.set('q',`"${companyName(target).replace(/"/g,'')}" stock OR shares when:2h`);q.searchParams.set('hl','en-US');q.searchParams.set('gl','US');q.searchParams.set('ceid','US:en');
   const r=await fetch(q,{headers:HEADERS,redirect:'follow'});if(!r.ok)throw new Error(`Google News HTTP ${r.status}`);const xml=await r.text(),rows=[];
-  for(const m of xml.matchAll(/<item\b[^>]*>([\s\S]*?)<\/item>/gi)){const b=m[1],headline=decodeXml(b.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]),pub=decodeXml(b.match(/<pubDate[^>]*>([\s\S]*?)<\/pubDate>/i)?.[1]),src=decodeXml(b.match(/<source[^>]*>([\s\S]*?)<\/source>/i)?.[1])||'Google News',publishedAt=publishedIso(pub);if(headline&&publishedAt&&matchesCompany(target,headline))rows.push({headline,publishedAt,source:src,url:null,origin:'GOOGLE'})}
+  for(const m of xml.matchAll(/<item\b[^>]*>([\s\S]*?)<\/item>/gi)){const b=m[1],headline=decodeXml(b.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]),pub=decodeXml(b.match(/<pubDate[^>]*>([\s\S]*?)<\/pubDate>/i)?.[1]),src=decodeXml(b.match(/<source[^>]*>([\s\S]*?)<\/source>/i)?.[1])||'Google News',publishedAt=publishedIso(pub);if(headline&&publishedAt&&matchesCompanyNewsV31713(target,headline))rows.push({headline,publishedAt,source:src,url:null,origin:'GOOGLE'})}
   return rows.slice(0,10);
 }
 async function fetchTarget(target){const started=Date.now();let rows=[],errors=[];try{rows=await yahooRows(target)}catch(e){errors.push(String(e?.message||e))}if(rows.length<2){try{rows.push(...await googleRows(target))}catch(e){errors.push(String(e?.message||e))}}return{at:Date.now(),rows:uniqRows(rows),latencyMs:Date.now()-started,error:errors.join(' · ').slice(0,200)}}
@@ -80,8 +97,8 @@ export async function refreshNewsCatalystsV31710(state={},now=Date.now()){
   const symbols=targets.map(t=>{const c=cache.get(key(t))||{at:0,rows:[],latencyMs:0,error:null};return{...scoreNewsCatalystV31710(t,c.rows,now),fetchedAt:c.at?new Date(c.at).toISOString():null,latencyMs:c.latencyMs||0,error:c.error||null}});
   return{enabled:true,...NEWS_CATALYST_V31710,updatedAt:new Date(now).toISOString(),targets:targets.length,lookups:expired.length,symbols};
 }
-function mergeHeadlines(old=[],profile={}){const news=arr(profile.rows).map(r=>({headline:r.headline,title:r.headline,publishedAt:r.publishedAt,source:r.source,url:r.url||null,impactType:r.impact?.type,impact:r.impact?.impact,direction:r.impact?.direction,freshNewsCatalystV31710:true}));const seen=new Set(),out=[];for(const r of [...news,...arr(old)]){const h=normal(typeof r==='string'?r:r?.headline||r?.title);if(!h||seen.has(h))continue;seen.add(h);out.push(r)}return out.slice(0,12)}
-function enrichRow(row={},profile=null){if(!profile||!profile.headline)return row;const existing=clamp(row?.newsScore??row?.news_score??0,-1,1),shouldApplyPositive=profile.positiveConfirmed,shouldApplyNegative=profile.negative,score=shouldApplyPositive?Math.max(existing,profile.newsScore):shouldApplyNegative?Math.min(existing,profile.newsScore):existing,sources=[...new Set([...arr(row?.newsSources??row?.news_sources),...profile.sources])].slice(0,8);return{...row,newsScore:+score.toFixed(3),news_score:+score.toFixed(3),newsConfidence:Math.max(num(row?.newsConfidence??row?.news_confidence),profile.confidence),news_confidence:Math.max(num(row?.newsConfidence??row?.news_confidence),profile.confidence),newsSources:sources,news_sources:sources,headlines:mergeHeadlines(row?.headlines,profile),newsCatalystV31710:profile,eventRisk:profile.criticalNegative?'HIGH':row?.eventRisk??row?.event_risk,event_risk:profile.criticalNegative?'HIGH':row?.event_risk??row?.eventRisk}}
+function mergeHeadlines(target={},old=[],profile={}){const news=arr(profile.rows).map(r=>({headline:r.headline,title:r.headline,publishedAt:r.publishedAt,source:r.source,url:r.url||null,impactType:r.impact?.type,impact:r.impact?.impact,direction:r.impact?.direction,freshNewsCatalystV31710:true})),safeOld=arr(old).filter(r=>matchesCompanyNewsV31713(target,typeof r==='string'?r:r?.headline||r?.title)),seen=new Set(),out=[];for(const r of [...news,...safeOld]){const h=normal(typeof r==='string'?r:r?.headline||r?.title);if(!h||seen.has(h))continue;seen.add(h);out.push(r)}return out.slice(0,12)}
+function enrichRow(row={},profile=null){if(!profile)return row;const headlines=mergeHeadlines(row,row?.headlines,profile);if(!profile.headline)return{...row,headlines};const existing=clamp(row?.newsScore??row?.news_score??0,-1,1),shouldApplyPositive=profile.positiveConfirmed,shouldApplyNegative=profile.negative,score=shouldApplyPositive?Math.max(existing,profile.newsScore):shouldApplyNegative?Math.min(existing,profile.newsScore):existing,sources=[...new Set([...arr(row?.newsSources??row?.news_sources),...profile.sources])].slice(0,8);return{...row,newsScore:+score.toFixed(3),news_score:+score.toFixed(3),newsConfidence:Math.max(num(row?.newsConfidence??row?.news_confidence),profile.confidence),news_confidence:Math.max(num(row?.newsConfidence??row?.news_confidence),profile.confidence),newsSources:sources,news_sources:sources,headlines,newsCatalystV31710:profile,eventRisk:profile.criticalNegative?'HIGH':row?.eventRisk??row?.event_risk,event_risk:profile.criticalNegative?'HIGH':row?.event_risk??row?.eventRisk}}
 export function applyNewsCatalystSnapshotV31710(state={},snapshot={}){const by=new Map(arr(snapshot?.symbols).map(x=>[key(x),x]));state.candidates=arr(state?.candidates).map(x=>enrichRow(x,by.get(key(x))));state.positions=arr(state?.positions).map(x=>enrichRow(x,by.get(key(x))));state.newsCatalystV31710=snapshot;return state}
 
 export function enforceNewsCatalystPlanV31710(plan={},state={}){

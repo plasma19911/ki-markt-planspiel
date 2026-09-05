@@ -27,7 +27,18 @@ const PHASES=[
 let latestStatus=null;
 let phaseIndex=0;
 let latestSignature='';
+let latestFocusSignature='';
+let latestNewsSignature='';
 let resizeTimer=null;
+
+const PAGE_ORGANS=[
+  ['#signals','ENTDECKEN','scan'],['.dashboardChart','ERINNERN','learn'],['#futureCard','VORAUSDENKEN','news'],
+  ['#positions','HALTEN','trade'],['.dashboardAllocation','VERTEILEN','trade'],['#liveStockNews','NEWS-PULS','news'],
+  ['#replayCard','LERNEN','learn'],['.activityCard','HANDELN','trade'],['.dashboardNews','EINORDNEN','news'],
+  ['#analysis','VERSTEHEN','scan'],['.dashboardStats','MESSEN','learn'],['.dashboardHealth','ÜBERWACHEN','risk'],
+  ['#brain','ABWÄGEN','trade'],['.dashboardHistory','ARCHIVIEREN','learn'],['#setup','STEUERN','risk']
+];
+const PHASE_ORGANS={pc:['scan'],quotes:['scan'],charts:['scan'],news:['news'],macro:['news'],learning:['learn'],central:['trade']};
 
 function scanFresh(status){
   const config=status?.config||{};
@@ -66,6 +77,15 @@ function setSource(name,text,state='ok'){
   if(node)node.dataset.state=state;
 }
 
+function ageLabel(value){
+  const stamp=Date.parse(String(value||''));
+  if(!Number.isFinite(stamp))return 'noch kein Abruf';
+  const minutes=Math.max(0,Math.floor((Date.now()-stamp)/60_000));
+  return minutes<1?'gerade aktualisiert':minutes<60?`vor ${minutes} Min.`:`vor ${Math.floor(minutes/60)} Std.`;
+}
+
+function decisionNews(status){return arr(status?.newsCatalystPolicy?.symbols).filter(item=>item?.headline)}
+
 function positionValue(position){
   const invested=num(position?.invested);
   const entry=Math.max(.000001,num(position?.entry_price,1));
@@ -91,12 +111,14 @@ function renderSources(status){
   const confirmedVolume=candidates.filter(c=>num(c.volume_ratio,num(c.volumeRatio))>=1.15).length;
   setSource('charts',`${confirmedVolume} mit Volumen-Bestätigung · ${candidates.length} geprüft`,candidates.length?'ok':'warn');
 
-  const news=arr(status.newsRadar);
+  const news=arr(status.newsRadar),policy=status.newsCatalystPolicy||{},decisionRows=decisionNews(status);
   const freshNews=news.filter(item=>{
     const stamp=Date.parse(String(item.news_at||item.ts||''));
     return Number.isFinite(stamp)&&Date.now()-stamp<6*60*60*1000;
   }).length;
-  setSource('news',`${news.length} Meldungen · ${freshNews} frisch`,news.length?'ok':'warn');
+  const confirmed=decisionRows.filter(item=>item.positiveConfirmed||item.negativeConfirmed).length;
+  const decisionText=decisionRows.length?`${decisionRows.length} geprüft · ${confirmed} kursbestätigt · ${ageLabel(policy.updatedAt)}`:`${news.length} Radar-Meldungen · ${freshNews} frisch`;
+  setSource('news',decisionText,policy.refreshError?'warn':decisionRows.length||news.length?'ok':'warn');
 
   const breadth=status.marketBreadth||status.marketRegime||{};
   const regime=String(breadth.label||breadth.regime||config.market_regime||config.news_tendency_label||'neutral').replaceAll('_',' ');
@@ -138,8 +160,12 @@ function focusLabel(score){
 
 function focusReason(candidate,status){
   const related=arr(status.newsRadar).find(item=>symbolKey(item.symbol)===symbolKey(candidate.symbol));
+  const catalyst=decisionNews(status).find(item=>symbolKey(item.symbol)===symbolKey(candidate.symbol));
   const reasons=[];
-  if(related?.tendency==='BULLISH'||num(candidate.news_score)>0.12)reasons.push('positive News');
+  if(catalyst?.negative)reasons.push('negative News');
+  else if(catalyst?.positiveConfirmed)reasons.push('News + Kurs bestätigt');
+  else if(catalyst?.positive)reasons.push(catalyst.chaseRisk?'News-Sprung überdehnt':'News wartet auf Kurs');
+  else if(related?.tendency==='BULLISH'||num(candidate.news_score)>0.12)reasons.push('positive News');
   if(num(candidate.volume_ratio,num(candidate.volumeRatio))>=1.15)reasons.push('Volumen bestätigt');
   if(num(candidate.m5,num(candidate.momentum5m))>0)reasons.push('5m steigt');
   if(num(candidate.m20,num(candidate.momentum20m))>0)reasons.push('20m steigt');
@@ -158,6 +184,9 @@ function renderFocus(status){
   }
   const ranked=[...unique.values()].sort((a,b)=>normalizedScore(b)-normalizedScore(a)).slice(0,5);
   const list=$('krakenFocusList');
+  const signature=JSON.stringify(ranked.map(candidate=>[candidate.symbol,normalizedScore(candidate),focusReason(candidate,status)]));
+  if(signature===latestFocusSignature)return;
+  latestFocusSignature=signature;
   if(!ranked.length){
     list.innerHTML='<div class="krakenEmpty"><b>Gerade keine neue Aktie im Vordergrund.</b><br>Der Scanner sammelt weiter und zeigt hier nur ausreichend relevante Werte.</div>';
     return;
@@ -174,8 +203,15 @@ function renderFocus(status){
 }
 
 function renderNewsFlights(status){
-  const flights=arr(status.newsRadar).filter(item=>item?.headline).slice(0,3);
-  $('krakenNewsFlights').innerHTML=flights.map(item=>`<span class="newsFlight">${esc(item.symbol)} · ${esc(String(item.headline).slice(0,72))}</span>`).join('');
+  const decisionRows=decisionNews(status).sort((a,b)=>(Boolean(b.positiveConfirmed||b.negativeConfirmed)-Boolean(a.positiveConfirmed||a.negativeConfirmed))||num(b.impact)-num(a.impact));
+  const flights=(decisionRows.length?decisionRows:arr(status.newsRadar).filter(item=>item?.headline)).slice(0,3);
+  const signature=JSON.stringify(flights.map(item=>[item.symbol,item.publishedAt||item.news_at,item.headline,item.positiveConfirmed,item.negativeConfirmed]));
+  if(signature===latestNewsSignature)return;
+  latestNewsSignature=signature;
+  $('krakenNewsFlights').innerHTML=flights.map(item=>{
+    const state=item.negativeConfirmed?'NEGATIV BESTÄTIGT':item.positiveConfirmed?'KURS BESTÄTIGT':item.positive?'WARTET AUF KURS':'';
+    return `<span class="newsFlight">${esc(item.symbol)}${state?` · ${state}`:''} · ${esc(String(item.headline).slice(0,66))}</span>`;
+  }).join('');
 }
 
 function pointOnBox(box,side,stage){
@@ -208,6 +244,37 @@ function drawLinks(){
   svg.innerHTML=inputs.map(path=>`<path d="${path}"></path>`).join('')+outputs.map(item=>`<path class="output${item.hot?' hot':''}" d="${item.path}"></path>`).join('');
 }
 
+function decoratePageOrgans(){
+  const grid=document.querySelector('.dashboardGrid');
+  grid?.classList.add('krakenOrganGrid');
+  for(const [selector,label,family] of PAGE_ORGANS){
+    const card=document.querySelector(selector);if(!card)continue;
+    card.classList.add('krakenOrgan');card.dataset.krakenFamily=family;card.dataset.krakenOrgan=label;
+    if(!card.querySelector(':scope > .krakenOrganBadge')){
+      const badge=document.createElement('span');badge.className='krakenOrganBadge';badge.textContent=label;card.prepend(badge);
+    }
+  }
+}
+
+function drawPageLinks(){
+  const page=$('livePanel'),svg=$('krakenPageLinks'),core=$('krakenCore');
+  if(!page||!svg||!core||getComputedStyle(svg).display==='none')return;
+  const pageBox=page.getBoundingClientRect(),coreBox=core.getBoundingClientRect(),from={x:coreBox.left+coreBox.width/2-pageBox.left,y:coreBox.bottom-pageBox.top};
+  const paths=[...page.querySelectorAll('.krakenOrgan')].map((card,index)=>{
+    const box=card.getBoundingClientRect(),right=index%2===1,to={x:(right?box.right:box.left)-pageBox.left,y:box.top+Math.min(44,box.height/2)-pageBox.top},bend=right?Math.max(from.x+90,to.x-70):Math.min(from.x-90,to.x+70),family=card.dataset.krakenFamily||'scan';
+    return `<path class="${esc(family)}" d="M ${from.x.toFixed(1)} ${from.y.toFixed(1)} C ${bend.toFixed(1)} ${(from.y+70).toFixed(1)}, ${bend.toFixed(1)} ${(to.y-70).toFixed(1)}, ${to.x.toFixed(1)} ${to.y.toFixed(1)}"></path>`;
+  });
+  svg.setAttribute('viewBox',`0 0 ${Math.max(1,pageBox.width)} ${Math.max(1,page.scrollHeight)}`);svg.innerHTML=paths.join('');
+}
+
+function pulsePageOrgans(phase){
+  document.querySelectorAll('.krakenOrgan.organProcessing').forEach(card=>card.classList.remove('organProcessing'));
+  for(const family of PHASE_ORGANS[phase]||[]){
+    const cards=[...document.querySelectorAll(`.krakenOrgan[data-kraken-family="${family}"]`)];
+    const card=cards[phaseIndex%Math.max(1,cards.length)];card?.classList.add('organProcessing');
+  }
+}
+
 function updateThought(){
   if(!latestStatus)return;
   const fresh=scanFresh(latestStatus);
@@ -216,6 +283,7 @@ function updateThought(){
   document.querySelectorAll('.krakenNode.processing').forEach(node=>node.classList.remove('processing'));
   core?.classList.remove('processing');
   if(!fresh){
+    pulsePageOrgans('');
     if(thought)thought.textContent=latestStatus.config?.running?'Ruhezustand · wartet auf frische Scannerdaten …':'Bereit für den nächsten Planspiel-Start …';
     return;
   }
@@ -223,6 +291,7 @@ function updateThought(){
   if(thought)thought.textContent=text;
   if(target==='central')core?.classList.add('processing');
   else document.querySelector(`[data-kraken-source="${target}"]`)?.classList.add('processing');
+  pulsePageOrgans(target);
   phaseIndex=(phaseIndex+1)%PHASES.length;
 }
 
@@ -235,13 +304,14 @@ function render(status){
   freshness.textContent=fresh?'LIVE · verarbeitet':status.config?.running?`PAUSE · Scan vor ${minutes??'–'} Min.`:'BEREIT · gestoppt';
   freshness.className=`tag ${fresh?'fresh':'stale'}`;
   $('krakenStage').classList.toggle('is-stale',!fresh);
+  $('livePanel')?.classList.toggle('krakenDataFresh',fresh);
 
   renderSources(status);
   renderCore(status);
   renderFocus(status);
   renderNewsFlights(status);
   updateThought();
-  requestAnimationFrame(drawLinks);
+  requestAnimationFrame(()=>{drawLinks();drawPageLinks()});
 
   const signature=JSON.stringify([
     status.config?.last_scan,
@@ -260,6 +330,8 @@ function render(status){
 document.addEventListener('planspiel:status',event=>render(event.detail||{}));
 window.addEventListener('resize',()=>{
   clearTimeout(resizeTimer);
-  resizeTimer=setTimeout(drawLinks,120);
+  resizeTimer=setTimeout(()=>{drawLinks();drawPageLinks()},120);
 },{passive:true});
 setInterval(updateThought,1800);
+decoratePageOrgans();
+requestAnimationFrame(drawPageLinks);
