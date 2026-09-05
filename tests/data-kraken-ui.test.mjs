@@ -13,6 +13,7 @@ assert.match(index,/id="krakenDecisionPipeline"/,'the active decision pipeline m
 assert.match(index,/id="krakenPlanktonField"/,'news plankton field must be present');
 assert.match(index,/id="krakenCompactAll"/,'the user must be able to collapse all organs into an overview');
 assert.match(index,/id="krakenExpandAll"/,'the user must be able to open every organ');
+assert.match(index,/id="krakenOrganCount"/,'the complete overview must show its connected organ count');
 assert.match(index,/data-kraken-source="pc"/,'PC scanner must be shown as an input');
 assert.match(index,/data-kraken-source="news"/,'news must be shown as an input');
 assert.match(index,/data-kraken-ui\.js/,'living UI module must be loaded');
@@ -36,6 +37,12 @@ assert.match(ui,/function organSummary/,'collapsed organs must retain a useful l
 assert.match(ui,/localStorage\.setItem\(ORGAN_PREF_KEY/,'the chosen organ layout must persist');
 assert.match(ui,/newsSamples/,'the bounded news outcome-learning sample count must be visible');
 assert.match(ui,/decoratePageOrgans/,'the complete dashboard must become part of the data organism');
+assert.match(ui,/positionTradeChart.*CHART-AUGE/,'the dynamically created trade chart must become an organ');
+assert.match(ui,/newsLearning.*NEWS-GEDÄCHTNIS/,'the dynamically created news learning card must become an organ');
+assert.match(ui,/agmCalendarBottom.*TERMINSINN/,'the dynamically created AGM calendar must become an organ');
+assert.match(ui,/MutationObserver/,'later UI modules must be discovered automatically');
+assert.match(ui,/krakenScannerNerve/,'the scanner status must be inside the connected overview');
+assert.match(ui,/KPI_SENSES/,'depot KPIs must be represented as live sensory cells');
 assert.match(ui,/drawPageLinks/,'the dashboard organs must be connected visually');
 assert.match(ui,/normalizedScore\(b\)-normalizedScore\(a\)/,'focus stocks must be sorted strongest first');
 assert.match(ui,/normalizedScore\(candidate\)>=50/,'weak candidates must not be pulled into the foreground');
@@ -53,7 +60,7 @@ assert.match(css,/\.krakenOrgan/,'dashboard cards must be styled as connected or
 assert.match(css,/@keyframes pageTentacleFlow/,'page-wide data arms must flow');
 assert.match(css,/\.krakenStage\.is-stale/,'stale status must slow or stop activity');
 assert.match(css,/@container \(max-width:620px\)/,'visualization must remain usable on mobile');
-assert.match(changelog,/05\.09\.2026 · 23:15/,'newest UI change must be documented');
+assert.match(changelog,/05\.09\.2026 · 23:59/,'newest UI change must be documented first');
 assert.match(changelog,/keine zusätzlichen Cloudflare-Statusaufrufe/,'load behavior must be documented');
 
 console.log('data-kraken-ui tests passed');

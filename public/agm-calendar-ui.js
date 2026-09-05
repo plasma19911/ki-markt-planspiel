@@ -17,7 +17,7 @@ function ensureUi(){
  const box=document.createElement('section');
  box.id='agmCalendarBottom';box.className='card agmCalendarBottom';
  box.innerHTML='<div class="cardTitle"><div><span class="sectionEyebrow">VORAUSBLICK</span><h2>HV-Kalender</h2></div><span class="tag" id="agmFreshnessTag">Score 0–100 · Stand lädt …</span></div><div class="agmBottomHint">Kommende Hauptversammlungen. Der Score wird einmal täglich aus Zahlen, 1-Jahres-Chart und News neu berechnet und bleibt bis zum nächsten Tageslauf fest.</div><div class="agmBottomRows"><div class="agmEmpty">Kalender lädt …</div></div><div class="agmBottomMeta muted"></div>';
- grid.insertAdjacentElement('afterend',box);
+ grid.appendChild(box);
 }
 function rowHtml(x){
  const score=Math.round(num(x?.score,x?.baseScore??50)),eligible=Boolean(x?.tradeEligible),days=Number.isFinite(Number(x?.daysUntil))?Number(x.daysUntil):null,reasons=arr(x?.reasons?.length?x.reasons:x?.fundamentalReasons).join(' · '),label=x?.label||x?.baseLabel||'',name=String(x?.name||x?.sourceCompanyName||x?.symbol||'').replace(/ Registered Shs.*$/i,'').slice(0,40);
