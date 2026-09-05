@@ -43,6 +43,7 @@ assert.match(ui,/agmCalendarBottom.*TERMINSINN/,'the dynamically created AGM cal
 assert.match(ui,/MutationObserver/,'later UI modules must be discovered automatically');
 assert.match(ui,/krakenScannerNerve/,'the scanner status must be inside the connected overview');
 assert.match(ui,/KPI_SENSES/,'depot KPIs must be represented as live sensory cells');
+assert.match(ui,/EXPANDED_ORGAN_COLUMNS/,'dynamic organs must regain useful widths when opened');
 assert.match(ui,/drawPageLinks/,'the dashboard organs must be connected visually');
 assert.match(ui,/normalizedScore\(b\)-normalizedScore\(a\)/,'focus stocks must be sorted strongest first');
 assert.match(ui,/normalizedScore\(candidate\)>=50/,'weak candidates must not be pulled into the foreground');

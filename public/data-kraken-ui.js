@@ -46,6 +46,10 @@ const PAGE_ORGANS=[
 const KPI_SENSES=[
   ['equity','DEPOT-SINN','trade'],['cash','KAPITAL-SINN','risk'],['positionCount','POSITIONS-SINN','learn'],['dailyRisk','RISIKO-SINN','risk'],['marketMode','MARKT-SINN','scan']
 ];
+const EXPANDED_ORGAN_COLUMNS={
+  'trade-chart':'1 / -1','news-learning':'span 6','agm-calendar':'1 / -1','future-watch':'1 / -1','free-budget':'1 / -1',
+  'order-approval':'1 / -1','performance-diagnostics':'1 / -1','broker-target':'1 / -1','macro-radar':'span 6','exposure-network':'1 / -1'
+};
 const PHASE_ORGANS={pc:['scan'],quotes:['scan'],charts:['scan'],news:['news'],macro:['news'],learning:['learn'],central:['trade']};
 const ORGAN_PREF_KEY='ki-markt-kraken-organs-v1';
 const DEFAULT_OPEN_ORGANS=new Set(['signals','chart','positions','live-news','trade-chart']);
@@ -352,7 +356,7 @@ function organDefinition(card){
 
 function setOrganExpanded(card,expanded,persist=true){
   card.classList.toggle('organCollapsed',!expanded);card.classList.toggle('organExpanded',expanded);
-  if(expanded){if(card.dataset.krakenGridOverride==='1'){card.style.removeProperty('grid-column');delete card.dataset.krakenGridOverride}}
+  if(expanded){const preferred=EXPANDED_ORGAN_COLUMNS[card.dataset.krakenKey];if(preferred){card.style.setProperty('grid-column',preferred,'important');card.dataset.krakenGridOverride='1'}else if(card.dataset.krakenGridOverride==='1'){card.style.removeProperty('grid-column');delete card.dataset.krakenGridOverride}}
   else{card.style.setProperty('grid-column',matchMedia('(max-width:1080px)').matches?'1 / -1':'span 3','important');card.dataset.krakenGridOverride='1'}
   const button=card.querySelector(':scope > .cardTitle .krakenOrganToggle,:scope > .liveNewsHead .krakenOrganToggle');
   if(button){button.textContent=expanded?'−':'+';button.setAttribute('aria-expanded',String(expanded));button.title=expanded?'Bereich verkleinern':'Bereich aufklappen'}
