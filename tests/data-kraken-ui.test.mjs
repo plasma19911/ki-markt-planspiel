@@ -57,6 +57,7 @@ assert.match(css,/\.krakenOrgan\.organCollapsed/,'the complete dashboard must su
 assert.match(css,/\.krakenOrganToggle/,'organ expand controls must be styled consistently');
 assert.match(css,/prefers-reduced-motion/,'all living UI motion must respect reduced-motion preferences');
 assert.match(css,/\.krakenOrgan/,'dashboard cards must be styled as connected organs');
+assert.match(css,/#newsLearning[^}]*\.krakenOrgan\{display:block!important\}/,'legacy rescue CSS must not hide the connected news-learning organ');
 assert.match(css,/@keyframes pageTentacleFlow/,'page-wide data arms must flow');
 assert.match(css,/\.krakenStage\.is-stale/,'stale status must slow or stop activity');
 assert.match(css,/@container \(max-width:620px\)/,'visualization must remain usable on mobile');
