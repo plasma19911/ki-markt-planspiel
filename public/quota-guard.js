@@ -85,12 +85,13 @@ function renderDepotTruth(s){
 }
 
 function renderReplayRuntimeStatus(s){
- const r=s?.dayReplayLearning?.report||{},capture=s?.dayReplayLearning?.capture||{},focus=document.getElementById('replayFocus');if(!focus)return;
+ const replay=s?.dayReplayLearning||{},r=replay.report||{},capture=replay.capture||{},hourly=replay.hourly||{},schedule=replay.schedule||{},focus=document.getElementById('replayFocus');if(!focus)return;
  const processed=num(r.processed),total=num(r.total,capture.symbolCount),analysed=num(r?.summary?.symbolsAnalysed,processed),status=String(r.status||'').toUpperCase();
- if(status==='COMPLETE'){focus.textContent=`Replay heute final abgeschlossen · ${analysed} Aktien analysiert. Die Learnings fließen konservativ in den nächsten Handelstag ein.`;return}
- if(status==='PRELIMINARY_COMPLETE'){focus.textContent=`Heutiger Replay-Zwischenstand fertig · ${analysed} Aktien analysiert. Finaler Neuaufbau nach gettex-Schluss ab 23:05.`;return}
- if(status==='RUNNING'){focus.textContent=`Tages-Replay läuft · ${processed}/${Math.max(total,processed)} Werte verarbeitet. Vorläufige Auswertung, final ab 23:05.`;return}
- if(status==='CAPTURING'){focus.textContent=`Tages-Replay sammelt heute Daten · ${num(capture.symbolCount,total)} Werte im Tages-Capture. Erste Auswertung ab 22:05, final ab 23:05.`;return}
+ const at=hourly.lastRunAt?new Date(hourly.lastRunAt).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}):null,first=schedule.hourlyFirstFromBerlin||'08:30';
+ if(status==='COMPLETE'){focus.textContent=`Stunden-Replay abgeschlossen · ${analysed} Aktien analysiert${at?` · letzter Lauf ${at}`:''}. Learnings fließen in folgende Entscheidungen; der finale Tagesabschluss bleibt aktiv.`;return}
+ if(status==='PRELIMINARY_COMPLETE'){focus.textContent=`Replay-Zwischenstand · ${analysed} Aktien analysiert${at?` · letzter Stundenlauf ${at}`:''}. Finaler Neuaufbau nach gettex-Schluss ab 23:05.`;return}
+ if(status==='RUNNING'){focus.textContent=`Stunden-Replay läuft · ${processed}/${Math.max(total,processed)} Werte verarbeitet. Weitere gereifte Kandidaten folgen stündlich; final ab 23:05.`;return}
+ if(status==='CAPTURING'){focus.textContent=`Replay sammelt ${num(capture.symbolCount,total)} Werte. Ab ${first} werden bei offener Börse und aktivem PC-Agent stündlich mindestens 60 Minuten gereifte Beobachtungen ausgewertet.`;return}
 }
 
 // ---------- History window UI ----------

@@ -26,6 +26,7 @@ assert.equal(extendReplayQueue(report,mature),0,'the hourly queue extension must
 const worker=readFileSync(new URL('../src/index-v20.js',import.meta.url),'utf8');
 const endpoint=readFileSync(new URL('../src/index-core.js',import.meta.url),'utf8');
 const pc=readFileSync(new URL('../public/pc-agent-latest.ps1',import.meta.url),'utf8');
+const quota=readFileSync(new URL('../public/quota-guard.js',import.meta.url),'utf8');
 assert.match(worker,/session\.localMinute>=510&&\(session\.localMinute-510\)%60===0/,'worker cron must trigger at 08:30 and hourly thereafter');
 assert.match(worker,/if\(!agent\?\.online\)return/,'worker cron must require an online PC agent');
 assert.match(worker,/hourlyDayReplay\(10\)/,'worker cron must keep the replay batch bounded');
@@ -33,5 +34,7 @@ assert.match(endpoint,/if\(!session\.open\).*market-closed/s,'agent endpoint mus
 assert.match(endpoint,/if\(!agent\?\.online\).*pc-agent-offline/s,'agent endpoint must reject replay calls from a stale/offline PC agent');
 assert.match(pc,/LastReplaySlot/,'PC agent must suppress duplicate hourly submissions');
 assert.match(pc,/api\/agent\/day-replay/,'PC agent must submit the hourly replay trigger');
+assert.match(quota,/folgende Entscheidungen/,'late replay UI must not restore the obsolete next-trading-day-only text');
+assert.match(quota,/mindestens 60 Minuten gereifte Beobachtungen/,'runtime UI must explain the hourly maturity gate');
 
 console.log('hourly day replay tests passed');
