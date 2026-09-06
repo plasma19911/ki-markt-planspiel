@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-05T08:27:11.154Z",
-  "nextRefreshAfter": "2026-09-06T08:27:11.154Z",
+  "updatedAt": "2026-09-06T08:45:08.422Z",
+  "nextRefreshAfter": "2026-09-07T08:45:08.422Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,10 +14,10 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 13,
+  "rawUpcomingCount": 12,
   "matchedUpcomingCount": 3,
   "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-09-05T07:43:57.786581Z",
+  "universeGeneratedAt": "2026-09-06T07:58:32.927768Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -30,8 +30,8 @@
       "companyKey": "NETAPP",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 86,
-      "fundamentalScore": 86,
+      "baseScore": 97,
+      "fundamentalScore": 97,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -49,7 +49,7 @@
         "revenueCurrentYearEstimate": 7537.01,
         "revenueNextYearEstimate": 7968.88
       },
-      "daysUntil": 4,
+      "daysUntil": 3,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -64,19 +64,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 0,
+          "delta": 11,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": 12,
-      "newsDelta": 0,
+      "newsDelta": 11,
       "fundamentalDelta": 24,
-      "newsGuidance": 0,
+      "newsGuidance": 1,
       "newsHeadlines": [
-        "Micron and Western Digital Shares Skyrocket, What You Need To Know",
-        "Why ASML Holding Stock Bumped 4% Higher Today",
         "NetApp Raised Guidance as Ciena’s Revenue Jumped 37%. Are AI Networks and Storage Finally Converting Into Earnings?",
-        "Dow Jones Futures: Nvidia, Micron, Sandisk Flash Buy Signals; Apple, Inflation Reports Ahead"
+        "Don't Overlook These 2 AI-Driven Tech Stocks After Earnings: CIEN, NTAP",
+        "NTAP Q1 Earnings Beat Estimates on Hybrid, Public Cloud Revenue Growth",
+        "Company News for Sep 4, 2026"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -98,8 +98,8 @@
         "volatility20d": 34.6,
         "volumeTrend": -0.1
       },
-      "scoreEvaluatedAt": "2026-09-05T08:27:11.154Z",
-      "scoreValidUntil": "2026-09-06T08:27:11.154Z"
+      "scoreEvaluatedAt": "2026-09-06T08:45:08.422Z",
+      "scoreValidUntil": "2026-09-07T08:45:08.422Z"
     },
     {
       "date": "2026-09-10",
@@ -130,7 +130,7 @@
         "revenueCurrentYearEstimate": 9543.87,
         "revenueNextYearEstimate": 9787.56
       },
-      "daysUntil": 5,
+      "daysUntil": 4,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -164,20 +164,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 253,
-        "last": 152.4,
-        "changeM1": -6.2,
-        "changeM3": 2.6,
-        "changeM6": 1.1,
-        "sma50": 159.1,
-        "sma200": 143.1,
-        "position52w": 68.7,
-        "drawdownFromHigh": -9.4,
-        "volatility20d": 21.3,
+        "samples": 254,
+        "last": 154,
+        "changeM1": -5.3,
+        "changeM3": 2.5,
+        "changeM6": 3.2,
+        "sma50": 159,
+        "sma200": 143.3,
+        "position52w": 71.9,
+        "drawdownFromHigh": -8.4,
+        "volatility20d": 21.8,
         "volumeTrend": -19.4
       },
-      "scoreEvaluatedAt": "2026-09-05T08:27:11.154Z",
-      "scoreValidUntil": "2026-09-06T08:27:11.154Z"
+      "scoreEvaluatedAt": "2026-09-06T08:45:08.422Z",
+      "scoreValidUntil": "2026-09-07T08:45:08.422Z"
     },
     {
       "date": "2026-09-10",
@@ -189,8 +189,8 @@
       "companyKey": "RYANAIR",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 14,
-      "fundamentalScore": 14,
+      "baseScore": 13,
+      "fundamentalScore": 13,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -208,7 +208,7 @@
         "revenueCurrentYearEstimate": 15925.44,
         "revenueNextYearEstimate": 17205.48
       },
-      "daysUntil": 5,
+      "daysUntil": 4,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -223,19 +223,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 1,
+          "delta": 0,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": -13,
-      "newsDelta": 1,
+      "newsDelta": 0,
       "fundamentalDelta": -24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Is SCHD Still the Best Dividend ETF You Can Buy for Passive Income? Here's What the Data Says.",
-        "Does Pre‑Earnings Optimism Around Twilio (TWLO) Reveal a Turning Point in Its Core Profit Story?",
-        "What Is Trimble (TRMB) Gaining From Its New Training Platform Partnership?",
-        "Autoliv (ALV) Efficiency Story Keeps Fair Value In Focus"
+        "As the Stock Market Flashes a Warning Signal Only Witnessed 2 Times in 155 Years, Warren Buffett Delivers a Blunt Message to Investors.",
+        "Germany moves to strengthen drone and cyber defenses after airport attack",
+        "Guizhou‑Branded Mountain‑Grown Products Shine   at   Harvest‑Festival   Event",
+        "President Donald Trump Claims the U.S. \"Should Have the Lowest Interest Rates Anywhere in the World,\" but Trumpflation and the AI Revolution"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -257,8 +257,8 @@
         "volatility20d": 24.3,
         "volumeTrend": -30.9
       },
-      "scoreEvaluatedAt": "2026-09-05T08:27:11.154Z",
-      "scoreValidUntil": "2026-09-06T08:27:11.154Z"
+      "scoreEvaluatedAt": "2026-09-06T08:45:08.422Z",
+      "scoreValidUntil": "2026-09-07T08:45:08.422Z"
     }
   ],
   "estimateAttemptCount": 3,
