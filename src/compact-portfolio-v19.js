@@ -38,6 +38,10 @@ export class MarketPortfolio extends BasePortfolio{
   if(r&&typeof r==='object')r.tradeDecisionLearning=learning.summary;
   return r;
  }
+ async hourlyDayReplay(batchSize=10){
+  const r=await super.hourlyDayReplay(batchSize);if(r?.skipped)return r;
+  const learning=await updateTradeDecisionLearning(this.ctx?.storage,this._actualState?.()||{},6);if(r&&typeof r==='object')r.tradeDecisionLearning=learning.summary;return r;
+ }
  async status(){
   const sanity=sanitizeFxContaminatedLearning(this.ctx?.storage),s=await super.status(),decisionLearning=getTradeDecisionLearning(this.ctx?.storage);
   s.learningSanity=sanity;s.tradeDecisionLearning=decisionLearning;

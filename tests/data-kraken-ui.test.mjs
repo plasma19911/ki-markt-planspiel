@@ -101,8 +101,11 @@ assert.match(css,/krakenOrganDetailOpen #livePanel>\.dashboardGrid\{z-index:202!
 assert.match(css,/@keyframes pageTentacleFlow/,'page-wide data arms must flow');
 assert.match(css,/\.krakenStage\.is-stale/,'stale status must slow or stop activity');
 assert.match(css,/@container \(max-width:620px\)/,'visualization must remain usable on mobile');
-assert.match(changelog,/06\.09\.2026 · 10:27/,'newest UI change must be documented first');
-assert.match(changelog,/V31\.7\.19/,'the reduced sci-fi data-flow update must be documented');
+assert.match(css,/\.krakenNode b\{font-size:13px!important\}/,'desktop source names must no longer use microscopic type');
+assert.match(css,/\.krakenNewsTraceItem b\{font-size:10px!important\}/,'desktop news text must remain readable');
+assert.match(css,/\.krakenOrganTile \.krakenOrganTileCopy>b\{font-size:15px!important/,'desktop function names must remain readable');
+assert.match(changelog,/06\.09\.2026 · 10:50/,'newest UI change must be documented first');
+assert.match(changelog,/V31\.7\.20/,'readability and hourly replay update must be documented');
 assert.match(changelog,/keine zusätzlichen Cloudflare-Statusaufrufe/,'load behavior must be documented');
 
 console.log('data-kraken-ui tests passed');

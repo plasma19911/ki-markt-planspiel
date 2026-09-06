@@ -15,7 +15,11 @@ const makeStorage=()=>{const m=new Map();return{m,storage:{kv:{get:k=>m.get(k),p
  assert.equal(s.report.status,'PRELIMINARY_COMPLETE');
  assert.equal(s.report.provisional,true);
  assert.equal(s.report.summary.mistakes.MISSED_SAFE_MOVE,1);
- assert.equal(s.capture.symbolCount,18);
+assert.equal(s.capture.symbolCount,18);
+ assert.equal(s.schedule.hourlyWhileMarketOpen,true);
+ assert.equal(s.schedule.hourlyRequiresPcAgentOnline,true);
+ assert.equal(s.schedule.hourlyFirstFromBerlin,'08:30');
+ assert.equal(s.schedule.hourlyMinimumObservationMinutes,60);
 }
 
 // 23:05 Berlin: reset exactly once so the final report is rebuilt from the final capture.
@@ -40,11 +44,13 @@ const makeStorage=()=>{const m=new Map();return{m,storage:{kv:{get:k=>m.get(k),p
 }
 
 const wrapper=read('src/index-v18.js');
+const hourlyWrapper=read('src/index-v20.js');
 const quota=read('public/quota-guard.js');
 const pcImport=read('src/pc-day-replay-import.js');
 assert.match(wrapper,/22\*60\+5/,'Vorlaeufiger Tages-Replay muss ab 22:05 laufen');
 assert.match(wrapper,/23\*60\+5/,'Finaler Tages-Replay muss ab 23:05 laufen');
 assert.match(wrapper,/finalDayReplay\(8\)/,'Finaler Replay muss den Neuaufbaupfad nutzen');
+assert.match(hourlyWrapper,/hourlyDayReplay\(10\)/,'Stuendlicher Replay muss begrenzt durch den Cron angestossen werden');
 assert.match(quota,/positionDisplayValue/,'Depotanzeige braucht eine gemeinsame Bewertungsfunktion');
 assert.match(quota,/zero_quantity/,'Neue ZERO-Tranchen muessen stueckzahlbasiert dargestellt werden koennen');
 assert.match(quota,/renderDepotTruth/,'Positionskarten, Tabelle und Allokation muessen gemeinsam korrigiert werden');

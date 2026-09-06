@@ -49,7 +49,7 @@ export function augmentDayReplayStatus(storage,baseStatus={},ts=Date.now()){
  const now=berlinParts(ts),capture=read(storage,CAPTURE_KEY,null),report=read(storage,REPORT_KEY,null),out={...(baseStatus||{})};
  const captureToday=capture?.date===now.date?capture:null,reportToday=report?.date===now.date?report:null,beforeFinal=now.minute<23*60+5;
  out.capture=captureToday?{date:captureToday.date,symbolCount:num(captureToday.symbolCount,Object.keys(captureToday.symbols||{}).length),updatedAt:captureToday.updatedAt||null}:null;
- out.schedule={preliminaryFromBerlin:'22:05',finalFromBerlin:'23:05',cloudflareFallbackAlways:true,pcReplayOptional:true};
+ out.schedule={hourlyWhileMarketOpen:true,hourlyRequiresPcAgentOnline:true,hourlyFirstFromBerlin:'08:30',hourlyIntervalMinutes:60,hourlyMinimumObservationMinutes:60,preliminaryFromBerlin:'22:05',finalFromBerlin:'23:05',cloudflareFallbackAlways:true,pcReplayOptional:true};
  if(reportToday){
   const summary=reportToday.summary||partialSummary(reportToday),displayStatus=beforeFinal&&reportToday.status==='COMPLETE'?'PRELIMINARY_COMPLETE':reportToday.status,provisional=displayStatus!=='COMPLETE';
   summary.churn=recoveredChurn(reportToday.date,summary.churn||{});

@@ -584,6 +584,8 @@ function renderFutureWatch(s) {
 function renderReplay(s) {
   const raw = s.dayReplayLearning || s.dayReplay || s.replayLearning || {};
   const report = raw.report || raw;
+  const hourly = raw.hourly || {};
+  const schedule = raw.schedule || {};
   const summary = report.summary || raw.summary || {};
   const mistakes = summary.mistakes || {};
   const churn = summary.churn || {};
@@ -598,9 +600,11 @@ function renderReplay(s) {
 
   const done = String(report.status || '').includes('COMPLETE');
   const analysed = num(summary.symbolsAnalysed, num(report.processed));
+  const lastHourly = hourly.lastRunAt ? new Date(hourly.lastRunAt).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}) : null;
+  const first = schedule.hourlyFirstFromBerlin || '08:30';
   setText('replayFocus', done
-    ? `Replay abgeschlossen · ${analysed} Aktien analysiert. Die Learnings fließen konservativ in den nächsten Handelstag ein.`
-    : `Replay sammelt heute Kandidaten und Trades · bisher ${analysed} ausgewertet.`);
+    ? `Stunden-Replay · ${analysed} Aktien ausgewertet${lastHourly?` · letzter Lauf ${lastHourly}`:''}. Learnings fließen in folgende Entscheidungen; der finale Tagesabschluss bleibt aktiv.`
+    : `Replay sammelt und bewertet stündlich ab ${first}, solange Börse und PC-Agent aktiv sind · bisher ${analysed} ausgewertet.`);
 }
 
 function renderActivity(history) {

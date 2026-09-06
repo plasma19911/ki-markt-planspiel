@@ -146,7 +146,12 @@ export default{
     if(u.pathname==='/api/agent/heartbeat')return reply(await p.agentHeartbeat(b));
     if(u.pathname==='/api/agent/prefetch')return reply(await p.agentPrefetch(b));
     if(u.pathname==='/api/agent/scan')return reply(await p.scanFromAgent(b));
-    if(u.pathname==='/api/agent/day-replay')return reply(await p.dailyReplay(Math.max(1,Math.min(10,Number(b?.batchSize)||8))));
+    if(u.pathname==='/api/agent/day-replay'){
+     const session=gettexSessionState(new Date()),agent=await p.agentStatus();
+     if(!session.open)return reply({ok:true,skipped:'market-closed',hourly:true,session:session.phase});
+     if(!agent?.online)return reply({ok:true,skipped:'pc-agent-offline',hourly:true});
+     return reply(await p.hourlyDayReplay(Math.max(1,Math.min(10,Number(b?.batchSize)||10))));
+    }
     if(u.pathname==='/api/agent/replay-learning')return reply(await p.importPcReplay(b));
    }
    if(u.pathname==='/api/order-approval-status'&&request.method==='GET')return reply(await p.orderApprovalStatus());

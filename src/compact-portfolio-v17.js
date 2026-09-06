@@ -15,10 +15,12 @@ export {SECOND_CHANCE_TARGET,SECOND_CHANCE_RETENTION_MS,buildSecondChanceWatch,i
 // Der Rotation-Cost-Guard verhindert kostenintensives Minuten-Hin-und-Her.
 
 const WATCH_KEY='state/second-chance-watch-v1';
+const HOURLY_REPLAY_KEY='state/day-replay-hourly-v1';
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 const key=v=>String(v||'').toUpperCase().trim();
 const baseSymbol=v=>key(v).split('.')[0];
+function hourlyReplaySlot(ts=Date.now()){const p=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Berlin',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',hourCycle:'h23'}).formatToParts(new Date(ts)),o={};for(const x of p)o[x.type]=x.value;return`${o.year}-${o.month}-${o.day}-${o.hour}`}
 
 function masterIndex(rows){
  const exact=new Map(),byBase=new Map();
@@ -66,6 +68,7 @@ export class MarketPortfolio extends BasePortfolio{
   }finally{if(!this._readSecondChance()?.candidateCount)clearSecondChanceRuntime()}
  }
  async dailyReplay(batchSize=8){const state=this.bucketAdapter?.peekState?.()||{};return runDayReplayBatch(this.ctx?.storage,state,this._replayExtras(),Math.max(1,Math.min(10,num(batchSize,8))))}
+ async hourlyDayReplay(batchSize=10){const storage=this.ctx?.storage,slot=hourlyReplaySlot(),previous=storage?.kv?.get(HOURLY_REPLAY_KEY);if(previous?.slot===slot)return{ok:true,skipped:'hour-already-processed',hourly:true,slot,lastRunAt:previous.at||null};const state=this.bucketAdapter?.peekState?.()||{},result=await runDayReplayBatch(storage,state,this._replayExtras(),Math.max(1,Math.min(10,num(batchSize,10))),{matureOnly:true,expandQueue:true});const marker={slot,at:new Date().toISOString(),status:result?.status||null,processed:num(result?.processed),total:num(result?.total)};try{storage?.kv?.put(HOURLY_REPLAY_KEY,marker)}catch{}return{ok:true,...result,hourly:true,slot,matureObservationsOnly:true,minObservationMinutes:60}}
  async importPcReplay(payload={}){return importPcDayReplay(this.ctx?.storage,payload)}
  async status(){
   const s=await super.status(),watch=this._readSecondChance(),isFresh=isSecondChanceWatchFresh(watch),count=isFresh?num(watch?.candidateCount):0;

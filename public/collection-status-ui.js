@@ -14,6 +14,6 @@ function apply(s={}){
  if(newsBody&&news===0)newsBody.innerHTML=`<tr><td colspan="6">${infoBox('News-Radar sammelt weiter.',[`Letzter Scan: ${last}`,`${candidates} Kurskandidaten und ${positions} offene Positionen werden weiter auf neue Firmenmeldungen geprüft.`,`Es werden nur ausreichend relevante/aktuelle Meldungen als Zeile angezeigt.`])}</td></tr>`;
  const replay=document.getElementById('replayFocus');
  const raw=s.dayReplayLearning||s.dayReplay||s.replayLearning||{},report=raw.report||raw,processed=num(report?.processed),total=num(report?.total);
- if(replay&&processed===0&&!String(report?.status||'').includes('COMPLETE'))replay.textContent=`Replay sammelt tagsüber Kandidaten und echte Trades. Auswertung läuft später; aktuell gespeichert/überwacht: Scan #${scanCount}, ${candidates} Kandidaten, ${positions} offene Positionen.`;
+ if(replay&&processed===0&&!String(report?.status||'').includes('COMPLETE'))replay.textContent=`Replay sammelt Kandidaten und echte Trades. Ab 08:30 wertet er bei offener Börse und aktivem PC-Agent stündlich nur mindestens 60 Minuten beobachtete Signale aus; außerhalb dieses Fensters wartet er. Aktuell: Scan #${scanCount}, ${candidates} Kandidaten, ${positions} offene Positionen.`;
 }
 document.addEventListener('planspiel:status',e=>e?.detail&&apply(e.detail));
