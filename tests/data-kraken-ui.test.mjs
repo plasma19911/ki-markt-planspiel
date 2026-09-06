@@ -126,7 +126,8 @@ assert.match(changelogCss,/height:100dvh!important/,'mobile changelog must fill 
 assert.match(changelogCss,/\.changelogList\{[^}]*overflow-y:auto!important/,'mobile changelog must own its scroll region');
 assert.match(changelogCss,/\.changelogEntry li\{[^}]*font-size:14px!important/,'mobile changelog copy must remain readable');
 assert.match(changelogCss,/\.changelogClose\{[^}]*width:44px!important;height:44px!important/,'mobile changelog close control must remain reachable');
-assert.match(changelog,/06\.09\.2026 · 16:12/,'newest decision and responsive UI change must be documented first');
+assert.match(changelog,/06\.09\.2026 · 20:34/,'newest production monitoring correction must be documented first');
+assert.match(changelog,/V31\.7\.23/,'weekend and Trade Republic production validation update must be documented');
 assert.match(changelog,/V31\.7\.22/,'cost-aware readiness and responsive UI update must be documented');
 assert.match(changelog,/V31\.7\.21/,'mobile readability update must be documented');
 assert.match(changelog,/Handy-Prüfung und ein Eintrag ganz oben im Changelog/,'mobile QA and changelog tracking must be a permanent UI rule');

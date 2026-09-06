@@ -82,7 +82,7 @@ jobs:
         run: node scripts/smoke-free-tier-24h.mjs
       - name: Order approval smoke test
         run: node scripts/smoke-order-approval.mjs
-      - name: ZERO fee model smoke test
+      - name: Trade Republic fee model smoke test
         run: node scripts/smoke-zero-fees.mjs
       - name: ZERO stock master universe smoke test
         run: node scripts/smoke-zero-universe.mjs
