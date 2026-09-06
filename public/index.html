@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="/changelog-ui.css?v=20260820-0946">
   <link rel="stylesheet" href="/mobile-ui-v3.css?v=20260819-1257">
   <link rel="stylesheet" href="/mobile-ui-v5.css?v=20260819-1546">
-  <link rel="stylesheet" href="/data-kraken.css?v=20260906-13">
+  <link rel="stylesheet" href="/data-kraken.css?v=20260906-14">
 </head>
 <body class="krakenOnePager">
 <div class="appShell">
@@ -67,7 +67,7 @@
 
       <section id="dataFlow" class="card dataKraken" aria-labelledby="dataKrakenTitle">
         <div class="dataKrakenHead">
-          <div><span class="sectionEyebrow">LIVE-DATENFLUSS · ONEPAGER</span><h2 id="dataKrakenTitle">Kraken-Zentrum · so denkt das Markt-System</h2><p>Quelle → Prüfung → Depot → Organ: Alles bleibt verbunden. Ein Organ öffnet sich direkt im Schaubild; rechts kannst du ohne Umweg weiterwechseln.</p></div>
+          <div><span class="sectionEyebrow">LIVE-DATENFLUSS · ONEPAGER · GESAMTER ORGANISMUS</span><h2 id="dataKrakenTitle">Kraken-Zentrum · so denkt das Markt-System</h2><p>Alle Bereiche auf einen Blick: Quelle → Prüfung → Depot → verbundene Krakenarme. Ein Organ öffnet sich direkt im gemeinsamen Schaubild.</p></div>
           <div class="krakenHeadControls"><span id="krakenOrganCount" class="krakenOrganCount">0 Organe · 0 Sinne</span><span id="krakenFreshness" class="tag">wartet auf Status …</span><button id="krakenCompactAll" type="button" title="Zur vollständigen Kraken-Übersicht zurückkehren">Zentrum</button><button id="krakenExpandAll" type="button" title="Nur im klassischen Layout alle Organe öffnen">Alles öffnen</button></div>
         </div>
         <div class="krakenCommandDeck" aria-label="Aktuelle Verarbeitung und Priorität">
@@ -92,6 +92,7 @@
         </div>
         <div id="krakenStage" class="krakenStage">
           <svg id="krakenLinks" class="krakenLinks" aria-hidden="true"></svg>
+          <svg id="krakenOrganLinks" class="krakenOrganLinks" aria-hidden="true"></svg>
           <div id="krakenNewsFlights" class="krakenNewsFlights" aria-hidden="true"></div>
           <div id="krakenPlanktonField" class="krakenPlanktonField" aria-hidden="true"></div>
 
@@ -126,7 +127,7 @@
           </aside>
 
           <aside id="krakenOrganDock" class="krakenOrganDock" aria-label="Alle verbundenen Kraken-Organe">
-            <div class="krakenOrganDockHead"><div><span>GESAMTER ORGANISMUS</span><b>Alle Bereiche auf einen Blick</b></div><small id="krakenDockCount">0 verbunden</small></div>
+            <div class="krakenOrganDockHead"><div><span>VERBUNDENE KRAKENARME</span><b>Analysieren · Handeln · Lernen · Schützen</b></div><small id="krakenDockCount">0 verbunden</small></div>
             <div id="krakenFlowRail" class="krakenFlowRail" aria-label="Zusammenhang der Verarbeitung">
               <span data-flow-family="scan"><i>1</i><b>Erfassen</b></span>
               <span data-flow-family="news"><i>2</i><b>Einordnen</b></span>
@@ -209,7 +210,7 @@
 </div>
 <script src="/quota-guard.js?v=20260820-2155" type="module"></script>
 <script src="/app.js?v=20260831-0853" type="module"></script>
-<script src="/data-kraken-ui.js?v=20260906-13" type="module"></script>
+<script src="/data-kraken-ui.js?v=20260906-14" type="module"></script>
 <script src="/candidate-simple-ui.js?v=20260820-2155" type="module"></script>
 <script src="/v287-live-ui.js?v=20260820-2155" type="module"></script>
 <script src="/ui-v283-fix.js?v=20260820-2155" type="module"></script>
@@ -227,7 +228,7 @@
 <script src="/changelog-v302.js?v=20260821-1222" type="module"></script>
 <script src="/changelog-v303.js?v=20260821-1250" type="module"></script>
 <script src="/changelog-current-v31.js?v=20260901-1004" type="module"></script>
-<script src="/changelog-current-v31712.js?v=20260906-0108" type="module"></script>
+<script src="/changelog-current-v31712.js?v=20260906-0918" type="module"></script>
 <script src="/changelog-master-v290.js?v=20260821-1250" type="module"></script>
 <script>
 (() => {

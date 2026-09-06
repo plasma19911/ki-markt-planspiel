@@ -9,6 +9,7 @@ const changelog=readFileSync(new URL('../public/changelog-current-v31712.js',imp
 assert.match(index,/id="dataFlow"/,'dashboard must contain the central data-flow section');
 assert.match(index,/id="krakenCore"/,'depot core must be present');
 assert.match(index,/id="krakenPageLinks"/,'the whole dashboard must connect to the central data core');
+assert.match(index,/id="krakenOrganLinks"/,'the organ field must be connected by visible Kraken arms');
 assert.match(index,/id="krakenDecisionPipeline"/,'the active decision pipeline must be visible');
 assert.match(index,/id="krakenPlanktonField"/,'news plankton field must be present');
 assert.match(index,/id="krakenCompactAll"/,'the user must be able to collapse all organs into an overview');
@@ -62,6 +63,8 @@ assert.match(ui,/function concealOnePagerOrgans/,'legacy inline display rules mu
 assert.match(ui,/attributeFilter:\['style'\]/,'late inline chart visibility changes must be observed and corrected');
 assert.match(ui,/event\.key==='Escape'/,'Escape must close an open organ detail');
 assert.match(ui,/drawPageLinks/,'the dashboard organs must be connected visually');
+assert.match(ui,/function drawOrganLinks/,'the depot core must draw a live arm to every organ');
+assert.match(ui,/data-organ-link/,'each organ arm must retain the identity of its endpoint');
 assert.match(ui,/normalizedScore\(b\)-normalizedScore\(a\)/,'focus stocks must be sorted strongest first');
 assert.match(ui,/normalizedScore\(candidate\)>=50/,'weak candidates must not be pulled into the foreground');
 assert.match(ui,/held\.has/,'held positions must not duplicate the opportunity focus');
@@ -83,12 +86,15 @@ assert.match(css,/\.krakenFlowRail/,'the relationship rail must be visible');
 assert.match(css,/@keyframes tileSignalSweep/,'new information must visibly travel through active organ tiles');
 assert.match(css,/\.krakenOrganConnection/,'opened organs must explain live, waiting and protected states');
 assert.match(css,/@keyframes organBloom/,'an opened organ must visibly grow from the Kraken diagram');
+assert.match(css,/\.krakenOrganLinks \.organTrunk/,'the depot must expose main arms toward the organ field');
+assert.match(css,/\.krakenOrganLinks \.organArm/,'each organ must have a colored branch');
+assert.match(css,/@keyframes organArmFlow/,'information must visibly flow along the organ branches');
 assert.match(css,/krakenOrganDetailOpen #livePanel>\.dashboardGrid\{z-index:202!important\}/,'opened organ content must paint above its integrated backdrop');
 assert.match(css,/@keyframes pageTentacleFlow/,'page-wide data arms must flow');
 assert.match(css,/\.krakenStage\.is-stale/,'stale status must slow or stop activity');
 assert.match(css,/@container \(max-width:620px\)/,'visualization must remain usable on mobile');
-assert.match(changelog,/06\.09\.2026 · 01:08/,'newest UI change must be documented first');
-assert.match(changelog,/V31\.7\.17/,'the readable integrated-organ update must be documented');
+assert.match(changelog,/06\.09\.2026 · 09:18/,'newest UI change must be documented first');
+assert.match(changelog,/V31\.7\.18/,'the fully connected Kraken-arm update must be documented');
 assert.match(changelog,/keine zusätzlichen Cloudflare-Statusaufrufe/,'load behavior must be documented');
 
 console.log('data-kraken-ui tests passed');

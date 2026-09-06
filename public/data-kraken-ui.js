@@ -343,6 +343,21 @@ function drawLinks(){
   svg.innerHTML=inputs.map(path=>`<path d="${path}"></path>`).join('')+outputs.map(item=>`<path class="output${item.hot?' hot':''}" d="${item.path}"></path>`).join('');
 }
 
+function drawOrganLinks(){
+  const stage=$('krakenStage'),svg=$('krakenOrganLinks'),core=$('krakenCore'),dock=$('krakenOrganDock'),tiles=[...document.querySelectorAll('.krakenOrganTile')];
+  if(!stage||!svg||!core||!dock||!tiles.length||getComputedStyle(svg).display==='none')return;
+  const stageBox=stage.getBoundingClientRect(),coreBox=core.getBoundingClientRect(),dockBox=dock.getBoundingClientRect(),from=pointOnBox(coreBox,'right',stageBox),dockLeft=dockBox.left-stageBox.left,dockMid=dockLeft+dockBox.width/2,columns=[[],[]];
+  for(const tile of tiles){const box=tile.getBoundingClientRect(),target={x:box.left-stageBox.left-2,y:box.top+box.height/2-stageBox.top},column=box.left+dockBox.width*.12>dockBox.left+dockBox.width/2?1:0;columns[column].push({tile,target,family:tile.dataset.krakenFamily||'scan',key:tile.dataset.organTile||''})}
+  const parts=[];
+  columns.forEach((items,column)=>{
+    if(!items.length)return;const spineX=column?dockMid-5:dockLeft-9,ys=items.map(item=>item.target.y),top=Math.min(...ys),bottom=Math.max(...ys),joinY=from.y+(column?20:-20);
+    parts.push(`<path class="organTrunk" d="M ${from.x.toFixed(1)} ${from.y.toFixed(1)} C ${(from.x+42).toFixed(1)} ${from.y.toFixed(1)}, ${(spineX-38).toFixed(1)} ${joinY.toFixed(1)}, ${spineX.toFixed(1)} ${joinY.toFixed(1)}"></path>`);
+    parts.push(`<path class="organSpine" d="M ${spineX.toFixed(1)} ${top.toFixed(1)} L ${spineX.toFixed(1)} ${bottom.toFixed(1)}"></path>`);
+    for(const item of items){const bend=Math.max(10,(item.target.x-spineX)*.55);parts.push(`<path class="organArm ${esc(item.family)}" data-organ-link="${esc(item.key)}" d="M ${spineX.toFixed(1)} ${item.target.y.toFixed(1)} C ${(spineX+bend).toFixed(1)} ${item.target.y.toFixed(1)}, ${(item.target.x-bend*.35).toFixed(1)} ${item.target.y.toFixed(1)}, ${item.target.x.toFixed(1)} ${item.target.y.toFixed(1)}"></path><circle class="organJoint ${esc(item.family)}" cx="${spineX.toFixed(1)}" cy="${item.target.y.toFixed(1)}" r="2.6"></circle>`)}
+  });
+  svg.setAttribute('viewBox',`0 0 ${Math.max(1,stageBox.width)} ${Math.max(1,stageBox.height)}`);svg.innerHTML=parts.join('');
+}
+
 function slug(value){return String(value||'organ').replace(/([a-z])([A-Z])/g,'$1-$2').replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'').toLowerCase()||'organ'}
 
 function organDefinition(card){
@@ -442,6 +457,7 @@ function renderOrganDock(){
   }
   root.querySelectorAll('.krakenOrganTile').forEach(tile=>{if(!liveKeys.has(tile.dataset.organTile))tile.remove()});
   const count=$('krakenDockCount');if(count)count.textContent=`${cards.length} verbunden`;
+  requestAnimationFrame(drawOrganLinks);
 }
 
 function concealOnePagerOrgans(){
@@ -452,7 +468,7 @@ function concealOnePagerOrgans(){
 function closeOrganDetail(){
   const card=document.querySelector('#livePanel .krakenOrgan.organFocused');
   if(card){card.classList.remove('organFocused');card.removeAttribute('role');card.removeAttribute('aria-modal');setOrganExpanded(card,false,false);for(const property of ['display','left','top','width','height'])card.style.removeProperty(property);card.style.setProperty('display','none','important')}
-  activeOrganKey='';document.querySelectorAll('.krakenOrganTile.organSelected').forEach(tile=>tile.classList.remove('organSelected'));document.body.classList.remove('krakenOrganDetailOpen');const backdrop=$('krakenOrganBackdrop');if(backdrop){backdrop.hidden=true;for(const property of ['left','top','width','height'])backdrop.style.removeProperty(property)}requestAnimationFrame(()=>{drawLinks();drawPageLinks()});
+  activeOrganKey='';document.querySelectorAll('.krakenOrganTile.organSelected').forEach(tile=>tile.classList.remove('organSelected'));document.body.classList.remove('krakenOrganDetailOpen');const backdrop=$('krakenOrganBackdrop');if(backdrop){backdrop.hidden=true;for(const property of ['left','top','width','height'])backdrop.style.removeProperty(property)}requestAnimationFrame(()=>{drawLinks();drawOrganLinks();drawPageLinks()});
 }
 
 function positionOrganDetail(){
@@ -539,12 +555,14 @@ function pulsePageOrgans(phase){
   document.querySelectorAll('.krakenOrgan.organProcessing').forEach(card=>card.classList.remove('organProcessing'));
   document.querySelectorAll('.krakenOrganTile.organProcessing').forEach(tile=>tile.classList.remove('organProcessing'));
   document.querySelectorAll('.krakenPageLinks path.active').forEach(path=>path.classList.remove('active'));
+  document.querySelectorAll('.krakenOrganLinks .active').forEach(path=>path.classList.remove('active'));
   document.querySelectorAll('.krakenFlowRail span.active').forEach(step=>step.classList.remove('active'));
   for(const family of PHASE_ORGANS[phase]||[]){
     const cards=[...document.querySelectorAll(`.krakenOrgan[data-kraken-family="${family}"]`)];
     const card=cards[phaseIndex%Math.max(1,cards.length)];card?.classList.add('organProcessing');
     const tiles=[...document.querySelectorAll(`.krakenOrganTile[data-kraken-family="${family}"]`)];tiles[phaseIndex%Math.max(1,tiles.length)]?.classList.add('organProcessing');
     document.querySelectorAll(`.krakenPageLinks path.${family}`).forEach(path=>path.classList.add('active'));
+    document.querySelectorAll(`.krakenOrganLinks .${family}`).forEach(path=>path.classList.add('active'));
     document.querySelector(`.krakenFlowRail [data-flow-family="${family}"]`)?.classList.add('active');
   }
 }
@@ -590,7 +608,7 @@ function render(status){
   updateOrganSummaries(status);
   renderExpectedWeekendPause();
   updateThought();
-  requestAnimationFrame(()=>{enforceCollapsedLayout();concealOnePagerOrgans();drawLinks();drawPageLinks()});
+  requestAnimationFrame(()=>{enforceCollapsedLayout();concealOnePagerOrgans();drawLinks();drawOrganLinks();drawPageLinks()});
 
   const signature=JSON.stringify([
     status.config?.last_scan,
@@ -619,9 +637,10 @@ $('krakenCompactAll')?.addEventListener('click',()=>{closeOrganDetail();setAllOr
 $('krakenExpandAll')?.addEventListener('click',()=>setAllOrgans(true));
 window.addEventListener('resize',()=>{
   clearTimeout(resizeTimer);
-  resizeTimer=setTimeout(()=>{enforceCollapsedLayout();positionOrganDetail();drawLinks();drawPageLinks()},120);
+  resizeTimer=setTimeout(()=>{enforceCollapsedLayout();positionOrganDetail();drawLinks();drawOrganLinks();drawPageLinks()},120);
 },{passive:true});
 setInterval(updateThought,1800);
 decoratePageOrgans();
 watchDynamicOrgans();
 requestAnimationFrame(drawPageLinks);
+requestAnimationFrame(drawOrganLinks);
