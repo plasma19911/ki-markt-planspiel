@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-06T13:57:43.921Z",
+  "checkedAt": "2026-09-06T14:18:38.874Z",
   "runtimeVersion": "V31.7",
   "liveDecisionVersion": "V31.7",
   "outcomeLearningVersion": "V31.2",
@@ -8,7 +8,7 @@
     "apiStatus": true,
     "agentEndpoint": true,
     "runtimeCurrent": true,
-    "unifiedDecisionAuthority": true,
+    "unifiedDecisionAuthority": false,
     "outcomeLearningV312": true,
     "learningActuallyTracking": true,
     "continuousFeedback": true,
@@ -25,6 +25,7 @@
     "positionCountWithinLimit": true
   },
   "failedChecks": [
+    "unifiedDecisionAuthority",
     "pcAgentFresh"
   ],
   "allRequiredChecksPassed": false,
@@ -118,6 +119,7 @@
     "deadlockMaxRsi": 74,
     "decisionAuthority": false,
     "insideUnifiedAuthority": true,
+    "preservesShadowSafetyBlocks": true,
     "latest": null
   },
   "scanCount": 711,
@@ -1871,7 +1873,7 @@
     "configured": true,
     "online": false,
     "lastSeenAt": "2026-09-04T18:12:04.526Z",
-    "ageSeconds": 157535,
+    "ageSeconds": 158790,
     "fallbackAfterSeconds": 150,
     "lastScanAt": null,
     "scanAgeSeconds": null,
@@ -1910,7 +1912,7 @@
   },
   "agmCalendar": {
     "updatedAt": "2026-09-06T08:45:08.422Z",
-    "ageHours": 5.21,
+    "ageHours": 5.56,
     "events": 3
   },
   "newsFeed": {
@@ -1950,7 +1952,7 @@
   "unifiedDecisionCorePolicy": {
     "enabled": true,
     "version": 31.7,
-    "patch": "31.7.2-candidate-state-recovery+orthogonal-confirmation+probation+failed-setup-exit+controlled-paper-exploration",
+    "patch": "31.7.22-net-edge-probation+preserved-shadow-blocks+decision-vitals",
     "architecture": "single-outer-decision-authority",
     "persistentAudit": true,
     "maxAuditRows": 500,
@@ -2087,10 +2089,11 @@
       "canonicalMinDataQuality": 55,
       "canonicalMinOrthogonalConfirmations": 1,
       "probationMinCompatibleSamples": 2,
+      "probationMinNetEdgeSamples": 3,
       "negativeNewsBlock": -0.35,
       "negativeNewsMinConfidence": 0.6,
       "negativeNewsMinSources": 2,
-      "mode": "canonical-entry-score+orthogonal-confirmation+probation",
+      "mode": "canonical-entry-score+orthogonal-confirmation+cost-aware-probation",
       "decisionAuthority": false,
       "filtersNewBuys": true,
       "latest": null,
@@ -2135,6 +2138,7 @@
       "deadlockMaxRsi": 74,
       "decisionAuthority": false,
       "insideUnifiedAuthority": true,
+      "preservesShadowSafetyBlocks": true,
       "latest": null
     },
     "capital": {
@@ -2177,7 +2181,7 @@
     },
     "latest": null,
     "auditWriteErrors": 0,
-    "rule": "Eine einzige äußere Entscheidungsautorität entscheidet final. V31.7.2 nutzt aktuelle Prompt-Kandidaten und die persistente Outcome-Lernhistorie. Normale Käufe brauchen weiterhin die V31.7-Bestätigung. Nur bei einem nachgewiesenen Planspiel-Lern-Deadlock mit 0 BUY-Samples darf eine einzelne kleine, exakt brokerverifizierte Lernposition eröffnet werden; harte Risiko-, Markt-, News-, Quote- und Re-Entry-Sperren bleiben aktiv.",
+    "rule": "Eine einzige äußere Entscheidungsautorität entscheidet final. Normale Käufe brauchen Score, Datenqualität und unabhängige Bestätigung. Ab drei kompatiblen Vorproben sperrt eine negative Netto-Kante den Bereich vorläufig. Die kleine Lernposition darf keine News-, Datenqualitäts-, Netto-, Cluster-, Abstands- oder Bestands-Sperre übersteuern.",
     "brokerMaster": {
       "source": "env.ASSETS:/universe.json",
       "generatedAt": "2026-09-06T07:58:32.927768Z",
