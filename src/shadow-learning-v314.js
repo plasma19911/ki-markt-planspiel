@@ -28,7 +28,7 @@ export const SHADOW_LEARNING_V314={
   minBucketSamples:25,minEdgeCostMultiple:3,defaultBuyThreshold:56,
   maxBuyThreshold:78,maxPerTheme:2,maxPerCurrency:3,minEntrySpacingMinutes:20,
   evidenceMinSamples:25,canonicalBuyScore:60,canonicalMinDataQuality:55,canonicalMinOrthogonalConfirmations:1,
-  probationMinCompatibleSamples:2,
+  probationMinCompatibleSamples:2,probationMinNetEdgeSamples:3,
   negativeNewsBlock:-.35,negativeNewsMinConfidence:.6,negativeNewsMinSources:2
 };
 
@@ -72,11 +72,14 @@ export function canonicalEntryAssessmentV316(candidate={},universe=[],matured=[]
   const compatibleRows=arr(matured).filter(x=>bucketOf(rowScore(x),cfg)===bucket&&(num(x?.entryScoreVersion)===31.7||(num(x?.entryScoreVersion)===31.6&&num(x?.dataQualityV316)>=85)));
   const avgReturnPct=rows.length?rows.reduce((s,x)=>s+num(x.ret),0)/rows.length:null,hitRate=rows.length?rows.filter(x=>num(x.ret)>0).length/rows.length:null,expectedNetEdgePct=avgReturnPct==null?null:avgReturnPct-roundTripCostPct;
   const probationAvgReturnPct=compatibleRows.length?compatibleRows.reduce((s,x)=>s+num(x.ret),0)/compatibleRows.length:null,probationHitRate=compatibleRows.length?compatibleRows.filter(x=>num(x.ret)>0).length/compatibleRows.length:null;
-  const probationExpectedNetEdgePct=probationAvgReturnPct==null?null:probationAvgReturnPct-roundTripCostPct,probationBlocked=!mature&&compatibleRows.length>=cfg.probationMinCompatibleSamples&&probationHitRate===0&&probationAvgReturnPct<=0;
+  const probationExpectedNetEdgePct=probationAvgReturnPct==null?null:probationAvgReturnPct-roundTripCostPct;
+  const zeroHitLoss=!mature&&compatibleRows.length>=cfg.probationMinCompatibleSamples&&probationHitRate===0&&probationAvgReturnPct<=0;
+  const learnedNegativeNetEdge=!mature&&compatibleRows.length>=num(cfg.probationMinNetEdgeSamples,3)&&probationExpectedNetEdgePct<=0;
+  const probationBlocked=zeroHitLoss||learnedNegativeNetEdge;
   const label=score>=70?'SEHR STARK':score>=cfg.canonicalBuyScore?'KAUFZONE':score>=55?'BEOBACHTEN':'ZU SCHWACH';
   return{version:31.7,score:+score.toFixed(1),label,dataQuality:+dataQuality.toFixed(1),coverage:+coverage.toFixed(3),orthogonalConfirmations,riskPenalty:+riskPenalty.toFixed(1),bucket,
     expectedNetEdgePct:expectedNetEdgePct==null?null:+expectedNetEdgePct.toFixed(3),samples:rows.length,hitRate:hitRate==null?null:+hitRate.toFixed(3),mature,
-    probationSamples:compatibleRows.length,probationExpectedNetEdgePct:probationExpectedNetEdgePct==null?null:+probationExpectedNetEdgePct.toFixed(3),probationHitRate:probationHitRate==null?null:+probationHitRate.toFixed(3),probationBlocked,
+    probationSamples:compatibleRows.length,probationExpectedNetEdgePct:probationExpectedNetEdgePct==null?null:+probationExpectedNetEdgePct.toFixed(3),probationHitRate:probationHitRate==null?null:+probationHitRate.toFixed(3),probationBlocked,probationBlockReason:zeroHitLoss?'ZERO_HIT_LOSS':learnedNegativeNetEdge?'NEGATIVE_NET_EDGE':null,
     components:Object.fromEntries(parts.map(x=>[x.name,{score:+x.score.toFixed(1),available:x.available,confirmed:x.confirmed,weight:x.weight}]))};
 }
 
@@ -218,7 +221,7 @@ export async function enforceShadowLearningV314(plan,state={},storage=null,now=D
       actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'CANONICAL_SCORE_BELOW_BUY',reason:`V31.7 KAUFSCORE: ${symbol} ${entry.score.toFixed(1)}/100 (${entry.label}) < ${cfg.canonicalBuyScore}; Datenqualität ${entry.dataQuality.toFixed(0)}/100.`};counters.canonicalScoreBlocks++;continue;
     }
     if(entry.probationBlocked){
-      actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'NEGATIVE_WARMUP_PROBATION',reason:`V31.7 WARMUP-BREMSE: Scorebereich ${entry.bucket}–${entry.bucket+4} hat in ${entry.probationSamples} kompatiblen Vorproben 0 Treffer und ${entry.probationExpectedNetEdgePct.toFixed(2)}% nach Kosten. Shadow-Messung läuft weiter; echtes Geld bleibt bis zu besserer Evidenz frei.`};counters.probationBlocks++;continue;
+      actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'NEGATIVE_WARMUP_PROBATION',reason:`V31.7 WARMUP-BREMSE: Scorebereich ${entry.bucket}–${entry.bucket+4} hat in ${entry.probationSamples} kompatiblen Vorproben ${(num(entry.probationHitRate)*100).toFixed(0)}% Treffer und ${entry.probationExpectedNetEdgePct.toFixed(2)}% nach Kosten (${entry.probationBlockReason}). Shadow-Messung läuft weiter; Kapital bleibt bis zu positiver Netto-Evidenz frei.`};counters.probationBlocks++;continue;
     }
     if(entry.mature&&num(entry.expectedNetEdgePct,-99)<=0){
       actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'NEGATIVE_CANONICAL_EDGE',reason:`V31.7 NETTO-EDGE: Scorebereich ${entry.bucket}–${entry.bucket+4} erzielt nach ${entry.samples} neuen Samples ${entry.expectedNetEdgePct.toFixed(2)}% nach Kosten.`};

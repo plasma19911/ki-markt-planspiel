@@ -25,6 +25,15 @@ const status={matured:240,buySamples:0,missedOpportunities:12,mode:'BALANCED'};
 
 {
   const prediction={symbol:'ASML.AS',score:54,forecast20mScore:57.2,signalConfidence:.65,velocity5:3.2,agreement:4,regime:'BULL',m5:.12,m20:.15,accel:.01,news:.08,day:1.1,rsi:55,direction:'UP'};
+  const blockedPlan={actions:[{symbol:'ASML.AS',action:'HOLD',shadowBlockKind:'NEGATIVE_WARMUP_PROBATION'}],summary:'test'};
+  const out=enforcePaperExplorationV3172(blockedPlan,state,{status,predictions:{'ASML.AS':prediction}},[broker],now);
+  assert.equal(out.counters.injected,0,'die spaetere Lernprobe darf eine negative Netto-Sperre der Shadow-Schicht nicht uebersteuern');
+  assert.equal(out.counters.blocked[0].reason,'PRESERVED_SHADOW_BLOCK');
+  assert.equal(out.plan.actions[0].action,'HOLD');
+}
+
+{
+  const prediction={symbol:'ASML.AS',score:54,forecast20mScore:57.2,signalConfidence:.65,velocity5:3.2,agreement:4,regime:'BULL',m5:.12,m20:.15,accel:.01,news:.08,day:1.1,rsi:55,direction:'UP'};
   const weakStatus={...status,buySamples:3,buyHitRate:33.3,avgBuy20mNetReturnPct:-.22,mode:'DEFENSIVE'};
   const out=enforcePaperExplorationV3172({actions:[],summary:'test'},state,{status:weakStatus,predictions:{'ASML.AS':prediction}},[broker],now);
   assert.equal(out.counters.injected,0,'poor net BUY performance must suspend medium-score exploratory buys');

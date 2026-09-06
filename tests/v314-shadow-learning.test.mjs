@@ -51,6 +51,12 @@ assert.ok(learned.expectedNetEdgePct>0);
 assert.equal(canonicalCalibrationV316(learnedRows,.291).find(x=>x.bucket===learned.bucket).samples,25);
 const probationRows=[{symbol:'OLD1',entryScoreVersion:31.6,entryScoreV316:canonical.score,dataQualityV316:85,ret:-.2},{symbol:'OLD2',entryScoreVersion:31.6,entryScoreV316:canonical.score,dataQualityV316:85,ret:-.4}];
 assert.equal(canonicalEntryAssessmentV316(canonicalUniverse[0],canonicalUniverse,probationRows,.291).probationBlocked,true,'zwei kompatible verlustreiche Nulltreffer muessen den Warmup-Bereich vorlaeufig pausieren');
+const belowCostRows=[.10,.15,.20].map((ret,i)=>({symbol:`COST${i}`,entryScoreVersion:31.7,entryScoreV317:canonical.score,dataQualityV317:100,ret}));
+const belowCost=canonicalEntryAssessmentV316(canonicalUniverse[0],canonicalUniverse,belowCostRows,.291);
+assert.equal(belowCost.probationBlocked,true,'drei positive Rohbewegungen duerfen nicht gekauft werden, wenn sie nach Roundtrip-Kosten negativ bleiben');
+assert.equal(belowCost.probationBlockReason,'NEGATIVE_NET_EDGE');
+const flexibleWarmup=canonicalEntryAssessmentV316(canonicalUniverse[0],canonicalUniverse,belowCostRows.slice(0,2),.291);
+assert.equal(flexibleWarmup.probationBlocked,false,'zwei positive Vorproben bleiben flexibel, bis die Mindestmenge fuer eine Netto-Sperre erreicht ist');
 
 // Die alte Rohskala 0-10 wird vor dem Lernen auf 0-100 normalisiert.
 const rawScale=recordShadowSnapshots(base(),[{symbol:'RAW',price:10,score:6.2,currency:'EUR'}],t0);

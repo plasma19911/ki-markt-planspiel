@@ -6,6 +6,7 @@
 const $=id=>document.getElementById(id);
 const arr=value=>Array.isArray(value)?value:[];
 const num=(value,fallback=0)=>Number.isFinite(Number(value))?Number(value):fallback;
+const firstFinite=(...values)=>{for(const value of values)if(value!==null&&value!==''&&Number.isFinite(Number(value)))return Number(value);return null};
 const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const symbolKey=value=>String(value??'').toUpperCase().replace(/\.(DE|AS|PA|L|ST|OL|CO|HE|MI|SW|VI|BR|MC|LS)$/,'');
 const money=(value,currency='EUR')=>new Intl.NumberFormat('de-DE',{style:'currency',currency,maximumFractionDigits:2}).format(num(value));
@@ -114,6 +115,30 @@ function candidateQuality(candidate){
   return direct<=1?direct*100:direct;
 }
 
+function candidateLearningEdge(candidate={}){
+  const canonicalSamples=Math.max(0,num(candidate.entryScoreSamplesV317,num(candidate.entryScoreSamplesV316)));
+  const probationSamples=Math.max(0,num(candidate.probationSamplesV317,num(candidate.probationSamplesV316)));
+  const canonical=firstFinite(candidate.expectedNetEdgePctV317,candidate.expectedNetEdgePctV316);
+  const probation=firstFinite(candidate.probationExpectedNetEdgePctV317,candidate.probationExpectedNetEdgePctV316);
+  return canonical!==null?{edge:canonical,samples:canonicalSamples,source:'KANONISCH'}:probation!==null?{edge:probation,samples:probationSamples,source:'VORPROBE'}:{edge:null,samples:Math.max(canonicalSamples,probationSamples),source:'WARMUP'};
+}
+
+function tradeReadiness(candidate={},status={}){
+  const score=normalizedScore(candidate),quality=candidateQuality(candidate),orthogonal=Math.max(0,num(candidate.orthogonalConfirmationsV317,num(candidate.orthogonalConfirmationsV316)));
+  const learning=candidateLearningEdge(candidate),news=decisionNews(status).find(item=>symbolKey(item.symbol)===symbolKey(candidate.symbol));
+  if(news?.negativeConfirmed||news?.negative)return{tone:'bad',label:'KAUF GESPERRT',reason:'Negative Firmennachricht',score,quality,orthogonal,...learning};
+  if(score<60)return{tone:'idle',label:'BEOBACHTEN',reason:`Score ${score.toFixed(1)} unter Kaufzone`,score,quality,orthogonal,...learning};
+  if(quality<55)return{tone:'bad',label:'DATEN FEHLEN',reason:`Datenqualität ${quality.toFixed(0)}/100`,score,quality,orthogonal,...learning};
+  if(orthogonal<1)return{tone:'bad',label:'BELEG FEHLT',reason:'Kein unabhängiges Volumen- oder News-Signal',score,quality,orthogonal,...learning};
+  if(candidate.probationBlockedV317===true||candidate.probationBlockedV316===true)return{tone:'bad',label:'NETTO GESPERRT',reason:'Lernbereich nach Kosten negativ',score,quality,orthogonal,...learning};
+  if(learning.edge!==null&&learning.samples>=3&&learning.edge<=0)return{tone:'bad',label:'NETTO GESPERRT',reason:`${learning.edge.toFixed(2)}% nach Kosten`,score,quality,orthogonal,...learning};
+  if(learning.edge!==null&&learning.edge<=0)return{tone:'warn',label:'VORPROBE',reason:`Noch nur ${learning.samples} Netto-Samples`,score,quality,orthogonal,...learning};
+  return{tone:'good',label:score>=70?'STARK PRÜFEN':'KAUF PRÜFEN',reason:learning.edge===null?'Qualität bestätigt · Lernen im Warmup':`Netto-Kante +${learning.edge.toFixed(2)}%`,score,quality,orthogonal,...learning};
+}
+
+function eventTime(item={}){const stamp=Date.parse(String(item.ts||item.at||item.timestamp||item.time||item.updated_at||''));return Number.isFinite(stamp)?stamp:-1}
+function latestEvent(rows=[]){return arr(rows).reduce((latest,item)=>!latest||eventTime(item)>eventTime(latest)?item:latest,null)}
+
 function setSource(name,text,state='ok'){
   const label=$(`kraken${name[0].toUpperCase()}${name.slice(1)}`);
   if(label)label.textContent=text;
@@ -149,7 +174,7 @@ function topPriority(status){
   if(rows[0])return{type:'news',item:rows[0],...newsState(rows[0])};
   const held=new Set(arr(status.positions).map(position=>symbolKey(position.symbol)));
   const candidate=arr(status.candidates).filter(x=>x?.symbol&&!held.has(symbolKey(x.symbol))).sort((a,b)=>normalizedScore(b)-normalizedScore(a))[0];
-  if(candidate){const score=normalizedScore(candidate);return{type:'candidate',item:candidate,level:score>=68?'high':'watch',state:score>=60?'PRÜFEN':'BEOBACHTEN',title:`${candidate.symbol} · ${score.toFixed(1).replace('.',',')}/100`,reason:focusReason(candidate,status)}}
+  if(candidate){const readiness=tradeReadiness(candidate,status),score=readiness.score;return{type:'candidate',item:candidate,readiness,level:readiness.tone==='bad'?'urgent':score>=68?'high':'watch',state:readiness.label,title:`${candidate.symbol} · ${score.toFixed(1).replace('.',',')}/100`,reason:readiness.tone==='bad'?readiness.reason:focusReason(candidate,status)}}
   return null;
 }
 
@@ -168,7 +193,10 @@ function renderCommandDeck(status){
     if(top.type==='news'){
       const item=top.item,confirmed=item.positiveConfirmed||item.negativeConfirmed;
       setPipeline({detect:'done',identity:'done',fresh:num(item.ageMinutes,999)<=num(status.newsCatalystPolicy?.maxAgeMinutes,120)?'done':'warn',reaction:confirmed?'done':'wait',decision:item.negative||item.chaseRisk||confirmed?'done':'wait',learn:'wait'});
-    }else setPipeline({detect:'done',identity:'idle',fresh:'idle',reaction:'wait',decision:normalizedScore(top.item)>=60?'wait':'idle',learn:'wait'});
+    }else{
+      const readiness=top.readiness||tradeReadiness(top.item,status),fresh=top.item?.fresh===true||Number(top.item?.fresh)===1;
+      setPipeline({detect:'done',identity:top.item?.brokerVerified===true?'done':'wait',fresh:fresh?'done':'wait',reaction:readiness.orthogonal>=1?'done':'wait',decision:readiness.tone==='bad'?'warn':readiness.score>=60?'wait':'idle',learn:readiness.samples>=3?'done':'wait'});
+    }
   }
   const learning=status.outcomeLearningPolicy||status.predictiveLearningPolicy||status.unifiedDecisionCorePolicy?.outcomeLearning||{};
   const mode=String(learning.mode||'WARMUP').replaceAll('_',' '),samples=num(learning.matured,num(learning.samples)),buySamples=num(learning.buySamples),newsSamples=num(learning.newsSamples);
@@ -238,13 +266,35 @@ function renderCore(status){
     const pct=num(position.invested)?pnl/num(position.invested)*100:0;
     return `<span class="${pnl<0?'loss':''}" title="${esc(position.name||position.symbol)}: ${esc(percent(pct))}">${esc(position.symbol)} ${esc(percent(pct))}</span>`;
   }).join(''):'<span>100 % Cash</span>';
+  renderDecisionVitals(status);
 }
 
-function focusLabel(score){
-  if(score>=76)return 'TOP-PRIORITÄT';
-  if(score>=68)return 'SEHR INTERESSANT';
-  if(score>=60)return 'KAUFZONE';
-  if(score>=55)return 'BEOBACHTEN';
+function setVital(name,value,tone='idle'){
+  const cell=document.querySelector(`#krakenDecisionVitals [data-vital="${name}"]`),target=$(`krakenVital${name[0].toUpperCase()}${name.slice(1)}`);
+  if(cell)cell.dataset.tone=tone;if(target)target.textContent=value;
+}
+
+function renderDecisionVitals(status){
+  const root=$('krakenDecisionVitals');if(!root)return;
+  const held=new Set(arr(status.positions).map(position=>symbolKey(position.symbol)));
+  const candidate=arr(status.candidates).filter(item=>item?.symbol&&!held.has(symbolKey(item.symbol))).sort((a,b)=>normalizedScore(b)-normalizedScore(a))[0];
+  if(!candidate){root.dataset.state='idle';root.title='Noch keine neue handelbare Aktie';setVital('score','–');setVital('quality','–');setVital('evidence','–');setVital('edge','Warmup');return}
+  const readiness=tradeReadiness(candidate,status),edgeText=readiness.edge===null?'Warmup':`${readiness.edge>=0?'+':''}${readiness.edge.toFixed(2)}%`;
+  root.dataset.state=readiness.tone;root.title=`${candidate.symbol}: ${readiness.label} · ${readiness.reason}`;root.setAttribute('aria-label',`${candidate.symbol}: ${readiness.label}. ${readiness.reason}`);
+  setVital('score',readiness.score.toFixed(1),readiness.score>=60?'good':readiness.score>=55?'warn':'idle');
+  setVital('quality',readiness.quality.toFixed(0),readiness.quality>=55?'good':'bad');
+  setVital('evidence',`${readiness.orthogonal}/1`,readiness.orthogonal>=1?'good':'bad');
+  setVital('edge',edgeText,readiness.edge===null?'idle':readiness.edge>0?'good':readiness.samples>=3?'bad':'warn');
+}
+
+function focusLabel(candidate,status){
+  const readiness=tradeReadiness(candidate,status);
+  if(readiness.tone==='bad')return readiness.label;
+  if(readiness.tone==='warn')return 'VORPROBE';
+  if(readiness.score>=76)return 'TOP-PRIORITÄT';
+  if(readiness.score>=68)return 'SEHR INTERESSANT';
+  if(readiness.score>=60)return 'KAUF PRÜFEN';
+  if(readiness.score>=55)return 'BEOBACHTEN';
   return 'WEITER PRÜFEN';
 }
 
@@ -252,6 +302,8 @@ function focusReason(candidate,status){
   const related=arr(status.newsRadar).find(item=>symbolKey(item.symbol)===symbolKey(candidate.symbol));
   const catalyst=decisionNews(status).find(item=>symbolKey(item.symbol)===symbolKey(candidate.symbol));
   const reasons=[];
+  const readiness=tradeReadiness(candidate,status);
+  if(readiness.tone==='bad')return readiness.reason;
   if(catalyst?.negative)reasons.push('negative News');
   else if(catalyst?.positiveConfirmed)reasons.push('News + Kurs bestätigt');
   else if(catalyst?.positive)reasons.push(catalyst.chaseRisk?'News-Sprung überdehnt':'News wartet auf Kurs');
@@ -283,10 +335,10 @@ function renderFocus(status){
   }
   list.innerHTML=ranked.map((candidate,index)=>{
     const score=normalizedScore(candidate);
-    const heat=score>=68?'veryHot':score>=60?'hot':'';
-    return `<article class="krakenFocusCard ${heat}" style="--focus-rank:${index};--focus-score:${score}%">
+    const readiness=tradeReadiness(candidate,status),heat=readiness.tone==='bad'?'blocked':score>=68?'veryHot':score>=60?'hot':'';
+    return `<article class="krakenFocusCard ${heat}" data-readiness="${esc(readiness.tone)}" style="--focus-rank:${index};--focus-score:${score}%">
       <div class="krakenFocusLine"><div class="krakenFocusName"><b>${esc(candidate.symbol)}</b><span>${esc(candidate.name||candidate.theme||'Scanner-Kandidat')}</span></div><div class="krakenFocusScore">${score.toFixed(1).replace('.',',')}<small>/100</small></div></div>
-      <div class="krakenFocusReason"><span>${esc(focusReason(candidate,status))}</span><strong>${focusLabel(score)}</strong></div>
+      <div class="krakenFocusReason"><span>${esc(focusReason(candidate,status))}</span><strong>${esc(focusLabel(candidate,status))}</strong></div>
       <div class="krakenFocusBar"><i style="width:${score}%"></i></div>
     </article>`;
   }).join('');
@@ -402,18 +454,18 @@ function enforceCollapsedLayout(){document.querySelectorAll('.krakenOrgan.organC
 
 function organSummary(status,card){
   const key=card.dataset.krakenKey,candidates=arr(status.candidates),positions=arr(status.positions),policy=status.newsCatalystPolicy||{},learning=status.outcomeLearningPolicy||status.predictiveLearningPolicy||{},incomingNews=arr(status.newsRadar).filter(item=>item?.headline),top=[...candidates].sort((a,b)=>normalizedScore(b)-normalizedScore(a))[0],confirmed=decisionNews(status).filter(x=>x.positiveConfirmed||x.negativeConfirmed),negative=decisionNews(status).filter(x=>x.negative),currency=status.config?.currency||'EUR';let text='Bereit',importance='quiet';
-  if(key==='signals'){text=candidates.length?`${candidates.length} Kandidaten · Spitze ${normalizedScore(top).toFixed(1).replace('.',',')}/100`:'Keine frischen Kandidaten';importance=normalizedScore(top)>=68?'hot':normalizedScore(top)>=60?'watch':'quiet'}
+  if(key==='signals'){const readiness=top?tradeReadiness(top,status):null;text=candidates.length?`${candidates.length} Kandidaten · ${top.symbol} ${normalizedScore(top).toFixed(1).replace('.',',')} · ${readiness.label}`:'Keine frischen Kandidaten';importance=readiness?.tone==='bad'?'warn':normalizedScore(top)>=68?'hot':normalizedScore(top)>=60?'watch':'quiet'}
   else if(key==='chart'){text=`${money(status.equity,currency)} · P/L ${percent(status.pnl_pct)}`;importance=num(status.pnl)<0?'warn':'watch'}
   else if(key==='future'){text=`${arr(status.futureWatch?.candidates).length} Katalysatoren · ${String(status.config?.market_regime||'neutral').replaceAll('_',' ')}`}
   else if(key==='positions'){const losers=positions.filter(x=>positionPnl(x)<0).length;text=`${positions.length} Positionen · ${losers} unter Einstand · Cash ${money(status.config?.cash,currency)}`;importance=losers?'watch':'quiet'}
   else if(key==='allocation'){const share=num(status.equity)>0?num(status.config?.cash)/num(status.equity)*100:100;text=`${share.toFixed(1).replace('.',',')} % Cash · ${positions.length} aktive Werte`}
   else if(key==='live-news'||key==='news'){const total=num(policy.pipeline?.companyMatched,decisionNews(status).length)||incomingNews.length;text=`${total} Meldungen · ${confirmed.length} bestätigt · ${negative.length} negativ`;importance=negative.some(x=>x.negativeConfirmed)?'urgent':confirmed.length?'hot':negative.length?'warn':'quiet'}
   else if(key==='replay'){const replay=status.dayReplayLearning||{},report=replay.report||{},last=replay.hourly?.lastRunAt;const at=last?new Date(last).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}):'wartet';text=`Stündlich bei offenem Markt · ${num(report.processed)} ausgewertet · ${at}`}
-  else if(key==='activity'){const last=arr(status.history).at(-1);text=last?`Letzte Aktion: ${String(last.action||'SCAN')} ${last.symbol||''}`:'Noch keine Aktivität'}
+  else if(key==='activity'){const last=latestEvent(status.history);text=last?`Letzte Aktion: ${String(last.action||'SCAN')} ${last.symbol||''}`:'Noch keine Aktivität'}
   else if(key==='analysis'){text=`${arr(status.investmentDossiers).length} Unternehmensprofile · ${candidates.length} aktuelle Kandidaten`}
   else if(key==='stats'){text=`Gesamt P/L ${percent(status.pnl_pct)} · nach Kosten`;importance=num(status.pnl)<0?'warn':'watch'}
   else if(key==='health'){text=weekendPause()?'Planmäßige Wochenendpause':agentOnline(status)?'PC-Scanner online · Quellen werden überwacht':'PC-Scanner ohne frischen Kontakt';importance=weekendPause()?'quiet':agentOnline(status)?'watch':'warn'}
-  else if(key==='brain'){text=String(arr(status.aiLog).at(-1)?.message||arr(status.aiLog).at(-1)?.text||status.config?.learning_mode||'Entscheidungslog bereit').slice(0,120)}
+  else if(key==='brain'){const last=latestEvent(status.aiLog);text=String(status.config?.ai_last_summary||last?.message||last?.text||status.config?.learning_mode||'Entscheidungslog bereit').slice(0,120)}
   else if(key==='history'){text=`${arr(status.history).length} protokollierte Ereignisse · neueste zuerst`}
   else if(key==='setup'){text=`${String(status.config?.risk_mode||'offensiv')} · Paper Trading · ${currency}`}
   else if(key==='trade-chart'){const trades=arr(status.history).filter(x=>/BUY|SELL|KAUF|VERKAUF/i.test(String(x.action||''))).length;text=`${positions.length} offene Positionen · ${trades} Kauf-/Verkaufsmarken`}

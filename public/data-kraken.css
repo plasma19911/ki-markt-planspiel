@@ -472,3 +472,44 @@ body.krakenOnePager .newsFlight{left:14%;top:65%;max-width:270px;border-color:rg
  body.krakenOnePager .krakenOrganDock{left:61%!important;right:3px!important;top:3px!important;bottom:3px!important;padding-left:4px!important}.krakenOrganDockHead{height:22px!important}.krakenOrganDockHead b{font-size:10px!important}
  .krakenOrganTiles{gap:3px!important;grid-template-rows:repeat(3,minmax(35px,1fr))!important}.krakenOrganTile{min-height:35px!important;padding:3px 21px 3px 4px!important;grid-template-columns:15px minmax(0,1fr)!important;gap:4px!important}.krakenOrganTileNode{width:15px!important;height:15px!important}.krakenOrganTileNode:before{font-size:8px!important}.krakenOrganTileMeta{display:none!important}.krakenOrganTile .krakenOrganTileCopy>b{font-size:10.5px!important}.krakenOrganTile em{right:3px!important;width:17px!important;height:17px!important;font-size:11px!important}
 }
+
+/* V31.7.22: Der Depotkern zeigt nicht mehr nur einen missverstaendlichen
+   Gesamtscore. Vier getrennte Vitals machen Datenqualitaet, unabhaengige
+   Belege und die gelernte Netto-Kante auf Desktop und Handy sofort sichtbar. */
+.krakenDecisionVitals{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:min(92%,236px);margin:7px auto 0;padding:4px;gap:3px;overflow:hidden;border:1px solid rgba(79,196,211,.25);border-radius:12px 5px 12px 5px;background:linear-gradient(120deg,rgba(5,21,34,.88),rgba(10,45,53,.72));box-shadow:inset 0 0 14px rgba(65,211,198,.05),0 0 18px rgba(44,175,191,.07)}
+.krakenDecisionVitals:after{content:"";position:absolute;inset:-25% auto -25% -28%;width:20%;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(128,247,236,.16),transparent);transform:skewX(-16deg);animation:vitalSweep 4.8s linear infinite}
+.krakenDecisionVitals>span{display:flex;min-width:0;flex-direction:column;align-items:center;justify-content:center;padding:3px 2px;border-right:1px solid rgba(110,188,208,.12)}
+.krakenDecisionVitals>span:last-child{border-right:0}.krakenDecisionVitals small{font-size:7.5px!important;line-height:1;letter-spacing:.1em;color:#7196aa}.krakenDecisionVitals b{margin-top:3px;font-size:10.5px!important;line-height:1;color:#c7dce7;white-space:nowrap}
+.krakenDecisionVitals [data-tone="good"] b{color:#5de7a1;text-shadow:0 0 9px rgba(61,228,151,.26)}.krakenDecisionVitals [data-tone="warn"] b{color:#ffd069;text-shadow:0 0 9px rgba(255,193,65,.22)}.krakenDecisionVitals [data-tone="bad"] b{color:#ff7a82;text-shadow:0 0 10px rgba(255,82,100,.28)}
+.krakenDecisionVitals[data-state="good"]{border-color:rgba(68,224,160,.42)}.krakenDecisionVitals[data-state="warn"]{border-color:rgba(255,194,73,.45)}.krakenDecisionVitals[data-state="bad"]{border-color:rgba(255,97,113,.5);box-shadow:inset 0 0 16px rgba(255,66,88,.06),0 0 18px rgba(255,66,88,.1)}
+.krakenFocusCard.blocked{border-color:rgba(255,97,113,.46)!important;background:linear-gradient(145deg,rgba(48,17,29,.82),rgba(8,23,35,.93))!important;box-shadow:inset 3px 0 0 rgba(255,90,110,.65),0 8px 24px rgba(0,0,0,.16)!important}.krakenFocusCard.blocked .krakenFocusScore,.krakenFocusCard.blocked .krakenFocusReason strong{color:#ff8992!important}.krakenFocusCard.blocked .krakenFocusBar i{background:linear-gradient(90deg,#813346,#ff6677)!important}
+@keyframes vitalSweep{0%{left:-30%;opacity:0}12%{opacity:1}48%,100%{left:125%;opacity:0}}
+
+@media(min-width:761px){
+ body.krakenOnePager .krakenCoreWrap{height:264px!important}
+ body.krakenOnePager .krakenCoreStats{margin-top:5px!important}
+ body.krakenOnePager .krakenHoldings{margin-top:4px!important;max-height:22px!important;overflow:hidden}
+ body.krakenOnePager .krakenThought{bottom:-5px!important}
+}
+@media(min-width:1600px){
+ body.krakenOnePager .dataKrakenHead h2{font-size:23px!important}body.krakenOnePager .dataKrakenHead p{font-size:12px!important}
+ body.krakenOnePager .krakenPriorityCopy strong{font-size:15px!important}body.krakenOnePager .krakenPriorityCopy small{font-size:11px!important}body.krakenOnePager .krakenPriorityState{font-size:11px!important}
+ body.krakenOnePager .krakenNode{width:238px!important;min-height:72px!important}body.krakenOnePager .krakenNode b{font-size:15px!important}body.krakenOnePager .krakenNode small{font-size:11.5px!important}
+ body.krakenOnePager .krakenCoreWrap{width:320px!important;height:282px!important}body.krakenOnePager .krakenCore>strong{font-size:31px!important}
+ .krakenDecisionVitals{width:250px}.krakenDecisionVitals small{font-size:8.5px!important}.krakenDecisionVitals b{font-size:12px!important}
+ .krakenNewsTraceItem b{font-size:12px!important}.krakenNewsTraceItem small,.krakenNewsTraceItem em{font-size:10px!important}
+ .krakenOrganTile .krakenOrganTileCopy>b{font-size:17px!important}.krakenOrganTile .krakenOrganTileCopy>small{font-size:12px!important}.krakenOrganTileMeta mark{font-size:10px!important}.krakenOrganTile em{width:30px!important;height:30px!important;font-size:18px!important}
+}
+
+@media(max-width:760px){
+ body.krakenOnePager .krakenInputs .krakenNode[data-kraken-source="charts"],body.krakenOnePager .krakenInputs .krakenNode[data-kraken-source="learning"]{display:none!important}
+ body.krakenOnePager .krakenCoreStats,body.krakenOnePager .krakenHoldings{display:none!important}
+ body.krakenOnePager .krakenDecisionVitals{width:184px;margin-top:5px;padding:3px;gap:2px;border-radius:10px 4px 10px 4px}
+ body.krakenOnePager .krakenDecisionVitals>span{padding:2px 1px}body.krakenOnePager .krakenDecisionVitals small{font-size:7px!important}body.krakenOnePager .krakenDecisionVitals b{font-size:9.5px!important;margin-top:2px}
+ body.krakenOnePager .krakenThought{bottom:-7px!important}
+}
+@media(max-width:760px) and (max-height:620px){
+ body.krakenOnePager .krakenDecisionVitals{width:162px;margin-top:3px;padding:2px}body.krakenOnePager .krakenDecisionVitals small{font-size:6px!important}body.krakenOnePager .krakenDecisionVitals b{font-size:8.5px!important}
+ body.krakenOnePager .krakenThought{display:none!important}
+}
+@media(prefers-reduced-motion:reduce){.krakenDecisionVitals:after{animation:none!important;display:none}}

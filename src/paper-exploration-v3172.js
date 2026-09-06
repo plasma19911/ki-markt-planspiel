@@ -47,6 +47,7 @@ export const PAPER_EXPLORATION_V3172={
 };
 
 const HARD=/HARD[- ]?EVENT|NEWS-SHOCK|STALE QUOTE|BAD QUOTE|FX[- ]?SAFETY|REENTRY|SUSPEND|HALT|DELIST|MARKET CLOSED|TRADE-REPUBLIC-BLOCK|TARGET-VENUE/i;
+const PRESERVED_SHADOW_BLOCKS=new Set(['CONFIRMED_NEGATIVE_NEWS','LOW_DATA_QUALITY','NEGATIVE_WARMUP_PROBATION','NEGATIVE_CANONICAL_EDGE','THEME_CLUSTER','CURRENCY_CLUSTER','ENTRY_SPACING','ALREADY_HELD_NO_AUTO_SCALEUP']);
 const brokerExact=c=>c?.brokerVerified===true&&String(c?.assetClass||c?.type||c?.instrument_type||'EQUITY').toUpperCase()==='EQUITY'&&String(c?.brokerMatchMode||'').toUpperCase()==='EXACT_NORMALIZED_NAME'&&/Trade Republic/i.test(String(c?.brokerVerificationSource||''))&&/^[A-Z]{2}[A-Z0-9]{9}[0-9]$/.test(String(c?.isin||''));
 const eventOf=c=>String(c?.eventRisk||c?.event_risk||'NONE').toUpperCase();
 const sellOf=c=>String(c?.momentumSellSignal||c?.momentum_sell_signal||'NONE').toUpperCase();
@@ -89,6 +90,7 @@ function candidatePrediction(c={}){
 }
 function commonBlock(c,a,state,now,cfg){
   const symbol=key(c);
+  if(PRESERVED_SHADOW_BLOCKS.has(String(a?.shadowBlockKind||'')))return{ok:false,reason:'PRESERVED_SHADOW_BLOCK',shadowBlockKind:a.shadowBlockKind,symbol};
   if(!c||!brokerExact(c))return{ok:false,reason:'BROKER_NOT_EXACT',symbol};
   if(arr(state?.positions).some(p=>key(p)===symbol))return{ok:false,reason:'SYMBOL_ALREADY_OPEN',symbol};
   if(!candidateFresh(c,now,cfg))return{ok:false,reason:'CANDIDATE_NOT_FRESH',symbol,fresh:c?.fresh??null,updatedAt:c?.updated_at||c?.updatedAt||null};
