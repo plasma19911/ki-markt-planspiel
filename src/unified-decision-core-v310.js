@@ -10,7 +10,7 @@ const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 
 export const UNIFIED_DECISION_CORE_V310={
   version:31.7,
-  patch:'31.7.22-net-edge-probation+preserved-shadow-blocks+decision-vitals',
+  patch:'31.7.22-candidate-state-recovery+net-edge-probation+preserved-shadow-blocks+decision-vitals',
   architecture:'single-outer-decision-authority',
   persistentAudit:true,
   maxAuditRows:500,

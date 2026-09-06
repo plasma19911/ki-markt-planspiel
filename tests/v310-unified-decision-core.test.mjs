@@ -13,7 +13,7 @@ const now=Date.parse('2026-08-25T12:00:00Z');
   assert.equal(a.action,'BUY','70+ exact-TR candidate with mild pullback should be buyable');
   assert.ok(Number(a.allocation_pct)>=22,'strong candidate should not remain a mini starter');
   assert.ok(out.audit.changes.length>=1,'decision changes must be audited');
-  assert.equal(out.audit.patch,'31.7.22-net-edge-probation+preserved-shadow-blocks+decision-vitals');
+  assert.equal(out.audit.patch,'31.7.22-candidate-state-recovery+net-edge-probation+preserved-shadow-blocks+decision-vitals');
   assert.ok(out.audit.outcomeLearning,'outcome learning metadata must be part of the unified audit');
   assert.ok(out.audit.shadowLearning,'shadow calibration metadata must be part of the unified audit');
   assert.equal(out.audit.finalActions[0].expectedNetEdgePctV316,null,'Warmup-Edge muss null bleiben und darf nicht als scheinbare 0-Prozent-Prognose erscheinen');
