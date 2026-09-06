@@ -473,7 +473,7 @@ function decorateOrgan(card,definition=organDefinition(card)){
     if(!card||card.id==='dataFlow')return false;
     const {label,family,key}=definition,wasNew=!card.classList.contains('krakenOrgan');
     card.classList.add('krakenOrgan');card.dataset.krakenFamily=family;card.dataset.krakenOrgan=label;card.dataset.krakenKey=key;
-    if(!card.querySelector(':scope > .krakenOrganBadge')){
+    if(!card.querySelector('.krakenOrganBadge')){
       const badge=document.createElement('span');badge.className='krakenOrganBadge';badge.textContent=label;const eyebrow=card.querySelector('.sectionEyebrow');if(eyebrow)eyebrow.insertAdjacentElement('afterend',badge);else card.prepend(badge);
     }
     const head=card.querySelector(':scope > .cardTitle,:scope > .liveNewsHead');

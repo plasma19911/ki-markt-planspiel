@@ -54,6 +54,7 @@ assert.match(ui,/EXPANDED_ORGAN_COLUMNS/,'dynamic organs must regain useful widt
 assert.match(ui,/function renderOrganDock/,'all organs must render into the simultaneous onepage overview');
 assert.match(ui,/function organAvailability/,'empty organ data must be explained instead of looking broken');
 assert.match(ui,/function updateOrganConnection/,'opened organs must expose their real connection state');
+assert.match(ui,/querySelector\('\.krakenOrganBadge'\)/,'dynamic refreshes must not duplicate an organ badge');
 assert.match(ui,/function openOrganDetail/,'an organ tile must open its full detail without leaving the overview');
 assert.match(ui,/function positionOrganDetail/,'organ details must be positioned inside the Kraken stage');
 assert.match(ui,/function closeOrganDetail/,'organ details must return directly to the onepage center');
@@ -82,6 +83,7 @@ assert.match(css,/\.krakenFlowRail/,'the relationship rail must be visible');
 assert.match(css,/@keyframes tileSignalSweep/,'new information must visibly travel through active organ tiles');
 assert.match(css,/\.krakenOrganConnection/,'opened organs must explain live, waiting and protected states');
 assert.match(css,/@keyframes organBloom/,'an opened organ must visibly grow from the Kraken diagram');
+assert.match(css,/krakenOrganDetailOpen #livePanel>\.dashboardGrid\{z-index:202!important\}/,'opened organ content must paint above its integrated backdrop');
 assert.match(css,/@keyframes pageTentacleFlow/,'page-wide data arms must flow');
 assert.match(css,/\.krakenStage\.is-stale/,'stale status must slow or stop activity');
 assert.match(css,/@container \(max-width:620px\)/,'visualization must remain usable on mobile');
