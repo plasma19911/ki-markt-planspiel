@@ -37,8 +37,8 @@ assert.ok(!html.includes('Perfekt vs. KI')&&!html.includes('2026-Auswertung'),'H
 assert.ok(!app.includes('weekTabBtn')&&!app.includes('analysisRunBtn'),'App darf keine 2026-Tab-Bindings mehr enthalten');
 assert.ok(!analysis.includes('/analysis-2026.json'),'Historische 2026-Datei darf nicht mehr im UI geladen werden');
 assert.ok(analysis.includes("import './investment-ui.js"),'Aktuelle Investment-Analyse muss geladen werden');
-assert.ok(html.includes('id="krakenOrganDock"')&&html.includes('id="krakenFlowRail"'),'Kraken-Onepager und Verarbeitungskette müssen geladen werden');
-assert.ok(kraken.includes('function renderOrganDock')&&kraken.includes('function organAvailability'),'Alle Organe brauchen Übersicht und ehrliche Datenzustände');
+assert.ok(html.includes('id="krakenOrganDock"')&&html.includes('id="krakenNewsTrace"'),'Onepager und sichtbare News-Verarbeitung müssen geladen werden');
+assert.ok(kraken.includes('function renderOrganDock')&&kraken.includes('const ESSENTIAL_ORGANS='),'Die reduzierte Funktionsübersicht muss geladen werden');
 assert.ok(kraken.includes('function positionOrganDetail')&&html.includes('id="krakenDetailPath"'),'Details müssen im Kraken-Schaubild integriert sein');
 assert.ok(krakenCss.includes('html.krakenOnePager,body.krakenOnePager{height:100%;overflow:hidden!important}'),'Onepager darf keinen Seitenscroll erzeugen');
 assert.ok(krakenCss.includes('@keyframes tileSignalSweep')&&krakenCss.includes('@keyframes organBloom'),'Aktive Daten und geöffnete Organe müssen sichtbar reagieren');

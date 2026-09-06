@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="/changelog-ui.css?v=20260820-0946">
   <link rel="stylesheet" href="/mobile-ui-v3.css?v=20260819-1257">
   <link rel="stylesheet" href="/mobile-ui-v5.css?v=20260819-1546">
-  <link rel="stylesheet" href="/data-kraken.css?v=20260906-14">
+  <link rel="stylesheet" href="/data-kraken.css?v=20260906-15">
 </head>
 <body class="krakenOnePager">
 <div class="appShell">
@@ -22,11 +22,7 @@
       <a class="active" href="#overview"><span>⌂</span>Dashboard</a>
       <a href="#positions"><span>▣</span>Positionen</a>
       <a href="#signals"><span>◎</span>Kandidaten</a>
-      <a href="#futureCard"><span>⚡</span>Katalysatoren</a>
       <a href="#news"><span>◉</span>News</a>
-      <a href="#replayCard"><span>↻</span>Tages-Replay</a>
-      <a href="#stats"><span>⌁</span>Performance</a>
-      <a href="#brain"><span>✦</span>KI-Log</a>
       <a href="#setup"><span>⚙</span>Einstellungen</a>
       <button id="changelogToggle" class="sideNavButton" type="button"><span>≡</span>Änderungen</button>
     </nav>
@@ -67,13 +63,13 @@
 
       <section id="dataFlow" class="card dataKraken" aria-labelledby="dataKrakenTitle">
         <div class="dataKrakenHead">
-          <div><span class="sectionEyebrow">LIVE-DATENFLUSS · ONEPAGER · GESAMTER ORGANISMUS</span><h2 id="dataKrakenTitle">Kraken-Zentrum · so denkt das Markt-System</h2><p>Alle Bereiche auf einen Blick: Quelle → Prüfung → Depot → verbundene Krakenarme. Ein Organ öffnet sich direkt im gemeinsamen Schaubild.</p></div>
-          <div class="krakenHeadControls"><span id="krakenOrganCount" class="krakenOrganCount">0 Organe · 0 Sinne</span><span id="krakenFreshness" class="tag">wartet auf Status …</span><button id="krakenCompactAll" type="button" title="Zur vollständigen Kraken-Übersicht zurückkehren">Zentrum</button><button id="krakenExpandAll" type="button" title="Nur im klassischen Layout alle Organe öffnen">Alles öffnen</button></div>
+          <div><span class="sectionEyebrow">LIVE-DATENFLUSS · ONEPAGER</span><h2 id="dataKrakenTitle">So verarbeitet das Markt-System neue Informationen</h2><p>Daten strömen ein, werden geprüft, priorisiert und weiterverfolgt. Nur relevante Signale erreichen Entscheidung, Depot und Lernschleife.</p></div>
+          <div class="krakenHeadControls"><span id="krakenOrganCount" class="krakenOrganCount">4 Datenquellen · 6 Funktionen</span><span id="krakenFreshness" class="tag">wartet auf Status …</span><button id="krakenCompactAll" type="button" title="Zur Live-Übersicht zurückkehren">Übersicht</button><button id="krakenExpandAll" type="button" title="Nur im klassischen Layout alle Bereiche öffnen">Alles öffnen</button></div>
         </div>
         <div class="krakenCommandDeck" aria-label="Aktuelle Verarbeitung und Priorität">
           <article id="krakenPriority" class="krakenPriority" data-level="idle">
             <div class="krakenPriorityFlag"><i></i><span>JETZT WICHTIG</span></div>
-            <div class="krakenPriorityCopy"><strong id="krakenPriorityTitle">Wartet auf frische Daten</strong><small id="krakenPriorityReason">Die Krake hebt hier nur bestätigte oder dringende Signale hervor.</small></div>
+            <div class="krakenPriorityCopy"><strong id="krakenPriorityTitle">Wartet auf frische Daten</strong><small id="krakenPriorityReason">Hier erscheinen nur bestätigte oder dringende Signale.</small></div>
             <span id="krakenPriorityState" class="krakenPriorityState">RUHE</span>
           </article>
           <ol id="krakenDecisionPipeline" class="krakenDecisionPipeline" aria-label="Verarbeitungskette">
@@ -95,10 +91,14 @@
           <svg id="krakenOrganLinks" class="krakenOrganLinks" aria-hidden="true"></svg>
           <div id="krakenNewsFlights" class="krakenNewsFlights" aria-hidden="true"></div>
           <div id="krakenPlanktonField" class="krakenPlanktonField" aria-hidden="true"></div>
+          <section id="krakenNewsTrace" class="krakenNewsTrace" aria-label="Aktuell verarbeitete Nachrichten">
+            <div class="krakenNewsTraceHead"><span>NEWS-EINGANG</span><b>Erkennen → prüfen → verfolgen</b><i></i></div>
+            <div id="krakenNewsTraceItems" class="krakenNewsTraceItems"><div class="krakenNewsTraceEmpty">Wartet auf relevante Meldungen …</div></div>
+          </section>
 
           <div class="krakenInputs" aria-label="Eingehende Datenquellen">
             <article class="krakenNode" data-kraken-source="pc"><span class="krakenNodeIcon">PC</span><div><b>PC-Scanner</b><small id="krakenPc">Volluniversum wird geprüft</small></div><i></i></article>
-            <article class="krakenNode" data-kraken-source="quotes"><span class="krakenNodeIcon">↗</span><div><b>Live-Kurse</b><small id="krakenQuotes">Preis und Marktbreite</small></div><i></i></article>
+            <article class="krakenNode" data-kraken-source="quotes"><span class="krakenNodeIcon">↗</span><div><b>Kurse &amp; Volumen</b><small id="krakenQuotes">Preis, Bewegung und Bestätigung</small></div><i></i></article>
             <article class="krakenNode" data-kraken-source="charts"><span class="krakenNodeIcon">▥</span><div><b>Chart &amp; Volumen</b><small id="krakenCharts">Trend, Tempo, Bestätigung</small></div><i></i></article>
             <article class="krakenNode newsNode" data-kraken-source="news"><span class="krakenNodeIcon">◉</span><div><b>News</b><small id="krakenNews">Firmennachrichten fliegen ein</small></div><i></i></article>
             <article class="krakenNode" data-kraken-source="macro"><span class="krakenNodeIcon">◎</span><div><b>Markt &amp; Makro</b><small id="krakenMacro">Regime und Katalysatoren</small></div><i></i></article>
@@ -111,7 +111,7 @@
             <div class="krakenProcess processScore">3 · Bewerten</div>
             <div class="krakenProcess processAct">4 · Entscheiden</div>
             <article id="krakenCore" class="krakenCore" aria-live="polite">
-              <span>DEPOT-ZENTRUM</span>
+              <span>LIVE-ENTSCHEIDUNG</span>
               <strong id="krakenEquity">–</strong>
               <small id="krakenPnl">P/L –</small>
               <div class="krakenCoreStats"><b id="krakenPositionCount">0 Positionen</b><b id="krakenCash">Cash –</b></div>
@@ -126,15 +126,8 @@
             <a class="krakenAllLink" href="#signals">Alle Kandidaten und Begründungen ansehen →</a>
           </aside>
 
-          <aside id="krakenOrganDock" class="krakenOrganDock" aria-label="Alle verbundenen Kraken-Organe">
-            <div class="krakenOrganDockHead"><div><span>VERBUNDENE KRAKENARME</span><b>Analysieren · Handeln · Lernen · Schützen</b></div><small id="krakenDockCount">0 verbunden</small></div>
-            <div id="krakenFlowRail" class="krakenFlowRail" aria-label="Zusammenhang der Verarbeitung">
-              <span data-flow-family="scan"><i>1</i><b>Erfassen</b></span>
-              <span data-flow-family="news"><i>2</i><b>Einordnen</b></span>
-              <span data-flow-family="trade"><i>3</i><b>Entscheiden</b></span>
-              <span data-flow-family="learn"><i>4</i><b>Lernen</b></span>
-              <span data-flow-family="risk"><i>5</i><b>Schützen</b></span>
-            </div>
+          <aside id="krakenOrganDock" class="krakenOrganDock" aria-label="Verbundene Kernfunktionen">
+            <div class="krakenOrganDockHead"><div><span>LIVE-NETZ</span><b>Wesentliche Funktionen</b></div><small id="krakenDockCount">0 aktiv</small></div>
             <div id="krakenOrganTiles" class="krakenOrganTiles"><div class="krakenDockEmpty">Organe werden verbunden …</div></div>
           </aside>
         </div>
@@ -198,10 +191,10 @@
       </main>
       <div id="krakenOrganBackdrop" class="krakenOrganBackdrop" hidden>
         <div class="krakenDetailChrome">
-          <div><span>IM KRAKEN-SCHAUBILD GEÖFFNET</span><b id="krakenDetailTitle">Bereich</b><small id="krakenDetailPath">Daten → Depot-Zentrum → Organ</small></div>
+          <div><span>IM LIVE-DATENFLUSS GEÖFFNET</span><b id="krakenDetailTitle">Bereich</b><small id="krakenDetailPath">Daten → Entscheidung → Funktion</small></div>
           <strong id="krakenDetailState">BEREIT</strong>
         </div>
-        <button id="krakenDetailClose" type="button" aria-label="Organ schließen" title="Zur Kraken-Übersicht zurück">×</button>
+        <button id="krakenDetailClose" type="button" aria-label="Bereich schließen" title="Zur Live-Übersicht zurück">×</button>
       </div>
     </div>
 
@@ -210,8 +203,8 @@
 </div>
 <script src="/quota-guard.js?v=20260820-2155" type="module"></script>
 <script src="/app.js?v=20260831-0853" type="module"></script>
-<script src="/data-kraken-ui.js?v=20260906-14" type="module"></script>
-<script src="/candidate-simple-ui.js?v=20260820-2155" type="module"></script>
+<script src="/data-kraken-ui.js?v=20260906-15" type="module"></script>
+<script src="/candidate-simple-ui.js?v=20260906-15" type="module"></script>
 <script src="/v287-live-ui.js?v=20260820-2155" type="module"></script>
 <script src="/ui-v283-fix.js?v=20260820-2155" type="module"></script>
 <script src="/trade-marker-price-fix.js?v=20260819-1702"></script>
@@ -228,7 +221,7 @@
 <script src="/changelog-v302.js?v=20260821-1222" type="module"></script>
 <script src="/changelog-v303.js?v=20260821-1250" type="module"></script>
 <script src="/changelog-current-v31.js?v=20260901-1004" type="module"></script>
-<script src="/changelog-current-v31712.js?v=20260906-0918" type="module"></script>
+<script src="/changelog-current-v31712.js?v=20260906-1027" type="module"></script>
 <script src="/changelog-master-v290.js?v=20260821-1250" type="module"></script>
 <script>
 (() => {
