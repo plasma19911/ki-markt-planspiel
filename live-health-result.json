@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-06T18:32:16.034Z",
+  "checkedAt": "2026-09-06T18:38:56.811Z",
   "runtimeVersion": "V31.7",
   "liveDecisionVersion": "V31.7",
   "outcomeLearningVersion": "V31.2",
@@ -19,15 +19,15 @@
     "agmCalendarFresh": true,
     "positionChart": true,
     "pcAgentRecovery": true,
-    "pcAgentFresh": false,
+    "pcAgentFresh": true,
     "accountingConsistent": true,
     "lastErrorClear": true,
     "positionCountWithinLimit": true
   },
-  "failedChecks": [
-    "pcAgentFresh"
-  ],
-  "allRequiredChecksPassed": false,
+  "failedChecks": [],
+  "allRequiredChecksPassed": true,
+  "pcExpectedOnline": false,
+  "berlinMarketClock": "Sun 20:38",
   "outcomeLearningPolicy": {
     "enabled": true,
     "version": 31.2,
@@ -1872,7 +1872,7 @@
     "configured": true,
     "online": false,
     "lastSeenAt": "2026-09-04T18:12:04.526Z",
-    "ageSeconds": 174009,
+    "ageSeconds": 174409,
     "fallbackAfterSeconds": 150,
     "lastScanAt": null,
     "scanAgeSeconds": null,
@@ -1911,7 +1911,7 @@
   },
   "agmCalendar": {
     "updatedAt": "2026-09-06T08:45:08.422Z",
-    "ageHours": 9.79,
+    "ageHours": 9.9,
     "events": 3
   },
   "newsFeed": {
