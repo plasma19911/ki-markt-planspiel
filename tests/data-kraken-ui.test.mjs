@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 const index=readFileSync(new URL('../public/index.html',import.meta.url),'utf8');
 const ui=readFileSync(new URL('../public/data-kraken-ui.js',import.meta.url),'utf8');
 const css=readFileSync(new URL('../public/data-kraken.css',import.meta.url),'utf8');
+const changelogCss=readFileSync(new URL('../public/changelog-ui.css',import.meta.url),'utf8');
 const simpleUi=readFileSync(new URL('../public/candidate-simple-ui.js',import.meta.url),'utf8');
 const changelog=readFileSync(new URL('../public/changelog-current-v31712.js',import.meta.url),'utf8');
 
@@ -104,8 +105,19 @@ assert.match(css,/@container \(max-width:620px\)/,'visualization must remain usa
 assert.match(css,/\.krakenNode b\{font-size:13px!important\}/,'desktop source names must no longer use microscopic type');
 assert.match(css,/\.krakenNewsTraceItem b\{font-size:10px!important\}/,'desktop news text must remain readable');
 assert.match(css,/\.krakenOrganTile \.krakenOrganTileCopy>b\{font-size:15px!important/,'desktop function names must remain readable');
-assert.match(changelog,/06\.09\.2026 · 10:50/,'newest UI change must be documented first');
-assert.match(changelog,/V31\.7\.20/,'readability and hourly replay update must be documented');
+assert.match(css,/V31\.7\.21: Handy ist kein verkleinerter Desktop/,'mobile onepager must have its own deliberate layout');
+assert.match(css,/\.krakenInputs\{display:grid!important[^}]*grid-template-columns:repeat\(4/,'all four real data sources must remain visible on mobile');
+assert.match(css,/\.krakenOrganTile \.krakenOrganTileCopy>b\{font-size:12\.5px!important/,'mobile function names must not use microscopic type');
+assert.match(css,/\.krakenNewsTraceItem b\{font-size:10\.5px!important/,'mobile incoming news must remain readable');
+assert.match(css,/\.krakenOrganTile em\{right:5px!important;width:22px!important;height:22px!important/,'mobile function detail controls must remain tappable');
+assert.match(css,/@media\(max-width:760px\) and \(max-height:620px\)/,'low landscape phones need a separate onepage arrangement');
+assert.match(changelogCss,/height:100dvh!important/,'mobile changelog must fill the phone viewport');
+assert.match(changelogCss,/\.changelogList\{[^}]*overflow-y:auto!important/,'mobile changelog must own its scroll region');
+assert.match(changelogCss,/\.changelogEntry li\{[^}]*font-size:14px!important/,'mobile changelog copy must remain readable');
+assert.match(changelogCss,/\.changelogClose\{[^}]*width:44px!important;height:44px!important/,'mobile changelog close control must remain reachable');
+assert.match(changelog,/06\.09\.2026 · 15:54/,'newest mobile UI change must be documented first');
+assert.match(changelog,/V31\.7\.21/,'mobile readability update must be documented');
+assert.match(changelog,/Handy-Prüfung und ein Eintrag ganz oben im Changelog/,'mobile QA and changelog tracking must be a permanent UI rule');
 assert.match(changelog,/keine zusätzlichen Cloudflare-Statusaufrufe/,'load behavior must be documented');
 
 console.log('data-kraken-ui tests passed');
