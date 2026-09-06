@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-06T18:45:05.255Z",
+  "checkedAt": "2026-09-06T20:08:32.774Z",
   "runtimeVersion": "V31.7",
   "liveDecisionVersion": "V31.7",
   "outcomeLearningVersion": "V31.2",
@@ -27,7 +27,7 @@
   "failedChecks": [],
   "allRequiredChecksPassed": true,
   "pcExpectedOnline": false,
-  "berlinMarketClock": "Sun 20:45",
+  "berlinMarketClock": "Sun 22:08",
   "outcomeLearningPolicy": {
     "enabled": true,
     "version": 31.2,
@@ -1872,7 +1872,7 @@
     "configured": true,
     "online": false,
     "lastSeenAt": "2026-09-04T18:12:04.526Z",
-    "ageSeconds": 174778,
+    "ageSeconds": 179785,
     "fallbackAfterSeconds": 150,
     "lastScanAt": null,
     "scanAgeSeconds": null,
@@ -1911,7 +1911,7 @@
   },
   "agmCalendar": {
     "updatedAt": "2026-09-06T08:45:08.422Z",
-    "ageHours": 10,
+    "ageHours": 11.39,
     "events": 3
   },
   "newsFeed": {
@@ -1951,7 +1951,7 @@
   "unifiedDecisionCorePolicy": {
     "enabled": true,
     "version": 31.7,
-    "patch": "31.7.22-candidate-state-recovery+net-edge-probation+preserved-shadow-blocks+decision-vitals",
+    "patch": "31.7.24-candidate-state-recovery+net-edge-probation+preserved-shadow-and-news-blocks+decision-vitals",
     "architecture": "single-outer-decision-authority",
     "persistentAudit": true,
     "maxAuditRows": 500,
