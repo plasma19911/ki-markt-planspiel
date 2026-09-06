@@ -90,7 +90,7 @@ jobs:
         run: node scripts/smoke-zero-accounting.mjs
       - name: Trade safety smoke test
         run: node scripts/smoke-trade-safety.mjs
-      - name: ZERO 1000 EUR cost sizing smoke test
+      - name: Trade Republic 1000 EUR cost sizing smoke test
         run: node scripts/smoke-zero-cost-sizing.mjs
       - name: Wrangler dry run
         run: npx wrangler deploy --dry-run
