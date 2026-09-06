@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-06T14:18:38.874Z",
+  "checkedAt": "2026-09-06T18:32:16.034Z",
   "runtimeVersion": "V31.7",
   "liveDecisionVersion": "V31.7",
   "outcomeLearningVersion": "V31.2",
@@ -8,7 +8,7 @@
     "apiStatus": true,
     "agentEndpoint": true,
     "runtimeCurrent": true,
-    "unifiedDecisionAuthority": false,
+    "unifiedDecisionAuthority": true,
     "outcomeLearningV312": true,
     "learningActuallyTracking": true,
     "continuousFeedback": true,
@@ -25,7 +25,6 @@
     "positionCountWithinLimit": true
   },
   "failedChecks": [
-    "unifiedDecisionAuthority",
     "pcAgentFresh"
   ],
   "allRequiredChecksPassed": false,
@@ -1873,7 +1872,7 @@
     "configured": true,
     "online": false,
     "lastSeenAt": "2026-09-04T18:12:04.526Z",
-    "ageSeconds": 158790,
+    "ageSeconds": 174009,
     "fallbackAfterSeconds": 150,
     "lastScanAt": null,
     "scanAgeSeconds": null,
@@ -1912,7 +1911,7 @@
   },
   "agmCalendar": {
     "updatedAt": "2026-09-06T08:45:08.422Z",
-    "ageHours": 5.56,
+    "ageHours": 9.79,
     "events": 3
   },
   "newsFeed": {
@@ -1952,7 +1951,7 @@
   "unifiedDecisionCorePolicy": {
     "enabled": true,
     "version": 31.7,
-    "patch": "31.7.22-net-edge-probation+preserved-shadow-blocks+decision-vitals",
+    "patch": "31.7.22-candidate-state-recovery+net-edge-probation+preserved-shadow-blocks+decision-vitals",
     "architecture": "single-outer-decision-authority",
     "persistentAudit": true,
     "maxAuditRows": 500,
