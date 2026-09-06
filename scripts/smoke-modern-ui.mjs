@@ -9,8 +9,9 @@ const css=[
 ].join('\n');
 const app=readFileSync('public/app.js','utf8');
 const analysis=readFileSync('public/analysis-ui.js','utf8');
-const focus=readFileSync('public/focus-ui.js','utf8');
 const clickable=readFileSync('public/clickable-market-ui-v31712.js','utf8');
+const kraken=readFileSync('public/data-kraken-ui.js','utf8');
+const krakenCss=readFileSync('public/data-kraken.css','utf8');
 
 const requiredIds=[
  'statusPill','marketHeaderStatus','pcHeaderStatus','cloudHeaderStatus','scanHeaderStatus',
@@ -35,9 +36,12 @@ assert.ok(html.includes('Was macht die Firma?')&&html.includes('Was bewegt sie g
 assert.ok(!html.includes('Perfekt vs. KI')&&!html.includes('2026-Auswertung'),'Historische 2026-Auswertung muss aus der UI entfernt sein');
 assert.ok(!app.includes('weekTabBtn')&&!app.includes('analysisRunBtn'),'App darf keine 2026-Tab-Bindings mehr enthalten');
 assert.ok(!analysis.includes('/analysis-2026.json'),'Historische 2026-Datei darf nicht mehr im UI geladen werden');
-assert.ok(analysis.includes("import './focus-ui.js'"),'Focus-UI muss geladen werden');
-assert.ok(focus.includes('Weitere Analysen & Details'),'Sekundärdetails müssen einklappbar sein');
-assert.ok(focus.includes('Einstellungen'),'Einstellungen müssen aus der Hauptübersicht herausgenommen sein');
+assert.ok(analysis.includes("import './investment-ui.js"),'Aktuelle Investment-Analyse muss geladen werden');
+assert.ok(html.includes('id="krakenOrganDock"')&&html.includes('id="krakenFlowRail"'),'Kraken-Onepager und Verarbeitungskette müssen geladen werden');
+assert.ok(kraken.includes('function renderOrganDock')&&kraken.includes('function organAvailability'),'Alle Organe brauchen Übersicht und ehrliche Datenzustände');
+assert.ok(kraken.includes('function positionOrganDetail')&&html.includes('id="krakenDetailPath"'),'Details müssen im Kraken-Schaubild integriert sein');
+assert.ok(krakenCss.includes('html.krakenOnePager,body.krakenOnePager{height:100%;overflow:hidden!important}'),'Onepager darf keinen Seitenscroll erzeugen');
+assert.ok(krakenCss.includes('@keyframes tileSignalSweep')&&krakenCss.includes('@keyframes organBloom'),'Aktive Daten und geöffnete Organe müssen sichtbar reagieren');
 assert.ok(css.includes('height:118px!important'),'Desktop-Diagramme müssen deutlich kleiner sein');
 assert.ok(css.includes('height:96px!important'),'Handy-Diagramme müssen kompakt sein');
 assert.ok(html.includes('KI-Markt-Planspiel'),'Branding fehlt');
@@ -45,4 +49,4 @@ assert.ok(clickable.includes('data-stock-symbol')&&clickable.includes('openPlans
 assert.ok(clickable.includes('/api/position-chart?symbol=')&&clickable.includes('/api/news-feed'),'V31.7.12 Chart-/News-Endpunkte müssen verwendet werden');
 assert.ok(clickable.includes('marketNewsLink')&&clickable.includes('googleNewsUrl'),'News-Überschriften brauchen Direktlink oder Such-Fallback');
 
-console.log(JSON.stringify({ok:true,requiredIds:requiredIds.length,focusedHierarchy:true,collapsibleSecondary:true,compactCharts:true,plainCandidateLanguage:true,historical2026Removed:true,stocksOnlyStart:true,clickableCharts:true,clickableNews:true},null,2));
+console.log(JSON.stringify({ok:true,requiredIds:requiredIds.length,krakenOnepager:true,integratedOrganDetails:true,honestEmptyStates:true,compactCharts:true,plainCandidateLanguage:true,historical2026Removed:true,stocksOnlyStart:true,clickableCharts:true,clickableNews:true},null,2));
