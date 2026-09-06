@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-06T07:57:04.667Z",
+  "checkedAt": "2026-09-06T08:05:15.963Z",
   "runtimeVersion": "V31.7",
   "liveDecisionVersion": "V31.7",
   "outcomeLearningVersion": "V31.2",
@@ -1871,7 +1871,7 @@
     "configured": true,
     "online": false,
     "lastSeenAt": "2026-09-04T18:12:04.526Z",
-    "ageSeconds": 135898,
+    "ageSeconds": 136386,
     "fallbackAfterSeconds": 150,
     "lastScanAt": null,
     "scanAgeSeconds": null,
@@ -1910,7 +1910,7 @@
   },
   "agmCalendar": {
     "updatedAt": "2026-09-05T08:27:11.154Z",
-    "ageHours": 23.5,
+    "ageHours": 23.63,
     "events": 3
   },
   "newsFeed": {
@@ -2180,9 +2180,9 @@
     "rule": "Eine einzige äußere Entscheidungsautorität entscheidet final. V31.7.2 nutzt aktuelle Prompt-Kandidaten und die persistente Outcome-Lernhistorie. Normale Käufe brauchen weiterhin die V31.7-Bestätigung. Nur bei einem nachgewiesenen Planspiel-Lern-Deadlock mit 0 BUY-Samples darf eine einzelne kleine, exakt brokerverifizierte Lernposition eröffnet werden; harte Risiko-, Markt-, News-, Quote- und Re-Entry-Sperren bleiben aktiv.",
     "brokerMaster": {
       "source": "env.ASSETS:/universe.json",
-      "generatedAt": "2026-09-05T07:43:57.786581Z",
+      "generatedAt": "2026-09-06T07:58:32.927768Z",
       "error": null,
-      "rowCount": 4032
+      "rowCount": 4077
     }
   },
   "executionModel": {
