@@ -33,6 +33,23 @@ const status={matured:240,buySamples:0,missedOpportunities:12,mode:'BALANCED'};
 }
 
 {
+  const prediction={symbol:'ASML.AS',score:64,forecast20mScore:67.2,signalConfidence:.72,velocity5:3.2,agreement:4,regime:'BULL',m5:.22,m20:.25,accel:.02,news:-.08,day:1.1,rsi:55,direction:'UP'};
+  const negativeCandidate={...candidate,newsCatalystV31710:{negative:true,negativeConfirmed:false,chaseRisk:false}};
+  const blockedPlan={actions:[{symbol:'ASML.AS',action:'HOLD',newsCatalystBlockV31710:true}],summary:'test'};
+  const out=enforcePaperExplorationV3172(blockedPlan,{...state,candidates:[negativeCandidate]},{status,predictions:{'ASML.AS':prediction}},[broker],now);
+  assert.equal(out.counters.injected,0,'die Lernprobe darf einen frischen negativen Firmenkatalysator auch vor Kursbestaetigung nicht zurueck in BUY drehen');
+  assert.equal(out.counters.blocked[0].reason,'PRESERVED_NEGATIVE_NEWS_BLOCK');
+}
+
+{
+  const prediction={symbol:'ASML.AS',score:72,forecast20mScore:74,signalConfidence:.74,velocity5:2,agreement:4,regime:'BULL',m5:.22,m20:.25,accel:.02,news:.3,day:3.2,rsi:68,direction:'UP'};
+  const chasedCandidate={...candidate,newsCatalystV31710:{negative:false,chaseRisk:true}};
+  const out=enforcePaperExplorationV3172({actions:[],summary:'test'},{...state,candidates:[chasedCandidate]},{status,predictions:{'ASML.AS':prediction}},[broker],now);
+  assert.equal(out.counters.injected,0,'die Lernprobe darf einen bereits ueberdehnten News-Sprung nicht nachtraeglich kaufen');
+  assert.equal(out.counters.blocked[0].reason,'PRESERVED_NEWS_CHASE_BLOCK');
+}
+
+{
   const prediction={symbol:'ASML.AS',score:54,forecast20mScore:57.2,signalConfidence:.65,velocity5:3.2,agreement:4,regime:'BULL',m5:.12,m20:.15,accel:.01,news:.08,day:1.1,rsi:55,direction:'UP'};
   const weakStatus={...status,buySamples:3,buyHitRate:33.3,avgBuy20mNetReturnPct:-.22,mode:'DEFENSIVE'};
   const out=enforcePaperExplorationV3172({actions:[],summary:'test'},state,{status:weakStatus,predictions:{'ASML.AS':prediction}},[broker],now);

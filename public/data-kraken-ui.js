@@ -136,6 +136,15 @@ function tradeReadiness(candidate={},status={}){
   return{tone:'good',label:score>=70?'STARK PRÜFEN':'KAUF PRÜFEN',reason:learning.edge===null?'Qualität bestätigt · Lernen im Warmup':`Netto-Kante +${learning.edge.toFixed(2)}%`,score,quality,orthogonal,...learning};
 }
 
+function readinessRank(candidate,status){
+  const readiness=tradeReadiness(candidate,status);
+  return readiness.tone==='good'?4:readiness.tone==='warn'?3:readiness.tone==='idle'?2:1;
+}
+
+function compareTradeCandidates(a,b,status){
+  return readinessRank(b,status)-readinessRank(a,status)||normalizedScore(b)-normalizedScore(a);
+}
+
 function eventTime(item={}){const stamp=Date.parse(String(item.ts||item.at||item.timestamp||item.time||item.updated_at||''));return Number.isFinite(stamp)?stamp:-1}
 function latestEvent(rows=[]){return arr(rows).reduce((latest,item)=>!latest||eventTime(item)>eventTime(latest)?item:latest,null)}
 
@@ -173,7 +182,7 @@ function topPriority(status){
   const rows=decisionNews(status).sort((a,b)=>importanceOf(b)-importanceOf(a)||num(a.ageMinutes,999)-num(b.ageMinutes,999));
   if(rows[0])return{type:'news',item:rows[0],...newsState(rows[0])};
   const held=new Set(arr(status.positions).map(position=>symbolKey(position.symbol)));
-  const candidate=arr(status.candidates).filter(x=>x?.symbol&&!held.has(symbolKey(x.symbol))).sort((a,b)=>normalizedScore(b)-normalizedScore(a))[0];
+  const candidate=arr(status.candidates).filter(x=>x?.symbol&&!held.has(symbolKey(x.symbol))).sort((a,b)=>compareTradeCandidates(a,b,status))[0];
   if(candidate){const readiness=tradeReadiness(candidate,status),score=readiness.score;return{type:'candidate',item:candidate,readiness,level:readiness.tone==='bad'?'urgent':score>=68?'high':'watch',state:readiness.label,title:`${candidate.symbol} · ${score.toFixed(1).replace('.',',')}/100`,reason:readiness.tone==='bad'?readiness.reason:focusReason(candidate,status)}}
   return null;
 }
@@ -277,7 +286,7 @@ function setVital(name,value,tone='idle'){
 function renderDecisionVitals(status){
   const root=$('krakenDecisionVitals');if(!root)return;
   const held=new Set(arr(status.positions).map(position=>symbolKey(position.symbol)));
-  const candidate=arr(status.candidates).filter(item=>item?.symbol&&!held.has(symbolKey(item.symbol))).sort((a,b)=>normalizedScore(b)-normalizedScore(a))[0];
+  const candidate=arr(status.candidates).filter(item=>item?.symbol&&!held.has(symbolKey(item.symbol))).sort((a,b)=>compareTradeCandidates(a,b,status))[0];
   if(!candidate){root.dataset.state='idle';root.title='Noch keine neue handelbare Aktie';setVital('score','–');setVital('quality','–');setVital('evidence','–');setVital('edge','Warmup');return}
   const readiness=tradeReadiness(candidate,status),edgeText=readiness.edge===null?'Warmup':`${readiness.edge>=0?'+':''}${readiness.edge.toFixed(2)}%`;
   root.dataset.state=readiness.tone;root.title=`${candidate.symbol}: ${readiness.label} · ${readiness.reason}`;root.setAttribute('aria-label',`${candidate.symbol}: ${readiness.label}. ${readiness.reason}`);
@@ -324,7 +333,7 @@ function renderFocus(status){
     const key=symbolKey(candidate.symbol);
     if(!unique.has(key)||normalizedScore(candidate)>normalizedScore(unique.get(key)))unique.set(key,candidate);
   }
-  const ranked=[...unique.values()].filter(candidate=>normalizedScore(candidate)>=50).sort((a,b)=>normalizedScore(b)-normalizedScore(a)).slice(0,5);
+  const ranked=[...unique.values()].filter(candidate=>normalizedScore(candidate)>=50).sort((a,b)=>compareTradeCandidates(a,b,status)).slice(0,5);
   const list=$('krakenFocusList');
   const signature=JSON.stringify(ranked.map(candidate=>[candidate.symbol,normalizedScore(candidate),focusReason(candidate,status)]));
   if(signature===latestFocusSignature)return;
@@ -453,7 +462,7 @@ function setAllOrgans(expanded){document.querySelectorAll('.krakenOrgan').forEac
 function enforceCollapsedLayout(){document.querySelectorAll('.krakenOrgan.organCollapsed').forEach(card=>{card.style.setProperty('grid-column',matchMedia('(max-width:1080px)').matches?'1 / -1':'span 3','important');card.dataset.krakenGridOverride='1'})}
 
 function organSummary(status,card){
-  const key=card.dataset.krakenKey,candidates=arr(status.candidates),positions=arr(status.positions),policy=status.newsCatalystPolicy||{},learning=status.outcomeLearningPolicy||status.predictiveLearningPolicy||{},incomingNews=arr(status.newsRadar).filter(item=>item?.headline),top=[...candidates].sort((a,b)=>normalizedScore(b)-normalizedScore(a))[0],confirmed=decisionNews(status).filter(x=>x.positiveConfirmed||x.negativeConfirmed),negative=decisionNews(status).filter(x=>x.negative),currency=status.config?.currency||'EUR';let text='Bereit',importance='quiet';
+  const key=card.dataset.krakenKey,candidates=arr(status.candidates),positions=arr(status.positions),policy=status.newsCatalystPolicy||{},learning=status.outcomeLearningPolicy||status.predictiveLearningPolicy||{},incomingNews=arr(status.newsRadar).filter(item=>item?.headline),top=[...candidates].sort((a,b)=>compareTradeCandidates(a,b,status))[0],confirmed=decisionNews(status).filter(x=>x.positiveConfirmed||x.negativeConfirmed),negative=decisionNews(status).filter(x=>x.negative),currency=status.config?.currency||'EUR';let text='Bereit',importance='quiet';
   if(key==='signals'){const readiness=top?tradeReadiness(top,status):null;text=candidates.length?`${candidates.length} Kandidaten · ${top.symbol} ${normalizedScore(top).toFixed(1).replace('.',',')} · ${readiness.label}`:'Keine frischen Kandidaten';importance=readiness?.tone==='bad'?'warn':normalizedScore(top)>=68?'hot':normalizedScore(top)>=60?'watch':'quiet'}
   else if(key==='chart'){text=`${money(status.equity,currency)} · P/L ${percent(status.pnl_pct)}`;importance=num(status.pnl)<0?'warn':'watch'}
   else if(key==='future'){text=`${arr(status.futureWatch?.candidates).length} Katalysatoren · ${String(status.config?.market_regime||'neutral').replaceAll('_',' ')}`}

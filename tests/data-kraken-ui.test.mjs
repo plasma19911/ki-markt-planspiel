@@ -46,6 +46,7 @@ assert.match(ui,/scannerLiveTitle/,'the legacy scanner banner must agree with th
 assert.match(ui,/newsCatalystPolicy/,'UI must show the news that actually reaches the decision layer');
 assert.match(ui,/function renderCommandDeck/,'the top priority and processing chain must be rendered');
 assert.match(ui,/function tradeReadiness/,'visible buy readiness must combine score, quality, evidence and net edge');
+assert.match(ui,/function compareTradeCandidates/,'visible opportunities must rank tradable readiness before a merely high blocked score');
 assert.match(ui,/function candidateLearningEdge/,'learned net edge must be visible instead of hiding behind a raw score');
 assert.match(ui,/function latestEvent/,'status histories must select the actually newest timestamp');
 assert.match(ui,/config\?\.ai_last_summary/,'the current decision summary must win over old history rows');
@@ -122,11 +123,15 @@ assert.match(css,/\.krakenDecisionVitals\{position:relative;display:grid;grid-te
 assert.match(css,/data-kraken-source="charts"\].*display:none!important/,'redundant processing inputs must stay hidden on mobile so the four real sources fit');
 assert.match(css,/@media\(min-width:1600px\)/,'ultra-wide desktops must receive a readable scale instead of microscopic labels');
 assert.match(css,/@media\(max-width:760px\) and \(max-height:620px\)/,'low landscape phones need a separate onepage arrangement');
+assert.match(css,/V31\.7\.24: Desktop und Handy besitzen feste, kollisionsfreie Zonen/,'the overlap correction must stay documented beside the layout rules');
+assert.match(css,/\.krakenNewsTrace\{left:20%!important;right:45%!important;width:auto!important/,'desktop news must end before the function dock begins');
+assert.match(css,/\.krakenOrganDock\{left:57%!important;right:1%!important;width:auto!important/,'desktop function dock must own a separate non-overlapping zone');
 assert.match(changelogCss,/height:100dvh!important/,'mobile changelog must fill the phone viewport');
 assert.match(changelogCss,/\.changelogList\{[^}]*overflow-y:auto!important/,'mobile changelog must own its scroll region');
 assert.match(changelogCss,/\.changelogEntry li\{[^}]*font-size:14px!important/,'mobile changelog copy must remain readable');
 assert.match(changelogCss,/\.changelogClose\{[^}]*width:44px!important;height:44px!important/,'mobile changelog close control must remain reachable');
-assert.match(changelog,/06\.09\.2026 · 20:34/,'newest production monitoring correction must be documented first');
+assert.match(changelog,/06\.09\.2026 · 22:02/,'newest collision and decision consistency correction must be documented first');
+assert.match(changelog,/V31\.7\.24/,'collision-free UI and preserved news safety update must be documented');
 assert.match(changelog,/V31\.7\.23/,'weekend and Trade Republic production validation update must be documented');
 assert.match(changelog,/V31\.7\.22/,'cost-aware readiness and responsive UI update must be documented');
 assert.match(changelog,/V31\.7\.21/,'mobile readability update must be documented');

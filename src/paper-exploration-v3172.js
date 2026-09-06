@@ -91,6 +91,9 @@ function candidatePrediction(c={}){
 function commonBlock(c,a,state,now,cfg){
   const symbol=key(c);
   if(PRESERVED_SHADOW_BLOCKS.has(String(a?.shadowBlockKind||'')))return{ok:false,reason:'PRESERVED_SHADOW_BLOCK',shadowBlockKind:a.shadowBlockKind,symbol};
+  const catalyst=c?.newsCatalystV31710||{};
+  if(a?.newsCatalystBlockV31710===true||catalyst.negative===true)return{ok:false,reason:'PRESERVED_NEGATIVE_NEWS_BLOCK',symbol};
+  if(a?.newsCatalystChaseBlockV31710===true||catalyst.chaseRisk===true)return{ok:false,reason:'PRESERVED_NEWS_CHASE_BLOCK',symbol};
   if(!c||!brokerExact(c))return{ok:false,reason:'BROKER_NOT_EXACT',symbol};
   if(arr(state?.positions).some(p=>key(p)===symbol))return{ok:false,reason:'SYMBOL_ALREADY_OPEN',symbol};
   if(!candidateFresh(c,now,cfg))return{ok:false,reason:'CANDIDATE_NOT_FRESH',symbol,fresh:c?.fresh??null,updatedAt:c?.updated_at||c?.updatedAt||null};

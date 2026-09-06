@@ -10,7 +10,7 @@ const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 
 export const UNIFIED_DECISION_CORE_V310={
   version:31.7,
-  patch:'31.7.22-candidate-state-recovery+net-edge-probation+preserved-shadow-blocks+decision-vitals',
+  patch:'31.7.24-candidate-state-recovery+net-edge-probation+preserved-shadow-and-news-blocks+decision-vitals',
   architecture:'single-outer-decision-authority',
   persistentAudit:true,
   maxAuditRows:500,
@@ -70,10 +70,10 @@ export async function enforceUnifiedDecisionCoreV310(plan,state={},input=null,br
     changes,
     counters:{outcome:predictivePass.counters||{},predictive:predictivePass.counters||{},capital:buyPass.counters||{},shadow:shadowPass.counters||{},expectancy:expectancyPass.counters||{},exploration:explorationPass.counters||{}},
     shadowLearning:{...shadowPass.counters,calibration:shadowPass.calibration?.calibration||[]},
-    ruleOrder:['hard safety from legacy core','V31.2 continuous outcome learning + early-entry','legacy opportunity proposal','V31.7 canonical score + orthogonal confirmation + cost-aware probation approval','V31.7 hard-stop/trailing/failed-setup/rotation/stagnation/profit-fade authority','V31.7.22 controlled paper exploration only when zero BUY samples persist and no shadow safety block exists'],
-    note:'V31.7.22 verbindet die normale Kaufprüfung mit einer kostenbewussten Warmup-Sperre. Eine kleine Lernposition bleibt nur im belegten Planspiel-Deadlock möglich und darf keine Shadow-Sperre für News, Datenqualität, Netto-Kante, Klumpen, Einstiegsabstand oder bereits gehaltene Werte übersteuern.'
+    ruleOrder:['hard safety from legacy core','V31.2 continuous outcome learning + early-entry','legacy opportunity proposal','V31.7 canonical score + orthogonal confirmation + cost-aware probation approval','V31.7 hard-stop/trailing/failed-setup/rotation/stagnation/profit-fade authority','V31.7.24 controlled paper exploration only when zero BUY samples persist and no shadow, negative-news or chase safety block exists'],
+    note:'V31.7.24 verbindet die normale Kaufprüfung mit einer kostenbewussten Warmup-Sperre. Eine kleine Lernposition bleibt nur im belegten Planspiel-Deadlock möglich und darf weder Shadow-Sperren noch negative Firmennews oder einen bereits überdehnten News-Sprung übersteuern.'
   };
-  finalPlan.summary=`${String(finalPlan.summary||'').slice(0,128)} · V31.7.22 Unified: ${changes.length} finale Änderung(en), ${arr(state?.candidates).length} aktuelle Lernkandidaten, Probe ${explorationPass.counters?.injected?'AKTIV':'nein'}.`;
+  finalPlan.summary=`${String(finalPlan.summary||'').slice(0,128)} · V31.7.24 Unified: ${changes.length} finale Änderung(en), ${arr(state?.candidates).length} aktuelle Lernkandidaten, Probe ${explorationPass.counters?.injected?'AKTIV':'nein'}.`;
   return{plan:finalPlan,audit,counters:{changes:changes.length,outcome:predictivePass.counters||{},predictive:predictivePass.counters||{},capital:buyPass.counters||{},shadow:shadowPass.counters||{},expectancy:expectancyPass.counters||{},exploration:explorationPass.counters||{}}};
 }
 

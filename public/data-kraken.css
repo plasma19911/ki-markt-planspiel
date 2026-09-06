@@ -513,3 +513,25 @@ body.krakenOnePager .newsFlight{left:14%;top:65%;max-width:270px;border-color:rg
  body.krakenOnePager .krakenThought{display:none!important}
 }
 @media(prefers-reduced-motion:reduce){.krakenDecisionVitals:after{animation:none!important;display:none}}
+
+/* V31.7.24: Desktop und Handy besitzen feste, kollisionsfreie Zonen. Der
+   News-Eingang endet immer vor dem Funktionsnetz; lange Live-Texte werden in
+   ihrem eigenen Feld begrenzt, ohne Nachbarfelder oder Bedienelemente zu
+   ueberdecken. */
+@media(min-width:761px){
+ .krakenNewsTrace{left:20%!important;right:45%!important;width:auto!important;max-width:none!important;box-sizing:border-box}
+ body.krakenOnePager .krakenOrganDock{left:57%!important;right:1%!important;width:auto!important;min-width:0!important;box-sizing:border-box}
+ .krakenNewsTraceHead,.krakenNewsTraceHead b,.krakenNewsTraceItems,.krakenOrganDockHead,.krakenOrganDockHead>div,.krakenOrganTiles,.krakenOrganTile,.krakenOrganTileCopy{min-width:0}
+ .krakenNewsTraceHead b,.krakenOrganDockHead b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .krakenOrganDockHead>div{overflow:hidden}
+ body.krakenOnePager .processAct{bottom:28px!important}
+ body.krakenOnePager .processScore{bottom:28px!important}
+}
+@media(max-width:1120px) and (min-width:761px){
+ .krakenNewsTrace{left:18%!important;right:46%!important}
+ body.krakenOnePager .krakenOrganDock{left:56%!important;right:1%!important}
+}
+@media(max-width:760px){
+ body.krakenOnePager .krakenPriorityCopy,body.krakenOnePager .krakenPriorityCopy strong,.krakenNewsTraceHead,.krakenNewsTraceHead b,.krakenOrganDockHead,.krakenOrganDockHead>div,.krakenOrganDockHead b,.krakenOrganTileCopy{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+ body.krakenOnePager .krakenPriorityCopy strong,.krakenOrganDockHead b{display:block;white-space:nowrap}
+}
