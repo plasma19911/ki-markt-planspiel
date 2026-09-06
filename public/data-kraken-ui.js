@@ -52,6 +52,9 @@ const EXPANDED_ORGAN_COLUMNS={
   'order-approval':'1 / -1','performance-diagnostics':'1 / -1','broker-target':'1 / -1','macro-radar':'span 6','exposure-network':'1 / -1'
 };
 const PHASE_ORGANS={pc:['scan'],quotes:['scan'],charts:['scan'],news:['news'],macro:['news'],learning:['learn'],central:['trade']};
+const FAMILY_META={
+  scan:{glyph:'◎',step:'Erfassen'},news:{glyph:'◉',step:'Einordnen'},trade:{glyph:'↗',step:'Entscheiden'},learn:{glyph:'✦',step:'Lernen'},risk:{glyph:'▲',step:'Schützen'}
+};
 const ORGAN_PREF_KEY='ki-markt-kraken-organs-v1';
 const DEFAULT_OPEN_ORGANS=new Set(['signals','chart','positions','live-news','trade-chart']);
 let organPreferences={};
@@ -399,17 +402,43 @@ function organSummary(status,card){
   card.dataset.importance=importance;return text;
 }
 
-function updateOrganSummaries(status){for(const card of document.querySelectorAll('.krakenOrgan')){const summary=card.querySelector(':scope > .krakenOrganSummary');if(summary)summary.textContent=organSummary(status,card)}renderOrganDock()}
+function organAvailability(status,key){
+  if(!status)return{state:'loading',label:'LÄDT',detail:'Verbindung zum gemeinsamen Statusereignis wird hergestellt.'};
+  const candidates=arr(status.candidates),positions=arr(status.positions),history=arr(status.history),news=decisionNews(status),learning=status.outcomeLearningPolicy||status.predictiveLearningPolicy||{},future=status.futureWatch||{},newsSummary=status.newsLearning?.summary||{};
+  const waiting=detail=>({state:'waiting',label:weekendPause()?'BÖRSENPAUSE':'WARTET',detail:weekendPause()?`${detail} Am Wochenende bleiben vorhandene Daten sichtbar; neue Börsendaten folgen im nächsten Handelsfenster.`:detail});
+  if(key==='signals')return candidates.length?{state:'live',label:'LIVE',detail:`${candidates.length} Kandidaten sind mit dem Depot-Zentrum verbunden.`}:waiting('Noch kein frischer Kandidat erfüllt die Anzeigevoraussetzungen.');
+  if(key==='positions')return positions.length?{state:'live',label:'LIVE',detail:`${positions.length} offene Positionen werden fortlaufend bewertet.`}:{state:'ready',label:'KEINE POSITION',detail:'Das Organ funktioniert und zeigt bewusst keine Position, solange das Depot leer ist.'};
+  if(key==='live-news'||key==='news')return news.length?{state:'live',label:'LIVE',detail:`${news.length} eingeordnete Meldungen liegen im gemeinsamen Status.`}:waiting('Der News-Pfad ist bereit, hat aber noch keine zuordenbare Firmenmeldung.');
+  if(key==='future'||key==='future-watch'||key==='macro-radar')return arr(future.candidates).length||arr(future.activeThemes).length?{state:'live',label:'LIVE',detail:'Vorausblick und Themen fließen in die Priorisierung ein.'}:waiting('Noch kein belastbarer Vorausblick-Kandidat; das ist kein technischer Fehler.');
+  if(key==='replay')return num(learning.matured)||num(learning.buySamples)?{state:'learning',label:'LERNT',detail:'Abgereifte Outcomes werden für spätere Entscheidungen verwertet.'}:{state:'learning',label:'WARMUP',detail:'Das Lernorgan ist aktiv, benötigt aber erst abgereifte Beobachtungen.'};
+  if(key==='news-learning')return num(newsSummary.evaluatedEvents)||num(newsSummary.pendingEvents)?{state:'learning',label:'LERNT',detail:'News-Wirkungen werden nach ihrem Beobachtungsfenster ausgewertet.'}:{state:'learning',label:'WARMUP',detail:'Noch keine auswertbare News-Wirkung; die Verbindung ist aktiv.'};
+  if(key==='activity'||key==='history'||key==='performance-diagnostics'||key==='trade-chart')return history.length?{state:'live',label:'LIVE',detail:`${history.length} protokollierte Ereignisse stehen zur Auswertung bereit.`}:waiting('Noch keine protokollierte Handelsaktivität.');
+  if(key==='analysis')return arr(status.investmentDossiers).length?{state:'live',label:'LIVE',detail:'Unternehmensprofile sind mit den aktuellen Kandidaten verknüpft.'}:waiting('Noch kein Unternehmensprofil aus einem frischen vollständigen Scan.');
+  if(key==='agm-calendar')return arr(status.agmCalendar?.events).length?{state:'live',label:'LIVE',detail:'Kommende Termine sind nach Handelsrelevanz sortiert.'}:waiting('Aktuell liegen keine kommenden relevanten Termine vor.');
+  if(key==='brain')return arr(status.aiLog).length?{state:'live',label:'LIVE',detail:'Entscheidungsbegründungen sind im KI-Protokoll verfügbar.'}:waiting('Noch keine protokollierte KI-Entscheidung.');
+  if(key==='order-approval'||key==='broker-target')return{state:'locked',label:'GESICHERT',detail:'Das Modul funktioniert als Sicherheitsgrenze: Es sendet ausdrücklich keine echte Brokerorder.'};
+  if(key==='setup')return{state:'ready',label:'BEREIT',detail:'Planspiel-Parameter können hier direkt geändert werden.'};
+  if(key==='health'||key==='free-budget'||key==='exposure-network')return{state:'live',label:'AKTIV',detail:'Überwachung und Schutz sind mit dem Depot-Zentrum verbunden.'};
+  return{state:'live',label:'AKTIV',detail:'Dieses Organ ist mit dem gemeinsamen Statusereignis verbunden.'};
+}
+
+function updateOrganConnection(card,availability){
+  let strip=card.querySelector(':scope > .krakenOrganConnection');
+  if(!strip){strip=document.createElement('div');strip.className='krakenOrganConnection';strip.innerHTML='<i></i><b></b><span></span>';card.querySelector(':scope > .krakenOrganSummary')?.insertAdjacentElement('afterend',strip)}
+  if(!strip)return;strip.dataset.state=availability.state;strip.querySelector('b').textContent=availability.label;strip.querySelector('span').textContent=availability.detail;
+}
+
+function updateOrganSummaries(status){for(const card of document.querySelectorAll('.krakenOrgan')){const summary=card.querySelector(':scope > .krakenOrganSummary');if(summary)summary.textContent=organSummary(status,card);updateOrganConnection(card,organAvailability(status,card.dataset.krakenKey))}renderOrganDock()}
 
 function renderOrganDock(){
   const root=$('krakenOrganTiles');if(!root)return;
   const cards=[...document.querySelectorAll('#livePanel .krakenOrgan')],liveKeys=new Set();
   root.querySelector('.krakenDockEmpty')?.remove();
   for(const card of cards){
-    const key=card.dataset.krakenKey||slug(card.id),family=card.dataset.krakenFamily||'scan',label=card.dataset.krakenOrgan||'VERARBEITEN',title=String(card.querySelector('h2,h3')?.textContent||label).trim(),summary=String(card.querySelector(':scope > .krakenOrganSummary')?.textContent||'Live-Status wird geladen …').trim();liveKeys.add(key);
+    const key=card.dataset.krakenKey||slug(card.id),family=card.dataset.krakenFamily||'scan',label=card.dataset.krakenOrgan||'VERARBEITEN',title=String(card.querySelector('h2,h3')?.textContent||label).trim(),summary=String(card.querySelector(':scope > .krakenOrganSummary')?.textContent||'Live-Status wird geladen …').trim(),availability=organAvailability(latestStatus,key);liveKeys.add(key);
     let tile=root.querySelector(`[data-organ-tile="${CSS.escape(key)}"]`);
-    if(!tile){tile=document.createElement('button');tile.type='button';tile.className='krakenOrganTile';tile.dataset.organTile=key;tile.innerHTML='<i class="krakenOrganTileNode"></i><div><span></span><b></b><small></small></div><em aria-hidden="true">+</em>';root.appendChild(tile)}
-    tile.dataset.krakenFamily=family;tile.dataset.importance=card.dataset.importance||'quiet';tile.title=`${title} groß öffnen`;tile.setAttribute('aria-label',`${title} öffnen: ${summary}`);tile.querySelector('span').textContent=label;tile.querySelector('b').textContent=title;tile.querySelector('small').textContent=summary;
+    if(!tile){tile=document.createElement('button');tile.type='button';tile.className='krakenOrganTile';tile.dataset.organTile=key;tile.innerHTML='<i class="krakenOrganTileNode" aria-hidden="true"></i><div class="krakenOrganTileCopy"><span class="krakenOrganTileMeta"><u></u><mark></mark></span><b></b><small></small></div><em aria-hidden="true">+</em>';root.appendChild(tile)}
+    tile.dataset.krakenFamily=family;tile.dataset.importance=card.dataset.importance||'quiet';tile.dataset.availability=availability.state;tile.classList.toggle('organSelected',activeOrganKey===key);tile.title=`${title} im Kraken-Schaubild öffnen`;tile.setAttribute('aria-label',`${title} öffnen, ${availability.label}: ${summary}`);tile.querySelector('.krakenOrganTileMeta u').textContent=label;tile.querySelector('.krakenOrganTileMeta mark').textContent=availability.label;tile.querySelector('.krakenOrganTileCopy>b').textContent=title;tile.querySelector('.krakenOrganTileCopy>small').textContent=summary;
   }
   root.querySelectorAll('.krakenOrganTile').forEach(tile=>{if(!liveKeys.has(tile.dataset.organTile))tile.remove()});
   const count=$('krakenDockCount');if(count)count.textContent=`${cards.length} verbunden`;
@@ -422,15 +451,22 @@ function concealOnePagerOrgans(){
 
 function closeOrganDetail(){
   const card=document.querySelector('#livePanel .krakenOrgan.organFocused');
-  if(card){card.classList.remove('organFocused');card.removeAttribute('role');card.removeAttribute('aria-modal');setOrganExpanded(card,false,false);card.style.setProperty('display','none','important')}
-  activeOrganKey='';document.body.classList.remove('krakenOrganDetailOpen');const backdrop=$('krakenOrganBackdrop');if(backdrop)backdrop.hidden=true;requestAnimationFrame(()=>{drawLinks();drawPageLinks()});
+  if(card){card.classList.remove('organFocused');card.removeAttribute('role');card.removeAttribute('aria-modal');setOrganExpanded(card,false,false);for(const property of ['display','left','top','width','height'])card.style.removeProperty(property);card.style.setProperty('display','none','important')}
+  activeOrganKey='';document.querySelectorAll('.krakenOrganTile.organSelected').forEach(tile=>tile.classList.remove('organSelected'));document.body.classList.remove('krakenOrganDetailOpen');const backdrop=$('krakenOrganBackdrop');if(backdrop){backdrop.hidden=true;for(const property of ['left','top','width','height'])backdrop.style.removeProperty(property)}requestAnimationFrame(()=>{drawLinks();drawPageLinks()});
+}
+
+function positionOrganDetail(){
+  if(!activeOrganKey)return;const stage=$('krakenStage'),dock=$('krakenOrganDock'),backdrop=$('krakenOrganBackdrop'),card=document.querySelector('#livePanel .krakenOrgan.organFocused');if(!stage||!backdrop||!card)return;
+  const stageBox=stage.getBoundingClientRect(),dockBox=dock?.getBoundingClientRect(),mobile=matchMedia('(max-width:760px)').matches,gap=6,left=stageBox.left+gap,top=stageBox.top+gap,right=mobile?stageBox.right-gap:Math.max(left+320,(dockBox?.left||stageBox.right)-gap),width=Math.max(280,right-left),height=Math.max(260,stageBox.bottom-top-gap),chrome=mobile?43:51;
+  for(const [property,value] of Object.entries({left:`${left}px`,top:`${top}px`,width:`${width}px`,height:`${height}px`}))backdrop.style.setProperty(property,value);
+  for(const [property,value] of Object.entries({left:`${left+6}px`,top:`${top+chrome}px`,width:`${Math.max(268,width-12)}px`,height:`${Math.max(205,height-chrome-6)}px`,display:'block'}))card.style.setProperty(property,value,'important');
 }
 
 function openOrganDetail(key){
   const card=[...document.querySelectorAll('#livePanel .krakenOrgan')].find(node=>node.dataset.krakenKey===key);if(!card)return;
   closeOrganDetail();activeOrganKey=key;setOrganExpanded(card,true,false);card.classList.add('organFocused');card.style.setProperty('display','block','important');card.setAttribute('role','dialog');card.setAttribute('aria-modal','true');document.body.classList.add('krakenOrganDetailOpen');
-  const backdrop=$('krakenOrganBackdrop'),title=String(card.querySelector('h2,h3')?.textContent||card.dataset.krakenOrgan||'Bereich').trim();if(backdrop)backdrop.hidden=false;if($('krakenDetailTitle'))$('krakenDetailTitle').textContent=title;
-  requestAnimationFrame(()=>{card.scrollTop=0;card.querySelector('.tableWrap,.chat')?.scrollTo?.({top:0});setTimeout(()=>window.dispatchEvent(new Event('resize')),80)});
+  const backdrop=$('krakenOrganBackdrop'),title=String(card.querySelector('h2,h3')?.textContent||card.dataset.krakenOrgan||'Bereich').trim(),family=card.dataset.krakenFamily||'scan',availability=organAvailability(latestStatus,key),meta=FAMILY_META[family]||FAMILY_META.scan;if(backdrop)backdrop.hidden=false;if($('krakenDetailTitle'))$('krakenDetailTitle').textContent=title;if($('krakenDetailPath'))$('krakenDetailPath').textContent=`Datenquellen → Depot-Zentrum → ${meta.step} → ${title}`;if($('krakenDetailState')){$('krakenDetailState').textContent=availability.label;$('krakenDetailState').dataset.state=availability.state}document.querySelector(`.krakenOrganTile[data-organ-tile="${CSS.escape(key)}"]`)?.classList.add('organSelected');
+  positionOrganDetail();requestAnimationFrame(()=>{positionOrganDetail();card.scrollTop=0;card.querySelector('.tableWrap,.chat')?.scrollTo?.({top:0});setTimeout(()=>window.dispatchEvent(new Event('resize')),80)});
 }
 
 function decorateOrgan(card,definition=organDefinition(card)){
@@ -503,11 +539,13 @@ function pulsePageOrgans(phase){
   document.querySelectorAll('.krakenOrgan.organProcessing').forEach(card=>card.classList.remove('organProcessing'));
   document.querySelectorAll('.krakenOrganTile.organProcessing').forEach(tile=>tile.classList.remove('organProcessing'));
   document.querySelectorAll('.krakenPageLinks path.active').forEach(path=>path.classList.remove('active'));
+  document.querySelectorAll('.krakenFlowRail span.active').forEach(step=>step.classList.remove('active'));
   for(const family of PHASE_ORGANS[phase]||[]){
     const cards=[...document.querySelectorAll(`.krakenOrgan[data-kraken-family="${family}"]`)];
     const card=cards[phaseIndex%Math.max(1,cards.length)];card?.classList.add('organProcessing');
     const tiles=[...document.querySelectorAll(`.krakenOrganTile[data-kraken-family="${family}"]`)];tiles[phaseIndex%Math.max(1,tiles.length)]?.classList.add('organProcessing');
     document.querySelectorAll(`.krakenPageLinks path.${family}`).forEach(path=>path.classList.add('active'));
+    document.querySelector(`.krakenFlowRail [data-flow-family="${family}"]`)?.classList.add('active');
   }
 }
 
@@ -581,7 +619,7 @@ $('krakenCompactAll')?.addEventListener('click',()=>{closeOrganDetail();setAllOr
 $('krakenExpandAll')?.addEventListener('click',()=>setAllOrgans(true));
 window.addEventListener('resize',()=>{
   clearTimeout(resizeTimer);
-  resizeTimer=setTimeout(()=>{enforceCollapsedLayout();drawLinks();drawPageLinks()},120);
+  resizeTimer=setTimeout(()=>{enforceCollapsedLayout();positionOrganDetail();drawLinks();drawPageLinks()},120);
 },{passive:true});
 setInterval(updateThought,1800);
 decoratePageOrgans();

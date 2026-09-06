@@ -193,3 +193,84 @@ body.krakenOnePager.krakenOrganDetailOpen .sidebar{filter:brightness(.55)}
  .krakenOrganBackdrop>div{left:10px;top:18px}.krakenOrganBackdrop>div span{display:none}.krakenOrganBackdrop>div b{font-size:10px}.krakenOrganBackdrop>button{right:9px;top:10px;width:34px;height:34px}
 }
 @media(prefers-reduced-motion:reduce){.krakenOrganTile,.krakenOrganTile.organProcessing,.krakenOrganTile[data-importance="urgent"]{animation:none!important;transition:none!important}}
+
+/* V31.7.17: besser lesbarer Organismus. Das Detail waechst innerhalb des
+   Kraken-Schaubilds auf; die Organleiste bleibt als direkter Wechsel erhalten. */
+@media(min-width:761px){
+ body.krakenOnePager .appShell{grid-template-columns:164px minmax(0,1fr)}
+ body.krakenOnePager .sidebar{padding:14px 9px!important}
+ body.krakenOnePager .brand{padding:3px 3px 13px}.brandIcon{width:34px;height:34px}.brand b{font-size:15px!important}
+ body.krakenOnePager .sideNav{gap:3px}body.krakenOnePager .sideNav a{min-height:37px!important;padding:0 8px;font-size:12px!important}body.krakenOnePager .sideNavButton{min-height:37px!important;font-size:12px!important}
+ body.krakenOnePager .sideAccount{padding:9px}.sideAccount>span{margin-bottom:5px}.sideAccount>div:not(.paperOnly){padding:5px 0}.paperOnly{margin-top:7px;padding:5px}
+ body.krakenOnePager .mainArea{max-width:none!important;padding:0 10px 5px!important}
+ body.krakenOnePager .topbar{min-height:56px!important}
+}
+body.krakenOnePager #overview .kpiCard span{font-size:8.5px!important}
+body.krakenOnePager #overview .kpiCard strong{font-size:18px!important}
+body.krakenOnePager #overview .kpiCard small{font-size:8px!important}
+body.krakenOnePager .dataKrakenHead h2{font-size:16px}
+body.krakenOnePager .dataKrakenHead p{font-size:8.5px;line-height:1.35}
+body.krakenOnePager .dataKrakenHead .sectionEyebrow{font-size:7px}
+body.krakenOnePager .krakenPriorityCopy strong{font-size:10px}
+body.krakenOnePager .krakenPriorityCopy small{font-size:7.5px}
+body.krakenOnePager .krakenPriorityState{font-size:7px}
+body.krakenOnePager .krakenDecisionPipeline li span{font-size:7px}
+body.krakenOnePager .krakenLearningCell strong{font-size:10px}
+body.krakenOnePager .krakenLearningCell small{font-size:7px}
+
+body.krakenOnePager .krakenInputs{inset:0 40% 0 0}
+body.krakenOnePager .krakenNode{width:176px!important;min-height:52px!important;padding:7px 9px!important;grid-template-columns:30px 1fr 7px!important}
+body.krakenOnePager .krakenNodeIcon{width:30px!important;height:30px!important;font-size:10px}
+body.krakenOnePager .krakenNode b{font-size:10px}body.krakenOnePager .krakenNode small{font-size:7.5px;line-height:1.22}
+body.krakenOnePager .krakenCoreWrap{left:29%;top:23%;width:260px;height:225px}
+body.krakenOnePager .krakenCore>span{font-size:8px}body.krakenOnePager .krakenCore>strong{font-size:24px}body.krakenOnePager .krakenCore>small{font-size:9px}
+body.krakenOnePager .krakenCoreStats b,body.krakenOnePager .krakenHoldings span,body.krakenOnePager .krakenThought{font-size:7.5px}
+
+.krakenOrganDock{width:39%;min-width:405px;padding:8px;border-color:#315671;border-radius:20px 8px 20px 8px;background:radial-gradient(circle at 12% 8%,rgba(55,136,183,.1),transparent 30%),linear-gradient(150deg,rgba(8,26,40,.975),rgba(6,17,28,.99));box-shadow:-16px 0 38px rgba(0,0,0,.28),0 0 32px rgba(48,130,178,.11)}
+.krakenOrganDock:before,.krakenOrganDock:after{content:"";position:absolute;z-index:-1;pointer-events:none;border:1px solid rgba(66,145,190,.11);border-radius:48% 52% 44% 56%;animation:dockBreathe 7s ease-in-out infinite}.krakenOrganDock:before{inset:8% 5% 44% 34%}.krakenOrganDock:after{inset:51% 48% 7% 6%;border-color:rgba(119,102,203,.1);animation-delay:-3.5s}
+@keyframes dockBreathe{50%{transform:scale(1.07) rotate(3deg);opacity:.45}}
+.krakenOrganDockHead{align-items:center;margin:0 2px 6px}.krakenOrganDockHead span{font-size:6.5px}.krakenOrganDockHead b{font-size:11px}.krakenOrganDockHead small{padding:3px 6px;border:1px solid #3b3563;border-radius:999px;background:#17142b;font-size:7px}
+.krakenFlowRail{position:relative;z-index:1;flex:0 0 auto;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2px;margin:0 0 6px;padding:3px;border:1px solid #1e394e;border-radius:10px;background:#071520}
+.krakenFlowRail:before{content:"";position:absolute;left:8%;right:8%;top:50%;height:1px;background:linear-gradient(90deg,#4a98c6,#d3a644,#4fc48f,#8c7bd8,#d06c78);opacity:.36}
+.krakenFlowRail span{--flow-color:#4a98c6;position:relative;z-index:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:3px;padding:3px 2px;border-radius:7px;color:#718a9e;transition:background .22s ease,color .22s ease,filter .22s ease}
+.krakenFlowRail span[data-flow-family="news"]{--flow-color:#d3a644}.krakenFlowRail span[data-flow-family="trade"]{--flow-color:#4fc48f}.krakenFlowRail span[data-flow-family="learn"]{--flow-color:#8c7bd8}.krakenFlowRail span[data-flow-family="risk"]{--flow-color:#d06c78}
+.krakenFlowRail i{width:14px;height:14px;display:grid;place-items:center;border:1px solid color-mix(in srgb,var(--flow-color) 55%,#264156);border-radius:50%;background:#091a27;color:var(--flow-color);font-size:6px;font-style:normal;font-weight:950;box-shadow:0 0 7px color-mix(in srgb,var(--flow-color) 16%,transparent)}.krakenFlowRail b{font-size:6.5px;white-space:nowrap}
+.krakenFlowRail span.active{background:color-mix(in srgb,var(--flow-color) 13%,#0a1925);color:color-mix(in srgb,var(--flow-color) 78%,#fff);filter:brightness(1.25)}.krakenFlowRail span.active i{animation:flowStepPulse .75s ease-in-out infinite alternate}
+@keyframes flowStepPulse{to{transform:scale(1.15);box-shadow:0 0 13px var(--flow-color)}}
+
+.krakenOrganTiles{gap:4px}
+.krakenOrganTile{grid-template-columns:22px minmax(0,1fr);gap:7px;padding:5px 29px 5px 7px;border-radius:12px 6px 12px 6px;background:linear-gradient(130deg,color-mix(in srgb,var(--tile-color) 10%,#0b1b29),#071520 76%)}
+.krakenOrganTile:after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,color-mix(in srgb,var(--tile-color) 14%,transparent) 48%,transparent 66%);transform:translateX(-120%);pointer-events:none}
+.krakenOrganTile.organProcessing:after{animation:tileSignalSweep .8s ease-out}
+@keyframes tileSignalSweep{to{transform:translateX(120%)}}
+.krakenOrganTileNode{position:relative;width:21px;height:21px;display:grid;place-items:center;border:1px solid color-mix(in srgb,var(--tile-color) 60%,#29445a);border-radius:50%;background:color-mix(in srgb,var(--tile-color) 11%,#091823);box-shadow:0 0 10px color-mix(in srgb,var(--tile-color) 23%,transparent)}
+.krakenOrganTileNode:before{content:"◎";color:var(--tile-color);font-size:10px;font-style:normal;font-weight:950}.krakenOrganTile[data-kraken-family="news"] .krakenOrganTileNode:before{content:"◉"}.krakenOrganTile[data-kraken-family="trade"] .krakenOrganTileNode:before{content:"↗"}.krakenOrganTile[data-kraken-family="learn"] .krakenOrganTileNode:before{content:"✦"}.krakenOrganTile[data-kraken-family="risk"] .krakenOrganTileNode:before{content:"▲";font-size:8px}
+.krakenOrganTileCopy{min-width:0}.krakenOrganTileMeta{display:flex!important;align-items:center;gap:5px;min-width:0}.krakenOrganTileMeta u{min-width:0;color:color-mix(in srgb,var(--tile-color) 78%,#a9bdcb);font-size:6px;font-weight:950;letter-spacing:.08em;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.krakenOrganTileMeta mark{margin-left:auto;padding:1px 3px;border-radius:999px;background:color-mix(in srgb,var(--tile-color) 10%,#091622);color:color-mix(in srgb,var(--tile-color) 72%,#9fb1be);font-size:5px;font-weight:950;letter-spacing:.04em;white-space:nowrap}
+.krakenOrganTile .krakenOrganTileCopy>b{margin:2px 0 1px;font-size:9px;line-height:1.05}.krakenOrganTile .krakenOrganTileCopy>small{font-size:6.8px;line-height:1.12;color:#91a6b6}
+.krakenOrganTile em{right:6px;width:19px;height:19px;font-size:13px}.krakenOrganTile:hover em,.krakenOrganTile:focus-visible em,.krakenOrganTile.organSelected em{background:var(--tile-color);color:#06111b;transform:translateY(-50%) rotate(45deg)}
+.krakenOrganTile[data-availability="waiting"]{filter:saturate(.72)}.krakenOrganTile[data-availability="waiting"] .krakenOrganTileMeta mark{color:#d2aa56}.krakenOrganTile[data-availability="learning"] .krakenOrganTileMeta mark{color:#b4a8f2}.krakenOrganTile[data-availability="locked"] .krakenOrganTileMeta mark{color:#e5a0a9}
+.krakenOrganTile.organSelected{border-color:var(--tile-color);background:linear-gradient(125deg,color-mix(in srgb,var(--tile-color) 19%,#0b1b29),#081823);box-shadow:0 0 18px color-mix(in srgb,var(--tile-color) 25%,transparent);transform:translateX(-3px)}
+
+.krakenOrganConnection{display:none;align-items:center;gap:7px;margin:-3px 0 10px;padding:7px 9px;border:1px solid color-mix(in srgb,var(--organ-color) 28%,#1a3042);border-radius:9px;background:color-mix(in srgb,var(--organ-color) 6%,#091724);color:#94aabd;font-size:9px}.krakenOrganConnection i{width:8px;height:8px;flex:0 0 auto;border-radius:50%;background:var(--organ-color);box-shadow:0 0 10px var(--organ-color)}.krakenOrganConnection b{color:color-mix(in srgb,var(--organ-color) 75%,#fff);font-size:8px;letter-spacing:.06em}.krakenOrganConnection span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.krakenOrganConnection[data-state="waiting"] i{background:#d5a94f}.krakenOrganConnection[data-state="locked"] i{background:#d06c78}.krakenOrganConnection[data-state="learning"] i{background:#8c7bd8}
+
+body.krakenOnePager #livePanel>.dashboardGrid>.krakenOrgan.organFocused{inset:auto!important;margin:0!important;padding:14px!important;overflow:auto!important;border-radius:15px 8px 15px 8px!important;background:linear-gradient(155deg,#0c2030,#081724 72%)!important;animation:organBloom .3s cubic-bezier(.2,.78,.25,1) both!important;transform-origin:right center}
+body.krakenOnePager #livePanel>.dashboardGrid>.krakenOrgan.organFocused .krakenOrganConnection{display:flex}
+body.krakenOnePager #livePanel>.dashboardGrid>.krakenOrgan.organFocused .cardTitle h2,body.krakenOnePager #livePanel>.dashboardGrid>.krakenOrgan.organFocused .liveNewsHead h2{font-size:18px!important}
+@keyframes organBloom{from{opacity:.35;transform:scale(.78) translateX(12%);filter:blur(2px)}to{opacity:1;transform:none;filter:none}}
+.krakenOrganBackdrop{inset:auto;overflow:hidden;border:1px solid #2d5670;border-radius:17px 7px 17px 7px;background:radial-gradient(circle at 82% 18%,rgba(78,185,142,.1),transparent 30%),rgba(4,13,22,.88);box-shadow:0 18px 50px rgba(0,0,0,.35);backdrop-filter:blur(7px)}
+.krakenOrganBackdrop:before{content:"";position:absolute;left:16px;right:16px;top:46px;height:1px;background:linear-gradient(90deg,#4a98c6,#4fc48f,transparent);opacity:.55}
+.krakenOrganBackdrop>.krakenDetailChrome{position:absolute;left:13px;right:58px;top:7px;display:flex;align-items:center;justify-content:space-between;gap:12px}.krakenDetailChrome>div{min-width:0;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:baseline;gap:2px 8px}.krakenDetailChrome span{font-size:6.5px}.krakenDetailChrome b{min-width:0;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.krakenDetailChrome small{grid-column:1/-1;color:#668ba4;font-size:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.krakenDetailChrome>strong{flex:0 0 auto;padding:4px 7px;border:1px solid #2e5b48;border-radius:999px;background:#0d251c;color:#68dda1;font-size:7px;letter-spacing:.07em}.krakenDetailChrome>strong[data-state="waiting"]{border-color:#665329;background:#2a210e;color:#f0c765}.krakenDetailChrome>strong[data-state="learning"]{border-color:#463d77;background:#19152f;color:#b7a8fa}.krakenDetailChrome>strong[data-state="locked"]{border-color:#673640;background:#2b171d;color:#f094a0}
+.krakenOrganBackdrop>button{right:10px;top:8px;width:31px;height:31px;font-size:21px}
+body.krakenOnePager.krakenOrganDetailOpen .sidebar{filter:none}
+body.krakenOnePager.krakenOrganDetailOpen .krakenOrganDock{border-color:#3a6884;box-shadow:-14px 0 35px rgba(0,0,0,.25),0 0 28px rgba(76,161,207,.16)}
+
+@media(max-width:1080px) and (min-width:761px){.krakenOrganDock{width:40%;min-width:350px}body.krakenOnePager .krakenCoreWrap{left:24%;transform:scale(.88)}.krakenOrganTile .krakenOrganTileCopy>small{font-size:6.2px}.krakenOrganTile .krakenOrganTileCopy>b{font-size:8.3px}}
+@media(max-height:760px) and (min-width:761px){.krakenFlowRail{margin-bottom:4px}.krakenOrganDockHead{margin-bottom:4px}.krakenOrganTile{padding-top:3px;padding-bottom:3px}.krakenOrganTile .krakenOrganTileCopy>small{display:none}.krakenOrganTile .krakenOrganTileCopy>b{font-size:8px}}
+@media(max-width:760px){
+ .krakenOrganDock{top:137px;padding:5px}.krakenFlowRail{margin-bottom:3px;padding:2px}.krakenFlowRail b{font-size:5.5px}.krakenFlowRail i{width:11px;height:11px;font-size:5px}
+ .krakenOrganDockHead b{font-size:8px}.krakenOrganTiles{gap:3px}
+ .krakenOrganTile{grid-template-columns:15px minmax(0,1fr);gap:4px;padding:3px 18px 3px 4px}.krakenOrganTileNode{width:14px;height:14px}.krakenOrganTileNode:before{font-size:7px}.krakenOrganTile .krakenOrganTileCopy>b{font-size:6.8px}.krakenOrganTileMeta,.krakenOrganTile .krakenOrganTileCopy>small{display:none!important}.krakenOrganTile em{right:3px;width:13px;height:13px;font-size:9px}
+ body.krakenOnePager #livePanel>.dashboardGrid>.krakenOrgan.organFocused{padding:10px!important}body.krakenOnePager #livePanel>.dashboardGrid>.krakenOrgan.organFocused .cardTitle h2,body.krakenOnePager #livePanel>.dashboardGrid>.krakenOrgan.organFocused .liveNewsHead h2{font-size:15px!important}.krakenOrganConnection{font-size:8px}.krakenOrganConnection span{white-space:normal}
+ .krakenOrganBackdrop>.krakenDetailChrome{left:9px;right:46px;top:5px}.krakenDetailChrome span,.krakenDetailChrome small{display:none}.krakenDetailChrome>div{display:block}.krakenDetailChrome b{font-size:11px}.krakenDetailChrome>strong{font-size:6px;padding:3px 5px}.krakenOrganBackdrop:before{top:38px}.krakenOrganBackdrop>button{right:7px;top:5px;width:28px;height:28px;font-size:19px}
+}
+@media(prefers-reduced-motion:reduce){.krakenOrganDock:before,.krakenOrganDock:after,.krakenFlowRail span.active i,.krakenOrganTile.organProcessing:after,body.krakenOnePager #livePanel>.dashboardGrid>.krakenOrgan.organFocused{animation:none!important}}
