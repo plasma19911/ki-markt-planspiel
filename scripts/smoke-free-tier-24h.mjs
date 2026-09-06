@@ -58,7 +58,7 @@ assert.match(pcScanner,/Select-Object -First 400/,'Stufe 2 muss bis zu 400 Werte
 assert.match(pcScanner,/Select-Object -First 240/,'PowerShell-Deep-Stufe muss bis zu 240 Werte prüfen');
 assert.match(pcScanner,/Select-Object -First 60/,'Finalistenpool muss 60 Werte liefern');
 assert.match(pcScanner,/Split-PcFirstChunks \$symbols 80/,'Voll-Master muss gebündelt statt mit Einzelrequests abgefragt werden');
-assert.match(v288,/CF_VALIDATION_TARGET=18/,'Cloudflare soll bei frischen PC-Daten nur einen kleinen Final-Slice validieren');
+assert.match(v288,/CF_VALIDATION_TARGET=36/,'Cloudflare soll bei frischen PC-Daten den dokumentierten V30.8.3-Final-Slice validieren');
 assert.match(v288,/cloudflareFallbackActive/,'Status muss PC-Ausfall/Fallback sichtbar machen');
 assert.match(v288,/PC_FIRST_FULL_MASTER_TOP60/,'PC-Ranking muss den V28.7-Broad-Pool direkt füllen');
 
@@ -86,4 +86,4 @@ g=gettexSessionState(new Date('2026-08-22T10:00:00Z'));assert.equal(g.phase,'NON
 
 const marketMinutes=(23*60)-(7*60+30);assert.equal(marketMinutes,930);
 const cronEnvelope=(22-5+1)*60;assert.equal(cronEnvelope,1080);
-console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',mode:'V31.7.12 UNIFIED + CLICKABLE CHART/NEWS + PC-FIRST FULL MASTER',tradeRepublicHolidayCalendar:true,legacySessionTest:'historical gettex-session compatibility only',pcFullMasterCycleMinutes:4,stage2Target:400,deepTarget:240,finalistTarget:60,cloudflareValidationTarget:18,cloudflareGapFillAfterSeconds:95,cronWatchdogInvocationsPerWeekday:cronEnvelope,pcMarketMinutesPerTradingDay:marketMinutes,cloudflareExternalFetchSoftCapFallback:36,aiNeuronSoftCapPerUtcDay:8000},null,2));
+console.log(JSON.stringify({ok:true,cloudflarePlan:'FREE',mode:'V31.7.12 UNIFIED + CLICKABLE CHART/NEWS + PC-FIRST FULL MASTER',tradeRepublicHolidayCalendar:true,legacySessionTest:'historical gettex-session compatibility only',pcFullMasterCycleMinutes:4,stage2Target:400,deepTarget:240,finalistTarget:60,cloudflareValidationTarget:36,pcUniverseProfileValidationTarget:18,cloudflareGapFillAfterSeconds:95,cronWatchdogInvocationsPerWeekday:cronEnvelope,pcMarketMinutesPerTradingDay:marketMinutes,cloudflareExternalFetchSoftCapFallback:36,aiNeuronSoftCapPerUtcDay:8000},null,2));
