@@ -45,6 +45,7 @@ assert.match(ui,/function renderCommandDeck/,'the top priority and processing ch
 assert.match(ui,/function renderPlankton/,'news must drive the plankton visualization');
 assert.match(ui,/function renderNewsTrace/,'incoming news must expose its processing state');
 assert.match(ui,/const ESSENTIAL_ORGANS=/,'the onepager must define a deliberately reduced function set');
+assert.doesNotMatch(ui,/Die Krake hebt/,'status refreshes must not restore removed internal naming');
 assert.match(ui,/function setOrganExpanded/,'every dashboard organ must be independently expandable');
 assert.match(ui,/function organSummary/,'collapsed organs must retain a useful live summary');
 assert.match(ui,/localStorage\.setItem\(ORGAN_PREF_KEY/,'the chosen organ layout must persist');

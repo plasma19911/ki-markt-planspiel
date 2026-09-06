@@ -162,7 +162,7 @@ function setPipeline(states={}){
 function renderCommandDeck(status){
   const top=topPriority(status),priority=$('krakenPriority');
   if(!top){
-    priority.dataset.level='idle';$('krakenPriorityTitle').textContent='Wartet auf frische Daten';$('krakenPriorityReason').textContent='Die Krake hebt hier nur bestätigte oder dringende Signale hervor.';$('krakenPriorityState').textContent='RUHE';setPipeline({});
+    priority.dataset.level='idle';$('krakenPriorityTitle').textContent='Wartet auf frische Daten';$('krakenPriorityReason').textContent='Hier erscheinen nur bestätigte oder dringende Signale.';$('krakenPriorityState').textContent='RUHE';setPipeline({});
   }else{
     priority.dataset.level=top.level;$('krakenPriorityTitle').textContent=top.title;$('krakenPriorityReason').textContent=top.reason;$('krakenPriorityState').textContent=top.state;
     if(top.type==='news'){
