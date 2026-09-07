@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-07T07:15:19.235169+00:00",
-  "berlinNow": "2026-09-07T09:15:19.234994+02:00",
+  "checkedAt": "2026-09-07T07:39:09.826979+00:00",
+  "berlinNow": "2026-09-07T09:39:09.826815+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 4334096,
-    "dashboard": 4333876
+    "full": 270938,
+    "dashboard": 270941
   },
   "checks": {
     "fullStatus200": true,
@@ -22,34 +22,173 @@
   "allChecksPassed": true,
   "replay": {
     "date": "2026-09-07",
-    "status": "CAPTURING",
-    "processed": 0,
-    "total": 57,
+    "status": "RUNNING",
+    "processed": 10,
+    "total": 48,
     "provisional": true,
     "completedAt": null,
     "capture": {
       "date": "2026-09-07",
-      "symbolCount": 57,
-      "updatedAt": "2026-09-07T07:14:36.649Z"
+      "symbolCount": 62,
+      "updatedAt": "2026-09-07T07:38:50.915Z"
     },
     "summary": {
       "provisional": true,
-      "symbolsAnalysed": 0,
+      "symbolsAnalysed": 10,
       "errors": 0,
-      "mistakes": {},
+      "mistakes": {
+        "MISSED_SAFE_MOVE": 3,
+        "LATE_DISCOVERY": 4
+      },
       "churn": {
         "rapidRoundTrips": 0,
         "totalRapidTradePnl": 0,
         "fees": 0,
         "rows": []
-      }
+      },
+      "bestMissed": [
+        {
+          "symbol": "COCHINSHIP.NS",
+          "name": "Cochin Shipyard",
+          "firstSeenAt": "2026-09-07T06:26:11.109Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788754500000,
+            "price": 1501,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.067,
+              "m20": 0.637,
+              "accel": 0.073,
+              "draw": 0.06,
+              "day": 0.127,
+              "rsi": 50
+            },
+            "forward": {
+              "f15": 0.986,
+              "f30": 1.013,
+              "f60": 1.166,
+              "f120": 0.5,
+              "mfe120": 1.166,
+              "mae120": 0.466
+            },
+            "quality": 1.928
+          },
+          "firstSafeAfterSeen": null,
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "3690.HK",
+          "name": "Meituan",
+          "firstSeenAt": "2026-09-07T05:35:58.894Z",
+          "sources": [
+            "DEEP"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788758400000,
+            "price": 80,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.063,
+              "m20": 0.125,
+              "accel": 0.187,
+              "draw": -0.062,
+              "day": -2.141,
+              "rsi": 39.1
+            },
+            "forward": {
+              "f15": 0.5,
+              "f30": 0.188,
+              "f60": 0.375,
+              "f120": null,
+              "mfe120": 0.813,
+              "mae120": -0.063
+            },
+            "quality": 0.691
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1788759900000,
+            "price": 80.19999694824219,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "m5": 0.062,
+              "m20": 0.187,
+              "accel": 0.373,
+              "draw": -0.249,
+              "day": -1.896,
+              "rsi": 58.1
+            },
+            "forward": {
+              "f15": -0.312,
+              "f30": 0.062,
+              "f60": 0.374,
+              "f120": null,
+              "mfe120": 0.561,
+              "mae120": -0.312
+            },
+            "quality": 0.421
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "9984.T",
+          "name": "SoftBank Group",
+          "firstSeenAt": "2026-09-07T05:35:58.894Z",
+          "sources": [
+            "DEEP"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788752700000,
+            "price": 6071,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "m5": 0.215,
+              "m20": 0.314,
+              "accel": 0.756,
+              "draw": -0.914,
+              "day": 8.605,
+              "rsi": 59.2
+            },
+            "forward": {
+              "f15": 0.708,
+              "f30": 0.955,
+              "f60": 1.4,
+              "f120": 1.548,
+              "mfe120": 1.845,
+              "mae120": 0.395
+            },
+            "quality": 2.38
+          },
+          "firstSafeAfterSeen": null,
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        }
+      ],
+      "worstEntries": []
     }
   },
   "depot": {
     "cash": 2885.134872455825,
-    "equity": 10056.67104624319,
-    "displayMarketValue": 7171.536173877259,
-    "displayAccountingDelta": -8.989445632323623e-08,
+    "equity": 10061.642166242378,
+    "displayMarketValue": 7176.507293877259,
+    "displayAccountingDelta": -9.070572559721768e-08,
     "positions": [
       {
         "symbol": "ORCL",
@@ -70,9 +209,9 @@
       {
         "symbol": "COST.L",
         "invested": 797.183517,
-        "ratioValue": 814.9841698670975,
-        "quantityValue": 814.98417,
-        "displayValue": 814.98417,
+        "ratioValue": 819.9552898662868,
+        "quantityValue": 819.95529,
+        "displayValue": 819.95529,
         "quantityUsed": true
       },
       {
@@ -85,5 +224,5 @@
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: mon, 07 sep 2026 07:15:19 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"343fbe4972214061b2228154264d00ff\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=bznvzmmcwbdtasiw4i1bohyi052s5ro2rob1bzp8wayfvdlu60wusq79ahpgv0oyuztsrl6gk%2fnp%2bjjfxldkr7yiw1etsdf2jnhuqtghz746uklzdfkmxquulgwzqnek6gn8m1thqcow9l2rnqhp3julymq%2fodagxbfppsc%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a373ebebb83c8aac-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: mon, 07 sep 2026 07:39:09 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"343fbe4972214061b2228154264d00ff\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=zykmrau52av5yc5sxmcrn9wsqmbbxkoeijsd3i76h7caxof1ak688xoedkfycjklpm9mrfcxvx014nydikrccaphzki1l0idvwlxd67vkgo752z%2bjpm6h4w7jgo3u4r8mu%2bqm0kofzwnrmhd7txdwfhieryqy0vzltlbeji%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a3740ed94bb3052a-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
