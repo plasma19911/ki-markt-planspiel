@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-07T12:48:50.300712+00:00",
-  "berlinNow": "2026-09-07T14:48:50.300611+02:00",
+  "checkedAt": "2026-09-07T19:22:11.254409+00:00",
+  "berlinNow": "2026-09-07T21:22:11.254299+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 273417,
-    "dashboard": 277067
+    "full": 283972,
+    "dashboard": 283972
   },
   "checks": {
     "fullStatus200": true,
@@ -23,23 +23,23 @@
   "replay": {
     "date": "2026-09-07",
     "status": "RUNNING",
-    "processed": 40,
-    "total": 82,
+    "processed": 80,
+    "total": 83,
     "provisional": true,
     "completedAt": null,
     "capture": {
       "date": "2026-09-07",
-      "symbolCount": 89,
-      "updatedAt": "2026-09-07T12:47:26.344Z"
+      "symbolCount": 96,
+      "updatedAt": "2026-09-07T19:22:05.448Z"
     },
     "summary": {
       "provisional": true,
-      "symbolsAnalysed": 33,
-      "errors": 7,
+      "symbolsAnalysed": 69,
+      "errors": 11,
       "mistakes": {
-        "MISSED_SAFE_MOVE": 12,
-        "LATE_DISCOVERY": 18,
-        "REPLAY_DATA_ERROR": 7
+        "MISSED_SAFE_MOVE": 24,
+        "LATE_DISCOVERY": 31,
+        "REPLAY_DATA_ERROR": 11
       },
       "churn": {
         "rapidRoundTrips": 0,
@@ -393,9 +393,9 @@
   },
   "depot": {
     "cash": 2885.134872455825,
-    "equity": 10049.992528244278,
-    "displayMarketValue": 7164.857655877258,
-    "displayAccountingDelta": -8.880488167051226e-08,
+    "equity": 10048.338876244547,
+    "displayMarketValue": 7163.204003877259,
+    "displayAccountingDelta": -8.853749022819102e-08,
     "positions": [
       {
         "symbol": "ORCL",
@@ -416,9 +416,9 @@
       {
         "symbol": "COST.L",
         "invested": 797.183517,
-        "ratioValue": 808.3056518681865,
-        "quantityValue": 808.3056519999999,
-        "displayValue": 808.3056519999999,
+        "ratioValue": 806.6519998684562,
+        "quantityValue": 806.6519999999999,
+        "displayValue": 806.6519999999999,
         "quantityUsed": true
       },
       {
@@ -431,5 +431,5 @@
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: mon, 07 sep 2026 12:48:50 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"343fbe4972214061b2228154264d00ff\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=4phsjq3%2biuemoefgtmd5v48m8z14dlzxlbw6s%2b2prztosakw0t7uy33lb7ow8o6ldmtmqwuvuifh8lql9o%2b2kayszrlqmxwdwkmjzmlllyikpnxn99c6woml8%2fy57rbsqldwyubviinfs66q2s5lun%2bwcvuzoegob%2fjmf%2f8%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a375d4797996ee24-ord\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: mon, 07 sep 2026 19:22:11 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"5a28fddc2c6de7a93962a54b99324129\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=piviqyelkyqhetmhovdecmreqeg2dfoxkmwjxuaqgswjibhc8vujybjlhm9hj0fgcunchn5pueuelrivvvttj1buhghrfb0yj7jzic5ri9ktl5ejcryslaqhbzoqxyrlnroqqsukz8lyjxru67y686j%2b%2bt0v3xvvytb2%2bxw%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a37814ab5c5ffa8a-sjc\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
