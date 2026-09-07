@@ -535,3 +535,59 @@ body.krakenOnePager .newsFlight{left:14%;top:65%;max-width:270px;border-color:rg
  body.krakenOnePager .krakenPriorityCopy,body.krakenOnePager .krakenPriorityCopy strong,.krakenNewsTraceHead,.krakenNewsTraceHead b,.krakenOrganDockHead,.krakenOrganDockHead>div,.krakenOrganDockHead b,.krakenOrganTileCopy{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis}
  body.krakenOnePager .krakenPriorityCopy strong,.krakenOrganDockHead b{display:block;white-space:nowrap}
 }
+
+/* V31.7.25: fluessiger Organismus. Passive Bereiche bleiben sichtbar, werden
+   aber nicht mehr permanent neu zusammengesetzt. Bewegung markiert nur noch
+   den gerade aktiven Informationsweg. */
+body.krakenPerformanceMode .krakenStage{contain:layout paint style}
+body.krakenPerformanceMode .krakenNode,
+body.krakenPerformanceMode .krakenNewsTrace,
+body.krakenPerformanceMode .krakenOrganTile,
+body.krakenPerformanceMode .topbar{backdrop-filter:none!important}
+body.krakenPerformanceMode .krakenLinks path,
+body.krakenPerformanceMode .krakenPageLinks path,
+body.krakenPerformanceMode .krakenOrganLinks path,
+body.krakenPerformanceMode .krakenOrganLinks circle{animation:none!important;filter:none!important}
+body.krakenPerformanceMode .krakenPageLinks path.active,
+body.krakenPerformanceMode .krakenOrganLinks .organArm.active{animation:organArmFlow 1.35s linear infinite!important}
+body.krakenPerformanceMode .krakenOrganLinks .organTissue.active{animation:tissueBreathe 2.8s ease-in-out infinite!important}
+body.krakenPerformanceMode .krakenOrganLinks circle.active{animation:organJointPulse 1.1s ease-in-out infinite alternate!important}
+body.krakenPerformanceMode .krakenOrganTile,
+body.krakenPerformanceMode .krakenOrganTileNode:after,
+body.krakenPerformanceMode .krakenCore,
+body.krakenPerformanceMode .krakenCoreWrap:before,
+body.krakenPerformanceMode .krakenCoreWrap:after,
+body.krakenPerformanceMode .krakenNode:before,
+body.krakenPerformanceMode .krakenOrganDock:before,
+body.krakenPerformanceMode .krakenOrganDock:after,
+body.krakenPerformanceMode .krakenDecisionVitals:after,
+body.krakenPerformanceMode .krakenStage:after,
+body.krakenPerformanceMode .sidebar:after,
+body.krakenPerformanceMode .krakenSense .liveDot,
+body.krakenPerformanceMode .krakenSense .radarPulse{animation:none!important}
+body.krakenPerformanceMode .krakenOrganTile.organProcessing{animation:nodeReceive .72s ease-out 1!important}
+body.krakenPerformanceMode .krakenNode.processing .krakenNodeIcon{animation:sourceThink .72s ease-in-out 1!important}
+body.krakenPerformanceMode .krakenCore.processing{animation:coreThink .72s ease-out 1!important}
+body.krakenPerformanceMode .krakenCore.processing:after{animation:coreSignal .72s ease-out 1!important}
+body.krakenPerformanceMode .krakenOrganTile:nth-child(n),
+body.krakenPerformanceMode .krakenOrganTile:nth-child(even){animation-delay:0s}
+body.krakenPerformanceMode .newsFlight{filter:none!important}
+body.krakenPerformanceMode .newsFlight:nth-child(n+2),
+body.krakenPerformanceMode .krakenPlankton:nth-child(n+2){display:none!important}
+body.krakenPerformanceMode .krakenPlankton i{box-shadow:none!important}
+body.krakenPerformanceMode.krakenUiIdle .newsFlight,
+body.krakenPerformanceMode.krakenUiIdle .krakenPlankton,
+body.krakenPerformanceMode.krakenUiIdle .krakenThought i,
+body.krakenPerformanceMode.krakenUiIdle .krakenScannerNerve:after,
+body.krakenPerformanceMode.krakenUiIdle .krakenDecisionPipeline i,
+body.krakenPerformanceMode.krakenUiIdle .krakenPriority,
+body.krakenPerformanceMode.krakenUiIdle .krakenPageLinks path.active,
+body.krakenPerformanceMode.krakenUiIdle .krakenOrganLinks .active{animation:none!important}
+body.krakenPerformanceMode.krakenUiPaused *,
+body.krakenPerformanceMode.krakenUiPaused *:before,
+body.krakenPerformanceMode.krakenUiPaused *:after{animation-play-state:paused!important}
+
+@media(max-width:760px){
+ body.krakenPerformanceMode .newsFlight,
+ body.krakenPerformanceMode .krakenPlankton{display:none!important}
+}

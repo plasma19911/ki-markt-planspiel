@@ -79,6 +79,10 @@ assert.match(ui,/attributeFilter:\['style'\]/,'late inline chart visibility chan
 assert.match(ui,/event\.key==='Escape'/,'Escape must close an open organ detail');
 assert.match(ui,/drawPageLinks/,'the dashboard organs must be connected visually');
 assert.match(ui,/function drawOrganLinks/,'the depot core must draw a live arm to every organ');
+assert.match(ui,/function scheduleGeometryDraw/,'large SVG geometry updates must be coalesced into one browser frame');
+assert.doesNotMatch(ui,/setInterval\(updateThought/,'the living thought loop must not wake a hidden or idle dashboard continuously');
+assert.match(ui,/document\.hidden&&latestStatus&&scanFresh/,'thought animation must only advance in a visible tab with fresh scanner data');
+assert.match(ui,/krakenUiIdle/,'stale and weekend states must pause expensive motion');
 assert.match(ui,/data-organ-link/,'each organ arm must retain the identity of its endpoint');
 assert.match(ui,/normalizedScore\(b\)-normalizedScore\(a\)/,'focus stocks must be sorted strongest first');
 assert.match(ui,/normalizedScore\(candidate\)>=50/,'weak candidates must not be pulled into the foreground');
@@ -109,6 +113,10 @@ assert.match(css,/@keyframes organArmFlow/,'information must visibly flow along 
 assert.match(css,/krakenOrganDetailOpen #livePanel>\.dashboardGrid\{z-index:202!important\}/,'opened organ content must paint above its integrated backdrop');
 assert.match(css,/@keyframes pageTentacleFlow/,'page-wide data arms must flow');
 assert.match(css,/\.krakenStage\.is-stale/,'stale status must slow or stop activity');
+assert.match(css,/V31\.7\.25: fluessiger Organismus/,'the performance policy must be documented beside the animation rules');
+assert.match(css,/krakenPerformanceMode \.krakenPageLinks path[^}]*animation:none!important/,'passive page-wide paths must not animate continuously');
+assert.match(css,/krakenPerformanceMode \.krakenOrganLinks path[^}]*animation:none!important/,'passive organ arms must not animate continuously');
+assert.match(css,/krakenPerformanceMode\.krakenUiPaused/,'hidden tabs must pause all Kraken animation work');
 assert.match(css,/@container \(max-width:620px\)/,'visualization must remain usable on mobile');
 assert.match(css,/\.krakenNode b\{font-size:13px!important\}/,'desktop source names must no longer use microscopic type');
 assert.match(css,/\.krakenNewsTraceItem b\{font-size:10px!important\}/,'desktop news text must remain readable');
@@ -130,7 +138,8 @@ assert.match(changelogCss,/height:100dvh!important/,'mobile changelog must fill 
 assert.match(changelogCss,/\.changelogList\{[^}]*overflow-y:auto!important/,'mobile changelog must own its scroll region');
 assert.match(changelogCss,/\.changelogEntry li\{[^}]*font-size:14px!important/,'mobile changelog copy must remain readable');
 assert.match(changelogCss,/\.changelogClose\{[^}]*width:44px!important;height:44px!important/,'mobile changelog close control must remain reachable');
-assert.match(changelog,/06\.09\.2026 · 22:02/,'newest collision and decision consistency correction must be documented first');
+assert.match(changelog,/06\.09\.2026 · 22:22/,'newest browser performance correction must be documented first');
+assert.match(changelog,/V31\.7\.25/,'coalesced rendering and targeted motion update must be documented');
 assert.match(changelog,/V31\.7\.24/,'collision-free UI and preserved news safety update must be documented');
 assert.match(changelog,/V31\.7\.23/,'weekend and Trade Republic production validation update must be documented');
 assert.match(changelog,/V31\.7\.22/,'cost-aware readiness and responsive UI update must be documented');

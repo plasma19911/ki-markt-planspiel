@@ -34,6 +34,8 @@ let latestNewsTraceSignature='';
 let latestPlanktonSignature='';
 let resizeTimer=null;
 let activeOrganKey='';
+let geometryFrame=0;
+let thoughtTimer=0;
 
 const PAGE_ORGANS=[
   ['#signals','ENTDECKEN','scan','signals'],['.dashboardChart','ERINNERN','learn','chart'],['#futureCard','VORAUSDENKEN','news','future'],
@@ -432,6 +434,20 @@ function drawOrganLinks(){
   svg.setAttribute('viewBox',`0 0 ${Math.max(1,stageBox.width)} ${Math.max(1,stageBox.height)}`);svg.innerHTML=parts.join('');
 }
 
+/* Alle Geometrien lesen dieselben Layoutboxen. Ein gemeinsamer Frame verhindert,
+   dass ein Statusereignis dieselben grossen SVG-Flaechen mehrfach neu aufbaut. */
+function scheduleGeometryDraw(){
+  if(document.hidden||geometryFrame)return;
+  geometryFrame=requestAnimationFrame(()=>{
+    geometryFrame=0;
+    enforceCollapsedLayout();
+    concealOnePagerOrgans();
+    drawLinks();
+    drawOrganLinks();
+    drawPageLinks();
+  });
+}
+
 function slug(value){return String(value||'organ').replace(/([a-z])([A-Z])/g,'$1-$2').replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'').toLowerCase()||'organ'}
 
 function organDefinition(card){
@@ -454,7 +470,7 @@ function setOrganExpanded(card,expanded,persist=true){
   const button=card.querySelector(':scope > .cardTitle .krakenOrganToggle,:scope > .liveNewsHead .krakenOrganToggle');
   if(button){button.textContent=expanded?'−':'+';button.setAttribute('aria-expanded',String(expanded));button.title=expanded?'Bereich verkleinern':'Bereich aufklappen'}
   if(persist){organPreferences[card.dataset.krakenKey]=expanded;try{localStorage.setItem(ORGAN_PREF_KEY,JSON.stringify(organPreferences))}catch{}}
-  requestAnimationFrame(drawPageLinks);
+  scheduleGeometryDraw();
 }
 
 function setAllOrgans(expanded){document.querySelectorAll('.krakenOrgan').forEach(card=>setOrganExpanded(card,expanded,true))}
@@ -531,7 +547,7 @@ function renderOrganDock(){
   }
   root.querySelectorAll('.krakenOrganTile').forEach(tile=>{if(!liveKeys.has(tile.dataset.organTile))tile.remove()});
   const count=$('krakenDockCount');if(count)count.textContent=`${cards.length} aktiv`;
-  requestAnimationFrame(drawOrganLinks);
+  scheduleGeometryDraw();
 }
 
 function concealOnePagerOrgans(){
@@ -542,7 +558,7 @@ function concealOnePagerOrgans(){
 function closeOrganDetail(){
   const card=document.querySelector('#livePanel .krakenOrgan.organFocused');
   if(card){card.classList.remove('organFocused');card.removeAttribute('role');card.removeAttribute('aria-modal');setOrganExpanded(card,false,false);for(const property of ['display','left','top','width','height'])card.style.removeProperty(property);card.style.setProperty('display','none','important')}
-  activeOrganKey='';document.querySelectorAll('.krakenOrganTile.organSelected').forEach(tile=>tile.classList.remove('organSelected'));document.body.classList.remove('krakenOrganDetailOpen');const backdrop=$('krakenOrganBackdrop');if(backdrop){backdrop.hidden=true;for(const property of ['left','top','width','height'])backdrop.style.removeProperty(property)}requestAnimationFrame(()=>{drawLinks();drawOrganLinks();drawPageLinks()});
+  activeOrganKey='';document.querySelectorAll('.krakenOrganTile.organSelected').forEach(tile=>tile.classList.remove('organSelected'));document.body.classList.remove('krakenOrganDetailOpen');const backdrop=$('krakenOrganBackdrop');if(backdrop){backdrop.hidden=true;for(const property of ['left','top','width','height'])backdrop.style.removeProperty(property)}scheduleGeometryDraw();
 }
 
 function positionOrganDetail(){
@@ -600,7 +616,7 @@ function decoratePageOrgans(){
   for(const [selector,label,family,key] of PAGE_ORGANS)document.querySelectorAll(selector).forEach(card=>decorateOrgan(card,{selector,label,family,key}));
   document.querySelectorAll('#livePanel .dashboardGrid > .card:not(.krakenOrgan)').forEach(card=>decorateOrgan(card));
   if(latestStatus)updateOrganSummaries(latestStatus);
-  updateOrganCount();renderOrganDock();concealOnePagerOrgans();requestAnimationFrame(drawPageLinks);
+  updateOrganCount();renderOrganDock();concealOnePagerOrgans();scheduleGeometryDraw();
 }
 
 function scheduleKrakenSync(){if(organSyncPending)return;organSyncPending=true;requestAnimationFrame(()=>{organSyncPending=false;decoratePageOrgans()})}
@@ -640,7 +656,7 @@ function pulsePageOrgans(phase){
 }
 
 function updateThought(){
-  if(!latestStatus)return;
+  if(!latestStatus||document.hidden)return;
   const fresh=scanFresh(latestStatus);
   const thought=$('krakenThought')?.querySelector('span');
   const core=$('krakenCore');
@@ -659,6 +675,24 @@ function updateThought(){
   phaseIndex=(phaseIndex+1)%PHASES.length;
 }
 
+function scheduleThoughtLoop(){
+  clearTimeout(thoughtTimer);
+  const tick=()=>{
+    if(!document.hidden&&latestStatus&&scanFresh(latestStatus))updateThought();
+    thoughtTimer=setTimeout(tick,latestStatus&&scanFresh(latestStatus)?2800:10000);
+  };
+  thoughtTimer=setTimeout(tick,latestStatus&&scanFresh(latestStatus)?2800:10000);
+}
+
+function syncUiActivity(){
+  document.body.classList.toggle('krakenUiPaused',document.hidden);
+  if(!document.hidden){
+    updateThought();
+    scheduleGeometryDraw();
+  }
+  scheduleThoughtLoop();
+}
+
 function render(status){
   latestStatus=status;
   const fresh=scanFresh(status);
@@ -669,6 +703,7 @@ function render(status){
   freshness.className=`tag ${fresh?'fresh':'stale'}`;
   $('krakenStage').classList.toggle('is-stale',!fresh);
   $('livePanel')?.classList.toggle('krakenDataFresh',fresh);
+  document.body.classList.toggle('krakenUiIdle',!fresh);
 
   renderSources(status);
   renderCore(status);
@@ -681,7 +716,7 @@ function render(status){
   updateOrganSummaries(status);
   renderExpectedWeekendPause();
   updateThought();
-  requestAnimationFrame(()=>{enforceCollapsedLayout();concealOnePagerOrgans();drawLinks();drawOrganLinks();drawPageLinks()});
+  scheduleGeometryDraw();
 
   const signature=JSON.stringify([
     status.config?.last_scan,
@@ -710,10 +745,11 @@ $('krakenCompactAll')?.addEventListener('click',()=>{closeOrganDetail();setAllOr
 $('krakenExpandAll')?.addEventListener('click',()=>setAllOrgans(true));
 window.addEventListener('resize',()=>{
   clearTimeout(resizeTimer);
-  resizeTimer=setTimeout(()=>{enforceCollapsedLayout();positionOrganDetail();drawLinks();drawOrganLinks();drawPageLinks()},120);
+  resizeTimer=setTimeout(()=>{positionOrganDetail();scheduleGeometryDraw()},120);
 },{passive:true});
-setInterval(updateThought,1800);
+document.body.classList.add('krakenPerformanceMode');
+document.addEventListener('visibilitychange',syncUiActivity);
 decoratePageOrgans();
 watchDynamicOrgans();
-requestAnimationFrame(drawPageLinks);
-requestAnimationFrame(drawOrganLinks);
+syncUiActivity();
+scheduleGeometryDraw();
