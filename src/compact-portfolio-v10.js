@@ -1,5 +1,6 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v9.js';
 import {blendLeaderCacheV3172} from './pc-agent-leader-blend-v3172.js';
+import {isNonEquityEntry} from './leader-entry-filter.js';
 
 const AGENT_STATE_KEY='state/windows-pc-agent-v1';
 const AGENT_PREFETCH_KEY='state/windows-pc-prefetch-v1';
@@ -41,12 +42,14 @@ function normalizeHeartbeat(payload={}){
 }
 
 function normalizeLeaderEntries(payload={}){
-  const out=[],seen=new Set();
+  const out=[],seen=new Set();let dropped=0;
   for(const x of arr(payload.leaderEntries).slice(0,160)){
     const symbol=key(typeof x==='string'?x:x?.symbol);if(!symbol||symbol.length>24)continue;
+    if(isNonEquityEntry(symbol)){dropped++;continue}
     const market=cleanText(typeof x==='string'?'GLOBAL':x?.market||'GLOBAL',16).toUpperCase(),source=cleanText(typeof x==='string'?'PC-Agent':x?.source||'PC-Agent',80),rank=Math.max(1,Math.round(num(typeof x==='string'?out.length+1:x?.rank,out.length+1)));
     const k=`${market}:${symbol}`;if(seen.has(k))continue;seen.add(k);out.push({symbol,market,source,rank});
   }
+  out.droppedNonEquityEntries=dropped;
   return out;
 }
 
@@ -105,18 +108,18 @@ export class MarketPortfolio extends BasePortfolio{
     const rows=arr(data?.equities).filter(x=>x?.symbol),index=masterIndex(rows),leader=buildLeaderCache(entries,rows),futureWatch=normalizeFutureWatch(payload?.futureWatch,index),leaderHealthy=Boolean(leader.meta.externalHealthy);let previous=null;
     try{previous=this.ctx?.storage?.kv?.get(LEADER_CACHE_KV_KEY)||null}catch{}
     const blended=blendLeaderCacheV3172(leader,previous),leaderUsable=Boolean(blended.meta.usable);
-    const prefetch={receivedAt:new Date().toISOString(),leaderUpdatedAt:payload?.leaderUpdatedAt?cleanText(payload.leaderUpdatedAt,50):new Date().toISOString(),futureUpdatedAt:futureWatch?.updatedAt||null,leaderEntryCount:entries.length,resolvedLeaderCount:leader.meta.externalResolved,selectedLeaderCount:blended.leaders.length,leaderHealthy,leaderCacheUsable:leaderUsable,leaderCacheMode:blended.meta.mode,futureWatch,metrics:heartbeat};
+    const prefetch={receivedAt:new Date().toISOString(),leaderUpdatedAt:payload?.leaderUpdatedAt?cleanText(payload.leaderUpdatedAt,50):new Date().toISOString(),futureUpdatedAt:futureWatch?.updatedAt||null,leaderEntryCount:entries.length,droppedNonEquityEntries:num(entries.droppedNonEquityEntries),resolvedLeaderCount:leader.meta.externalResolved,selectedLeaderCount:blended.leaders.length,leaderHealthy,leaderCacheUsable:leaderUsable,leaderCacheMode:blended.meta.mode,futureWatch,metrics:heartbeat};
     try{this.ctx?.storage?.kv?.put(AGENT_PREFETCH_KEY,prefetch);if(leaderUsable)this.ctx?.storage?.kv?.put(LEADER_CACHE_KV_KEY,blended)}catch{}
     if(leaderUsable&&this.zeroAssets){this.zeroAssets.leaderCache=null;this.zeroAssets.leaderCacheAt=0;this.zeroAssets.lastLeaderMeta=blended.meta}
     if(futureWatch&&this.engine?.store?.update){await this.engine.store.update(s=>{s.futureWatch=futureWatch;return true})}
-    return{ok:true,agent:'WINDOWS_PC_AGENT',prefetch:{receivedAt:prefetch.receivedAt,leaderEntryCount:entries.length,resolvedLeaderCount:leader.meta.externalResolved,selectedLeaderCount:blended.leaders.length,leaderHealthy,leaderCacheUsable:leaderUsable,leaderCacheMode:blended.meta.mode,futureCandidates:futureWatch?.candidateCount||0},heartbeat};
+    return{ok:true,agent:'WINDOWS_PC_AGENT',prefetch:{receivedAt:prefetch.receivedAt,leaderEntryCount:entries.length,droppedNonEquityEntries:prefetch.droppedNonEquityEntries,resolvedLeaderCount:leader.meta.externalResolved,selectedLeaderCount:blended.leaders.length,leaderHealthy,leaderCacheUsable:leaderUsable,leaderCacheMode:blended.meta.mode,futureCandidates:futureWatch?.candidateCount||0},heartbeat};
   }
 
   agentStatus(){
     let h=null,p=null,q=null;try{h=this.ctx?.storage?.kv?.get(AGENT_STATE_KEY)||null;p=this.ctx?.storage?.kv?.get(AGENT_PREFETCH_KEY)||null;q=this.ctx?.storage?.kv?.get(AGENT_SCAN_KEY)||null}catch{}
     const online=fresh(h?.lastSeenAt,AGENT_ONLINE_MS),ageMs=h?.lastSeenAt?Math.max(0,Date.now()-Date.parse(h.lastSeenAt)):null,scanAgeMs=q?.lastScanAt?Math.max(0,Date.now()-Date.parse(q.lastScanAt)):null;
     const scanFresh=Number.isFinite(scanAgeMs)&&scanAgeMs<=AGENT_SCAN_GAP_MS,onlineWithoutScan=online&&!q?.lastScanAt;
-    return{configured:Boolean(this.env?.PC_AGENT_TOKEN),online,lastSeenAt:h?.lastSeenAt||null,ageSeconds:Number.isFinite(ageMs)?Math.round(ageMs/1000):null,fallbackAfterSeconds:Math.round(AGENT_ONLINE_MS/1000),lastScanAt:q?.lastScanAt||null,scanAgeSeconds:Number.isFinite(scanAgeMs)?Math.round(scanAgeMs/1000):null,scanFresh,onlineWithoutScan,healthState:onlineWithoutScan?'ONLINE_NO_COMPLETED_SCAN':online&&!scanFresh?'ONLINE_SCAN_STALE':online?'ONLINE_SCAN_FRESH':'OFFLINE',healthMessage:onlineWithoutScan?'PC-Agent sendet Lebenszeichen, aber noch keinen bestätigten Handelsscan. Cloudflare hält den Gap-Fallback aktiv.':online&&!scanFresh?'PC-Handelsscan ist veraltet; Cloudflare überbrückt die Lücke.':online?'PC-Agent und Handelsscan sind frisch.':'PC-Agent ist offline.',scanGapFallbackAfterSeconds:Math.round(AGENT_SCAN_GAP_MS/1000),prefetchFresh:fresh(p?.receivedAt),prefetchAt:p?.receivedAt||null,resolvedLeaderCount:num(p?.resolvedLeaderCount),selectedLeaderCount:num(p?.selectedLeaderCount),leaderHealthy:Boolean(p?.leaderHealthy),leaderCacheUsable:Boolean(p?.leaderCacheUsable),leaderCacheMode:p?.leaderCacheMode||null,futureCandidates:num(p?.futureWatch?.candidateCount),metrics:h||null};
+    return{configured:Boolean(this.env?.PC_AGENT_TOKEN),online,lastSeenAt:h?.lastSeenAt||null,ageSeconds:Number.isFinite(ageMs)?Math.round(ageMs/1000):null,fallbackAfterSeconds:Math.round(AGENT_ONLINE_MS/1000),lastScanAt:q?.lastScanAt||null,scanAgeSeconds:Number.isFinite(scanAgeMs)?Math.round(scanAgeMs/1000):null,scanFresh,onlineWithoutScan,healthState:onlineWithoutScan?'ONLINE_NO_COMPLETED_SCAN':online&&!scanFresh?'ONLINE_SCAN_STALE':online?'ONLINE_SCAN_FRESH':'OFFLINE',healthMessage:onlineWithoutScan?'PC-Agent sendet Lebenszeichen, aber noch keinen bestätigten Handelsscan. Cloudflare hält den Gap-Fallback aktiv.':online&&!scanFresh?'PC-Handelsscan ist veraltet; Cloudflare überbrückt die Lücke.':online?'PC-Agent und Handelsscan sind frisch.':'PC-Agent ist offline.',scanGapFallbackAfterSeconds:Math.round(AGENT_SCAN_GAP_MS/1000),prefetchFresh:fresh(p?.receivedAt),prefetchAt:p?.receivedAt||null,leaderEntryCount:num(p?.leaderEntryCount),droppedNonEquityEntries:num(p?.droppedNonEquityEntries),resolvedLeaderCount:num(p?.resolvedLeaderCount),selectedLeaderCount:num(p?.selectedLeaderCount),leaderHealthy:Boolean(p?.leaderHealthy),leaderCacheUsable:Boolean(p?.leaderCacheUsable),leaderCacheMode:p?.leaderCacheMode||null,futureCandidates:num(p?.futureWatch?.candidateCount),metrics:h||null};
   }
 
   async _refreshFutureWatch(force=false){

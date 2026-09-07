@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 const entry=fs.readFileSync(new URL('../src/compact-portfolio-v11.js',import.meta.url),'utf8');
-const changelog=fs.readFileSync(new URL('../public/ui-v283-fix.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-v292.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-v297.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-v301.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-v302.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-v303.js',import.meta.url),'utf8');
+const changelog=fs.readFileSync(new URL('../public/ui-v283-fix.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-v292.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-v297.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-v301.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-v302.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-v303.js',import.meta.url),'utf8')+'\n'+fs.readFileSync(new URL('../public/changelog-current-v31712.js',import.meta.url),'utf8');
 const master=fs.readFileSync(new URL('../public/changelog-master-v290.js',import.meta.url),'utf8');
 const publicFiles=fs.readdirSync(new URL('../public/',import.meta.url));
 
@@ -55,6 +55,7 @@ assert.ok(changelog.includes('Einstiegsscore repariert'),'V30.2 muss die ausgef�
 assert.ok(changelog.includes('Feiertags-Fix'),'V30.3 muss die reparierte Handelstagserkennung dokumentieren');
 assert.ok(changelog.includes('Trade-Republic-Abrechnung'),'V30.3 muss den Stocks-only-Accounting-Smoke dokumentieren');
 assert.ok(changelog.includes('Früher stoppen'),'V30.3 muss die merge-blockierenden Systemchecks dokumentieren');
+assert.ok(changelog.includes('V31.7.30 · PC-First-Kandidaten und Brokerfreigabe repariert'),'V31.7.30 muss den aktuellen PC-First-Fix dokumentieren');
 assert.ok(master.includes("import('/changelog-v292.js"),'Änderungen-Button muss V29.2+ Historie laden');
 assert.ok(master.includes("import('/changelog-v297.js"),'Änderungen-Button muss V29.7/V30.0 Historie laden');
 assert.ok(master.includes("import('/changelog-v301.js"),'Änderungen-Button muss V30.1 laden');

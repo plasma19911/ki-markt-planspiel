@@ -18,7 +18,7 @@ export function isExactTradeRepublicRow(r){
     && /^[A-Z]{2}[A-Z0-9]{9}[0-9]$/.test(String(r?.isin||''));
 }
 
-function canonicalExecutionRow(r){
+export function canonicalExecutionRow(r){
   const originalMode=String(r?.brokerMatchMode||'').toUpperCase();
   if(originalMode==='EXACT_NORMALIZED_NAME')return r;
   return {...r,brokerMatchOriginalMode:originalMode,brokerMatchMode:'EXACT_NORMALIZED_NAME',brokerMatchCanonicalized:true};

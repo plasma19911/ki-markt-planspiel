@@ -5,13 +5,32 @@ import {agentStatusLite,shouldServeAgentLite} from './status-lite.js';
 import {verifyCloudflareAccess} from './access-auth.js';
 import {positionChartHistoryData} from './position-chart-history.js';
 import {buildLiveNewsFeed} from './live-news-feed.js';
+import {isExactTradeRepublicRow,canonicalExecutionRow} from './trade-republic-master.js';
 export {MarketPortfolio};
 
 const enc=new TextEncoder();
 const approvalMode=env=>String(env?.ORDER_APPROVAL_MODE||'disabled').toLowerCase()==='enabled';
 async function etag(payload){const digest=await crypto.subtle.digest('SHA-1',enc.encode(JSON.stringify(payload)));return `"${[...new Uint8Array(digest)].map(b=>b.toString(16).padStart(2,'0')).join('')}"`}
 async function liteStatusResponse(request,env){const p=env.PORTFOLIO.getByName('default-paper-portfolio');let payload;try{payload=await p.agentStatusLite()}catch{payload=agentStatusLite(await p.status())}payload=agentStatusLite(payload);const tag=await etag(payload),headers={'cache-control':'private, no-cache','etag':tag,'vary':'accept-encoding,user-agent','x-worker-load':'pc-agent-lite-state'};if(request.headers.get('if-none-match')===tag)return new Response(null,{status:304,headers});if(request.method==='HEAD')return new Response(null,{status:200,headers:{...headers,'content-type':'application/json'}});return Response.json(payload,{headers})}
-async function enrichAgentUniverse(response,env,requestUrl){if(!response?.ok)return response;try{const payload=await response.clone().json();if(!Array.isArray(payload?.equities))return response;const assetUrl=new URL('/universe.json',requestUrl),asset=await env.ASSETS.fetch(new Request(assetUrl.toString()));if(!asset.ok)return response;const master=await asset.json(),bySymbol=new Map((Array.isArray(master?.equities)?master.equities:[]).map(x=>[String(x?.symbol||'').toUpperCase(),x]));payload.equities=payload.equities.map(row=>{const x=bySymbol.get(String(row?.symbol||'').toUpperCase());if(!x)return row;return{...row,isin:x?.isin||null,assetClass:String(x?.assetClass||'EQUITY').toUpperCase(),brokerTarget:x?.brokerTarget||'Trade Republic',venueTarget:x?.venueTarget||null,brokerVerified:x?.brokerVerified===true,brokerVerificationSource:x?.brokerVerificationSource||null,brokerMatchMode:x?.brokerMatchMode||null,tradeRepublicName:x?.tradeRepublicName||null}});payload.brokerMetadataPreserved=true;payload.targetBroker='Trade Republic';return Response.json(payload,{status:response.status,headers:{'cache-control':'no-store'}})}catch{return response}}
+async function enrichAgentUniverse(response,env,requestUrl){
+ if(!response?.ok)return response;
+ try{
+  const payload=await response.clone().json();if(!Array.isArray(payload?.equities))return response;
+  const assetUrl=new URL('/universe.json',requestUrl),asset=await env.ASSETS.fetch(new Request(assetUrl.toString()));if(!asset.ok)return response;
+  const master=await asset.json(),bySymbol=new Map((Array.isArray(master?.equities)?master.equities:[]).map(x=>[String(x?.symbol||'').toUpperCase(),x]));
+  let canonicalized=0;
+  payload.equities=payload.equities.map(row=>{
+   const raw=bySymbol.get(String(row?.symbol||'').toUpperCase());if(!raw)return row;
+   // Only official, verified equity rows with a valid ISIN may be promoted to
+   // the canonical execution mode. Unknown rows remain fail-closed.
+   const x=isExactTradeRepublicRow(raw)?canonicalExecutionRow(raw):raw;
+   if(x!==raw&&x?.brokerMatchCanonicalized)canonicalized++;
+   return{...row,isin:x?.isin||null,assetClass:String(x?.assetClass||'EQUITY').toUpperCase(),brokerTarget:x?.brokerTarget||'Trade Republic',venueTarget:x?.venueTarget||null,brokerVerified:x?.brokerVerified===true,brokerVerificationSource:x?.brokerVerificationSource||null,brokerMatchMode:x?.brokerMatchMode||null,brokerMatchOriginalMode:x?.brokerMatchOriginalMode||x?.brokerMatchMode||null,brokerMatchCanonicalized:x?.brokerMatchCanonicalized===true,tradeRepublicName:x?.tradeRepublicName||null};
+  });
+  payload.brokerMetadataPreserved=true;payload.targetBroker='Trade Republic';payload.brokerMatchCanonicalizedCount=canonicalized;
+  return Response.json(payload,{status:response.status,headers:{'cache-control':'no-store'}});
+ }catch{return response}
+}
 async function normalizeStartResponse(response){if(!response?.ok)return response;try{const payload=await response.clone().json();return Response.json({...payload,targetBroker:'Trade Republic',brokerCatalogPolicy:'Nur exakt im offiziellen Trade-Republic-Universum verifizierte Aktien duerfen neu gekauft werden.'},{status:response.status,headers:{'cache-control':'no-store'}})}catch{return response}}
 async function manualTradeResponse(request,env){
  if(approvalMode(env)){const auth=await verifyCloudflareAccess(request,env);if(!auth?.ok)return Response.json({ok:false,error:auth?.error||'Nicht autorisiert.'},{status:auth?.status||403,headers:{'cache-control':'no-store'}})}

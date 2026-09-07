@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {FinalDecisionController} from '../src/final-decision-controller.js';
 import {sanitizeBugContaminatedLearning,isKnownBugHistoryRow} from '../src/learning-quarantine.js';
+import {BROKER_VERIFIED} from './helpers/broker-verified-fixture.mjs';
 
 const planInput=(candidates=[],held=[])=>({messages:[{role:'user',content:`PAPER-TRADING ONLY. JSON-only. Kandidaten=${JSON.stringify(candidates)} Gehalten=${JSON.stringify(held)}`}]});
 const baseWith=actions=>({async run(){return{response:JSON.stringify({summary:'inner',actions})}}});
@@ -9,7 +10,7 @@ const run=async({candidates=[],held=[],actions=[],history=[],cash=5000})=>{
  const c=new FinalDecisionController(baseWith(actions),{getState:()=>state,getLearning:()=>({buckets:[]})});
  return JSON.parse((await c.run('fake',planInput(candidates,held))).response);
 };
-const candidate=(symbol,extra={})=>({symbol,liveScore:5.55,liveConfidence:.63,day:2.1,intraday5m:.46,intraday20m:2.57,momentumAcceleration5:.26,intradayRsi:65,drawdownFrom20mHighPct:-.7,news:.1,eventRisk:'NONE',eventText:'',momentumState:'NORMAL',momentumSellSignal:'NONE',volumeRatio:1.25,...extra});
+const candidate=(symbol,extra={})=>({...BROKER_VERIFIED,symbol,liveScore:5.55,liveConfidence:.63,day:2.1,intraday5m:.46,intraday20m:2.57,momentumAcceleration5:.26,intradayRsi:65,drawdownFrom20mHighPct:-.7,news:.1,eventRisk:'NONE',eventText:'',momentumState:'NORMAL',momentumSellSignal:'NONE',volumeRatio:1.25,...extra});
 
 {
  const symbol='GUBRA.CO',c=candidate(symbol,{momentumState:'REVERSAL',intraday5m:-.12,intraday20m:-.24,momentumAcceleration5:-.04,sellerShare:58});

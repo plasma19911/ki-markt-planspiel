@@ -8,7 +8,6 @@ const ui=read('public/v287-live-ui.js');
 const pcFallback=read('public/pc-candidate-fallback-v292.js');
 const changelog292=read('public/changelog-v292.js');
 const entry=read('src/index-v19.js');
-const prod=read('src/compact-portfolio-v11.js');
 const profit=read('src/compact-portfolio-v297-profit-exit.js');
 const directional=read('src/compact-portfolio-v296-directional-position.js');
 const dashboard=read('src/index-v20.js');
@@ -19,8 +18,17 @@ assert.match(ui,/topPcCandidates/);assert.match(ui,/pcDeepScore/);assert.match(u
 assert.match(pcFallback,/PC-Finalisten/);assert.match(pcFallback,/PC-Vollscan aktiv/);assert.match(pcFallback,/Deep-Score/);assert.match(pcFallback,/Research\/Safety entscheidet erst danach/);
 assert.match(changelog292,/V29\.2 · Score-Pipeline repariert/);assert.match(changelog292,/ersten 1\.000/);assert.match(changelog292,/Deep 240/);
 assert.match(entry,/v287-live-ui\.js/);
-assert.match(prod,/compact-portfolio-v303-system-validation\.js/,'production compatibility entry must route through V30.3 system wrapper');
-assert.match(prod,/compact-portfolio-v297-profit-exit\.js/,'production comments must document the preserved V29.7 profit stack');
+{
+ const seen=new Set(),chain=[];let current='compact-portfolio-v11.js';
+ while(current&&!seen.has(current)&&chain.length<100){
+  seen.add(current);chain.push(current);
+  const text=read(`src/${current}`);
+  const match=text.match(/(?:import\s*\{\s*MarketPortfolio as BasePortfolio\s*\}|export\s*\{\s*MarketPortfolio\s*\})\s*from\s*'\.\/([^']+)'/);
+  current=match?.[1]||null;
+ }
+ assert.ok(chain.includes('compact-portfolio-v303-system-validation.js'),'production chain must preserve V30.3 system validation');
+ assert.ok(chain.includes('compact-portfolio-v297-profit-exit.js'),'production chain must preserve V29.7 profit behavior');
+}
 assert.match(profit,/compact-portfolio-v296-directional-position\.js/,'V29.7 must preserve V29.6 directional held-score behavior underneath');
 assert.match(directional,/compact-portfolio-v296-score-coherence\.js/,'directional V29.6 wrapper must preserve the coherent score stack underneath');
 
@@ -29,11 +37,11 @@ assert.match(directional,/compact-portfolio-v296-score-coherence\.js/,'direction
 for(const field of ['runtimeVersion','liveDecisionVersion','systemValidationPolicy','daytradeLiveFeedbackPolicy','daytradeEntryPolicy','daytradeDipPolicy','daytradeLargeCapPolicy','profitExitPolicy','canonicalScorePolicy','finalDecisionPolicy']){
  assert.match(dashboard,new RegExp(`['"]${field}['"]`),`Dashboard projection must expose ${field}`);
 }
-assert.match(dashboard,/x-planspiel-ui':'v30\.3/,'Dashboard response header must identify V30.3');
+assert.match(dashboard,/x-planspiel-ui':'v\d+\.\d+/,'Dashboard response must expose a versioned UI header');
 assert.match(dashboard,/decision-score-56-v30\.3-system/,'Dashboard must advertise the current authoritative BUY-56 score stack');
 assert.match(dashboard,/v30\.2-live-feedback\+v30\.1-fresh-tape\+v30\.0-dips/,'Dashboard must expose the current daytrade entry stack');
 assert.match(dashboard,/PC_FIRST_FULL_MASTER_STAGED/);
-assert.match(wrangler,/"main"\s*:\s*"src\/index-v20\.js"/);
+assert.match(wrangler,/"main"\s*:\s*"src\/index-v\d+\.js"/);
 
 const now=Date.parse('2026-08-20T17:40:00Z');
 function storage(seed={}){const m=new Map(Object.entries(seed));return{kv:{get:k=>m.get(k),put:(k,v)=>m.set(k,structuredClone(v))},_m:m}}

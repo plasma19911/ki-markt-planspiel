@@ -3,6 +3,7 @@ import {AGM_PREVIEW_RULES} from '../src/agm-opportunity-scoring.js';
 import {composeAgmBaseScore} from '../src/agm-signal-model.js';
 import {evaluateAgmCalendarData} from '../src/agm-runtime.js';
 import {AgmPreviewAiGuard} from '../src/agm-preview-ai-guard.js';
+import {BROKER_VERIFIED} from './helpers/broker-verified-fixture.mjs';
 
 const plusDays=n=>new Date(Date.now()+n*86400000).toISOString().slice(0,10);
 const fundamental={fundamentalScore:68,fundamentalConfidence:.72,profitForecastPositive:true,fundamentalReasons:['Analysten erwarten Gewinnwachstum']};
@@ -12,7 +13,7 @@ const daily=composeAgmBaseScore({fundamental,chart,news});
 assert.ok(daily.baseScore>=AGM_PREVIEW_RULES.minimumScore,'daily score should recognise a strong positive setup');
 
 const event={date:plusDays(5),symbol:'HVTEST.DE',name:'HV Test AG',...daily,baseLabel:'POSITIV',scoreEvaluatedAt:new Date().toISOString()};
-const candidate={symbol:'HVTEST.DE',name:'HV Test AG',instrument_type:'EQUITY',currency:'EUR',fx_rate:1,fx_verified:true,fresh:true,score:3.8,confidence:.64,liveScore:3.8,liveConfidence:.64,dayChange:1.2,day:1.2,momentum5:.06,intraday5m:.06,momentum20:.18,intraday20m:.18,momentumAcceleration5:.04,rsi:61,momentumState:'NORMAL',momentumSellSignal:'NONE',eventRisk:'NONE',newsScore:.12,newsConfidence:.65};
+const candidate={...BROKER_VERIFIED,symbol:'HVTEST.DE',name:'HV Test AG',instrument_type:'EQUITY',currency:'EUR',fx_rate:1,fx_verified:true,fresh:true,score:3.8,confidence:.64,liveScore:3.8,liveConfidence:.64,dayChange:1.2,day:1.2,momentum5:.06,intraday5m:.06,momentum20:.18,intraday20m:.18,momentumAcceleration5:.04,rsi:61,momentumState:'NORMAL',momentumSellSignal:'NONE',eventRisk:'NONE',newsScore:.12,newsConfidence:.65};
 const calendar={version:1,modelVersion:27.6,updatedAt:new Date().toISOString(),scoreEvaluationCadence:'daily',scoreReevaluation:'once daily only',source:'test',events:[event]};
 
 // Core invariant: live state/news must NOT change the stored daily AGM score.

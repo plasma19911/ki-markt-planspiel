@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import {calibratedEntryExpectation,applyPortfolioRiskCaps,V27_RISK_LIMITS} from '../src/portfolio-risk-calibration.js';
 import {sanitizeBugContaminatedLearning,isKnownBugHistoryRow} from '../src/learning-quarantine.js';
 import {FinalDecisionController} from '../src/final-decision-controller.js';
+import {BROKER_VERIFIED} from './helpers/broker-verified-fixture.mjs';
 
 const positiveLearning={buckets:[{bucket:'PULLBACK_RETEST',samples15:20,qualityPct:.30,winRatePct:60},{bucket:'CHASE_NEAR_HIGH',samples15:20,qualityPct:-.40,winRatePct:30}]};
-const pullback={symbol:'DIP.DE',theme:'TECH',currency:'EUR',liveScore:5.2,liveConfidence:.74,day:1.2,intraday5m:.08,intraday20m:.20,momentumAcceleration5:.05,intradayRsi:60,drawdownFrom20mHighPct:-.80,news:.1,eventRisk:'NONE',momentumState:'NORMAL',momentumSellSignal:'NONE',volumeRatio:1.2};
+const pullback={...BROKER_VERIFIED,symbol:'DIP.DE',theme:'TECH',currency:'EUR',liveScore:5.2,liveConfidence:.74,day:1.2,intraday5m:.08,intraday20m:.20,momentumAcceleration5:.05,intradayRsi:60,drawdownFrom20mHighPct:-.80,news:.1,eventRisk:'NONE',momentumState:'NORMAL',momentumSellSignal:'NONE',volumeRatio:1.2};
 
 {
  const e=calibratedEntryExpectation(pullback,positiveLearning);

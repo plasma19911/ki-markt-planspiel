@@ -2,12 +2,20 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {enforceTradingBehaviorV277} from '../src/trading-behavior-v277.js';
 
-const v11=fs.readFileSync(new URL('../src/compact-portfolio-v11.js',import.meta.url),'utf8');
-const current=fs.readFileSync(new URL('../src/compact-portfolio-v297-profit-exit.js',import.meta.url),'utf8');
-const v278=fs.readFileSync(new URL('../src/compact-portfolio-v278-trading-behavior.js',import.meta.url),'utf8');
-assert.match(v11,/compact-portfolio-v297-profit-exit\.js/,'production compatibility entry must route through the current outer behavior wrapper');
-assert.match(current,/compact-portfolio-v296-directional-position\.js/,'V29.7 must preserve the V29.6 directional held-score stack underneath');
-assert.match(v278,/compact-portfolio-v276-daily-agm\.js/,'V27.8 must preserve the audited V27.6 AGM/safety base stack');
+function decoratorChain(entry='compact-portfolio-v11.js'){
+ const seen=new Set(),chain=[];let current=entry;
+ while(current&&!seen.has(current)&&chain.length<100){
+  seen.add(current);chain.push(current);
+  const text=fs.readFileSync(new URL(`../src/${current}`,import.meta.url),'utf8');
+  const match=text.match(/(?:import\s*\{\s*MarketPortfolio as BasePortfolio\s*\}|export\s*\{\s*MarketPortfolio\s*\})\s*from\s*'\.\/([^']+)'/);
+  current=match?.[1]||null;
+ }
+ return chain;
+}
+const chain=decoratorChain();
+for(const layer of ['compact-portfolio-v297-profit-exit.js','compact-portfolio-v296-directional-position.js','compact-portfolio-v278-trading-behavior.js','compact-portfolio-v276-daily-agm.js'])assert.ok(chain.includes(layer),`production decorator chain must include ${layer}`);
+assert.ok(chain.indexOf('compact-portfolio-v297-profit-exit.js')<chain.indexOf('compact-portfolio-v296-directional-position.js'));
+assert.ok(chain.indexOf('compact-portfolio-v278-trading-behavior.js')<chain.indexOf('compact-portfolio-v276-daily-agm.js'));
 
 function storage(){const m=new Map();return{kv:{get:k=>m.get(k),put:(k,v)=>m.set(k,v),delete:k=>m.delete(k)},m}}
 const baseCandidate={symbol:'TEST.DE',price:100,currency:'EUR',fx_rate:1,fx_verified:true,liveScore:4.3,liveConfidence:.60,day:1.2,intraday5m:.12,intraday20m:.26,momentumAcceleration5:.05,intradayRsi:61,newsScore:.08,eventRisk:'NONE',sellerShare:46};
