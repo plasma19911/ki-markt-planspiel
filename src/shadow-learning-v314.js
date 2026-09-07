@@ -36,6 +36,13 @@ export const SHADOW_LEARNING_V314={
 function defaults(){return{version:31.7,calibrationEpoch:SHADOW_CALIBRATION_EPOCH,open:{},matured:[],lastEntryAt:0,archiveSummary:null,
   stats:{snapshots:0,matured:0,expired:0,themeBlocks:0,currencyBlocks:0,spacingBlocks:0,thresholdBlocks:0,calibrationResets:0,archivedMatured:0,archivedOpen:0},
   threshold:null,updatedAt:null}}
+export function migrateShadowCalibrationEpochV31729(memory=null,now=Date.now(),cfg=SHADOW_LEARNING_V314){
+  const activeEpoch=cfg.calibrationEpoch||SHADOW_CALIBRATION_EPOCH,previousEpoch=memory?.calibrationEpoch||'PRE_31.7.29_INCOMPLETE_INPUTS',mem={...defaults(),...(memory||{})};
+  mem.version=31.7;mem.open={...(mem.open||{})};mem.matured=arr(mem.matured).slice();mem.stats={...defaults().stats,...(mem.stats||{})};
+  const reset=previousEpoch!==activeEpoch;
+  if(reset){const archivedMatured=mem.matured.length,archivedOpen=Object.keys(mem.open).length;mem.archiveSummary={previousEpoch,maturedSamples:archivedMatured,openSnapshots:archivedOpen,archivedAt:new Date(now).toISOString(),reason:'NEWS_VOLUME_INPUT_PIPELINE_REPAIRED'};mem.open={};mem.matured=[];mem.stats.calibrationResets++;mem.stats.archivedMatured+=archivedMatured;mem.stats.archivedOpen+=archivedOpen;mem.threshold=null;mem.updatedAt=new Date(now).toISOString()}
+  mem.calibrationEpoch=activeEpoch;return{mem,reset,activeEpoch,previousEpoch};
+}
 const bucketOf=(score,cfg)=>{let out=null;for(const x of cfg.buckets)if(score>=x)out=x;return out};
 const themeOf=c=>String(c?.theme||c?.sector||c?.industry||'UNKNOWN').toUpperCase();
 const currencyOf=c=>String(c?.currency||c?.quote_currency||'EUR').toUpperCase();
@@ -192,12 +199,8 @@ export function estimatedRoundTripCostPctV314(state={}){
 
 export async function enforceShadowLearningV314(plan,state={},storage=null,now=Date.now(),roundTripCostPct=null,cfg=SHADOW_LEARNING_V314){
   if(!plan||!Array.isArray(plan.actions))return{plan,counters:{}};
-  const stored=await read(storage,null),activeEpoch=cfg.calibrationEpoch||SHADOW_CALIBRATION_EPOCH,previousEpoch=stored?.calibrationEpoch||'PRE_31.7.29_INCOMPLETE_INPUTS';
-  let mem={...defaults(),...(stored||{})};mem.version=31.7;
-  mem.open={...(mem.open||{})};mem.matured=arr(mem.matured).slice();mem.stats={...defaults().stats,...(mem.stats||{})};
-  const epochReset=previousEpoch!==activeEpoch;
-  if(epochReset){const archivedMatured=mem.matured.length,archivedOpen=Object.keys(mem.open).length;mem.archiveSummary={previousEpoch,maturedSamples:archivedMatured,openSnapshots:archivedOpen,archivedAt:new Date(now).toISOString(),reason:'NEWS_VOLUME_INPUT_PIPELINE_REPAIRED'};mem.open={};mem.matured=[];mem.stats.calibrationResets++;mem.stats.archivedMatured+=archivedMatured;mem.stats.archivedOpen+=archivedOpen}
-  mem.calibrationEpoch=activeEpoch;
+  const migrated=migrateShadowCalibrationEpochV31729(await read(storage,null),now,cfg),activeEpoch=migrated.activeEpoch,epochReset=migrated.reset;
+  let mem=migrated.mem;
   const candidates=finalScoredCandidates(state,storage,now),cost=roundTripCostPct!=null&&finite(roundTripCostPct)?Number(roundTripCostPct):estimatedRoundTripCostPctV314(state);
   matureShadowSnapshots(mem,candidates,now,cfg);recordShadowSnapshots(mem,candidates,now,cfg);
   const calibrated=calibratedBuyThresholdV314(mem.matured,cost,cfg);

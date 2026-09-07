@@ -2,7 +2,7 @@ import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v307-manual-
 import {UnifiedDecisionCoreV310,UNIFIED_DECISION_CORE_V310} from './unified-decision-core-v310.js';
 import {OUTCOME_LEARNING_V312} from './outcome-learning-core-v312.js';
 import {PREDICTIVE_LEARNING_V311} from './predictive-learning-core-v311.js';
-import {canonicalEntryAssessmentV316,estimatedRoundTripCostPctV314} from './shadow-learning-v314.js';
+import {canonicalEntryAssessmentV316,estimatedRoundTripCostPctV314,migrateShadowCalibrationEpochV31729} from './shadow-learning-v314.js';
 
 const arr=v=>Array.isArray(v)?v:[];
 const finite=v=>Number.isFinite(Number(v));
@@ -44,7 +44,7 @@ export class MarketPortfolio extends BasePortfolio{
   async decisionAudit(limit=30){const n=Math.max(1,Math.min(100,Number(limit)||30));try{const rows=await this.ctx?.storage?.get?.(UNIFIED_DECISION_CORE_V310.auditStorageKey);return Array.isArray(rows)?rows.slice(-n).reverse():[]}catch{return[]}}
   async _buildStatus(includeAudit=true){
     const s=await super.status(),policy=this.unifiedDecisionCoreV310?.status?.()||{enabled:true,...UNIFIED_DECISION_CORE_V310},learning=policy.outcomeLearning||policy.predictiveLearning||{enabled:true,...OUTCOME_LEARNING_V312};
-    let shadowMemory=null;try{shadowMemory=await this.ctx?.storage?.get?.('shadow-learning-v314')||null}catch{}
+    let shadowMemory=null;try{shadowMemory=await this.ctx?.storage?.get?.('shadow-learning-v314')||null;if(shadowMemory){const migrated=migrateShadowCalibrationEpochV31729(shadowMemory);shadowMemory=migrated.mem;if(migrated.reset)await this.ctx?.storage?.put?.('shadow-learning-v314',shadowMemory)}}catch{}
     const canonicalBuckets=arr(shadowMemory?.threshold?.canonicalCalibration),canonicalCalibrated=canonicalBuckets.some(x=>Number(x?.samples)>=25);
     const persistedShadow=shadowMemory?{latest:{openSnapshots:Object.keys(shadowMemory.open||{}).length,maturedSamples:arr(shadowMemory.matured).length,archivedMaturedSamples:Number(shadowMemory.stats?.archivedMatured||0),calibrationEpoch:shadowMemory.calibrationEpoch||shadowMemory.threshold?.calibrationEpoch||null,buyThreshold:shadowMemory.threshold?.canonicalBuyScore??60,calibrated:canonicalCalibrated,learningMode:canonicalCalibrated?'KALIBRIERT':'WARMUP',updatedAt:shadowMemory.updatedAt||null,persisted:true},legacyCalibration:shadowMemory.threshold?.calibration||null,evidenceCalibration:shadowMemory.threshold?.evidenceCalibration||null,canonicalCalibration:canonicalBuckets,archiveSummary:shadowMemory.archiveSummary||null}:{};
     const statusCandidates=arr(s.candidates),cost=estimatedRoundTripCostPctV314(s);s.candidates=statusCandidates.map(c=>{const a=canonicalEntryAssessmentV316(c,statusCandidates,arr(shadowMemory?.matured),cost);return{...c,legacy_score:c.score,legacy_decision_score:c.decisionScore??null,score:a.score,decisionScore:a.score,entryScoreV317:a.score,entryLabelV317:a.label,dataQualityV317:a.dataQuality,orthogonalConfirmationsV317:a.orthogonalConfirmations,expectedNetEdgePctV317:a.expectedNetEdgePct,entryScoreSamplesV317:a.samples,probationSamplesV317:a.probationSamples,probationExpectedNetEdgePctV317:a.probationExpectedNetEdgePct,probationBlockedV317:a.probationBlocked,entryScoreComponentsV317:a.components,entryScoreV316:a.score,entryLabelV316:a.label,dataQualityV316:a.dataQuality,expectedNetEdgePctV316:a.expectedNetEdgePct,scoreSource:'V31.7_CANONICAL_ENTRY_SCORE'}}).sort((a,b)=>Number(b.score)-Number(a.score));
