@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-06T08:45:08.422Z",
-  "nextRefreshAfter": "2026-09-07T08:45:08.422Z",
+  "updatedAt": "2026-09-07T09:31:55.472Z",
+  "nextRefreshAfter": "2026-09-08T09:31:55.472Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,10 +14,10 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 12,
-  "matchedUpcomingCount": 3,
-  "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-09-06T07:58:32.927768Z",
+  "rawUpcomingCount": 21,
+  "matchedUpcomingCount": 6,
+  "fundamentalEstimateCount": 2,
+  "universeGeneratedAt": "2026-09-07T08:25:05.825944Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -49,7 +49,7 @@
         "revenueCurrentYearEstimate": 7537.01,
         "revenueNextYearEstimate": 7968.88
       },
-      "daysUntil": 3,
+      "daysUntil": 2,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -98,8 +98,8 @@
         "volatility20d": 34.6,
         "volumeTrend": -0.1
       },
-      "scoreEvaluatedAt": "2026-09-06T08:45:08.422Z",
-      "scoreValidUntil": "2026-09-07T08:45:08.422Z"
+      "scoreEvaluatedAt": "2026-09-07T09:31:55.472Z",
+      "scoreValidUntil": "2026-09-08T09:31:55.472Z"
     },
     {
       "date": "2026-09-10",
@@ -130,7 +130,7 @@
         "revenueCurrentYearEstimate": 9543.87,
         "revenueNextYearEstimate": 9787.56
       },
-      "daysUntil": 4,
+      "daysUntil": 3,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -164,20 +164,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 254,
-        "last": 154,
-        "changeM1": -5.3,
-        "changeM3": 2.5,
-        "changeM6": 3.2,
-        "sma50": 159,
-        "sma200": 143.3,
-        "position52w": 71.9,
-        "drawdownFromHigh": -8.4,
-        "volatility20d": 21.8,
-        "volumeTrend": -19.4
+        "samples": 253,
+        "last": 155.7,
+        "changeM1": -3.2,
+        "changeM3": 4.2,
+        "changeM6": 6.3,
+        "sma50": 158.9,
+        "sma200": 143.4,
+        "position52w": 75.2,
+        "drawdownFromHigh": -7.4,
+        "volatility20d": 22,
+        "volumeTrend": -24
       },
-      "scoreEvaluatedAt": "2026-09-06T08:45:08.422Z",
-      "scoreValidUntil": "2026-09-07T08:45:08.422Z"
+      "scoreEvaluatedAt": "2026-09-07T09:31:55.472Z",
+      "scoreValidUntil": "2026-09-08T09:31:55.472Z"
     },
     {
       "date": "2026-09-10",
@@ -208,7 +208,7 @@
         "revenueCurrentYearEstimate": 15925.44,
         "revenueNextYearEstimate": 17205.48
       },
-      "daysUntil": 4,
+      "daysUntil": 3,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -232,10 +232,10 @@
       "fundamentalDelta": -24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "As the Stock Market Flashes a Warning Signal Only Witnessed 2 Times in 155 Years, Warren Buffett Delivers a Blunt Message to Investors.",
-        "Germany moves to strengthen drone and cyber defenses after airport attack",
-        "Guizhou‑Branded Mountain‑Grown Products Shine   at   Harvest‑Festival   Event",
-        "President Donald Trump Claims the U.S. \"Should Have the Lowest Interest Rates Anywhere in the World,\" but Trumpflation and the AI Revolution"
+        "Ryanair warns airfares will rise and budget carriers go bust if fuel prices stay high — what this means for your travel",
+        "Ryanair Signs Collective Agreement With Swedish Union",
+        "Ryanair Holdings (ISE:RYA) Could Be 46% Undervalued After Fuel Cost Warning",
+        "Ryanair (ISE:RYA) Stock May Trade At A Discount Despite Traffic Target Cuts"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -257,16 +257,249 @@
         "volatility20d": 24.3,
         "volumeTrend": -30.9
       },
-      "scoreEvaluatedAt": "2026-09-06T08:45:08.422Z",
-      "scoreValidUntil": "2026-09-07T08:45:08.422Z"
+      "scoreEvaluatedAt": "2026-09-07T09:31:55.472Z",
+      "scoreValidUntil": "2026-09-08T09:31:55.472Z"
+    },
+    {
+      "date": "2026-09-14",
+      "sourceCompanyName": "Deckers Outdoor Corp.",
+      "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/deckers_outdoor",
+      "symbol": "1DECK.MI",
+      "name": "Deckers Outdoor Corporation",
+      "companyKey": "DECKERS OUTDOOR",
+      "currency": "EUR",
+      "matchConfidence": 1,
+      "baseScore": 47,
+      "fundamentalScore": 47,
+      "fundamentalConfidence": 0.881,
+      "profitForecastPositive": true,
+      "fundamentalReasons": [
+        "Analysten erwarten leicht höheres EPS (+11%)",
+        "Umsatzschätzung nächstes Jahr +7%",
+        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
+        "3-Monats-Trend -21%",
+        "Kurs faellt kurz vor der HV (-16% in 1 Monat)"
+      ],
+      "fundamentals": {
+        "source": "finanzen.net Schätzungen",
+        "epsCurrentYearEstimate": 7.53,
+        "epsNextYearEstimate": 8.36,
+        "revenueCurrentYearEstimate": 5886.98,
+        "revenueNextYearEstimate": 6322.24
+      },
+      "daysUntil": 7,
+      "baseLabel": "NEUTRAL",
+      "estimateUrl": "https://www.finanzen.net/schaetzungen/deckers_outdoor",
+      "scoreParts": [
+        {
+          "key": "ZAHLEN",
+          "delta": 11,
+          "label": "Analystenschaetzungen"
+        },
+        {
+          "key": "CHART",
+          "delta": -15,
+          "label": "Kursstruktur 1 Jahr"
+        },
+        {
+          "key": "NEWS",
+          "delta": 1,
+          "label": "10 frische Meldungen"
+        }
+      ],
+      "chartDelta": -15,
+      "newsDelta": 1,
+      "fundamentalDelta": 11,
+      "newsGuidance": 0,
+      "newsHeadlines": [
+        "Deckers (DECK) Gains As Market Dips: What You Should Know",
+        "Stock Market Today, Sept. 4: Lululemon Plummets 17% After Slashing Guidance",
+        "Is ONON Worth Buying Now as Growth Collides With Execution Risks?",
+        "ONON Falls 27.2% in a Month. Does the Sell-Off Create Opportunity?"
+      ],
+      "dataQuality": {
+        "zahlen": true,
+        "chart": true,
+        "news": true
+      },
+      "chart": {
+        "source": "Yahoo chart 1y/1d",
+        "currency": "EUR",
+        "samples": 252,
+        "last": 73.5,
+        "changeM1": -15.8,
+        "changeM3": -21.3,
+        "changeM6": -16.6,
+        "sma50": 84.5,
+        "sma200": 88.5,
+        "position52w": 13.4,
+        "drawdownFromHigh": -29.6,
+        "volatility20d": 28.4,
+        "volumeTrend": 18.9
+      },
+      "scoreEvaluatedAt": "2026-09-07T09:31:55.472Z",
+      "scoreValidUntil": "2026-09-08T09:31:55.472Z"
+    },
+    {
+      "date": "2026-09-16",
+      "sourceCompanyName": "Games Workshop Group PLC",
+      "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/games_workshop_group",
+      "symbol": "GAW.L",
+      "name": "Games Workshop Group PLC",
+      "companyKey": "GAMES WORKSHOP",
+      "currency": "GBp",
+      "matchConfidence": 1,
+      "baseScore": 61,
+      "fundamentalScore": 61,
+      "fundamentalConfidence": 0.701,
+      "profitForecastPositive": true,
+      "fundamentalReasons": [
+        "Analysten erwarten leicht höheres EPS (+6%)",
+        "Umsatzschätzung nächstes Jahr +6%",
+        "Kurs unter der 200-Tage-Linie",
+        "Gesunde Position im 52-Wochen-Band (58%)"
+      ],
+      "fundamentals": {
+        "source": "finanzen.net Schätzungen",
+        "epsCurrentYearEstimate": 6.2,
+        "epsNextYearEstimate": 6.57,
+        "revenueCurrentYearEstimate": 692.18,
+        "revenueNextYearEstimate": 736.75
+      },
+      "daysUntil": 9,
+      "baseLabel": "LEICHT POSITIV",
+      "estimateUrl": "https://www.finanzen.net/schaetzungen/games_workshop_group",
+      "scoreParts": [
+        {
+          "key": "ZAHLEN",
+          "delta": 11,
+          "label": "Analystenschaetzungen"
+        },
+        {
+          "key": "CHART",
+          "delta": 0,
+          "label": "Kursstruktur 1 Jahr"
+        }
+      ],
+      "chartDelta": 0,
+      "newsDelta": 0,
+      "fundamentalDelta": 11,
+      "newsGuidance": 0,
+      "newsHeadlines": [],
+      "dataQuality": {
+        "zahlen": true,
+        "chart": true,
+        "news": false
+      },
+      "chart": {
+        "source": "Yahoo chart 1y/1d",
+        "currency": "GBp",
+        "samples": 253,
+        "last": 18670,
+        "changeM1": -1.4,
+        "changeM3": 0.4,
+        "changeM6": 8.8,
+        "sma50": 19563.6,
+        "sma200": 18928.7,
+        "position52w": 57.8,
+        "drawdownFromHigh": -14.9,
+        "volatility20d": 17.2,
+        "volumeTrend": -30.7
+      },
+      "scoreEvaluatedAt": "2026-09-07T09:31:55.472Z",
+      "scoreValidUntil": "2026-09-08T09:31:55.472Z"
+    },
+    {
+      "date": "2026-09-16",
+      "sourceCompanyName": "Moonpig Group PLC Registered Shs",
+      "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/moonpig_group",
+      "symbol": "MOON.L",
+      "name": "Moonpig Group PLC",
+      "companyKey": "MOONPIG",
+      "currency": "GBp",
+      "matchConfidence": 1,
+      "baseScore": 60,
+      "fundamentalScore": 60,
+      "fundamentalConfidence": 0.683,
+      "profitForecastPositive": null,
+      "fundamentalReasons": [
+        "Kurs ueber der 200-Tage-Linie",
+        "3-Monats-Trend +25%",
+        "Gesunde Position im 52-Wochen-Band (77%)"
+      ],
+      "fundamentals": {
+        "source": "Yahoo quote",
+        "epsTrailingTwelveMonths": null,
+        "epsForward": null,
+        "epsCurrentYear": null,
+        "averageAnalystRating": null,
+        "fiftyTwoWeekChange": null,
+        "forwardPE": null,
+        "trailingPE": null,
+        "marketCap": null
+      },
+      "daysUntil": 9,
+      "baseLabel": "LEICHT POSITIV",
+      "scoreParts": [
+        {
+          "key": "ZAHLEN",
+          "delta": 0,
+          "label": "Analystenschaetzungen"
+        },
+        {
+          "key": "CHART",
+          "delta": 10,
+          "label": "Kursstruktur 1 Jahr"
+        },
+        {
+          "key": "NEWS",
+          "delta": 0,
+          "label": "10 frische Meldungen"
+        }
+      ],
+      "chartDelta": 10,
+      "newsDelta": 0,
+      "fundamentalDelta": 0,
+      "newsGuidance": 0,
+      "newsHeadlines": [
+        "Mondelēz shifts European biscuit packaging from plastic trays to paper",
+        "Gamuda and MTR secure $633m Parramatta Metro Station contract",
+        "Rocket Lab's Neutron Just Slipped Again. Here's the Only Date That Still Matters for Shareholders.",
+        "A Once-in-a-Decade Opportunity: 1 Magnificent S&P 500 Stock Down 41% to Buy Right Now"
+      ],
+      "dataQuality": {
+        "zahlen": true,
+        "chart": true,
+        "news": true
+      },
+      "chart": {
+        "source": "Yahoo chart 1y/1d",
+        "currency": "GBp",
+        "samples": 253,
+        "last": 270.2,
+        "changeM1": -5.3,
+        "changeM3": 25.4,
+        "changeM6": 27.5,
+        "sma50": 272.3,
+        "sma200": 227,
+        "position52w": 76.5,
+        "drawdownFromHigh": -7.8,
+        "volatility20d": 23.4,
+        "volumeTrend": 7.6
+      },
+      "scoreEvaluatedAt": "2026-09-07T09:31:55.472Z",
+      "scoreValidUntil": "2026-09-08T09:31:55.472Z"
     }
   ],
-  "estimateAttemptCount": 3,
+  "estimateAttemptCount": 6,
   "scoreModelVersion": 27.7,
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
-  "chartProfileCount": 3,
-  "newsProfileCount": 3,
+  "chartProfileCount": 6,
+  "newsProfileCount": 5,
   "neutralScoreCount": 0,
-  "signalCoveredCount": 3
+  "signalCoveredCount": 6
 }
