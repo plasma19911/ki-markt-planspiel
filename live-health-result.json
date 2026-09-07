@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-07T19:29:15.599Z",
+  "checkedAt": "2026-09-07T20:53:12.746Z",
   "runtimeVersion": "V31.7",
   "liveDecisionVersion": "V31.7",
   "outcomeLearningVersion": "V31.2",
@@ -27,7 +27,7 @@
   "failedChecks": [],
   "allRequiredChecksPassed": true,
   "pcExpectedOnline": true,
-  "berlinMarketClock": "Mon 21:29",
+  "berlinMarketClock": "Mon 22:53",
   "outcomeLearningPolicy": {
     "enabled": true,
     "version": 31.2,
@@ -131,8 +131,8 @@
     "preservesShadowSafetyBlocks": true,
     "latest": null
   },
-  "scanCount": 1019,
-  "lastScan": "2026-09-07T19:27:14.287Z",
+  "scanCount": 1061,
+  "lastScan": "2026-09-07T20:51:21.785Z",
   "lastError": null,
   "aiLastSummary": "Keine frischen handelbaren Kurse – keine Orderentscheidung.",
   "cash": 2885.134872455825,
@@ -604,18 +604,17 @@
         "fresh": true,
         "structural": false,
         "publishedAt": "2026-09-07T18:14:21.000Z",
-        "ageMinutes": 74.7,
+        "ageMinutes": 119.7,
         "newsScore": 0,
-        "confidence": 0.554,
+        "confidence": 0.527,
         "sources": [
           "Motley Fool"
         ],
         "sourceCount": 1,
         "allSources": [
-          "Motley Fool",
-          "GuruFocus.com"
+          "Motley Fool"
         ],
-        "allSourceCount": 2,
+        "allSourceCount": 1,
         "clusteredStories": 1,
         "positive": false,
         "negative": false,
@@ -642,24 +641,7 @@
               "binary": false,
               "structural": false
             },
-            "ageMinutes": 74.7,
-            "freshnessWeight": 0.76,
-            "strength": 0
-          },
-          {
-            "headline": "Marvell's AI Business Is Booming. Photonics Could Be Next",
-            "publishedAt": "2026-09-07T17:39:33.000Z",
-            "source": "GuruFocus.com",
-            "url": "https://finance.yahoo.com/technology/ai/articles/marvells-ai-business-booming-photonics-173933082.html",
-            "origin": "YAHOO",
-            "impact": {
-              "type": "OTHER",
-              "direction": 0,
-              "impact": 1,
-              "binary": false,
-              "structural": false
-            },
-            "ageMinutes": 109.5,
+            "ageMinutes": 119.7,
             "freshnessWeight": 0.58,
             "strength": 0
           }
@@ -667,8 +649,8 @@
         "priority": 3,
         "held": true,
         "urgent": false,
-        "fetchedAt": "2026-09-07T19:29:03.010Z",
-        "latencyMs": 369,
+        "fetchedAt": "2026-09-07T20:13:02.630Z",
+        "latencyMs": 19,
         "error": null
       },
       "legacy_position_score": 4.023663425226586,
@@ -946,38 +928,40 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-09-07T19:29:02.641Z",
-    "ageSeconds": 10,
+    "lastSeenAt": "2026-09-07T20:53:02.858Z",
+    "ageSeconds": 6,
     "fallbackAfterSeconds": 150,
-    "lastScanAt": "2026-09-07T19:27:40.808Z",
-    "scanAgeSeconds": 92,
-    "scanFresh": true,
+    "lastScanAt": "2026-09-07T20:51:22.403Z",
+    "scanAgeSeconds": 107,
+    "scanFresh": false,
     "onlineWithoutScan": false,
-    "healthState": "ONLINE_SCAN_FRESH",
-    "healthMessage": "PC-Agent und Handelsscan sind frisch.",
+    "healthState": "ONLINE_SCAN_STALE",
+    "healthMessage": "PC-Handelsscan ist veraltet; Cloudflare überbrückt die Lücke.",
     "scanGapFallbackAfterSeconds": 95,
     "prefetchFresh": true,
-    "prefetchAt": "2026-09-07T19:28:09.706Z",
-    "resolvedLeaderCount": 5,
+    "prefetchAt": "2026-09-07T20:53:02.482Z",
+    "leaderEntryCount": 0,
+    "droppedNonEquityEntries": 0,
+    "resolvedLeaderCount": 0,
     "selectedLeaderCount": 25,
     "leaderHealthy": false,
-    "leaderCacheUsable": true,
-    "leaderCacheMode": "PC_AGENT_PARTIAL_BLEND",
+    "leaderCacheUsable": false,
+    "leaderCacheMode": "PC_AGENT_INSUFFICIENT",
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-09-07T19:29:02.641Z",
-      "version": "2.2.1-csharp-pc-first-four-sta",
+      "lastSeenAt": "2026-09-07T20:53:02.858Z",
+      "version": "1.2.2-v31.7-news-learning",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 17386549,
+      "storageBytes": 20082300,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.03,
-      "ramMb": 62.7,
-      "downloadedBytes": 3134197706,
-      "uploadedBytes": 64157063,
+      "cpuPct": 0,
+      "ramMb": 150.2,
+      "downloadedBytes": 0,
+      "uploadedBytes": 105395,
       "localPhase": "OPEN",
-      "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
-      "lastLocalCleanupAt": "2026-09-07T19:18:14.5811244Z",
+      "agentMode": "PC_FIRST_FULL_UNIVERSE_V288",
+      "lastLocalCleanupAt": null,
       "lastError": null
     }
   },
@@ -989,12 +973,12 @@
   },
   "agmCalendar": {
     "updatedAt": "2026-09-07T09:31:55.472Z",
-    "ageHours": 9.96,
+    "ageHours": 11.35,
     "events": 6
   },
   "newsFeed": {
     "status": 200,
-    "items": 12,
+    "items": 7,
     "refreshSeconds": 60
   },
   "architecture": {
