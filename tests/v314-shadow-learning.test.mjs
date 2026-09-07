@@ -3,12 +3,19 @@ import {
   recordShadowSnapshots,matureShadowSnapshots,scoreCalibrationV314,
   calibratedBuyThresholdV314,correlationGateV314,enforceShadowLearningV314,
   estimatedRoundTripCostPctV314,evidenceProfileV315,evidenceCalibrationV315,calibratedScoreBucketGateV315,
-  canonicalEntryAssessmentV316,canonicalCalibrationV316
+  canonicalEntryAssessmentV316,canonicalCalibrationV316,SHADOW_CALIBRATION_EPOCH
 } from '../src/shadow-learning-v314.js';
+import {completedVolumeRatio} from '../src/market-v3-base.js';
 
 const base=()=>({version:31.4,open:{},matured:[],lastEntryAt:0,
   stats:{snapshots:0,matured:0,expired:0,themeBlocks:0,currencyBlocks:0,spacingBlocks:0,thresholdBlocks:0},threshold:null});
 const t0=Date.now();
+const completeVolume=completedVolumeRatio([100,120,80,200,0]);
+assert.equal(completeVolume.source,'PREVIOUS_COMPLETED_1M');
+assert.equal(completeVolume.observedVolume,200,'die laufende Null-Kerze darf die letzte abgeschlossene Volumenkerze nicht entwerten');
+assert.equal(completeVolume.sampleCount,3);
+assert.ok(completeVolume.ratio>1.9);
+assert.equal(completedVolumeRatio([0,0,0]).source,'NO_RELIABLE_VOLUME');
 const candidates=Array.from({length:170},(_,i)=>({symbol:'S'+i,price:100,fx_rate:1,
   decisionScore:50+(i%35),theme:'T'+(i%8),currency:'EUR'}));
 let mem=recordShadowSnapshots(base(),candidates,t0);
@@ -76,10 +83,17 @@ assert.ok(storage.data);
 assert.equal(storage.data.lastEntryAt,0,'nur tatsaechlich ausgefuehrte Einstiege werden dauerhaft als Abstandsbasis gespeichert');
 assert.equal(estimatedRoundTripCostPctV314({config:{slippage_percent:.1,fee_fixed:0}}),.291);
 
-const bucketStorage={data:{version:31.5,open:{},matured:Array.from({length:25},(_,i)=>({symbol:`B${i}`,score:66,ret:.02})),lastEntryAt:0,stats:{}},async get(){return this.data},async put(k,v){this.data=v}};
+const bucketStorage={data:{version:31.7,calibrationEpoch:SHADOW_CALIBRATION_EPOCH,open:{},matured:Array.from({length:25},(_,i)=>({symbol:`B${i}`,score:66,ret:.02})),lastEntryAt:0,stats:{}},async get(){return this.data},async put(k,v){this.data=v}};
 const bucketOut=await enforceShadowLearningV314({actions:[{symbol:'BUCKET',action:'BUY',allocation_pct:20}],summary:'x'},{config:{slippage_percent:.1},candidates:[{symbol:'BUCKET',price:10,decisionScore:69,momentum5:.3,momentum20:.5}],positions:[]},bucketStorage,t0);
 assert.equal(bucketOut.counters.roundTripCostPct,.291,'nuller optionaler Kostenwert darf nicht als 0 Prozent interpretiert werden');
 assert.equal(calibratedScoreBucketGateV315(66,bucketOut.calibration,.291).ok,false);
+
+const legacyStorage={data:{version:31.7,open:{OLD:{symbol:'OLD',at:t0-1000,price:10}},matured:Array.from({length:30},(_,i)=>({symbol:`OLD${i}`,entryScoreVersion:31.7,entryScoreV317:65,ret:-1})),stats:{}},async get(){return this.data},async put(k,v){this.data=v}};
+const epochOut=await enforceShadowLearningV314({actions:[],summary:'epoch'}, {candidates:[],positions:[]},legacyStorage,t0);
+assert.equal(epochOut.counters.epochReset,true,'alte Kalibrierung aus unvollstaendigen News-/Volumeninputs muss einmalig archiviert werden');
+assert.equal(epochOut.counters.archivedMaturedSamples,30);
+assert.equal(legacyStorage.data.matured.length,0,'alte Defektsamples duerfen die neue Score-Epoche nicht blockieren');
+assert.equal(legacyStorage.data.archiveSummary.reason,'NEWS_VOLUME_INPUT_PIPELINE_REPAIRED');
 
 const pair={actions:[{symbol:'ONE',action:'BUY',allocation_pct:20},{symbol:'TWO',action:'BUY',allocation_pct:20}],summary:'x'};
 const pairOut=await enforceShadowLearningV314(pair,{candidates:[

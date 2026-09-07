@@ -42,6 +42,16 @@ export class MarketPortfolio extends BasePortfolio{
     return r?.state?.newsLearning||null;
   }
 
+  // Eigener Durable-Object-Aufruf: Die Yahoo-Kursauswertung teilt sich dadurch
+  // nicht mehr das externe Request-Budget mit dem deutlich groesseren Marktscan.
+  refreshNewsLearning(options={}){
+    return this._serial(async()=>{
+      const learning=await this._refreshNewsLearning(Boolean(options?.force));
+      const summary=learning?.summary||this.bucketAdapter?.peekState?.()?.newsLearning?.summary||{};
+      return{ok:true,skipped:learning?null:'cooldown',source:String(options?.source||'SEPARATE_REQUEST'),updatedAt:learning?.updatedAt||null,evaluatedEvents:Number(summary.evaluatedEvents)||0,pendingEvents:Number(summary.pendingEvents)||0,baselineEvents:Number(summary.baselineEvents)||0,quoteCount:Number(summary.lastEvaluationQuoteCount)||0,provider:summary.lastEvaluationProvider||null,error:summary.lastEvaluationError||null};
+    });
+  }
+
   async status(){
     const s=await super.status();
     const raw=this.bucketAdapter?.peekState?.();
@@ -55,7 +65,6 @@ export class MarketPortfolio extends BasePortfolio{
       const r=await this.engine.scan();
       if(!r?.skipped&&!r?.aborted){
         try{await this._refreshIntelligence(false)}catch(e){console.error('Investment intelligence refresh failed',e)}
-        try{await this._refreshNewsLearning(false)}catch(e){console.error('News learning refresh failed',e)}
       }
       return r;
     });

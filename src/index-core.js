@@ -146,6 +146,7 @@ export default{
     if(u.pathname==='/api/agent/heartbeat')return reply(await p.agentHeartbeat(b));
     if(u.pathname==='/api/agent/prefetch')return reply(await p.agentPrefetch(b));
     if(u.pathname==='/api/agent/scan')return reply(await p.scanFromAgent(b));
+    if(u.pathname==='/api/agent/news-learning')return reply(await p.refreshNewsLearning({source:'WINDOWS_PC_AGENT'}));
     if(u.pathname==='/api/agent/day-replay'){
      const session=gettexSessionState(new Date()),agent=await p.agentStatus();
      if(!session.open)return reply({ok:true,skipped:'market-closed',hourly:true,session:session.phase});
@@ -186,7 +187,7 @@ export default{
   // Cloudflare ab 21:55 in kleinen Batches als Fallback.
   if(session.open){
    if(session.localMinute%5!==0)return;
-   ctx.waitUntil((async()=>{const p=portfolio(env),agent=await p.agentStatus();if(agent?.online)return;if(session.localMinute>=21*60+55)await p.dailyReplay(8);await p.scan()})().catch(e=>console.error('Compact DO offline fallback failed',e)));
+   ctx.waitUntil((async()=>{const p=portfolio(env),agent=await p.agentStatus();if(agent?.online)return;if(session.localMinute>=21*60+55)await p.dailyReplay(8);await p.scan();await p.refreshNewsLearning({source:'CLOUDFLARE_OFFLINE_CRON'})})().catch(e=>console.error('Compact DO offline fallback failed',e)));
    return
   }
   if(session.prepareNow){ctx.waitUntil(portfolio(env).preOpenPrepare().catch(e=>console.error('gettex preopen prepare failed',e)))}

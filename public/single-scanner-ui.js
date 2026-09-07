@@ -28,6 +28,9 @@ function pick(root){
   profile:String(wide.profile||metrics.agentMode||metrics.version||''),
   backoff:Boolean(wide.sourceBackoff)||Boolean(metrics.wideSweepSparkBackoffUntil),
   online:agent.online!==false,
+  scanFresh:agent.scanFresh===true,
+  onlineWithoutScan:agent.onlineWithoutScan===true,
+  healthMessage:String(agent.healthMessage||''),
   updatedAt:wide.updatedAt||agent.lastSeenAt||root?.config?.last_scan||null
  };
 }
@@ -38,6 +41,8 @@ function render(s){
  const total=s.master>0?s.master:8530;
  const coverage=s.scanned>0?Math.min(100,Math.round(s.scanned/Math.max(1,total)*100)):0;
  if(!s.online){bar.classList.add('bad');title.textContent='PC-Agent offline';meta.textContent='Der Ein-Scanner sendet aktuell keine frischen Daten.';speed.textContent='–';return}
+ if(s.onlineWithoutScan){bar.classList.add('warn');title.textContent='PC-Agent online · Handelsscan noch nicht bestätigt';meta.textContent=s.healthMessage||'Lebenszeichen kommt an; Cloudflare überbrückt bis zum ersten vollständigen PC-Scan.';speed.textContent='–';return}
+ if(!s.scanFresh){bar.classList.add('warn');title.textContent='PC-Agent online · Handelsscan veraltet';meta.textContent=s.healthMessage||'Cloudflare überbrückt die Scan-Lücke, bis der PC-Scan wieder bestätigt ist.';speed.textContent='–';return}
  if(s.backoff||s.throttles>0){bar.classList.add('warn')}else if(single&&s.scanned>0){bar.classList.add('ok')}
  else{bar.classList.add('warn')}
  title.textContent=single?'Ein einziger Superscanner aktiv':(s.scanned>0?'Scanner aktiv · Umstellung auf Ein-Scanner wird erkannt':'Scanner wartet auf ersten Vollscan');
@@ -85,17 +90,7 @@ function cleanKnownFxChartGlitch(s){
  if(s.snapshots.length<before)setTimeout(()=>window.dispatchEvent(new Event('resize')),20);
 }
 
-document.addEventListener('planspiel:status',e=>{const s=e.detail||{};relabelAccounting(s);cleanKnownFxChartGlitch(s)});
-
-async function loadScanner(){
- ensureBar();
- try{
-  const r=await fetch('/api/status?view=dashboard&_scanner='+Date.now(),{cache:'no-store'});
-  if(!r.ok)throw new Error('HTTP '+r.status);
-  const data=await r.json();render(pick(data));relabelAccounting(data);cleanKnownFxChartGlitch(data);
- }catch(e){const b=ensureBar();b.classList.add('warn');b.querySelector('#scannerLiveTitle').textContent='Scannerstatus vorübergehend nicht lesbar';b.querySelector('#scannerLiveMeta').textContent='Die restliche App läuft weiter; Status wird automatisch erneut geladen.'}
-}
-loadScanner();
-setInterval(loadScanner,15000);
+document.addEventListener('planspiel:status',e=>{const s=e.detail||{};render(pick(s));relabelAccounting(s);cleanKnownFxChartGlitch(s)});
+ensureBar();
 import('/changelog-latest.js?v=20260819-1455').catch(()=>{});
 import('/changelog-optimization.js?v=20260819-1455').catch(()=>{});

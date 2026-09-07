@@ -86,6 +86,7 @@ function renderDepotTruth(s){
 
 function renderReplayRuntimeStatus(s){
  const replay=s?.dayReplayLearning||{},r=replay.report||{},capture=replay.capture||{},hourly=replay.hourly||{},schedule=replay.schedule||{},focus=document.getElementById('replayFocus');if(!focus)return;
+ const insight=arr(replay?.learning?.insights)[0]?.text;if(insight){focus.textContent=insight;return}
  const processed=num(r.processed),total=num(r.total,capture.symbolCount),analysed=num(r?.summary?.symbolsAnalysed,processed),status=String(r.status||'').toUpperCase();
  const at=hourly.lastRunAt?new Date(hourly.lastRunAt).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}):null,first=schedule.hourlyFirstFromBerlin||'08:30';
  if(status==='COMPLETE'){focus.textContent=`Stunden-Replay abgeschlossen · ${analysed} Aktien analysiert${at?` · letzter Lauf ${at}`:''}. Learnings fließen in folgende Entscheidungen; der finale Tagesabschluss bleibt aktiv.`;return}

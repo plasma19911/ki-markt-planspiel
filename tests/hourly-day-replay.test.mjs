@@ -27,6 +27,9 @@ const learningStorage={kv:new Map([['state/day-replay-learning-v1',{samples:{EAR
 const learningStatus=getDayReplayStatus(learningStorage);
 assert.equal(learningStatus.learning.insights[0].state,'BESTÄTIGT','mature positive learning must be translated into a readable insight');
 assert.match(learningStatus.learning.insights[0].text,/EARLY BREAKOUT bestätigt/);
+assert.match(learningStatus.learning.insights[0].text,/Nachjustierung: Score \+/,'the visible insight must state the exact applied score adjustment');
+assert.equal(learningStatus.learning.samples.find(x=>x.bucket==='EARLY_BREAKOUT').sizeMultiplier,1.05,'positive replay evidence must expose its applied sizing multiplier');
+assert.ok(learningStatus.learning.samples.find(x=>x.bucket==='EARLY_BREAKOUT').scoreDelta>0,'positive replay evidence must expose its applied score delta');
 assert.ok(learningStatus.learning.insights.some(x=>x.state==='WARMUP'),'immature buckets must remain visibly in warmup');
 
 const worker=readFileSync(new URL('../src/index-v20.js',import.meta.url),'utf8');

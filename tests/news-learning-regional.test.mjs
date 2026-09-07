@@ -3,7 +3,15 @@ import {readFileSync} from 'node:fs';
 import {evaluateNewsEventFromBars,regionalBenchmarkForSymbol,updateNewsLearning} from '../src/news-learning.js';
 
 const portfolioIntegration=readFileSync(new URL('../src/compact-portfolio-v2.js',import.meta.url),'utf8');
+const workerCore=readFileSync(new URL('../src/index-core.js',import.meta.url),'utf8');
+const workerCron=readFileSync(new URL('../src/index-v20.js',import.meta.url),'utf8');
+const pcAgent=readFileSync(new URL('../public/pc-agent-latest.ps1',import.meta.url),'utf8');
 assert.match(portfolioIntegration,/learningVersion>=3/,'an older learning state must bypass the cooldown once for immediate migration');
+assert.match(portfolioIntegration,/refreshNewsLearning\(options=/,'news learning must expose a dedicated Durable Object operation');
+assert.doesNotMatch(portfolioIntegration,/await this\._refreshNewsLearning\(false\)/,'the normal market scan must not spend the news-learning quote budget');
+assert.match(workerCore,/api\/agent\/news-learning/,'the PC agent must have a dedicated authenticated news-learning endpoint');
+assert.match(workerCron,/refreshNewsLearning\(\{source:'ONLINE_PC_CRON'\}\)/,'the online cron must start news learning as a separate request');
+assert.match(pcAgent,/api\/agent\/news-learning/,'the PC agent must trigger learning separately after its scan');
 
 assert.equal(regionalBenchmarkForSymbol('SAP.DE'),'EXSA.DE');
 assert.equal(regionalBenchmarkForSymbol('COCHINSHIP.NS'),'^NSEI');
@@ -20,6 +28,24 @@ const bars=prices=>prices.map((price,index)=>({ts:start+index*300,price}));
   assert.equal(result.reactionDelayMinutes,10,'directional abnormal move must record its first 5-minute bucket');
   assert.ok(result.results['15m'].alignedAbnormalPct>.4);
   assert.equal(result.results['15m'].benchmark,'EXSA.DE');
+}
+
+{
+  const oldFetch=globalThis.fetch,hosts=[];
+  globalThis.fetch=async url=>{
+    const parsed=new URL(url),host=parsed.host,symbols=String(parsed.searchParams.get('symbols')||'').split(',').filter(Boolean);hosts.push(host);
+    if(host==='query1.finance.yahoo.com')return{ok:false,status:429,json:async()=>({})};
+    return{ok:true,status:200,json:async()=>({spark:{result:symbols.map(symbol=>({symbol,response:[{meta:{symbol},timestamp:[start,start+300,start+600,start+900,start+1200],indicators:{quote:[{close:symbol==='SAP.DE'?[100,100.1,100.5,100.7,100.8]:[100,100.01,100.02,100.03,100.04]}]}}]}))}})};
+  };
+  try{
+    const state={newsLearning:{version:3,events:[{id:'SAP-FALLBACK',symbol:'SAP.DE',newsAt:new Date((start+120)*1000).toISOString(),direction:1,benchmark:'EXSA.DE',results:{}}]},newsRadar:[]};
+    await updateNewsLearning(state);
+    assert.deepEqual(hosts.slice(0,2),['query1.finance.yahoo.com','query2.finance.yahoo.com'],'the secondary quote host must be used only after the primary host fails');
+    assert.equal(state.newsLearning.summary.lastEvaluationProvider,'query2.finance.yahoo.com');
+    assert.ok(state.newsLearning.summary.lastEvaluationQuoteCount>=2,'the fallback must recover stock and regional benchmark bars');
+    assert.equal(state.newsLearning.summary.lastEvaluationError,null,'a successful fallback must clear the visible provider error');
+    assert.equal(state.newsLearning.summary.evaluatedEvents,1,'recovered bars must produce an evaluated news sample');
+  }finally{globalThis.fetch=oldFetch}
 }
 
 {

@@ -1,3 +1,5 @@
+import {outcomeLearningStatusV312} from './outcome-learning-core-v312.js';
+
 const arr=v=>Array.isArray(v)?v:[];
 const num=(v,d=0)=>Number.isFinite(Number(v))?Number(v):d;
 
@@ -13,6 +15,7 @@ function recentRows(memory={},now=Date.now()){
 
 export function persistedOutcomeStatusV31712(memory={},currentCandidates=[],currentStatus={},now=Date.now()){
   const recent=recentRows(memory,now),buys=recent.filter(x=>String(x?.action||'').toUpperCase()==='BUY');
+  const derived=outcomeLearningStatusV312(memory,now);
   const net=x=>num(x?.netReturnPct,num(x?.returnPct)-num(x?.estimatedRoundTripCostPct,.45));
   const buyWins=buys.filter(x=>net(x)>=.10).length;
   const avgBuy=buys.length?buys.reduce((s,x)=>s+net(x),0)/buys.length:null;
@@ -21,12 +24,13 @@ export function persistedOutcomeStatusV31712(memory={},currentCandidates=[],curr
   const currentTracked=num(currentStatus?.trackedSymbols),currentMatured=num(currentStatus?.matured),currentBuySamples=num(currentStatus?.buySamples);
   return{
     ...currentStatus,
+    ...derived,
     enabled:true,
     version:31.2,
     trackedSymbols:Math.max(currentTracked,persistedTracked),
     currentCandidates:currentCount,
-    matured:Math.max(currentMatured,recent.length),
-    buySamples:Math.max(currentBuySamples,buys.length),
+    matured:Math.max(currentMatured,num(derived?.matured),recent.length),
+    buySamples:Math.max(currentBuySamples,num(derived?.buySamples),buys.length),
     buyHitRate:currentBuySamples>0&&currentStatus?.buyHitRate!=null?currentStatus.buyHitRate:(buys.length?+(buyWins/buys.length*100).toFixed(1):null),
     avgBuy20mReturnPct:currentBuySamples>0&&currentStatus?.avgBuy20mReturnPct!=null?currentStatus.avgBuy20mReturnPct:(avgBuy==null?null:+avgBuy.toFixed(3)),
     avgBuy20mNetReturnPct:currentBuySamples>0&&currentStatus?.avgBuy20mNetReturnPct!=null?currentStatus.avgBuy20mNetReturnPct:(avgBuy==null?null:+avgBuy.toFixed(3)),

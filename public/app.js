@@ -600,11 +600,12 @@ function renderReplay(s) {
 
   const done = String(report.status || '').includes('COMPLETE');
   const analysed = num(summary.symbolsAnalysed, num(report.processed));
+  const insight = arr(raw.learning?.insights)[0]?.text || '';
   const lastHourly = hourly.lastRunAt ? new Date(hourly.lastRunAt).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}) : null;
   const first = schedule.hourlyFirstFromBerlin || '08:30';
-  setText('replayFocus', done
+  setText('replayFocus', insight || (done
     ? `Stunden-Replay · ${analysed} Aktien ausgewertet${lastHourly?` · letzter Lauf ${lastHourly}`:''}. Learnings fließen in folgende Entscheidungen; der finale Tagesabschluss bleibt aktiv.`
-    : `Replay sammelt und bewertet stündlich ab ${first}, solange Börse und PC-Agent aktiv sind · bisher ${analysed} ausgewertet.`);
+    : `Replay sammelt und bewertet stündlich ab ${first}, solange Börse und PC-Agent aktiv sind · bisher ${analysed} ausgewertet.`));
 }
 
 function renderActivity(history) {

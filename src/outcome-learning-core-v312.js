@@ -84,6 +84,13 @@ function learningProfile(m,now=Date.now()){
   }
   return{mode,matured,buySamples:buys.length,newsSamples:newsRows.length,positiveNewsSamples:positiveNewsRows.length,negativeNewsSamples:negativeNewsRows.length,avgNews20mReturnPct:avgNews20m==null?null:+avgNews20m.toFixed(3),buyHitRate:buyHitRate==null?null:+(buyHitRate*100).toFixed(1),avgBuy20mReturnPct:avgBuyNet==null?null:+avgBuyNet.toFixed(3),avgBuy20mNetReturnPct:avgBuyNet==null?null:+avgBuyNet.toFixed(3),avgBuy20mRawReturnPct:avgBuyRaw==null?null:+avgBuyRaw.toFixed(3),avg20mReturnPct:avgAll==null?null:+avgAll.toFixed(3),missedOpportunities:missed,badBuys,earlySells,correctSells,thresholdAdjustment,allocationAdjustment,costAwareBuyLearning:true,newsOutcomeLearning:true,defaultBuyRoundTripCostPct:OUTCOME_LEARNING_V312.defaultBuyRoundTripCostPct};
 }
+
+// Rebuild the same policy state from durable memory after a Worker restart.
+// Keeping this calculation in one place prevents the dashboard from falling
+// back to WARMUP while the decision engine is already using mature samples.
+export function outcomeLearningStatusV312(memory={},now=Date.now()){
+  return learningProfile(cleanMemory(memory),now);
+}
 function groupUpdate(bucket,name,ret){if(!name)return;const r=bucket[name]&&typeof bucket[name]==='object'?bucket[name]:{n:0,sum:0,wins:0};r.n++;r.sum+=ret;if(ret>=OUTCOME_LEARNING_V312.minNetBuyWinPct)r.wins++;r.avg=+(r.sum/r.n).toFixed(4);r.hitRate=+(r.wins/r.n*100).toFixed(1);bucket[name]=r}
 function learnWeights(m,sample,ret){const target=clamp(ret*6,-8,8),predicted=num(sample.forecast20mScore)-num(sample.score),error=clamp(target-predicted,-12,12),lr=.035;for(const [k,f] of Object.entries(sample.features||{})){if(!(k in DEFAULT_WEIGHTS))continue;const [lo,hi]=WEIGHT_LIMITS[k];m.weights[k]=clamp(num(m.weights[k],DEFAULT_WEIGHTS[k])+lr*error*num(f),lo,hi)}m.stats.weightUpdates++}
 function evaluateSamples(m,observations,now){

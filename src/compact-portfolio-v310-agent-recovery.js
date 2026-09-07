@@ -27,7 +27,10 @@ export class MarketPortfolio extends BasePortfolio{
     // erscheinen, nur weil der eigentliche Handelsscan intern scheitert.
     try{await this.agentHeartbeat(payload)}catch{}
     try{
-      const r=await this.scan();
+      // Wichtig: durch die vererbte Kette gehen. Dort werden PC-First- und
+      // Wide-Sweep-Payloads angenommen und der persistente AGENT_SCAN_KEY
+      // geschrieben. Der frühere direkte this.scan()-Aufruf übersprang beides.
+      const r=await super.scanFromAgent(payload);
       this.__pcAgentScanRecovery.lastError=null;
       this.__pcAgentScanRecovery.lastOkAt=new Date().toISOString();
       return{...r,ok:r?.ok!==false,scanSource:'WINDOWS_PC_AGENT',agentTransportOk:true};
@@ -46,7 +49,7 @@ export class MarketPortfolio extends BasePortfolio{
   }
 
   _withPcAgentRecovery(s={}){
-    s.pcAgentScanRecovery={enabled:true,version:'31.3.0',mode:'fail-soft-agent-scan',...this.__pcAgentScanRecovery,rule:'PC-Heartbeat und Prefetch bleiben aktiv, auch wenn der interne Portfolio-Scan scheitert. Dashboard- und Vollstatus zeigen denselben Recovery-Zustand, ohne fuer die PC-Abfrage den grossen Status aufzubauen.'};
+    s.pcAgentScanRecovery={enabled:true,version:'31.7.29',mode:'fail-soft-agent-scan+inherited-payload-ingest',...this.__pcAgentScanRecovery,rule:'PC-Heartbeat und Prefetch bleiben aktiv, auch wenn der interne Portfolio-Scan scheitert. Jeder Agent-Scan läuft durch die vollständige vererbte PC-First-/Wide-Sweep-Annahme und schreibt den persistenten letzten erfolgreichen PC-Scan.'};
     s.paperExplorationExecutionReconcile={...PAPER_EXPLORATION_EXECUTION_RECONCILE_V3175,...this.__paperExplorationExecutionReconcile,mode:'post-base-ledger-reconciliation',rule:'Nur ein vom UnifiedDecisionCore bereits final erzeugter controlled paperExplorationV3172 BUY darf nach actions=0 erneut gegen aktuellen gespeicherten Kandidaten, Freshness, FX, Cash und den verifizierten Trade-Republic-Master geprüft und ins Paper-Ledger geschrieben werden. Normale BUYs und harte Safety-Regeln werden nicht umgangen.'};
     if(s.pcAgent)s.pcAgent={...s.pcAgent,lastScanError:this.__pcAgentScanRecovery.lastError,lastScanErrorAt:this.__pcAgentScanRecovery.lastErrorAt,lastSuccessfulAgentScanAt:this.__pcAgentScanRecovery.lastOkAt};
     s.executionModel={...(s.executionModel||{}),pcAgentFailSoftScanRecoveryV3101:true,pcAgentDirectLiteStatusV313:true,paperExplorationExecutionReconcileV3175:true};

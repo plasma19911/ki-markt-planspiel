@@ -50,24 +50,32 @@ function direction(row){
 }
 
 async function quoteMap(symbols){
- const equities=symbols.filter(Boolean).map(x=>String(x).toUpperCase()),wanted=[...new Set([...equities,...equities.map(regionalBenchmarkForSymbol)])],out=new Map();
+ const equities=symbols.filter(Boolean).map(x=>String(x).toUpperCase()),wanted=[...new Set([...equities,...equities.map(regionalBenchmarkForSymbol)])],out=new Map(),diagnostic={requestedSymbols:wanted.length,attempts:0,httpStatuses:[],errors:[],provider:null};
  for(const batch of chunks(wanted,40)){
-  try{
-   const u=new URL('https://query1.finance.yahoo.com/v7/finance/spark');
-   u.searchParams.set('symbols',batch.join(','));u.searchParams.set('range','5d');u.searchParams.set('interval','5m');u.searchParams.set('indicators','close');u.searchParams.set('includePrePost','false');
-   const r=await fetch(u,{headers:HEADERS});if(!r.ok)continue;const j=await r.json();
-   for(const item of j?.spark?.result||[]){
-    const res=item?.response?.[0];if(!res)continue;const meta=res.meta||{},sym=String(item.symbol||meta.symbol||'').toUpperCase();
-    const timestamps=arr(res?.timestamp),closes=arr(res?.indicators?.quote?.[0]?.close),bars=[];for(let i=0;i<Math.min(timestamps.length,closes.length);i++){const ts=num(timestamps[i]),price=num(closes[i]);if(ts>0&&price>0)bars.push({ts,price})}
-    const latest=bars.at(-1),price=num(latest?.price,meta.regularMarketPrice),ts=num(latest?.ts,meta.regularMarketTime);
-    if(sym&&price>0)out.set(sym,{price,ts,fresh:ts>0&&(Date.now()/1000-ts)<40*60,bars});
-   }
-  }catch{}
+  // Yahoo betreibt zwei gleichwertige Spark-Hosts. Cloudflare kann einen davon
+  // zeitweise mit 401/429 oder einer leeren Antwort sehen; nur bei null Treffern
+  // wird deshalb genau einmal auf den zweiten Host gewechselt.
+  for(const host of ['query1.finance.yahoo.com','query2.finance.yahoo.com']){
+   const before=out.size;diagnostic.attempts++;
+   try{
+    const u=new URL(`https://${host}/v7/finance/spark`);
+    u.searchParams.set('symbols',batch.join(','));u.searchParams.set('range','5d');u.searchParams.set('interval','5m');u.searchParams.set('indicators','close');u.searchParams.set('includePrePost','false');
+    const r=await fetch(u,{headers:HEADERS});diagnostic.httpStatuses.push(`${host}:${r.status}`);if(!r.ok){diagnostic.errors.push(`${host} HTTP ${r.status}`);continue}const j=await r.json();
+    for(const item of j?.spark?.result||[]){
+     const res=item?.response?.[0];if(!res)continue;const meta=res.meta||{},sym=String(item.symbol||meta.symbol||'').toUpperCase();
+     const timestamps=arr(res?.timestamp),closes=arr(res?.indicators?.quote?.[0]?.close),bars=[];for(let i=0;i<Math.min(timestamps.length,closes.length);i++){const ts=num(timestamps[i]),price=num(closes[i]);if(ts>0&&price>0)bars.push({ts,price})}
+     const latest=bars.at(-1),price=num(latest?.price,meta.regularMarketPrice),ts=num(latest?.ts,meta.regularMarketTime);
+     if(sym&&price>0)out.set(sym,{price,ts,fresh:ts>0&&(Date.now()/1000-ts)<40*60,bars});
+    }
+    if(out.size>before){diagnostic.provider=host;break}
+    diagnostic.errors.push(`${host} lieferte keine verwendbaren 5-Minuten-Kurse`);
+   }catch(e){diagnostic.errors.push(`${host}: ${String(e?.message||e).slice(0,180)}`)}
+  }
  }
- return out;
+ diagnostic.errors=diagnostic.errors.slice(-6);return{quotes:out,diagnostic};
 }
 
-function emptyLearning(){return{version:LEARNING_VERSION,benchmark:BENCHMARK,events:[],evaluationCursor:0,lastEvaluationBatchSize:0,lastEvaluationQuoteCount:0,sourceStats:{},typeStats:{},sourceTypeStats:{},updatedAt:null,summary:{topSources:[],topTypes:[],evaluatedEvents:0,completedEvents:0,pendingEvents:0,totalEvents:0,maxEventsPerUpdate:MAX_EVENTS_PER_UPDATE,notice:'Noch keine ausreichende News-Wirkungshistorie.'}}}
+function emptyLearning(){return{version:LEARNING_VERSION,benchmark:BENCHMARK,events:[],evaluationCursor:0,lastEvaluationBatchSize:0,lastEvaluationQuoteCount:0,lastEvaluationAttemptCount:0,lastEvaluationError:null,lastEvaluationProvider:null,lastEvaluationHttpStatuses:[],sourceStats:{},typeStats:{},sourceTypeStats:{},updatedAt:null,summary:{topSources:[],topTypes:[],evaluatedEvents:0,completedEvents:0,pendingEvents:0,totalEvents:0,maxEventsPerUpdate:MAX_EVENTS_PER_UPDATE,notice:'Noch keine ausreichende News-Wirkungshistorie.'}}}
 
 function newEvent(row){
  const headline=String(row.headline||'').trim(),src=sources(row.sources),newsAt=row.news_at||row.updated_at||nowIso();
@@ -103,7 +111,7 @@ function rebuild(l){
  l.typeStats=aggregate(done,e=>[e.eventType]);
  l.sourceTypeStats=aggregate(done,e=>arr(e.sources).map(s=>`${s} · ${e.eventType}`));
  const complete=l.events.filter(e=>Object.keys(e.results||{}).length>=HORIZONS.length),reactionRows=l.events.filter(e=>e.reactionDelayMinutes!=null&&Number.isFinite(Number(e.reactionDelayMinutes))),adverseRows=l.events.filter(e=>e.adverseDelayMinutes!=null&&Number.isFinite(Number(e.adverseDelayMinutes))),avg=(rows,key)=>rows.length?rows.reduce((sum,e)=>sum+num(e[key]),0)/rows.length:null;
- l.summary={topSources:ranking(l.sourceStats),topTypes:ranking(l.typeStats),evaluatedEvents:done.length,completedEvents:complete.length,pendingEvents:l.events.length-complete.length,totalEvents:l.events.length,baselineEvents:l.events.filter(e=>num(e.baselinePrice)>0).length,regionalBenchmarks:[...new Set(l.events.map(e=>e.benchmark).filter(Boolean))],maxEventsPerUpdate:MAX_EVENTS_PER_UPDATE,lastEvaluationBatchSize:num(l.lastEvaluationBatchSize),lastEvaluationQuoteCount:num(l.lastEvaluationQuoteCount),reactionLag:{thresholdPct:REACTION_THRESHOLD_PCT,directionalSamples:reactionRows.length,avgDirectionalMinutes:avg(reactionRows,'reactionDelayMinutes'),adverseSamples:adverseRows.length,avgAdverseMinutes:avg(adverseRows,'adverseDelayMinutes')},notice:done.length<12?'Lernphase: noch zu wenig ausgewertete Meldungen für belastbare Quellengewichte.':'Quellengewichte basieren auf nachfolgenden regional bereinigten 15m-/1h-/4h-/6h-Reaktionen; statistische Wirkung, keine bewiesene Kausalität.'};
+ l.summary={topSources:ranking(l.sourceStats),topTypes:ranking(l.typeStats),evaluatedEvents:done.length,completedEvents:complete.length,pendingEvents:l.events.length-complete.length,totalEvents:l.events.length,baselineEvents:l.events.filter(e=>num(e.baselinePrice)>0).length,regionalBenchmarks:[...new Set(l.events.map(e=>e.benchmark).filter(Boolean))],maxEventsPerUpdate:MAX_EVENTS_PER_UPDATE,lastEvaluationBatchSize:num(l.lastEvaluationBatchSize),lastEvaluationQuoteCount:num(l.lastEvaluationQuoteCount),lastEvaluationAttemptCount:num(l.lastEvaluationAttemptCount),lastEvaluationError:l.lastEvaluationError||null,lastEvaluationProvider:l.lastEvaluationProvider||null,lastEvaluationHttpStatuses:arr(l.lastEvaluationHttpStatuses).slice(-6),reactionLag:{thresholdPct:REACTION_THRESHOLD_PCT,directionalSamples:reactionRows.length,avgDirectionalMinutes:avg(reactionRows,'reactionDelayMinutes'),adverseSamples:adverseRows.length,avgAdverseMinutes:avg(adverseRows,'adverseDelayMinutes')},notice:l.lastEvaluationError&&num(l.lastEvaluationQuoteCount)===0?`News-Kursauswertung wartet: ${l.lastEvaluationError}`:done.length<12?'Lernphase: noch zu wenig ausgewertete Meldungen für belastbare Quellengewichte.':'Quellengewichte basieren auf nachfolgenden regional bereinigten 15m-/1h-/4h-/6h-Reaktionen; statistische Wirkung, keine bewiesene Kausalität.'};
  l.updatedAt=nowIso();
 }
 
@@ -129,9 +137,12 @@ export async function updateNewsLearning(state){
  const l=state.newsLearning&&typeof state.newsLearning==='object'?state.newsLearning:emptyLearning();
  const upgrading=num(l.version,1)<2;l.version=LEARNING_VERSION;l.benchmark=BENCHMARK;l.events=arr(l.events).map(e=>upgrading?{...e,benchmark:regionalBenchmarkForSymbol(e.symbol),baselinePrice:null,baselineBenchmark:null,baselineAt:null,baselineMethod:null,tradingMinutes:0,lastQuoteTs:0,lastSampleAt:null,reactionDelayMinutes:null,adverseDelayMinutes:null,results:{}}:{...e,benchmark:e.benchmark||regionalBenchmarkForSymbol(e.symbol)});addEventRows(state,l);
  const currentNews=new Map(arr(state.newsRadar).map(x=>[String(x.symbol||'').toUpperCase(),x]));
- const allPending=l.events.filter(e=>Object.keys(e.results||{}).length<HORIZONS.length&&Date.now()-(Date.parse(e.newsAt)||Date.now())<7*86400000).sort((a,b)=>(Date.parse(b.newsAt)||0)-(Date.parse(a.newsAt)||0)),start=allPending.length?num(l.evaluationCursor)%allPending.length:0,pending=allPending.length?[...allPending.slice(start),...allPending.slice(0,start)].slice(0,MAX_EVENTS_PER_UPDATE):[];l.evaluationCursor=allPending.length?(start+pending.length)%allPending.length:0;l.lastEvaluationBatchSize=pending.length;
+ const allPending=l.events.filter(e=>Object.keys(e.results||{}).length<HORIZONS.length&&Date.now()-(Date.parse(e.newsAt)||Date.now())<7*86400000).sort((a,b)=>(Date.parse(b.newsAt)||0)-(Date.parse(a.newsAt)||0)),start=allPending.length?num(l.evaluationCursor)%allPending.length:0,pending=allPending.length?[...allPending.slice(start),...allPending.slice(0,start)].slice(0,MAX_EVENTS_PER_UPDATE):[];l.lastEvaluationBatchSize=pending.length;
  if(pending.length){
-  const quotes=await quoteMap(pending.map(e=>e.symbol));l.lastEvaluationQuoteCount=quotes.size;
+  const lookup=await quoteMap(pending.map(e=>e.symbol)),quotes=lookup.quotes,diagnostic=lookup.diagnostic;l.lastEvaluationQuoteCount=quotes.size;l.lastEvaluationAttemptCount=num(diagnostic.attempts);l.lastEvaluationProvider=diagnostic.provider||null;l.lastEvaluationHttpStatuses=arr(diagnostic.httpStatuses);l.lastEvaluationError=quotes.size?null:diagnostic.errors?.at(-1)||'Keine verwendbaren News-Lernkurse empfangen';
+  // Bei einem kompletten Provider-Ausfall bleiben die wichtigsten neuesten
+  // Meldungen vorne. Erst nach mindestens einem echten Kurs wird rotiert.
+  if(quotes.size)l.evaluationCursor=allPending.length?(start+pending.length)%allPending.length:0;
   for(let i=0;i<pending.length;i++){
    let e=pending[i],q=quotes.get(e.symbol),bench=quotes.get(e.benchmark||regionalBenchmarkForSymbol(e.symbol)),row=currentNews.get(e.symbol);if(row)e.waitingForOpen=Boolean(row.waiting_for_open);
    if(q?.bars?.length&&bench?.bars?.length){const evaluated=evaluateNewsEventFromBars(e,q.bars,bench.bars),at=l.events.indexOf(e);if(at>=0)l.events[at]=evaluated;e=evaluated;if(Object.keys(e.results||{}).length>=HORIZONS.length)continue}
@@ -145,6 +156,8 @@ export async function updateNewsLearning(state){
    const alignedAbnormalPct=dir?abnormalPct*dir:0;if(e.reactionDelayMinutes==null&&dir&&alignedAbnormalPct>=REACTION_THRESHOLD_PCT)e.reactionDelayMinutes=num(e.tradingMinutes);if(e.adverseDelayMinutes==null&&dir&&alignedAbnormalPct<=-REACTION_THRESHOLD_PCT)e.adverseDelayMinutes=num(e.tradingMinutes);
    for(const [label,mins] of HORIZONS)if(num(e.tradingMinutes)>=mins&&!e.results[label])e.results[label]={at:nowIso(),stockPct,benchmarkPct:benchPct,abnormalPct,alignedAbnormalPct,marketMinutes:mins,benchmark:e.benchmark};
   }
+ }else{
+  l.lastEvaluationQuoteCount=0;l.lastEvaluationAttemptCount=0;l.lastEvaluationProvider=null;l.lastEvaluationHttpStatuses=[];l.lastEvaluationError=null;
  }
  rebuild(l);state.newsLearning=l;return l;
 }

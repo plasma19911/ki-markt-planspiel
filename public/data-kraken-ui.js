@@ -231,8 +231,14 @@ function renderCommandDeck(status){
   const learning=status.outcomeLearningPolicy||status.predictiveLearningPolicy||status.unifiedDecisionCorePolicy?.outcomeLearning||{};
   const mode=String(learning.mode||'WARMUP').replaceAll('_',' '),samples=num(learning.matured,num(learning.samples)),buySamples=num(learning.buySamples),newsSamples=num(learning.newsSamples);
   const newsWeight=num(learning.weights?.news,1.8);
+  const shadow=status.shadowLearningPolicy||{},shadowLatest=shadow.latest||{},shadowMatured=num(shadowLatest.maturedSamples),shadowArchived=num(shadowLatest.archivedMaturedSamples);
+  const thresholdAdjustment=num(learning.thresholdAdjustment),allocationAdjustment=num(learning.allocationAdjustment);
+  const adjustment=thresholdAdjustment||allocationAdjustment
+    ? `Schwelle ${thresholdAdjustment>=0?'+':''}${thresholdAdjustment.toFixed(1).replace('.',',')} · Größe ${allocationAdjustment>=0?'+':''}${allocationAdjustment.toFixed(0)} %`
+    : buySamples<3?`Trade-Kalibrierung ${buySamples}/3`:'keine Regeländerung';
   $('krakenLearningMode').textContent=mode;
-  $('krakenLearningDetail').textContent=`${samples} Outcomes · ${buySamples} Käufe · ${newsSamples} News-Samples · Gewicht ${newsWeight.toFixed(2).replace('.',',')}`;
+  const scoreEpoch=shadowArchived?` · Score-Lernen neu: ${shadowMatured} reif, ${shadowArchived} Altproben archiviert`:shadowMatured?` · ${shadowMatured} Score-Proben reif`:'';
+  $('krakenLearningDetail').textContent=`${samples} Outcomes · ${buySamples} Käufe · ${newsSamples} News · ${adjustment} · News-Faktor ${newsWeight.toFixed(2).replace('.',',')}${scoreEpoch}`;
 }
 
 function positionValue(position){
@@ -253,7 +259,8 @@ function renderSources(status){
   const agent=status.pcAgent||{};
   const finalists=num(agent.finalists_count,num(agent.finalistCount,num(agent.candidates_count,candidates.length)));
   const weekend=weekendPause();
-  setSource('pc',online?`${finalists||candidates.length} Finalisten · PC online`:weekend?'Wochenendpause · startet zum Börsenfenster':'Offline · wartet auf PC-Scanner',online?'ok':weekend?'warn':'off');
+  const pcScanProblem=online&&(agent.onlineWithoutScan===true||agent.scanFresh===false);
+  setSource('pc',pcScanProblem?(agent.onlineWithoutScan?'Online · noch kein bestätigter PC-Scan':'Online · PC-Scan veraltet'):online?`${finalists||candidates.length} Finalisten · PC online`:weekend?'Wochenendpause · startet zum Börsenfenster':'Offline · wartet auf PC-Scanner',pcScanProblem?'warn':online?'ok':weekend?'warn':'off');
 
   const quoteCount=candidates.filter(c=>num(c.last_price,num(c.price))>0).length+arr(status.positions).length;
   setSource('quotes',`${quoteCount} Werte · ${config.market_mode==='NEWS_ONLY'?'Börsen zu':'Kurse aktiv'}`,config.market_mode==='NEWS_ONLY'?'warn':'ok');
@@ -517,7 +524,7 @@ function organSummary(status,card){
   else if(key==='history'){text=`${arr(status.history).length} protokollierte Ereignisse · neueste zuerst`}
   else if(key==='setup'){text=`${String(status.config?.risk_mode||'offensiv')} · Paper Trading · ${currency}`}
   else if(key==='trade-chart'){const trades=arr(status.history).filter(x=>/BUY|SELL|KAUF|VERKAUF/i.test(String(x.action||''))).length;text=`${positions.length} offene Positionen · ${trades} Kauf-/Verkaufsmarken`}
-  else if(key==='news-learning'){const lag=newsLearning.reactionLag||{},delay=Number.isFinite(Number(lag.avgDirectionalMinutes))?`${Math.round(num(lag.avgDirectionalMinutes))} min Ø-Reaktion`:'Reaktionszeit lernt';text=`${newsEvaluated} ausgewertet · ${num(newsLearning.pendingEvents)} offen · ${delay}`}
+  else if(key==='news-learning'){const lag=newsLearning.reactionLag||{},delay=Number.isFinite(Number(lag.avgDirectionalMinutes))?`${Math.round(num(lag.avgDirectionalMinutes))} min Ø-Reaktion`:'Reaktionszeit lernt';text=num(newsLearning.lastEvaluationQuoteCount)===0&&newsLearning.lastEvaluationError?`Kursabruf wartet · ${String(newsLearning.lastEvaluationError).slice(0,72)}`:`${newsEvaluated} ausgewertet · ${num(newsLearning.pendingEvents)} offen · ${num(newsLearning.lastEvaluationQuoteCount)} Kurse · ${delay}`;importance=newsLearning.lastEvaluationError?'warn':newsEvaluated?'watch':'quiet'}
   else if(key==='agm-calendar'){const events=arr(status.agmCalendar?.events),eligible=events.filter(x=>x.tradeEligible).length;text=`${events.length} kommende Termine · ${eligible} vorab prüfbar`}
   else if(key==='future-watch'){text=`${arr(status.futureWatch?.candidates).length} Forward-Kandidaten · ${arr(status.futureWatch?.activeThemes).length} aktive Themen`}
   else if(key==='free-budget'){const budget=status.freeTierBudget||{},fetches=budget.lastFetchBudget||{};text=`PC ${agentOnline(status)?'online':'Pause'} · Cloudflare ${num(fetches.actual)}/${num(fetches.cap,budget.externalFetchSoftCap)} Abrufe`}

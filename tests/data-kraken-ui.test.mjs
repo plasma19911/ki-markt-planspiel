@@ -11,6 +11,10 @@ const dashboardWorker=readFileSync(new URL('../src/index-v20.js',import.meta.url
 const liveNews=readFileSync(new URL('../public/live-news-fresh-v2.js',import.meta.url),'utf8');
 const newsLearningUi=readFileSync(new URL('../public/news-learning-ui.js',import.meta.url),'utf8');
 const clickableMarket=readFileSync(new URL('../public/clickable-market-ui-v31712.js',import.meta.url),'utf8');
+const singleScanner=readFileSync(new URL('../public/single-scanner-ui.js',import.meta.url),'utf8');
+const agentRecovery=readFileSync(new URL('../src/compact-portfolio-v310-agent-recovery.js',import.meta.url),'utf8');
+const wideSweep=readFileSync(new URL('../src/compact-portfolio-v16.js',import.meta.url),'utf8');
+const pcFirst=readFileSync(new URL('../src/compact-portfolio-v288-pc-first.js',import.meta.url),'utf8');
 
 assert.match(index,/id="dataFlow"/,'dashboard must contain the central data-flow section');
 assert.match(index,/id="krakenCore"/,'depot core must be present');
@@ -155,11 +159,20 @@ assert.match(liveNews,/noExtraFeedRequests:true/,'the news detail must declare s
 assert.doesNotMatch(liveNews,/setInterval\(load/,'the news detail must not start another minute polling loop');
 assert.doesNotMatch(newsLearningUi,/fetch\('\/api\/status'/,'news learning must reuse the already loaded dashboard status');
 assert.doesNotMatch(clickableMarket,/setInterval\(loadLiveNews/,'chart links must not start a competing news polling loop');
+assert.doesNotMatch(singleScanner,/fetch\('\/api\/status/,'scanner header must reuse the shared status event instead of polling every 15 seconds');
+assert.doesNotMatch(singleScanner,/setInterval\(loadScanner/,'scanner header must not create a competing polling loop');
+assert.match(singleScanner,/onlineWithoutScan/,'the UI must distinguish heartbeat-only from a completed PC scan');
+assert.match(agentRecovery,/await super\.scanFromAgent\(payload\)/,'agent recovery must preserve inherited PC-First/Wide-Sweep ingest and persistent scan acknowledgement');
+assert.doesNotMatch(agentRecovery,/const r=await this\.scan\(\)/,'agent recovery must not bypass the inherited agent-scan chain');
+assert.match(wideSweep,/const liveMaster=isFresh\?num/,'stale wide-sweep totals must not be presented as live scans');
+assert.match(pcFirst,/topPcCandidates:pcFresh\?/,'stale PC-first candidates must not be presented as live candidates');
 assert.match(dashboardWorker,/newsRadarVisible/,'the dashboard must expose its deliberately bounded radar window');
 assert.match(dashboardWorker,/newsLearningTotal/,'the dashboard must expose the separate learning-memory count');
 assert.match(dashboardWorker,/positionScoreAudit:_positionScoreAudit/,'large score audits must be removed from the routine dashboard payload');
 assert.match(dashboardWorker,/audit:_audit,\.\.\.lightProfitExit/,'the duplicated profit-exit audit must be removed from the routine dashboard payload');
-assert.match(changelog,/07\.09\.2026 · 12:40/,'trade history and profitable rotation must be documented first');
+assert.match(changelog,/07\.09\.2026 · 20:35/,'the repaired learning cycle must be documented first');
+assert.match(changelog,/V31\.7\.29/,'separate news learning, persisted outcome recovery and visible replay adjustments must be documented');
+assert.match(changelog,/07\.09\.2026 · 12:40/,'trade history and profitable rotation must remain documented');
 assert.match(changelog,/V31\.7\.28/,'trade history, source learning and paired profitable rotation must be documented');
 assert.match(changelog,/V31\.7\.26/,'regional news learning and slim dashboard update must be documented');
 assert.match(changelog,/V31\.7\.25/,'browser performance correction must remain documented');
