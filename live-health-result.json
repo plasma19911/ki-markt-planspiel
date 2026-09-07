@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-09-07T19:22:10.781Z",
+  "checkedAt": "2026-09-07T19:29:15.599Z",
   "runtimeVersion": "V31.7",
   "liveDecisionVersion": "V31.7",
   "outcomeLearningVersion": "V31.2",
@@ -27,7 +27,7 @@
   "failedChecks": [],
   "allRequiredChecksPassed": true,
   "pcExpectedOnline": true,
-  "berlinMarketClock": "Mon 21:22",
+  "berlinMarketClock": "Mon 21:29",
   "outcomeLearningPolicy": {
     "enabled": true,
     "version": 31.2,
@@ -131,8 +131,8 @@
     "preservesShadowSafetyBlocks": true,
     "latest": null
   },
-  "scanCount": 1018,
-  "lastScan": "2026-09-07T19:22:05.448Z",
+  "scanCount": 1019,
+  "lastScan": "2026-09-07T19:27:14.287Z",
   "lastError": null,
   "aiLastSummary": "Keine frischen handelbaren Kurse – keine Orderentscheidung.",
   "cash": 2885.134872455825,
@@ -604,7 +604,7 @@
         "fresh": true,
         "structural": false,
         "publishedAt": "2026-09-07T18:14:21.000Z",
-        "ageMinutes": 66.7,
+        "ageMinutes": 74.7,
         "newsScore": 0,
         "confidence": 0.554,
         "sources": [
@@ -642,7 +642,7 @@
               "binary": false,
               "structural": false
             },
-            "ageMinutes": 66.7,
+            "ageMinutes": 74.7,
             "freshnessWeight": 0.76,
             "strength": 0
           },
@@ -659,7 +659,7 @@
               "binary": false,
               "structural": false
             },
-            "ageMinutes": 101.5,
+            "ageMinutes": 109.5,
             "freshnessWeight": 0.58,
             "strength": 0
           }
@@ -667,8 +667,8 @@
         "priority": 3,
         "held": true,
         "urgent": false,
-        "fetchedAt": "2026-09-07T19:21:02.803Z",
-        "latencyMs": 22,
+        "fetchedAt": "2026-09-07T19:29:03.010Z",
+        "latencyMs": 369,
         "error": null
       },
       "legacy_position_score": 4.023663425226586,
@@ -946,18 +946,18 @@
   "pcAgent": {
     "configured": true,
     "online": true,
-    "lastSeenAt": "2026-09-07T19:21:02.781Z",
-    "ageSeconds": 65,
+    "lastSeenAt": "2026-09-07T19:29:02.641Z",
+    "ageSeconds": 10,
     "fallbackAfterSeconds": 150,
-    "lastScanAt": null,
-    "scanAgeSeconds": null,
-    "scanFresh": false,
-    "onlineWithoutScan": true,
-    "healthState": "ONLINE_NO_COMPLETED_SCAN",
-    "healthMessage": "PC-Agent sendet Lebenszeichen, aber noch keinen bestätigten Handelsscan. Cloudflare hält den Gap-Fallback aktiv.",
+    "lastScanAt": "2026-09-07T19:27:40.808Z",
+    "scanAgeSeconds": 92,
+    "scanFresh": true,
+    "onlineWithoutScan": false,
+    "healthState": "ONLINE_SCAN_FRESH",
+    "healthMessage": "PC-Agent und Handelsscan sind frisch.",
     "scanGapFallbackAfterSeconds": 95,
     "prefetchFresh": true,
-    "prefetchAt": "2026-09-07T19:19:11.573Z",
+    "prefetchAt": "2026-09-07T19:28:09.706Z",
     "resolvedLeaderCount": 5,
     "selectedLeaderCount": 25,
     "leaderHealthy": false,
@@ -965,16 +965,16 @@
     "leaderCacheMode": "PC_AGENT_PARTIAL_BLEND",
     "futureCandidates": 0,
     "metrics": {
-      "lastSeenAt": "2026-09-07T19:21:02.781Z",
+      "lastSeenAt": "2026-09-07T19:29:02.641Z",
       "version": "2.2.1-csharp-pc-first-four-sta",
       "hostName": "MININT-6KIFK2F",
       "storagePath": "E:\\KI-Markt-Agent",
-      "storageBytes": 17386822,
+      "storageBytes": 17386549,
       "maxStorageBytes": 2147483648,
-      "cpuPct": 0.01,
-      "ramMb": 64.2,
-      "downloadedBytes": 3085567109,
-      "uploadedBytes": 63993390,
+      "cpuPct": 0.03,
+      "ramMb": 62.7,
+      "downloadedBytes": 3134197706,
+      "uploadedBytes": 64157063,
       "localPhase": "OPEN",
       "agentMode": "WINDOWS_CSHARP_SINGLE_SUPER_SCANNER",
       "lastLocalCleanupAt": "2026-09-07T19:18:14.5811244Z",
@@ -989,7 +989,7 @@
   },
   "agmCalendar": {
     "updatedAt": "2026-09-07T09:31:55.472Z",
-    "ageHours": 9.84,
+    "ageHours": 9.96,
     "events": 6
   },
   "newsFeed": {
