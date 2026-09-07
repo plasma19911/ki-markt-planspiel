@@ -27,11 +27,13 @@ export class MarketPortfolio extends BasePortfolio{
 
   async _refreshNewsLearning(force=false){
     const raw=this.bucketAdapter?.peekState?.();
-    const last=Date.parse(raw?.newsLearning?.updatedAt||''),scanNo=Number(raw?.config?.scan_count||0);
+    const last=Date.parse(raw?.newsLearning?.updatedAt||''),scanNo=Number(raw?.config?.scan_count||0),learningVersion=Number(raw?.newsLearning?.version||1);
     // Start entzerren: erster News-Lernlauf erst ab Scan 3. Die normalen Live-News
     // laufen davon unabhaengig bereits ab Scan 1.
     if(!force&&!Number.isFinite(last)&&scanNo<3)return null;
-    if(!force&&Number.isFinite(last)&&Date.now()-last<NEWS_LEARNING_COOLDOWN_MS)return null;
+    // Eine neue Lernschema-Version migriert beim ersten normalen Scan sofort.
+    // Danach gilt wieder der sparsame 13-Minuten-Takt.
+    if(!force&&learningVersion>=2&&Number.isFinite(last)&&Date.now()-last<NEWS_LEARNING_COOLDOWN_MS)return null;
     if(!this.engine?.store?.update)return null;
     const r=await this.engine.store.update(async s=>{
       await updateNewsLearning(s);

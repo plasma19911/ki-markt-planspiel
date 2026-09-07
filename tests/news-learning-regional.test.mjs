@@ -1,5 +1,9 @@
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {evaluateNewsEventFromBars,regionalBenchmarkForSymbol,updateNewsLearning} from '../src/news-learning.js';
+
+const portfolioIntegration=readFileSync(new URL('../src/compact-portfolio-v2.js',import.meta.url),'utf8');
+assert.match(portfolioIntegration,/learningVersion>=2/,'a legacy ACWI learning state must bypass the cooldown once for immediate regional migration');
 
 assert.equal(regionalBenchmarkForSymbol('SAP.DE'),'EXSA.DE');
 assert.equal(regionalBenchmarkForSymbol('COCHINSHIP.NS'),'^NSEI');
