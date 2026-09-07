@@ -73,7 +73,8 @@ export async function enforceUnifiedDecisionCoreV310(plan,state={},input=null,br
     ruleOrder:['hard safety from legacy core','V31.2 continuous outcome learning + early-entry','legacy opportunity proposal','V31.7 canonical score + orthogonal confirmation + cost-aware probation approval','V31.7 hard-stop/trailing/failed-setup/rotation/stagnation/profit-fade authority','V31.7.24 controlled paper exploration only when zero BUY samples persist and no shadow, negative-news or chase safety block exists'],
     note:'V31.7.24 verbindet die normale Kaufprüfung mit einer kostenbewussten Warmup-Sperre. Eine kleine Lernposition bleibt nur im belegten Planspiel-Deadlock möglich und darf weder Shadow-Sperren noch negative Firmennews oder einen bereits überdehnten News-Sprung übersteuern.'
   };
-  finalPlan.summary=`${String(finalPlan.summary||'').slice(0,128)} · V31.7.24 Unified: ${changes.length} finale Änderung(en), ${arr(state?.candidates).length} aktuelle Lernkandidaten, Probe ${explorationPass.counters?.injected?'AKTIV':'nein'}.`;
+  const counts={buy:arr(finalPlan.actions).filter(a=>String(a?.action).toUpperCase()==='BUY').length,sell:arr(finalPlan.actions).filter(a=>String(a?.action).toUpperCase()==='SELL').length,hold:arr(finalPlan.actions).filter(a=>String(a?.action).toUpperCase()==='HOLD').length};
+  finalPlan.summary=`V31.7 FINAL: ${counts.buy} BUY · ${counts.sell} SELL · ${counts.hold} HOLD · Score 60 + Datenqualität 55 + unabhängiger Beleg · ${changes.length} finale Änderung(en) · ${arr(state?.candidates).length} aktuelle Lernkandidaten · Probe ${explorationPass.counters?.injected?'AKTIV':'nein'}.`;
   return{plan:finalPlan,audit,counters:{changes:changes.length,outcome:predictivePass.counters||{},predictive:predictivePass.counters||{},capital:buyPass.counters||{},shadow:shadowPass.counters||{},expectancy:expectancyPass.counters||{},exploration:explorationPass.counters||{}}};
 }
 

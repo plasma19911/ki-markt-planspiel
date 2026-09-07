@@ -38,10 +38,17 @@ function p(extra={}){return {symbol:'TEST.DE',name:'Test',invested:2500,entry_pr
 }
 {
  const held=p({opened_at:new Date(now-20*60000).toISOString(),last_price:100.1});
- const plan={actions:[{symbol:'TEST.DE',action:'SELL',relativeRotationV304:true,reason:'paired rotation'}],summary:'x'};
- const out=enforceExpectancyCoreV310(plan,{positions:[held],candidates:[{symbol:'TEST.DE',decisionScore:52,momentum5Pct:-0.1,momentum20Pct:-0.2}]},now);
+ const plan={actions:[{symbol:'TEST.DE',action:'SELL',relativeRotationV304:true,pairedReplacementSymbol:'BETTER.DE',reason:'paired rotation'},{symbol:'BETTER.DE',action:'BUY',relativeRotationV304:true,pairedReplacementSymbol:'TEST.DE',allocation_pct:50,reason:'replacement'}],summary:'x'};
+ const out=enforceExpectancyCoreV310(plan,{cash:5000,positions:[held],candidates:[{symbol:'TEST.DE',decisionScore:52,momentum5Pct:-0.1,momentum20Pct:-0.2},{symbol:'BETTER.DE',decisionScore:72}]},now);
  assert.equal(out.plan.actions[0].action,'SELL','qualifizierte Paarrotation darf nicht mehr auf HOLD gedreht werden');
  assert.equal(out.counters.pairedRotationSells,1);
+}
+{
+ const held=p({opened_at:new Date(now-90*60000).toISOString(),last_price:100.4});
+ const plan={actions:[{symbol:'TEST.DE',action:'SELL',relativeRotationV304:true,pairedReplacementSymbol:'BLOCKED.DE',reason:'orphan rotation'}],summary:'x'};
+ const out=enforceExpectancyCoreV310(plan,{positions:[held],candidates:[held]},now);
+ assert.equal(out.plan.actions[0].action,'HOLD','Rotationsverkauf ohne überlebenden Ersatzkauf muss blockiert werden');
+ assert.equal(out.counters.unpairedRotationBlocks,1);
 }
 {
  const stuck=p({opened_at:new Date(now-181*60000).toISOString(),last_price:100.2,decisionScore:54,rawDecisionScore:49,momentum5Pct:-0.12,momentum20Pct:-0.25});

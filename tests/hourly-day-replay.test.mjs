@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {replayRows,extendReplayQueue} from '../src/day-replay-learning.js';
+import {replayRows,extendReplayQueue,getDayReplayStatus} from '../src/day-replay-learning.js';
 
 const now=Date.parse('2026-09-07T10:30:00Z');
 const date='2026-09-07';
@@ -23,6 +23,12 @@ assert.equal(report.completedAt,null);
 assert.equal(report.summary,null);
 assert.equal(extendReplayQueue(report,mature),0,'the hourly queue extension must be idempotent');
 
+const learningStorage={kv:new Map([['state/day-replay-learning-v1',{samples:{EARLY_BREAKOUT:{count:10,wins30:7,wins60:6,sum30:3,sum60:4,sumMfe:7,sumMae:-2},PULLBACK_RETEST:{count:3,wins30:1,wins60:1,sum30:.1,sum60:.1,sumMfe:1,sumMae:-1}}}]])};
+const learningStatus=getDayReplayStatus(learningStorage);
+assert.equal(learningStatus.learning.insights[0].state,'BESTÄTIGT','mature positive learning must be translated into a readable insight');
+assert.match(learningStatus.learning.insights[0].text,/EARLY BREAKOUT bestätigt/);
+assert.ok(learningStatus.learning.insights.some(x=>x.state==='WARMUP'),'immature buckets must remain visibly in warmup');
+
 const worker=readFileSync(new URL('../src/index-v20.js',import.meta.url),'utf8');
 const endpoint=readFileSync(new URL('../src/index-core.js',import.meta.url),'utf8');
 const pc=readFileSync(new URL('../public/pc-agent-latest.ps1',import.meta.url),'utf8');
@@ -36,5 +42,6 @@ assert.match(pc,/LastReplaySlot/,'PC agent must suppress duplicate hourly submis
 assert.match(pc,/api\/agent\/day-replay/,'PC agent must submit the hourly replay trigger');
 assert.match(quota,/folgende Entscheidungen/,'late replay UI must not restore the obsolete next-trading-day-only text');
 assert.match(quota,/mindestens 60 Minuten gereifte Beobachtungen/,'runtime UI must explain the hourly maturity gate');
+assert.match(worker,/insights:arr\(raw\.learning\.insights\)/,'dashboard view must expose the hourly learning insights');
 
 console.log('hourly day replay tests passed');

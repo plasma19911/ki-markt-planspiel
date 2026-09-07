@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {enforceHeldCashDeploymentV304} from '../src/held-cash-deployment-v304.js';
+import {profitableStagnationRotationV317} from '../src/relative-rotation-v304.js';
 const verified=(symbol,i)=>({symbol,name:symbol,decisionScore:72-i,momentum5Pct:.1,momentum20Pct:.2,brokerVerified:true,assetClass:'EQUITY',brokerVerificationSource:'official Trade Republic Trading Universe PDF',brokerMatchMode:'EXACT_NORMALIZED_NAME',isin:`DE000000000${i+1}`});
 const candidates=['A.DE','B.DE','C.DE','D.DE'].map((s,i)=>verified(s,i));
 const positions=candidates.map(c=>({symbol:c.symbol,name:c.name,invested:1500,entry_price:100,last_price:100,entry_fx:1,last_fx:1,decisionScore:c.decisionScore}));
@@ -16,4 +17,9 @@ const unsafe=structuredClone(state);unsafe.candidates[0].brokerVerified=false;
 const out2=enforceHeldCashDeploymentV304(structuredClone(plan),unsafe);
 const unsafeBuy=out2.plan.actions.find(a=>a.symbol==='A.DE'&&a.action==='BUY');
 assert.equal(unsafeBuy,undefined,'unverified holding must never be topped up');
+const now=Date.parse('2026-09-07T12:00:00Z'),stagnant={symbol:'SLOW.DE',entry_price:100,last_price:100.4,entry_fx:1,last_fx:1,opened_at:new Date(now-90*60000).toISOString()},heldMomentum={momentum5Pct:0,momentum20Pct:.01},moving={momentum5Pct:.2,momentum20Pct:.4,acceleration5Pct:.05};
+const rotation=profitableStagnationRotationV317(stagnant,heldMomentum,moving,59,68,now);
+assert.equal(rotation.eligible,true,'profitabler träger Bestand darf in deutlich stärker bewegten Kandidaten rotieren');
+assert.equal(profitableStagnationRotationV317({...stagnant,last_price:100.1},heldMomentum,moving,59,68,now).eligible,false,'kleiner Buchgewinn ohne Gebührenpuffer darf keine Rotation auslösen');
+assert.equal(profitableStagnationRotationV317(stagnant,heldMomentum,{...moving,momentum20Pct:.05},59,68,now).eligible,false,'Ersatzkandidat ohne echte 20m-Bewegung darf keine Rotation auslösen');
 console.log(JSON.stringify({ok:true,topups:out.counters.topups,maxAllocationPct:Math.max(...buys.map(a=>a.allocation_pct)),unverifiedBlocked:true,noFixed25PctCap:true},null,2));

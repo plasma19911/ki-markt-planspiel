@@ -33,7 +33,7 @@ export class MarketPortfolio extends BasePortfolio{
     if(!force&&!Number.isFinite(last)&&scanNo<3)return null;
     // Eine neue Lernschema-Version migriert beim ersten normalen Scan sofort.
     // Danach gilt wieder der sparsame 13-Minuten-Takt.
-    if(!force&&learningVersion>=2&&Number.isFinite(last)&&Date.now()-last<NEWS_LEARNING_COOLDOWN_MS)return null;
+    if(!force&&learningVersion>=3&&Number.isFinite(last)&&Date.now()-last<NEWS_LEARNING_COOLDOWN_MS)return null;
     if(!this.engine?.store?.update)return null;
     const r=await this.engine.store.update(async s=>{
       await updateNewsLearning(s);
@@ -46,7 +46,7 @@ export class MarketPortfolio extends BasePortfolio{
     const s=await super.status();
     const raw=this.bucketAdapter?.peekState?.();
     const l=raw?.newsLearning||null;
-    s.newsLearning=l?{updatedAt:l.updatedAt,benchmark:l.benchmark,summary:l.summary,sourceStats:l.sourceStats,typeStats:l.typeStats,sourceTypeStats:l.sourceTypeStats,trustedSources:l.trustedSources,confirmationStats:l.confirmationStats}:null;
+    s.newsLearning=l?{version:l.version,updatedAt:l.updatedAt,benchmark:l.benchmark,summary:l.summary,sourceStats:l.sourceStats,typeStats:l.typeStats,sourceTypeStats:l.sourceTypeStats,trustedSources:l.trustedSources,confirmationStats:l.confirmationStats}:null;
     return s;
   }
 

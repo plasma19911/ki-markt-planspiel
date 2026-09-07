@@ -20,4 +20,16 @@ assert.deepEqual(c.pro,['Momentum positiv'],'Falscher News-Pro-Grund muss entfer
 assert.equal(out.newsEntityFilter.droppedRows,1);
 assert.equal(out.newsEntityFilter.neutralizedCandidates,1);
 
+const apple={symbol:'AAPL',name:'Apple Inc.'},mixed={
+ universe:[apple],
+ candidates:[{...apple,score:5,newsScore:.4,newsConfidence:.7,newsSources:['Yahoo'],headlines:['Apple raises guidance','Unrelated company misses estimates'],pro:['News +0.4 · 2 Ereigniscluster'],contra:[],reasons:['News +0.4 · 2 Ereigniscluster']}],
+ newsRadar:[{...apple,score:.4,confidence:.7,latestWeight:1.55,tendency:'BULLISH',sources:['Yahoo'],headline:'Apple raises guidance',headlines:['Apple raises guidance','Unrelated company misses estimates'],headlineDetails:[{headline:'Apple raises guidance',publishedAt:'2026-09-07T07:00:00Z',sources:['Yahoo'],confirmations:1,eventScore:.85,freshness:1.55},{headline:'Unrelated company misses estimates',publishedAt:'2026-09-07T06:00:00Z',sources:['Yahoo'],confirmations:1,eventScore:-.9,freshness:1.55}]}]
+};
+const mixedOut=sanitizeNewsEntityRelevance(mixed),mixedRow=mixedOut.newsRadar[0];
+assert.equal(mixedOut.newsRadar.length,1,'eine passende Firmenmeldung darf trotz unpassender Nebenmeldung nicht komplett verschwinden');
+assert.deepEqual(mixedRow.headlines,['Apple raises guidance']);
+assert.equal(mixedRow.tendency,'BULLISH');
+assert.ok(mixedRow.confidence>0,'passende Meldung muss bewertet bleiben');
+assert.ok(mixedOut.candidates[0].newsScore>0,'nur der relevante Teil muss in den Kandidatenscore zurückfließen');
+
 console.log(JSON.stringify({ok:true,guard:'symbol news entity relevance',case:'REG1V.HE must reject SBO AG headline'},null,2));

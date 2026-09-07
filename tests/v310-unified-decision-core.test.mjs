@@ -44,9 +44,10 @@ const now=Date.parse('2026-08-25T12:00:00Z');
 
 {
   const p={symbol:'ROTATE.DE',name:'Rotate AG',invested:2400,entry_price:100,last_price:100.1,entry_fx:1,last_fx:1,opened_at:'2026-08-25T11:40:00Z',decisionScore:52,rawDecisionScore:48,momentum5Pct:-0.1,momentum20Pct:-0.2};
-  const state={config:{cash:1000,scan_count:4},positions:[p],candidates:[p],history:[]};
-  const plan={actions:[{symbol:'ROTATE.DE',action:'SELL',relativeRotationV304:true,reason:'paired score rotation'}],summary:'x'};
-  const out=await enforceUnifiedDecisionCoreV310(plan,state,null,[],now);
+  const replacement={symbol:'BETTER.DE',name:'Better AG',price:100,decisionScore:72,rawDecisionScore:70,confidence:.78,momentum5Pct:.2,momentum20Pct:.4,momentumAcceleration5:.08,acceleration5Pct:.08,volumeRatio:1.5,volumeRatioSource:'PREVIOUS_COMPLETED',newsScore:.2,newsConfidence:.8,newsSources:['OFFICIAL','WIRE'],entryQualityScore:68,day_change:1.0,intradayRsi:61,chartDirectionMode:'UP',eventRisk:'NONE',momentumSellSignal:'NONE',...exact};
+  const state={config:{cash:3000,scan_count:4},positions:[p],candidates:[p,replacement],history:[]};
+  const plan={actions:[{symbol:'ROTATE.DE',action:'SELL',relativeRotationV304:true,pairedReplacementSymbol:'BETTER.DE',reason:'paired score rotation'},{symbol:'BETTER.DE',action:'BUY',relativeRotationV304:true,pairedReplacementSymbol:'ROTATE.DE',allocation_pct:80,reason:'paired replacement'}],summary:'x'};
+  const out=await enforceUnifiedDecisionCoreV310(plan,state,null,[replacement],now);
   const a=out.plan.actions.find(x=>x.symbol==='ROTATE.DE');
   assert.equal(a.action,'SELL','unified authority must preserve a qualified paired rotation');
   assert.equal(a.pairedRotationApprovedV313,true);

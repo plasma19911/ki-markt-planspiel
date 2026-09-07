@@ -2,6 +2,7 @@ import {clamp,num,nowIso,chunks} from './constants.js';
 
 const HEADERS={'accept':'application/json','user-agent':'Mozilla/5.0'};
 const BENCHMARK='REGIONAL';
+const LEARNING_VERSION=3;
 const MAX_EVENTS=240;
 const MAX_EVENTS_PER_UPDATE=24;
 const HORIZONS=[['15m',15],['1h',60],['4h',240],['6h',360]];
@@ -66,7 +67,7 @@ async function quoteMap(symbols){
  return out;
 }
 
-function emptyLearning(){return{version:2,benchmark:BENCHMARK,events:[],evaluationCursor:0,lastEvaluationBatchSize:0,sourceStats:{},typeStats:{},sourceTypeStats:{},updatedAt:null,summary:{topSources:[],topTypes:[],evaluatedEvents:0,completedEvents:0,pendingEvents:0,totalEvents:0,maxEventsPerUpdate:MAX_EVENTS_PER_UPDATE,notice:'Noch keine ausreichende News-Wirkungshistorie.'}}}
+function emptyLearning(){return{version:LEARNING_VERSION,benchmark:BENCHMARK,events:[],evaluationCursor:0,lastEvaluationBatchSize:0,lastEvaluationQuoteCount:0,sourceStats:{},typeStats:{},sourceTypeStats:{},updatedAt:null,summary:{topSources:[],topTypes:[],evaluatedEvents:0,completedEvents:0,pendingEvents:0,totalEvents:0,maxEventsPerUpdate:MAX_EVENTS_PER_UPDATE,notice:'Noch keine ausreichende News-Wirkungshistorie.'}}}
 
 function newEvent(row){
  const headline=String(row.headline||'').trim(),src=sources(row.sources),newsAt=row.news_at||row.updated_at||nowIso();
@@ -101,8 +102,8 @@ function rebuild(l){
  l.sourceStats=aggregate(done,e=>e.sources);
  l.typeStats=aggregate(done,e=>[e.eventType]);
  l.sourceTypeStats=aggregate(done,e=>arr(e.sources).map(s=>`${s} · ${e.eventType}`));
- const complete=l.events.filter(e=>Object.keys(e.results||{}).length>=HORIZONS.length),reactionRows=l.events.filter(e=>Number.isFinite(Number(e.reactionDelayMinutes))),adverseRows=l.events.filter(e=>Number.isFinite(Number(e.adverseDelayMinutes))),avg=(rows,key)=>rows.length?rows.reduce((sum,e)=>sum+num(e[key]),0)/rows.length:null;
- l.summary={topSources:ranking(l.sourceStats),topTypes:ranking(l.typeStats),evaluatedEvents:done.length,completedEvents:complete.length,pendingEvents:l.events.length-complete.length,totalEvents:l.events.length,baselineEvents:l.events.filter(e=>num(e.baselinePrice)>0).length,regionalBenchmarks:[...new Set(l.events.map(e=>e.benchmark).filter(Boolean))],maxEventsPerUpdate:MAX_EVENTS_PER_UPDATE,lastEvaluationBatchSize:num(l.lastEvaluationBatchSize),reactionLag:{thresholdPct:REACTION_THRESHOLD_PCT,directionalSamples:reactionRows.length,avgDirectionalMinutes:avg(reactionRows,'reactionDelayMinutes'),adverseSamples:adverseRows.length,avgAdverseMinutes:avg(adverseRows,'adverseDelayMinutes')},notice:done.length<12?'Lernphase: noch zu wenig ausgewertete Meldungen für belastbare Quellengewichte.':'Quellengewichte basieren auf nachfolgenden regional bereinigten 15m-/1h-/4h-/6h-Reaktionen; statistische Wirkung, keine bewiesene Kausalität.'};
+ const complete=l.events.filter(e=>Object.keys(e.results||{}).length>=HORIZONS.length),reactionRows=l.events.filter(e=>e.reactionDelayMinutes!=null&&Number.isFinite(Number(e.reactionDelayMinutes))),adverseRows=l.events.filter(e=>e.adverseDelayMinutes!=null&&Number.isFinite(Number(e.adverseDelayMinutes))),avg=(rows,key)=>rows.length?rows.reduce((sum,e)=>sum+num(e[key]),0)/rows.length:null;
+ l.summary={topSources:ranking(l.sourceStats),topTypes:ranking(l.typeStats),evaluatedEvents:done.length,completedEvents:complete.length,pendingEvents:l.events.length-complete.length,totalEvents:l.events.length,baselineEvents:l.events.filter(e=>num(e.baselinePrice)>0).length,regionalBenchmarks:[...new Set(l.events.map(e=>e.benchmark).filter(Boolean))],maxEventsPerUpdate:MAX_EVENTS_PER_UPDATE,lastEvaluationBatchSize:num(l.lastEvaluationBatchSize),lastEvaluationQuoteCount:num(l.lastEvaluationQuoteCount),reactionLag:{thresholdPct:REACTION_THRESHOLD_PCT,directionalSamples:reactionRows.length,avgDirectionalMinutes:avg(reactionRows,'reactionDelayMinutes'),adverseSamples:adverseRows.length,avgAdverseMinutes:avg(adverseRows,'adverseDelayMinutes')},notice:done.length<12?'Lernphase: noch zu wenig ausgewertete Meldungen für belastbare Quellengewichte.':'Quellengewichte basieren auf nachfolgenden regional bereinigten 15m-/1h-/4h-/6h-Reaktionen; statistische Wirkung, keine bewiesene Kausalität.'};
  l.updatedAt=nowIso();
 }
 
@@ -126,11 +127,11 @@ export function evaluateNewsEventFromBars(event={},stockBars=[],benchmarkBars=[]
 
 export async function updateNewsLearning(state){
  const l=state.newsLearning&&typeof state.newsLearning==='object'?state.newsLearning:emptyLearning();
- const upgrading=num(l.version,1)<2;l.version=2;l.benchmark=BENCHMARK;l.events=arr(l.events).map(e=>upgrading?{...e,benchmark:regionalBenchmarkForSymbol(e.symbol),baselinePrice:null,baselineBenchmark:null,baselineAt:null,baselineMethod:null,tradingMinutes:0,lastQuoteTs:0,lastSampleAt:null,reactionDelayMinutes:null,adverseDelayMinutes:null,results:{}}:{...e,benchmark:e.benchmark||regionalBenchmarkForSymbol(e.symbol)});addEventRows(state,l);
+ const upgrading=num(l.version,1)<2;l.version=LEARNING_VERSION;l.benchmark=BENCHMARK;l.events=arr(l.events).map(e=>upgrading?{...e,benchmark:regionalBenchmarkForSymbol(e.symbol),baselinePrice:null,baselineBenchmark:null,baselineAt:null,baselineMethod:null,tradingMinutes:0,lastQuoteTs:0,lastSampleAt:null,reactionDelayMinutes:null,adverseDelayMinutes:null,results:{}}:{...e,benchmark:e.benchmark||regionalBenchmarkForSymbol(e.symbol)});addEventRows(state,l);
  const currentNews=new Map(arr(state.newsRadar).map(x=>[String(x.symbol||'').toUpperCase(),x]));
- const allPending=l.events.filter(e=>Object.keys(e.results||{}).length<HORIZONS.length&&Date.now()-(Date.parse(e.newsAt)||Date.now())<7*86400000),start=allPending.length?num(l.evaluationCursor)%allPending.length:0,pending=allPending.length?[...allPending.slice(start),...allPending.slice(0,start)].slice(0,MAX_EVENTS_PER_UPDATE):[];l.evaluationCursor=allPending.length?(start+pending.length)%allPending.length:0;l.lastEvaluationBatchSize=pending.length;
+ const allPending=l.events.filter(e=>Object.keys(e.results||{}).length<HORIZONS.length&&Date.now()-(Date.parse(e.newsAt)||Date.now())<7*86400000).sort((a,b)=>(Date.parse(b.newsAt)||0)-(Date.parse(a.newsAt)||0)),start=allPending.length?num(l.evaluationCursor)%allPending.length:0,pending=allPending.length?[...allPending.slice(start),...allPending.slice(0,start)].slice(0,MAX_EVENTS_PER_UPDATE):[];l.evaluationCursor=allPending.length?(start+pending.length)%allPending.length:0;l.lastEvaluationBatchSize=pending.length;
  if(pending.length){
-  const quotes=await quoteMap(pending.map(e=>e.symbol));
+  const quotes=await quoteMap(pending.map(e=>e.symbol));l.lastEvaluationQuoteCount=quotes.size;
   for(let i=0;i<pending.length;i++){
    let e=pending[i],q=quotes.get(e.symbol),bench=quotes.get(e.benchmark||regionalBenchmarkForSymbol(e.symbol)),row=currentNews.get(e.symbol);if(row)e.waitingForOpen=Boolean(row.waiting_for_open);
    if(q?.bars?.length&&bench?.bars?.length){const evaluated=evaluateNewsEventFromBars(e,q.bars,bench.bars),at=l.events.indexOf(e);if(at>=0)l.events[at]=evaluated;e=evaluated;if(Object.keys(e.results||{}).length>=HORIZONS.length)continue}

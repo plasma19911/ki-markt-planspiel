@@ -3,7 +3,7 @@ import {readFileSync} from 'node:fs';
 import {evaluateNewsEventFromBars,regionalBenchmarkForSymbol,updateNewsLearning} from '../src/news-learning.js';
 
 const portfolioIntegration=readFileSync(new URL('../src/compact-portfolio-v2.js',import.meta.url),'utf8');
-assert.match(portfolioIntegration,/learningVersion>=2/,'a legacy ACWI learning state must bypass the cooldown once for immediate regional migration');
+assert.match(portfolioIntegration,/learningVersion>=3/,'an older learning state must bypass the cooldown once for immediate migration');
 
 assert.equal(regionalBenchmarkForSymbol('SAP.DE'),'EXSA.DE');
 assert.equal(regionalBenchmarkForSymbol('COCHINSHIP.NS'),'^NSEI');
@@ -36,10 +36,11 @@ const bars=prices=>prices.map((price,index)=>({ts:start+index*300,price}));
     const events=Array.from({length:30},(_,index)=>({id:`OLD${index}`,symbol:`OLD${index}`,newsAt:new Date((start+120)*1000).toISOString(),direction:1,baselinePrice:88,baselineBenchmark:77,results:{'1h':{alignedAbnormalPct:1}}}));
     const state={newsLearning:{version:1,events},newsRadar:[]};
     await updateNewsLearning(state);
-    assert.equal(state.newsLearning.version,2);
+    assert.equal(state.newsLearning.version,3);
     assert.equal(state.newsLearning.lastEvaluationBatchSize,24,'one learning pass must stay within its fixed Worker budget');
     assert.ok(requested.filter(symbol=>/^OLD\d+$/.test(symbol)).length<=24,'the Worker must not refetch the whole learning memory at once');
     assert.equal(state.newsLearning.events[0].baselinePrice,100,'legacy ACWI baselines must be rebuilt from regional 5-minute bars');
+    assert.equal(state.newsLearning.summary.reactionLag.directionalSamples,0,'missing reaction delays must not be counted as zero-minute reactions');
   }finally{globalThis.fetch=oldFetch}
 }
 

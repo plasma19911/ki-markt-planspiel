@@ -164,6 +164,25 @@ function ageLabel(value){
   return minutes<1?'gerade aktualisiert':minutes<60?`vor ${minutes} Min.`:`vor ${Math.floor(minutes/60)} Std.`;
 }
 
+const LIVE_NEWS_WINDOW_HOURS=24;
+const OPENING_NEWS_WINDOW_HOURS=54;
+function newsTimestamp(item={}){const stamp=Date.parse(String(item.newsAt??item.news_at??item.publishedAt??item.ts??''));return Number.isFinite(stamp)?stamp:0}
+function newsHeadline(item={}){return String(item.headline_de||item.headline||'Neue Meldung')}
+function newsPriority(item={},now=Date.now()){
+  const ageHours=newsTimestamp(item)?Math.max(0,(now-newsTimestamp(item))/3_600_000):999;
+  const confidence=Math.max(0,Math.min(1,num(item.confidence)));
+  const score=Math.abs(num(item.news_score,num(item.score)));
+  const confirmations=num(item.confirmationCount,num(item.confirmation_count));
+  return (confidence>0?12:0)+score*22+confidence*28+confirmations*7+Math.max(0,24-ageHours)*2;
+}
+function currentNewsRows(status={}){
+  const now=Date.now();
+  return arr(status.newsRadar).filter(item=>{
+    const stamp=newsTimestamp(item),ageHours=stamp?Math.max(0,(now-stamp)/3_600_000):Infinity;
+    return item?.headline&&(ageHours<=LIVE_NEWS_WINDOW_HOURS||(Boolean(item.waitingForOpen??item.waiting_for_open)&&ageHours<=OPENING_NEWS_WINDOW_HOURS));
+  }).sort((a,b)=>newsPriority(b,now)-newsPriority(a,now)||newsTimestamp(b)-newsTimestamp(a));
+}
+
 function decisionNews(status){return arr(status?.newsCatalystPolicy?.symbols).filter(item=>item?.headline)}
 
 function importanceOf(item={}){
@@ -242,7 +261,7 @@ function renderSources(status){
   const confirmedVolume=candidates.filter(c=>num(c.volume_ratio,num(c.volumeRatio))>=1.15).length;
   setSource('charts',`${confirmedVolume} mit Volumen-Bestätigung · ${candidates.length} geprüft`,candidates.length?'ok':'warn');
 
-  const news=arr(status.newsRadar),policy=status.newsCatalystPolicy||{},decisionRows=decisionNews(status);
+  const news=currentNewsRows(status),policy=status.newsCatalystPolicy||{},decisionRows=decisionNews(status);
   const freshNews=news.filter(item=>{
     const stamp=Date.parse(String(item.news_at||item.ts||''));
     return Number.isFinite(stamp)&&Date.now()-stamp<6*60*60*1000;
@@ -310,7 +329,7 @@ function focusLabel(candidate,status){
 }
 
 function focusReason(candidate,status){
-  const related=arr(status.newsRadar).find(item=>symbolKey(item.symbol)===symbolKey(candidate.symbol));
+  const related=currentNewsRows(status).find(item=>symbolKey(item.symbol)===symbolKey(candidate.symbol));
   const catalyst=decisionNews(status).find(item=>symbolKey(item.symbol)===symbolKey(candidate.symbol));
   const reasons=[];
   const readiness=tradeReadiness(candidate,status);
@@ -347,7 +366,7 @@ function renderFocus(status){
   list.innerHTML=ranked.map((candidate,index)=>{
     const score=normalizedScore(candidate);
     const readiness=tradeReadiness(candidate,status),heat=readiness.tone==='bad'?'blocked':score>=68?'veryHot':score>=60?'hot':'';
-    return `<article class="krakenFocusCard ${heat}" data-readiness="${esc(readiness.tone)}" style="--focus-rank:${index};--focus-score:${score}%">
+    return `<article class="krakenFocusCard ${heat}${index===0?' topNow':''}" data-readiness="${esc(readiness.tone)}" style="--focus-rank:${index};--focus-score:${score}%">
       <div class="krakenFocusLine"><div class="krakenFocusName"><b>${esc(candidate.symbol)}</b><span>${esc(candidate.name||candidate.theme||'Scanner-Kandidat')}</span></div><div class="krakenFocusScore">${score.toFixed(1).replace('.',',')}<small>/100</small></div></div>
       <div class="krakenFocusReason"><span>${esc(focusReason(candidate,status))}</span><strong>${esc(focusLabel(candidate,status))}</strong></div>
       <div class="krakenFocusBar"><i style="width:${score}%"></i></div>
@@ -357,25 +376,29 @@ function renderFocus(status){
 
 function renderNewsFlights(status){
   const decisionRows=decisionNews(status).sort((a,b)=>(Boolean(b.positiveConfirmed||b.negativeConfirmed)-Boolean(a.positiveConfirmed||a.negativeConfirmed))||num(b.impact)-num(a.impact));
-  const flights=(decisionRows.length?decisionRows:arr(status.newsRadar).filter(item=>item?.headline)).slice(0,3);
+  const flights=(decisionRows.length?decisionRows:currentNewsRows(status)).slice(0,3);
   const signature=JSON.stringify(flights.map(item=>[item.symbol,item.publishedAt||item.news_at,item.headline,item.positiveConfirmed,item.negativeConfirmed]));
   if(signature===latestNewsSignature)return;
   latestNewsSignature=signature;
   $('krakenNewsFlights').innerHTML=flights.map(item=>{
     const state=item.negativeConfirmed?'NEGATIV BESTÄTIGT':item.positiveConfirmed?'KURS BESTÄTIGT':item.positive?'WARTET AUF KURS':'';
-    return `<span class="newsFlight">${esc(item.symbol)}${state?` · ${state}`:''} · ${esc(String(item.headline).slice(0,66))}</span>`;
+    return `<span class="newsFlight">${esc(item.symbol)}${state?` · ${state}`:''} · ${esc(newsHeadline(item).slice(0,66))}</span>`;
   }).join('');
 }
 
 function renderNewsTrace(status){
   const root=$('krakenNewsTraceItems');if(!root)return;
-  const decisionRows=decisionNews(status),incoming=arr(status.newsRadar).filter(item=>item?.headline).map(item=>({...item,positive:String(item.tendency||'').toUpperCase()==='BULLISH',negative:String(item.tendency||'').toUpperCase()==='BEARISH',impact:num(item.impact,num(item.confidence)*100)})),rows=(decisionRows.length?decisionRows:incoming).sort((a,b)=>(Boolean(b.positiveConfirmed||b.negativeConfirmed)-Boolean(a.positiveConfirmed||a.negativeConfirmed))||importanceOf(b)-importanceOf(a)).slice(0,2);
-  const signature=JSON.stringify(rows.map(item=>[item.symbol,item.headline,item.positive,item.positiveConfirmed,item.negativeConfirmed,item.impact]));if(signature===latestNewsTraceSignature)return;latestNewsTraceSignature=signature;
-  if(!rows.length){root.innerHTML=`<div class="krakenNewsTraceEmpty"><i></i><span>${weekendPause()?'Keine neue relevante Meldung · Beobachtung bleibt aktiv':'Wartet auf eine neue relevante Firmenmeldung …'}</span></div>`;return}
-  root.innerHTML=rows.map((item,index)=>{
-    const state=item.negativeConfirmed?'RISIKO':item.positiveConfirmed?'WIRD VERFOLGT':item.positive?'KURSREAKTION PRÜFEN':'EINGANG',tone=item.negativeConfirmed?'danger':item.positiveConfirmed?'follow':item.positive?'check':'neutral',strength=Math.max(12,Math.min(100,importanceOf(item)));
-    return `<article class="krakenNewsTraceItem ${tone}" style="--trace-delay:${index*90}ms"><span class="krakenNewsTraceSymbol">${esc(item.symbol||'MARKT')}</span><div><b>${esc(String(item.headline||'Neue Meldung').slice(0,72))}</b><small>${esc(String(item.eventType||'NEWS').replaceAll('_',' '))} · ${esc(state)}</small><i style="width:${strength}%"></i></div><em>${esc(state)}</em></article>`;
-  }).join('');
+  const pending=new Map(),closed=[];
+  for(const event of [...arr(status.history)].sort((a,b)=>eventTime(a)-eventTime(b))){
+    const action=String(event.action||'').toUpperCase(),symbol=String(event.symbol||'').toUpperCase();if(!symbol)continue;
+    if(action==='KAUF'||action==='BUY'){const buys=pending.get(symbol)||[];buys.push(event);pending.set(symbol,buys)}
+    else if((action==='VERKAUF'||action==='SELL')&&event.trade_pnl!=null){const buys=pending.get(symbol)||[];closed.push({symbol,name:event.name||buys[0]?.name||symbol,boughtAt:buys[0]?.ts||null,soldAt:event.ts||null,pnl:num(event.trade_pnl),buyCount:buys.length});pending.delete(symbol)}
+  }
+  const rows=closed.sort((a,b)=>Date.parse(b.soldAt||0)-Date.parse(a.soldAt||0)).slice(0,2),currency=status.config?.currency||'EUR';
+  const signature=JSON.stringify(rows);if(signature===latestNewsTraceSignature)return;latestNewsTraceSignature=signature;
+  if(!rows.length){root.innerHTML='<div class="krakenNewsTraceEmpty"><i></i><span>Noch kein abgeschlossener Trade · offene Positionen zählen erst beim Verkauf.</span></div>';return}
+  const time=value=>{const stamp=Date.parse(String(value||''));return Number.isFinite(stamp)?new Intl.DateTimeFormat('de-DE',{timeZone:'Europe/Berlin',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}).format(new Date(stamp)).replace(',',' ·'):'vor sichtbarer Historie'};
+  root.innerHTML=rows.map((trade,index)=>{const positive=trade.pnl>=0,pnl=`${positive?'+':''}${money(trade.pnl,currency)}`;return `<article class="krakenNewsTraceItem ${positive?'follow':'danger'}" style="--trace-delay:${index*90}ms"><span class="krakenNewsTraceSymbol">${esc(trade.symbol)}</span><div><b>${esc(trade.name||trade.symbol)}</b><small>Kauf ${esc(time(trade.boughtAt))} → Verkauf ${esc(time(trade.soldAt))}</small><i style="width:${Math.min(100,Math.max(18,Math.abs(trade.pnl)*2))}%"></i></div><em>${esc(pnl)}</em></article>`}).join('');
 }
 
 function hashText(value=''){let h=2166136261;for(const c of String(value)){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return Math.abs(h)}
@@ -478,14 +501,14 @@ function setAllOrgans(expanded){document.querySelectorAll('.krakenOrgan').forEac
 function enforceCollapsedLayout(){document.querySelectorAll('.krakenOrgan.organCollapsed').forEach(card=>{card.style.setProperty('grid-column',matchMedia('(max-width:1080px)').matches?'1 / -1':'span 3','important');card.dataset.krakenGridOverride='1'})}
 
 function organSummary(status,card){
-  const key=card.dataset.krakenKey,candidates=arr(status.candidates),positions=arr(status.positions),policy=status.newsCatalystPolicy||{},learning=status.outcomeLearningPolicy||status.predictiveLearningPolicy||{},incomingNews=arr(status.newsRadar).filter(item=>item?.headline),newsLearning=status.newsLearning?.summary||{},newsTotal=num(newsLearning.totalEvents,status.newsLearningTotal),newsEvaluated=num(newsLearning.evaluatedEvents),top=[...candidates].sort((a,b)=>compareTradeCandidates(a,b,status))[0],confirmed=decisionNews(status).filter(x=>x.positiveConfirmed||x.negativeConfirmed),negative=decisionNews(status).filter(x=>x.negative),currency=status.config?.currency||'EUR';let text='Bereit',importance='quiet';
+  const key=card.dataset.krakenKey,candidates=arr(status.candidates),positions=arr(status.positions),policy=status.newsCatalystPolicy||{},learning=status.outcomeLearningPolicy||status.predictiveLearningPolicy||{},incomingNews=currentNewsRows(status),newsLearning=status.newsLearning?.summary||{},newsTotal=num(newsLearning.totalEvents,status.newsLearningTotal),newsEvaluated=num(newsLearning.evaluatedEvents),top=[...candidates].sort((a,b)=>compareTradeCandidates(a,b,status))[0],confirmed=decisionNews(status).filter(x=>x.positiveConfirmed||x.negativeConfirmed),negative=decisionNews(status).filter(x=>x.negative),currency=status.config?.currency||'EUR';let text='Bereit',importance='quiet';
   if(key==='signals'){const readiness=top?tradeReadiness(top,status):null;text=candidates.length?`${candidates.length} Kandidaten · ${top.symbol} ${normalizedScore(top).toFixed(1).replace('.',',')} · ${readiness.label}`:'Keine frischen Kandidaten';importance=readiness?.tone==='bad'?'warn':normalizedScore(top)>=68?'hot':normalizedScore(top)>=60?'watch':'quiet'}
   else if(key==='chart'){text=`${money(status.equity,currency)} · P/L ${percent(status.pnl_pct)}`;importance=num(status.pnl)<0?'warn':'watch'}
   else if(key==='future'){text=`${arr(status.futureWatch?.candidates).length} Katalysatoren · ${String(status.config?.market_regime||'neutral').replaceAll('_',' ')}`}
   else if(key==='positions'){const losers=positions.filter(x=>positionPnl(x)<0).length;text=`${positions.length} Positionen · ${losers} unter Einstand · Cash ${money(status.config?.cash,currency)}`;importance=losers?'watch':'quiet'}
   else if(key==='allocation'){const share=num(status.equity)>0?num(status.config?.cash)/num(status.equity)*100:100;text=`${share.toFixed(1).replace('.',',')} % Cash · ${positions.length} aktive Werte`}
   else if(key==='live-news'||key==='news'){const total=num(policy.pipeline?.companyMatched,decisionNews(status).length);text=`${incomingNews.length} Radar · ${newsTotal} gelernt · ${newsEvaluated} ausgewertet${total?` · ${total} firmenbezogen`:''}`;importance=negative.some(x=>x.negativeConfirmed)?'urgent':confirmed.length?'hot':negative.length?'warn':'quiet'}
-  else if(key==='replay'){const replay=status.dayReplayLearning||{},report=replay.report||{},last=replay.hourly?.lastRunAt;const at=last?new Date(last).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}):'wartet';text=`Stündlich bei offenem Markt · ${num(report.processed)} ausgewertet · ${at}`}
+  else if(key==='replay'){const replay=status.dayReplayLearning||{},report=replay.report||{},last=replay.hourly?.lastRunAt,insight=arr(replay.learning?.insights)[0];const at=last?new Date(last).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'}):'wartet';text=insight?.text||`Stündlich bei offenem Markt · ${num(report.processed)} ausgewertet · ${at}`}
   else if(key==='activity'){const last=latestEvent(status.history);text=last?`Letzte Aktion: ${String(last.action||'SCAN')} ${last.symbol||''}`:'Noch keine Aktivität'}
   else if(key==='analysis'){text=`${arr(status.investmentDossiers).length} Unternehmensprofile · ${candidates.length} aktuelle Kandidaten`}
   else if(key==='stats'){text=`Gesamt P/L ${percent(status.pnl_pct)} · nach Kosten`;importance=num(status.pnl)<0?'warn':'watch'}
@@ -509,13 +532,13 @@ function organSummary(status,card){
 
 function organAvailability(status,key){
   if(!status)return{state:'loading',label:'LÄDT',detail:'Verbindung zum gemeinsamen Statusereignis wird hergestellt.'};
-  const candidates=arr(status.candidates),positions=arr(status.positions),history=arr(status.history),news=decisionNews(status),incomingNews=arr(status.newsRadar).filter(item=>item?.headline),learning=status.outcomeLearningPolicy||status.predictiveLearningPolicy||{},future=status.futureWatch||{},newsSummary=status.newsLearning?.summary||{};
+  const candidates=arr(status.candidates),positions=arr(status.positions),history=arr(status.history),news=decisionNews(status),incomingNews=currentNewsRows(status),learning=status.outcomeLearningPolicy||status.predictiveLearningPolicy||{},future=status.futureWatch||{},newsSummary=status.newsLearning?.summary||{};
   const waiting=detail=>({state:'waiting',label:weekendPause()?'BÖRSENPAUSE':'WARTET',detail:weekendPause()?`${detail} Am Wochenende bleiben vorhandene Daten sichtbar; neue Börsendaten folgen im nächsten Handelsfenster.`:detail});
   if(key==='signals')return candidates.length?{state:'live',label:'LIVE',detail:`${candidates.length} Kandidaten erreichen die laufende Bewertung.`}:waiting('Noch kein frischer Kandidat erfüllt die Anzeigevoraussetzungen.');
   if(key==='positions')return positions.length?{state:'live',label:'LIVE',detail:`${positions.length} offene Positionen werden fortlaufend bewertet.`}:{state:'ready',label:'KEINE POSITION',detail:'Das Organ funktioniert und zeigt bewusst keine Position, solange das Depot leer ist.'};
   if(key==='live-news'||key==='news')return news.length||incomingNews.length||num(newsSummary.totalEvents)?{state:'live',label:'LIVE',detail:`${incomingNews.length} Meldungen sind im sichtbaren Radar; ${num(newsSummary.totalEvents)} Ereignisse liegen im Lernspeicher und ${num(newsSummary.evaluatedEvents)} besitzen bereits eine messbare Kursreaktion.`}:waiting('Der News-Pfad ist bereit, hat aber noch keine zuordenbare Firmenmeldung.');
   if(key==='future'||key==='future-watch'||key==='macro-radar')return arr(future.candidates).length||arr(future.activeThemes).length?{state:'live',label:'LIVE',detail:'Vorausblick und Themen fließen in die Priorisierung ein.'}:waiting('Noch kein belastbarer Vorausblick-Kandidat; das ist kein technischer Fehler.');
-  if(key==='replay'){const replay=status.dayReplayLearning||{},ran=Boolean(replay.hourly?.lastRunAt);return ran||num(learning.matured)||num(learning.buySamples)?{state:'learning',label:'LERNT',detail:'Der Stunden-Replay verwertet mindestens 60 Minuten beobachtete Signale für folgende Entscheidungen.'}:{state:'learning',label:'WARMUP',detail:'Ab 08:30 läuft die Auswertung stündlich, aber nur bei offener Börse und aktivem PC-Agent.'}}
+  if(key==='replay'){const replay=status.dayReplayLearning||{},ran=Boolean(replay.hourly?.lastRunAt),insight=arr(replay.learning?.insights)[0];return ran||num(learning.matured)||num(learning.buySamples)?{state:'learning',label:'LERNT',detail:insight?.text||'Der Stunden-Replay verwertet mindestens 60 Minuten beobachtete Signale für folgende Entscheidungen.'}:{state:'learning',label:'WARMUP',detail:'Ab 08:30 läuft die Auswertung stündlich, aber nur bei offener Börse und aktivem PC-Agent.'}}
   if(key==='news-learning')return num(newsSummary.evaluatedEvents)||num(newsSummary.pendingEvents)?{state:'learning',label:'LERNT',detail:'News-Wirkungen werden regional bereinigt nach 15 Minuten, 1 Stunde, 4 Stunden und 6 Stunden ausgewertet.'}:{state:'learning',label:'WARMUP',detail:'Noch keine auswertbare News-Wirkung; die Verbindung ist aktiv.'};
   if(key==='activity'||key==='history'||key==='performance-diagnostics'||key==='trade-chart')return history.length?{state:'live',label:'LIVE',detail:`${history.length} protokollierte Ereignisse stehen zur Auswertung bereit.`}:waiting('Noch keine protokollierte Handelsaktivität.');
   if(key==='analysis')return arr(status.investmentDossiers).length?{state:'live',label:'LIVE',detail:'Unternehmensprofile sind mit den aktuellen Kandidaten verknüpft.'}:waiting('Noch kein Unternehmensprofil aus einem frischen vollständigen Scan.');
@@ -721,7 +744,7 @@ function render(status){
   const signature=JSON.stringify([
     status.config?.last_scan,
     arr(status.candidates).slice(0,5).map(candidate=>[candidate.symbol,normalizedScore(candidate)]),
-    arr(status.newsRadar).slice(0,3).map(item=>[item.symbol,item.news_at,item.headline])
+    currentNewsRows(status).slice(0,3).map(item=>[item.symbol,item.news_at,item.headline_de||item.headline])
   ]);
   if(latestSignature&&signature!==latestSignature&&fresh){
     const core=$('krakenCore');

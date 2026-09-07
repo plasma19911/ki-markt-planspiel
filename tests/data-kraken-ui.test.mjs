@@ -26,8 +26,8 @@ assert.match(index,/id="krakenOrganCount"/,'the complete overview must show its 
 assert.match(index,/class="krakenOnePager"/,'the Kraken must be the default viewport-sized onepager');
 assert.match(index,/id="krakenOrganDock"/,'all organs must have a simultaneous onepage dock');
 assert.match(index,/id="krakenOrganTiles"/,'the onepage dock must expose live organ tiles');
-assert.match(index,/id="krakenNewsTrace"/,'the onepage must expose the live news processing trace');
-assert.match(index,/id="krakenNewsTraceItems"/,'incoming news states must have a live target');
+assert.match(index,/id="krakenNewsTrace"[^>]*krakenTradeHistory/,'the onepage must expose the compact realized trade history');
+assert.match(index,/Kauf → Verkauf → realisierter Gewinn/,'the overview must explain the compact trade chronology');
 assert.match(index,/id="overview" class="heroKpis" aria-hidden="true"/,'the duplicated legacy KPI strip must stay out of the onepage view');
 assert.match(index,/So verarbeitet das Markt-System neue Informationen/,'the flow must explain itself without an internal Kraken-center label');
 assert.doesNotMatch(index,/Kraken-Zentrum/,'internal Kraken-center wording must not be visible');
@@ -57,7 +57,9 @@ assert.match(ui,/function latestEvent/,'status histories must select the actuall
 assert.match(ui,/config\?\.ai_last_summary/,'the current decision summary must win over old history rows');
 assert.doesNotMatch(ui,/arr\(status\.aiLog\)\.at\(-1\)/,'a newest-first log must not show its oldest BUY as current');
 assert.match(ui,/function renderPlankton/,'news must drive the plankton visualization');
-assert.match(ui,/function renderNewsTrace/,'incoming news must expose its processing state');
+assert.match(ui,/function renderNewsTrace/,'the former trace slot must render closed trades from the shared history');
+assert.match(ui,/trade_pnl/,'the overview trade history must use realized net trade P\/L');
+assert.match(ui,/Kauf .* → Verkauf/,'the trade history must show buy and sell times');
 assert.doesNotMatch(ui,/\$\{watchCount\} Katalysatoren/,'an empty forward pool must not pretend the complete macro/news path has zero catalysts');
 assert.match(ui,/const ESSENTIAL_ORGANS=/,'the onepager must define a deliberately reduced function set');
 assert.doesNotMatch(ui,/Die Krake hebt/,'status refreshes must not restore removed internal naming');
@@ -157,7 +159,8 @@ assert.match(dashboardWorker,/newsRadarVisible/,'the dashboard must expose its d
 assert.match(dashboardWorker,/newsLearningTotal/,'the dashboard must expose the separate learning-memory count');
 assert.match(dashboardWorker,/positionScoreAudit:_positionScoreAudit/,'large score audits must be removed from the routine dashboard payload');
 assert.match(dashboardWorker,/audit:_audit,\.\.\.lightProfitExit/,'the duplicated profit-exit audit must be removed from the routine dashboard payload');
-assert.match(changelog,/07\.09\.2026 · 09:25/,'regional news-reaction correction must be documented first');
+assert.match(changelog,/07\.09\.2026 · 12:40/,'trade history and profitable rotation must be documented first');
+assert.match(changelog,/V31\.7\.28/,'trade history, source learning and paired profitable rotation must be documented');
 assert.match(changelog,/V31\.7\.26/,'regional news learning and slim dashboard update must be documented');
 assert.match(changelog,/V31\.7\.25/,'browser performance correction must remain documented');
 assert.match(changelog,/V31\.7\.25/,'coalesced rendering and targeted motion update must be documented');

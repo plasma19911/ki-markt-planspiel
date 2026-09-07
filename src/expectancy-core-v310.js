@@ -43,7 +43,7 @@ export function enforceExpectancyCoreV310(plan,state={},now=Date.now()){
  if(!plan||!Array.isArray(plan.actions))return{plan,counters:{}};
  const cfg=EXPECTANCY_CORE_V310,actions=plan.actions.map(a=>({...a})),idx=actionMap(actions),positions=arr(state?.positions),history=arr(state?.history);
  const candidates=new Map(arr(state?.candidates).map(c=>[key(c),c]));
- let hardStops=0,trailingSells=0,pairedRotationSells=0,failedSetupSells=0,stagnationSells=0,profitFadeSells=0,minHoldBlocks=0,reentryBlocks=0,sizingUpgrades=0,scoreScaleFixes=0;
+ let hardStops=0,trailingSells=0,pairedRotationSells=0,unpairedRotationBlocks=0,failedSetupSells=0,stagnationSells=0,profitFadeSells=0,minHoldBlocks=0,reentryBlocks=0,sizingUpgrades=0,scoreScaleFixes=0;
 
  // Position exits: price expectancy is authoritative. Existing hard SELLs stay SELL.
  for(const p of positions){
@@ -102,8 +102,18 @@ export function enforceExpectancyCoreV310(plan,state={},now=Date.now()){
    if(cash>cfg.minPositionEur&&eur>0&&eur<cfg.minPositionEur){const minPct=clamp(100*cfg.minPositionEur/cash,0,100);actions[i]={...a,allocation_pct:+Math.max(pct,minPct).toFixed(2),expectancyCoreV310:true,minEconomicTicketV310:true,reason:`${String(a?.reason||'BUY').slice(0,450)} · V31.3 SIZE: Position auf mindestens ca. ${cfg.minPositionEur.toFixed(0)} EUR angehoben, damit Fixkosten/Slippage nicht einen zu grossen Anteil der Zielbewegung fressen.`};sizingUpgrades++}
  }
 
- plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,142)} · V31.7 Capital-Velocity: ${hardStops} Hard-Stop · ${failedSetupSells} Fehlsetup · ${trailingSells} Trail · ${pairedRotationSells} Rotation · ${stagnationSells} Stagnation · ${profitFadeSells} Profit-Fade · ${minHoldBlocks} Frueh-Sells blockiert.`;
- return{plan,counters:{hardStops,trailingSells,pairedRotationSells,failedSetupSells,stagnationSells,profitFadeSells,minHoldBlocks,reentryBlocks,sizingUpgrades,scoreScaleFixes,equity:+equity.toFixed(2)}};
+ // A rotation is atomic: if a later quality/re-entry layer blocks its BUY, its SELL must not execute alone.
+ for(let i=0;i<actions.length;i++){
+   const sell=actions[i],paired=String(sell?.action||'').toUpperCase()==='SELL'&&(sell?.relativeRotationV304===true||sell?.relativeOpportunityExit===true||sell?.weakestReplacementV3061===true||Boolean(sell?.pairedReplacementSymbol));
+   if(!paired)continue;
+   const replacement=key(sell?.pairedReplacementSymbol),buy=actions.find(a=>String(a?.action||'').toUpperCase()==='BUY'&&key(a)!==key(sell)&&(replacement?key(a)===replacement:(a?.relativeRotationV304===true||a?.weakestReplacementV3061===true||Boolean(a?.pairedReplacementSymbol))));
+   if(buy)continue;
+   actions[i]={...sell,action:'HOLD',allocation_pct:0,pairedRotationApprovedV313:false,unpairedRotationBlockedV317:true,reason:`V31.7 PAAR-SCHUTZ: Der vorgesehene Ersatzkauf wurde von einer späteren Qualitäts-, Kosten- oder Reentry-Prüfung blockiert. ${key(sell)} bleibt deshalb im Depot; kein isolierter Rotationsverkauf.`};
+   pairedRotationSells=Math.max(0,pairedRotationSells-1);unpairedRotationBlocks++;
+ }
+
+ plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,142)} · V31.7 Capital-Velocity: ${hardStops} Hard-Stop · ${failedSetupSells} Fehlsetup · ${trailingSells} Trail · ${pairedRotationSells} Rotation · ${unpairedRotationBlocks} Paar-Schutz · ${stagnationSells} Stagnation · ${profitFadeSells} Profit-Fade.`;
+ return{plan,counters:{hardStops,trailingSells,pairedRotationSells,unpairedRotationBlocks,failedSetupSells,stagnationSells,profitFadeSells,minHoldBlocks,reentryBlocks,sizingUpgrades,scoreScaleFixes,equity:+equity.toFixed(2)}};
 }
 
 export class ExpectancyCoreV310{
