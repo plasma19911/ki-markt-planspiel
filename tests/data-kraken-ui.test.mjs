@@ -7,6 +7,10 @@ const css=readFileSync(new URL('../public/data-kraken.css',import.meta.url),'utf
 const changelogCss=readFileSync(new URL('../public/changelog-ui.css',import.meta.url),'utf8');
 const simpleUi=readFileSync(new URL('../public/candidate-simple-ui.js',import.meta.url),'utf8');
 const changelog=readFileSync(new URL('../public/changelog-current-v31712.js',import.meta.url),'utf8');
+const dashboardWorker=readFileSync(new URL('../src/index-v20.js',import.meta.url),'utf8');
+const liveNews=readFileSync(new URL('../public/live-news-fresh-v2.js',import.meta.url),'utf8');
+const newsLearningUi=readFileSync(new URL('../public/news-learning-ui.js',import.meta.url),'utf8');
+const clickableMarket=readFileSync(new URL('../public/clickable-market-ui-v31712.js',import.meta.url),'utf8');
 
 assert.match(index,/id="dataFlow"/,'dashboard must contain the central data-flow section');
 assert.match(index,/id="krakenCore"/,'depot core must be present');
@@ -24,6 +28,7 @@ assert.match(index,/id="krakenOrganDock"/,'all organs must have a simultaneous o
 assert.match(index,/id="krakenOrganTiles"/,'the onepage dock must expose live organ tiles');
 assert.match(index,/id="krakenNewsTrace"/,'the onepage must expose the live news processing trace');
 assert.match(index,/id="krakenNewsTraceItems"/,'incoming news states must have a live target');
+assert.match(index,/id="overview" class="heroKpis" aria-hidden="true"/,'the duplicated legacy KPI strip must stay out of the onepage view');
 assert.match(index,/So verarbeitet das Markt-System neue Informationen/,'the flow must explain itself without an internal Kraken-center label');
 assert.doesNotMatch(index,/Kraken-Zentrum/,'internal Kraken-center wording must not be visible');
 assert.match(index,/id="krakenOrganBackdrop"/,'large organ details must open above the onepager');
@@ -53,12 +58,15 @@ assert.match(ui,/config\?\.ai_last_summary/,'the current decision summary must w
 assert.doesNotMatch(ui,/arr\(status\.aiLog\)\.at\(-1\)/,'a newest-first log must not show its oldest BUY as current');
 assert.match(ui,/function renderPlankton/,'news must drive the plankton visualization');
 assert.match(ui,/function renderNewsTrace/,'incoming news must expose its processing state');
+assert.doesNotMatch(ui,/\$\{watchCount\} Katalysatoren/,'an empty forward pool must not pretend the complete macro/news path has zero catalysts');
 assert.match(ui,/const ESSENTIAL_ORGANS=/,'the onepager must define a deliberately reduced function set');
 assert.doesNotMatch(ui,/Die Krake hebt/,'status refreshes must not restore removed internal naming');
 assert.match(ui,/function setOrganExpanded/,'every dashboard organ must be independently expandable');
 assert.match(ui,/function organSummary/,'collapsed organs must retain a useful live summary');
 assert.match(ui,/localStorage\.setItem\(ORGAN_PREF_KEY/,'the chosen organ layout must persist');
 assert.match(ui,/newsSamples/,'the bounded news outcome-learning sample count must be visible');
+assert.match(ui,/newsLearningTotal/,'the visible 40-row radar must be distinguished from the full news-learning memory');
+assert.match(ui,/15 Minuten, 1 Stunde, 4 Stunden und 6 Stunden/,'the UI must explain the actual regional news reaction windows');
 assert.match(ui,/decoratePageOrgans/,'the complete dashboard must become part of the data organism');
 assert.match(ui,/positionTradeChart.*CHART-AUGE/,'the dynamically created trade chart must become an organ');
 assert.match(ui,/newsLearning.*NEWS-GEDÄCHTNIS/,'the dynamically created news learning card must become an organ');
@@ -138,7 +146,20 @@ assert.match(changelogCss,/height:100dvh!important/,'mobile changelog must fill 
 assert.match(changelogCss,/\.changelogList\{[^}]*overflow-y:auto!important/,'mobile changelog must own its scroll region');
 assert.match(changelogCss,/\.changelogEntry li\{[^}]*font-size:14px!important/,'mobile changelog copy must remain readable');
 assert.match(changelogCss,/\.changelogClose\{[^}]*width:44px!important;height:44px!important/,'mobile changelog close control must remain reachable');
-assert.match(changelog,/06\.09\.2026 · 22:22/,'newest browser performance correction must be documented first');
+assert.match(css,/V31\.7\.26: Die doppelte KPI-Leiste entfällt/,'the removed duplicate KPI strip must be documented beside the onepage layout');
+assert.match(css,/#overview\{display:none!important\}/,'the duplicate KPI strip must not consume desktop or phone space');
+assert.match(liveNews,/function renderStatusFeed/,'News-Impulse must render the actual dashboard radar payload');
+assert.match(liveNews,/noExtraFeedRequests:true/,'the news detail must declare status-only rendering');
+assert.doesNotMatch(liveNews,/setInterval\(load/,'the news detail must not start another minute polling loop');
+assert.doesNotMatch(newsLearningUi,/fetch\('\/api\/status'/,'news learning must reuse the already loaded dashboard status');
+assert.doesNotMatch(clickableMarket,/setInterval\(loadLiveNews/,'chart links must not start a competing news polling loop');
+assert.match(dashboardWorker,/newsRadarVisible/,'the dashboard must expose its deliberately bounded radar window');
+assert.match(dashboardWorker,/newsLearningTotal/,'the dashboard must expose the separate learning-memory count');
+assert.match(dashboardWorker,/positionScoreAudit:_positionScoreAudit/,'large score audits must be removed from the routine dashboard payload');
+assert.match(dashboardWorker,/audit:_audit,\.\.\.lightProfitExit/,'the duplicated profit-exit audit must be removed from the routine dashboard payload');
+assert.match(changelog,/07\.09\.2026 · 09:25/,'regional news-reaction correction must be documented first');
+assert.match(changelog,/V31\.7\.26/,'regional news learning and slim dashboard update must be documented');
+assert.match(changelog,/V31\.7\.25/,'browser performance correction must remain documented');
 assert.match(changelog,/V31\.7\.25/,'coalesced rendering and targeted motion update must be documented');
 assert.match(changelog,/V31\.7\.24/,'collision-free UI and preserved news safety update must be documented');
 assert.match(changelog,/V31\.7\.23/,'weekend and Trade Republic production validation update must be documented');

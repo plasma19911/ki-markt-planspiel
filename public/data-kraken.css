@@ -591,3 +591,11 @@ body.krakenPerformanceMode.krakenUiPaused *:after{animation-play-state:paused!im
  body.krakenPerformanceMode .newsFlight,
  body.krakenPerformanceMode .krakenPlankton{display:none!important}
 }
+
+/* V31.7.26: Die doppelte KPI-Leiste entfällt. Gesamtwert, Cash, Positionen,
+   P/L und Marktstatus stehen bereits im Depotkern bzw. in der Kopfzeile. */
+body.krakenOnePager #overview{display:none!important}
+body.krakenOnePager #livePanel{grid-template-rows:42px minmax(0,1fr)!important}
+body.krakenOnePager #dataFlow{grid-row:2!important}
+@media(max-height:760px) and (min-width:761px){body.krakenOnePager #livePanel{grid-template-rows:36px minmax(0,1fr)!important}}
+@media(max-width:760px){body.krakenOnePager #livePanel{grid-template-rows:40px minmax(0,1fr)!important}}

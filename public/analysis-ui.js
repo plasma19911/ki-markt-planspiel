@@ -2,8 +2,8 @@ import './quota-guard.js';
 import './investment-ui.js?v=20260819-1140';
 import './agm-calendar-ui.js?v=20260820-1447';
 import './daytrade-largecap-ui.js?v=20260821-1135';
-import './news-learning-ui.js?v=20260827-1223';
-import './live-news-fresh-v2.js?v=20260827-1321';
+import './news-learning-ui.js?v=20260907-26';
+import './live-news-fresh-v2.js?v=20260907-26';
 
 // Sichtbare Prioritaet im Dashboard:
 // 10 Aktive Positionen -> 11 Kapitalverlauf / Aktien-Trade-Chart ->

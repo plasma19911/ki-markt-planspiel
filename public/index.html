@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="/changelog-ui.css?v=20260820-0946">
   <link rel="stylesheet" href="/mobile-ui-v3.css?v=20260819-1257">
   <link rel="stylesheet" href="/mobile-ui-v5.css?v=20260819-1546">
-  <link rel="stylesheet" href="/data-kraken.css?v=20260906-25">
+  <link rel="stylesheet" href="/data-kraken.css?v=20260907-26">
 </head>
 <body class="krakenOnePager">
 <div class="appShell">
@@ -53,7 +53,7 @@
 
     <div id="livePanel" class="tabPanel krakenPage">
       <svg id="krakenPageLinks" class="krakenPageLinks" aria-hidden="true"></svg>
-      <section id="overview" class="heroKpis">
+      <section id="overview" class="heroKpis" aria-hidden="true">
         <article class="kpiCard primary"><div><span>Gesamtwert</span><strong id="equity">–</strong><small>Gesamt P/L <b id="pnl">–</b></small></div><div class="kpiIcon">↗</div></article>
         <article class="kpiCard"><div><span>Cash</span><strong id="cash">–</strong><small id="cashShare">Verfügbares Kapital</small></div><div class="kpiIcon blue">◫</div></article>
         <article class="kpiCard"><div><span>Positionen</span><strong id="positionCount">–</strong><small id="investedShare">– investiert</small></div><div class="kpiIcon violet">◔</div></article>
@@ -209,13 +209,13 @@
 </div>
 <script src="/quota-guard.js?v=20260906-1058" type="module"></script>
 <script src="/app.js?v=20260906-1058" type="module"></script>
-<script src="/data-kraken-ui.js?v=20260906-25" type="module"></script>
+<script src="/data-kraken-ui.js?v=20260907-26" type="module"></script>
 <script src="/candidate-simple-ui.js?v=20260906-15" type="module"></script>
 <script src="/v287-live-ui.js?v=20260820-2155" type="module"></script>
 <script src="/ui-v283-fix.js?v=20260820-2155" type="module"></script>
 <script src="/trade-marker-price-fix.js?v=20260819-1702"></script>
 <script src="/position-chart-ui.js?v=20260819-1702" type="module"></script>
-<script src="/analysis-ui.js?v=20260827-1315" type="module"></script>
+<script src="/analysis-ui.js?v=20260907-26" type="module"></script>
 <script src="/single-scanner-ui.js?v=20260819-1546" type="module"></script>
 <script src="/changelog-ui.js?v=20260820-2155" type="module"></script>
 <script src="/changelog-latest.js?v=20260820-0946" type="module"></script>
@@ -227,7 +227,7 @@
 <script src="/changelog-v302.js?v=20260821-1222" type="module"></script>
 <script src="/changelog-v303.js?v=20260821-1250" type="module"></script>
 <script src="/changelog-current-v31.js?v=20260901-1004" type="module"></script>
-<script src="/changelog-current-v31712.js?v=20260906-2222" type="module"></script>
+<script src="/changelog-current-v31712.js?v=20260907-0925" type="module"></script>
 <script src="/changelog-master-v290.js?v=20260821-1250" type="module"></script>
 <script>
 (() => {
@@ -245,7 +245,6 @@
     setTimeout(placeLiveNewsUnderDepot,100);
     setTimeout(placeLiveNewsUnderDepot,500);
     setTimeout(placeLiveNewsUnderDepot,1500);
-    setInterval(placeLiveNewsUnderDepot,2000);
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, {once:true});
   else start();
