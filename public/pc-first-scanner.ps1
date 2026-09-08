@@ -13,7 +13,7 @@
 #  6. Zusaetzliche Diagnosefelder im Summary (sparkBatchSize, scannedSymbolCount,
 #     freshQuoteCount, shardCoveragePct, lastBatchError).
 # Dot-source aus pc-agent.ps1. Die Breitenarbeit bleibt auf dem Windows-PC.
-$script:PcFirstVersion='29.6'
+$script:PcFirstVersion='29.7'
 $script:PcFirstUniverse=@()
 $script:PcFirstRows=@{}
 $script:PcFirstUniverseAt=[DateTime]::MinValue
@@ -22,11 +22,19 @@ $script:PcFirstShardCount=4
 $script:PcFirstLastFullSweepAt=$null
 $script:PcFirstUniverseCache=Join-Path $CacheRoot 'pc-first-universe.json'
 $script:PcFirstStateCache=Join-Path $CacheRoot 'pc-first-state.json'
+$script:PcFirstRowsCache=Join-Path $CacheRoot 'pc-first-rows.json'
+$script:PcFirstRowsLoaded=$false
 # Hartes Limit der Yahoo-Spark-API. Nicht ohne Test erhoehen.
 $script:PcFirstSparkBatchSize=20
 $script:PcFirstBatchPauseMs=60
 $script:PcFirstSparkBackoffUntil=[DateTime]::MinValue
 $script:PcFirstLastBatchError=$null
+# Sitzungsfokus-Parameter
+$script:PcFirstHotMaxAgeMinutes=15
+$script:PcFirstMaxHotSymbols=1200
+$script:PcFirstMaxBatchesPerCycle=70
+$script:PcFirstMinColdBatches=6
+$script:PcFirstDeepBatchReserve=12
 
 function Limit-PcNumber([double]$v,[double]$lo,[double]$hi){return [Math]::Max($lo,[Math]::Min($hi,$v))}
 # V29.6: Marktcode aus dem Yahoo-Suffix. buildWatch im Worker reserviert 13 von
@@ -58,6 +66,18 @@ function Update-PcFirstUniverse([switch]$Force){
   try{$u=Invoke-AgentPost '/api/agent/universe' ([ordered]@{scannerVersion=$script:PcFirstVersion;request='FULL_EQUITY_MASTER'});$rows=@($u.equities|Where-Object{$_.symbol});if($rows.Count -gt 100){$script:PcFirstUniverse=$rows;$script:PcFirstUniverseAt=[DateTime]::UtcNow;Save-PcFirstUniverse $rows;Write-AgentLog "PC-FIRST: Aktien-Master geladen: $($rows.Count) Werte.";return $rows}}catch{Write-AgentLog "PC-FIRST: Master-Abruf fehlgeschlagen: $($_.Exception.Message)"}
   $cached=Load-PcFirstUniverseCache;if($cached.Count){$script:PcFirstUniverse=$cached;$script:PcFirstUniverseAt=[DateTime]::UtcNow;Write-AgentLog "PC-FIRST: lokaler Aktien-Master verwendet: $($cached.Count) Werte."};return $script:PcFirstUniverse
 }
+function Save-PcFirstRows(){
+  try{$cut=[DateTimeOffset]::UtcNow.ToUnixTimeSeconds()-20*60;$keep=@()
+    foreach($e in @($script:PcFirstRows.GetEnumerator())){try{if([int64]$e.Value.marketTimestamp -ge $cut){$keep+=$e.Value}}catch{}}
+    [ordered]@{savedAt=[DateTime]::UtcNow.ToString('o');rows=$keep}|ConvertTo-Json -Depth 5|Set-Content $script:PcFirstRowsCache -Encoding UTF8}catch{}
+}
+function Load-PcFirstRows(){
+  if($script:PcFirstRowsLoaded){return};$script:PcFirstRowsLoaded=$true
+  if(-not(Test-Path $script:PcFirstRowsCache)){return}
+  try{$j=Get-Content $script:PcFirstRowsCache -Raw|ConvertFrom-Json;$n=0
+    foreach($r in @($j.rows)){if(-not $r.symbol){continue};$script:PcFirstRows[[string]$r.symbol]=[ordered]@{symbol=[string]$r.symbol;price=[double]$r.price;dayPct=[double]$r.dayPct;momentum20Pct=[double]$r.momentum20Pct;momentum5Pct=[double]$r.momentum5Pct;acceleration5Pct=[double]$r.acceleration5Pct;marketTimestamp=[int64]$r.marketTimestamp;preScore=[double]$r.preScore;updatedAt=[string]$r.updatedAt};$n++}
+    if($n){Write-AgentLog "PC-FIRST: $n zuletzt aktive Symbole aus dem Cache uebernommen (Warmstart)."}}catch{}
+}
 function Convert-PcFirstSpark($Json,[string]$Interval){
   $out=@();foreach($item in @($Json.spark.result)){try{$res=$item.response[0];if(-not $res){continue};$sym=([string]$item.symbol).ToUpper();if(-not $sym){continue};$rawClose=@($res.indicators.quote[0].close);$rawTime=@($res.timestamp);$cl=@();$barTimes=@();for($i=0;$i-lt [Math]::Min($rawClose.Count,$rawTime.Count);$i++){if($null-eq $rawClose[$i]){continue};$p=[double]$rawClose[$i];$t=[int64]$rawTime[$i];if($p-gt 0 -and $t-gt 0){$cl+=$p;$barTimes+=$t}};if($cl.Count-lt 2){continue};$price=[double]$cl[-1];$marketTime=[int64]$barTimes[-1];$prev=[double]$res.meta.previousClose;if($prev-le 0){$prev=[double]$res.meta.chartPreviousClose};if($prev-le 0){$prev=$cl[0]};$day=if($prev-gt 0){100*($price/$prev-1)}else{0};$step20=if($Interval-eq '1m'){20}else{4};$step5=if($Interval-eq '1m'){5}else{1};$b20=$cl[[Math]::Max(0,$cl.Count-1-$step20)];$b5=$cl[[Math]::Max(0,$cl.Count-1-$step5)];$m20=if($b20-gt 0){100*($price/$b20-1)}else{0};$m5=if($b5-gt 0){100*($price/$b5-1)}else{0};$older=$cl[[Math]::Max(0,$cl.Count-1-2*$step5)];$prior5=if($older-gt 0 -and $b5-gt 0){100*($b5/$older-1)}else{0};$acc=$m5-$prior5;$ageMin=[Math]::Max(0,([DateTimeOffset]::UtcNow.ToUnixTimeSeconds()-$marketTime)/60);$out+=[pscustomobject]@{symbol=$sym;price=$price;dayPct=$day;momentum20Pct=$m20;momentum5Pct=$m5;acceleration5Pct=$acc;marketTimestamp=$marketTime;quoteAgeMinutes=$ageMin}}catch{}};return $out
 }
@@ -87,8 +107,29 @@ function Get-PcFirstPreScore($q){$day=[double]$q.dayPct;$m20=[double]$q.momentum
 function Get-PcFirstDeepScore($q,[double]$PreScore){$s=$PreScore*.50+25;$s+=Limit-PcNumber ([double]$q.momentum20Pct*5.0) -10 12;$s+=Limit-PcNumber ([double]$q.momentum5Pct*7.0) -7 9;$s+=Limit-PcNumber ([double]$q.acceleration5Pct*2.2) -4 5;$day=[double]$q.dayPct;if($day-ge 12){$s-=14+[Math]::Min(12,($day-12)*.8)}elseif($day-ge 8){$s-=6};if($null -eq $q.quoteAgeMinutes -or [double]$q.quoteAgeMinutes-gt 8){$s-=12};return [Math]::Round((Limit-PcNumber $s 0 100),1)}
 function Split-PcFirstChunks($Rows,[int]$Size){$all=@($Rows);for($i=0;$i-lt $all.Count;$i+=$Size){,$all[$i..([Math]::Min($all.Count-1,$i+$Size-1))]}}
 function Invoke-PcFirstPipeline(){
+  Load-PcFirstRows
   $universe=@(Update-PcFirstUniverse);if($universe.Count-lt 100){throw 'PC-FIRST: Kein Aktien-Master verfuegbar.'}
-  $shardIndex=$script:PcFirstShard;$symbols=@();for($i=0;$i-lt $universe.Count;$i++){if(($i%$script:PcFirstShardCount)-eq $shardIndex){$symbols+=[string]$universe[$i].symbol}}
+  $shardIndex=$script:PcFirstShard
+  # V29.6 Sitzungsfokus: Symbole, die zuletzt eine frische Kerze geliefert haben,
+  # stehen an einer offenen Boerse und werden JEDE Minute nachgezogen. Der Rest
+  # wird weiter im Schichtbetrieb abgetastet, damit neu oeffnende Maerkte
+  # gefunden werden. Das ist unabhaengig von Sommerzeit und Feiertagen, weil es
+  # die tatsaechlichen Kurszeiten auswertet statt eines Zeitplans.
+  $nowUnixPre=[DateTimeOffset]::UtcNow.ToUnixTimeSeconds();$hot=@{}
+  # GetEnumerator statt .Keys: bei grossen Hashtables liefert @($ht.Keys) in
+  # PowerShell sporadisch die Auflistung als EIN Objekt statt entpackt, wodurch
+  # der Hot-Set stillschweigend leer blieb.
+  foreach($e in @($script:PcFirstRows.GetEnumerator())){try{$ts=[int64]$e.Value.marketTimestamp;if($ts-gt 0 -and ($nowUnixPre-$ts)/60 -le $script:PcFirstHotMaxAgeMinutes){$hot[[string]$e.Key]=$true}}catch{}}
+  $hotSymbols=@();$coldPool=@()
+  for($i=0;$i-lt $universe.Count;$i++){$sym=[string]$universe[$i].symbol
+    if($hot.ContainsKey($sym)){$hotSymbols+=$sym}
+    elseif(($i%$script:PcFirstShardCount)-eq $shardIndex){$coldPool+=$sym}}
+  if($hotSymbols.Count -gt $script:PcFirstMaxHotSymbols){$hotSymbols=@($hotSymbols|Select-Object -First $script:PcFirstMaxHotSymbols)}
+  $batchSizePre=$script:PcFirstSparkBatchSize
+  $hotBatches=[Math]::Ceiling($hotSymbols.Count/$batchSizePre)
+  $coldBudget=[Math]::Max($script:PcFirstMinColdBatches,$script:PcFirstMaxBatchesPerCycle-$hotBatches-$script:PcFirstDeepBatchReserve)
+  $coldSymbols=@($coldPool|Select-Object -First ($coldBudget*$batchSizePre))
+  $symbols=@($hotSymbols)+@($coldSymbols)
   $requests=0;$errors=0;$now=[DateTime]::UtcNow;$script:PcFirstLastBatchError=$null;$batchSize=$script:PcFirstSparkBatchSize
   foreach($chunk in @(Split-PcFirstChunks $symbols $batchSize)){
     try{$requests++;foreach($q in @(Invoke-PcFirstSpark $chunk '5m')){$pre=Get-PcFirstPreScore $q;$script:PcFirstRows[$q.symbol]=[ordered]@{symbol=$q.symbol;price=[double]$q.price;dayPct=[double]$q.dayPct;momentum20Pct=[double]$q.momentum20Pct;momentum5Pct=[double]$q.momentum5Pct;acceleration5Pct=[double]$q.acceleration5Pct;marketTimestamp=[int64]$q.marketTimestamp;preScore=$pre;updatedAt=$now.ToString('o')}}}
@@ -121,7 +162,8 @@ function Invoke-PcFirstPipeline(){
   $breakoutEntries=@(New-PcFirstEntries $breakoutRows "PC-FIRST-V$($script:PcFirstVersion) Breakout" 40)
   $coverage=if($universe.Count){100*$rows.Count/$universe.Count}else{0}
   $shardCoverage=if($symbols.Count -and $requests){100*[Math]::Max(0,($requests-$errors))/[Math]::Max(1,[Math]::Ceiling($symbols.Count/$batchSize))}else{0}
-  $summary=[ordered]@{version=[double]$script:PcFirstVersion;updatedAt=$now.ToString('o');masterUniverseCount=$universe.Count;prescannedCount=$rows.Count;validQuoteCount=$rows.Count;preScoredCount=$rows.Count;allReceivedRowsPreScored=$true;stage2Count=$stage2.Count;deepCount=$deepMap.Count;finalistCount=$candidates.Count;shardIndex=$shardIndex;shardCount=$script:PcFirstShardCount;scannedSymbolCount=$symbols.Count;freshQuoteCount=$rows.Count;sparkBatchSize=$batchSize;shardCoveragePct=[Math]::Round([Math]::Min(100,$shardCoverage),1);fullCycleCoveragePct=[Math]::Round([Math]::Min(100,$coverage),1);targetFullCycleMinutes=$script:PcFirstShardCount;lastFullSweepAt=if($script:PcFirstLastFullSweepAt){$script:PcFirstLastFullSweepAt.ToString('o')}else{$null};lastMinuteRefreshAt=$now.ToString('o');batchRequests=$requests;batchErrors=$errors;lastBatchError=$script:PcFirstLastBatchError;reboundEntryCount=$($reboundEntries.Count);breakoutEntryCount=$($breakoutEntries.Count);discoveryMode='PC_FIRST_DERIVED';scorePipeline='ALIGNED_PRICE_TIME_8M -> TOP400 -> DEEP240 -> FINAL60';source="Windows-PC · Yahoo Spark Batch (max $batchSize) · Full-Master rolling · Kurs und Zeit gleiche Kerze · <=8m";candidates=$candidates}
+  $summary=[ordered]@{version=[double]$script:PcFirstVersion;updatedAt=$now.ToString('o');masterUniverseCount=$universe.Count;prescannedCount=$rows.Count;validQuoteCount=$rows.Count;preScoredCount=$rows.Count;allReceivedRowsPreScored=$true;stage2Count=$stage2.Count;deepCount=$deepMap.Count;finalistCount=$candidates.Count;shardIndex=$shardIndex;shardCount=$script:PcFirstShardCount;scannedSymbolCount=$symbols.Count;hotSymbolCount=$($hotSymbols.Count);coldSymbolCount=$($coldSymbols.Count);freshQuoteCount=$rows.Count;sparkBatchSize=$batchSize;shardCoveragePct=[Math]::Round([Math]::Min(100,$shardCoverage),1);fullCycleCoveragePct=[Math]::Round([Math]::Min(100,$coverage),1);targetFullCycleMinutes=$script:PcFirstShardCount;lastFullSweepAt=if($script:PcFirstLastFullSweepAt){$script:PcFirstLastFullSweepAt.ToString('o')}else{$null};lastMinuteRefreshAt=$now.ToString('o');batchRequests=$requests;batchErrors=$errors;lastBatchError=$script:PcFirstLastBatchError;reboundEntryCount=$($reboundEntries.Count);breakoutEntryCount=$($breakoutEntries.Count);discoveryMode='PC_FIRST_DERIVED';scorePipeline='ALIGNED_PRICE_TIME_8M -> TOP400 -> DEEP240 -> FINAL60';source="Windows-PC · Yahoo Spark Batch (max $batchSize) · Full-Master rolling · Kurs und Zeit gleiche Kerze · <=8m";candidates=$candidates}
   try{$summary|ConvertTo-Json -Depth 8|Set-Content $script:PcFirstStateCache -Encoding UTF8}catch{}
+  Save-PcFirstRows
   return [ordered]@{summary=$summary;leaderEntries=$leaders;reboundEntries=$reboundEntries;breakoutEntries=$breakoutEntries}
 }
