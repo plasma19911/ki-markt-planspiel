@@ -36,12 +36,14 @@ jobs:
           node --check src/execution-cost-overlay.js
           node --check src/compact-portfolio-v310-unified.js
           node --check src/compact-portfolio-v310-agent-recovery.js
+          node --check src/market-freshness.js
           node --check src/compact-portfolio-v10.js
           node --check src/pc-agent-leader-blend-v3172.js
           node --check src/expectancy-core-v310.js
           node --check src/high-score-capital-deployment-v309.js
           node --check src/trade-republic-master.js
           node tests/v3172-agent-leader-blend.test.mjs
+          node tests/v31731-quote-freshness.test.mjs
           node tests/v312-outcome-learning.test.mjs
           node tests/v310-unified-decision-core.test.mjs
           node tests/v310-expectancy.test.mjs
@@ -83,8 +85,9 @@ jobs:
               const learningContract=outcomeVersion===31.2&&Number(learn?.version)===31.2&&learn?.insideUnifiedAuthority===true&&a?.persistentOutcomeLearning===true&&a?.outcomeLearningStorageKey==='outcome-learning-v312'&&ex?.outcomeLearningV312===true&&ex?.continuousCandidateTracking===true&&Number.isFinite(Number(learn?.trackedSymbols));
               const brokerOk=Number(bm?.rowCount)>0&&String(bm?.source||'').includes('env.ASSETS')&&Number(ubm?.rowCount)>0;
               const entryBridge=Number(capital?.canonicalProposalScore)===60&&Number(capital?.canonicalMinDataQuality)===55&&Number(capital?.canonicalMinOrthogonalConfirmations)===1;
-              const ok=r.ok&&currentUnified&&learningContract&&entryBridge&&a?.persistentDecisionAudit===true&&ex?.unifiedDecisionCoreV310===true&&ex?.tradeRepublicAssetsMaster===true&&brokerOk&&capital?.heldMasterEnrichment===true&&positions.length<=4&&chartOk;
-              last=`status=${r.status} runtime=${s?.runtimeVersion}/${s?.liveDecisionVersion} learning=${learn?.mode}/${learn?.matured} tracked=${learn?.trackedSymbols} candidates=${learn?.currentCandidates} bridge=${capital?.patch}/${capital?.canonicalProposalScore} patch=${u?.patch} broker=${bm?.source}/${bm?.rowCount} chart=${chartText}`;
+              const ok=r.ok&&currentUnified&&learningContract&&entryBridge&&a?.persistentDecisionAudit===true&&ex?.unifiedDecisionCoreV310===true&&ex?.tradeRepublicAssetsMaster===true&&brokerOk&&capital?.heldMasterEnrichment===true&&chartOk;
+              const legacyPositionWarning=positions.length>4?` persistedAltbestand=${positions.length} (neue Käufe bleiben begrenzt)`:'';
+              last=`status=${r.status} runtime=${s?.runtimeVersion}/${s?.liveDecisionVersion} learning=${learn?.mode}/${learn?.matured} tracked=${learn?.trackedSymbols} candidates=${learn?.currentCandidates} bridge=${capital?.patch}/${capital?.canonicalProposalScore} patch=${u?.patch} broker=${bm?.source}/${bm?.rowCount} chart=${chartText}${legacyPositionWarning}`;
               if(ok){console.log('Main live V31.7+ verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}
             await new Promise(r=>setTimeout(r,5000));
