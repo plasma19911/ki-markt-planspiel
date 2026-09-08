@@ -54,9 +54,23 @@ function freshWallClock(iso,now=Date.now()){
 }
 function importanceFor(headline,row={},published=null){
  const impact=classifyNewsImpact(headline),confidence=clamp(num(row.confidence,row.newsConfidence??row.news_confidence),0,1),raw=num(row.freshImpact,row.score??row.newsScore??row.news_score),age=published?Math.max(0,(Date.now()-Date.parse(published))/3600000):24;
- const freshBoost=age<=.25?16:age<=1?13:age<=2?9:0,signalBoost=Math.min(12,Math.abs(raw)*(Math.abs(raw)<=2?8:.12)),sourceBoost=row?._freshExternal?5:0;
- const score=clamp(Math.round(impact.impact*16+confidence*12+signalBoost+freshBoost+sourceBoost),0,100);
- return{score,label:score>=88?'SEHR HOCH':score>=72?'HOCH':score>=55?'WICHTIG':'RELEVANT',type:impact.type,direction:impact.direction,structural:impact.structural===true};
+ // V31.7.34 Fix 1: Die alte Formel addierte fuenf ungedeckelte Summanden und lief
+ // bei jeder Meldung mit impact>=4 in die 100er-Klammer. Fuenf voellig verschiedene
+ // Ereignisse bekamen identisch 100/100. Jetzt sind die Gewichte so normiert, dass
+ // 100 nur bei gleichzeitigem Maximum aller Faktoren erreicht wird.
+ // V31.7.34 Fix 2: signalBoost hatte bei |raw|=2 einen Sprung von 12 auf 0,24,
+ // weil zwei Skalen per hartem Zweig gemischt wurden. Ersetzt durch eine stetige,
+ // monoton steigende Saettigung, die mit beiden Skalen umgehen kann.
+ const signal=1-Math.exp(-Math.abs(raw)/1.2);
+ const fresh=age<=.25?1:age<=1?.8:age<=2?.55:age<=6?.2:0;
+ const score=clamp(Math.round(impact.impact/5*58+confidence*12+signal*12+fresh*13+(row?._freshExternal?5:0)),0,100);
+ // V31.7.34 Fix 3: Die Wucht einer Meldung sagt nichts darueber, ob sie gut oder
+ // schlecht ist. Eine Gewinnwarnung und eine FDA-Zulassung erreichten beide
+ // "SEHR HOCH 100/100". Richtung wird jetzt mitgefuehrt und beschriftet.
+ const dir=num(impact.direction);
+ const directionLabel=dir>0?'POSITIV':dir<0?'NEGATIV':'OFFEN';
+ const magnitude=score>=88?'SEHR HOCH':score>=72?'HOCH':score>=55?'WICHTIG':'RELEVANT';
+ return{score,label:dir===0?magnitude:`${magnitude} ${directionLabel}`,magnitudeLabel:magnitude,directionLabel,signedScore:dir*score,type:impact.type,direction:dir,structural:impact.structural===true};
 }
 function rowHeadlines(row={}){return arr(row.headlineDetails).length?arr(row.headlineDetails):arr(row.headlines).length?arr(row.headlines):[row.headline||row.title||row.latestHeadline||row.text].filter(Boolean)}
 function collectRows(s={}){
