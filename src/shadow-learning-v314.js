@@ -12,6 +12,10 @@ const key=v=>String(v?.symbol||v||'').toUpperCase().trim();
 const canonicalScore=v=>{let x=num(v);if(x>0&&x<=10)x*=10;return clamp(x,0,100)};
 const priceOf=v=>num(v?.price,v?.last_price);
 const fxOf=v=>num(v?.fx_rate??v?.fxRate??v?.last_fx,1)||1;
+// V31.7.34: fxOf faellt bei fehlendem Kurs still auf 1 zurueck. Lag der Faktor beim
+// Schnappschuss vor und beim Faelligwerden nicht (oder umgekehrt), wurde eine reine
+// Waehrungsdifferenz als Kursrendite verbucht - Ursache der +2715%-Anzeige.
+const fxKnown=v=>Number.isFinite(Number(v?.fx_rate??v?.fxRate??v?.last_fx));
 const read=async(storage,d)=>{try{
   if(storage?.get)return(await storage.get(KEY))||d;
   if(storage?.kv?.get)return(await storage.kv.get(KEY))||d;
@@ -30,15 +34,24 @@ export const SHADOW_LEARNING_V314={
   maxBuyThreshold:78,maxPerTheme:2,maxPerCurrency:3,minEntrySpacingMinutes:20,
   evidenceMinSamples:25,canonicalBuyScore:60,canonicalMinDataQuality:55,canonicalMinOrthogonalConfirmations:1,
   probationMinCompatibleSamples:2,probationMinNetEdgeSamples:3,
+  // V31.7.34: Eine Aktie bewegt sich in 60 Minuten nicht um mehr als ein Drittel.
+  // Groessere Werte stammen aus Waehrungs-/Datenfehlern, nicht aus dem Markt.
+  maxPlausibleAbsReturnPct:35,
   negativeNewsBlock:-.35,negativeNewsMinConfidence:.6,negativeNewsMinSources:2
 };
 
 function defaults(){return{version:31.7,calibrationEpoch:SHADOW_CALIBRATION_EPOCH,open:{},matured:[],lastEntryAt:0,archiveSummary:null,
-  stats:{snapshots:0,matured:0,expired:0,themeBlocks:0,currencyBlocks:0,spacingBlocks:0,thresholdBlocks:0,calibrationResets:0,archivedMatured:0,archivedOpen:0},
+  stats:{snapshots:0,matured:0,expired:0,fxBasisMismatch:0,implausibleReturns:0,prunedImplausible:0,themeBlocks:0,currencyBlocks:0,spacingBlocks:0,thresholdBlocks:0,calibrationResets:0,archivedMatured:0,archivedOpen:0},
   threshold:null,updatedAt:null}}
 export function migrateShadowCalibrationEpochV31729(memory=null,now=Date.now(),cfg=SHADOW_LEARNING_V314){
   const activeEpoch=cfg.calibrationEpoch||SHADOW_CALIBRATION_EPOCH,previousEpoch=memory?.calibrationEpoch||'PRE_31.7.29_INCOMPLETE_INPUTS',mem={...defaults(),...(memory||{})};
-  mem.version=31.7;mem.open={...(mem.open||{})};mem.matured=arr(mem.matured).slice();mem.stats={...defaults().stats,...(mem.stats||{})};
+  mem.version=31.7;mem.open={...(mem.open||{})};
+  // V31.7.34: Bereits gespeicherte unmoegliche Renditen ausmisten. Ohne diesen
+  // Schritt verzerren bis zu 1500 Altwerte den Durchschnitt noch wochenlang.
+  {const before=arr(mem.matured).length;
+   mem.matured=arr(mem.matured).filter(x=>{const r=Number(x?.ret);return Number.isFinite(r)&&Math.abs(r)<=35});
+   const dropped=before-mem.matured.length;if(dropped>0){mem.stats=mem.stats||{};mem.stats.prunedImplausible=(mem.stats.prunedImplausible||0)+dropped}}
+  mem.matured=arr(mem.matured).slice();mem.stats={...defaults().stats,...(mem.stats||{})};
   const reset=previousEpoch!==activeEpoch;
   if(reset){const archivedMatured=mem.matured.length,archivedOpen=Object.keys(mem.open).length;mem.archiveSummary={previousEpoch,maturedSamples:archivedMatured,openSnapshots:archivedOpen,archivedAt:new Date(now).toISOString(),reason:'NEWS_VOLUME_INPUT_PIPELINE_REPAIRED'};mem.open={};mem.matured=[];mem.stats.calibrationResets++;mem.stats.archivedMatured+=archivedMatured;mem.stats.archivedOpen+=archivedOpen;mem.threshold=null;mem.updatedAt=new Date(now).toISOString()}
   mem.calibrationEpoch=activeEpoch;return{mem,reset,activeEpoch,previousEpoch};
@@ -119,7 +132,7 @@ export function recordShadowSnapshots(mem,candidates,now,cfg=SHADOW_LEARNING_V31
     const id=`${symbol}@${Math.floor(now/spacing)}`;
     if(mem.open[id])continue;
     const evidence=evidenceProfileV315(c,candidates),entry=canonicalEntryAssessmentV316(c,candidates,mem.matured||[],.291,cfg);
-    mem.open[id]={symbol,at:now,price,fx:fxOf(c),score:+score.toFixed(1),calibrationEpoch:cfg.calibrationEpoch||SHADOW_CALIBRATION_EPOCH,evidenceVersion:31.5,evidenceQuality:evidence.quality,evidencePillars:evidence.pillarCount,entryScoreVersion:31.7,entryScoreV317:entry.score,entryScoreV316:entry.score,dataQualityV317:entry.dataQuality,dataQualityV316:entry.dataQuality,
+    mem.open[id]={symbol,at:now,price,fx:fxOf(c),fxKnown:fxKnown(c),score:+score.toFixed(1),calibrationEpoch:cfg.calibrationEpoch||SHADOW_CALIBRATION_EPOCH,evidenceVersion:31.5,evidenceQuality:evidence.quality,evidencePillars:evidence.pillarCount,entryScoreVersion:31.7,entryScoreV317:entry.score,entryScoreV316:entry.score,dataQualityV317:entry.dataQuality,dataQualityV316:entry.dataQuality,
       theme:themeOf(c),currency:currencyOf(c),m5:num(c?.momentum5),m20:num(c?.momentum20),
       rsi:num(c?.rsi,50),day:num(c?.day_change??c?.dayChange)};
     mem.stats.snapshots++;
@@ -130,15 +143,20 @@ export function recordShadowSnapshots(mem,candidates,now,cfg=SHADOW_LEARNING_V31
 }
 
 export function matureShadowSnapshots(mem,candidates,now,cfg=SHADOW_LEARNING_V314){
-  const prices=new Map(arr(candidates).map(c=>[key(c),{price:priceOf(c),fx:fxOf(c)}]));
+  const prices=new Map(arr(candidates).map(c=>[key(c),{price:priceOf(c),fx:fxOf(c),fxKnown:fxKnown(c)}]));
   const horizon=cfg.horizonMinutes*60000;
   for(const [id,snap] of Object.entries(mem.open)){
     const age=now-num(snap?.at,now);if(age<horizon)continue;
     const current=prices.get(snap.symbol);
     if(!current||!(current.price>0)){if(age>horizon*3){delete mem.open[id];mem.stats.expired++}continue}
-    const from=snap.price*num(snap.fx,1),to=current.price*current.fx;
+    // V31.7.34: Nur vergleichbare Waehrungsbasen zulassen.
+    if(snap.fxKnown!==undefined&&Boolean(snap.fxKnown)!==Boolean(current.fxKnown)){delete mem.open[id];mem.stats.fxBasisMismatch=(mem.stats.fxBasisMismatch||0)+1;continue}
+    const from=snap.price*num(snap.fx,1),to=current.price*num(current.fx,1);
+    const retPct=from>0?((to/from)-1)*100:null;
+    // V31.7.34: Unmoegliche Renditen verwerfen statt in den Durchschnitt kippen.
+    if(retPct===null||!Number.isFinite(retPct)||Math.abs(retPct)>num(cfg.maxPlausibleAbsReturnPct,35)){delete mem.open[id];mem.stats.implausibleReturns=(mem.stats.implausibleReturns||0)+1;continue}
     if(from>0)mem.matured.push({symbol:snap.symbol,score:snap.score,theme:snap.theme,calibrationEpoch:snap.calibrationEpoch||cfg.calibrationEpoch||SHADOW_CALIBRATION_EPOCH,evidenceVersion:snap.evidenceVersion||null,evidenceQuality:num(snap.evidenceQuality),evidencePillars:num(snap.evidencePillars),entryScoreVersion:snap.entryScoreVersion||null,entryScoreV317:finite(snap.entryScoreV317)?num(snap.entryScoreV317):null,entryScoreV316:finite(snap.entryScoreV316)?num(snap.entryScoreV316):null,dataQualityV317:finite(snap.dataQualityV317)?num(snap.dataQualityV317):null,dataQualityV316:finite(snap.dataQualityV316)?num(snap.dataQualityV316):null,
-      ret:+(((to/from)-1)*100).toFixed(4),sampleAt:num(snap.at),at:now});
+      ret:+retPct.toFixed(4),sampleAt:num(snap.at),at:now});
     mem.stats.matured++;delete mem.open[id];
   }
   if(mem.matured.length>cfg.maxMaturedSamples)mem.matured=mem.matured.slice(-cfg.maxMaturedSamples);

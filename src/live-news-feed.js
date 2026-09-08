@@ -52,25 +52,117 @@ function publishedAt(row={}){
 function freshWallClock(iso,now=Date.now()){
  const t=Date.parse(String(iso||''));return Number.isFinite(t)&&t<=now+FUTURE_TOLERANCE_MS&&now-t>=-FUTURE_TOLERANCE_MS&&now-t<=LIVE_MAX_AGE_MS;
 }
-function importanceFor(headline,row={},published=null){
- const impact=classifyNewsImpact(headline),confidence=clamp(num(row.confidence,row.newsConfidence??row.news_confidence),0,1),raw=num(row.freshImpact,row.score??row.newsScore??row.news_score),age=published?Math.max(0,(Date.now()-Date.parse(published))/3600000):24;
- // V31.7.34 Fix 1: Die alte Formel addierte fuenf ungedeckelte Summanden und lief
- // bei jeder Meldung mit impact>=4 in die 100er-Klammer. Fuenf voellig verschiedene
- // Ereignisse bekamen identisch 100/100. Jetzt sind die Gewichte so normiert, dass
- // 100 nur bei gleichzeitigem Maximum aller Faktoren erreicht wird.
- // V31.7.34 Fix 2: signalBoost hatte bei |raw|=2 einen Sprung von 12 auf 0,24,
- // weil zwei Skalen per hartem Zweig gemischt wurden. Ersetzt durch eine stetige,
- // monoton steigende Saettigung, die mit beiden Skalen umgehen kann.
- const signal=1-Math.exp(-Math.abs(raw)/1.2);
- const fresh=age<=.25?1:age<=1?.8:age<=2?.55:age<=6?.2:0;
- const score=clamp(Math.round(impact.impact/5*58+confidence*12+signal*12+fresh*13+(row?._freshExternal?5:0)),0,100);
- // V31.7.34 Fix 3: Die Wucht einer Meldung sagt nichts darueber, ob sie gut oder
- // schlecht ist. Eine Gewinnwarnung und eine FDA-Zulassung erreichten beide
- // "SEHR HOCH 100/100". Richtung wird jetzt mitgefuehrt und beschriftet.
- const dir=num(impact.direction);
- const directionLabel=dir>0?'POSITIV':dir<0?'NEGATIV':'OFFEN';
- const magnitude=score>=88?'SEHR HOCH':score>=72?'HOCH':score>=55?'WICHTIG':'RELEVANT';
- return{score,label:dir===0?magnitude:`${magnitude} ${directionLabel}`,magnitudeLabel:magnitude,directionLabel,signedScore:dir*score,type:impact.type,direction:dir,structural:impact.structural===true};
+// ---------------------------------------------------------------------------
+// V31.7.34 Nachrichtenbewertung: vier unabhaengige Achsen statt einer Zahl.
+//
+// Vorher wurden Ereignisschwere, Klassifikationssicherheit, Kurssignal, Alter
+// und Quellenqualitaet additiv in EINEN Wert geworfen und am Ende auf 100
+// geklammert. Folge: jede Meldung ab impact>=4 landete auf 100/100, fuenf
+// voellig verschiedene Ereignisse waren ununterscheidbar, und die Richtung kam
+// im Wert ueberhaupt nicht vor.
+//
+//   Relevanz      - geht es wirklich um diese Aktie?
+//   Materialitaet - wie stark bewegt diese Ereignisklasse ueblicherweise?
+//   Richtung      - stetig, mit eigener Konfidenz ("unbekannt" ist ausdrueckbar)
+//   Aktualitaet   - getrennter Torwaechter, nie in die Wichtigkeit gemischt
+//
+// Materialitaet und Richtung greifen auf die GEMESSENEN Statistiken aus
+// news-learning.js zurueck. Diese Rueckkopplung existierte, wurde aber nie
+// angeschlossen: die Lernschleife hat ins Leere gemessen.
+// ---------------------------------------------------------------------------
+
+// Referenzbewegung, gegen die eine gemessene Durchschnittsbewegung normiert
+// wird. 4 % abnormale Bewegung gilt als voll materiell.
+const MATERIALITY_REFERENCE_MOVE_PCT=4;
+// Empirisches Bayes-Gewicht: bei n Stichproben zaehlt die Messung n/(n+K).
+// Bei 4 Beobachtungen dominiert noch die Annahme, ab ~30 die Messung.
+const LEARNING_PRIOR_STRENGTH=10;
+
+export function learnedTypeStats(state={},horizon='6h'){
+ const out=new Map();
+ const raw=state?.newsLearning?.typeStats;if(!raw||typeof raw!=='object')return out;
+ for(const bucket of Object.values(raw)){
+  const h=bucket?.horizons?.[horizon];if(!h)continue;
+  const samples=num(h.samples);if(!(samples>0))continue;
+  out.set(String(bucket.key||'').toUpperCase(),{
+   samples,
+   hitRate:num(h.hitRate,.5),
+   avgAlignedPct:num(h.avgAlignedPct),
+   avgAbsMovePct:num(h.avgAbsMovePct)
+  });
+ }
+ return out;
+}
+
+function materialityOf(impact,learned){
+ // Annahme aus der Ereignisklasse: impact 0..5 -> 0..1
+ const prior=clamp(num(impact?.impact)/5,0,1);
+ if(!learned||!(learned.samples>0))return{value:prior,basis:'ANNAHME',samples:0};
+ const measured=clamp(num(learned.avgAbsMovePct)/MATERIALITY_REFERENCE_MOVE_PCT,0,1);
+ const w=learned.samples/(learned.samples+LEARNING_PRIOR_STRENGTH);
+ return{value:clamp(prior*(1-w)+measured*w,0,1),basis:w>=.5?'GEMESSEN':'GEMISCHT',samples:learned.samples};
+}
+
+function directionOf(impact,learned){
+ const keyword=clamp(num(impact?.direction),-1,1);
+ // Ohne Messung ist die Konfidenz bewusst niedrig: das Schluesselwort ist eine
+ // Vermutung, kein Befund. Richtung 0 heisst "unbekannt", nicht "neutral".
+ if(!learned||!(learned.samples>0))return{value:keyword,confidence:keyword===0?0:.45,basis:'SCHLUESSELWORT',samples:0};
+ const w=learned.samples/(learned.samples+LEARNING_PRIOR_STRENGTH);
+ // avgAlignedPct ist bereits richtungsbereinigt: positiv = Schluesselwort lag
+ // richtig, negativ = die Meldung lief dem erwarteten Vorzeichen zuwider.
+ const agreement=clamp(num(learned.avgAlignedPct)/2,-1,1);
+ const value=clamp(keyword*(1-w)+keyword*agreement*w,-1,1);
+ // hitRate 0.5 bedeutet Muenzwurf -> Konfidenz 0.
+ const confidence=clamp(Math.abs(num(learned.hitRate,.5)-.5)*2*w+.45*(1-w),0,1);
+ return{value,confidence:keyword===0?confidence*.5:confidence,basis:w>=.5?'GEMESSEN':'GEMISCHT',samples:learned.samples};
+}
+
+function freshnessOf(published){
+ const age=published?Math.max(0,(Date.now()-Date.parse(published))/3600000):24;
+ if(!Number.isFinite(age))return 0;
+ return age<=.25?1:age<=1?.85:age<=2?.6:age<=6?.25:age<=12?.1:0;
+}
+
+function relevanceOf(row,sourceCount){
+ const confidence=clamp(num(row?.confidence,row?.newsConfidence??row?.news_confidence),0,1);
+ // Mehrfach bestaetigte Meldungen sind seltener Verwechslungen.
+ const confirmation=sourceCount>=3?1:sourceCount===2?.85:.65;
+ const external=row?._freshExternal?1:.92;
+ return clamp((.45+.55*confidence)*confirmation*external,0,1);
+}
+
+function importanceFor(headline,row={},published=null,learnedStats=null){
+ const impact=classifyNewsImpact(headline);
+ const learned=learnedStats instanceof Map?learnedStats.get(String(impact.type||'').toUpperCase()):null;
+ const materiality=materialityOf(impact,learned);
+ const direction=directionOf(impact,learned);
+ const relevance=relevanceOf(row,arr(row?.sources).length||1);
+ const freshness=freshnessOf(published);
+ // Wichtigkeit = Relevanz x Materialitaet. Alter fliesst bewusst NICHT ein:
+ // eine wichtige Meldung wird nicht unwichtig, nur weil sie aeltert.
+ const score=clamp(Math.round(relevance*materiality.value*100),0,100);
+ // Fuer die Handelslogik zaehlt die vorzeichenbehaftete Erwartung.
+ const expected=+(direction.value*direction.confidence*materiality.value*relevance*100).toFixed(1);
+ const magnitude=score>=70?'SEHR HOCH':score>=52?'HOCH':score>=32?'WICHTIG':'RELEVANT';
+ const directionLabel=direction.value>.08?'POSITIV':direction.value<-.08?'NEGATIV':'RICHTUNG OFFEN';
+ return{
+  score,
+  label:`${magnitude} · ${directionLabel}`,
+  magnitudeLabel:magnitude,
+  directionLabel,
+  relevance:+relevance.toFixed(3),
+  materiality:+materiality.value.toFixed(3),
+  materialityBasis:materiality.basis,
+  direction:+direction.value.toFixed(3),
+  directionConfidence:+direction.confidence.toFixed(3),
+  directionBasis:direction.basis,
+  learnedSamples:materiality.samples,
+  freshness:+freshness.toFixed(3),
+  expectedValue:expected,
+  type:impact.type,
+  structural:impact.structural===true
+ };
 }
 function rowHeadlines(row={}){return arr(row.headlineDetails).length?arr(row.headlineDetails):arr(row.headlines).length?arr(row.headlines):[row.headline||row.title||row.latestHeadline||row.text].filter(Boolean)}
 function collectRows(s={}){
@@ -109,9 +201,9 @@ function marketRelevantExternal(headline,source){if(source==='Nasdaq Nordic')ret
 
 export async function buildLiveNewsFeed(p,env,{limit=12}={}){
  const now=Date.now();if(cache.payload&&now-cache.at<CACHE_MS)return cache.payload;
- const [s,universe,externalResults]=await Promise.all([p.status(),universeData(env),Promise.all(EXTRA_FRESH_SOURCES.map(fetchFreshSource))]),master=universe.map,matchers=buildMatchers(universe.rows),groups=new Map();let totalCollected=0,filteredTooOld=0,filteredUnknownTime=0;
+ const [s,universe,externalResults]=await Promise.all([p.status(),universeData(env),Promise.all(EXTRA_FRESH_SOURCES.map(fetchFreshSource))]),master=universe.map,matchers=buildMatchers(universe.rows),groups=new Map(),learnedStats=learnedTypeStats(s);let totalCollected=0,filteredTooOld=0,filteredUnknownTime=0;
  const add=(headline,when,row={},symbol='',name='',sources=[],url=null)=>{
-  totalCollected++;if(!when){filteredUnknownTime++;return}if(!freshWallClock(when,now)){filteredTooOld++;return}const text=clean(headline);if(text.length<12)return;const imp=importanceFor(text,row,when),gk=norm(text).slice(0,260);if(!gk)return;let item=groups.get(gk);if(!item){item={id:gk.slice(0,80),headline:text,publishedAt:when,importance:imp.score,importanceLabel:imp.label,eventType:imp.type,direction:imp.direction,structural:imp.structural,affected:[],sources:[],url};groups.set(gk,item)}addAffected(item,symbol,name);for(const src of sources.map(sourceInfo).filter(x=>x?.name))if(!item.sources.some(x=>x.name===src.name&&x.url===src.url))item.sources.push(src);if(imp.score>item.importance){item.importance=imp.score;item.importanceLabel=imp.label;item.eventType=imp.type;item.direction=imp.direction;item.structural=imp.structural}if(when&&Date.parse(when)>Date.parse(item.publishedAt||0))item.publishedAt=when;if(!item.url&&url)item.url=url;
+  totalCollected++;if(!when){filteredUnknownTime++;return}if(!freshWallClock(when,now)){filteredTooOld++;return}const text=clean(headline);if(text.length<12)return;const imp=importanceFor(text,{...row,sources},when,learnedStats),gk=norm(text).slice(0,260);if(!gk)return;let item=groups.get(gk);if(!item){item={id:gk.slice(0,80),headline:text,publishedAt:when,importance:imp.score,importanceLabel:imp.label,magnitudeLabel:imp.magnitudeLabel,directionLabel:imp.directionLabel,relevance:imp.relevance,materiality:imp.materiality,materialityBasis:imp.materialityBasis,directionConfidence:imp.directionConfidence,directionBasis:imp.directionBasis,learnedSamples:imp.learnedSamples,freshness:imp.freshness,expectedValue:imp.expectedValue,eventType:imp.type,direction:imp.direction,structural:imp.structural,affected:[],sources:[],url};groups.set(gk,item)}addAffected(item,symbol,name);for(const src of sources.map(sourceInfo).filter(x=>x?.name))if(!item.sources.some(x=>x.name===src.name&&x.url===src.url))item.sources.push(src);if(imp.score>item.importance){item.importance=imp.score;item.importanceLabel=imp.label;item.magnitudeLabel=imp.magnitudeLabel;item.directionLabel=imp.directionLabel;item.relevance=imp.relevance;item.materiality=imp.materiality;item.materialityBasis=imp.materialityBasis;item.directionConfidence=imp.directionConfidence;item.directionBasis=imp.directionBasis;item.learnedSamples=imp.learnedSamples;item.freshness=imp.freshness;item.expectedValue=imp.expectedValue;item.eventType=imp.type;item.direction=imp.direction;item.structural=imp.structural}if(when&&Date.parse(when)>Date.parse(item.publishedAt||0))item.publishedAt=when;if(!item.url&&url)item.url=url;
  };
  for(const row of collectRows(s)){
   const symbol=key(row),meta=master.get(symbol),name=displayName(symbol,row,meta),baseSources=arr(row.sources||row.newsSources).map(sourceInfo).filter(x=>x.name);
@@ -121,7 +213,7 @@ export async function buildLiveNewsFeed(p,env,{limit=12}={}){
   }
  }
  for(const result of externalResults){for(const x of result.items){const when=publishedAt(x);if(!when){totalCollected++;filteredUnknownTime++;continue}if(!freshWallClock(when,now)){totalCollected++;filteredTooOld++;continue}if(!marketRelevantExternal(x.headline,result.name))continue;const affected=affectedForHeadline(x.headline,matchers);if(!affected.length&&result.name!=='Nasdaq Nordic')continue;const row={_freshExternal:true};if(affected.length){for(const a of affected)add(x.headline,when,row,a.symbol,a.name,[{name:result.name,url:x.url||result.url}],x.url)}else add(x.headline,when,row,'','',[{name:result.name,url:x.url||result.url}],x.url)}}
- let items=[...groups.values()].filter(x=>freshWallClock(x.publishedAt,now));items.sort((a,b)=>b.importance-a.importance||(Date.parse(b.publishedAt||0)-Date.parse(a.publishedAt||0)));const important=items.filter(x=>x.importance>=50),chosen=(important.length>=5?important:items).slice(0,clamp(limit,5,20)).map(x=>({...x,sources:x.sources.slice(0,5),affected:x.affected.slice(0,8)}));
+ let items=[...groups.values()].filter(x=>freshWallClock(x.publishedAt,now));items.sort((a,b)=>(num(b.importance)*num(b.freshness,1))-(num(a.importance)*num(a.freshness,1))||(Date.parse(b.publishedAt||0)-Date.parse(a.publishedAt||0)));const important=items.filter(x=>x.importance>=32),chosen=(important.length>=5?important:items).slice(0,clamp(limit,5,20)).map(x=>({...x,sources:x.sources.slice(0,5),affected:x.affected.slice(0,8)}));
  const sourceNames=[...new Set(chosen.flatMap(x=>x.sources.map(s=>s.name)).filter(Boolean))],times=chosen.map(x=>Date.parse(x.publishedAt)).filter(Number.isFinite),lastSourceScanAt=s?.config?.last_scan||s?.lastScan||s?.updatedAt||null;
  const payload={ok:true,generatedAt:new Date(now).toISOString(),lastSourceScanAt,externalFetchedAt:new Date(now).toISOString(),refreshSeconds:60,maxAgeMinutes:120,source:'KI-News-Radar + frische öffentliche RSS-Quellen',items:chosen,totalDetected:items.length,totalCollectedBeforeAgeFilter:totalCollected,filteredTooOld,filteredUnknownTime,newestNewsAt:times.length?new Date(Math.max(...times)).toISOString():null,oldestNewsAt:times.length?new Date(Math.min(...times)).toISOString():null,sourceCount:sourceNames.length,sourceNames,externalSources:externalResults.map(x=>({name:x.name,ok:x.ok,latencyMs:x.latencyMs,error:x.error})),notice:'Der sichtbare Live-Feed enthält ausschließlich Meldungen mit echtem Veröffentlichungszeitpunkt aus den letzten 120 Minuten. Der letzte Portfolio-News-Scan und der Feed-Abruf werden getrennt ausgewiesen.'};
  cache={at:now,payload};return payload;
