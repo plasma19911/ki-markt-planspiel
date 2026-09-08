@@ -4,10 +4,11 @@ export const POSITION_QUOTE_MAX_AGE_MINUTES=12;
 const num=v=>Number.isFinite(Number(v))?Number(v):null;
 
 export function quoteTimestampMs(row={}){
-  for(const raw of [row.marketTimestamp,row.market_timestamp,row.quoteTimestamp,row.lastBarTimestamp]){
+  const quote=row&&typeof row==='object'?row:{};
+  for(const raw of [quote.marketTimestamp,quote.market_timestamp,quote.quoteTimestamp,quote.lastBarTimestamp]){
     const value=num(raw);if(value!==null&&value>0)return value<10_000_000_000?value*1000:value;
   }
-  for(const raw of [row.quoteUpdatedAt,row.quote_updated_at,row.marketUpdatedAt,row.updated_at,row.updatedAt]){
+  for(const raw of [quote.quoteUpdatedAt,quote.quote_updated_at,quote.marketUpdatedAt,quote.updated_at,quote.updatedAt]){
     const value=Date.parse(String(raw||''));if(Number.isFinite(value))return value;
   }
   return null;
@@ -26,19 +27,20 @@ export function latestFiniteBar(timestamps=[],values=[]){
 }
 
 export function quoteAgeMinutes(row={},now=Date.now()){
-  const timestamp=quoteTimestampMs(row);
+  const quote=row&&typeof row==='object'?row:{},timestamp=quoteTimestampMs(quote);
   if(timestamp!==null)return Math.max(0,(now-timestamp)/60000);
-  const explicit=num(row.quoteAgeMinutes??row.quote_age_minutes);
+  const explicit=num(quote.quoteAgeMinutes??quote.quote_age_minutes);
   return explicit===null?null:Math.max(0,explicit);
 }
 
 export function isFreshMarketQuote(row={},maxAgeMinutes=DECISION_QUOTE_MAX_AGE_MINUTES,now=Date.now()){
-  if(!(num(row.price??row.last)>0)||row.fresh===false||row.fresh===0||row.stale===true)return false;
-  const age=quoteAgeMinutes(row,now);
+  const quote=row&&typeof row==='object'?row:{};
+  if(!(num(quote.price??quote.last)>0)||quote.fresh===false||quote.fresh===0||quote.stale===true)return false;
+  const age=quoteAgeMinutes(quote,now);
   return age!==null&&age<=maxAgeMinutes;
 }
 
 export function withMarketFreshness(row={},maxAgeMinutes=DECISION_QUOTE_MAX_AGE_MINUTES,now=Date.now()){
-  const timestamp=quoteTimestampMs(row),age=quoteAgeMinutes(row,now),fresh=isFreshMarketQuote(row,maxAgeMinutes,now);
-  return{...row,marketTimestamp:timestamp===null?null:Math.round(timestamp/1000),quoteAgeMinutes:age===null?null:+age.toFixed(2),quoteUpdatedAt:timestamp===null?null:new Date(timestamp).toISOString(),fresh,stale:!fresh};
+  const quote=row&&typeof row==='object'?row:{},timestamp=quoteTimestampMs(quote),age=quoteAgeMinutes(quote,now),fresh=isFreshMarketQuote(quote,maxAgeMinutes,now);
+  return{...quote,marketTimestamp:timestamp===null?null:Math.round(timestamp/1000),quoteAgeMinutes:age===null?null:+age.toFixed(2),quoteUpdatedAt:timestamp===null?null:new Date(timestamp).toISOString(),fresh,stale:!fresh};
 }

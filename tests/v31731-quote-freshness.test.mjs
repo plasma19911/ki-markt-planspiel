@@ -12,6 +12,8 @@ assert.equal(POSITION_QUOTE_MAX_AGE_MINUTES,12);
 assert.equal(quoteAgeMinutes(recent,now),3);
 assert.equal(isFreshMarketQuote(recent,DECISION_QUOTE_MAX_AGE_MINUTES,now),true);
 assert.equal(isFreshMarketQuote(old,DECISION_QUOTE_MAX_AGE_MINUTES,now),false);
+assert.equal(isFreshMarketQuote(null,DECISION_QUOTE_MAX_AGE_MINUTES,now),false,'a completely missing held quote must fail closed without aborting the scan');
+assert.equal(quoteAgeMinutes(null,now),null,'a missing quote must not invent a timestamp');
 assert.equal(isFreshMarketQuote({price:100,fresh:true},DECISION_QUOTE_MAX_AGE_MINUTES,now),false,'missing market timestamp must fail closed');
 assert.equal(withMarketFreshness(old,DECISION_QUOTE_MAX_AGE_MINUTES,now).stale,true);
 assert.deepEqual(latestFiniteBar([100,200,300],[99,101,null]),{timestamp:200,value:101,index:1},'an empty newest candle must not lend its timestamp to the previous price');
