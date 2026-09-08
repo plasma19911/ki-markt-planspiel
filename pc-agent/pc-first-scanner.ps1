@@ -29,6 +29,28 @@ $script:PcFirstSparkBackoffUntil=[DateTime]::MinValue
 $script:PcFirstLastBatchError=$null
 
 function Limit-PcNumber([double]$v,[double]$lo,[double]$hi){return [Math]::Max($lo,[Math]::Min($hi,$v))}
+# V29.6: Marktcode aus dem Yahoo-Suffix. buildWatch im Worker reserviert 13 von
+# 24 Rebound-Plaetzen fuer market='DE'; mit dem bisherigen pauschalen 'GLOBAL'
+# blieb dieses Kontingent leer.
+$script:PcFirstMarketBySuffix=@{
+  'DE'='DE';'F'='DE';'BE'='DE';'DU'='DE';'HM'='DE';'HA'='DE';'MU'='DE';'SG'='DE'
+  'PA'='FR';'MI'='IT';'AS'='NL';'BR'='BE';'MC'='ES';'LS'='PT';'VI'='AT'
+  'SW'='CH';'L'='GB';'IL'='GB';'ST'='SE';'OL'='NO';'CO'='DK';'HE'='FI';'IC'='IS'
+  'T'='JP';'HK'='HK';'SS'='CN';'SZ'='CN';'KS'='KR';'KQ'='KR';'TW'='TW';'SI'='SG'
+  'AX'='AU';'NZ'='NZ';'TO'='CA';'V'='CA';'SA'='BR';'MX'='MX';'NS'='IN';'BO'='IN'
+}
+function Get-PcFirstMarket([string]$Symbol){
+  $s=[string]$Symbol;$i=$s.LastIndexOf('.')
+  if($i -lt 0){return 'US'}
+  $suf=$s.Substring($i+1).ToUpper()
+  if($script:PcFirstMarketBySuffix.ContainsKey($suf)){return $script:PcFirstMarketBySuffix[$suf]}
+  return 'GLOBAL'
+}
+function New-PcFirstEntries($Rows,[string]$SourceName,[int]$Take){
+  $out=@();$rank=0
+  foreach($r in @($Rows|Select-Object -First $Take)){$rank++;$out+=[ordered]@{symbol=[string]$r.symbol;market=(Get-PcFirstMarket $r.symbol);source=$SourceName;rank=$rank}}
+  return $out
+}
 function Save-PcFirstUniverse($Rows){try{[ordered]@{savedAt=[DateTime]::UtcNow.ToString('o');equities=$Rows}|ConvertTo-Json -Depth 5|Set-Content $script:PcFirstUniverseCache -Encoding UTF8}catch{}}
 function Load-PcFirstUniverseCache(){if(-not(Test-Path $script:PcFirstUniverseCache)){return @()};try{$j=Get-Content $script:PcFirstUniverseCache -Raw|ConvertFrom-Json;return @($j.equities)}catch{return @()}}
 function Update-PcFirstUniverse([switch]$Force){
@@ -86,10 +108,20 @@ function Invoke-PcFirstPipeline(){
   }
   if($script:PcFirstLastBatchError){Write-AgentLog "PC-FIRST: $errors von $requests Batches fehlgeschlagen. Erste Ursache: $($script:PcFirstLastBatchError)"}
   $final=@($stage2|ForEach-Object{$d=if($deepMap.ContainsKey($_.symbol)){$deepMap[$_.symbol]}else{[ordered]@{symbol=$_.symbol;price=$_.price;dayPct=$_.dayPct;momentum20Pct=$_.momentum20Pct;momentum5Pct=$_.momentum5Pct;acceleration5Pct=$_.acceleration5Pct;marketTimestamp=$_.marketTimestamp;preScore=$_.preScore;deepScore=$_.preScore}};[pscustomobject]$d}|Sort-Object @{Expression={[double]$_.deepScore};Descending=$true}|Select-Object -First 60);$leaders=@();$candidates=@();$rank=0
-  foreach($x in $final){$age=if([int64]$x.marketTimestamp-gt 0){[Math]::Max(0,($nowUnix-[int64]$x.marketTimestamp)/60)}else{$null};$stale=($null-eq $age -or [double]$age-gt 8);if($stale){continue};$rank++;$confidence=Limit-PcNumber (.48+([double]$x.deepScore-50)/100) .35 .90;$leaders+=[ordered]@{symbol=$x.symbol;market='GLOBAL';source="PC-FIRST-V$($script:PcFirstVersion)";rank=$rank};$candidates+=[ordered]@{symbol=$x.symbol;rank=$rank;pcPreScore=[double]$x.preScore;pcDeepScore=[double]$x.deepScore;price=[double]$x.price;dayPct=[double]$x.dayPct;momentum20Pct=[double]$x.momentum20Pct;momentum5Pct=[double]$x.momentum5Pct;acceleration5Pct=[double]$x.acceleration5Pct;confidence=[Math]::Round($confidence,3);marketTimestamp=[int64]$x.marketTimestamp;quoteAgeMinutes=[Math]::Round([double]$age,2);stale=$false}}
+  foreach($x in $final){$age=if([int64]$x.marketTimestamp-gt 0){[Math]::Max(0,($nowUnix-[int64]$x.marketTimestamp)/60)}else{$null};$stale=($null-eq $age -or [double]$age-gt 8);if($stale){continue};$rank++;$confidence=Limit-PcNumber (.48+([double]$x.deepScore-50)/100) .35 .90;$leaders+=[ordered]@{symbol=$x.symbol;market=(Get-PcFirstMarket $x.symbol);source="PC-FIRST-V$($script:PcFirstVersion) Leader";rank=$rank};$candidates+=[ordered]@{symbol=$x.symbol;rank=$rank;pcPreScore=[double]$x.preScore;pcDeepScore=[double]$x.deepScore;price=[double]$x.price;dayPct=[double]$x.dayPct;momentum20Pct=[double]$x.momentum20Pct;momentum5Pct=[double]$x.momentum5Pct;acceleration5Pct=[double]$x.acceleration5Pct;confidence=[Math]::Round($confidence,3);marketTimestamp=[int64]$x.marketTimestamp;quoteAgeMinutes=[Math]::Round([double]$age,2);stale=$false}}
+  # Rebound: klare Tagesverlierer, bei denen der Abverkauf bremst
+  # (acceleration5Pct > 0 = die letzten fuenf Minuten fallen schwaecher als die
+  # fuenf davor). Kein Kaufsignal, nur Beobachtungsliste - der Worker verlangt
+  # ohnehin eine eigene Bestaetigung.
+  $reboundRows=@($rows|Where-Object{[double]$_.dayPct -le -1.5}|Sort-Object @{Expression={[double]$_.acceleration5Pct};Descending=$true},@{Expression={[double]$_.dayPct};Descending=$false})
+  $reboundEntries=@(New-PcFirstEntries $reboundRows "PC-FIRST-V$($script:PcFirstVersion) Rebound" 40)
+  # Breakout: fruehe Tagesstaerke mit frischer Beschleunigung, aber ohne
+  # Ueberhitzung. Ueber +8% wird bewusst nicht mehr eingesammelt (Anti-Chase).
+  $breakoutRows=@($rows|Where-Object{[double]$_.dayPct -ge .5 -and [double]$_.dayPct -le 8 -and [double]$_.momentum5Pct -gt 0 -and [double]$_.acceleration5Pct -gt 0}|Sort-Object @{Expression={[double]$_.acceleration5Pct+[double]$_.momentum5Pct};Descending=$true})
+  $breakoutEntries=@(New-PcFirstEntries $breakoutRows "PC-FIRST-V$($script:PcFirstVersion) Breakout" 40)
   $coverage=if($universe.Count){100*$rows.Count/$universe.Count}else{0}
   $shardCoverage=if($symbols.Count -and $requests){100*[Math]::Max(0,($requests-$errors))/[Math]::Max(1,[Math]::Ceiling($symbols.Count/$batchSize))}else{0}
-  $summary=[ordered]@{version=[double]$script:PcFirstVersion;updatedAt=$now.ToString('o');masterUniverseCount=$universe.Count;prescannedCount=$rows.Count;validQuoteCount=$rows.Count;preScoredCount=$rows.Count;allReceivedRowsPreScored=$true;stage2Count=$stage2.Count;deepCount=$deepMap.Count;finalistCount=$candidates.Count;shardIndex=$shardIndex;shardCount=$script:PcFirstShardCount;scannedSymbolCount=$symbols.Count;freshQuoteCount=$rows.Count;sparkBatchSize=$batchSize;shardCoveragePct=[Math]::Round([Math]::Min(100,$shardCoverage),1);fullCycleCoveragePct=[Math]::Round([Math]::Min(100,$coverage),1);targetFullCycleMinutes=$script:PcFirstShardCount;lastFullSweepAt=if($script:PcFirstLastFullSweepAt){$script:PcFirstLastFullSweepAt.ToString('o')}else{$null};lastMinuteRefreshAt=$now.ToString('o');batchRequests=$requests;batchErrors=$errors;lastBatchError=$script:PcFirstLastBatchError;scorePipeline='ALIGNED_PRICE_TIME_8M -> TOP400 -> DEEP240 -> FINAL60';source="Windows-PC · Yahoo Spark Batch (max $batchSize) · Full-Master rolling · Kurs und Zeit gleiche Kerze · <=8m";candidates=$candidates}
+  $summary=[ordered]@{version=[double]$script:PcFirstVersion;updatedAt=$now.ToString('o');masterUniverseCount=$universe.Count;prescannedCount=$rows.Count;validQuoteCount=$rows.Count;preScoredCount=$rows.Count;allReceivedRowsPreScored=$true;stage2Count=$stage2.Count;deepCount=$deepMap.Count;finalistCount=$candidates.Count;shardIndex=$shardIndex;shardCount=$script:PcFirstShardCount;scannedSymbolCount=$symbols.Count;freshQuoteCount=$rows.Count;sparkBatchSize=$batchSize;shardCoveragePct=[Math]::Round([Math]::Min(100,$shardCoverage),1);fullCycleCoveragePct=[Math]::Round([Math]::Min(100,$coverage),1);targetFullCycleMinutes=$script:PcFirstShardCount;lastFullSweepAt=if($script:PcFirstLastFullSweepAt){$script:PcFirstLastFullSweepAt.ToString('o')}else{$null};lastMinuteRefreshAt=$now.ToString('o');batchRequests=$requests;batchErrors=$errors;lastBatchError=$script:PcFirstLastBatchError;reboundEntryCount=$($reboundEntries.Count);breakoutEntryCount=$($breakoutEntries.Count);discoveryMode='PC_FIRST_DERIVED';scorePipeline='ALIGNED_PRICE_TIME_8M -> TOP400 -> DEEP240 -> FINAL60';source="Windows-PC · Yahoo Spark Batch (max $batchSize) · Full-Master rolling · Kurs und Zeit gleiche Kerze · <=8m";candidates=$candidates}
   try{$summary|ConvertTo-Json -Depth 8|Set-Content $script:PcFirstStateCache -Encoding UTF8}catch{}
-  return [ordered]@{summary=$summary;leaderEntries=$leaders}
+  return [ordered]@{summary=$summary;leaderEntries=$leaders;reboundEntries=$reboundEntries;breakoutEntries=$breakoutEntries}
 }
