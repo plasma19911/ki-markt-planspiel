@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-07T20:53:14.441639+00:00",
-  "berlinNow": "2026-09-07T22:53:14.441480+02:00",
+  "checkedAt": "2026-09-08T06:51:29.069921+00:00",
+  "berlinNow": "2026-09-08T08:51:29.069765+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 287971,
-    "dashboard": 289862
+    "full": 369520,
+    "dashboard": 369520
   },
   "checks": {
     "fullStatus200": true,
@@ -21,401 +21,37 @@
   "failedChecks": [],
   "allChecksPassed": true,
   "replay": {
-    "date": "2026-09-07",
+    "date": "2026-09-08",
     "status": "PRELIMINARY_COMPLETE",
-    "processed": 83,
-    "total": 83,
+    "processed": 0,
+    "total": 0,
     "provisional": true,
     "completedAt": null,
     "capture": {
-      "date": "2026-09-07",
-      "symbolCount": 107,
-      "updatedAt": "2026-09-07T20:51:22.345Z"
+      "date": "2026-09-08",
+      "symbolCount": 51,
+      "updatedAt": "2026-09-08T06:51:17.992Z"
     },
     "summary": {
-      "symbolsAnalysed": 72,
-      "errors": 11,
-      "mistakes": {
-        "MISSED_SAFE_MOVE": 25,
-        "LATE_DISCOVERY": 33,
-        "REPLAY_DATA_ERROR": 11
-      },
+      "symbolsAnalysed": 0,
+      "errors": 0,
+      "mistakes": {},
       "churn": {
         "rapidRoundTrips": 0,
         "totalRapidTradePnl": 0,
         "fees": 0,
         "rows": []
       },
-      "bestMissed": [
-        {
-          "symbol": "TSEM",
-          "name": "Tower Semiconductor Ltd.",
-          "firstSeenAt": "2026-09-07T05:35:58.894Z",
-          "sources": [
-            "BREAKOUT"
-          ],
-          "bestSafeEntry": {
-            "ts": 1788532800000,
-            "price": 216.75999450683594,
-            "mode": "NORMAL",
-            "metrics": {
-              "m5": 0.016,
-              "m20": 0.468,
-              "accel": -0.222,
-              "draw": -0.207,
-              "day": 5.142,
-              "rsi": 71.4
-            },
-            "forward": {
-              "f15": 2.15,
-              "f30": 1.587,
-              "f60": 2.071,
-              "f120": 2.311,
-              "mfe120": 2.496,
-              "mae120": 0.226
-            },
-            "quality": 3.5
-          },
-          "firstSafeAfterSeen": null,
-          "actualBuys": [],
-          "entryRegretPct": null,
-          "mistakes": [
-            "MISSED_SAFE_MOVE",
-            "LATE_DISCOVERY"
-          ]
-        },
-        {
-          "symbol": "SNDK",
-          "name": "Sandisk Corporation",
-          "firstSeenAt": "2026-09-07T05:35:58.894Z",
-          "sources": [
-            "BREAKOUT"
-          ],
-          "bestSafeEntry": {
-            "ts": 1788531600000,
-            "price": 1662.10009765625,
-            "mode": "PULLBACK_RETEST",
-            "metrics": {
-              "m5": 0.115,
-              "m20": 0.115,
-              "accel": 0.464,
-              "draw": -0.235,
-              "day": 6.888,
-              "rsi": 50
-            },
-            "forward": {
-              "f15": 1.488,
-              "f30": 1.109,
-              "f60": 1.597,
-              "f120": 2.252,
-              "mfe120": 2.252,
-              "mae120": 0.235
-            },
-            "quality": 2.773
-          },
-          "firstSafeAfterSeen": null,
-          "actualBuys": [],
-          "entryRegretPct": null,
-          "mistakes": [
-            "MISSED_SAFE_MOVE",
-            "LATE_DISCOVERY"
-          ]
-        },
-        {
-          "symbol": "PARAS.NS",
-          "name": "Paras Defence and Space Technologies",
-          "firstSeenAt": "2026-09-07T06:35:58.890Z",
-          "sources": [
-            "DEEP",
-            "SECOND_CHANCE"
-          ],
-          "bestSafeEntry": {
-            "ts": 1788754500000,
-            "price": 1441,
-            "mode": "EARLY_BREAKOUT",
-            "metrics": {
-              "m5": 0.181,
-              "m20": 0.953,
-              "accel": 0.167,
-              "draw": 0.181,
-              "day": 1.845,
-              "rsi": 50
-            },
-            "forward": {
-              "f15": 1.319,
-              "f30": 1.228,
-              "f60": 1.534,
-              "f120": 1.457,
-              "mfe120": 2.04,
-              "mae120": 0.416
-            },
-            "quality": 2.678
-          },
-          "firstSafeAfterSeen": {
-            "ts": 1788765600000,
-            "price": 1457.300048828125,
-            "mode": "EARLY_BREAKOUT",
-            "metrics": {
-              "m5": 0.358,
-              "m20": 0.427,
-              "accel": 0.461,
-              "draw": 0.255,
-              "day": 2.997,
-              "rsi": 37.3
-            },
-            "forward": {
-              "f15": -0.075,
-              "f30": -0.151,
-              "f60": -0.048,
-              "f120": 2.107,
-              "mfe120": 2.107,
-              "mae120": -0.151
-            },
-            "quality": 0.553
-          },
-          "actualBuys": [],
-          "entryRegretPct": null,
-          "mistakes": [
-            "MISSED_SAFE_MOVE",
-            "LATE_DISCOVERY"
-          ]
-        },
-        {
-          "symbol": "9984.T",
-          "name": "SoftBank Group",
-          "firstSeenAt": "2026-09-07T05:35:58.894Z",
-          "sources": [
-            "DEEP"
-          ],
-          "bestSafeEntry": {
-            "ts": 1788752700000,
-            "price": 6071,
-            "mode": "PULLBACK_RETEST",
-            "metrics": {
-              "m5": 0.215,
-              "m20": 0.314,
-              "accel": 0.756,
-              "draw": -0.914,
-              "day": 8.605,
-              "rsi": 59.2
-            },
-            "forward": {
-              "f15": 0.708,
-              "f30": 0.955,
-              "f60": 1.4,
-              "f120": 1.548,
-              "mfe120": 1.845,
-              "mae120": 0.395
-            },
-            "quality": 2.38
-          },
-          "firstSafeAfterSeen": null,
-          "actualBuys": [],
-          "entryRegretPct": null,
-          "mistakes": [
-            "MISSED_SAFE_MOVE",
-            "LATE_DISCOVERY"
-          ]
-        },
-        {
-          "symbol": "GAIL.NS",
-          "name": "GAIL.NS",
-          "firstSeenAt": "2026-09-07T05:35:58.894Z",
-          "sources": [
-            "PC_WIDE"
-          ],
-          "bestSafeEntry": {
-            "ts": 1788754200000,
-            "price": 174.17999267578125,
-            "mode": "EARLY_BREAKOUT",
-            "metrics": {
-              "m5": 0.34,
-              "m20": 0.299,
-              "accel": 0.34,
-              "draw": 0.299,
-              "day": 0.45,
-              "rsi": 50
-            },
-            "forward": {
-              "f15": 0.741,
-              "f30": 1.372,
-              "f60": 1.234,
-              "f120": 1.051,
-              "mfe120": 1.504,
-              "mae120": 0.597
-            },
-            "quality": 2.241
-          },
-          "firstSafeAfterSeen": {
-            "ts": 1788766500000,
-            "price": 176.05999755859375,
-            "mode": "EARLY_BREAKOUT",
-            "metrics": {
-              "m5": 0.216,
-              "m20": 0.348,
-              "accel": 0.057,
-              "draw": 0.216,
-              "day": 1.534,
-              "rsi": 45.7
-            },
-            "forward": {
-              "f15": -0.142,
-              "f30": -0.04,
-              "f60": -0.114,
-              "f120": null,
-              "mfe120": 0.051,
-              "mae120": -0.454
-            },
-            "quality": -0.36
-          },
-          "actualBuys": [],
-          "entryRegretPct": null,
-          "mistakes": [
-            "MISSED_SAFE_MOVE",
-            "LATE_DISCOVERY"
-          ]
-        },
-        {
-          "symbol": "EOG",
-          "name": "EOG Resources, Inc.",
-          "firstSeenAt": "2026-09-07T05:35:58.894Z",
-          "sources": [
-            "FORWARD"
-          ],
-          "bestSafeEntry": {
-            "ts": 1788530100000,
-            "price": 143.6199951171875,
-            "mode": "EARLY_BREAKOUT",
-            "metrics": {
-              "m5": 0.07,
-              "m20": 0.286,
-              "accel": 0.125,
-              "draw": -0.143,
-              "day": -1.603,
-              "rsi": 50
-            },
-            "forward": {
-              "f15": 0.613,
-              "f30": 1.031,
-              "f60": 1.469,
-              "f120": 1.225,
-              "mfe120": 1.469,
-              "mae120": 0.613
-            },
-            "quality": 2.344
-          },
-          "firstSafeAfterSeen": null,
-          "actualBuys": [],
-          "entryRegretPct": null,
-          "mistakes": [
-            "MISSED_SAFE_MOVE",
-            "LATE_DISCOVERY"
-          ]
-        },
-        {
-          "symbol": "OTKAR.IS",
-          "name": "Otokar",
-          "firstSeenAt": "2026-09-07T08:31:10.104Z",
-          "sources": [
-            "DEEP"
-          ],
-          "bestSafeEntry": {
-            "ts": 1788782400000,
-            "price": 313.5,
-            "mode": "EARLY_BREAKOUT",
-            "metrics": {
-              "m5": 0.08,
-              "m20": 0.481,
-              "accel": 0.239,
-              "draw": -0.08,
-              "day": 0.481,
-              "rsi": 48
-            },
-            "forward": {
-              "f15": 0.319,
-              "f30": 0.478,
-              "f60": 1.116,
-              "f120": 1.116,
-              "mfe120": 1.356,
-              "mae120": 0.08
-            },
-            "quality": 1.758
-          },
-          "firstSafeAfterSeen": {
-            "ts": 1788771000000,
-            "price": 315,
-            "mode": "EARLY_BREAKOUT",
-            "metrics": {
-              "m5": 0.159,
-              "m20": 0.318,
-              "accel": 0.238,
-              "draw": 0.079,
-              "day": 0.962,
-              "rsi": 68.2
-            },
-            "forward": {
-              "f15": 0,
-              "f30": -0.397,
-              "f60": -0.714,
-              "f120": -0.397,
-              "mfe120": 0.159,
-              "mae120": -0.714
-            },
-            "quality": -1.19
-          },
-          "actualBuys": [],
-          "entryRegretPct": null,
-          "mistakes": [
-            "MISSED_SAFE_MOVE"
-          ]
-        },
-        {
-          "symbol": "OXY",
-          "name": "Occidental Petroleum Corporation",
-          "firstSeenAt": "2026-09-07T05:35:58.894Z",
-          "sources": [
-            "FORWARD"
-          ],
-          "bestSafeEntry": {
-            "ts": 1788530100000,
-            "price": 59.52000045776367,
-            "mode": "NORMAL",
-            "metrics": {
-              "m5": 0.151,
-              "m20": -0.092,
-              "accel": 0.353,
-              "draw": -0.285,
-              "day": -1.798,
-              "rsi": 50
-            },
-            "forward": {
-              "f15": 0.437,
-              "f30": 0.924,
-              "f60": 1.26,
-              "f120": 1.21,
-              "mfe120": 1.26,
-              "mae120": 0.437
-            },
-            "quality": 2.025
-          },
-          "firstSafeAfterSeen": null,
-          "actualBuys": [],
-          "entryRegretPct": null,
-          "mistakes": [
-            "MISSED_SAFE_MOVE",
-            "LATE_DISCOVERY"
-          ]
-        }
-      ],
+      "bestMissed": [],
       "worstEntries": [],
       "provisional": true
     }
   },
   "depot": {
-    "cash": 2885.134872455825,
-    "equity": 10048.338876244547,
-    "displayMarketValue": 7163.204003877259,
-    "displayAccountingDelta": -8.853749022819102e-08,
+    "cash": 696.8258984558252,
+    "equity": 10041.093246192948,
+    "displayMarketValue": 9344.267347676087,
+    "displayAccountingDelta": 6.103618943598121e-08,
     "positions": [
       {
         "symbol": "ORCL",
@@ -442,6 +78,14 @@
         "quantityUsed": true
       },
       {
+        "symbol": "MAZDOCK.NS",
+        "invested": 2187.308974,
+        "ratioValue": 2181.0633439484004,
+        "quantityValue": 2181.063343798828,
+        "displayValue": 2181.063343798828,
+        "quantityUsed": true
+      },
+      {
         "symbol": "AMAT",
         "invested": 1959.686878,
         "ratioValue": 1948.066053359907,
@@ -451,5 +95,5 @@
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: mon, 07 sep 2026 20:53:14 gmt\ncontent-type: text/javascript\ncf-cache-status: miss\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"5a28fddc2c6de7a93962a54b99324129\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=s4n2dqctpaulsdb2w9glslbw5r%2f1ily65t6oeouyeoibe1quxdzmwh0wsdhew%2bdyqby%2ffaeaqq2vrubum88zyigybuxtbevixhoue9cn51wljdhndk3fzstjsm6wfupxh4irt5jqwjk5%2fynecjed1imhqwe5z4lcdjgel3m%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a3789a0bdba6b7be-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: tue, 08 sep 2026 06:51:28 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"5a28fddc2c6de7a93962a54b99324129\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=ljcmmiwnth6l6a%2bhrj6z1lq7inchnw59zphwol4retpxesbnlnfcdnp6ml9qft62xljxednkkv6qyonymghgxpjwcnp0j8%2fk3db5fhhz2jxxwi%2bdw8yrkzhhz7g4x7d4hxtejezxa05jlinn4o2k8c3kqls0qduefxa%2bjaq%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a37c0661bebe4f53-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
