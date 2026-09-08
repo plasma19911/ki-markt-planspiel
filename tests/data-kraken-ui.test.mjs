@@ -104,7 +104,7 @@ assert.match(ui,/held\.has/,'held positions must not duplicate the opportunity f
 assert.doesNotMatch(simpleUi,/manual-trade-ui/,'manual buy and sell controls must not be loaded');
 assert.match(newsLearningUi,/WARMUP · \$\{wins\}\/\$\{samples\}/,'tiny news samples must be labelled as warmup instead of a fake percentage');
 assert.match(newsLearningUi,/observedHitRate/,'the UI must render the actually observed rate separately from the adjusted learning rate');
-assert.match(newsLearningUi,/Artikel im neuesten Ereignis|Livefenster 2 Std\./,'news counts must explain what they count');
+assert.match(newsLearningUi,/Wichtigkeit = Firmenbezug × typische Ereignisstärke/,'news scoring must explain what the visible importance number measures');
 
 assert.match(css,/@keyframes krakenFlow/,'data arms must visibly flow');
 assert.match(css,/@keyframes corePulse/,'depot core must pulse');
@@ -157,9 +157,14 @@ assert.match(changelogCss,/\.changelogEntry li\{[^}]*font-size:14px!important/,'
 assert.match(changelogCss,/\.changelogClose\{[^}]*width:44px!important;height:44px!important/,'mobile changelog close control must remain reachable');
 assert.match(css,/V31\.7\.26: Die doppelte KPI-Leiste entfällt/,'the removed duplicate KPI strip must be documented beside the onepage layout');
 assert.match(css,/#overview\{display:none!important\}/,'the duplicate KPI strip must not consume desktop or phone space');
-assert.match(liveNews,/function renderStatusFeed/,'News-Impulse must render the actual dashboard radar payload');
-assert.match(liveNews,/noExtraFeedRequests:true/,'the news detail must declare status-only rendering');
+assert.doesNotMatch(liveNews,/function renderStatusFeed/,'the dashboard status must not overwrite the causal live-news importance score');
+assert.doesNotMatch(liveNews,/35\+confidence\*45/,'confidence and article copies must not be relabelled as importance');
+assert.match(liveNews,/noFakeImportanceScore:true/,'the radar UI must declare the obsolete synthetic importance score removed');
 assert.doesNotMatch(liveNews,/setInterval\(load/,'the news detail must not start another minute polling loop');
+assert.match(newsLearningUi,/WICHTIGKEIT/,'live cards must name the importance scale explicitly');
+assert.match(newsLearningUi,/Wirkungsimpuls/,'directional expected impact must be shown separately from importance');
+assert.match(newsLearningUi,/materialityBasis/,'assumed versus learned event strength must remain visible');
+assert.match(newsLearningUi,/setInterval\(\(\)=>\{if\(!document\.hidden\)loadFeed\(\)\},REFRESH_MS\)/,'the causal feed must refresh once per minute only while visible');
 assert.doesNotMatch(newsLearningUi,/fetch\('\/api\/status'/,'news learning must reuse the already loaded dashboard status');
 assert.doesNotMatch(clickableMarket,/setInterval\(loadLiveNews/,'chart links must not start a competing news polling loop');
 assert.doesNotMatch(singleScanner,/fetch\('\/api\/status/,'scanner header must reuse the shared status event instead of polling every 15 seconds');
