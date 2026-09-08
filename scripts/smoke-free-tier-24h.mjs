@@ -23,7 +23,7 @@ const v288=read('src/compact-portfolio-v288-pc-first.js');
 const score287=read('src/calibrated-action-score-v287.js');
 const requestBudget=read('src/request-fetch-budget.js');
 const quota=read('public/quota-guard.js');
-const pcAgent=read('pc-agent/pc-agent-v288.ps1');
+const pcAgent=read('pc-agent/pc-agent.ps1');
 const pcScanner=read('pc-agent/pc-first-scanner.ps1');
 const pcInstall=read('pc-agent/install.ps1');
 
@@ -57,7 +57,8 @@ assert.match(pcScanner,/PcFirstShardCount=4/,'PowerShell-Fallback muss vier roll
 assert.match(pcScanner,/Select-Object -First 400/,'Stufe 2 muss bis zu 400 Werte behalten');
 assert.match(pcScanner,/Select-Object -First 240/,'PowerShell-Deep-Stufe muss bis zu 240 Werte prüfen');
 assert.match(pcScanner,/Select-Object -First 60/,'Finalistenpool muss 60 Werte liefern');
-assert.match(pcScanner,/Split-PcFirstChunks \$symbols 80/,'Voll-Master muss gebündelt statt mit Einzelrequests abgefragt werden');
+assert.match(pcScanner,/PcFirstSparkBatchSize=20/,'Yahoo-Spark-Batches müssen unter dem aktuellen 20-Symbole-Limit bleiben');
+assert.match(pcScanner,/Split-PcFirstChunks \$symbols \$batchSize/,'Voll-Master muss gebündelt statt mit Einzelrequests abgefragt werden');
 assert.match(v288,/CF_VALIDATION_TARGET=36/,'Cloudflare soll bei frischen PC-Daten den dokumentierten V30.8.3-Final-Slice validieren');
 assert.match(v288,/cloudflareFallbackActive/,'Status muss PC-Ausfall/Fallback sichtbar machen');
 assert.match(v288,/PC_FIRST_FULL_MASTER_TOP60/,'PC-Ranking muss den V28.7-Broad-Pool direkt füllen');
@@ -72,7 +73,7 @@ assert.match(v9,/gettex-closed-sleep/);assert.match(v9,/PREOPEN_FETCH_SOFT_CAP=2
 assert.match(v10,/AGENT_ONLINE_MS=150\*1000/);
 assert.match(compact,/AI_DAILY_NEURON_SOFT_CAP=8_000/);assert.match(compact,/AI_PLAN_OUTPUT_CAP=400/);assert.match(compact,/AI_NEWS_OUTPUT_CAP=120/);
 assert.match(quota,/ACTIVE_STATUS_TTL_MS=25_000/);assert.match(quota,/SLEEP_STATUS_TTL_MS=10\*60\*1000/);assert.match(quota,/statusTtl\(\)/);
-assert.match(pcInstall,/pc-agent-v288\.ps1/);assert.match(pcInstall,/pc-first-scanner\.ps1/);assert.match(pcInstall,/pcFirstShardCount=4/);assert.match(pcInstall,/maxStorageGb=2\.0/);assert.match(pcInstall,/trimToGb=1\.6/);assert.match(pcInstall,/CurrentVersion\\Run/);
+assert.match(pcInstall,/Join-Path \$Source 'pc-agent\.ps1'/);assert.doesNotMatch(pcInstall,/pc-agent-v288\.ps1/);assert.match(pcInstall,/pc-first-scanner\.ps1/);assert.match(pcInstall,/pcFirstShardCount=4/);assert.match(pcInstall,/maxStorageGb=2\.0/);assert.match(pcInstall,/trimToGb=1\.6/);assert.match(pcInstall,/CurrentVersion\\Run/);
 
 let g=gettexSessionState(new Date('2026-08-18T05:24:00Z'));assert.equal(g.phase,'CLOSED');
 g=gettexSessionState(new Date('2026-08-18T05:25:00Z'));assert.equal(g.phase,'PREOPEN');assert.equal(g.prepareNow,true);

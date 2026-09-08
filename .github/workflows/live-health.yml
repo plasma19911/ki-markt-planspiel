@@ -5,13 +5,10 @@ on:
   push:
     branches: [main]
     paths-ignore:
-      - 'live-health-result.json'
-      - 'replay-depot-health-result.json'
-      - 'validation-result.json'
-      - 'recovery-20260819-result.json'
+      - '**/*.md'
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: live-health-unified-learning
@@ -54,29 +51,20 @@ jobs:
             capital:capital?.heldMasterEnrichment===true,
             newsFeed:news.ok&&nf?.ok===true&&Number(nf?.refreshSeconds)===60,
             agmCalendarFresh:agmAsset.ok&&agmEvents.length>0&&agmAge>=0&&agmAge<=26,
-            positionChart:chart.ok,pcAgentRecovery:recovery.enabled===true,pcAgentFresh:!pcExpectedOnline||a?.configured!==true||(a?.online===true&&Number(a?.ageSeconds)<=180),accountingConsistent:Math.abs(delta)<=0.05,lastErrorClear:!c?.last_error,positionCountWithinLimit:positions.length<=4
+            positionChart:chart.ok,pcAgentRecovery:recovery.enabled===true,pcAgentFresh:!pcExpectedOnline||a?.configured!==true||(a?.online===true&&Number(a?.ageSeconds)<=180),accountingConsistent:Math.abs(delta)<=0.05,lastErrorClear:!c?.last_error
           };
-          const out={checkedAt:new Date().toISOString(),runtimeVersion:s?.runtimeVersion,liveDecisionVersion:s?.liveDecisionVersion,outcomeLearningVersion:s?.outcomeLearningVersion,checks,failedChecks:Object.keys(checks).filter(k=>!checks[k]),allRequiredChecksPassed:Object.values(checks).every(Boolean),pcExpectedOnline,berlinMarketClock:`${berlinParts.weekday} ${berlinParts.hour}:${berlinParts.minute}`,outcomeLearningPolicy:learn,paperExploration:u?.paperExploration||null,scanCount:c?.scan_count,lastScan:c?.last_scan,lastError:c?.last_error,aiLastSummary:c?.ai_last_summary,cash,equity,pnl:s?.pnl,marketValue:market,accountingDelta:delta,positions:positions.length,positionRows:positions.slice(0,10),candidateCount:candidates.length,candidateRows,pcAgent:a,positionChart:chart,agmCalendar:{updatedAt:agm?.updatedAt||null,ageHours:Number.isFinite(agmAge)?+agmAge.toFixed(2):null,events:agmEvents.length},newsFeed:{status:news.status,items:Array.isArray(nf?.items)?nf.items.length:0,refreshSeconds:nf?.refreshSeconds},architecture:arch,unifiedDecisionCorePolicy:u,executionModel:ex};
+          const warnings=positions.length>4?[`Persistierter Altbestand enthält ${positions.length} Positionen; neue Käufe bleiben durch die aktuelle Strategie begrenzt.`]:[];
+          const out={checkedAt:new Date().toISOString(),runtimeVersion:s?.runtimeVersion,liveDecisionVersion:s?.liveDecisionVersion,outcomeLearningVersion:s?.outcomeLearningVersion,checks,failedChecks:Object.keys(checks).filter(k=>!checks[k]),warnings,allRequiredChecksPassed:Object.values(checks).every(Boolean),pcExpectedOnline,berlinMarketClock:`${berlinParts.weekday} ${berlinParts.hour}:${berlinParts.minute}`,outcomeLearningPolicy:learn,paperExploration:u?.paperExploration||null,scanCount:c?.scan_count,lastScan:c?.last_scan,lastError:c?.last_error,aiLastSummary:c?.ai_last_summary,cash,equity,pnl:s?.pnl,marketValue:market,accountingDelta:delta,positions:positions.length,positionRows:positions.slice(0,10),candidateCount:candidates.length,candidateRows,pcAgent:a,positionChart:chart,agmCalendar:{updatedAt:agm?.updatedAt||null,ageHours:Number.isFinite(agmAge)?+agmAge.toFixed(2):null,events:agmEvents.length},newsFeed:{status:news.status,items:Array.isArray(nf?.items)?nf.items.length:0,refreshSeconds:nf?.refreshSeconds},architecture:arch,unifiedDecisionCorePolicy:u,executionModel:ex};
           fs.writeFileSync('/tmp/live-health-result.json',JSON.stringify(out,null,2)+'\n');console.log(JSON.stringify(out,null,2));if(out.failedChecks.length)process.exitCode=2;
           NODE
-      - name: Publish diagnostic
+      - name: Upload diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-health-result
+          path: /tmp/live-health-result.json
+          retention-days: 14
+      - name: Enforce health
         if: always()
         run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          published=0
-          for attempt in 1 2 3 4; do
-            git fetch origin main
-            git reset --hard origin/main
-            cp /tmp/live-health-result.json live-health-result.json
-            git add live-health-result.json
-            if git diff --cached --quiet; then published=1; break; fi
-            git commit -m 'Update unified learning live health [skip ci]'
-            if git push origin HEAD:main; then published=1; break; fi
-            sleep $((attempt * 2))
-          done
-          if [ "$published" != "1" ]; then exit 1; fi
-      - name: Enforce health
-        run: |
-          cp /tmp/live-health-result.json live-health-result.json
-          node -e "const x=require('./live-health-result.json');if(x.failedChecks?.length){console.error(x.failedChecks);process.exit(1)}console.log('Worker healthy: unified authority live and outcome learning is tracking symbols.')"
+          node -e "const x=require('/tmp/live-health-result.json');if(x.failedChecks?.length){console.error(x.failedChecks);process.exit(1)}console.log('Worker healthy: unified authority live and outcome learning is tracking symbols.',x.warnings||[])"

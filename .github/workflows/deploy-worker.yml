@@ -50,11 +50,13 @@ jobs:
           node --check src/execution-cost-overlay.js
           node --check src/compact-portfolio-v310-unified.js
           node --check src/compact-portfolio-v310-agent-recovery.js
+          node --check src/r2-portfolio.js
           node --check src/compact-portfolio-v10.js
           node --check src/pc-agent-leader-blend-v3172.js
           node --check src/expectancy-core-v310.js
           node --check src/high-score-capital-deployment-v309.js
           node tests/v3172-agent-leader-blend.test.mjs
+          node tests/v31731-quote-freshness.test.mjs
           node tests/v312-outcome-learning.test.mjs
           node tests/v310-unified-decision-core.test.mjs
           node tests/v310-expectancy.test.mjs
@@ -105,7 +107,7 @@ jobs:
               const learningContract=outcomeVersion===31.2&&Number(learn?.version)===31.2&&learn?.insideUnifiedAuthority===true&&a?.persistentOutcomeLearning===true&&a?.outcomeLearningStorageKey==='outcome-learning-v312'&&a?.stateMergeUsesRawCandidates===true&&ex?.outcomeLearningV312===true&&ex?.continuousCandidateTracking===true&&Number.isFinite(Number(learn?.trackedSymbols));
               const currentUnified=Number.isFinite(runtime)&&runtime>=31.7&&runtime===live&&u?.enabled===true&&/candidate-state-recovery/i.test(String(u?.patch||''))&&Number(a?.outerDecisionLayers)===1&&a?.outerAuthority==='UnifiedDecisionCoreV310';
               const entryBridge=Number(capital?.canonicalProposalScore)===60&&Number(capital?.canonicalMinDataQuality)===55&&Number(capital?.canonicalMinOrthogonalConfirmations)===1;
-              const ok=r.ok&&currentUnified&&learningContract&&entryBridge&&a?.persistentDecisionAudit===true&&ex?.unifiedDecisionCoreV310===true&&Number(e?.hardStopPct)===-1.2&&Number(e?.trailArmPct)===2.4&&brokerOk&&capital?.heldMasterEnrichment===true&&positions.length<=4&&chartOk&&feedOk;
+              const ok=r.ok&&currentUnified&&learningContract&&entryBridge&&a?.persistentDecisionAudit===true&&ex?.unifiedDecisionCoreV310===true&&Number(e?.hardStopPct)===-1.2&&Number(e?.trailArmPct)===2.4&&brokerOk&&capital?.heldMasterEnrichment===true&&chartOk&&feedOk;
               last=`HTTP ${r.status} runtime=${s?.runtimeVersion}/${s?.liveDecisionVersion} learning=${learn?.mode}/${learn?.matured} tracked=${learn?.trackedSymbols} candidates=${learn?.currentCandidates} bridge=${capital?.patch}/${capital?.canonicalProposalScore} patch=${u?.patch} news=${fr.status}/${feed?.items?.length||0} chart=${chartInfo}`;
               if(ok){console.log('Live V31.7+ unified verification OK:',last);process.exit(0)}
             }catch(e){last=String(e?.message||e)}

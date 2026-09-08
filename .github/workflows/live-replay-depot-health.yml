@@ -5,13 +5,10 @@ on:
   push:
     branches: [main]
     paths-ignore:
-      - 'replay-depot-health-result.json'
-      - 'validation-result.json'
-      - 'live-health-result.json'
-      - 'recovery-20260819-result.json'
+      - '**/*.md'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   probe:
@@ -80,21 +77,12 @@ jobs:
           }
           raw=json.dumps(out,ensure_ascii=False,indent=2)+'\n'; pathlib.Path('/tmp/replay-depot-health-result.json').write_text(raw,encoding='utf-8'); print(raw)
           PY
-      - name: Publish result
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          for attempt in 1 2 3; do
-            git fetch origin main
-            git reset --hard origin/main
-            cp /tmp/replay-depot-health-result.json replay-depot-health-result.json
-            git add replay-depot-health-result.json
-            if git diff --cached --quiet; then exit 0; fi
-            git commit -m 'Update replay/depot live health [skip ci]'
-            if git push origin HEAD:main; then exit 0; fi
-            sleep 3
-          done
-          exit 1
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        with:
+          name: replay-depot-health-result
+          path: /tmp/replay-depot-health-result.json
+          retention-days: 14
       - name: Enforce live replay/depot health
         run: |
           python3 - <<'PY'
