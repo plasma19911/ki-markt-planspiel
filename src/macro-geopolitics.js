@@ -100,7 +100,8 @@ function cluster(rows){
 
 async function proxySnapshot(){
  const out={};
- for(const batch of chunks(PROXIES,30)){
+ // V31.7.34: Yahoo-Spark-Limit ist 20 Symbole je Anfrage.
+ for(const batch of chunks(PROXIES,20)){
   try{const u=new URL('https://query1.finance.yahoo.com/v7/finance/spark');u.searchParams.set('symbols',batch.join(','));u.searchParams.set('range','1d');u.searchParams.set('interval','5m');u.searchParams.set('indicators','close');u.searchParams.set('includePrePost','false');const r=await fetch(u,{headers:{accept:'application/json','user-agent':HEADERS['user-agent']}});if(!r.ok)continue;const j=await r.json();for(const item of j?.spark?.result||[]){const res=item?.response?.[0];if(!res)continue;const meta=res.meta||{},sym=String(item.symbol||meta.symbol||'').toUpperCase(),cl=(res?.indicators?.quote?.[0]?.close||[]).filter(v=>Number.isFinite(Number(v))).map(Number);if(!sym||!cl.length)continue;const price=num(meta.regularMarketPrice,cl.at(-1)),prev=num(meta.previousClose,cl[0]),back=cl[Math.max(0,cl.length-7)],ts=num(meta.regularMarketTime,0);out[sym]={price,dayPct:prev?(price/prev-1)*100:0,mom30Pct:back?(price/back-1)*100:0,ts,fresh:ts>0&&(Date.now()/1000-ts)<45*60}}}catch{}
  }
  return out;

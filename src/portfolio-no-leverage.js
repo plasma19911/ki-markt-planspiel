@@ -33,7 +33,8 @@ async function fetchHeldQuotes(positions,baseCurrency){
   const currencies=[...new Set(ps.map(p=>normalizedCurrency(p.currency)).filter(c=>c&&c!==base))];
   const pairs=[];for(const c of currencies)pairs.push(`${c}${base}=X`,`${base}${c}=X`);
   const symbols=[...new Set([...ps.map(p=>String(p.symbol).toUpperCase()),...pairs])],raw=new Map();
-  for(const batch of chunks(symbols,40)){
+  // V31.7.34: Yahoo-Spark-Limit ist 20 Symbole je Anfrage.
+  for(const batch of chunks(symbols,20)){
     try{
       const u=new URL('https://query1.finance.yahoo.com/v7/finance/spark');u.searchParams.set('symbols',batch.join(','));u.searchParams.set('range','1d');u.searchParams.set('interval','5m');u.searchParams.set('indicators','close');u.searchParams.set('includePrePost','false');
       const r=await fetch(u,{headers:QUOTE_HEADERS});if(!r.ok)continue;const j=await r.json();
@@ -128,7 +129,7 @@ export class MarketPortfolio extends FinalPortfolio {
 
       cfg=this.cfg();const eq=this.equity(cfg.cash),count=num(cfg.scan_count)+1,t=nowIso();if(!actions){const top=candidates[0],reason=top?`Kein Trade. Bestes Signal ${top.symbol}: Score ${top.score.toFixed(2)}, Konfidenz ${Math.round(top.confidence*100)}%.`:'Keine frischen handelbaren Signale.';this.record('HALTEN',{cashBefore:num(cfg.cash),cashAfter:num(cfg.cash),equity:eq,reason,scanNo:count});if(top&&count%10===0&&top.confidence>=.55)this.logAI('IDEA','Beobachtungskandidat',`${top.symbol}: ${reason} Pro: ${(top.pro||[]).slice(0,2).join(', ')||'–'}; Contra: ${(top.contra||[]).slice(0,2).join(', ')||'–'}.`,{symbol:top.symbol,confidence:top.confidence})}
       this.ctx.storage.sql.exec('INSERT INTO snapshots(ts,equity,cash) VALUES(?,?,?)',t,eq,num(cfg.cash));this.ctx.storage.sql.exec('DELETE FROM snapshots WHERE id NOT IN (SELECT id FROM snapshots ORDER BY id DESC LIMIT 3000)');this.ctx.storage.sql.exec('UPDATE config SET last_scan=?,scan_count=?,last_error=NULL,scan_lock_until=0 WHERE id=1',t,count);return{ok:true,equity:eq,actions,marketMode:ms.mode,newsTrend:trend.label,ai:ai.summary};
-    }catch(e){const msg=String(e?.message||e).slice(0,900),c=this.cfg(),eq=this.equity(c.cash);this.record('FEHLER',{cashBefore:num(c.cash),cashAfter:num(c.cash),equity:eq,reason:`Scan fehlgeschlagen: ${msg}`,scanNo:num(c.scan_count)+1});this.logAI('ERROR','Scan-Fehler',msg);this.ctx.storage.sql.exec('UPDATE config SET last_error=?,scan_lock_until=0 WHERE id=1',msg);return{ok:false,error:msg}}
+    }catch(e){const frame=String(e?.stack||'').split('\n').slice(1,3).map(x=>x.trim().replace(/^at\s+/,'')).filter(Boolean).join(' <- ');const msg=(String(e?.message||e)+(frame?` @ ${frame}`:'')).slice(0,900),c=this.cfg(),eq=this.equity(c.cash);this.record('FEHLER',{cashBefore:num(c.cash),cashAfter:num(c.cash),equity:eq,reason:`Scan fehlgeschlagen: ${msg}`,scanNo:num(c.scan_count)+1});this.logAI('ERROR','Scan-Fehler',msg);this.ctx.storage.sql.exec('UPDATE config SET last_error=?,scan_lock_until=0 WHERE id=1',msg);return{ok:false,error:msg}}
     finally{globalThis.fetch=nativeFetch}
   }
 

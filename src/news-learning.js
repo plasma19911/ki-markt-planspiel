@@ -51,7 +51,9 @@ function direction(row){
 
 async function quoteMap(symbols){
  const equities=symbols.filter(Boolean).map(x=>String(x).toUpperCase()),wanted=[...new Set([...equities,...equities.map(regionalBenchmarkForSymbol)])],out=new Map(),diagnostic={requestedSymbols:wanted.length,attempts:0,httpStatuses:[],errors:[],provider:null};
- for(const batch of chunks(wanted,40)){
+ // V31.7.34: Yahoo /v7/finance/spark akzeptiert maximal 20 Symbole je Anfrage.
+ // 40 lieferte durchgehend HTTP 400, deshalb blieb die News-Reaktionsauswertung leer.
+ for(const batch of chunks(wanted,20)){
   // Yahoo betreibt zwei gleichwertige Spark-Hosts. Cloudflare kann einen davon
   // zeitweise mit 401/429 oder einer leeren Antwort sehen; nur bei null Treffern
   // wird deshalb genau einmal auf den zweiten Host gewechselt.

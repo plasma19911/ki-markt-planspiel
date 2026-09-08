@@ -50,7 +50,8 @@ function fxRows(item){const res=item?.response?.[0];if(!res)return[];const ts=re
 function lastRate(rows,ts){if(!rows?.length)return 1;let lo=0,hi=rows.length-1,ans=rows[0].rate;while(lo<=hi){const m=(lo+hi)>>1;if(rows[m].ts<=ts){ans=rows[m].rate;lo=m+1}else hi=m-1}return ans}
 async function buildFx(currencies){
   const out=new Map([['EUR',[]]]),needed=[...new Set(currencies.filter(c=>c&&c!=='EUR'))],pairs=[];for(const c of needed)pairs.push(`${c}EUR=X`,`EUR${c}=X`);
-  const raw=[];for(const batch of chunks(pairs,40))raw.push(...await spark(batch,'ytd','1d'));
+  const raw=[];// V31.7.34: Yahoo-Spark-Limit ist 20 Symbole je Anfrage.
+  for(const batch of chunks(pairs,20))raw.push(...await spark(batch,'ytd','1d'));
   const map=new Map();for(const it of raw){const symbol=String(it.symbol||it?.response?.[0]?.meta?.symbol||'').toUpperCase();map.set(symbol,fxRows(it))}
   for(const c of needed){const direct=map.get(`${c}EUR=X`)||[],inverse=map.get(`EUR${c}=X`)||[];if(direct.length)out.set(c,direct);else if(inverse.length)out.set(c,inverse.map(x=>({ts:x.ts,rate:1/x.rate})));else out.set(c,[])}return out;
 }
