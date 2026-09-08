@@ -3,6 +3,9 @@ $ErrorActionPreference='Stop'
 $server='https://ki-markt-planspiel.orkimperium.workers.dev'
 $agent=Join-Path $Root 'pc-agent.ps1';$module=Join-Path $Root 'pc-first-scanner.ps1'
 if(-not(Test-Path $Root)){throw "$Root wurde nicht gefunden. Zuerst INSTALLIEREN.cmd starten."}
+$legacyPath=Join-Path $Root 'Agent.exe'
+$legacy=@(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue|Where-Object{($_.Name -ieq 'Agent.exe') -and (($_.ExecutablePath -and $_.ExecutablePath.Equals($legacyPath,[StringComparison]::OrdinalIgnoreCase)) -or ($_.CommandLine -and $_.CommandLine.IndexOf($legacyPath,[StringComparison]::OrdinalIgnoreCase)-ge 0))})
+foreach($old in $legacy){Stop-Process -Id $old.ProcessId -Force -ErrorAction SilentlyContinue;Write-Host "Alter C#-Agent PID $($old.ProcessId) beendet." -ForegroundColor Yellow}
 $running=@(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue|Where-Object{$_.CommandLine -and $_.CommandLine.IndexOf($agent,[StringComparison]::OrdinalIgnoreCase)-ge 0})
 if($running.Count){Write-Host "KI-Markt-Agent läuft bereits (PID $($running[0].ProcessId))." -ForegroundColor Green;return}
 try{$tmpAgent="$agent.new";$tmpModule="$module.new";Invoke-WebRequest -Uri "$server/pc-agent-latest.ps1?v=$(Get-Date -Format yyyyMMddHHmm)" -UseBasicParsing -TimeoutSec 20 -OutFile $tmpAgent;Invoke-WebRequest -Uri "$server/pc-first-scanner.ps1?v=$(Get-Date -Format yyyyMMddHHmm)" -UseBasicParsing -TimeoutSec 20 -OutFile $tmpModule;if((Get-Item $tmpAgent).Length-gt 2000 -and (Get-Item $tmpModule).Length-gt 3000){Move-Item $tmpAgent $agent -Force;Move-Item $tmpModule $module -Force}}catch{Remove-Item "$agent.new","$module.new" -Force -ErrorAction SilentlyContinue}

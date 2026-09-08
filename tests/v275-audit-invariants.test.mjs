@@ -65,7 +65,7 @@ assert.match(r2,/existingKeys\.has\(entityKey\(cand\)\)/,'candidate collection m
 assert.doesNotMatch(r2,/AUFSTOCKUNG:/,'unreachable historic automatic scale-up implementation must be removed, not merely hidden behind a guard');
 assert.doesNotMatch(r2,/mergePositionTranche/,'R2 execution must no longer carry the old scale-up helper');
 assert.doesNotMatch(r2,/Einzige harte Portfoliogrenze: Cash inklusive Kosten/,'inner prompt must not contradict the productive final risk caps');
-assert.match(r2,/fx_rate:num\(c\.fxRate,0\),fx_verified:Boolean\(c\.fxVerified\)/,'persisted candidates must preserve FX verification and never default foreign FX to 1');
+assert.match(r2,/fx_rate:num\([cq]\.fxRate,0\),fx_verified:Boolean\([cq]\.fxVerified\)/,'persisted candidates must preserve FX verification and never default foreign FX to 1');
 
 // 8) Foreign foresight must use loaded FX; 1m checks must not silently fall back to FX=1.
 const market=fs.readFileSync(new URL('../src/market-v3.js',import.meta.url),'utf8');
@@ -93,7 +93,7 @@ assert.match(r2,/if\(num\(q\.fxRate,0\)>0\)p\.last_fx=num\(q\.fxRate\)/,'held-po
 assert.match(r2,/markFx=num\(fx,0\)>0\?num\(fx\):entryFx/,'valuation must fall back to entry FX instead of zero if a bad mark slips through');
 assert.match(r2,/fx_stale=Boolean\(q\.fxStale\)/,'stale-but-trusted held FX must be explicitly marked');
 assert.match(r2,/fx_verified:fxVerified/,'new positions must persist the verified-FX fact');
-assert.match(r2,/if\(!q\?\.fresh\|\|!\(num\(q\.fxRate,0\)>0\)\)continue/,'sell execution must never use FX=0');
+assert.match(r2,/if\(!isFreshMarketQuote\(q,POSITION_QUOTE_MAX_AGE_MINUTES,now\)\|\|!\(num\(q\.fxRate,0\)>0\)\)continue/,'sell execution must require both a fresh quote and nonzero FX');
 
 // 12) SELL net-P/L must use the position's last trusted foreign FX when the current candidate carries fx_rate=0.
 const foreignSellPlan={summary:'FINAL-CONTROLLER V27.5',actions:[{symbol:'FOREIGN.NS',action:'SELL',confidence:.8,allocation_pct:0,reason:'FINAL-CONTROLLER PROFIT EXIT: Gewinnerstruktur ist unabhängig bestätigt gebrochen.'}]};

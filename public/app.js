@@ -52,7 +52,7 @@ function setHtml(id, markup) {
 }
 
 async function api(path, opts = {}) {
-  const init = { ...opts };
+  const init = { cache: 'no-store', ...opts };
   if (typeof AbortSignal?.timeout === 'function') init.signal = AbortSignal.timeout(25_000);
   const r = await fetch(path, init);
   let j = {};
@@ -489,9 +489,11 @@ function candidateRow(x, s, isFallback) {
   const state = x.kind ? `<span class="candidateState ${esc(String(x.kind).toLowerCase().replace(/\s+/g, '-'))}">${esc(x.kind)}</span>` : '';
   const score = Number.isFinite(Number(x.score)) ? `<span class="candidateScore">Score ${fmt(x.score, 2)}</span>` : '';
   const dayCls = Number.isFinite(day) ? (day >= 0 ? 'good' : 'bad') : '';
+  const quoteAge = Number(x.quote_age_minutes ?? x.quoteAgeMinutes);
+  const quoteLabel = Number.isFinite(quoteAge) ? `<span class="quoteFreshness">Kurs vor ${Math.max(0, Math.round(quoteAge))} Min.</span>` : '';
 
   return `<tr${isFallback ? ' class="fallbackCandidate"' : ''}>
-    <td class="candidateIdentity"><b class="candidateName">${esc(x.name || x.symbol)}</b><span class="candidateSymbol">${esc(x.symbol)}</span>${state}</td>
+    <td class="candidateIdentity"><b class="candidateName">${esc(x.name || x.symbol)}</b><span class="candidateSymbol">${esc(x.symbol)}</span>${state}${quoteLabel}</td>
     <td><span class="fallbackRating ${cls}">${esc(label)}</span>${score}</td>
     <td class="${dayCls}"><b>${Number.isFinite(day) ? `${day >= 0 ? '+' : ''}${fmt(day, 2)} %` : '–'}</b></td>
     <td><b>${conf > 0 ? `${Math.round(conf * 100)} %` : '–'}</b></td>
@@ -507,7 +509,7 @@ function renderCandidates(s) {
   const help = document.querySelector('.candidateHelp');
   const tag = document.querySelector('#signals .cardTitle .tag');
 
-  const live = arr(s.candidates);
+  const live = arr(s.candidates).filter(x => x.fresh === true || x.fresh === 1);
   if (live.length) {
     body.innerHTML = live.map(x => candidateRow(x, s, false)).join('');
     if (tag) tag.textContent = 'Live-Kandidaten';
@@ -553,9 +555,13 @@ function renderPositionCards(ps) {
     const value = invested * (num(p.last_price) / Math.max(1e-6, num(p.entry_price))) * (num(p.last_fx, 1) / Math.max(1e-6, num(p.entry_fx, 1)));
     const pl = value - invested - num(p.entry_fee);
     const plPct = invested ? pl / invested * 100 : 0;
-    return `<article class="positionCard ${pl < 0 ? 'loss' : ''}">
+    const quoteAge = Number(p.quote_age_minutes);
+    const quoteFresh = p.quote_fresh === true;
+    const quoteText = quoteFresh && Number.isFinite(quoteAge) ? `Kurs vor ${Math.max(0, Math.round(quoteAge))} Min.` : 'Letzter bekannter Kurs · keine Entscheidung';
+    return `<article class="positionCard ${pl < 0 ? 'loss' : ''} ${quoteFresh ? '' : 'staleQuote'}">
       <div class="positionHead"><div><div class="positionSymbol">${esc(p.symbol)}</div><div class="positionName">${esc(p.name || '')}</div></div><div class="positionPnl">${pl >= 0 ? '+' : ''}${fmt(plPct, 2)} %</div></div>
       <div class="positionMetrics"><span>Einsatz<b>${money(invested)}</b></span><span>Aktuell<b>${money(value)}</b></span><span>Ø Kauf<b>${fmt(p.entry_price, 2)}</b></span><span>Kurs<b>${fmt(p.last_price, 2)}</b></span></div>
+      <div class="positionQuoteState">${esc(quoteText)}</div>
     </article>`;
   }).join('') || '<div class="emptyState">Keine offene Position.</div>';
 }
@@ -687,7 +693,10 @@ function render(s) {
   setHtml('positionsBody', arr(s.positions).map(p => {
     const value = num(p.invested) * (num(p.last_price) / Math.max(1e-6, num(p.entry_price))) * (num(p.last_fx, 1) / Math.max(1e-6, num(p.entry_fx, 1)));
     const pl = value - num(p.invested) - num(p.entry_fee);
-    return `<tr><td><b>${esc(p.symbol)}</b><br><span class="muted">${esc(p.name || '')}</span></td><td>${esc(typeName(p.instrument_type))}</td><td>${money(p.invested)}</td><td>${fmt(p.last_fx || 1, 5)}</td><td>${fmt(p.last_price, 3)}</td><td class="${pl >= 0 ? 'good' : 'bad'}">${pl >= 0 ? '+' : ''}${money(pl)}</td></tr>`;
+    const quoteFresh = p.quote_fresh === true;
+    const quoteAge = Number(p.quote_age_minutes);
+    const quoteLabel = quoteFresh && Number.isFinite(quoteAge) ? `vor ${Math.max(0, Math.round(quoteAge))} Min.` : 'letzter bekannter Kurs';
+    return `<tr class="${quoteFresh ? '' : 'staleQuote'}"><td><b>${esc(p.symbol)}</b><br><span class="muted">${esc(p.name || '')}</span></td><td>${esc(typeName(p.instrument_type))}</td><td>${money(p.invested)}</td><td>${fmt(p.last_fx || 1, 5)}</td><td>${fmt(p.last_price, 3)}<br><span class="quoteFreshness">${esc(quoteLabel)}</span></td><td class="${pl >= 0 ? 'good' : 'bad'}">${pl >= 0 ? '+' : ''}${money(pl)}</td></tr>`;
   }).join('') || '<tr><td colspan="6">Keine offene Position.</td></tr>');
 
   renderCandidates(s);
@@ -771,7 +780,7 @@ async function load() {
   if (document.hidden) { schedule(POLL_MS); return; }
   inFlight = true;
   try {
-    const s = await api('/api/status?view=dashboard');
+    const s = await api(`/api/status?view=dashboard&_=${Date.now()}`);
     lastStatus = s;
     failures = 0;
     render(s);

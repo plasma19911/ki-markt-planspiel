@@ -1,5 +1,5 @@
 param([string]$Root='E:\KI-Markt-Agent')
-$ErrorActionPreference='Stop';$ProgressPreference='SilentlyContinue';$AgentVersion='1.2.3-v31.7.30-pc-first-recovery';$DefaultServer='https://ki-markt-planspiel.orkimperium.workers.dev';$BerlinTimeZone='W. Europe Standard Time';$Closed2026=@('2026-01-01','2026-04-03','2026-04-06','2026-05-01','2026-12-24','2026-12-25','2026-12-31');$script:DownloadedBytes=0L;$script:UploadedBytes=0L;$script:LastCpu=[double](Get-Process -Id $PID).CPU;$script:LastCpuAt=[DateTime]::UtcNow;$script:LastCleanupAt=$null;$script:LastReplaySlot=$null;$script:LastError=$null
+$ErrorActionPreference='Stop';$ProgressPreference='SilentlyContinue';$AgentVersion='1.2.5-v31.7.31-aligned-quote-time';$DefaultServer='https://ki-markt-planspiel.orkimperium.workers.dev';$BerlinTimeZone='W. Europe Standard Time';$Closed2026=@('2026-01-01','2026-04-03','2026-04-06','2026-05-01','2026-12-24','2026-12-25','2026-12-31');$script:DownloadedBytes=0L;$script:UploadedBytes=0L;$script:LastCpu=[double](Get-Process -Id $PID).CPU;$script:LastCpuAt=[DateTime]::UtcNow;$script:LastCleanupAt=$null;$script:LastReplaySlot=$null;$script:LastError=$null
 $ConfigPath=Join-Path $Root 'config.json';$TokenPath=Join-Path $Root 'agent-token.txt';$DataRoot=Join-Path $Root 'data';$CacheRoot=Join-Path $DataRoot 'cache';$LogRoot=Join-Path $DataRoot 'logs';New-Item -ItemType Directory -Force -Path $Root,$DataRoot,$CacheRoot,$LogRoot|Out-Null
 $cfg=[ordered]@{serverUrl=$DefaultServer;maxStorageGb=2.0;trimToGb=1.6;keepDays=30;pcFirstShardCount=4};if(Test-Path $ConfigPath){try{$loaded=Get-Content $ConfigPath -Raw|ConvertFrom-Json;foreach($n in @('serverUrl','maxStorageGb','trimToGb','keepDays','pcFirstShardCount')){if($null -ne $loaded.$n){$cfg[$n]=$loaded.$n}}}catch{}};$ServerUrl=([string]$cfg.serverUrl).TrimEnd('/');$MaxStorageBytes=[int64]([double]$cfg.maxStorageGb*1GB);$TrimToBytes=[int64]([double]$cfg.trimToGb*1GB);if($TrimToBytes-ge $MaxStorageBytes){$TrimToBytes=[int64]($MaxStorageBytes*.8)}
 function Write-AgentLog([string]$Text){Add-Content -Path (Join-Path $LogRoot ("agent-{0}.log" -f (Get-Date -Format 'yyyy-MM-dd'))) -Value "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')  $Text" -Encoding UTF8}
@@ -15,10 +15,11 @@ $module=Join-Path $Root 'pc-first-scanner.ps1';if(-not(Test-Path $module)){throw
 while($true){
  try{
   $session=Get-Session (Get-BerlinNow)
-  if(-not $session.trading -or $session.minute-lt 440 -or $session.minute-ge 1385){Start-Sleep -Seconds 60;continue}
+  if(-not $session.trading -or $session.minute-lt 440 -or $session.minute-ge 1385){try{Invoke-AgentPost '/api/agent/heartbeat' (Get-Metrics $session.phase)|Out-Null}catch{};Start-Sleep -Seconds 60;continue}
   $metrics=Get-Metrics $session.phase
   if($session.preopen){if($session.minute-eq 445){try{Update-PcFirstUniverse -Force|Out-Null}catch{}};Invoke-AgentPost '/api/agent/heartbeat' $metrics|Out-Null}
   elseif($session.open){
+   Invoke-AgentPost '/api/agent/heartbeat' $metrics|Out-Null
    $pc=$null
    try{$pc=Invoke-PcFirstPipeline;$prefetch=[ordered]@{leaderUpdatedAt=[DateTime]::UtcNow.ToString('o');leaderEntries=$pc.leaderEntries;pcFirstScan=$pc.summary;metrics=$metrics};Invoke-AgentPost '/api/agent/prefetch' $prefetch|Out-Null;Write-AgentLog ("PC-FIRST: Master {0} · Vorscan {1} ({2}%) · Deep {3} · Final {4}" -f $pc.summary.masterUniverseCount,$pc.summary.prescannedCount,$pc.summary.fullCycleCoveragePct,$pc.summary.deepCount,$pc.summary.finalistCount)}catch{Write-AgentLog "PC-FIRST fehlgeschlagen: $($_.Exception.Message)"}
    $m=Get-Metrics $session.phase;if($pc){$m.pcFirstVersion=$pc.summary.version;$m.pcFirstCoveragePct=$pc.summary.fullCycleCoveragePct;$m.pcFirstFinalists=$pc.summary.finalistCount};Invoke-AgentPost '/api/agent/scan' $m|Out-Null

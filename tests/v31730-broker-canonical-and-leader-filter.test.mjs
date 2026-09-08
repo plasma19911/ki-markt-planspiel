@@ -47,8 +47,8 @@ const pcAgent=readFileSync(new URL('../public/pc-agent-latest.ps1',import.meta.u
   assert.match(pcScanner,/query1\.finance\.yahoo\.com/);
   assert.match(pcScanner,/query2\.finance\.yahoo\.com/);
   assert.match(pcScanner,/for\(\$attempt=1;\$attempt -le 2;\$attempt\+\+\)/);
-  assert.match(pcScanner,/DateTimeOffset\]::Parse/,'fresh-row timestamps must be compared in UTC');
-  assert.match(pcAgent,/1\.2\.3-v31\.7\.30-pc-first-recovery/);
+  assert.match(pcScanner,/DateTimeOffset\]::UtcNow\.ToUnixTimeSeconds/,'fresh-row timestamps must be compared as UTC epoch seconds');
+  assert.match(pcAgent,/1\.2\.5-v31\.7\.31-aligned-quote-time/);
   assert.match(pcAgent,/TimeoutSec \$TimeoutSec/);
 }
 
