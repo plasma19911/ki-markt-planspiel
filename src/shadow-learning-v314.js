@@ -1,4 +1,5 @@
 import {daytradeLiveScoresV302} from './daytrade-live-feedback-v302.js';
+import {zeroRoundTripBrokerFees} from './zero-fee-model.js';
 
 // V31.4: Kandidaten als Shadow-Samples messen, ohne eine zweite
 // Entscheidungsautoritaet einzufuehren. Nur neue BUYs werden gefiltert.
@@ -34,6 +35,7 @@ export const SHADOW_LEARNING_V314={
   maxBuyThreshold:78,maxPerTheme:2,maxPerCurrency:3,minEntrySpacingMinutes:20,
   evidenceMinSamples:25,canonicalBuyScore:60,canonicalMinDataQuality:55,canonicalMinOrthogonalConfirmations:1,
   probationMinCompatibleSamples:2,probationMinNetEdgeSamples:3,
+  minExpectedNetEdgePct:.25,
   // V31.7.34: Eine Aktie bewegt sich in 60 Minuten nicht um mehr als ein Drittel.
   // Groessere Werte stammen aus Waehrungs-/Datenfehlern, nicht aus dem Markt.
   maxPlausibleAbsReturnPct:35,
@@ -215,6 +217,16 @@ export function estimatedRoundTripCostPctV314(state={}){
   return +(2*Math.max(0,num(c?.slippage_percent,.1))+2*percent+2*brokerFee/notional*100).toFixed(3);
 }
 
+export function estimatedActionRoundTripCostPctV317(state={},action={},candidate={}){
+  const config=state?.config||{},cash=Math.max(0,num(config?.cash)),allocationPct=clamp(action?.allocation_pct,0,100),budget=cash*allocationPct/100;
+  const price=priceOf(candidate),fx=fxOf(candidate),priceEur=price*fx,type=String(candidate?.type??candidate?.instrument_type??'EQUITY').toUpperCase();
+  if(!(budget>0&&priceEur>0))return estimatedRoundTripCostPctV314(state);
+  const execution=zeroRoundTripBrokerFees({notionalEur:budget,priceEur,instrumentType:type});
+  if(!execution?.affordable||!(num(execution.tradeNotional)>0))return Infinity;
+  const slip=Math.max(0,num(config?.slippage_percent,.1));
+  return +(num(execution.total)/num(execution.tradeNotional)*100+2*slip).toFixed(3);
+}
+
 export async function enforceShadowLearningV314(plan,state={},storage=null,now=Date.now(),roundTripCostPct=null,cfg=SHADOW_LEARNING_V314){
   if(!plan||!Array.isArray(plan.actions))return{plan,counters:{}};
   const migrated=migrateShadowCalibrationEpochV31729(await read(storage,null),now,cfg),activeEpoch=migrated.activeEpoch,epochReset=migrated.reset;
@@ -232,9 +244,9 @@ export async function enforceShadowLearningV314(plan,state={},storage=null,now=D
     const action=actions[i],symbol=key(action);
     if(!symbol||String(action?.action||'').toUpperCase()!=='BUY')continue;
     if(positions.some(p=>key(p)===symbol)){actions[i]={...action,action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'ALREADY_HELD_NO_AUTO_SCALEUP',reason:`V31.7 BESTANDSSCHUTZ: ${symbol} ist bereits im Depot. Ein erneutes automatisches BUY/Aufstocken wird nicht ausgeführt.`};counters.heldBuyBlocks++;continue}
-    const candidate=bySymbol.get(symbol)||{},score=canonicalScore(candidate?.daytradeLiveScore??candidate?.decisionScore??candidate?.score??action?.entryDecisionScore);
+    const candidate=bySymbol.get(symbol)||{},score=canonicalScore(candidate?.daytradeLiveScore??candidate?.decisionScore??candidate?.score??action?.entryDecisionScore),actionCost=estimatedActionRoundTripCostPctV317(state,action,candidate);
     const evidence=evidenceProfileV315(candidate,candidates);
-    const entry=canonicalEntryAssessmentV316(candidate,candidates,mem.matured,cost,cfg);actions[i]={...action,entryScoreV317:entry.score,dataQualityV317:entry.dataQuality,expectedNetEdgePctV317:entry.expectedNetEdgePct,entryScoreV316:entry.score,dataQualityV316:entry.dataQuality,expectedNetEdgePctV316:entry.expectedNetEdgePct,orthogonalConfirmationsV317:entry.orthogonalConfirmations,legacyDecisionScore:score};
+    const entry=canonicalEntryAssessmentV316(candidate,candidates,mem.matured,actionCost,cfg);actions[i]={...action,entryScoreV317:entry.score,dataQualityV317:entry.dataQuality,expectedNetEdgePctV317:entry.expectedNetEdgePct,entryScoreV316:entry.score,dataQualityV316:entry.dataQuality,expectedNetEdgePctV316:entry.expectedNetEdgePct,orthogonalConfirmationsV317:entry.orthogonalConfirmations,actualRoundTripCostPctV317:actionCost,legacyDecisionScore:score};
     if(evidence.negativeNewsConfirmed){
       actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'CONFIRMED_NEGATIVE_NEWS',evidenceQualityV315:evidence.quality,
         reason:`V31.7 NEWS-FILTER: ${symbol} hat bestätigte negative Firmennachrichten (${evidence.news.toFixed(2)}, ${evidence.newsSources} Quellen). Kein neuer Kauf gegen den Katalysator.`};
@@ -249,8 +261,8 @@ export async function enforceShadowLearningV314(plan,state={},storage=null,now=D
     if(entry.probationBlocked){
       actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'NEGATIVE_WARMUP_PROBATION',reason:`V31.7 WARMUP-BREMSE: Scorebereich ${entry.bucket}–${entry.bucket+4} hat in ${entry.probationSamples} kompatiblen Vorproben ${(num(entry.probationHitRate)*100).toFixed(0)}% Treffer und ${entry.probationExpectedNetEdgePct.toFixed(2)}% nach Kosten (${entry.probationBlockReason}). Shadow-Messung läuft weiter; Kapital bleibt bis zu positiver Netto-Evidenz frei.`};counters.probationBlocks++;continue;
     }
-    if(entry.mature&&num(entry.expectedNetEdgePct,-99)<=0){
-      actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'NEGATIVE_CANONICAL_EDGE',reason:`V31.7 NETTO-EDGE: Scorebereich ${entry.bucket}–${entry.bucket+4} erzielt nach ${entry.samples} neuen Samples ${entry.expectedNetEdgePct.toFixed(2)}% nach Kosten.`};
+    if(entry.mature&&num(entry.expectedNetEdgePct,-99)<num(cfg.minExpectedNetEdgePct,.25)){
+      actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'INSUFFICIENT_CANONICAL_EDGE',reason:`V31.7 NETTO-EDGE: BUY blockiert · Scorebereich ${entry.bucket}–${entry.bucket+4} erzielt nach ${entry.samples} neuen Samples ${entry.expectedNetEdgePct.toFixed(2)}% nach echten Kosten der vorgesehenen ${Math.max(0,num(action?.allocation_pct)).toFixed(1)}%-Order (Roundtrip ${Number.isFinite(actionCost)?actionCost.toFixed(2):'nicht ausführbar'}%). Erforderlicher Sicherheitspuffer mindestens +${num(cfg.minExpectedNetEdgePct,.25).toFixed(2)}%.`};
       counters.unprofitableBucketBlocks++;continue;
     }
     const gate=correlationGateV314(symbol,candidate,positions,{lastEntryAt:gateEntryAt},now,cfg);

@@ -3,7 +3,8 @@ import {
   recordShadowSnapshots,matureShadowSnapshots,scoreCalibrationV314,
   calibratedBuyThresholdV314,correlationGateV314,enforceShadowLearningV314,
   estimatedRoundTripCostPctV314,evidenceProfileV315,evidenceCalibrationV315,calibratedScoreBucketGateV315,
-  canonicalEntryAssessmentV316,canonicalCalibrationV316,SHADOW_CALIBRATION_EPOCH
+  canonicalEntryAssessmentV316,canonicalCalibrationV316,SHADOW_CALIBRATION_EPOCH,
+  estimatedActionRoundTripCostPctV317
 } from '../src/shadow-learning-v314.js';
 import {completedVolumeRatio} from '../src/market-v3-base.js';
 
@@ -82,6 +83,22 @@ assert.equal(out.persisted,true);
 assert.ok(storage.data);
 assert.equal(storage.data.lastEntryAt,0,'nur tatsaechlich ausgefuehrte Einstiege werden dauerhaft als Abstandsbasis gespeichert');
 assert.equal(estimatedRoundTripCostPctV314({config:{slippage_percent:.1,fee_fixed:0}}),.291);
+
+// Reproduktion der heutigen HUT.TO/MAU.TO-Fehlerklasse: Bei ca. 680 EUR Cash
+// und 23,4% Allokation kostet der echte 159-EUR-Roundtrip deutlich mehr als
+// die bisher pauschal auf 2.200 EUR berechneten 0,291%. Eine minimale gelernte
+// Kante darf deshalb nicht mehr als BUY durchgehen.
+const smallOrderCandidate={...canonicalUniverse[0],price:10,currency:'EUR',decisionScore:canonical.score};
+const smallOrderState={config:{cash:680,slippage_percent:.1,fee_fixed:1},candidates:[smallOrderCandidate],positions:[],history:[]};
+const smallOrderAction={symbol:'GOOD',action:'BUY',allocation_pct:23.4};
+const smallOrderCost=estimatedActionRoundTripCostPctV317(smallOrderState,smallOrderAction,smallOrderCandidate);
+assert.ok(smallOrderCost>1.4,'die Netto-Prüfung muss die echte kleine Order statt einer fiktiven 2.200-EUR-Position bewerten');
+const smallOrderRows=[50,55,60,65,70,75,80].flatMap(bucket=>Array.from({length:25},(_,i)=>({symbol:`LIVE${bucket}-${i}`,entryScoreVersion:31.7,entryScoreV317:bucket,ret:.401})));
+const smallOrderStorage={data:{version:31.7,calibrationEpoch:SHADOW_CALIBRATION_EPOCH,open:{},matured:smallOrderRows,lastEntryAt:0,stats:{}},async get(){return this.data},async put(k,v){this.data=v}};
+const smallOrderOut=await enforceShadowLearningV314({actions:[smallOrderAction],summary:'x'},smallOrderState,smallOrderStorage,t0);
+assert.equal(smallOrderOut.plan.actions[0].action,'HOLD');
+assert.equal(smallOrderOut.plan.actions[0].shadowBlockKind,'INSUFFICIENT_CANONICAL_EDGE');
+assert.match(smallOrderOut.plan.actions[0].reason,/echten Kosten.*23\.4%-Order/);
 
 const bucketStorage={data:{version:31.7,calibrationEpoch:SHADOW_CALIBRATION_EPOCH,open:{},matured:Array.from({length:25},(_,i)=>({symbol:`B${i}`,score:66,ret:.02})),lastEntryAt:0,stats:{}},async get(){return this.data},async put(k,v){this.data=v}};
 const bucketOut=await enforceShadowLearningV314({actions:[{symbol:'BUCKET',action:'BUY',allocation_pct:20}],summary:'x'},{config:{slippage_percent:.1},candidates:[{symbol:'BUCKET',price:10,decisionScore:69,momentum5:.3,momentum20:.5}],positions:[]},bucketStorage,t0);
