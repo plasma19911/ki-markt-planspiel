@@ -18,6 +18,20 @@ assert.equal(regionalBenchmarkForSymbol('COCHINSHIP.NS'),'^NSEI');
 assert.equal(regionalBenchmarkForSymbol('0700.HK'),'2800.HK');
 assert.equal(regionalBenchmarkForSymbol('ORCL'),'ACWI');
 
+{
+  const results=value=>Object.fromEntries(['15m','1h','4h','6h'].map(label=>[label,{alignedAbnormalPct:value,abnormalPct:value}]));
+  const state={newsLearning:{version:3,events:[
+    {id:'Y1',symbol:'SAP.DE',newsAt:'2026-09-07T08:00:00.000Z',direction:1,benchmark:'EXSA.DE',sources:['Yahoo'],eventType:'EARNINGS',results:results(1)},
+    {id:'Y2',symbol:'SAP.DE',newsAt:'2026-09-07T09:00:00.000Z',direction:1,benchmark:'EXSA.DE',sources:['Yahoo'],eventType:'EARNINGS',results:results(.4)},
+    {id:'Y3',symbol:'SAP.DE',newsAt:'2026-09-07T10:00:00.000Z',direction:1,benchmark:'EXSA.DE',sources:['Yahoo'],eventType:'EARNINGS',results:results(-.3)}
+  ]},newsRadar:[]};
+  await updateNewsLearning(state);
+  const yahoo=state.newsLearning.sourceStats.Yahoo.horizons['6h'];
+  assert.equal(yahoo.wins,2,'the real observed win count must remain visible');
+  assert.equal(yahoo.observedHitRate,2/3,'observed hit rate must not contain Bayesian pseudo-observations');
+  assert.notEqual(yahoo.adjustedHitRate,yahoo.observedHitRate,'the internal adjusted rate must be explicitly separated');
+}
+
 const start=Date.UTC(2026,8,7,8,0,0)/1000;
 const bars=prices=>prices.map((price,index)=>({ts:start+index*300,price}));
 

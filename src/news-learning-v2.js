@@ -12,16 +12,16 @@ function trustedSourceStats(events){
   x.samples++;x.wins+=num(r.alignedAbnormalPct)>0?1:0;x.sum+=num(r.alignedAbnormalPct);x.sumAbs+=Math.abs(num(r.abnormalPct));
  }
  return Object.values(out).map(x=>{
-  const hitRate=(x.wins+4)/(x.samples+8),avgAlignedPct=x.samples?x.sum/x.samples:0,avgAbsMovePct=x.samples?x.sumAbs/x.samples:0;
-  const reliabilityScore=clamp(Math.round(50+(hitRate-.5)*65+clamp(avgAlignedPct,-3,3)*6),0,100);
-  return{key:x.key,samples:x.samples,hitRate,avgAlignedPct,avgAbsMovePct,reliabilityScore,trusted:x.samples>=12&&reliabilityScore>=52&&avgAlignedPct>0,demoted:x.samples>=20&&reliabilityScore<45&&avgAlignedPct<=0};
+  const observedHitRate=x.samples?x.wins/x.samples:null,adjustedHitRate=(x.wins+4)/(x.samples+8),avgAlignedPct=x.samples?x.sum/x.samples:0,avgAbsMovePct=x.samples?x.sumAbs/x.samples:0;
+  const reliabilityScore=clamp(Math.round(50+(adjustedHitRate-.5)*65+clamp(avgAlignedPct,-3,3)*6),0,100);
+  return{key:x.key,samples:x.samples,wins:x.wins,observedHitRate,adjustedHitRate,hitRate:adjustedHitRate,avgAlignedPct,avgAbsMovePct,reliabilityScore,trusted:x.samples>=12&&reliabilityScore>=52&&avgAlignedPct>0,demoted:x.samples>=20&&reliabilityScore<45&&avgAlignedPct<=0};
  }).sort((a,b)=>(Number(b.trusted)-Number(a.trusted))||(b.reliabilityScore-a.reliabilityScore)||(b.samples-a.samples));
 }
 
 function confirmationStats(events){
  const buckets={};
  for(const e of events||[]){const r=e.results?.[HORIZON];if(!r||!Number.isFinite(Number(r.alignedAbnormalPct)))continue;const n=Math.max(1,Number(e.sources?.length||1)),key=n>=3?'3+ Quellen':n===2?'2 Quellen':'1 Quelle',x=buckets[key]||(buckets[key]={key,samples:0,wins:0,sum:0});x.samples++;x.wins+=num(r.alignedAbnormalPct)>0?1:0;x.sum+=num(r.alignedAbnormalPct)}
- return Object.values(buckets).map(x=>({key:x.key,samples:x.samples,hitRate:(x.wins+3)/(x.samples+6),avgAlignedPct:x.samples?x.sum/x.samples:0})).sort((a,b)=>b.samples-a.samples);
+ return Object.values(buckets).map(x=>({key:x.key,samples:x.samples,wins:x.wins,observedHitRate:x.samples?x.wins/x.samples:null,adjustedHitRate:(x.wins+3)/(x.samples+6),hitRate:(x.wins+3)/(x.samples+6),avgAlignedPct:x.samples?x.sum/x.samples:0})).sort((a,b)=>b.samples-a.samples);
 }
 
 export async function updateNewsLearning(state){

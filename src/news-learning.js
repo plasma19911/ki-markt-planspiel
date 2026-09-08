@@ -99,7 +99,7 @@ function addEventRows(state,l){
 function aggregate(events,keyFn){
  const map={};
  for(const e of events){const keys=keyFn(e);for(const key of arr(keys)){if(!key)continue;const bucket=map[key]||(map[key]={key,horizons:{}});for(const [label] of HORIZONS){const r=e.results?.[label];if(!r||!Number.isFinite(Number(r.alignedAbnormalPct)))continue;const h=bucket.horizons[label]||(bucket.horizons[label]={samples:0,wins:0,sumAligned:0,sumAbnormal:0,sumAbs:0});h.samples++;h.wins+=num(r.alignedAbnormalPct)>0?1:0;h.sumAligned+=num(r.alignedAbnormalPct);h.sumAbnormal+=num(r.abnormalPct);h.sumAbs+=Math.abs(num(r.abnormalPct));}}}
- for(const bucket of Object.values(map))for(const h of Object.values(bucket.horizons)){h.hitRate=(h.wins+3)/(h.samples+6);h.avgAlignedPct=h.samples?h.sumAligned/h.samples:0;h.avgAbnormalPct=h.samples?h.sumAbnormal/h.samples:0;h.avgAbsMovePct=h.samples?h.sumAbs/h.samples:0;h.reliabilityScore=clamp(Math.round(50+(h.hitRate-.5)*70+clamp(h.avgAlignedPct,-3,3)*6),0,100);delete h.sumAligned;delete h.sumAbnormal;delete h.sumAbs}
+ for(const bucket of Object.values(map))for(const h of Object.values(bucket.horizons)){h.observedHitRate=h.samples?h.wins/h.samples:null;h.adjustedHitRate=(h.wins+3)/(h.samples+6);h.hitRate=h.adjustedHitRate;h.avgAlignedPct=h.samples?h.sumAligned/h.samples:0;h.avgAbnormalPct=h.samples?h.sumAbnormal/h.samples:0;h.avgAbsMovePct=h.samples?h.sumAbs/h.samples:0;h.reliabilityScore=clamp(Math.round(50+(h.adjustedHitRate-.5)*70+clamp(h.avgAlignedPct,-3,3)*6),0,100);delete h.sumAligned;delete h.sumAbnormal;delete h.sumAbs}
  return map;
 }
 

@@ -2,7 +2,7 @@ import './quota-guard.js';
 import './investment-ui.js?v=20260819-1140';
 import './agm-calendar-ui.js?v=20260820-1447';
 import './daytrade-largecap-ui.js?v=20260821-1135';
-import './news-learning-ui.js?v=20260907-28';
+import './news-learning-ui.js?v=20260908-35';
 import './live-news-fresh-v2.js?v=20260907-28';
 
 // Sichtbare Prioritaet im Dashboard:

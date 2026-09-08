@@ -705,7 +705,7 @@ function render(s) {
   renderActivity(s.history);
 
   const trend = c.news_tendency_label || 'NEUTRAL';
-  setText('newsTrendPill', `${trend} · ${fmt(c.news_tendency_score || 0, 2)}`, `trend ${trendClass(trend)}`);
+  setText('newsTrendPill', `${trend} · Impuls ${num(c.news_tendency_score) >= 0 ? '+' : ''}${fmt(c.news_tendency_score || 0, 2)}`, `trend ${trendClass(trend)}`);
   setText('newsTrendSummary', c.news_tendency_summary || 'Noch keine ausreichende Nachrichtenbasis.');
   setText('newsRadarInfo', c.market_mode === 'NEWS_ONLY'
     ? 'Börsen geschlossen: News werden weiter gesammelt.'
@@ -716,8 +716,8 @@ function render(s) {
     <td><span class="trend ${trendClass(n.tendency)}">${esc(n.tendency)}</span></td>
     <td>${Math.round(num(n.confidence) * 100)} %</td>
     <td>${ageText(n)}</td>
-    <td>${esc(sourceList(n.sources))}<br><span class="muted">${num(n.cluster_count)} Cluster · ${num(n.confirmation_count)} Bestätigungen</span></td>
-    <td>${esc(n.headline || '')}<br><span class="muted">${dt(n.news_at)}</span></td>
+    <td>${esc(sourceList(n.sources))}<br><span class="muted">${num(n.cluster_count)} Ereignisse · ${num(n.confirmation_count)} Artikel im neuesten Ereignis</span></td>
+    <td>${esc(n.headline_de || n.headline || '')}<br><span class="muted">${dt(n.news_at)}</span></td>
   </tr>`).join('') || '<tr><td colspan="6">News-Radar sammelt Daten.</td></tr>');
 
   setHtml('statsGrid', [

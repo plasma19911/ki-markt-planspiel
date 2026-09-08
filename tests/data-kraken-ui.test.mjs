@@ -102,6 +102,9 @@ assert.match(ui,/normalizedScore\(b\)-normalizedScore\(a\)/,'focus stocks must b
 assert.match(ui,/normalizedScore\(candidate\)>=50/,'weak candidates must not be pulled into the foreground');
 assert.match(ui,/held\.has/,'held positions must not duplicate the opportunity focus');
 assert.doesNotMatch(simpleUi,/manual-trade-ui/,'manual buy and sell controls must not be loaded');
+assert.match(newsLearningUi,/WARMUP · \$\{wins\}\/\$\{samples\}/,'tiny news samples must be labelled as warmup instead of a fake percentage');
+assert.match(newsLearningUi,/observedHitRate/,'the UI must render the actually observed rate separately from the adjusted learning rate');
+assert.match(newsLearningUi,/Artikel im neuesten Ereignis|Livefenster 2 Std\./,'news counts must explain what they count');
 
 assert.match(css,/@keyframes krakenFlow/,'data arms must visibly flow');
 assert.match(css,/@keyframes corePulse/,'depot core must pulse');
