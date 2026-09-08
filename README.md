@@ -7,7 +7,7 @@ Reines Paper-Trading / Planspiel. Keine echten Orders und aktuell kein Broker-Zu
 - läuft serverseitig auf Cloudflare, auch wenn PC, Handy und Browser aus sind
 - Cron Trigger alle 5 Minuten an Handelstagen (`*/5 5-22 * * 1-5`); der Windows-PC-Agent liefert die Minutenauflösung
 - SQLite Durable Object speichert Depot, Positionen, Verlauf, Lernwerte und Entscheidungen dauerhaft
-- Zieldepot für eine spätere praktische Umsetzung: **finanzen.net ZERO / gettex**
+- Zieldepot für eine spätere praktische Umsetzung: **Trade Republic**
 - tägliches, branchenunabhängiges Aktienuniversum mit bis zu **3.000 liquiden Unternehmen**
 - großer Aktienpool wird in Cloudflare-Free-tauglichen Minuten-Slices rotiert statt jede Minute komplett abgefragt
 - Tech und Rüstung sind Zusatzbereiche, aber **kein Hauptfilter**
@@ -22,18 +22,18 @@ Reines Paper-Trading / Planspiel. Keine echten Orders und aktuell kein Broker-Zu
 - Cloudflare Workers AI als zusätzliche Entscheidungsstufe; Markt-/News-Scanning läuft auch weiter, wenn die KI ihr Tageskontingent erreicht
 - automatische BUY / SELL / HOLD-Entscheidungen ausschließlich mit Spielgeld
 - vollständige Geld- und Entscheidungs-History; HALTEN-Phasen werden zusammengefasst
-- Tages-Replay: erster heutiger Zwischenstand ab 22:05 Berliner Zeit; finaler Neuaufbau nach gettex-Schluss ab 23:05
+- Tages-Replay: erster heutiger Zwischenstand ab 22:05 Berliner Zeit; finaler Neuaufbau nach deutschem Handelsschluss (23:00) ab 23:05
 - mobile Web-App mit Icon / Manifest
 - Browser-Statuscache reduziert unnötige Dashboard-Anfragen; Hintergrundtabs pollen nicht dauerhaft
 - kein Marktdaten-API-Key erforderlich
 
-## ZERO / gettex
+## Trade Republic
 
-Die App ist auf Werte ausgerichtet, die später praktisch über finanzen.net ZERO / gettex umsetzbar sein sollen. Sehr kleine, extrem illiquide oder exotische Notierungen werden bewusst ausgesiebt.
+Die App ist auf Werte ausgerichtet, die später praktisch über Trade Republic umsetzbar sein sollen. Sehr kleine, extrem illiquide oder exotische Notierungen werden bewusst ausgesiebt.
 
-Wichtig: Die öffentliche ZERO-Produktliste ist dynamisch und JavaScript-basiert. Das Repository behauptet deshalb **nicht**, den Brokerkatalog dauerhaft 1:1 zu spiegeln. Vor einer späteren echten Order muss die konkrete WKN/ISIN bei ZERO erneut auf Handelbarkeit geprüft werden.
+Wichtig: Das Repository behauptet **nicht**, den Brokerkatalog dauerhaft 1:1 zu spiegeln. Vor einer späteren echten Order muss die konkrete WKN/ISIN bei Trade Republic erneut auf Handelbarkeit geprüft werden.
 
-Das Kostenmodell ist bewusst konservativ: Kleinst-/Bruchstückorders werden mit 1 € Zuschlag plus Slippage/Spread behandelt. Bei echten Orders ab 500 € kann die reine Ordergebühr bei ZERO 0 € sein; Marktspread und Ausführung bleiben trotzdem relevant.
+Kostenmodell (`src/zero-fee-model.js`, Name aus Kompatibilitätsgründen beibehalten): 1 € Fremdkostenpauschale je Order, unabhängig vom Ordervolumen — ein Roundtrip kostet also 2 €. Kein Mindermengenzuschlag, keine Bruchstücke, nur ganze Stücke, nur Aktien. Marktspread und Ausführung sind davon getrennt und bleiben relevant. Wer den Handelsplatz in der App gezielt selbst wählt, zahlt 2 € statt 1 € und muss `standardOrderFeeEur` anpassen.
 
 ## Cloudflare Free
 
@@ -41,7 +41,7 @@ Der 5-Minuten-Cron an Werktagen bedeutet rund 220 geplante Läufe pro Tag statt 
 
 ## Tages-Replay
 
-Während des Handelstages sammelt das System Kandidaten und echte Paper-Trades in einem Tages-Capture. Ab 22:05 Berliner Zeit kann Cloudflare bereits einen **vorläufigen** Replay-Zwischenstand berechnen. Da gettex bis 23:00 läuft, wird ab 23:05 der heutige Report einmal aus dem finalen Capture neu aufgebaut. Dadurch gehen späte Trades und Kandidaten nicht verloren.
+Während des Handelstages sammelt das System Kandidaten und echte Paper-Trades in einem Tages-Capture. Ab 22:05 Berliner Zeit kann Cloudflare bereits einen **vorläufigen** Replay-Zwischenstand berechnen. Da der deutsche Handel bis 23:00 läuft, wird ab 23:05 der heutige Report einmal aus dem finalen Capture neu aufgebaut. Dadurch gehen späte Trades und Kandidaten nicht verloren.
 
 Der Windows-PC-Agent ist für den normalen Minuten-Scanner wichtig, aber der Tages-Replay hängt nicht mehr davon ab, dass der PC lokal einen separaten Replay berechnet.
 
