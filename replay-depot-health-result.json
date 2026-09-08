@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-08T07:39:56.651451+00:00",
-  "berlinNow": "2026-09-08T09:39:56.651299+02:00",
+  "checkedAt": "2026-09-08T07:55:32.454252+00:00",
+  "berlinNow": "2026-09-08T09:55:32.454076+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 347185,
-    "dashboard": 347217
+    "full": 367344,
+    "dashboard": 375439
   },
   "checks": {
     "fullStatus200": true,
@@ -29,8 +29,8 @@
     "completedAt": null,
     "capture": {
       "date": "2026-09-08",
-      "symbolCount": 108,
-      "updatedAt": "2026-09-08T07:38:44.836Z"
+      "symbolCount": 114,
+      "updatedAt": "2026-09-08T07:55:27.611Z"
     },
     "summary": {
       "provisional": true,
@@ -403,9 +403,9 @@
   },
   "depot": {
     "cash": 696.8258984558252,
-    "equity": 10037.650802393882,
-    "displayMarketValue": 9340.82490387726,
-    "displayAccountingDelta": 6.079790182411671e-08,
+    "equity": 10033.23730239358,
+    "displayMarketValue": 9336.411403877259,
+    "displayAccountingDelta": 6.04959495831281e-08,
     "positions": [
       {
         "symbol": "ORCL",
@@ -434,9 +434,9 @@
       {
         "symbol": "MAZDOCK.NS",
         "invested": 2187.308974,
-        "ratioValue": 2177.620900149336,
-        "quantityValue": 2177.6209,
-        "displayValue": 2177.6209,
+        "ratioValue": 2173.207400149033,
+        "quantityValue": 2173.2074000000002,
+        "displayValue": 2173.2074000000002,
         "quantityUsed": true
       },
       {
@@ -449,5 +449,5 @@
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: tue, 08 sep 2026 07:39:56 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"5a28fddc2c6de7a93962a54b99324129\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=u8pgyofhrfq1zpatnpput0a9u7nyryuufqpf2m5qnbwtopdik3ueo9owxj0qh%2fuhadibx11j%2b3%2bstpb9xdu5ifc%2f5%2f5acpi4txy2we1505ohzhijk2w9i4jdgp8ir%2f1xflcs2edeex370gcsinujpiivyqytl3rwowbblak%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a37c4d5e2ce82434-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: tue, 08 sep 2026 07:55:32 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"5a28fddc2c6de7a93962a54b99324129\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=1hnbre7kugamnddqw482p9a4js9x%2fnverj18cxkv00g%2bqgkmycstdzqpceeoe%2bptkgqupwcwuqj53datjwbkh8gigo%2bcsm%2brippwmzsinzxw5l9ggpxirwnsjmb5nzykrvfb2xl2qfs4gdkgcsizdrch0lxmfado%2fchmhyq%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a37c6436de48a1cd-msp\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
