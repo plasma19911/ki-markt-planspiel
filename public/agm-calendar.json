@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-07T09:31:55.472Z",
-  "nextRefreshAfter": "2026-09-08T09:31:55.472Z",
+  "updatedAt": "2026-09-08T08:57:20.441Z",
+  "nextRefreshAfter": "2026-09-09T08:57:20.441Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -16,8 +16,8 @@
   "sourceErrors": [],
   "rawUpcomingCount": 21,
   "matchedUpcomingCount": 6,
-  "fundamentalEstimateCount": 2,
-  "universeGeneratedAt": "2026-09-07T08:25:05.825944Z",
+  "fundamentalEstimateCount": 0,
+  "universeGeneratedAt": "2026-09-08T08:09:56.655734Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -30,8 +30,8 @@
       "companyKey": "NETAPP",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 97,
-      "fundamentalScore": 97,
+      "baseScore": 87,
+      "fundamentalScore": 87,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -49,7 +49,7 @@
         "revenueCurrentYearEstimate": 7537.01,
         "revenueNextYearEstimate": 7968.88
       },
-      "daysUntil": 2,
+      "daysUntil": 1,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -64,19 +64,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 11,
+          "delta": 1,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": 12,
-      "newsDelta": 11,
+      "newsDelta": 1,
       "fundamentalDelta": 24,
-      "newsGuidance": 1,
+      "newsGuidance": 0,
       "newsHeadlines": [
-        "NetApp Raised Guidance as Ciena’s Revenue Jumped 37%. Are AI Networks and Storage Finally Converting Into Earnings?",
-        "Don't Overlook These 2 AI-Driven Tech Stocks After Earnings: CIEN, NTAP",
-        "NTAP Q1 Earnings Beat Estimates on Hybrid, Public Cloud Revenue Growth",
-        "Company News for Sep 4, 2026"
+        "Dow, S&P 500 Futures Decline Amid Rising Oil Prices As Iran War Escalates: MU, ORCL, INTC, BE Stocks In Focus",
+        "Why SNDK, DELL, PANW Stocks Are Rallying Overnight Ahead Of Fresh Trading Week",
+        "The AI Memory Stock That Could Outshine the Obvious Picks",
+        "Apple's $54 Billion iPhone Engine Hits an AI Memory Squeeze"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -98,8 +98,8 @@
         "volatility20d": 34.6,
         "volumeTrend": -0.1
       },
-      "scoreEvaluatedAt": "2026-09-07T09:31:55.472Z",
-      "scoreValidUntil": "2026-09-08T09:31:55.472Z"
+      "scoreEvaluatedAt": "2026-09-08T08:57:20.441Z",
+      "scoreValidUntil": "2026-09-09T08:57:20.441Z"
     },
     {
       "date": "2026-09-10",
@@ -130,7 +130,7 @@
         "revenueCurrentYearEstimate": 9543.87,
         "revenueNextYearEstimate": 9787.56
       },
-      "daysUntil": 3,
+      "daysUntil": 2,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -164,20 +164,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 253,
-        "last": 155.7,
-        "changeM1": -3.2,
-        "changeM3": 4.2,
-        "changeM6": 6.3,
-        "sma50": 158.9,
-        "sma200": 143.4,
-        "position52w": 75.2,
-        "drawdownFromHigh": -7.4,
+        "samples": 254,
+        "last": 152.5,
+        "changeM1": -5.9,
+        "changeM3": 1.4,
+        "changeM6": 7.8,
+        "sma50": 158.8,
+        "sma200": 143.5,
+        "position52w": 68.9,
+        "drawdownFromHigh": -9.3,
         "volatility20d": 22,
-        "volumeTrend": -24
+        "volumeTrend": -21.9
       },
-      "scoreEvaluatedAt": "2026-09-07T09:31:55.472Z",
-      "scoreValidUntil": "2026-09-08T09:31:55.472Z"
+      "scoreEvaluatedAt": "2026-09-08T08:57:20.441Z",
+      "scoreValidUntil": "2026-09-09T08:57:20.441Z"
     },
     {
       "date": "2026-09-10",
@@ -189,8 +189,8 @@
       "companyKey": "RYANAIR",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 13,
-      "fundamentalScore": 13,
+      "baseScore": 12,
+      "fundamentalScore": 12,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -208,7 +208,7 @@
         "revenueCurrentYearEstimate": 15925.44,
         "revenueNextYearEstimate": 17205.48
       },
-      "daysUntil": 3,
+      "daysUntil": 2,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -223,19 +223,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 0,
+          "delta": -1,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": -13,
-      "newsDelta": 0,
+      "newsDelta": -1,
       "fundamentalDelta": -24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Ryanair warns airfares will rise and budget carriers go bust if fuel prices stay high — what this means for your travel",
-        "Ryanair Signs Collective Agreement With Swedish Union",
-        "Ryanair Holdings (ISE:RYA) Could Be 46% Undervalued After Fuel Cost Warning",
-        "Ryanair (ISE:RYA) Stock May Trade At A Discount Despite Traffic Target Cuts"
+        "LGES announces breakthrough in LMR battery technology",
+        "ECOVACS Defines the Future of Robotic Floor Cleaning with Third-Generation OZMO ROLLER Technology",
+        "Novartis India acquires Pfizer brands for $132m",
+        "Elia to develop Princess Elisabeth Energy project with $1.1bn EIB financing"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -257,8 +257,8 @@
         "volatility20d": 24.3,
         "volumeTrend": -30.9
       },
-      "scoreEvaluatedAt": "2026-09-07T09:31:55.472Z",
-      "scoreValidUntil": "2026-09-08T09:31:55.472Z"
+      "scoreEvaluatedAt": "2026-09-08T08:57:20.441Z",
+      "scoreValidUntil": "2026-09-09T08:57:20.441Z"
     },
     {
       "date": "2026-09-14",
@@ -270,16 +270,17 @@
       "companyKey": "DECKERS OUTDOOR",
       "currency": "EUR",
       "matchConfidence": 1,
-      "baseScore": 47,
-      "fundamentalScore": 47,
-      "fundamentalConfidence": 0.881,
+      "baseScore": 33,
+      "fundamentalScore": 33,
+      "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+11%)",
         "Umsatzschätzung nächstes Jahr +7%",
         "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
         "3-Monats-Trend -21%",
-        "Kurs faellt kurz vor der HV (-16% in 1 Monat)"
+        "Kurs faellt kurz vor der HV (-16% in 1 Monat)",
+        "3-Monats-Trend -24%"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -288,13 +289,12 @@
         "revenueCurrentYearEstimate": 5886.98,
         "revenueNextYearEstimate": 6322.24
       },
-      "daysUntil": 7,
-      "baseLabel": "NEUTRAL",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/deckers_outdoor",
+      "daysUntil": 6,
+      "baseLabel": "VORSICHT",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 11,
+          "delta": -3,
           "label": "Analystenschaetzungen"
         },
         {
@@ -310,13 +310,13 @@
       ],
       "chartDelta": -15,
       "newsDelta": 1,
-      "fundamentalDelta": 11,
+      "fundamentalDelta": -3,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "On Holding's Robust APAC Performance Strengthens Its Global Footprint",
         "Deckers (DECK) Gains As Market Dips: What You Should Know",
         "Stock Market Today, Sept. 4: Lululemon Plummets 17% After Slashing Guidance",
-        "Is ONON Worth Buying Now as Growth Collides With Execution Risks?",
-        "ONON Falls 27.2% in a Month. Does the Sell-Off Create Opportunity?"
+        "Is ONON Worth Buying Now as Growth Collides With Execution Risks?"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -326,20 +326,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 252,
+        "samples": 253,
         "last": 73.5,
         "changeM1": -15.8,
-        "changeM3": -21.3,
-        "changeM6": -16.6,
-        "sma50": 84.5,
-        "sma200": 88.5,
+        "changeM3": -24.2,
+        "changeM6": -19.5,
+        "sma50": 84.1,
+        "sma200": 88.6,
         "position52w": 13.4,
         "drawdownFromHigh": -29.6,
         "volatility20d": 28.4,
         "volumeTrend": 18.9
       },
-      "scoreEvaluatedAt": "2026-09-07T09:31:55.472Z",
-      "scoreValidUntil": "2026-09-08T09:31:55.472Z"
+      "scoreEvaluatedAt": "2026-09-08T08:57:20.441Z",
+      "scoreValidUntil": "2026-09-09T08:57:20.441Z"
     },
     {
       "date": "2026-09-16",
@@ -353,13 +353,14 @@
       "matchConfidence": 1,
       "baseScore": 61,
       "fundamentalScore": 61,
-      "fundamentalConfidence": 0.701,
+      "fundamentalConfidence": 0.737,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+6%)",
         "Umsatzschätzung nächstes Jahr +6%",
         "Kurs unter der 200-Tage-Linie",
-        "Gesunde Position im 52-Wochen-Band (58%)"
+        "Gesunde Position im 52-Wochen-Band (58%)",
+        "Gesunde Position im 52-Wochen-Band (52%)"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -368,9 +369,8 @@
         "revenueCurrentYearEstimate": 692.18,
         "revenueNextYearEstimate": 736.75
       },
-      "daysUntil": 9,
+      "daysUntil": 8,
       "baseLabel": "LEICHT POSITIV",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/games_workshop_group",
       "scoreParts": [
         {
           "key": "ZAHLEN",
@@ -396,20 +396,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 253,
-        "last": 18670,
-        "changeM1": -1.4,
-        "changeM3": 0.4,
-        "changeM6": 8.8,
-        "sma50": 19563.6,
-        "sma200": 18928.7,
-        "position52w": 57.8,
-        "drawdownFromHigh": -14.9,
-        "volatility20d": 17.2,
-        "volumeTrend": -30.7
+        "samples": 254,
+        "last": 18210,
+        "changeM1": -3.5,
+        "changeM3": -4.3,
+        "changeM6": 8.1,
+        "sma50": 19484,
+        "sma200": 18927.1,
+        "position52w": 51.8,
+        "drawdownFromHigh": -17,
+        "volatility20d": 16.8,
+        "volumeTrend": -36.9
       },
-      "scoreEvaluatedAt": "2026-09-07T09:31:55.472Z",
-      "scoreValidUntil": "2026-09-08T09:31:55.472Z"
+      "scoreEvaluatedAt": "2026-09-08T08:57:20.441Z",
+      "scoreValidUntil": "2026-09-09T08:57:20.441Z"
     },
     {
       "date": "2026-09-16",
@@ -421,14 +421,16 @@
       "companyKey": "MOONPIG",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 60,
-      "fundamentalScore": 60,
-      "fundamentalConfidence": 0.683,
+      "baseScore": 69,
+      "fundamentalScore": 69,
+      "fundamentalConfidence": 0.909,
       "profitForecastPositive": null,
       "fundamentalReasons": [
         "Kurs ueber der 200-Tage-Linie",
         "3-Monats-Trend +25%",
-        "Gesunde Position im 52-Wochen-Band (77%)"
+        "Gesunde Position im 52-Wochen-Band (77%)",
+        "3-Monats-Trend +21%",
+        "Gesunde Position im 52-Wochen-Band (71%)"
       ],
       "fundamentals": {
         "source": "Yahoo quote",
@@ -441,12 +443,12 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 9,
+      "daysUntil": 8,
       "baseLabel": "LEICHT POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 0,
+          "delta": 10,
           "label": "Analystenschaetzungen"
         },
         {
@@ -456,19 +458,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 0,
+          "delta": -1,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": 10,
-      "newsDelta": 0,
-      "fundamentalDelta": 0,
+      "newsDelta": -1,
+      "fundamentalDelta": 10,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Mondelēz shifts European biscuit packaging from plastic trays to paper",
-        "Gamuda and MTR secure $633m Parramatta Metro Station contract",
-        "Rocket Lab's Neutron Just Slipped Again. Here's the Only Date That Still Matters for Shareholders.",
-        "A Once-in-a-Decade Opportunity: 1 Magnificent S&P 500 Stock Down 41% to Buy Right Now"
+        "LGES announces breakthrough in LMR battery technology",
+        "ECOVACS Defines the Future of Robotic Floor Cleaning with Third-Generation OZMO ROLLER Technology",
+        "Novartis India acquires Pfizer brands for $132m",
+        "Elia to develop Princess Elisabeth Energy project with $1.1bn EIB financing"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -478,20 +480,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 253,
-        "last": 270.2,
-        "changeM1": -5.3,
-        "changeM3": 25.4,
-        "changeM6": 27.5,
-        "sma50": 272.3,
-        "sma200": 227,
-        "position52w": 76.5,
-        "drawdownFromHigh": -7.8,
-        "volatility20d": 23.4,
-        "volumeTrend": 7.6
+        "samples": 254,
+        "last": 264.4,
+        "changeM1": -7.4,
+        "changeM3": 20.5,
+        "changeM6": 25.9,
+        "sma50": 272.8,
+        "sma200": 227.3,
+        "position52w": 70.5,
+        "drawdownFromHigh": -9.8,
+        "volatility20d": 24.2,
+        "volumeTrend": 0.3
       },
-      "scoreEvaluatedAt": "2026-09-07T09:31:55.472Z",
-      "scoreValidUntil": "2026-09-08T09:31:55.472Z"
+      "scoreEvaluatedAt": "2026-09-08T08:57:20.441Z",
+      "scoreValidUntil": "2026-09-09T08:57:20.441Z"
     }
   ],
   "estimateAttemptCount": 6,
