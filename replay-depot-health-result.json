@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-08T14:11:33.996598+00:00",
-  "berlinNow": "2026-09-08T16:11:33.996428+02:00",
+  "checkedAt": "2026-09-08T14:20:39.440577+00:00",
+  "berlinNow": "2026-09-08T16:20:39.440442+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 406815,
-    "dashboard": 406756
+    "full": 377163,
+    "dashboard": 377179
   },
   "checks": {
     "fullStatus200": true,
@@ -30,7 +30,7 @@
     "capture": {
       "date": "2026-09-08",
       "symbolCount": 120,
-      "updatedAt": "2026-09-08T14:11:27.890Z"
+      "updatedAt": "2026-09-08T14:19:48.826Z"
     },
     "summary": {
       "provisional": true,
@@ -692,24 +692,24 @@
   },
   "depot": {
     "cash": 680.2199250126582,
-    "equity": 10133.528886706972,
-    "displayMarketValue": 9453.308961790466,
-    "displayAccountingDelta": -9.615177987143397e-08,
+    "equity": 10167.658843008627,
+    "displayMarketValue": 9487.43891808777,
+    "displayAccountingDelta": -9.180075721815228e-08,
     "positions": [
-      {
-        "symbol": "ORCL",
-        "invested": 2183.485259,
-        "ratioValue": 2390.207754711954,
-        "quantityValue": 2390.2077550827025,
-        "displayValue": 2390.2077550827025,
-        "quantityUsed": true
-      },
       {
         "symbol": "MRVL",
         "invested": 2091.841702,
-        "ratioValue": 2125.7198787556435,
-        "quantityValue": 2125.7198787048337,
-        "displayValue": 2125.7198787048337,
+        "ratioValue": 2143.0937300286423,
+        "quantityValue": 2143.093729977417,
+        "displayValue": 2143.093729977417,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "ORCL",
+        "invested": 2183.485259,
+        "ratioValue": 2387.4659624897836,
+        "quantityValue": 2387.4659628601075,
+        "displayValue": 2387.4659628601075,
         "quantityUsed": true
       },
       {
@@ -731,12 +731,12 @@
       {
         "symbol": "AMAT",
         "invested": 1959.686878,
-        "ratioValue": 1972.8113283582604,
-        "quantityValue": 1972.8113280029297,
-        "displayValue": 1972.8113280029297,
+        "ratioValue": 1992.3092256090865,
+        "quantityValue": 1992.309225250244,
+        "displayValue": 1992.309225250244,
         "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: tue, 08 sep 2026 14:11:33 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"5a28fddc2c6de7a93962a54b99324129\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=xylc%2f%2f97v25rd3z6bv0gr2ldbmumtjn4sbiy7zbtnmrpo%2bpnmzbwesivebutvjozthoi%2bl%2fsk1chgqhaeegpggqhoyditjpriam%2bp5v5hrh7diknjwsssujnc3uf2bbhcpypgwxrsdy1j%2fxxmz64wkfd13x7ntouj6krri0%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a37e8b084bd05be5-dfw\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: tue, 08 sep 2026 14:20:39 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"5a28fddc2c6de7a93962a54b99324129\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=a6moraf1sjoceyt0ptacfgrqrhtcaprc6t3e1i9mhv889f2%2b7hbfzczeppdjxvxhauimnpqpj7fwxdmlvpks0bynqoqj%2fqkscvx1fnqkk684ang58pkej%2fxbemketx30xvjabvbv9t23ijnde%2fvfholcr1efuu%2fapn9kfhu%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a37e9858cd412b8e-lax\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
