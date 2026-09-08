@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-08T07:55:48.548856+00:00",
-  "berlinNow": "2026-09-08T09:55:48.548703+02:00",
+  "checkedAt": "2026-09-08T12:35:08.733345+00:00",
+  "berlinNow": "2026-09-08T14:35:08.733229+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 339843,
-    "dashboard": 339857
+    "full": 386147,
+    "dashboard": 386149
   },
   "checks": {
     "fullStatus200": true,
@@ -23,22 +23,24 @@
   "replay": {
     "date": "2026-09-08",
     "status": "RUNNING",
-    "processed": 10,
-    "total": 44,
+    "processed": 50,
+    "total": 108,
     "provisional": true,
     "completedAt": null,
     "capture": {
       "date": "2026-09-08",
-      "symbolCount": 114,
-      "updatedAt": "2026-09-08T07:55:27.611Z"
+      "symbolCount": 120,
+      "updatedAt": "2026-09-08T12:34:25.492Z"
     },
     "summary": {
       "provisional": true,
-      "symbolsAnalysed": 10,
-      "errors": 0,
+      "symbolsAnalysed": 44,
+      "errors": 6,
       "mistakes": {
-        "MISSED_SAFE_MOVE": 5,
-        "LATE_DISCOVERY": 6
+        "MISSED_SAFE_MOVE": 18,
+        "LATE_DISCOVERY": 24,
+        "REPLAY_DATA_ERROR": 6,
+        "LATE_EXPENSIVE_ENTRY": 2
       },
       "churn": {
         "rapidRoundTrips": 0,
@@ -341,9 +343,296 @@
             "MISSED_SAFE_MOVE",
             "LATE_DISCOVERY"
           ]
+        },
+        {
+          "symbol": "8035.T",
+          "name": "Tokyo Electron",
+          "firstSeenAt": "2026-09-08T06:00:18.208Z",
+          "sources": [
+            "DEEP"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788828000000,
+            "price": 56080,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.268,
+              "m20": 0.52,
+              "accel": 0.215,
+              "draw": 0.268,
+              "day": 0.43,
+              "rsi": 50
+            },
+            "forward": {
+              "f15": 0.695,
+              "f30": 0.624,
+              "f60": 0.018,
+              "f120": -0.25,
+              "mfe120": 0.981,
+              "mae120": -0.66
+            },
+            "quality": 0.217
+          },
+          "firstSafeAfterSeen": null,
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "ASB.AX",
+          "name": "Austal",
+          "firstSeenAt": "2026-09-08T05:35:36.791Z",
+          "sources": [
+            "DEEP"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788828300000,
+            "price": 4.369999885559082,
+            "mode": "NORMAL",
+            "metrics": {
+              "m5": 0,
+              "m20": 0.229,
+              "accel": 1.019,
+              "draw": -1.131,
+              "day": -1.131,
+              "rsi": 50
+            },
+            "forward": {
+              "f15": -0.458,
+              "f30": 0.915,
+              "f60": 0.343,
+              "f120": -0.114,
+              "mfe120": 1.373,
+              "mae120": -0.458
+            },
+            "quality": 0.892
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1788846000000,
+            "price": 4.375,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.229,
+              "m20": 0.344,
+              "accel": 0.114,
+              "draw": 0.229,
+              "day": -1.018,
+              "rsi": 57.1
+            },
+            "forward": {
+              "f15": -0.343,
+              "f30": null,
+              "f60": null,
+              "f120": null,
+              "mfe120": 0.114,
+              "mae120": -0.571
+            },
+            "quality": -0.274
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "SNDK",
+          "name": "Sandisk Corporation",
+          "firstSeenAt": "2026-09-08T05:35:36.791Z",
+          "sources": [
+            "BREAKOUT"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788531600000,
+            "price": 1662.10009765625,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "m5": 0.115,
+              "m20": 0.115,
+              "accel": 0.464,
+              "draw": -0.235,
+              "day": 6.888,
+              "rsi": 50
+            },
+            "forward": {
+              "f15": 1.488,
+              "f30": 1.109,
+              "f60": 1.597,
+              "f120": 2.252,
+              "mfe120": 2.252,
+              "mae120": 0.235
+            },
+            "quality": 2.773
+          },
+          "firstSafeAfterSeen": null,
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
         }
       ],
       "worstEntries": [
+        {
+          "symbol": "VISC.ST",
+          "name": "VISC.ST",
+          "firstSeenAt": "2026-09-08T07:00:46.516Z",
+          "sources": [
+            "PC_WIDE",
+            "DEEP",
+            "SECOND_CHANCE",
+            "BREAKOUT"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788862800000,
+            "price": 24.350000381469727,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.206,
+              "m20": 0.62,
+              "accel": 0.206,
+              "draw": 0.206,
+              "day": 1.037,
+              "rsi": 62.5
+            },
+            "forward": {
+              "f15": 0.205,
+              "f30": 0.205,
+              "f60": 0.411,
+              "f120": 1.232,
+              "mfe120": 1.848,
+              "mae120": 0
+            },
+            "quality": 1.129
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1788855300000,
+            "price": 24.549999237060547,
+            "mode": "NORMAL",
+            "metrics": {
+              "m5": 0,
+              "m20": 0.204,
+              "accel": 0.203,
+              "draw": -0.203,
+              "day": 1.867,
+              "rsi": 28.6
+            },
+            "forward": {
+              "f15": 0.204,
+              "f30": -0.204,
+              "f60": -1.222,
+              "f120": -1.018,
+              "mfe120": 0.204,
+              "mae120": -1.833
+            },
+            "quality": -2.23
+          },
+          "actualBuys": [
+            {
+              "ts": "2026-09-08T11:47:22.427Z",
+              "chartTs": 1788867900000,
+              "price": 24.65,
+              "mode": "WAIT",
+              "reason": "KI BUY 68%: V31.7 KAUFZONE 73.0/100 · Daten 85/100 · unabhängige Bestätigung 1 · Netto-Edge +3621.62% · V30.2 DAYTRADE-BUY: VISC.ST Score 72.5 -10 Live-Fix = 62.5/100 · HIGH_CHASE ",
+              "forward": {
+                "f15": 0.406,
+                "f30": 0,
+                "f60": null,
+                "mfe120": 0.609,
+                "mae120": -0.406
+              },
+              "draw": -0.404,
+              "day": 2.282,
+              "rsi": 69.2
+            }
+          ],
+          "entryRegretPct": 1.232,
+          "mistakes": [
+            "LATE_EXPENSIVE_ENTRY"
+          ]
+        },
+        {
+          "symbol": "STERV.HE",
+          "name": "STERV.HE",
+          "firstSeenAt": "2026-09-08T07:00:46.516Z",
+          "sources": [
+            "PC_WIDE",
+            "DEEP",
+            "SECOND_CHANCE"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788856200000,
+            "price": 10.350000381469727,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.097,
+              "m20": 0.485,
+              "accel": 0.048,
+              "draw": 0.097,
+              "day": 1.72,
+              "rsi": 50
+            },
+            "forward": {
+              "f15": -0.097,
+              "f30": -0.048,
+              "f60": 0.628,
+              "f120": 0.58,
+              "mfe120": 0.676,
+              "mae120": -0.242
+            },
+            "quality": 0.715
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1788853200000,
+            "price": 10.390000343322754,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.338,
+              "m20": 0.386,
+              "accel": 0.579,
+              "draw": 0.096,
+              "day": 2.113,
+              "rsi": 50
+            },
+            "forward": {
+              "f15": -0.674,
+              "f30": -0.866,
+              "f60": -0.529,
+              "f120": 0.241,
+              "mfe120": 0.241,
+              "mae120": -0.866
+            },
+            "quality": -1.225
+          },
+          "actualBuys": [
+            {
+              "ts": "2026-09-08T09:17:21.835Z",
+              "chartTs": 1788858900000,
+              "price": 10.4,
+              "mode": "WAIT",
+              "reason": "KI BUY 73%: V31.7 KAUFZONE 63.7/100 · Daten 85/100 · unabhängige Bestätigung 1 · Netto-Edge -0.40% · V30.2 DAYTRADE-BUY: STERV.HE Score 70.1 +0 Live-Fix = 70.1/100 · NEUTRAL · NEUT",
+              "forward": {
+                "f15": 0.144,
+                "f30": 0.048,
+                "f60": -0.048,
+                "mfe120": 0.192,
+                "mae120": -0.096
+              },
+              "draw": 0.144,
+              "day": 2.211,
+              "rsi": 70.3
+            }
+          ],
+          "entryRegretPct": 0.483,
+          "mistakes": [
+            "LATE_EXPENSIVE_ENTRY"
+          ]
+        },
         {
           "symbol": "MAZDOCK.NS",
           "name": "Mazagon Dock Shipbuilders",
@@ -402,25 +691,33 @@
     }
   },
   "depot": {
-    "cash": 696.8258984558252,
-    "equity": 10033.23730239358,
-    "displayMarketValue": 9336.411403877259,
-    "displayAccountingDelta": 6.04959495831281e-08,
+    "cash": 543.1630531935105,
+    "equity": 10250.311000789847,
+    "displayMarketValue": 9707.14794756416,
+    "displayAccountingDelta": 3.2176103559322655e-08,
     "positions": [
       {
-        "symbol": "ORCL",
-        "invested": 2183.485259,
-        "ratioValue": 2308.425806113189,
-        "quantityValue": 2308.4258064712526,
-        "displayValue": 2308.4258064712526,
+        "symbol": "KALMAR.HE",
+        "invested": 2195.673422,
+        "ratioValue": 2208.600082131807,
+        "quantityValue": 2208.600082397461,
+        "displayValue": 2208.600082397461,
         "quantityUsed": true
       },
       {
         "symbol": "MRVL",
         "invested": 2091.841702,
-        "ratioValue": 2100.06014444717,
-        "quantityValue": 2100.0601443969726,
-        "displayValue": 2100.0601443969726,
+        "ratioValue": 2141.906346851197,
+        "quantityValue": 2141.9063468,
+        "displayValue": 2141.9063468,
+        "quantityUsed": true
+      },
+      {
+        "symbol": "ORCL",
+        "invested": 2183.485259,
+        "ratioValue": 2447.0554796204333,
+        "quantityValue": 2447.0554800000004,
+        "displayValue": 2447.0554800000004,
         "quantityUsed": true
       },
       {
@@ -432,22 +729,22 @@
         "quantityUsed": true
       },
       {
-        "symbol": "MAZDOCK.NS",
-        "invested": 2187.308974,
-        "ratioValue": 2173.207400149033,
-        "quantityValue": 2173.2074000000002,
-        "displayValue": 2173.2074000000002,
+        "symbol": "AMAT",
+        "invested": 1959.686878,
+        "ratioValue": 1997.3926003597583,
+        "quantityValue": 1997.3926,
+        "displayValue": 1997.3926,
         "quantityUsed": true
       },
       {
-        "symbol": "AMAT",
-        "invested": 1959.686878,
-        "ratioValue": 1948.066053359907,
-        "quantityValue": 1948.066053009033,
-        "displayValue": 1948.066053009033,
+        "symbol": "VISC.ST",
+        "invested": 106.07557,
+        "ratioValue": 105.54143876468507,
+        "quantityValue": 105.54143836669923,
+        "displayValue": 105.54143836669923,
         "quantityUsed": true
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: tue, 08 sep 2026 07:55:48 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"5a28fddc2c6de7a93962a54b99324129\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=x8gyxl0ywvhkbfowooqmwgzwqp54awc5mmaovnqplcjdjof8bnsztqb2pfryhfiuf4ddayqbzqtxijffm0fhqyn34kg4672sz3x9gyfnit%2b6ni9t0bdvjx2e0o%2fmsriwwscixkjquonwizak9bps0lg5syiowj67ns0lvxc%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a37c649b7e581780-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: tue, 08 sep 2026 12:35:08 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"5a28fddc2c6de7a93962a54b99324129\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=kg9u8xstkww9txp9ssqr7ly%2bhqu3zx8g0skzoiczdmt8wx1cmnsseb2fxh%2fyqzbeloolbgygt%2fxhj4uduxqualwljps%2fgwuwmod6qts%2ftnrkgbgo8ganwjbrpbjf0ww3riexfyjdv23ximjj%2bua3g1j%2fkftwfjeks4txdaw%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a37dfdc9bdc82b7b-lax\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
