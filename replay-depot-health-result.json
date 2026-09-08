@@ -1,14 +1,14 @@
 {
-  "checkedAt": "2026-09-08T07:28:59.096627+00:00",
-  "berlinNow": "2026-09-08T09:28:59.096458+02:00",
+  "checkedAt": "2026-09-08T07:36:38.502890+00:00",
+  "berlinNow": "2026-09-08T09:36:38.502718+02:00",
   "http": {
     "full": "200",
     "dashboard": "200",
     "replay": "200"
   },
   "payloadBytes": {
-    "full": 425770,
-    "dashboard": 425808
+    "full": 393098,
+    "dashboard": 393098
   },
   "checks": {
     "fullStatus200": true,
@@ -22,36 +22,390 @@
   "allChecksPassed": true,
   "replay": {
     "date": "2026-09-08",
-    "status": "PRELIMINARY_COMPLETE",
-    "processed": 0,
-    "total": 0,
+    "status": "RUNNING",
+    "processed": 10,
+    "total": 44,
     "provisional": true,
     "completedAt": null,
     "capture": {
       "date": "2026-09-08",
-      "symbolCount": 103,
-      "updatedAt": "2026-09-08T07:28:35.964Z"
+      "symbolCount": 108,
+      "updatedAt": "2026-09-08T07:36:31.437Z"
     },
     "summary": {
-      "symbolsAnalysed": 0,
+      "provisional": true,
+      "symbolsAnalysed": 10,
       "errors": 0,
-      "mistakes": {},
+      "mistakes": {
+        "MISSED_SAFE_MOVE": 5,
+        "LATE_DISCOVERY": 6
+      },
       "churn": {
         "rapidRoundTrips": 0,
         "totalRapidTradePnl": 0,
         "fees": 0,
         "rows": []
       },
-      "bestMissed": [],
-      "worstEntries": [],
-      "provisional": true
+      "bestMissed": [
+        {
+          "symbol": "PARAS.NS",
+          "name": "Paras Defence and Space Technologies",
+          "firstSeenAt": "2026-09-08T05:35:36.791Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788841200000,
+            "price": 1538.5,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "m5": 0.143,
+              "m20": 0.02,
+              "accel": 0.416,
+              "draw": -0.678,
+              "day": 3.297,
+              "rsi": 50
+            },
+            "forward": {
+              "f15": -0.591,
+              "f30": 0.89,
+              "f60": 0.5,
+              "f120": -0.227,
+              "mfe120": 1.592,
+              "mae120": -0.682
+            },
+            "quality": 0.994
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1788848100000,
+            "price": 1537.5999755859375,
+            "mode": "NORMAL",
+            "metrics": {
+              "m5": 0.033,
+              "m20": -0.091,
+              "accel": 0.305,
+              "draw": -0.24,
+              "day": 3.236,
+              "rsi": 40.1
+            },
+            "forward": {
+              "f15": -0.884,
+              "f30": -0.832,
+              "f60": -0.078,
+              "f120": null,
+              "mfe120": -0.039,
+              "mae120": -0.884
+            },
+            "quality": -0.87
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "9984.T",
+          "name": "SoftBank Group",
+          "firstSeenAt": "2026-09-08T05:35:36.791Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788831900000,
+            "price": 6620,
+            "mode": "NORMAL",
+            "metrics": {
+              "m5": 0,
+              "m20": 0.562,
+              "accel": 0.181,
+              "draw": -0.181,
+              "day": 6.482,
+              "rsi": 70.1
+            },
+            "forward": {
+              "f15": -0.514,
+              "f30": 0.121,
+              "f60": 0.589,
+              "f120": 1.601,
+              "mfe120": 1.601,
+              "mae120": -1.163
+            },
+            "quality": 0.552
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1788846600000,
+            "price": 6684,
+            "mode": "NORMAL",
+            "metrics": {
+              "m5": -0.03,
+              "m20": 0.195,
+              "accel": -0.33,
+              "draw": -0.194,
+              "day": 7.512,
+              "rsi": 41.8
+            },
+            "forward": {
+              "f15": -1.227,
+              "f30": -2.095,
+              "f60": null,
+              "f120": null,
+              "mfe120": -0.284,
+              "mae120": -2.095
+            },
+            "quality": -1.985
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "HAL.NS",
+          "name": "Hindustan Aeronautics",
+          "firstSeenAt": "2026-09-08T05:35:36.791Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788842400000,
+            "price": 5024.60009765625,
+            "mode": "NORMAL",
+            "metrics": {
+              "m5": -0.008,
+              "m20": 0.329,
+              "accel": 0.115,
+              "draw": -0.228,
+              "day": 3.489,
+              "rsi": 50
+            },
+            "forward": {
+              "f15": 0.37,
+              "f30": 0.378,
+              "f60": 0.428,
+              "f120": 0.506,
+              "mfe120": 0.844,
+              "mae120": 0.277
+            },
+            "quality": 0.856
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1788846000000,
+            "price": 5046.10009765625,
+            "mode": "NORMAL",
+            "metrics": {
+              "m5": 0.034,
+              "m20": 0.121,
+              "accel": -0.064,
+              "draw": -0.241,
+              "day": 3.932,
+              "rsi": 59.1
+            },
+            "forward": {
+              "f15": -0.077,
+              "f30": 0.355,
+              "f60": 0.077,
+              "f120": null,
+              "mfe120": 0.414,
+              "mae120": -0.478
+            },
+            "quality": 0.084
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "DATAPATTNS.NS",
+          "name": "Data Patterns India",
+          "firstSeenAt": "2026-09-08T05:35:36.791Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788841200000,
+            "price": 4808.2998046875,
+            "mode": "PULLBACK_RETEST",
+            "metrics": {
+              "m5": 0.071,
+              "m20": 0.447,
+              "accel": 0.489,
+              "draw": -0.363,
+              "day": 4.738,
+              "rsi": 50
+            },
+            "forward": {
+              "f15": -0.048,
+              "f30": 1.429,
+              "f60": 2.074,
+              "f120": 2.323,
+              "mfe120": 2.323,
+              "mae120": -0.156
+            },
+            "quality": 3.301
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1788847200000,
+            "price": 4876.5,
+            "mode": "NORMAL",
+            "metrics": {
+              "m5": 0.004,
+              "m20": -0.066,
+              "accel": 0.231,
+              "draw": -0.223,
+              "day": 6.223,
+              "rsi": 49.8
+            },
+            "forward": {
+              "f15": 0.755,
+              "f30": 0.687,
+              "f60": 0.345,
+              "f120": null,
+              "mfe120": 0.97,
+              "mae120": 0.345
+            },
+            "quality": 0.924
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        },
+        {
+          "symbol": "9988.HK",
+          "name": "Alibaba Hong Kong",
+          "firstSeenAt": "2026-09-08T06:01:46.681Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE"
+          ],
+          "bestSafeEntry": {
+            "ts": 1788839100000,
+            "price": 109.19999694824219,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.183,
+              "m20": 0.183,
+              "accel": 0.183,
+              "draw": 0.183,
+              "day": -0.365,
+              "rsi": 60
+            },
+            "forward": {
+              "f15": -0.183,
+              "f30": 1.832,
+              "f60": 0.641,
+              "f120": 0.549,
+              "mfe120": 1.832,
+              "mae120": -0.275
+            },
+            "quality": 1.772
+          },
+          "firstSafeAfterSeen": {
+            "ts": 1788848400000,
+            "price": 109.5,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.275,
+              "m20": 0.183,
+              "accel": 0.458,
+              "draw": -0.091,
+              "day": -0.091,
+              "rsi": 53.6
+            },
+            "forward": {
+              "f15": 0.274,
+              "f30": 0.183,
+              "f60": null,
+              "f120": null,
+              "mfe120": 0.274,
+              "mae120": 0
+            },
+            "quality": 0.16
+          },
+          "actualBuys": [],
+          "entryRegretPct": null,
+          "mistakes": [
+            "MISSED_SAFE_MOVE",
+            "LATE_DISCOVERY"
+          ]
+        }
+      ],
+      "worstEntries": [
+        {
+          "symbol": "MAZDOCK.NS",
+          "name": "Mazagon Dock Shipbuilders",
+          "firstSeenAt": "2026-09-08T06:09:13.987Z",
+          "sources": [
+            "DEEP",
+            "SECOND_CHANCE",
+            "TRADED"
+          ],
+          "bestSafeEntry": null,
+          "firstSafeAfterSeen": {
+            "ts": 1788849600000,
+            "price": 2471.5,
+            "mode": "EARLY_BREAKOUT",
+            "metrics": {
+              "m5": 0.174,
+              "m20": 0.182,
+              "accel": 0.292,
+              "draw": 0.057,
+              "day": 0.705,
+              "rsi": 60.9
+            },
+            "forward": {
+              "f15": 0.004,
+              "f30": -0.061,
+              "f60": null,
+              "f120": null,
+              "mfe120": 0.004,
+              "mae120": -0.235
+            },
+            "quality": -0.149
+          },
+          "actualBuys": [
+            {
+              "ts": "2026-09-08T06:14:46.276Z",
+              "chartTs": 1788848100000,
+              "price": 2471,
+              "mode": "WAIT",
+              "reason": "KI BUY 68%: V31.7 KAUFZONE 71.7/100 · Daten 85/100 · unabhängige Bestätigung 1 · Netto-Edge Warmup · V30.2 DAYTRADE-BUY: MAZDOCK.NS Score 62.2 +0 Live-Fix = 62.2/100 · NEUTRAL · NE",
+              "forward": {
+                "f15": -0.036,
+                "f30": -0.032,
+                "f60": -0.069,
+                "mfe120": 0.024,
+                "mae120": -0.214
+              },
+              "draw": -0.166,
+              "day": 0.685,
+              "rsi": 56.3
+            }
+          ],
+          "entryRegretPct": null,
+          "mistakes": []
+        }
+      ]
     }
   },
   "depot": {
     "cash": 696.8258984558252,
-    "equity": 10036.326752393792,
-    "displayMarketValue": 9339.50085387726,
-    "displayAccountingDelta": 6.070695235393941e-08,
+    "equity": 10038.533502393944,
+    "displayMarketValue": 9341.70760387726,
+    "displayAccountingDelta": 6.085974746383727e-08,
     "positions": [
       {
         "symbol": "ORCL",
@@ -80,9 +434,9 @@
       {
         "symbol": "MAZDOCK.NS",
         "invested": 2187.308974,
-        "ratioValue": 2176.2968501492455,
-        "quantityValue": 2176.29685,
-        "displayValue": 2176.29685,
+        "ratioValue": 2178.503600149397,
+        "quantityValue": 2178.5036,
+        "displayValue": 2178.5036,
         "quantityUsed": true
       },
       {
@@ -95,5 +449,5 @@
       }
     ]
   },
-  "quotaGuardHeaders": "http/2 200 \ndate: tue, 08 sep 2026 07:28:59 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"5a28fddc2c6de7a93962a54b99324129\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=lbm1hnbu6pg8eqieevcbgdsdgnfozcxhwqxmlqikm2vkbxaupn4059erwx0etabufqr%2foy9ia5gpps9%2fevgavwipqflr7d501wsj5l%2bvx7clnb%2f4lg6ydsd7%2fi9vonmxjzwlrcguujkyodgzkh4rflmdfbtm%2bemidzqhate%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a37c3d50bcfad639-iad\nalt-svc: h3=\":443\"; ma=86400\n\n"
+  "quotaGuardHeaders": "http/2 200 \ndate: tue, 08 sep 2026 07:36:38 gmt\ncontent-type: text/javascript\ncf-cache-status: hit\ncache-control: no-store, no-cache, must-revalidate, max-age=0\netag: \"5a28fddc2c6de7a93962a54b99324129\"\nexpires: 0\npragma: no-cache\nreport-to: {\"group\":\"cf-nel\",\"max_age\":604800,\"endpoints\":[{\"url\":\"https://a.nel.cloudflare.com/report/v4?s=h3cpch0dpsjbdhqaeybrkr48v5vm6tkw5vko6oderthatdbmdmhpp2ttdtzo5kksitl8vy5ph%2blmbtnwkaqcml9o6zm37gfi6uuj86pqupgwbenh2%2f4twmulpfepxclspjz214ibk4lbomtbm1jbik6coxmlodxncwjhdee%3d\"}]}\nnel: {\"report_to\":\"cf-nel\",\"success_fraction\":0.0,\"max_age\":604800}\nserver: cloudflare\ncf-ray: a37c4887ea8aed3e-sjc\nalt-svc: h3=\":443\"; ma=86400\n\n"
 }
