@@ -71,7 +71,7 @@ assert.match(constants,/DEEP_LIMIT = 6/);assert.match(constants,/NEWS_RADAR_BATC
 assert.match(v21Budget,/earlyDipPrioritySlots:1/);
 assert.match(v9,/gettex-closed-sleep/);assert.match(v9,/PREOPEN_FETCH_SOFT_CAP=24/);assert.match(v9,/preOpenPrepare/);assert.match(v9,/noTrades:true/);
 assert.match(v10,/AGENT_ONLINE_MS=150\*1000/);
-assert.match(compact,/AI_DAILY_NEURON_SOFT_CAP=8_000/);assert.match(compact,/AI_PLAN_OUTPUT_CAP=400/);assert.match(compact,/AI_NEWS_OUTPUT_CAP=120/);
+assert.match(compact,/AI_DAILY_NEURON_SOFT_CAP=8_000/);assert.match(compact,/AI_PLAN_OUTPUT_CAP=400/);assert.match(compact,/AI_NEWS_OUTPUT_CAP=700/);
 assert.match(quota,/ACTIVE_STATUS_TTL_MS=25_000/);assert.match(quota,/SLEEP_STATUS_TTL_MS=10\*60\*1000/);assert.match(quota,/statusTtl\(\)/);
 assert.match(pcInstall,/Join-Path \$Source 'pc-agent\.ps1'/);assert.doesNotMatch(pcInstall,/pc-agent-v288\.ps1/);assert.match(pcInstall,/pc-first-scanner\.ps1/);assert.match(pcInstall,/pcFirstShardCount=4/);assert.match(pcInstall,/maxStorageGb=2\.0/);assert.match(pcInstall,/trimToGb=1\.6/);assert.match(pcInstall,/CurrentVersion\\Run/);
 
