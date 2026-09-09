@@ -19,7 +19,7 @@ export class MarketPortfolio extends BasePortfolio{
     s.candidates=(Array.isArray(s.candidates)?s.candidates:[]).map(c=>{const fresh=c?.quoteStale===true?false:Boolean(c?.fresh)&&c?.stale!==true;return{...c,fresh,stale:!fresh,quoteStale:!fresh}});
     const positions=Array.isArray(s.positions)?s.positions:[],stalePositions=positions.filter(p=>p?.price_stale===true||p?.quote_fresh===false||p?.quote_age_minutes==null);
     s.portfolioValuation={partiallyStale:stalePositions.length>0,stalePositionCount:stalePositions.length,totalPositionCount:positions.length,staleSymbols:stalePositions.map(p=>p.symbol),rule:'Depotwert enthält bei fehlenden Live-Kursen den letzten bekannten Kurs und ist dann ausdrücklich als teilweise veraltet markiert.'};
-    if(s?.pcAgent?.healthState==='OFFLINE')s.operationalAlert={severity:'CRITICAL',code:'PC_AGENT_OFFLINE',message:'PC-Agent offline – Worker-Fallback aktiv; PC-Masterabdeckung und PC-Scanwerte sind nicht aktuell.',since:s.pcAgent.lastSeenAt||null};
+    s.scannerRuntime={mode:'CLOUDFLARE_WORKER_PRIMARY',targetIntervalMinutes:1,pcAgentRequired:false,pcAgentOptional:true,pcAgentOnline:Boolean(s?.pcAgent?.online),rule:'Der Cloudflare Worker scannt selbstständig. Ein ausgeschalteter PC-Agent ist kein Fehler und drosselt den Worker nicht.'};
     if(Array.isArray(s.history))s.history=s.history.slice(0,160);
     if(Array.isArray(s.snapshots))s.snapshots=s.snapshots.slice(-180);
     if(Array.isArray(s.newsRadar))s.newsRadar=s.newsRadar.slice(0,30);

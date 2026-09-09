@@ -5,7 +5,7 @@ Reines Paper-Trading / Planspiel. Keine echten Orders und aktuell kein Broker-Zu
 ## Was diese Version macht
 
 - läuft serverseitig auf Cloudflare, auch wenn PC, Handy und Browser aus sind
-- Cron Trigger alle 5 Minuten an Handelstagen (`*/5 5-22 * * 1-5`); der Windows-PC-Agent liefert die Minutenauflösung
+- Cron Trigger jede Minute an Handelstagen (`* 5-22 * * 1-5`); der Cloudflare Worker läuft eigenständig, der Windows-PC-Agent ist optional
 - SQLite Durable Object speichert Depot, Positionen, Verlauf, Lernwerte und Entscheidungen dauerhaft
 - Zieldepot für eine spätere praktische Umsetzung: **Trade Republic**
 - tägliches, branchenunabhängiges Aktienuniversum mit bis zu **3.000 liquiden Unternehmen**
