@@ -14,6 +14,8 @@ assert.match(v3,/captureNewsLearningQuoteCache/);
 assert.match(v3,/consumeScanFunnel/);
 assert.match(v7,/fee_fixed=ZERO_FEE_MODEL\.standardOrderFeeEur/);
 assert.match(v7,/feeFixed:ZERO_FEE_MODEL\.standardOrderFeeEur/);
+const v7Status=v7.slice(v7.indexOf('  async status(){'),v7.indexOf('\n    const s=await super.status()',v7.indexOf('  async status(){')));
+assert.doesNotMatch(v7Status,/ensureStocksOnlyState|repairStoredQuoteAnomalies/,'Ein reiner Statusabruf darf keine R2-Migrations- oder Reparaturrunde starten');
 assert.match(market,/c\.stale=!c\.fresh;c\.quoteStale=!c\.fresh/);
 assert.match(marketOverlay,/fresh:true,stale:false,quoteStale:false/);
 assert.doesNotMatch(brokerUi,/Order ≥ 500 €/);

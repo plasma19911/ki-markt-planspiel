@@ -130,7 +130,6 @@ export class MarketPortfolio extends BasePortfolio{
   async start(options={}){const r=await super.start({...options,includeEtfs:false,includeLeverage:false});await ensureStocksOnlyState(this.engine);await repairStoredQuoteAnomalies(this.engine);return r}
   async reset(){const r=await super.reset();await ensureZeroConfig(this.engine);await ensureStocksOnlyState(this.engine);return r}
   async status(){
-    await ensureStocksOnlyState(this.engine);await repairStoredQuoteAnomalies(this.engine);
     const s=await super.status(),a=accountingFromStatus(s);
     s.config.include_etfs=0;s.config.include_leverage=0;s.positions=(s.positions||[]).filter(isStock);s.candidates=(s.candidates||[]).filter(isStock);s.newsRadar=(s.newsRadar||[]).filter(isStock);
     s.equity=a.equity;s.pnl=a.pnl;s.pnl_pct=a.pnlPct;s.accounting=a;
