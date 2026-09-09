@@ -52,7 +52,7 @@ function direction(row){
 export function captureNewsLearningQuoteCache(state={},rows=[]){
  const cache=state.newsLearningQuoteCache&&typeof state.newsLearningQuoteCache==='object'?state.newsLearningQuoteCache:{};
  const slot=Math.floor(Date.now()/300000)*300;
- for(const row of arr(rows)){const symbol=String(row?.symbol||'').toUpperCase(),price=num(row?.price),rawTs=num(row?.marketTimestamp,row?.market_timestamp),ts=rawTs>1e12?Math.floor(rawTs/1000):rawTs;if(!symbol||!(price>0)||!(ts>0))continue;const bars=arr(cache[symbol]).filter(x=>num(x?.ts)>0&&Date.now()/1000-num(x.ts)<=8*3600);if(bars.at(-1)?.slot===slot)bars[bars.length-1]={slot,ts,price};else bars.push({slot,ts,price});cache[symbol]=bars.slice(-100)}
+ for(const row of arr(rows)){const symbol=String(row?.symbol||'').toUpperCase(),price=num(row?.price,row?.last_price??row?.last),rawTs=num(row?.marketTimestamp,row?.market_timestamp),parsedTs=Date.parse(String(row?.quoteUpdatedAt||row?.quote_updated_at||row?.last_quote_at||row?.observedAt||'')),ts=rawTs>1e12?Math.floor(rawTs/1000):rawTs>0?rawTs:Number.isFinite(parsedTs)?Math.floor(parsedTs/1000):0;if(!symbol||!(price>0)||!(ts>0))continue;const bars=arr(cache[symbol]).filter(x=>num(x?.ts)>0&&Date.now()/1000-num(x.ts)<=8*3600);if(bars.at(-1)?.slot===slot)bars[bars.length-1]={slot,ts,price};else bars.push({slot,ts,price});cache[symbol]=bars.slice(-100)}
  const keys=Object.keys(cache).sort((a,b)=>num(cache[b]?.at(-1)?.ts)-num(cache[a]?.at(-1)?.ts));for(const key of keys.slice(120))delete cache[key];state.newsLearningQuoteCache=cache;return cache;
 }
 

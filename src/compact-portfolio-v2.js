@@ -1,6 +1,7 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio.js';
 import {updateNewsLearning,newsLearningContext} from './news-learning-v2.js';
 import {captureNewsLearningQuoteCache} from './news-learning.js';
+import {consumeNewsLearningQuotes} from './market-v3-base.js';
 
 // Die nachgelagerte Kursauswertung ist kein Live-News-Abruf. Ein Stundenrhythmus
 // reicht für 15m/1h/4h/6h-Horizonte und verhindert Yahoo-429-Drosselungen.
@@ -66,7 +67,7 @@ export class MarketPortfolio extends BasePortfolio{
     return this._serial(async()=>{
       const r=await this.engine.scan();
       if(!r?.skipped&&!r?.aborted){
-        try{await this.engine.store.update(async s=>{captureNewsLearningQuoteCache(s,[...(s.candidates||[]),...(s.positions||[])]);return true})}catch(e){console.error('News quote cache refresh failed',e)}
+        try{const newsQuotes=consumeNewsLearningQuotes();await this.engine.store.update(async s=>{captureNewsLearningQuoteCache(s,[...newsQuotes,...(s.candidates||[]),...(s.positions||[])]);return true})}catch(e){console.error('News quote cache refresh failed',e)}
         try{await this._refreshIntelligence(false)}catch(e){console.error('Investment intelligence refresh failed',e)}
       }
       return r;
