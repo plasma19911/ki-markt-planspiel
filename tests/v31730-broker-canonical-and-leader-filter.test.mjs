@@ -46,9 +46,9 @@ const pcAgent=readFileSync(new URL('../public/pc-agent-latest.ps1',import.meta.u
   assert.match(agentStatus,/droppedNonEquityEntries/,'filtered external entries must be observable');
   assert.match(pcScanner,/query1\.finance\.yahoo\.com/);
   assert.match(pcScanner,/query2\.finance\.yahoo\.com/);
-  assert.match(pcScanner,/for\(\$attempt=1;\$attempt -le 2;\$attempt\+\+\)/);
+  assert.match(pcScanner,/for\(\$attempt=1;\$attempt -le 1;\$attempt\+\+\)/,'scanner must fail fast instead of repeating a bad Yahoo host');
   assert.match(pcScanner,/DateTimeOffset\]::UtcNow\.ToUnixTimeSeconds/,'fresh-row timestamps must be compared as UTC epoch seconds');
-  assert.match(pcAgent,/1\.2\.8-v31\.7\.34-scan-result-check/);
+  assert.match(pcAgent,/1\.2\.9-v31\.7\.47-fast-fail-scanner/);
   assert.match(pcAgent,/TimeoutSec \$TimeoutSec/);
 }
 

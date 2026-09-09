@@ -13,7 +13,7 @@
 #  6. Zusaetzliche Diagnosefelder im Summary (sparkBatchSize, scannedSymbolCount,
 #     freshQuoteCount, shardCoveragePct, lastBatchError).
 # Dot-source aus pc-agent.ps1. Die Breitenarbeit bleibt auf dem Windows-PC.
-$script:PcFirstVersion='29.7'
+$script:PcFirstVersion='29.8'
 $script:PcFirstUniverse=@()
 $script:PcFirstRows=@{}
 $script:PcFirstUniverseAt=[DateTime]::MinValue
@@ -54,6 +54,27 @@ function Get-PcFirstMarket([string]$Symbol){
   if($script:PcFirstMarketBySuffix.ContainsKey($suf)){return $script:PcFirstMarketBySuffix[$suf]}
   return 'GLOBAL'
 }
+# Ein Trade-Republic-Katalogtreffer allein garantiert noch keinen belastbaren
+# Live-Kurs. Der Agent nutzt Yahoo-Kurse des Referenzmarkts und scannt deshalb
+# nur Titel, deren Referenzmarkt gerade wirklich handelt.
+function Get-PcFirstSessionRule($Entry){
+  $symbol=([string]$Entry.symbol).ToUpper();$exchange=([string]$Entry.exchange).ToUpper();$i=$symbol.LastIndexOf('.');$suf=if($i-ge 0){$symbol.Substring($i+1)}else{'US'}
+  $rules=@{
+    'US'=@('Eastern Standard Time',570,960);'TO'=@('Eastern Standard Time',570,960);'V'=@('Eastern Standard Time',570,960);'NE'=@('Eastern Standard Time',570,960)
+    'DE'=@('W. Europe Standard Time',540,1050);'F'=@('W. Europe Standard Time',540,1050);'SG'=@('W. Europe Standard Time',540,1050);'MU'=@('W. Europe Standard Time',540,1050);'HM'=@('W. Europe Standard Time',540,1050)
+    'PA'=@('Romance Standard Time',540,1050);'BR'=@('Romance Standard Time',540,1050);'MI'=@('W. Europe Standard Time',540,1050);'MC'=@('Romance Standard Time',540,1050);'AS'=@('W. Europe Standard Time',540,1050);'VI'=@('W. Europe Standard Time',540,1050)
+    'L'=@('GMT Standard Time',480,990);'SW'=@('W. Europe Standard Time',540,1050);'ST'=@('W. Europe Standard Time',540,1050);'OL'=@('W. Europe Standard Time',540,990);'CO'=@('Romance Standard Time',540,1020);'HE'=@('FLE Standard Time',600,1110)
+    'T'=@('Tokyo Standard Time',540,930);'HK'=@('China Standard Time',570,960);'SS'=@('China Standard Time',570,900);'SZ'=@('China Standard Time',570,900);'NS'=@('India Standard Time',555,930);'BO'=@('India Standard Time',555,930)
+    'AX'=@('AUS Eastern Standard Time',600,960);'NZ'=@('New Zealand Standard Time',600,1005);'SA'=@('E. South America Standard Time',600,1020)
+  }
+  if($rules.ContainsKey($suf)){return $rules[$suf]}
+  if($exchange-in @('NMS','NYQ','NGM','NCM','ASE','PCX')){return $rules['US']}
+  return $null
+}
+function Test-PcFirstReferenceMarketOpen($Entry,[DateTime]$UtcNow=[DateTime]::UtcNow){
+  $r=Get-PcFirstSessionRule $Entry;if($null-eq $r){return $false}
+  try{$tz=[TimeZoneInfo]::FindSystemTimeZoneById([string]$r[0]);$local=[TimeZoneInfo]::ConvertTimeFromUtc($UtcNow.ToUniversalTime(),$tz);if($local.DayOfWeek-in @([DayOfWeek]::Saturday,[DayOfWeek]::Sunday)){return $false};$m=$local.Hour*60+$local.Minute;return $m-ge [int]$r[1] -and $m-lt [int]$r[2]}catch{return $false}
+}
 function New-PcFirstEntries($Rows,[string]$SourceName,[int]$Take){
   $out=@();$rank=0
   foreach($r in @($Rows|Select-Object -First $Take)){$rank++;$out+=[ordered]@{symbol=[string]$r.symbol;market=(Get-PcFirstMarket $r.symbol);source=$SourceName;rank=$rank}}
@@ -89,8 +110,8 @@ function Invoke-PcFirstSpark($Symbols,[string]$Interval='5m'){
   $suffix='/v7/finance/spark?symbols='+$query+'&range=1d&interval='+$Interval+'&indicators=close&includePrePost=true'
   $lastError=$null
   foreach($apiHost in @('https://query1.finance.yahoo.com','https://query2.finance.yahoo.com')){
-    for($attempt=1;$attempt -le 2;$attempt++){
-      try{$j=(Invoke-TrackedGet ($apiHost+$suffix))|ConvertFrom-Json;$rows=@(Convert-PcFirstSpark $j $Interval);if($rows.Count){return $rows};$lastError="leere Antwort von $apiHost"}
+    for($attempt=1;$attempt -le 1;$attempt++){
+      try{$j=(Invoke-TrackedGet ($apiHost+$suffix) 8)|ConvertFrom-Json;$rows=@(Convert-PcFirstSpark $j $Interval);if($rows.Count){return $rows};$lastError="leere Antwort von $apiHost"}
       catch{
         $lastError=$_.Exception.Message
         $code=0;try{$code=[int]$_.Exception.Response.StatusCode}catch{}
@@ -110,6 +131,8 @@ function Invoke-PcFirstPipeline(){
   Load-PcFirstRows
   $universe=@(Update-PcFirstUniverse);if($universe.Count-lt 100){throw 'PC-FIRST: Kein Aktien-Master verfuegbar.'}
   $shardIndex=$script:PcFirstShard
+  $actionableUniverse=@($universe|Where-Object{Test-PcFirstReferenceMarketOpen $_})
+  if(-not $actionableUniverse.Count){throw 'PC-FIRST: Kein Trade-Republic-Titel mit aktuell offenem Referenzmarkt.'}
   # V29.6 Sitzungsfokus: Symbole, die zuletzt eine frische Kerze geliefert haben,
   # stehen an einer offenen Boerse und werden JEDE Minute nachgezogen. Der Rest
   # wird weiter im Schichtbetrieb abgetastet, damit neu oeffnende Maerkte
@@ -121,7 +144,7 @@ function Invoke-PcFirstPipeline(){
   # der Hot-Set stillschweigend leer blieb.
   foreach($e in @($script:PcFirstRows.GetEnumerator())){try{$ts=[int64]$e.Value.marketTimestamp;if($ts-gt 0 -and ($nowUnixPre-$ts)/60 -le $script:PcFirstHotMaxAgeMinutes){$hot[[string]$e.Key]=$true}}catch{}}
   $hotSymbols=@();$coldPool=@()
-  for($i=0;$i-lt $universe.Count;$i++){$sym=[string]$universe[$i].symbol
+  for($i=0;$i-lt $actionableUniverse.Count;$i++){$sym=[string]$actionableUniverse[$i].symbol
     if($hot.ContainsKey($sym)){$hotSymbols+=$sym}
     elseif(($i%$script:PcFirstShardCount)-eq $shardIndex){$coldPool+=$sym}}
   if($hotSymbols.Count -gt $script:PcFirstMaxHotSymbols){$hotSymbols=@($hotSymbols|Select-Object -First $script:PcFirstMaxHotSymbols)}
@@ -130,21 +153,22 @@ function Invoke-PcFirstPipeline(){
   $coldBudget=[Math]::Max($script:PcFirstMinColdBatches,$script:PcFirstMaxBatchesPerCycle-$hotBatches-$script:PcFirstDeepBatchReserve)
   $coldSymbols=@($coldPool|Select-Object -First ($coldBudget*$batchSizePre))
   $symbols=@($hotSymbols)+@($coldSymbols)
-  $requests=0;$errors=0;$now=[DateTime]::UtcNow;$script:PcFirstLastBatchError=$null;$batchSize=$script:PcFirstSparkBatchSize
+  $requests=0;$errors=0;$consecutiveErrors=0;$now=[DateTime]::UtcNow;$script:PcFirstLastBatchError=$null;$batchSize=$script:PcFirstSparkBatchSize
   foreach($chunk in @(Split-PcFirstChunks $symbols $batchSize)){
-    try{$requests++;foreach($q in @(Invoke-PcFirstSpark $chunk '5m')){$pre=Get-PcFirstPreScore $q;$script:PcFirstRows[$q.symbol]=[ordered]@{symbol=$q.symbol;price=[double]$q.price;dayPct=[double]$q.dayPct;momentum20Pct=[double]$q.momentum20Pct;momentum5Pct=[double]$q.momentum5Pct;acceleration5Pct=[double]$q.acceleration5Pct;marketTimestamp=[int64]$q.marketTimestamp;preScore=$pre;updatedAt=$now.ToString('o')}}}
-    catch{$errors++;if(-not $script:PcFirstLastBatchError){$script:PcFirstLastBatchError=$_.Exception.Message}}
+    try{$requests++;foreach($q in @(Invoke-PcFirstSpark $chunk '5m')){$pre=Get-PcFirstPreScore $q;$script:PcFirstRows[$q.symbol]=[ordered]@{symbol=$q.symbol;price=[double]$q.price;dayPct=[double]$q.dayPct;momentum20Pct=[double]$q.momentum20Pct;momentum5Pct=[double]$q.momentum5Pct;acceleration5Pct=[double]$q.acceleration5Pct;marketTimestamp=[int64]$q.marketTimestamp;preScore=$pre;updatedAt=$now.ToString('o')}};$consecutiveErrors=0}
+    catch{$errors++;$consecutiveErrors++;if(-not $script:PcFirstLastBatchError){$script:PcFirstLastBatchError=$_.Exception.Message};if($consecutiveErrors-ge 3){Write-AgentLog 'PC-FIRST: Grobscan nach 3 aufeinanderfolgenden Batchfehlern frueh beendet.';break}}
     if($script:PcFirstBatchPauseMs-gt 0){Start-Sleep -Milliseconds $script:PcFirstBatchPauseMs}
   }
   # Nur weiterrotieren, wenn der Shard wenigstens teilweise geliefert hat.
   # Sonst wiederholt der naechste Zyklus denselben Ausschnitt.
   if($requests-eq 0 -or $errors-lt $requests){$script:PcFirstShard=($script:PcFirstShard+1)%$script:PcFirstShardCount}
   if($script:PcFirstShard-eq 0 -and $errors-lt $requests){$script:PcFirstLastFullSweepAt=$now}
-  $nowUnix=[DateTimeOffset]::UtcNow.ToUnixTimeSeconds();$rows=@($script:PcFirstRows.Values|Where-Object{try{$age=($nowUnix-[int64]$_.marketTimestamp)/60;[int64]$_.marketTimestamp-gt 0 -and $age-ge 0 -and $age-le 8}catch{$false}})
+  $nowUnix=[DateTimeOffset]::UtcNow.ToUnixTimeSeconds();$actionableSymbols=@{};foreach($x in $actionableUniverse){$actionableSymbols[[string]$x.symbol]=$true}
+  $rows=@($script:PcFirstRows.Values|Where-Object{try{$age=($nowUnix-[int64]$_.marketTimestamp)/60;[int64]$_.marketTimestamp-gt 0 -and $age-ge 0 -and $age-le 8 -and $actionableSymbols.ContainsKey([string]$_.symbol)}catch{$false}})
   $stage2=@($rows|Sort-Object @{Expression={[double]$_.preScore};Descending=$true}|Select-Object -First 400);$deepSymbols=@($stage2|Select-Object -First 240|ForEach-Object{$_.symbol});$deepMap=@{}
-  foreach($chunk in @(Split-PcFirstChunks $deepSymbols $batchSize)){
-    try{$requests++;foreach($q in @(Invoke-PcFirstSpark $chunk '1m')){$pre=if($script:PcFirstRows.ContainsKey($q.symbol)){[double]$script:PcFirstRows[$q.symbol].preScore}else{Get-PcFirstPreScore $q};$deep=Get-PcFirstDeepScore $q $pre;$deepMap[$q.symbol]=[ordered]@{symbol=$q.symbol;price=[double]$q.price;dayPct=[double]$q.dayPct;momentum20Pct=[double]$q.momentum20Pct;momentum5Pct=[double]$q.momentum5Pct;acceleration5Pct=[double]$q.acceleration5Pct;marketTimestamp=[int64]$q.marketTimestamp;preScore=$pre;deepScore=$deep}}}
-    catch{$errors++;if(-not $script:PcFirstLastBatchError){$script:PcFirstLastBatchError=$_.Exception.Message}}
+  $consecutiveErrors=0;foreach($chunk in @(Split-PcFirstChunks $deepSymbols $batchSize)){
+    try{$requests++;foreach($q in @(Invoke-PcFirstSpark $chunk '1m')){$pre=if($script:PcFirstRows.ContainsKey($q.symbol)){[double]$script:PcFirstRows[$q.symbol].preScore}else{Get-PcFirstPreScore $q};$deep=Get-PcFirstDeepScore $q $pre;$deepMap[$q.symbol]=[ordered]@{symbol=$q.symbol;price=[double]$q.price;dayPct=[double]$q.dayPct;momentum20Pct=[double]$q.momentum20Pct;momentum5Pct=[double]$q.momentum5Pct;acceleration5Pct=[double]$q.acceleration5Pct;marketTimestamp=[int64]$q.marketTimestamp;preScore=$pre;deepScore=$deep}};$consecutiveErrors=0}
+    catch{$errors++;$consecutiveErrors++;if(-not $script:PcFirstLastBatchError){$script:PcFirstLastBatchError=$_.Exception.Message};if($consecutiveErrors-ge 3){Write-AgentLog 'PC-FIRST: Tiefenscan nach 3 aufeinanderfolgenden Batchfehlern frueh beendet.';break}}
     if($script:PcFirstBatchPauseMs-gt 0){Start-Sleep -Milliseconds $script:PcFirstBatchPauseMs}
   }
   if($script:PcFirstLastBatchError){Write-AgentLog "PC-FIRST: $errors von $requests Batches fehlgeschlagen. Erste Ursache: $($script:PcFirstLastBatchError)"}
@@ -160,9 +184,9 @@ function Invoke-PcFirstPipeline(){
   # Ueberhitzung. Ueber +8% wird bewusst nicht mehr eingesammelt (Anti-Chase).
   $breakoutRows=@($rows|Where-Object{[double]$_.dayPct -ge .5 -and [double]$_.dayPct -le 8 -and [double]$_.momentum5Pct -gt 0 -and [double]$_.acceleration5Pct -gt 0}|Sort-Object @{Expression={[double]$_.acceleration5Pct+[double]$_.momentum5Pct};Descending=$true})
   $breakoutEntries=@(New-PcFirstEntries $breakoutRows "PC-FIRST-V$($script:PcFirstVersion) Breakout" 40)
-  $coverage=if($universe.Count){100*$rows.Count/$universe.Count}else{0}
+  $coverage=if($actionableUniverse.Count){100*$rows.Count/$actionableUniverse.Count}else{0}
   $shardCoverage=if($symbols.Count -and $requests){100*[Math]::Max(0,($requests-$errors))/[Math]::Max(1,[Math]::Ceiling($symbols.Count/$batchSize))}else{0}
-  $summary=[ordered]@{version=[double]$script:PcFirstVersion;updatedAt=$now.ToString('o');masterUniverseCount=$universe.Count;prescannedCount=$rows.Count;validQuoteCount=$rows.Count;preScoredCount=$rows.Count;allReceivedRowsPreScored=$true;stage2Count=$stage2.Count;deepCount=$deepMap.Count;finalistCount=$candidates.Count;shardIndex=$shardIndex;shardCount=$script:PcFirstShardCount;scannedSymbolCount=$symbols.Count;hotSymbolCount=$($hotSymbols.Count);coldSymbolCount=$($coldSymbols.Count);freshQuoteCount=$rows.Count;sparkBatchSize=$batchSize;shardCoveragePct=[Math]::Round([Math]::Min(100,$shardCoverage),1);fullCycleCoveragePct=[Math]::Round([Math]::Min(100,$coverage),1);targetFullCycleMinutes=$script:PcFirstShardCount;lastFullSweepAt=if($script:PcFirstLastFullSweepAt){$script:PcFirstLastFullSweepAt.ToString('o')}else{$null};lastMinuteRefreshAt=$now.ToString('o');batchRequests=$requests;batchErrors=$errors;lastBatchError=$script:PcFirstLastBatchError;reboundEntryCount=$($reboundEntries.Count);breakoutEntryCount=$($breakoutEntries.Count);discoveryMode='PC_FIRST_DERIVED';scorePipeline='ALIGNED_PRICE_TIME_8M -> TOP400 -> DEEP240 -> FINAL60';source="Windows-PC · Yahoo Spark Batch (max $batchSize) · Full-Master rolling · Kurs und Zeit gleiche Kerze · <=8m";candidates=$candidates}
+  $summary=[ordered]@{version=[double]$script:PcFirstVersion;updatedAt=$now.ToString('o');masterUniverseCount=$universe.Count;actionableUniverseCount=$actionableUniverse.Count;closedReferenceMarketCount=[Math]::Max(0,$universe.Count-$actionableUniverse.Count);coverageDenominator='TRADE_REPUBLIC_VERIFIED_AND_REFERENCE_MARKET_OPEN';prescannedCount=$rows.Count;validQuoteCount=$rows.Count;preScoredCount=$rows.Count;allReceivedRowsPreScored=$true;stage2Count=$stage2.Count;deepCount=$deepMap.Count;finalistCount=$candidates.Count;shardIndex=$shardIndex;shardCount=$script:PcFirstShardCount;scannedSymbolCount=$symbols.Count;hotSymbolCount=$($hotSymbols.Count);coldSymbolCount=$($coldSymbols.Count);freshQuoteCount=$rows.Count;sparkBatchSize=$batchSize;shardCoveragePct=[Math]::Round([Math]::Min(100,$shardCoverage),1);fullCycleCoveragePct=[Math]::Round([Math]::Min(100,$coverage),1);targetFullCycleMinutes=$script:PcFirstShardCount;lastFullSweepAt=if($script:PcFirstLastFullSweepAt){$script:PcFirstLastFullSweepAt.ToString('o')}else{$null};lastMinuteRefreshAt=$now.ToString('o');batchRequests=$requests;batchErrors=$errors;lastBatchError=$script:PcFirstLastBatchError;reboundEntryCount=$($reboundEntries.Count);breakoutEntryCount=$($breakoutEntries.Count);discoveryMode='PC_FIRST_TRADE_REPUBLIC_OPEN_NOW';scorePipeline='TR-VERIFIED + REFERENCE-MARKET-OPEN -> ALIGNED_PRICE_TIME_8M -> TOP400 -> DEEP240 -> FINAL60';source="Windows-PC · Trade-Republic-Master · nur aktuell offene Referenzmaerkte · Yahoo Spark <=8m";candidates=$candidates}
   try{$summary|ConvertTo-Json -Depth 8|Set-Content $script:PcFirstStateCache -Encoding UTF8}catch{}
   Save-PcFirstRows
   return [ordered]@{summary=$summary;leaderEntries=$leaders;reboundEntries=$reboundEntries;breakoutEntries=$breakoutEntries}

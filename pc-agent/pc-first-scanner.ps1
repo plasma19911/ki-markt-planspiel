@@ -110,8 +110,8 @@ function Invoke-PcFirstSpark($Symbols,[string]$Interval='5m'){
   $suffix='/v7/finance/spark?symbols='+$query+'&range=1d&interval='+$Interval+'&indicators=close&includePrePost=true'
   $lastError=$null
   foreach($apiHost in @('https://query1.finance.yahoo.com','https://query2.finance.yahoo.com')){
-    for($attempt=1;$attempt -le 2;$attempt++){
-      try{$j=(Invoke-TrackedGet ($apiHost+$suffix))|ConvertFrom-Json;$rows=@(Convert-PcFirstSpark $j $Interval);if($rows.Count){return $rows};$lastError="leere Antwort von $apiHost"}
+    for($attempt=1;$attempt -le 1;$attempt++){
+      try{$j=(Invoke-TrackedGet ($apiHost+$suffix) 8)|ConvertFrom-Json;$rows=@(Convert-PcFirstSpark $j $Interval);if($rows.Count){return $rows};$lastError="leere Antwort von $apiHost"}
       catch{
         $lastError=$_.Exception.Message
         $code=0;try{$code=[int]$_.Exception.Response.StatusCode}catch{}
@@ -153,10 +153,10 @@ function Invoke-PcFirstPipeline(){
   $coldBudget=[Math]::Max($script:PcFirstMinColdBatches,$script:PcFirstMaxBatchesPerCycle-$hotBatches-$script:PcFirstDeepBatchReserve)
   $coldSymbols=@($coldPool|Select-Object -First ($coldBudget*$batchSizePre))
   $symbols=@($hotSymbols)+@($coldSymbols)
-  $requests=0;$errors=0;$now=[DateTime]::UtcNow;$script:PcFirstLastBatchError=$null;$batchSize=$script:PcFirstSparkBatchSize
+  $requests=0;$errors=0;$consecutiveErrors=0;$now=[DateTime]::UtcNow;$script:PcFirstLastBatchError=$null;$batchSize=$script:PcFirstSparkBatchSize
   foreach($chunk in @(Split-PcFirstChunks $symbols $batchSize)){
-    try{$requests++;foreach($q in @(Invoke-PcFirstSpark $chunk '5m')){$pre=Get-PcFirstPreScore $q;$script:PcFirstRows[$q.symbol]=[ordered]@{symbol=$q.symbol;price=[double]$q.price;dayPct=[double]$q.dayPct;momentum20Pct=[double]$q.momentum20Pct;momentum5Pct=[double]$q.momentum5Pct;acceleration5Pct=[double]$q.acceleration5Pct;marketTimestamp=[int64]$q.marketTimestamp;preScore=$pre;updatedAt=$now.ToString('o')}}}
-    catch{$errors++;if(-not $script:PcFirstLastBatchError){$script:PcFirstLastBatchError=$_.Exception.Message}}
+    try{$requests++;foreach($q in @(Invoke-PcFirstSpark $chunk '5m')){$pre=Get-PcFirstPreScore $q;$script:PcFirstRows[$q.symbol]=[ordered]@{symbol=$q.symbol;price=[double]$q.price;dayPct=[double]$q.dayPct;momentum20Pct=[double]$q.momentum20Pct;momentum5Pct=[double]$q.momentum5Pct;acceleration5Pct=[double]$q.acceleration5Pct;marketTimestamp=[int64]$q.marketTimestamp;preScore=$pre;updatedAt=$now.ToString('o')}};$consecutiveErrors=0}
+    catch{$errors++;$consecutiveErrors++;if(-not $script:PcFirstLastBatchError){$script:PcFirstLastBatchError=$_.Exception.Message};if($consecutiveErrors-ge 3){Write-AgentLog 'PC-FIRST: Grobscan nach 3 aufeinanderfolgenden Batchfehlern frueh beendet.';break}}
     if($script:PcFirstBatchPauseMs-gt 0){Start-Sleep -Milliseconds $script:PcFirstBatchPauseMs}
   }
   # Nur weiterrotieren, wenn der Shard wenigstens teilweise geliefert hat.
@@ -166,9 +166,9 @@ function Invoke-PcFirstPipeline(){
   $nowUnix=[DateTimeOffset]::UtcNow.ToUnixTimeSeconds();$actionableSymbols=@{};foreach($x in $actionableUniverse){$actionableSymbols[[string]$x.symbol]=$true}
   $rows=@($script:PcFirstRows.Values|Where-Object{try{$age=($nowUnix-[int64]$_.marketTimestamp)/60;[int64]$_.marketTimestamp-gt 0 -and $age-ge 0 -and $age-le 8 -and $actionableSymbols.ContainsKey([string]$_.symbol)}catch{$false}})
   $stage2=@($rows|Sort-Object @{Expression={[double]$_.preScore};Descending=$true}|Select-Object -First 400);$deepSymbols=@($stage2|Select-Object -First 240|ForEach-Object{$_.symbol});$deepMap=@{}
-  foreach($chunk in @(Split-PcFirstChunks $deepSymbols $batchSize)){
-    try{$requests++;foreach($q in @(Invoke-PcFirstSpark $chunk '1m')){$pre=if($script:PcFirstRows.ContainsKey($q.symbol)){[double]$script:PcFirstRows[$q.symbol].preScore}else{Get-PcFirstPreScore $q};$deep=Get-PcFirstDeepScore $q $pre;$deepMap[$q.symbol]=[ordered]@{symbol=$q.symbol;price=[double]$q.price;dayPct=[double]$q.dayPct;momentum20Pct=[double]$q.momentum20Pct;momentum5Pct=[double]$q.momentum5Pct;acceleration5Pct=[double]$q.acceleration5Pct;marketTimestamp=[int64]$q.marketTimestamp;preScore=$pre;deepScore=$deep}}}
-    catch{$errors++;if(-not $script:PcFirstLastBatchError){$script:PcFirstLastBatchError=$_.Exception.Message}}
+  $consecutiveErrors=0;foreach($chunk in @(Split-PcFirstChunks $deepSymbols $batchSize)){
+    try{$requests++;foreach($q in @(Invoke-PcFirstSpark $chunk '1m')){$pre=if($script:PcFirstRows.ContainsKey($q.symbol)){[double]$script:PcFirstRows[$q.symbol].preScore}else{Get-PcFirstPreScore $q};$deep=Get-PcFirstDeepScore $q $pre;$deepMap[$q.symbol]=[ordered]@{symbol=$q.symbol;price=[double]$q.price;dayPct=[double]$q.dayPct;momentum20Pct=[double]$q.momentum20Pct;momentum5Pct=[double]$q.momentum5Pct;acceleration5Pct=[double]$q.acceleration5Pct;marketTimestamp=[int64]$q.marketTimestamp;preScore=$pre;deepScore=$deep}};$consecutiveErrors=0}
+    catch{$errors++;$consecutiveErrors++;if(-not $script:PcFirstLastBatchError){$script:PcFirstLastBatchError=$_.Exception.Message};if($consecutiveErrors-ge 3){Write-AgentLog 'PC-FIRST: Tiefenscan nach 3 aufeinanderfolgenden Batchfehlern frueh beendet.';break}}
     if($script:PcFirstBatchPauseMs-gt 0){Start-Sleep -Milliseconds $script:PcFirstBatchPauseMs}
   }
   if($script:PcFirstLastBatchError){Write-AgentLog "PC-FIRST: $errors von $requests Batches fehlgeschlagen. Erste Ursache: $($script:PcFirstLastBatchError)"}

@@ -25,6 +25,8 @@ const requestBudget=read('src/request-fetch-budget.js');
 const quota=read('public/quota-guard.js');
 const pcAgent=read('pc-agent/pc-agent.ps1');
 const pcScanner=read('pc-agent/pc-first-scanner.ps1');
+const publicPcAgent=read('public/pc-agent-latest.ps1');
+const publicPcScanner=read('public/pc-first-scanner.ps1');
 const pcInstall=read('pc-agent/install.ps1');
 
 assert.match(wrangler,/"crons"\s*:\s*\["\* 5-22 \* \* 1-5"\]/,'Cloudflare-Cron muss minütlich nur als Gap-Wächter feuern');
@@ -51,6 +53,9 @@ assert.match(index20,/PC_FIRST_FULL_MASTER_STAGED/,'Universe-Profil muss PC-FIRS
 assert.match(index20,/stage2Target:400/);assert.match(index20,/deepTarget:240/);assert.match(index20,/finalistTarget:60/);assert.match(index20,/cloudflareValidationTarget:18/);
 
 assert.match(pcAgent,/PC_FIRST_FULL_UNIVERSE_V288/,'Windows-Agent muss PC-FIRST als Betriebsmodus melden');
+assert.match(pcAgent,/1\.2\.9-v31\.7\.47-fast-fail-scanner/,'Windows-Agent muss die Fast-Fail-Scanner-Version ausliefern');
+assert.equal(publicPcAgent,pcAgent,'Oeffentlicher Agent-Download muss exakt dem Repo-Agent entsprechen');
+assert.equal(publicPcScanner,pcScanner,'Oeffentlicher Scanner-Download muss exakt dem Repo-Scanner entsprechen');
 assert.match(pcAgent,/Invoke-PcFirstPipeline/,'Windows-Agent muss den Voll-Master-Pipeline-Schritt vor dem finalen Cloudflare-Scan ausführen');
 assert.match(pcAgent,/pcFirstScan=\$pc\.summary/,'PC muss seine Stufen-/Abdeckungsdaten an Cloudflare senden');
 assert.match(pcScanner,/PcFirstShardCount=4/,'PowerShell-Fallback muss vier rollierende Shards unterstützen');
@@ -59,6 +64,10 @@ assert.match(pcScanner,/Select-Object -First 240/,'PowerShell-Deep-Stufe muss bi
 assert.match(pcScanner,/Select-Object -First 60/,'Finalistenpool muss 60 Werte liefern');
 assert.match(pcScanner,/PcFirstSparkBatchSize=20/,'Yahoo-Spark-Batches müssen unter dem aktuellen 20-Symbole-Limit bleiben');
 assert.match(pcScanner,/Split-PcFirstChunks \$symbols \$batchSize/,'Voll-Master muss gebündelt statt mit Einzelrequests abgefragt werden');
+assert.match(pcScanner,/for\(\$attempt=1;\$attempt -le 1;\$attempt\+\+\)/,'Yahoo-Spark darf je Host nur einen Versuch machen');
+assert.match(pcScanner,/Invoke-TrackedGet \(\$apiHost\+\$suffix\) 8/,'Yahoo-Spark muss nach acht Sekunden abbrechen');
+assert.match(pcScanner,/\$consecutiveErrors-ge 3/,'Scanner muss nach drei aufeinanderfolgenden Batchfehlern frueh abbrechen');
+assert.match(pcScanner,/\$consecutiveErrors=0\}\s*catch/,'Fehlerzaehler muss innerhalb des erfolgreichen Try-Blocks zurueckgesetzt werden');
 assert.match(v288,/CF_VALIDATION_TARGET=36/,'Cloudflare soll bei frischen PC-Daten den dokumentierten V30.8.3-Final-Slice validieren');
 assert.match(v288,/cloudflareFallbackActive/,'Status muss PC-Ausfall/Fallback sichtbar machen');
 assert.match(v288,/PC_FIRST_FULL_MASTER_TOP60/,'PC-Ranking muss den V28.7-Broad-Pool direkt füllen');

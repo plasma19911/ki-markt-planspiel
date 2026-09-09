@@ -39,7 +39,7 @@ assert.match(scanner,/includePrePost','true'/,'extended-session bars must be con
 const pcScanner=fs.readFileSync(new URL('../public/pc-first-scanner.ps1',import.meta.url),'utf8');
 assert.match(pcScanner,/\$marketTime=\[int64\]\$barTimes\[-1\]/,'PC scanner must pair the price with its own bar timestamp');
 assert.match(pcScanner,/\$nowUnix-\[int64\]\$_\.marketTimestamp/,'rolling PC rows must recalculate age on every use');
-assert.match(pcScanner,/PcFirstVersion='29\.7'/,'freshness fix must remain present in the current scanner core');
+assert.match(pcScanner,/PcFirstVersion='29\.8'/,'freshness fix and current reference-market scanner must remain present');
 
 const pcAgent=fs.readFileSync(new URL('../public/pc-agent-latest.ps1',import.meta.url),'utf8');
 const recovery=fs.readFileSync(new URL('../src/compact-portfolio-v310-agent-recovery.js',import.meta.url),'utf8');
