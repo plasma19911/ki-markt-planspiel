@@ -26,7 +26,7 @@ const json=(x,status=200)=>Response.json(x,{status,headers:{'cache-control':'no-
 // Fremde Cross-Site-Browseraufrufe werden blockiert. Start/Reset sind zusaetzlich
 // destruktiv und akzeptieren ohne Passwort nur echte Same-Origin-Browser-Metadaten;
 // fuer bewusstes CLI gibt es den expliziten, nicht geheimen Bestaetigungsheader.
-const GUARDED_PATHS=new Set(['/api/start','/api/stop','/api/reset','/api/scan','/api/manual-trade','/api/migrate-from-old-sql','/api/runtime-trade-config','/api/runtime-trade-config/reset']);
+const GUARDED_PATHS=new Set(['/api/start','/api/stop','/api/reset','/api/scan','/api/manual-trade','/api/migrate-from-old-sql','/api/runtime-trade-config','/api/runtime-trade-config/reset','/api/control-guard-probe']);
 const GUARDED_PREFIXES=['/api/order-approvals/'];
 const DESTRUCTIVE_PATHS=new Set(['/api/start','/api/reset','/api/migrate-from-old-sql']);
 function needsGuard(url,method){return method==='POST'&&(GUARDED_PATHS.has(url.pathname)||GUARDED_PREFIXES.some(prefix=>url.pathname.startsWith(prefix)))}

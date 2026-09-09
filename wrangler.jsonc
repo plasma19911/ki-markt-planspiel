@@ -5,9 +5,8 @@
   "compatibility_date": "2026-08-18",
   "compatibility_flags": ["nodejs_compat"],
   "keep_vars": true,
-  "secrets": {
-    "required": ["PC_AGENT_TOKEN"]
-  },
+  // PC_AGENT_TOKEN wird als Cloudflare-Secret gesetzt. Sein Vorhandensein wird
+  // nach dem Deploy über scripts/check-required-secrets.mjs fail-closed geprüft.
 
   "assets": {
     "directory": "./public",

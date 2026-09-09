@@ -28,7 +28,8 @@ assert.match(quota,/\/api\/history\?kind=history&limit=500/,'UI muss aeltere His
 // Static assets should bypass the Worker; API and app shell must still run worker-first.
 assert.doesNotMatch(wrangler,/"run_worker_first"\s*:\s*\[\s*"\/\*"\s*\]/,'Statische Assets duerfen nicht wieder komplett worker-first laufen');
 for(const route of ['/api/*','/','/index.html'])assert.ok(wrangler.includes(`"${route}"`),`${route} muss worker-first bleiben`);
-assert.match(wrangler,/"required"\s*:\s*\[\s*"PC_AGENT_TOKEN"\s*\]/,'PC_AGENT_TOKEN muss als erforderliches Deploy-Secret deklariert bleiben');
+assert.doesNotMatch(wrangler,/"secrets"\s*:/,'Der von Wrangler ignorierte secrets-Block darf nicht zurückkehren');
+assert.ok(fs.existsSync(new URL('../scripts/check-required-secrets.mjs',import.meta.url)),'Die sichere Post-Deploy-Secretprüfung muss existieren');
 
 console.log(JSON.stringify({
   ok:true,
