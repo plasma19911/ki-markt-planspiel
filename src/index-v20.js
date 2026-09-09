@@ -14,6 +14,7 @@ const DASHBOARD_FIELDS=['scanFunnel','runtimeVersion','liveDecisionVersion','pre
 const DASHBOARD_CACHE_KEY='https://planspiel-cache.invalid/status-v31745';
 const DASHBOARD_REFRESH_MS=20_000;
 const DASHBOARD_STALE_MS=90_000;
+const DASHBOARD_INVALIDATION_PATHS=new Set(['/api/start','/api/stop','/api/reset','/api/scan','/api/agent/scan','/api/manual-trade','/api/runtime-trade-config']);
 let dashboardRefresh=null;
 
 function partialPositionScore(p={}){const raw=clamp(num(p?.score),-3,3),conf=clamp(num(p?.signal_confidence,.5),0,1),entry=num(p?.entry_price),last=num(p?.last_price,entry),pnl=entry>0?(last/entry-1)*100:0;return +clamp(50+raw*5+(conf-.5)*20+clamp(pnl,-4,4)*1.2,25,70).toFixed(1)}
@@ -43,7 +44,7 @@ export default{
   if(u.pathname==='/api/status'&&request.method==='GET'&&dashboardRequest&&String(env?.ORDER_APPROVAL_MODE||'disabled').toLowerCase()!=='enabled'){
    try{return await cachedDashboardResponse(env,ctx)}catch(e){return Response.json({error:String(e?.message||e)},{status:500,headers:{'cache-control':'no-store'}})}
   }
-  return base.fetch(request,env,ctx)
+  const response=await base.fetch(request,env,ctx);if(request.method!=='GET'&&response?.ok&&DASHBOARD_INVALIDATION_PATHS.has(u.pathname)){const cache=globalThis.caches?.default;if(cache)ctx?.waitUntil?.(cache.delete(DASHBOARD_CACHE_KEY).catch(e=>console.error('Dashboard cache invalidation failed',e)))}return response
  },
  async scheduled(controller,env,ctx){
   const when=new Date(Number(controller?.scheduledTime)||Date.now()),session=gettexSessionState(when);
