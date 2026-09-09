@@ -106,6 +106,15 @@ export function canonicalEntryAssessmentV316(candidate={},universe=[],matured=[]
     components:Object.fromEntries(parts.map(x=>[x.name,{score:+x.score.toFixed(1),available:x.available,confirmed:x.confirmed,weight:x.weight}]))};
 }
 
+export function calibratedCanonicalBuyScoreV317(canonicalCalibration=[],cfg=SHADOW_LEARNING_V314){
+  const floor=num(cfg.canonicalBuyScore,60),ceiling=num(cfg.maxBuyThreshold,78),need=num(cfg.minExpectedNetEdgePct,.25);
+  const mature=arr(canonicalCalibration).filter(x=>num(x?.samples)>=num(cfg.minBucketSamples,25));
+  if(!mature.length)return{buyScore:floor,source:'DEFAULT_NO_MATURE_BUCKET',matureBuckets:0};
+  const profitable=mature.filter(x=>num(x?.expectedNetEdgePct,-99)>=need);
+  if(profitable.length){const lowest=Math.min(...profitable.map(x=>num(x.bucket)));return{buyScore:clamp(Math.max(floor,lowest),floor,ceiling),source:'CALIBRATED_PROFITABLE_BUCKET',matureBuckets:mature.length}}
+  return{buyScore:floor,source:'NO_PROFITABLE_MATURE_BUCKET',matureBuckets:mature.length};
+}
+
 export function canonicalCalibrationV316(matured=[],cost=.291,cfg=SHADOW_LEARNING_V314){
   return cfg.buckets.map((bucket,index)=>{const hi=cfg.buckets[index+1]??101,rows=arr(matured).filter(x=>num(x?.entryScoreVersion)===31.7&&num(x?.entryScoreV317,x?.entryScoreV316)>=bucket&&num(x?.entryScoreV317,x?.entryScoreV316)<hi);if(!rows.length)return{bucket,samples:0,avgReturnPct:null,expectedNetEdgePct:null,hitRate:null};const avg=rows.reduce((s,x)=>s+num(x.ret),0)/rows.length;return{bucket,samples:rows.length,avgReturnPct:+avg.toFixed(3),expectedNetEdgePct:+(avg-cost).toFixed(3),hitRate:+(rows.filter(x=>num(x.ret)>0).length/rows.length).toFixed(3)}});
 }
@@ -234,11 +243,11 @@ export async function enforceShadowLearningV314(plan,state={},storage=null,now=D
   const candidates=finalScoredCandidates(state,storage,now),cost=roundTripCostPct!=null&&finite(roundTripCostPct)?Number(roundTripCostPct):estimatedRoundTripCostPctV314(state);
   matureShadowSnapshots(mem,candidates,now,cfg);recordShadowSnapshots(mem,candidates,now,cfg);
   const calibrated=calibratedBuyThresholdV314(mem.matured,cost,cfg);
-  const evidenceCalibration=evidenceCalibrationV315(mem.matured),canonicalCalibration=canonicalCalibrationV316(mem.matured,cost,cfg);mem.threshold={...calibrated,evidenceCalibration,canonicalCalibration,canonicalVersion:31.7,canonicalBuyScore:cfg.canonicalBuyScore,calibrationEpoch:activeEpoch};
+  const evidenceCalibration=evidenceCalibrationV315(mem.matured),canonicalCalibration=canonicalCalibrationV316(mem.matured,cost,cfg),learnedBuy=calibratedCanonicalBuyScoreV317(canonicalCalibration,cfg),buyScore=learnedBuy.buyScore;mem.threshold={...calibrated,evidenceCalibration,canonicalCalibration,canonicalVersion:31.7,canonicalBuyScore:buyScore,configuredBuyScore:cfg.canonicalBuyScore,buyScoreSource:learnedBuy.source,calibrationEpoch:activeEpoch};
   const bySymbol=new Map(candidates.map(c=>[key(c),c])),positions=arr(state?.positions);
   const actions=plan.actions.map(a=>({...a})),counters={themeBlocks:0,currencyBlocks:0,spacingBlocks:0,
     belowCalibratedThreshold:0,openSnapshots:Object.keys(mem.open).length,maturedSamples:mem.matured.length,calibrationEpoch:activeEpoch,epochReset,archivedMaturedSamples:num(mem.stats.archivedMatured),
-    buyThreshold:cfg.canonicalBuyScore,calibrated:canonicalCalibration.some(x=>x.samples>=cfg.minBucketSamples),roundTripCostPct:cost,evidenceCalibration,canonicalCalibration,negativeNewsBlocks:0,evidenceBlocks:0,unprofitableBucketBlocks:0,canonicalScoreBlocks:0,dataQualityBlocks:0,orthogonalBlocks:0,probationBlocks:0,heldBuyBlocks:0};
+    buyThreshold:buyScore,configuredBuyThreshold:cfg.canonicalBuyScore,buyThresholdSource:learnedBuy.source,calibrated:canonicalCalibration.some(x=>x.samples>=cfg.minBucketSamples),roundTripCostPct:cost,evidenceCalibration,canonicalCalibration,negativeNewsBlocks:0,evidenceBlocks:0,unprofitableBucketBlocks:0,canonicalScoreBlocks:0,dataQualityBlocks:0,orthogonalBlocks:0,probationBlocks:0,heldBuyBlocks:0};
   const actualEntryAt=latestActualEntryAt(state);let gateEntryAt=actualEntryAt;
   for(let i=0;i<actions.length;i++){
     const action=actions[i],symbol=key(action);
@@ -255,14 +264,15 @@ export async function enforceShadowLearningV314(plan,state={},storage=null,now=D
     if(entry.dataQuality<cfg.canonicalMinDataQuality){
       actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'LOW_DATA_QUALITY',reason:`V31.7 DATENQUALITÄT: ${symbol} nur ${entry.dataQuality.toFixed(0)}/100. Ohne positives Volumen- oder News-Signal darf korreliertes Momentum keinen Kauf erzeugen.`};counters.dataQualityBlocks++;if(entry.orthogonalConfirmations<cfg.canonicalMinOrthogonalConfirmations)counters.orthogonalBlocks++;continue;
     }
-    if(entry.score<cfg.canonicalBuyScore){
-      actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'CANONICAL_SCORE_BELOW_BUY',reason:`V31.7 KAUFSCORE: ${symbol} ${entry.score.toFixed(1)}/100 (${entry.label}) < ${cfg.canonicalBuyScore}; Datenqualität ${entry.dataQuality.toFixed(0)}/100.`};counters.canonicalScoreBlocks++;continue;
+    if(entry.score<buyScore){
+      actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'CANONICAL_SCORE_BELOW_BUY',reason:`V31.7 KAUFSCORE: ${symbol} ${entry.score.toFixed(1)}/100 (${entry.label}) < ${buyScore} (${learnedBuy.source}); Datenqualität ${entry.dataQuality.toFixed(0)}/100.`};counters.canonicalScoreBlocks++;continue;
     }
     if(entry.probationBlocked){
       actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'NEGATIVE_WARMUP_PROBATION',reason:`V31.7 WARMUP-BREMSE: Scorebereich ${entry.bucket}–${entry.bucket+4} hat in ${entry.probationSamples} kompatiblen Vorproben ${(num(entry.probationHitRate)*100).toFixed(0)}% Treffer und ${entry.probationExpectedNetEdgePct.toFixed(2)}% nach Kosten (${entry.probationBlockReason}). Shadow-Messung läuft weiter; Kapital bleibt bis zu positiver Netto-Evidenz frei.`};counters.probationBlocks++;continue;
     }
-    if(entry.mature&&num(entry.expectedNetEdgePct,-99)<num(cfg.minExpectedNetEdgePct,.25)){
-      actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'INSUFFICIENT_CANONICAL_EDGE',reason:`V31.7 NETTO-EDGE: BUY blockiert · Scorebereich ${entry.bucket}–${entry.bucket+4} erzielt nach ${entry.samples} neuen Samples ${entry.expectedNetEdgePct.toFixed(2)}% nach echten Kosten der vorgesehenen ${Math.max(0,num(action?.allocation_pct)).toFixed(1)}%-Order (Roundtrip ${Number.isFinite(actionCost)?actionCost.toFixed(2):'nicht ausführbar'}%). Erforderlicher Sicherheitspuffer mindestens +${num(cfg.minExpectedNetEdgePct,.25).toFixed(2)}%.`};
+    const edgeRows=entry.mature?num(entry.samples):num(entry.probationSamples),edgeValue=entry.mature?num(entry.expectedNetEdgePct,-99):num(entry.probationExpectedNetEdgePct,-99),edgeChecked=entry.mature||edgeRows>=num(cfg.probationMinNetEdgeSamples,3);
+    if(edgeChecked&&edgeValue<num(cfg.minExpectedNetEdgePct,.25)){
+      actions[i]={...actions[i],action:'HOLD',allocation_pct:0,shadowLearningV314:true,shadowBlockKind:'INSUFFICIENT_CANONICAL_EDGE',reason:`V31.7 NETTO-EDGE: BUY blockiert · Scorebereich ${entry.bucket}–${entry.bucket+4} erzielt nach ${edgeRows} Samples (${entry.mature?'reif':'vorlaeufig'}) ${edgeValue.toFixed(2)}% nach echten Kosten der vorgesehenen ${Math.max(0,num(action?.allocation_pct)).toFixed(1)}%-Order (Roundtrip ${Number.isFinite(actionCost)?actionCost.toFixed(2):'nicht ausführbar'}%). Erforderlicher Sicherheitspuffer mindestens +${num(cfg.minExpectedNetEdgePct,.25).toFixed(2)}%.`};
       counters.unprofitableBucketBlocks++;continue;
     }
     const gate=correlationGateV314(symbol,candidate,positions,{lastEntryAt:gateEntryAt},now,cfg);
@@ -274,6 +284,6 @@ export async function enforceShadowLearningV314(plan,state={},storage=null,now=D
   mem.lastEntryAt=actualEntryAt;mem.stats.themeBlocks+=counters.themeBlocks;mem.stats.currencyBlocks+=counters.currencyBlocks;
   mem.stats.spacingBlocks+=counters.spacingBlocks;mem.stats.thresholdBlocks+=counters.belowCalibratedThreshold;
   mem.updatedAt=new Date(now).toISOString();const persisted=await write(storage,mem);
-  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,102)} · V31.7 Score: BUY ab ${cfg.canonicalBuyScore} + unabhängige Bestätigung, ${counters.maturedSamples} reif, ${counters.themeBlocks+counters.currencyBlocks+counters.spacingBlocks+counters.negativeNewsBlocks+counters.evidenceBlocks+counters.unprofitableBucketBlocks+counters.canonicalScoreBlocks+counters.dataQualityBlocks+counters.probationBlocks+counters.heldBuyBlocks} Filter.`;
+  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,102)} · V31.7 Score: BUY ab ${buyScore} (${learnedBuy.source}) + unabhängige Bestätigung, ${counters.maturedSamples} reif, ${counters.themeBlocks+counters.currencyBlocks+counters.spacingBlocks+counters.negativeNewsBlocks+counters.evidenceBlocks+counters.unprofitableBucketBlocks+counters.canonicalScoreBlocks+counters.dataQualityBlocks+counters.probationBlocks+counters.heldBuyBlocks} Filter.`;
   return{plan,counters,calibration:{...calibrated,evidenceCalibration,canonicalCalibration},mem,persisted};
 }

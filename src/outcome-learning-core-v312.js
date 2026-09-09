@@ -14,6 +14,7 @@ export const OUTCOME_LEARNING_V312={
   maxSamplesPerSymbol:24,
   maxTrackedSymbols:48,
   maxRecentOutcomes:240,
+  maxDecidedOutcomes:180,
   minLearningSamples:20,
   minCurrentScore:58,
   minForecastScore:70,
@@ -53,7 +54,7 @@ function cleanMemory(memory={}){
     updatedAt:m.updatedAt||null,
     symbols:m.symbols&&typeof m.symbols==='object'?m.symbols:{},
     weights,
-    recent20:arr(m.recent20).filter(x=>x&&Number.isFinite(Number(x.ts))).slice(-OUTCOME_LEARNING_V312.maxRecentOutcomes),
+    recent20:trimRecent20(arr(m.recent20).filter(x=>x&&Number.isFinite(Number(x.ts)))),
     groupStats:m.groupStats&&typeof m.groupStats==='object'?m.groupStats:{regime:{},theme:{},source:{}},
     stats:{evaluated20:Math.max(0,num(oldStats.evaluated20,oldStats.matured)),weightUpdates:Math.max(0,num(oldStats.weightUpdates)),missedOpportunities:Math.max(0,num(oldStats.missedOpportunities)),badBuys:Math.max(0,num(oldStats.badBuys)),earlySells:Math.max(0,num(oldStats.earlySells)),correctSells:Math.max(0,num(oldStats.correctSells))}
   };
@@ -91,6 +92,15 @@ function learningProfile(m,now=Date.now()){
 export function outcomeLearningStatusV312(memory={},now=Date.now()){
   return learningProfile(cleanMemory(memory),now);
 }
+// HOLD-Messungen entstehen viel haeufiger als echte Kauf-/Verkaufsergebnisse.
+// Sie duerfen die wenigen entscheidungsrelevanten Trades nicht mehr aus dem
+// gemeinsamen Ringpuffer verdraengen.
+function trimRecent20(rows){
+  const all=arr(rows),decided=all.filter(x=>x&&x.action!=='HOLD'),holds=all.filter(x=>!x||x.action==='HOLD');
+  const keptDecided=decided.slice(-OUTCOME_LEARNING_V312.maxDecidedOutcomes);
+  const holdBudget=Math.max(0,OUTCOME_LEARNING_V312.maxRecentOutcomes-keptDecided.length);
+  return [...keptDecided,...holds.slice(-holdBudget)].sort((a,b)=>num(a?.ts)-num(b?.ts));
+}
 function groupUpdate(bucket,name,ret){if(!name)return;const r=bucket[name]&&typeof bucket[name]==='object'?bucket[name]:{n:0,sum:0,wins:0};r.n++;r.sum+=ret;if(ret>=OUTCOME_LEARNING_V312.minNetBuyWinPct)r.wins++;r.avg=+(r.sum/r.n).toFixed(4);r.hitRate=+(r.wins/r.n*100).toFixed(1);bucket[name]=r}
 function learnWeights(m,sample,ret){const target=clamp(ret*6,-8,8),predicted=num(sample.forecast20mScore)-num(sample.score),error=clamp(target-predicted,-12,12),lr=.035;for(const [k,f] of Object.entries(sample.features||{})){if(!(k in DEFAULT_WEIGHTS))continue;const [lo,hi]=WEIGHT_LIMITS[k];m.weights[k]=clamp(num(m.weights[k],DEFAULT_WEIGHTS[k])+lr*error*num(f),lo,hi)}m.stats.weightUpdates++}
 function evaluateSamples(m,observations,now){
@@ -99,7 +109,7 @@ function evaluateSamples(m,observations,now){
     const samples=arr(slot?.samples);
     for(const sample of samples){if(!(num(sample.price)>0))continue;sample.evaluations=sample.evaluations&&typeof sample.evaluations==='object'?sample.evaluations:{};
       for(const h of OUTCOME_LEARNING_V312.horizonsMinutes){if(sample.evaluations[h])continue;const age=now-num(sample.ts),min=h*60000,max=(h+(h>=240?120:h>=60?45:20))*60000;if(age<min||age>max)continue;const ret=(obs.price/num(sample.price)-1)*100,action=String(sample.action||'HOLD').toUpperCase(),costPct=action==='BUY'?num(sample.estimatedRoundTripCostPct,OUTCOME_LEARNING_V312.defaultBuyRoundTripCostPct):0,netRet=action==='BUY'?ret-costPct:ret;sample.evaluations[h]={ts:now,returnPct:+ret.toFixed(4),netReturnPct:+netRet.toFixed(4),estimatedRoundTripCostPct:+costPct.toFixed(4)};
-        if(h===20){const row={ts:now,symbol,action,returnPct:+ret.toFixed(4),netReturnPct:+netRet.toFixed(4),estimatedRoundTripCostPct:+costPct.toFixed(4),score:num(sample.score),forecast20mScore:num(sample.forecast20mScore),newsSignal:num(sample?.features?.news),sources:arr(sample.sources).slice(0,4),theme:sample.theme||'UNKNOWN',regime:sample.regime||'SIDEWAYS'};m.recent20.push(row);m.recent20=m.recent20.slice(-OUTCOME_LEARNING_V312.maxRecentOutcomes);m.stats.evaluated20++;if(action==='HOLD'&&ret>=.5)m.stats.missedOpportunities++;if(action==='BUY'&&netRet<=0)m.stats.badBuys++;if(action==='SELL'&&ret>=.5)m.stats.earlySells++;if(action==='SELL'&&ret<=-.25)m.stats.correctSells++;const learnRet=action==='BUY'?netRet:ret;learnWeights(m,sample,learnRet);groupUpdate(m.groupStats.regime,sample.regime||'SIDEWAYS',learnRet);groupUpdate(m.groupStats.theme,sample.theme||'UNKNOWN',learnRet);for(const src of arr(sample.sources))groupUpdate(m.groupStats.source,src,learnRet)}
+        if(h===20){const row={ts:now,symbol,action,returnPct:+ret.toFixed(4),netReturnPct:+netRet.toFixed(4),estimatedRoundTripCostPct:+costPct.toFixed(4),score:num(sample.score),forecast20mScore:num(sample.forecast20mScore),newsSignal:num(sample?.features?.news),sources:arr(sample.sources).slice(0,4),theme:sample.theme||'UNKNOWN',regime:sample.regime||'SIDEWAYS'};m.recent20.push(row);m.recent20=trimRecent20(m.recent20);m.stats.evaluated20++;if(action==='HOLD'&&ret>=.5)m.stats.missedOpportunities++;if(action==='BUY'&&netRet<=0)m.stats.badBuys++;if(action==='SELL'&&ret>=.5)m.stats.earlySells++;if(action==='SELL'&&ret<=-.25)m.stats.correctSells++;const learnRet=action==='BUY'?netRet:ret;learnWeights(m,sample,learnRet);groupUpdate(m.groupStats.regime,sample.regime||'SIDEWAYS',learnRet);groupUpdate(m.groupStats.theme,sample.theme||'UNKNOWN',learnRet);for(const src of arr(sample.sources))groupUpdate(m.groupStats.source,src,learnRet)}
       }
     }
   }

@@ -43,7 +43,7 @@ export function enforceExpectancyCoreV310(plan,state={},now=Date.now()){
  if(!plan||!Array.isArray(plan.actions))return{plan,counters:{}};
  const cfg=EXPECTANCY_CORE_V310,actions=plan.actions.map(a=>({...a})),idx=actionMap(actions),positions=arr(state?.positions),history=arr(state?.history);
  const candidates=new Map(arr(state?.candidates).map(c=>[key(c),c]));
- let hardStops=0,trailingSells=0,pairedRotationSells=0,unpairedRotationBlocks=0,failedSetupSells=0,stagnationSells=0,profitFadeSells=0,minHoldBlocks=0,reentryBlocks=0,sizingUpgrades=0,scoreScaleFixes=0;
+ let hardStops=0,trailingSells=0,pairedRotationSells=0,unpairedRotationBlocks=0,failedSetupSells=0,stagnationSells=0,profitFadeSells=0,minHoldBlocks=0,reentryBlocks=0,sizingUpgrades=0,subEconomicBlocks=0,scoreScaleFixes=0;
 
  // Position exits: price expectancy is authoritative. Existing hard SELLs stay SELL.
  for(const p of positions){
@@ -99,6 +99,10 @@ export function enforceExpectancyCoreV310(plan,state={},now=Date.now()){
    if(num(c?.score,0)>0&&num(c?.score,0)<=10)scoreScaleFixes++;
    const sell=lastSellFor(history,s); if(sell){const t=Date.parse(sell?.at||sell?.timestamp||sell?.time||'');if(Number.isFinite(t)){const mins=(now-t)/60000,lastScore=canonicalScore(sell?.score??sell?.decisionScore??sell?.entryDecisionScore),improve=score-lastScore;if(mins<cfg.reentryMinutes&&improve<cfg.reentryScoreImprovement){actions[i]={...a,action:'HOLD',allocation_pct:0,expectancyCoreV310:true,reentryBlockedV310:true,reason:`V31.3 RE-ENTRY: letzter SELL vor ${mins.toFixed(1)} Min.; neuer Scorevorsprung ${improve.toFixed(1)} < ${cfg.reentryScoreImprovement}. Kein kostenintensives SELL->BUY-Churn.`};reentryBlocks++;continue}}}
    const pct=clamp(num(a?.allocation_pct),0,100),eur=cash*pct/100;
+   if(eur>0&&cash<cfg.minPositionEur){
+     actions[i]={...a,action:'HOLD',allocation_pct:0,expectancyCoreV310:true,subEconomicTicketBlockedV310:true,reason:`V31.3 SIZE-SPERRE: freies Kapital ${cash.toFixed(0)} EUR < Mindestposition ${cfg.minPositionEur.toFixed(0)} EUR. Eine kleinere Order traegt Fixkosten und Slippage, die die erwartete Bewegung aufzehren. Kein Kauf, bis wieder genug Kapital frei ist.`};
+     subEconomicBlocks++;continue;
+   }
    if(cash>cfg.minPositionEur&&eur>0&&eur<cfg.minPositionEur){const minPct=clamp(100*cfg.minPositionEur/cash,0,100);actions[i]={...a,allocation_pct:+Math.max(pct,minPct).toFixed(2),expectancyCoreV310:true,minEconomicTicketV310:true,reason:`${String(a?.reason||'BUY').slice(0,450)} · V31.3 SIZE: Position auf mindestens ca. ${cfg.minPositionEur.toFixed(0)} EUR angehoben, damit Fixkosten/Slippage nicht einen zu grossen Anteil der Zielbewegung fressen.`};sizingUpgrades++}
  }
 
@@ -113,7 +117,7 @@ export function enforceExpectancyCoreV310(plan,state={},now=Date.now()){
  }
 
  plan.actions=actions;plan.summary=`${String(plan.summary||'').slice(0,142)} · V31.7 Capital-Velocity: ${hardStops} Hard-Stop · ${failedSetupSells} Fehlsetup · ${trailingSells} Trail · ${pairedRotationSells} Rotation · ${unpairedRotationBlocks} Paar-Schutz · ${stagnationSells} Stagnation · ${profitFadeSells} Profit-Fade.`;
- return{plan,counters:{hardStops,trailingSells,pairedRotationSells,unpairedRotationBlocks,failedSetupSells,stagnationSells,profitFadeSells,minHoldBlocks,reentryBlocks,sizingUpgrades,scoreScaleFixes,equity:+equity.toFixed(2)}};
+ return{plan,counters:{hardStops,trailingSells,pairedRotationSells,unpairedRotationBlocks,failedSetupSells,stagnationSells,profitFadeSells,minHoldBlocks,reentryBlocks,sizingUpgrades,subEconomicBlocks,scoreScaleFixes,equity:+equity.toFixed(2)}};
 }
 
 export class ExpectancyCoreV310{
