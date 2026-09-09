@@ -186,8 +186,9 @@ export default{
   // Replay und zaehlt damit keine Lern-Samples doppelt. Ist der PC schon aus, uebernimmt
   // Cloudflare ab 21:55 in kleinen Batches als Fallback.
   if(session.open){
-   if(session.localMinute%5!==0)return;
-   ctx.waitUntil((async()=>{const p=portfolio(env),agent=await p.agentStatus();if(agent?.online)return;if(session.localMinute>=21*60+55)await p.dailyReplay(8);await p.scan();await p.refreshNewsLearning({source:'CLOUDFLARE_OFFLINE_CRON'})})().catch(e=>console.error('Compact DO offline fallback failed',e)));
+   // Worker-only is the normal production mode. The cron already fires every
+   // minute; the Durable Object lock prevents overlapping scans.
+   ctx.waitUntil((async()=>{const p=portfolio(env),agent=await p.agentStatus();if(agent?.online&&agent?.scanFresh)return;if(session.localMinute>=21*60+55)await p.dailyReplay(8);await p.scan();await p.refreshNewsLearning({source:'CLOUDFLARE_MINUTE_CRON'})})().catch(e=>console.error('Compact DO minute scan failed',e)));
    return
   }
   if(session.prepareNow){ctx.waitUntil(portfolio(env).preOpenPrepare().catch(e=>console.error('gettex preopen prepare failed',e)))}

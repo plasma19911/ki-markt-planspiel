@@ -141,7 +141,7 @@ export class MarketPortfolio extends BasePortfolio{
 
   async status(){
     const s=await super.status(),agent=this.agentStatus();s.pcAgent=agent;
-    if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,pcAgentPreferred:true,cloudflareFallbackIntervalMinutes:5,cloudflareFallbackOnlyWhenPcOffline:false,cloudflareOnlineGapWatchdogSeconds:Math.round(AGENT_SCAN_GAP_MS/1000),pcAgentOnline:agent.online,pcAgentScanFresh:agent.scanFresh,pcAgentPrefetchFresh:agent.prefetchFresh,note:`Hybrid-Free-Profil: Windows-PC-Agent bevorzugt; bei Online-Heartbeat aber >${Math.round(AGENT_SCAN_GAP_MS/1000)}s ohne erfolgreichen PC-Scan übernimmt Cloudflare sofort als Gap-Fallback. Bei komplett offlineem PC bleibt der 5-Minuten-Fallback aktiv. ${s.freeTierBudget.note||''}`};
+    if(s.freeTierBudget)s.freeTierBudget={...s.freeTierBudget,pcAgentPreferred:false,pcAgentOptional:true,cloudflarePrimaryIntervalMinutes:1,cloudflareFallbackIntervalMinutes:1,cloudflareFallbackOnlyWhenPcOffline:false,cloudflareOnlineGapWatchdogSeconds:Math.round(AGENT_SCAN_GAP_MS/1000),pcAgentOnline:agent.online,pcAgentScanFresh:agent.scanFresh,pcAgentPrefetchFresh:agent.prefetchFresh,note:`Worker-Primärprofil: Cloudflare startet während aktiver Märkte jede Minute einen Scan; der Scan-Lock verhindert Überlappung. Der Windows-PC-Agent ist nur optionale Beschleunigung und für den Betrieb nicht erforderlich. ${s.freeTierBudget.note||''}`};
     return s;
   }
 }

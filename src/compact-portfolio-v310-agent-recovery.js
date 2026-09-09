@@ -59,9 +59,11 @@ export class MarketPortfolio extends BasePortfolio{
   }
 
   _withPcAgentRecovery(s={}){
+    const persistedLastOk=this.__pcAgentScanRecovery.lastOkAt||s?.pcAgent?.lastSuccessfulAgentScanAt||s?.pcAgent?.lastScanAt||null;
+    if(!this.__pcAgentScanRecovery.lastOkAt&&persistedLastOk)this.__pcAgentScanRecovery.lastOkAt=persistedLastOk;
     s.pcAgentScanRecovery={enabled:true,version:'31.7.34',mode:'fail-soft-agent-scan+explicit-ok-false-reporting+aligned-quote-time+dual-host-pc-quotes',...this.__pcAgentScanRecovery,rule:'PC-Heartbeat und Prefetch bleiben aktiv, auch wenn der interne Portfolio-Scan scheitert. Ein HTTP-200 mit ok=false wird als echter Scanfehler gespeichert und nicht mehr als Erfolg ausgegeben. Ein Scan ist nur verwendbar, wenn Kurs und Zeitstempel aus derselben Kerze stammen und die Kurszeit innerhalb des Frischelimits liegt; andernfalls übernimmt der Worker-Fallback.'};
     s.paperExplorationExecutionReconcile={...PAPER_EXPLORATION_EXECUTION_RECONCILE_V3175,...this.__paperExplorationExecutionReconcile,mode:'post-base-ledger-reconciliation',rule:'Nur ein vom UnifiedDecisionCore bereits final erzeugter controlled paperExplorationV3172 BUY darf nach actions=0 erneut gegen aktuellen gespeicherten Kandidaten, Freshness, FX, Cash und den verifizierten Trade-Republic-Master geprüft und ins Paper-Ledger geschrieben werden. Normale BUYs und harte Safety-Regeln werden nicht umgangen.'};
-    if(s.pcAgent)s.pcAgent={...s.pcAgent,lastScanError:this.__pcAgentScanRecovery.lastError,lastScanErrorAt:this.__pcAgentScanRecovery.lastErrorAt,lastSuccessfulAgentScanAt:this.__pcAgentScanRecovery.lastOkAt};
+    if(s.pcAgent)s.pcAgent={...s.pcAgent,lastScanError:this.__pcAgentScanRecovery.lastError,lastScanErrorAt:this.__pcAgentScanRecovery.lastErrorAt,lastSuccessfulAgentScanAt:persistedLastOk};
     s.executionModel={...(s.executionModel||{}),pcAgentFailSoftScanRecoveryV3101:true,pcAgentDirectLiteStatusV313:true,paperExplorationExecutionReconcileV3175:true};
     return s;
   }

@@ -85,6 +85,8 @@ jobs:
       - name: Wait for Cloudflare Git integration
         if: steps.cf.outputs.direct != 'true'
         run: sleep 75
+      - name: Verify required Cloudflare secrets and control guard
+        run: node scripts/check-required-secrets.mjs
       - name: Verify current unified production chain
         run: |
           node --input-type=module <<'NODE'

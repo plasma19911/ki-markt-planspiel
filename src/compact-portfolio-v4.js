@@ -54,6 +54,10 @@ export class MarketPortfolio extends BasePortfolio{
   }
 
   async migrateLegacySql(){
+    let current=null;
+    try{current=await this.engine.status()}catch{current=this.bucketAdapter?.peekState?.()||null}
+    const positions=Array.isArray(current?.positions)?current.positions.length:0,scans=Number(current?.config?.scan_count||0),history=Array.isArray(current?.history)?current.history.length:0;
+    if(positions>0||scans>0||history>0)return{ok:false,blocked:true,reason:'live-compact-state-present',error:'Legacy-Import blockiert: Es existiert bereits ein kompakter Live-Zustand. Ein Import würde Depot, History und Snapshots überschreiben.',openPositions:positions,historyRows:history,scanCount:scans};
     const r=await super.migrateLegacySql();
     if(r?.ok){
       try{await this._refreshMacro(true)}catch{}
