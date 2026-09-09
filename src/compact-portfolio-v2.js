@@ -1,9 +1,9 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio.js';
 import {updateNewsLearning,newsLearningContext} from './news-learning-v2.js';
 
-// 13 Minuten statt 10: verhindert, dass News-Lernen dauerhaft mit 5-Minuten-
-// Leaderrefresh, Investment-Analyse und Makrorefresh in derselben Scanrunde kollidiert.
-const NEWS_LEARNING_COOLDOWN_MS=13*60*1000;
+// Die nachgelagerte Kursauswertung ist kein Live-News-Abruf. Ein Stundenrhythmus
+// reicht für 15m/1h/4h/6h-Horizonte und verhindert Yahoo-429-Drosselungen.
+export const NEWS_LEARNING_COOLDOWN_MS=60*60*1000;
 
 class NewsLearningAiGuard{
   constructor(base,adapter){this.base=base;this.adapter=adapter}
@@ -32,7 +32,7 @@ export class MarketPortfolio extends BasePortfolio{
     // laufen davon unabhaengig bereits ab Scan 1.
     if(!force&&!Number.isFinite(last)&&scanNo<3)return null;
     // Eine neue Lernschema-Version migriert beim ersten normalen Scan sofort.
-    // Danach gilt wieder der sparsame 13-Minuten-Takt.
+    // Danach gilt wieder der sparsame Stundentakt.
     if(!force&&learningVersion>=3&&Number.isFinite(last)&&Date.now()-last<NEWS_LEARNING_COOLDOWN_MS)return null;
     if(!this.engine?.store?.update)return null;
     const r=await this.engine.store.update(async s=>{

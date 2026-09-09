@@ -4,7 +4,7 @@ const HEADERS={'accept':'application/json','user-agent':'Mozilla/5.0'};
 const BENCHMARK='REGIONAL';
 const LEARNING_VERSION=3;
 const MAX_EVENTS=240;
-const MAX_EVENTS_PER_UPDATE=24;
+export const MAX_EVENTS_PER_UPDATE=12;
 const HORIZONS=[['15m',15],['1h',60],['4h',240],['6h',360]];
 const REACTION_THRESHOLD_PCT=.30;
 

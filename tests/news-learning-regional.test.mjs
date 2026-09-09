@@ -77,8 +77,8 @@ const bars=prices=>prices.map((price,index)=>({ts:start+index*300,price}));
     const state={newsLearning:{version:1,events},newsRadar:[]};
     await updateNewsLearning(state);
     assert.equal(state.newsLearning.version,3);
-    assert.equal(state.newsLearning.lastEvaluationBatchSize,24,'one learning pass must stay within its fixed Worker budget');
-    assert.ok(requested.filter(symbol=>/^OLD\d+$/.test(symbol)).length<=24,'the Worker must not refetch the whole learning memory at once');
+    assert.equal(state.newsLearning.lastEvaluationBatchSize,12,'one learning pass must stay within its throttling-safe Worker budget');
+    assert.ok(requested.filter(symbol=>/^OLD\d+$/.test(symbol)).length<=12,'the Worker must not refetch the whole learning memory at once');
     assert.equal(state.newsLearning.events[0].baselinePrice,100,'legacy ACWI baselines must be rebuilt from regional 5-minute bars');
     assert.equal(state.newsLearning.summary.reactionLag.directionalSamples,0,'missing reaction delays must not be counted as zero-minute reactions');
   }finally{globalThis.fetch=oldFetch}
