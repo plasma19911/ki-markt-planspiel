@@ -149,10 +149,12 @@ export async function updateNewsLearning(state){
    let e=pending[i],q=quotes.get(e.symbol),bench=quotes.get(e.benchmark||regionalBenchmarkForSymbol(e.symbol)),row=currentNews.get(e.symbol);if(row)e.waitingForOpen=Boolean(row.waiting_for_open);
    if(q?.bars?.length&&bench?.bars?.length){const evaluated=evaluateNewsEventFromBars(e,q.bars,bench.bars),at=l.events.indexOf(e);if(at>=0)l.events[at]=evaluated;e=evaluated;if(Object.keys(e.results||{}).length>=HORIZONS.length)continue}
    if(!e.baselinePrice){
-    if(e.waitingForOpen||!q?.fresh||!bench?.fresh)continue;
+    // A provider may return a fresh-looking envelope without a usable quote.
+    // Never let one missing stock/benchmark price abort the complete scan.
+    if(e.waitingForOpen||!q?.fresh||!bench?.fresh||!(num(q?.price)>0)||!(num(bench?.price)>0))continue;
     e.baselinePrice=q.price;e.baselineBenchmark=bench.price;e.baselineAt=nowIso();e.baselineMethod='LIVE_FIRST_FRESH_QUOTE';e.lastQuoteTs=q.ts;e.lastSampleAt=nowIso();continue;
    }
-   if(!q?.fresh||!bench?.fresh||q.ts<=num(e.lastQuoteTs))continue;
+   if(!q?.fresh||!bench?.fresh||!(num(q?.price)>0)||!(num(bench?.price)>0)||num(q?.ts)<=num(e.lastQuoteTs))continue;
    const delta=Math.min(15,Math.max(1,(q.ts-num(e.lastQuoteTs))/60));e.tradingMinutes=num(e.tradingMinutes)+delta;e.lastQuoteTs=q.ts;e.lastSampleAt=nowIso();
    const stockPct=(q.price/num(e.baselinePrice)-1)*100,benchPct=(bench.price/num(e.baselineBenchmark)-1)*100,abnormalPct=stockPct-benchPct,dir=num(e.direction);
    const alignedAbnormalPct=dir?abnormalPct*dir:0;if(e.reactionDelayMinutes==null&&dir&&alignedAbnormalPct>=REACTION_THRESHOLD_PCT)e.reactionDelayMinutes=num(e.tradingMinutes);if(e.adverseDelayMinutes==null&&dir&&alignedAbnormalPct<=-REACTION_THRESHOLD_PCT)e.adverseDelayMinutes=num(e.tradingMinutes);
