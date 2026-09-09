@@ -28,7 +28,7 @@ function learnedNewsSourcePolicy(state={}){const rows=Array.isArray(state?.newsL
 function defaultState(){return{
  schema_version:1,storage_backend:'R2',updated_at:nowIso(),
  config:{running:0,start_capital:100,cash:100,currency:'EUR',risk_mode:'offensiv',include_etfs:1,include_leverage:0,ai_enabled:1,started_at:null,ends_at:null,last_scan:null,scan_count:0,last_error:null,scan_lock_until:0,run_id:crypto.randomUUID(),universe_count:0,universe_generated_at:null,calendar_generated_at:null,ai_last_summary:null,fee_fixed:1,fee_percent:0,total_fees:0,slippage_percent:.10,news_tendency_score:0,news_tendency_label:'NEUTRAL',news_tendency_summary:'Noch keine ausreichende Nachrichtenbasis.',news_radar_updated_at:null,market_mode:'NEWS_ONLY',active_markets:'[]',open_symbols:0,closed_symbols:0},
- positions:[],history:[],snapshots:[],candidates:[],newsRadar:[],sourceHealth:[],aiLog:[],marketBreadth:null
+ positions:[],history:[],snapshots:[],candidates:[],newsRadar:[],sourceHealth:[],aiLog:[],marketBreadth:null,scanFunnel:null,newsLearningQuoteCache:{}
 }}
 function normalizeState(x){const d=defaultState(),s=x&&typeof x==='object'?x:{};return{...d,...s,config:{...d.config,...(s.config||{}),include_etfs:1,include_leverage:0},positions:Array.isArray(s.positions)?s.positions.filter(p=>p.instrument_type!=='LEVERAGED_ETF'):[],history:Array.isArray(s.history)?s.history:[],snapshots:Array.isArray(s.snapshots)?s.snapshots:[],candidates:Array.isArray(s.candidates)?s.candidates.filter(c=>c.instrument_type!=='LEVERAGED_ETF'):[],newsRadar:Array.isArray(s.newsRadar)?s.newsRadar.filter(n=>n.instrument_type!=='LEVERAGED_ETF'):[],sourceHealth:Array.isArray(s.sourceHealth)?s.sourceHealth.filter(h=>!REMOVED_HEALTH.has(h.source)):[],aiLog:Array.isArray(s.aiLog)?s.aiLog:[]}}
 

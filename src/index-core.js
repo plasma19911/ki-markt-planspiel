@@ -50,7 +50,7 @@ async function agentUniverseData(env,requestUrl){
 // Frueher wurde hier zusaetzlich /app.js per Regex umgeschrieben. Das ist entfernt:
 // der Quelltext in public/app.js ist jetzt das, was auch ausgeliefert wird.
 
-const DASHBOARD_FIELDS=['config','equity','pnl','pnl_pct','positions','history','snapshots','candidates','newsRadar','sourceHealth','aiLog','statistics','risk','executionModel','futureWatch','marketRegime','investmentDossiers','intelligenceUpdatedAt','intelligenceModel','analysisNotice','pcAgent','gettexSession','orderApproval','accounting','researchSignalFusionPolicy'];
+const DASHBOARD_FIELDS=['scanFunnel','config','equity','pnl','pnl_pct','positions','history','snapshots','candidates','newsRadar','sourceHealth','aiLog','statistics','risk','executionModel','futureWatch','marketRegime','investmentDossiers','intelligenceUpdatedAt','intelligenceModel','analysisNotice','pcAgent','gettexSession','orderApproval','accounting','researchSignalFusionPolicy'];
 
 // history + aiLog waren zusammen ~68 % der Dashboard-Antwort (222 KB von 323 KB)
 // und wurden alle 60 Sekunden komplett neu uebertragen, obwohl das Dashboard nur

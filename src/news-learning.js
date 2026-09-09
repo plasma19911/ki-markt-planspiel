@@ -49,11 +49,20 @@ function direction(row){
  const t=String(row.tendency||'').toUpperCase();return t==='BULLISH'?1:t==='BEARISH'?-1:0;
 }
 
-async function quoteMap(symbols){
- const equities=symbols.filter(Boolean).map(x=>String(x).toUpperCase()),wanted=[...new Set([...equities,...equities.map(regionalBenchmarkForSymbol)])],out=new Map(),diagnostic={requestedSymbols:wanted.length,attempts:0,httpStatuses:[],errors:[],provider:null};
+export function captureNewsLearningQuoteCache(state={},rows=[]){
+ const cache=state.newsLearningQuoteCache&&typeof state.newsLearningQuoteCache==='object'?state.newsLearningQuoteCache:{};
+ const slot=Math.floor(Date.now()/300000)*300;
+ for(const row of arr(rows)){const symbol=String(row?.symbol||'').toUpperCase(),price=num(row?.price),rawTs=num(row?.marketTimestamp,row?.market_timestamp),ts=rawTs>1e12?Math.floor(rawTs/1000):rawTs;if(!symbol||!(price>0)||!(ts>0))continue;const bars=arr(cache[symbol]).filter(x=>num(x?.ts)>0&&Date.now()/1000-num(x.ts)<=8*3600);if(bars.at(-1)?.slot===slot)bars[bars.length-1]={slot,ts,price};else bars.push({slot,ts,price});cache[symbol]=bars.slice(-100)}
+ const keys=Object.keys(cache).sort((a,b)=>num(cache[b]?.at(-1)?.ts)-num(cache[a]?.at(-1)?.ts));for(const key of keys.slice(120))delete cache[key];state.newsLearningQuoteCache=cache;return cache;
+}
+
+async function quoteMap(symbols,cached={}){
+ const equities=symbols.filter(Boolean).map(x=>String(x).toUpperCase()),wanted=[...new Set([...equities,...equities.map(regionalBenchmarkForSymbol)])],out=new Map(),diagnostic={requestedSymbols:wanted.length,cacheHits:0,networkRequestedSymbols:0,attempts:0,httpStatuses:[],errors:[],provider:null};
+ for(const sym of wanted){const bars=arr(cached?.[sym]).filter(x=>num(x?.ts)>0&&num(x?.price)>0);if(!bars.length)continue;const latest=bars.at(-1);out.set(sym,{price:num(latest.price),ts:num(latest.ts),fresh:Date.now()/1000-num(latest.ts)<40*60,bars});diagnostic.cacheHits++}
  // V31.7.34: Yahoo /v7/finance/spark akzeptiert maximal 20 Symbole je Anfrage.
  // 40 lieferte durchgehend HTTP 400, deshalb blieb die News-Reaktionsauswertung leer.
- for(const batch of chunks(wanted,20)){
+ const missing=wanted.filter(sym=>!out.has(sym));diagnostic.networkRequestedSymbols=missing.length;
+ for(const batch of chunks(missing,20)){
   // Yahoo betreibt zwei gleichwertige Spark-Hosts. Cloudflare kann einen davon
   // zeitweise mit 401/429 oder einer leeren Antwort sehen; nur bei null Treffern
   // wird deshalb genau einmal auf den zweiten Host gewechselt.
@@ -113,7 +122,7 @@ function rebuild(l){
  l.typeStats=aggregate(done,e=>[e.eventType]);
  l.sourceTypeStats=aggregate(done,e=>arr(e.sources).map(s=>`${s} · ${e.eventType}`));
  const complete=l.events.filter(e=>Object.keys(e.results||{}).length>=HORIZONS.length),reactionRows=l.events.filter(e=>e.reactionDelayMinutes!=null&&Number.isFinite(Number(e.reactionDelayMinutes))),adverseRows=l.events.filter(e=>e.adverseDelayMinutes!=null&&Number.isFinite(Number(e.adverseDelayMinutes))),avg=(rows,key)=>rows.length?rows.reduce((sum,e)=>sum+num(e[key]),0)/rows.length:null;
- l.summary={topSources:ranking(l.sourceStats),topTypes:ranking(l.typeStats),evaluatedEvents:done.length,completedEvents:complete.length,pendingEvents:l.events.length-complete.length,totalEvents:l.events.length,baselineEvents:l.events.filter(e=>num(e.baselinePrice)>0).length,regionalBenchmarks:[...new Set(l.events.map(e=>e.benchmark).filter(Boolean))],maxEventsPerUpdate:MAX_EVENTS_PER_UPDATE,lastEvaluationBatchSize:num(l.lastEvaluationBatchSize),lastEvaluationQuoteCount:num(l.lastEvaluationQuoteCount),lastEvaluationAttemptCount:num(l.lastEvaluationAttemptCount),lastEvaluationError:l.lastEvaluationError||null,lastEvaluationProvider:l.lastEvaluationProvider||null,lastEvaluationHttpStatuses:arr(l.lastEvaluationHttpStatuses).slice(-6),reactionLag:{thresholdPct:REACTION_THRESHOLD_PCT,directionalSamples:reactionRows.length,avgDirectionalMinutes:avg(reactionRows,'reactionDelayMinutes'),adverseSamples:adverseRows.length,avgAdverseMinutes:avg(adverseRows,'adverseDelayMinutes')},notice:l.lastEvaluationError&&num(l.lastEvaluationQuoteCount)===0?`News-Kursauswertung wartet: ${l.lastEvaluationError}`:done.length<12?'Lernphase: noch zu wenig ausgewertete Meldungen für belastbare Quellengewichte.':'Quellengewichte basieren auf nachfolgenden regional bereinigten 15m-/1h-/4h-/6h-Reaktionen; statistische Wirkung, keine bewiesene Kausalität.'};
+ l.summary={topSources:ranking(l.sourceStats),topTypes:ranking(l.typeStats),evaluatedEvents:done.length,completedEvents:complete.length,pendingEvents:l.events.length-complete.length,totalEvents:l.events.length,baselineEvents:l.events.filter(e=>num(e.baselinePrice)>0).length,regionalBenchmarks:[...new Set(l.events.map(e=>e.benchmark).filter(Boolean))],maxEventsPerUpdate:MAX_EVENTS_PER_UPDATE,lastEvaluationBatchSize:num(l.lastEvaluationBatchSize),lastEvaluationQuoteCount:num(l.lastEvaluationQuoteCount),lastEvaluationCacheHits:num(l.lastEvaluationCacheHits),lastEvaluationNetworkSymbols:num(l.lastEvaluationNetworkSymbols),lastEvaluationAttemptCount:num(l.lastEvaluationAttemptCount),lastEvaluationError:l.lastEvaluationError||null,lastEvaluationProvider:l.lastEvaluationProvider||null,lastEvaluationHttpStatuses:arr(l.lastEvaluationHttpStatuses).slice(-6),reactionLag:{thresholdPct:REACTION_THRESHOLD_PCT,directionalSamples:reactionRows.length,avgDirectionalMinutes:avg(reactionRows,'reactionDelayMinutes'),adverseSamples:adverseRows.length,avgAdverseMinutes:avg(adverseRows,'adverseDelayMinutes')},notice:l.lastEvaluationError&&num(l.lastEvaluationQuoteCount)===0?`News-Kursauswertung wartet: ${l.lastEvaluationError}`:done.length<12?'Lernphase: noch zu wenig ausgewertete Meldungen für belastbare Quellengewichte.':'Quellengewichte basieren auf nachfolgenden regional bereinigten 15m-/1h-/4h-/6h-Reaktionen; statistische Wirkung, keine bewiesene Kausalität.'};
  l.updatedAt=nowIso();
 }
 
@@ -141,7 +150,7 @@ export async function updateNewsLearning(state){
  const currentNews=new Map(arr(state.newsRadar).map(x=>[String(x.symbol||'').toUpperCase(),x]));
  const allPending=l.events.filter(e=>Object.keys(e.results||{}).length<HORIZONS.length&&Date.now()-(Date.parse(e.newsAt)||Date.now())<7*86400000).sort((a,b)=>(Date.parse(b.newsAt)||0)-(Date.parse(a.newsAt)||0)),start=allPending.length?num(l.evaluationCursor)%allPending.length:0,pending=allPending.length?[...allPending.slice(start),...allPending.slice(0,start)].slice(0,MAX_EVENTS_PER_UPDATE):[];l.lastEvaluationBatchSize=pending.length;
  if(pending.length){
-  const lookup=await quoteMap(pending.map(e=>e.symbol)),quotes=lookup.quotes,diagnostic=lookup.diagnostic;l.lastEvaluationQuoteCount=quotes.size;l.lastEvaluationAttemptCount=num(diagnostic.attempts);l.lastEvaluationProvider=diagnostic.provider||null;l.lastEvaluationHttpStatuses=arr(diagnostic.httpStatuses);l.lastEvaluationError=quotes.size?null:diagnostic.errors?.at(-1)||'Keine verwendbaren News-Lernkurse empfangen';
+  const lookup=await quoteMap(pending.map(e=>e.symbol),state.newsLearningQuoteCache),quotes=lookup.quotes,diagnostic=lookup.diagnostic;l.lastEvaluationQuoteCount=quotes.size;l.lastEvaluationCacheHits=num(diagnostic.cacheHits);l.lastEvaluationNetworkSymbols=num(diagnostic.networkRequestedSymbols);l.lastEvaluationAttemptCount=num(diagnostic.attempts);l.lastEvaluationProvider=diagnostic.cacheHits?(diagnostic.provider?'SCANNER_CACHE+YAHOO':'SCANNER_CACHE'):diagnostic.provider||null;l.lastEvaluationHttpStatuses=arr(diagnostic.httpStatuses);l.lastEvaluationError=quotes.size?null:diagnostic.errors?.at(-1)||'Keine verwendbaren News-Lernkurse empfangen';
   // Bei einem kompletten Provider-Ausfall bleiben die wichtigsten neuesten
   // Meldungen vorne. Erst nach mindestens einem echten Kurs wird rotiert.
   if(quotes.size)l.evaluationCursor=allPending.length?(start+pending.length)%allPending.length:0;
