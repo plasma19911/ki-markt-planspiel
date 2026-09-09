@@ -10,4 +10,7 @@ const html=fs.readFileSync(new URL('public/index.html',root),'utf8');
 assert.match(html,/src="\/exposure-ui\.js[^" ]*"/,'Expositionsnetz-Modul muss im Dashboard geladen werden');
 assert.match(html,/src="\/zero-ui\.js[^" ]*"/,'Trade-Republic-Zielprofil muss im Dashboard geladen werden');
 assert.match(v20,/dashboardRequest=view==='dashboard'\|\|\(!view&&!agentUa\)/,'Normale Browser erhalten weiterhin den Dashboard-View');
+assert.match(v20,/DASHBOARD_REFRESH_MS=20_000/,'Dashboardcache muss nach kurzer Zeit im Hintergrund erneuern');
+assert.match(v20,/DASHBOARD_STALE_MS=90_000/,'Dashboardcache darf nie unbegrenzt alte Daten ausliefern');
+assert.match(v20,/x-dashboard-cache/,'Dashboardantwort muss Cachetreffer transparent kennzeichnen');
 console.log(JSON.stringify({ok:true,repairedUiFields:Object.keys(modules)},null,2));
