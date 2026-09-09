@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-08T08:57:20.441Z",
-  "nextRefreshAfter": "2026-09-09T08:57:20.441Z",
+  "updatedAt": "2026-09-09T09:03:22.569Z",
+  "nextRefreshAfter": "2026-09-10T09:03:22.569Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -17,7 +17,7 @@
   "rawUpcomingCount": 21,
   "matchedUpcomingCount": 6,
   "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-09-08T08:09:56.655734Z",
+  "universeGeneratedAt": "2026-09-09T08:14:00.699826Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -30,8 +30,8 @@
       "companyKey": "NETAPP",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 87,
-      "fundamentalScore": 87,
+      "baseScore": 86,
+      "fundamentalScore": 86,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -49,7 +49,7 @@
         "revenueCurrentYearEstimate": 7537.01,
         "revenueNextYearEstimate": 7968.88
       },
-      "daysUntil": 1,
+      "daysUntil": 0,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -64,19 +64,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 1,
+          "delta": 0,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": 12,
-      "newsDelta": 1,
+      "newsDelta": 0,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Dow, S&P 500 Futures Decline Amid Rising Oil Prices As Iran War Escalates: MU, ORCL, INTC, BE Stocks In Focus",
-        "Why SNDK, DELL, PANW Stocks Are Rallying Overnight Ahead Of Fresh Trading Week",
-        "The AI Memory Stock That Could Outshine the Obvious Picks",
-        "Apple's $54 Billion iPhone Engine Hits an AI Memory Squeeze"
+        "Bull of the Day: Seagate Technology (STX)",
+        "How to Profit From Sharp Stock Moves—Up or Down",
+        "SpaceX, Nvidia Lead Schwab Buys As Software Rally Spurs Profit-Taking – Trading Gauge Posts First Dip Since April",
+        "STX Stock: The Math Hidden In Its Price"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -86,20 +86,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
-        "samples": 252,
-        "last": 185.6,
-        "changeM1": -3.1,
+        "samples": 251,
+        "last": 189.1,
+        "changeM1": -0.2,
         "changeM3": 11.1,
-        "changeM6": 83.6,
-        "sma50": 178.7,
-        "sma200": 130.6,
-        "position52w": 81,
-        "drawdownFromHigh": -10.4,
-        "volatility20d": 34.6,
-        "volumeTrend": -0.1
+        "changeM6": 88,
+        "sma50": 179.4,
+        "sma200": 131,
+        "position52w": 84.1,
+        "drawdownFromHigh": -8.7,
+        "volatility20d": 35.1,
+        "volumeTrend": 0.9
       },
-      "scoreEvaluatedAt": "2026-09-08T08:57:20.441Z",
-      "scoreValidUntil": "2026-09-09T08:57:20.441Z"
+      "scoreEvaluatedAt": "2026-09-09T09:03:22.569Z",
+      "scoreValidUntil": "2026-09-10T09:03:22.569Z"
     },
     {
       "date": "2026-09-10",
@@ -130,7 +130,7 @@
         "revenueCurrentYearEstimate": 9543.87,
         "revenueNextYearEstimate": 9787.56
       },
-      "daysUntil": 2,
+      "daysUntil": 1,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -165,19 +165,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 254,
-        "last": 152.5,
-        "changeM1": -5.9,
-        "changeM3": 1.4,
-        "changeM6": 7.8,
-        "sma50": 158.8,
-        "sma200": 143.5,
-        "position52w": 68.9,
-        "drawdownFromHigh": -9.3,
-        "volatility20d": 22,
-        "volumeTrend": -21.9
+        "last": 150.6,
+        "changeM1": -5.8,
+        "changeM3": -1.2,
+        "changeM6": 2.9,
+        "sma50": 158.6,
+        "sma200": 143.6,
+        "position52w": 65.1,
+        "drawdownFromHigh": -10.5,
+        "volatility20d": 23,
+        "volumeTrend": -16.9
       },
-      "scoreEvaluatedAt": "2026-09-08T08:57:20.441Z",
-      "scoreValidUntil": "2026-09-09T08:57:20.441Z"
+      "scoreEvaluatedAt": "2026-09-09T09:03:22.569Z",
+      "scoreValidUntil": "2026-09-10T09:03:22.569Z"
     },
     {
       "date": "2026-09-10",
@@ -189,8 +189,8 @@
       "companyKey": "RYANAIR",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 12,
-      "fundamentalScore": 12,
+      "baseScore": 13,
+      "fundamentalScore": 13,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -208,7 +208,7 @@
         "revenueCurrentYearEstimate": 15925.44,
         "revenueNextYearEstimate": 17205.48
       },
-      "daysUntil": 2,
+      "daysUntil": 1,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -223,19 +223,19 @@
         },
         {
           "key": "NEWS",
-          "delta": -1,
+          "delta": 0,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": -13,
-      "newsDelta": -1,
+      "newsDelta": 0,
       "fundamentalDelta": -24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "LGES announces breakthrough in LMR battery technology",
-        "ECOVACS Defines the Future of Robotic Floor Cleaning with Third-Generation OZMO ROLLER Technology",
-        "Novartis India acquires Pfizer brands for $132m",
-        "Elia to develop Princess Elisabeth Energy project with $1.1bn EIB financing"
+        "WAM Alternative Assets Ltd (ASX:WMA) (FY 2026) Earnings Call Highlights: Portfolio Returns ...",
+        "Platinum surplus masks persistent supply challenge for PGM miners",
+        "Form 8.3 - [ADVANCED MEDICAL SOLUTIONS GROUP PLC - 08 09 2026] - (CGWL)",
+        "2026 Obstructive Sleep Apnea (OSA) Competitive Landscape and Clinical Trial Analysis - 18+ Companies Advance New OSA Therapies"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -245,20 +245,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
-        "samples": 252,
-        "last": 55.4,
-        "changeM1": -8.6,
-        "changeM3": -2.8,
-        "changeM6": -12.9,
-        "sma50": 59.8,
-        "sma200": 62.7,
-        "position52w": 10.3,
-        "drawdownFromHigh": -25,
-        "volatility20d": 24.3,
-        "volumeTrend": -30.9
+        "samples": 251,
+        "last": 54.4,
+        "changeM1": -9.7,
+        "changeM3": -3.5,
+        "changeM6": -13.8,
+        "sma50": 59.6,
+        "sma200": 62.6,
+        "position52w": 5.5,
+        "drawdownFromHigh": -26.3,
+        "volatility20d": 24.7,
+        "volumeTrend": -29.5
       },
-      "scoreEvaluatedAt": "2026-09-08T08:57:20.441Z",
-      "scoreValidUntil": "2026-09-09T08:57:20.441Z"
+      "scoreEvaluatedAt": "2026-09-09T09:03:22.569Z",
+      "scoreValidUntil": "2026-09-10T09:03:22.569Z"
     },
     {
       "date": "2026-09-14",
@@ -270,8 +270,8 @@
       "companyKey": "DECKERS OUTDOOR",
       "currency": "EUR",
       "matchConfidence": 1,
-      "baseScore": 33,
-      "fundamentalScore": 33,
+      "baseScore": 19,
+      "fundamentalScore": 19,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -289,12 +289,12 @@
         "revenueCurrentYearEstimate": 5886.98,
         "revenueNextYearEstimate": 6322.24
       },
-      "daysUntil": 6,
-      "baseLabel": "VORSICHT",
+      "daysUntil": 5,
+      "baseLabel": "NEGATIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -3,
+          "delta": -17,
           "label": "Analystenschaetzungen"
         },
         {
@@ -310,13 +310,13 @@
       ],
       "chartDelta": -15,
       "newsDelta": 1,
-      "fundamentalDelta": -3,
+      "fundamentalDelta": -17,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "DECK, DKS Stocks In Focus: BMO Warns Athletic Retailers Face A ‘Messy’ Road Ahead",
+        "Nike Is In Free Fall: This Wall Street Ratings Agency Says It’s Doubling Soon",
         "On Holding's Robust APAC Performance Strengthens Its Global Footprint",
-        "Deckers (DECK) Gains As Market Dips: What You Should Know",
-        "Stock Market Today, Sept. 4: Lululemon Plummets 17% After Slashing Guidance",
-        "Is ONON Worth Buying Now as Growth Collides With Execution Risks?"
+        "Deckers (DECK) Gains As Market Dips: What You Should Know"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -328,18 +328,18 @@
         "currency": "EUR",
         "samples": 253,
         "last": 73.5,
-        "changeM1": -15.8,
-        "changeM3": -24.2,
-        "changeM6": -19.5,
-        "sma50": 84.1,
+        "changeM1": -12,
+        "changeM3": -24.4,
+        "changeM6": -16.9,
+        "sma50": 83.9,
         "sma200": 88.6,
         "position52w": 13.4,
         "drawdownFromHigh": -29.6,
-        "volatility20d": 28.4,
+        "volatility20d": 25.4,
         "volumeTrend": 18.9
       },
-      "scoreEvaluatedAt": "2026-09-08T08:57:20.441Z",
-      "scoreValidUntil": "2026-09-09T08:57:20.441Z"
+      "scoreEvaluatedAt": "2026-09-09T09:03:22.569Z",
+      "scoreValidUntil": "2026-09-10T09:03:22.569Z"
     },
     {
       "date": "2026-09-16",
@@ -351,9 +351,9 @@
       "companyKey": "GAMES WORKSHOP",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 61,
-      "fundamentalScore": 61,
-      "fundamentalConfidence": 0.737,
+      "baseScore": 55,
+      "fundamentalScore": 55,
+      "fundamentalConfidence": 0.754,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+6%)",
@@ -369,8 +369,8 @@
         "revenueCurrentYearEstimate": 692.18,
         "revenueNextYearEstimate": 736.75
       },
-      "daysUntil": 8,
-      "baseLabel": "LEICHT POSITIV",
+      "daysUntil": 7,
+      "baseLabel": "NEUTRAL",
       "scoreParts": [
         {
           "key": "ZAHLEN",
@@ -379,11 +379,11 @@
         },
         {
           "key": "CHART",
-          "delta": 0,
+          "delta": -6,
           "label": "Kursstruktur 1 Jahr"
         }
       ],
-      "chartDelta": 0,
+      "chartDelta": -6,
       "newsDelta": 0,
       "fundamentalDelta": 11,
       "newsGuidance": 0,
@@ -397,19 +397,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 254,
-        "last": 18210,
-        "changeM1": -3.5,
-        "changeM3": -4.3,
-        "changeM6": 8.1,
-        "sma50": 19484,
-        "sma200": 18927.1,
-        "position52w": 51.8,
-        "drawdownFromHigh": -17,
-        "volatility20d": 16.8,
-        "volumeTrend": -36.9
+        "last": 17670,
+        "changeM1": -6.8,
+        "changeM3": -8.2,
+        "changeM6": 1.8,
+        "sma50": 19401.2,
+        "sma200": 18920.6,
+        "position52w": 44.8,
+        "drawdownFromHigh": -19.5,
+        "volatility20d": 18.7,
+        "volumeTrend": -18.8
       },
-      "scoreEvaluatedAt": "2026-09-08T08:57:20.441Z",
-      "scoreValidUntil": "2026-09-09T08:57:20.441Z"
+      "scoreEvaluatedAt": "2026-09-09T09:03:22.569Z",
+      "scoreValidUntil": "2026-09-10T09:03:22.569Z"
     },
     {
       "date": "2026-09-16",
@@ -421,16 +421,17 @@
       "companyKey": "MOONPIG",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 69,
-      "fundamentalScore": 69,
-      "fundamentalConfidence": 0.909,
+      "baseScore": 76,
+      "fundamentalScore": 76,
+      "fundamentalConfidence": 0.92,
       "profitForecastPositive": null,
       "fundamentalReasons": [
         "Kurs ueber der 200-Tage-Linie",
         "3-Monats-Trend +25%",
         "Gesunde Position im 52-Wochen-Band (77%)",
         "3-Monats-Trend +21%",
-        "Gesunde Position im 52-Wochen-Band (71%)"
+        "Gesunde Position im 52-Wochen-Band (71%)",
+        "3-Monats-Trend +16%"
       ],
       "fundamentals": {
         "source": "Yahoo quote",
@@ -443,34 +444,34 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 8,
-      "baseLabel": "LEICHT POSITIV",
+      "daysUntil": 7,
+      "baseLabel": "POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 10,
+          "delta": 19,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": 10,
+          "delta": 7,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": -1,
+          "delta": 0,
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": 10,
-      "newsDelta": -1,
-      "fundamentalDelta": 10,
+      "chartDelta": 7,
+      "newsDelta": 0,
+      "fundamentalDelta": 19,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "LGES announces breakthrough in LMR battery technology",
-        "ECOVACS Defines the Future of Robotic Floor Cleaning with Third-Generation OZMO ROLLER Technology",
-        "Novartis India acquires Pfizer brands for $132m",
-        "Elia to develop Princess Elisabeth Energy project with $1.1bn EIB financing"
+        "WAM Alternative Assets Ltd (ASX:WMA) (FY 2026) Earnings Call Highlights: Portfolio Returns ...",
+        "Platinum surplus masks persistent supply challenge for PGM miners",
+        "Form 8.3 - [ADVANCED MEDICAL SOLUTIONS GROUP PLC - 08 09 2026] - (CGWL)",
+        "2026 Obstructive Sleep Apnea (OSA) Competitive Landscape and Clinical Trial Analysis - 18+ Companies Advance New OSA Therapies"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -481,19 +482,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 254,
-        "last": 264.4,
-        "changeM1": -7.4,
-        "changeM3": 20.5,
-        "changeM6": 25.9,
-        "sma50": 272.8,
-        "sma200": 227.3,
-        "position52w": 70.5,
-        "drawdownFromHigh": -9.8,
-        "volatility20d": 24.2,
-        "volumeTrend": 0.3
+        "last": 256.4,
+        "changeM1": -9.8,
+        "changeM3": 15.6,
+        "changeM6": 20.4,
+        "sma50": 273,
+        "sma200": 227.5,
+        "position52w": 62.3,
+        "drawdownFromHigh": -12.5,
+        "volatility20d": 26.4,
+        "volumeTrend": -3.6
       },
-      "scoreEvaluatedAt": "2026-09-08T08:57:20.441Z",
-      "scoreValidUntil": "2026-09-09T08:57:20.441Z"
+      "scoreEvaluatedAt": "2026-09-09T09:03:22.569Z",
+      "scoreValidUntil": "2026-09-10T09:03:22.569Z"
     }
   ],
   "estimateAttemptCount": 6,
