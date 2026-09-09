@@ -170,7 +170,7 @@ export default{
     const b=await request.json().catch(()=>({}));
     const started=await p.start({...b,includeEtfs:false,includeLeverage:false});
     const firstScan=await p.scan();
-    return reply({...started,firstScan,storage:'Durable Object Free · kompakter Hauptzustand',assetClass:'nur Aktien',targetBroker:'finanzen.net ZERO · gettex',freeTier:'Windows-PC-Agent bevorzugt · 07:25 Vorbereitung · 07:30-23:00 Minutenbetrieb · Cloudflare 5-Minuten-Fallback'});
+    return reply({...started,firstScan,storage:'Durable Object Free · kompakter Hauptzustand',assetClass:'nur Aktien',targetBroker:'Trade Republic · Aktien',freeTier:'Windows-PC-Agent bevorzugt · 07:25 Vorbereitung · 07:30-23:00 Minutenbetrieb · Cloudflare 5-Minuten-Fallback'});
    }
    if(u.pathname==='/api/stop'&&request.method==='POST')return reply(await p.stop());
    if(u.pathname==='/api/reset'&&request.method==='POST')return reply(await p.reset());

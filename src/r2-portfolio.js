@@ -5,6 +5,7 @@ import {DECISION_QUOTE_MAX_AGE_MINUTES,POSITION_QUOTE_MAX_AGE_MINUTES,isFreshMar
 
 const STATE_KEY='state/current-v1.json';
 const MEMO_MS=10000;
+const SCAN_LOCK_MS=6*60*1000;
 const EMPTY_RSS='<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>disabled</title></channel></rss>';
 const HEADERS={'accept':'application/json','user-agent':'Mozilla/5.0'};
 const FEATURES=['emaGapPct','priceVsEma21Pct','rsi','mom5Pct','mom20Pct','dayPct','volatility20Pct'];
@@ -37,7 +38,7 @@ class Store{
  async load(fresh=false){if(!fresh&&memo&&Date.now()-memoAt<MEMO_MS)return{state:clone(memo),etag:memoEtag};const o=await this.bucket.get(STATE_KEY);if(!o){const state=defaultState();return{state,etag:null}}const state=normalizeState(await o.json());memo=clone(state);memoAt=Date.now();memoEtag=o.etag;return{state,etag:o.etag}}
  async put(state,etag=null){state.updated_at=nowIso();const options={httpMetadata:{contentType:'application/json',cacheControl:'no-store'}};if(etag)options.onlyIf={etagMatches:etag};const o=await this.bucket.put(STATE_KEY,JSON.stringify(state),options);if(!o)return null;memo=clone(state);memoAt=Date.now();memoEtag=o.etag;return o.etag}
  async update(fn,retries=5){for(let i=0;i<retries;i++){const {state,etag}=await this.load(true),next=clone(state),result=await fn(next);const saved=await this.put(next,etag);if(saved)return{state:next,result,etag:saved}}throw new Error('R2-Zustand wurde gleichzeitig geändert; bitte erneut versuchen.')}
- async acquireScan(){for(let i=0;i<4;i++){const {state,etag}=await this.load(true),now=Date.now();if(!state.config.running)return{skipped:'not-running'};if(num(state.config.scan_lock_until)>now)return{skipped:'busy'};const next=clone(state);next.config.scan_lock_until=now+55000;const saved=await this.put(next,etag);if(saved)return{state:next,etag:saved}}return{skipped:'busy'}}
+ async acquireScan(){for(let i=0;i<4;i++){const {state,etag}=await this.load(true),now=Date.now();if(!state.config.running)return{skipped:'not-running'};if(num(state.config.scan_lock_until)>now)return{skipped:'busy'};const next=clone(state);next.config.scan_lock_until=now+SCAN_LOCK_MS;const saved=await this.put(next,etag);if(saved)return{state:next,etag:saved}}return{skipped:'busy'}}
 }
 
 function entityKey(x){if((x?.type||x?.instrument_type)==='ETF')return`ETF:${x?.symbol||''}`;if(x?.companyKey||x?.company_key)return`EQ:${String(x.companyKey||x.company_key).toUpperCase()}`;const junk=new Set(['INC','INCORPORATED','CORP','CORPORATION','CO','COMPANY','LTD','LIMITED','PLC','AG','SE','NV','SA','SPA','HOLDING','HOLDINGS','GROUP','ORD','ORDINARY','SHARE','SHARES','SHS','REGISTERED','REG','ADR','GDR','CDR','DRN','BDR','ADS','CLASS','CL','SERIES','THE','AND']);const toks=String(x?.name||x?.symbol||'').toUpperCase().replace(/[^A-Z0-9]+/g,' ').split(/\s+/).filter(Boolean).filter(t=>t.length>1&&!junk.has(t));return`EQ:${toks.slice(0,6).join(' ')||String(x?.symbol||'').split('.')[0]}`}

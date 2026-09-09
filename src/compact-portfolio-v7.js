@@ -70,8 +70,8 @@ class StocksOnlyAiGuard{
 async function ensureZeroConfig(engine){
   const loaded=await engine?.store?.load?.(true);const s=loaded?.state;
   if(!s?.config)return;
-  if(num(s.config.fee_fixed,0)===0&&num(s.config.fee_percent,0)===0&&s.config.zero_fee_model_version===ZERO_FEE_MODEL.version)return;
-  await engine.store.update(x=>{x.config.fee_fixed=0;x.config.fee_percent=0;x.config.zero_fee_model_version=ZERO_FEE_MODEL.version;x.config.zero_fee_model='finanzen.net ZERO securities';return true});
+  if(num(s.config.fee_fixed,0)===ZERO_FEE_MODEL.standardOrderFeeEur&&num(s.config.fee_percent,0)===0&&s.config.zero_fee_model_version===ZERO_FEE_MODEL.version)return;
+  await engine.store.update(x=>{x.config.fee_fixed=ZERO_FEE_MODEL.standardOrderFeeEur;x.config.fee_percent=0;x.config.zero_fee_model_version=ZERO_FEE_MODEL.version;x.config.zero_fee_model=ZERO_FEE_MODEL.broker;return true});
 }
 
 async function ensureStocksOnlyState(engine){
@@ -105,7 +105,7 @@ async function repairStoredQuoteAnomalies(engine){
 function installZeroExecution(engine){
   if(!engine||engine.__zeroFeeInstalled)return;engine.__zeroFeeInstalled=true;
   const baseStart=engine.start.bind(engine),baseScan=engine.scan.bind(engine);
-  engine.start=async options=>baseStart({...options,includeEtfs:false,includeLeverage:false,feeFixed:0,feePercent:0});
+  engine.start=async options=>baseStart({...options,includeEtfs:false,includeLeverage:false,feeFixed:ZERO_FEE_MODEL.standardOrderFeeEur,feePercent:0});
   engine.scan=async()=>{
     await ensureZeroConfig(engine);await ensureStocksOnlyState(engine);await repairStoredQuoteAnomalies(engine);
     const loaded=await engine.store.load(true),before={historyId:lastId(loaded.state?.history),snapshotId:lastId(loaded.state?.snapshots),positions:positionSnapshot(loaded.state)};
@@ -138,7 +138,7 @@ export class MarketPortfolio extends BasePortfolio{
     if(s.risk)s.risk={...s.risk,equity:a.equity,availableCash:a.cash};
     if(s.snapshots?.length){const x=s.snapshots.at(-1);x.cash=a.cash;x.equity=a.equity}
     if(s.history?.length){const x=s.history[0];x.cash_after=a.cash;x.equity=a.equity;x.total_pnl=a.pnl}
-    s.executionModel={...(s.executionModel||{}),feeFixed:0,feePercent:0,brokerFeeModel:ZERO_FEE_MODEL.version,smallOrderThresholdEur:ZERO_FEE_MODEL.smallOrderThresholdEur,smallOrderSurchargeEur:ZERO_FEE_MODEL.smallOrderSurchargeEur,fractionalSurchargeEur:ZERO_FEE_MODEL.fractionalSurchargeEur,fractionalMinEur:ZERO_FEE_MODEL.fractionalMinEur,spreadIsSeparate:true,stocksOnly:true,fullCashPolicy:true,strategicCashReservePct:0,quoteSanity:true,unsafeFallbackBuysBlocked:true,sameScanReentryBlocked:true};
+    s.executionModel={...(s.executionModel||{}),feeFixed:ZERO_FEE_MODEL.standardOrderFeeEur,feePercent:0,brokerFeeModel:ZERO_FEE_MODEL.version,smallOrderThresholdEur:ZERO_FEE_MODEL.smallOrderThresholdEur,smallOrderSurchargeEur:ZERO_FEE_MODEL.smallOrderSurchargeEur,fractionalSurchargeEur:ZERO_FEE_MODEL.fractionalSurchargeEur,fractionalMinEur:ZERO_FEE_MODEL.fractionalMinEur,spreadIsSeparate:true,stocksOnly:true,fullCashPolicy:true,strategicCashReservePct:0,quoteSanity:true,unsafeFallbackBuysBlocked:true,sameScanReentryBlocked:true};
     if(s.brokerTarget){const {fullEtfMasterPool,etfCoreEveryMinute,etfRotatingPerMinute,estimatedEtfRotationMinutes,...b}=s.brokerTarget;s.brokerTarget={...b,assetClass:'EQUITY_ONLY',stocksOnly:true,fullCashPolicy:true,strategicCashReservePct:0,quoteSanity:true,feeModel:ZERO_FEE_MODEL,feesMatchedToZeroRules:true,spreadStillMarketDependent:true,brokerCatalogVerificationRequired:true,exactBrokerCatalog:false}}
     return s;
   }

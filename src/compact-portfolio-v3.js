@@ -1,5 +1,7 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio-v2.js';
 import {updateMacroGeopolitics,macroContext} from './macro-geopolitics.js';
+import {captureNewsLearningQuoteCache} from './news-learning.js';
+import {consumeNewsLearningQuotes,consumeScanFunnel} from './market-v3-base.js';
 
 // 11 Minuten entkoppeln den Makro-Refresh von den 5-Minuten-Leaderlisten und
 // vom 10-Minuten-Investment-Refresh. Die Live-Kursrunde bleibt jede Minute aktiv.
@@ -53,6 +55,7 @@ export class MarketPortfolio extends BasePortfolio{
     return this._serial(async()=>{
       const r=await this.engine.scan();
       if(!r?.skipped&&!r?.aborted){
+        try{const newsQuotes=consumeNewsLearningQuotes(),scanFunnel=consumeScanFunnel();await this.engine.store.update(async s=>{captureNewsLearningQuoteCache(s,[...newsQuotes,...(s.candidates||[]),...(s.positions||[])]);if(scanFunnel)s.scanFunnel=scanFunnel;return true})}catch(e){console.error('News quote cache refresh failed',e)}
         try{await this._refreshIntelligence(false)}catch(e){console.error('Investment intelligence refresh failed',e)}
         try{await this._refreshNewsLearning(false)}catch(e){console.error('News learning refresh failed',e)}
         try{await this._refreshMacro(false)}catch(e){console.error('Macro geopolitical refresh failed',e)}

@@ -15,7 +15,7 @@ const AI_DAILY_NEURON_SOFT_CAP=8_000;
 const GLM_INPUT_NEURONS_PER_TOKEN=5_500/1_000_000;
 const GLM_OUTPUT_NEURONS_PER_TOKEN=36_400/1_000_000;
 const AI_PLAN_OUTPUT_CAP=400;
-const AI_NEWS_OUTPUT_CAP=120;
+const AI_NEWS_OUTPUT_CAP=700;
 
 const clone=x=>structuredClone(x);
 const utcDay=()=>new Date().toISOString().slice(0,10);
@@ -122,7 +122,7 @@ class FreeAiGuard{
   async run(model,input){
     const prompt=String(input?.messages?.map(x=>x?.content||'').join('\n')||'');
     const isPlan=prompt.includes('JSON-only')&&prompt.includes('Kandidaten=');
-    const isNews=prompt.includes('Fasse die aktuelle Mehrquellen-Nachrichtenlage');
+    const isNews=prompt.includes('Mehrquellen-Nachrichtenlage')&&(prompt.includes('übersetze')||prompt.includes('Uebersetze')||prompt.includes('Fasse'));
     const persistentGuard=prompt.includes(PERSISTENT_GUARD_MARKER);
     const now=Date.now();
 
@@ -200,7 +200,6 @@ export class MarketPortfolio extends DurableObject{
   }
 
   async status(){
-    return this._serial(async()=>{
       const s=await this.engine.status(),raw=this.bucketAdapter.peekState();
       s.storage={backend:'Durable Object Free · kompakter Hauptzustand',key:STATE_KEY,mainStateRows:1,extraGuardRows:'wenige kleine KV-Zeilen fuer AI-/Safety-/Approval-Metadaten',r2:false};
       s.freeAiBudget=this.freeAiGuard.budgetStatus();
@@ -210,7 +209,6 @@ export class MarketPortfolio extends DurableObject{
       s.intelligenceUpdatedAt=raw?.intelligenceUpdatedAt||null;
       s.analysisNotice=raw?.analysisNotice||'Analysehilfe für eigene Entscheidungen; keine Gewinn- oder Kursgarantie.';
       return s;
-    });
   }
   start(options={}){return this._serial(()=>this.engine.start({...options,includeEtfs:false,includeLeverage:false}))}
   stop(){return this._serial(()=>this.engine.stop())}
