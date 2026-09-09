@@ -1,7 +1,7 @@
 import {MarketPortfolio as BasePortfolio} from './compact-portfolio.js';
 import {updateNewsLearning,newsLearningContext} from './news-learning-v2.js';
 import {captureNewsLearningQuoteCache} from './news-learning.js';
-import {consumeNewsLearningQuotes} from './market-v3-base.js';
+import {consumeNewsLearningQuotes,consumeScanFunnel} from './market-v3-base.js';
 
 // Die nachgelagerte Kursauswertung ist kein Live-News-Abruf. Ein Stundenrhythmus
 // reicht für 15m/1h/4h/6h-Horizonte und verhindert Yahoo-429-Drosselungen.
@@ -59,7 +59,8 @@ export class MarketPortfolio extends BasePortfolio{
     const raw=this.bucketAdapter?.peekState?.();
     const l=raw?.newsLearning||null;
     s.newsLearning=l?{version:l.version,updatedAt:l.updatedAt,benchmark:l.benchmark,summary:l.summary,sourceStats:l.sourceStats,typeStats:l.typeStats,sourceTypeStats:l.sourceTypeStats,trustedSources:l.trustedSources,confirmationStats:l.confirmationStats}:null;
-    s.scanFunnel={catalog:Number(s?.config?.universe_count)||0,referenceMarketOpen:Number(s?.config?.open_symbols)||0,freshCandidates:Array.isArray(s?.candidates)?s.candidates.filter(x=>x?.fresh!==false&&x?.fresh!==0).length:0,visibleCandidates:Array.isArray(s?.candidates)?s.candidates.length:0,newsVisible:Array.isArray(s?.newsRadar)?s.newsRadar.length:0,newsEvaluationCacheHits:Number(l?.summary?.lastEvaluationCacheHits)||0,newsEvaluationNetworkSymbols:Number(l?.summary?.lastEvaluationNetworkSymbols)||0,newsEvaluationProvider:l?.summary?.lastEvaluationProvider||null,explanation:'Vom Trade-Republic-Katalog über aktuell offene Referenzmärkte und frische Kurse bis zu sichtbaren Kandidaten und News.'};
+    const cached=raw?.newsLearningQuoteCache&&typeof raw.newsLearningQuoteCache==='object'?raw.newsLearningQuoteCache:{},nowSec=Date.now()/1000,cacheSymbols=Object.keys(cached),freshCacheSymbols=cacheSymbols.filter(k=>{const bars=Array.isArray(cached[k])?cached[k]:[],ts=Number(bars.at(-1)?.ts);return ts>0&&nowSec-ts<40*60}).length;
+    s.scanFunnel={...(raw?.scanFunnel||{}),catalog:Number(raw?.scanFunnel?.catalog??s?.config?.universe_count)||0,referenceMarketOpen:Number(raw?.scanFunnel?.referenceMarketOpen??s?.config?.open_symbols)||0,freshCandidates:Array.isArray(s?.candidates)?s.candidates.filter(x=>x?.fresh!==false&&x?.fresh!==0).length:0,visibleCandidates:Array.isArray(s?.candidates)?s.candidates.length:0,newsVisible:Array.isArray(s?.newsRadar)?s.newsRadar.length:0,newsQuoteCacheSymbols:cacheSymbols.length,newsQuoteCacheFreshSymbols:freshCacheSymbols,newsEvaluationCacheHits:Number(l?.summary?.lastEvaluationCacheHits)||0,newsEvaluationNetworkSymbols:Number(l?.summary?.lastEvaluationNetworkSymbols)||0,newsEvaluationProvider:l?.summary?.lastEvaluationProvider||null,explanation:'Vom Trade-Republic-Katalog über aktuell offene Referenzmärkte und frische Kurse bis zu sichtbaren Kandidaten und News.'};
     return s;
   }
 
@@ -67,7 +68,7 @@ export class MarketPortfolio extends BasePortfolio{
     return this._serial(async()=>{
       const r=await this.engine.scan();
       if(!r?.skipped&&!r?.aborted){
-        try{const newsQuotes=consumeNewsLearningQuotes();await this.engine.store.update(async s=>{captureNewsLearningQuoteCache(s,[...newsQuotes,...(s.candidates||[]),...(s.positions||[])]);return true})}catch(e){console.error('News quote cache refresh failed',e)}
+        try{const newsQuotes=consumeNewsLearningQuotes(),scanFunnel=consumeScanFunnel();await this.engine.store.update(async s=>{captureNewsLearningQuoteCache(s,[...newsQuotes,...(s.candidates||[]),...(s.positions||[])]);if(scanFunnel)s.scanFunnel=scanFunnel;return true})}catch(e){console.error('News quote cache refresh failed',e)}
         try{await this._refreshIntelligence(false)}catch(e){console.error('Investment intelligence refresh failed',e)}
       }
       return r;
