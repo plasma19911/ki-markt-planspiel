@@ -26,9 +26,10 @@ const json=(x,status=200)=>Response.json(x,{status,headers:{'cache-control':'no-
 // Fremde Cross-Site-Browseraufrufe werden blockiert. Start/Reset sind zusaetzlich
 // destruktiv und akzeptieren ohne Passwort nur echte Same-Origin-Browser-Metadaten;
 // fuer bewusstes CLI gibt es den expliziten, nicht geheimen Bestaetigungsheader.
-const GUARDED_PATHS=new Set(['/api/start','/api/stop','/api/reset','/api/scan','/api/migrate-from-old-sql','/api/runtime-trade-config','/api/runtime-trade-config/reset']);
-const DESTRUCTIVE_PATHS=new Set(['/api/start','/api/reset']);
-function needsGuard(url,method){return method==='POST'&&GUARDED_PATHS.has(url.pathname)}
+const GUARDED_PATHS=new Set(['/api/start','/api/stop','/api/reset','/api/scan','/api/manual-trade','/api/migrate-from-old-sql','/api/runtime-trade-config','/api/runtime-trade-config/reset']);
+const GUARDED_PREFIXES=['/api/order-approvals/'];
+const DESTRUCTIVE_PATHS=new Set(['/api/start','/api/reset','/api/migrate-from-old-sql']);
+function needsGuard(url,method){return method==='POST'&&(GUARDED_PATHS.has(url.pathname)||GUARDED_PREFIXES.some(prefix=>url.pathname.startsWith(prefix)))}
 function browserOriginAllowed(request,url){
  const site=String(request.headers.get('sec-fetch-site')||'').toLowerCase();
  if(site&&site!=='same-origin'&&site!=='none')return false;
@@ -38,16 +39,21 @@ function browserOriginAllowed(request,url){
  if(referer){try{if(new URL(referer).origin!==url.origin)return false}catch{return false}}
  return true;
 }
-function destructiveConfirmed(request,url){
- if(!DESTRUCTIVE_PATHS.has(url.pathname)||request.method!=='POST')return true;
- const site=String(request.headers.get('sec-fetch-site')||'').toLowerCase();
- if(site==='same-origin')return true;
- return String(request.headers.get('x-planspiel-confirm')||'').toLowerCase()==='replace';
+function sameOriginBrowser(request){return String(request.headers.get('sec-fetch-site')||'').toLowerCase()==='same-origin'}
+function confirmHeader(request){return String(request.headers.get('x-planspiel-confirm')||'').toLowerCase()}
+function controlConfirmed(request,url){
+ if(sameOriginBrowser(request))return true;
+ const confirm=confirmHeader(request);
+ if(DESTRUCTIVE_PATHS.has(url.pathname))return confirm==='replace';
+ return confirm==='replace'||confirm==='control';
 }
 function controlGuard(request,url){
  if(!needsGuard(url,request.method))return null;
  if(!browserOriginAllowed(request,url))return json({error:'Diese Steueraktion wurde als Cross-Site-Anfrage blockiert.',controlAuth:false},403);
- if(!destructiveConfirmed(request,url))return json({error:'Start/Reset braucht eine ausdrueckliche lokale Bestaetigung.',destructiveConfirmationRequired:true},409);
+ if(!controlConfirmed(request,url)){
+  const destructive=DESTRUCTIVE_PATHS.has(url.pathname);
+  return json({error:destructive?'Diese Aktion ueberschreibt den Depotzustand und braucht eine ausdrueckliche Bestaetigung.':'Diese Steueraktion braucht ausserhalb der eigenen UI eine ausdrueckliche Bestaetigung.',destructiveConfirmationRequired:destructive,controlConfirmationRequired:!destructive,confirmHeader:'x-planspiel-confirm: '+(destructive?'replace':'control')},409);
+ }
  return null;
 }
 

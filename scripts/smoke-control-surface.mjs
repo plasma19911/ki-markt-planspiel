@@ -5,13 +5,13 @@ import fs from 'node:fs';
 // and Worker/static-asset routing. Keep this in the normal validation workflow.
 const read=p=>fs.readFileSync(new URL(`../${p}`,import.meta.url),'utf8');
 const wrapper=read('src/index-v18.js');
-const index=read('src/index.js');
+const core=read('src/index-core.js');
 const quota=read('public/quota-guard.js');
 const wrangler=read('wrangler.jsonc');
 
 // Owner UI is intentionally passwordless. Keep only the zero-friction browser
 // cross-site/CSRF protection so foreign web pages cannot drive the controls.
-for(const path of ['/api/start','/api/stop','/api/reset','/api/scan','/api/migrate-from-old-sql']){
+for(const path of ['/api/start','/api/stop','/api/reset','/api/scan','/api/manual-trade','/api/migrate-from-old-sql','/api/runtime-trade-config']){
   assert.ok(wrapper.includes(`'${path}'`),`${path} muss im Browser-Origin-Guard bleiben`);
 }
 assert.doesNotMatch(wrapper,/CONTROL_TOKEN|x-control-token|controlTokenRequired|controlSecretMissing/,'CONTROL_TOKEN darf nicht wieder fuer normale Steueraktionen verlangt werden');
@@ -20,9 +20,9 @@ assert.match(wrapper,/origin/,'Origin-Pruefung muss aktiv bleiben');
 assert.doesNotMatch(quota,/planspiel\.controlToken|x-control-token|controlTokenRequired|window\.prompt\(/,'UI darf keinen Steuer-Token mehr abfragen');
 
 // Dashboard payload must stay windowed; older history is fetched only on demand.
-assert.match(index,/HISTORY_WINDOW=60/,'Dashboard-History muss auf 60 Eintraege begrenzt bleiben');
-assert.match(index,/AILOG_WINDOW=40/,'Dashboard-KI-Log muss auf 40 Eintraege begrenzt bleiben');
-assert.match(index,/\/api\/history/,'Archiv braucht einen separaten History-Endpunkt');
+assert.match(core,/HISTORY_WINDOW=60/,'Dashboard-History muss auf 60 Eintraege begrenzt bleiben');
+assert.match(core,/AILOG_WINDOW=40/,'Dashboard-KI-Log muss auf 40 Eintraege begrenzt bleiben');
+assert.match(core,/\/api\/history/,'Archiv braucht einen separaten History-Endpunkt');
 assert.match(quota,/\/api\/history\?kind=history&limit=500/,'UI muss aeltere History erst auf Nutzerwunsch laden');
 
 // Static assets should bypass the Worker; API and app shell must still run worker-first.
@@ -32,7 +32,7 @@ assert.match(wrangler,/"required"\s*:\s*\[\s*"PC_AGENT_TOKEN"\s*\]/,'PC_AGENT_TO
 
 console.log(JSON.stringify({
   ok:true,
-  guardedControlEndpoints:5,
+  guardedControlEndpoints:9,
   passwordlessControlUi:true,
   browserCsrfGuard:true,
   dashboardHistoryWindow:60,
