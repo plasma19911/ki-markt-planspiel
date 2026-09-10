@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {UnifiedDecisionCoreV310} from '../src/unified-decision-core-v310.js';
 import {enforcePaperExplorationV3172} from '../src/paper-exploration-v3172.js';
+import {pcQuoteFallbackV31750,pcDeepFallbackV31750} from '../src/market-v3-base.js';
 
 const now=Date.parse('2026-09-10T10:00:00Z');
 const exact={isin:'DE000A1EWWW0',assetClass:'EQUITY',brokerVerified:true,brokerMatchMode:'EXACT_NORMALIZED_NAME',brokerVerificationSource:'Trade Republic official universe'};
@@ -39,4 +40,17 @@ const exact={isin:'DE000A1EWWW0',assetClass:'EQUITY',brokerVerified:true,brokerM
   assert.equal(out.counters.injected,1);
 }
 
-console.log('V31.7.49 current decision data + profit peak + canonical freshness regressions passed');
+// Wenn Yahoo aus Cloudflare heraus ausfaellt, bleibt der bereits auf dem PC
+// zeitgekoppelte Kurs als vorsichtiger Kandidat erhalten. Er erfindet weder
+// Volumen noch RSI und muss weiterhin News/Volumen- und Kosten-Gates bestehen.
+{
+  const bridge=readFileSync(new URL('../src/compact-portfolio-v288-pc-first.js',import.meta.url),'utf8');
+  for(const field of ['pcPrice:c.price','pcDay:c.day','pcMomentum20:c.momentum20','pcMomentum5:c.momentum5','pcQuoteSource:'])assert.ok(bridge.includes(field),`${field} fehlt in der PC-Worker-Bruecke`);
+  const row={symbol:'SAP.DE',name:'SAP',type:'EQUITY',currency:'EUR',pcPrice:250,pcPreScore:68,pcDeepScore:72,pcDay:1.2,pcMomentum5:.22,pcMomentum20:.55,pcMomentumAcceleration5:.04,pcConfidence:.72,pcMarketTimestamp:now/1000,pcStale:false};
+  const coarse=pcQuoteFallbackV31750(row,now),deep=pcDeepFallbackV31750(coarse,now);
+  assert.equal(coarse.fresh,true);assert.equal(deep.pcDeepFallback,true);assert.equal(deep.price,250);
+  assert.equal(deep.volumeRatio,null,'PC-Fallback darf fehlendes Volumen nicht erfinden');
+  assert.equal(pcQuoteFallbackV31750({...row,pcMarketTimestamp:(now-9*60000)/1000},now),null,'alter PC-Kurs darf nicht wiederbelebt werden');
+}
+
+console.log('V31.7.50 current data + profit peak + PC quote fallback regressions passed');

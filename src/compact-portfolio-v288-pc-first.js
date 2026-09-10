@@ -72,7 +72,7 @@ function masterIndex(rows){
 }
 function resolve(symbol,index){const s=key(symbol),a=index.byBase.get(base(s))||[];return index.exact.get(s)||a[0]||null}
 export function buildPcFirstBroadPoolV288(pc,rows){
-  const index=masterIndex(rows),pool=[],seen=new Set();for(const c of arr(pc?.candidates)){const row=resolve(c.symbol,index),s=key(row),age=pcQuoteAge(c);if(!row||!s||seen.has(s)||age===null||age>8)continue;seen.add(s);pool.push({...row,broadLeaderRank:pool.length+1,broadLeaderScore:+(c.pcDeepScore/10).toFixed(3),broadLeaderSources:['PC-FIRST-V29.5'],pcPreScore:c.pcPreScore,pcDeepScore:c.pcDeepScore,pcMarketTimestamp:c.marketTimestamp,pcQuoteAgeMinutes:+age.toFixed(2),pcStale:false});if(pool.length>=PC_POOL_TARGET)break}
+  const index=masterIndex(rows),pool=[],seen=new Set();for(const c of arr(pc?.candidates)){const row=resolve(c.symbol,index),s=key(row),age=pcQuoteAge(c);if(!row||!s||seen.has(s)||age===null||age>8||!(num(c?.price)>0))continue;seen.add(s);pool.push({...row,broadLeaderRank:pool.length+1,broadLeaderScore:+(c.pcDeepScore/10).toFixed(3),broadLeaderSources:['PC-FIRST-V29.5'],pcPreScore:c.pcPreScore,pcDeepScore:c.pcDeepScore,pcPrice:c.price,pcDay:c.day,pcMomentum20:c.momentum20,pcMomentum5:c.momentum5,pcMomentumAcceleration5:c.momentumAcceleration5,pcConfidence:c.confidence,pcMarketTimestamp:c.marketTimestamp,pcQuoteAgeMinutes:+age.toFixed(2),pcStale:false,pcQuoteSource:'WINDOWS_PC_YAHOO_ALIGNED'});if(pool.length>=PC_POOL_TARGET)break}
   return{version:29.2,updatedAt:pc.updatedAt,target:PC_POOL_TARGET,pool,resolved:pool.length,sourceBreadth:1,mode:'PC_FIRST_FULL_MASTER_TOP60'}
 }
 export function trimPcFirstValidationSliceV288(data,state){
