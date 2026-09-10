@@ -61,10 +61,15 @@ export class MarketPortfolio extends BasePortfolio{
   async dashboardStatus(){return this._buildStatus(false)}
   async status(){return this._buildStatus(true)}
   async agentStatusLite(){
-    try{
-      const raw=this.bucketAdapter?.peekState?.()||{},actual=this._actualState?.()||{};
-      const positions=arr(raw?.positions).length?raw.positions:arr(actual?.positions),candidates=arr(raw?.candidates).length?raw.candidates:arr(actual?.candidates),history=arr(raw?.history).length?raw.history:arr(actual?.history);
-      return{positions:arr(positions),candidates:arr(candidates),history:arr(history).slice(0,400)};
-    }catch{return{positions:[],candidates:[],history:[]}}
+    // V31.7.48: peekState() liest nur den RAM-Puffer (lastBody). Nach einem
+    // Durable-Object-Neustart ist er null und der Lite-Status war dann stumm leer,
+    // obwohl persistente Positionen existieren. In diesem Fall wird der
+    // persistente Dashboard-Status gelesen statt leerer Listen.
+    const pick=src=>({positions:arr(src?.positions),candidates:arr(src?.candidates),history:arr(src?.history).slice(0,400)});
+    let raw=null;
+    try{raw=this.bucketAdapter?.peekState?.()||null}catch{raw=null}
+    if(raw&&typeof raw==='object')return pick(raw);
+    try{const actual=this._actualState?.();if(actual&&typeof actual==='object'&&Object.keys(actual).length)return pick(actual)}catch{}
+    try{return pick(await this.dashboardStatus())}catch{return{positions:[],candidates:[],history:[]}}
   }
 }

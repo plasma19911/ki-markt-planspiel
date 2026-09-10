@@ -38,7 +38,7 @@ function barsFrom(res){
 
 async function recheck(info,prior,fxFallback){
  const got=await chart(info.symbol);if(!got.x)return{candidate:null,error:got.error,sourceOk:false};
- const res=got.x,{cl,vol,ts,quoteUnit}=barsFrom(res);if(cl.length<22)return{candidate:null,error:'Zu wenig Minuten',sourceOk:false};
+ const res=got.x,{cl,vol,ts,quoteUnit}=barsFrom(res);if(cl.length<22)return{candidate:null,error:'Zu wenig Minuten',sourceOk:true,rejected:true,insufficientBars:true};
  const price=cl.at(-1),last=ts.at(-1)||num(res.meta?.regularMarketTime);if(!(last>0&&(Date.now()/1000-last)<5*60))return{candidate:null,error:'1m-Kurs nicht frisch',sourceOk:false};
  const e9=ema(cl,9),e21=ema(cl,21),rr=rsi(cl),m5=(price/cl.at(-6)-1)*100,m20=(price/cl.at(-21)-1)*100,prev5=(cl.at(-6)/cl.at(-11)-1)*100,accel=m5-prev5,high20=Math.max(...cl.slice(-21,-1)),draw=high20?(price/high20-1)*100:0,pclose=num(normalizeQuotePrice(res.meta?.previousClose,quoteUnit.rawCurrency),cl[0]),day=pclose?(price/pclose-1)*100:0,volume=completedVolumeRatio(vol),vr=volume.ratio;
  let score=0,pro=[],contra=[];const trendUp=Boolean(e9&&e21&&e9>e21&&price>e21);if(e9&&e21&&e9>e21){score+=1.7;pro.push('EMA9 über EMA21')}else{score-=1;contra.push('EMA-Trend schwach')}if(e21&&price>e21){score+=.8;pro.push('Kurs über EMA21')}else{score-=.6;contra.push('Kurs unter EMA21')}if(rr!==null){if(rr>=48&&rr<=68){score+=1;pro.push(`RSI ${rr.toFixed(0)} konstruktiv`)}else if(rr>=78){score-=1.5;contra.push(`RSI ${rr.toFixed(0)} überhitzt`)}}if(m5>.18){score+=.8;pro.push(`5m +${m5.toFixed(2)}%`)}else if(m5<-.25){score-=.9;contra.push(`5m ${m5.toFixed(2)}%`)}if(m20>.5){score+=1.2;pro.push(`20m +${m20.toFixed(2)}%`)}else if(m20<-.5){score-=1.2;contra.push(`20m ${m20.toFixed(2)}%`)}if(vr>1.5){score+=.7;pro.push(`Volumen x${vr.toFixed(1)}`)}if(day>1)score+=.4;if(day<-1)score-=.5;
@@ -59,7 +59,7 @@ async function overlayForesightPool(env,existing){
  }catch{return[]}
 }
 async function recheckForesight(info,fxFallback=1){
- const got=await chart(info.symbol);if(!got.x)return{candidate:null,error:got.error,sourceOk:false};const res=got.x,{cl,vol,ts,quoteUnit}=barsFrom(res);if(cl.length<22)return{candidate:null,error:'Zu wenig Minuten',sourceOk:false};
+ const got=await chart(info.symbol);if(!got.x)return{candidate:null,error:got.error,sourceOk:false};const res=got.x,{cl,vol,ts,quoteUnit}=barsFrom(res);if(cl.length<22)return{candidate:null,error:'Zu wenig Minuten',sourceOk:true,rejected:true,insufficientBars:true};
  const price=cl.at(-1),last=ts.at(-1)||num(res.meta?.regularMarketTime);if(!(last>0&&(Date.now()/1000-last)<5*60))return{candidate:null,error:'1m-Kurs nicht frisch',sourceOk:false};
  const e9=ema(cl,9),e21=ema(cl,21),rr=rsi(cl),m5=(price/cl.at(-6)-1)*100,m20=(price/cl.at(-21)-1)*100,prev5=(cl.at(-6)/cl.at(-11)-1)*100,accel=m5-prev5,high20=Math.max(...cl.slice(-21,-1)),draw=high20?(price/high20-1)*100:0,pclose=num(normalizeQuotePrice(res.meta?.previousClose,quoteUnit.rawCurrency),cl[0]),day=pclose?(price/pclose-1)*100:0,volume=completedVolumeRatio(vol),vr=volume.ratio;
  const inValue=draw<=-.18&&draw>=-5.75,falling=m5<0||m20<0,braking=falling&&m5>=-.45&&m20>=-1.70&&accel>=.012,turning=m5>=-.06&&m5<=.24&&m20>=-1.25&&accel>=.008,dayOk=day>=-8&&day<=1.1,rsiOk=rr==null||(rr>=28&&rr<=68),notCrash=m5>=-.58&&m20>=-2.1;
