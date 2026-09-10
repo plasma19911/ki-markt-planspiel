@@ -12,12 +12,13 @@ test('tracks ordinary candidates, not only early signals',()=>{
   assert.equal(l.status.trackedSymbols,1);
 });
 
-test('learns a missed HOLD opportunity after 20 minutes',()=>{
+test('does not misclassify an arbitrary positive HOLD as a tradeable missed opportunity',()=>{
   let l=updateOutcomeLearningMemoryV312({}, {candidates:[candidate(100,62)],positions:[]},t0);
   let rec=recordOutcomeDecisionsV312(l.memory,{candidates:[candidate(100,62)],positions:[]},{actions:[{symbol:'TEST',action:'HOLD'}]},l.predictions,t0);
   l=updateOutcomeLearningMemoryV312(rec.memory,{candidates:[candidate(101.2,66)],positions:[]},t0+21*60000);
   assert.equal(l.status.matured,1);
-  assert.equal(l.status.missedOpportunities,1);
+  assert.equal(l.status.missedOpportunities,0);
+  assert.equal(l.status.missedObservations,1);
   assert.ok(l.status.weights.velocity!==undefined);
   assert.equal(l.status.newsSamples,1);
   assert.equal(l.status.positiveNewsSamples,1);
@@ -47,7 +48,7 @@ test('small raw BUY gain is correctly classified as a net loss after fees and sl
   assert.ok(l.status.avgBuy20mNetReturnPct<0);
 });
 
-test('three weak historical BUYs switch learning to defensive once the learning window is mature',()=>{
+test('three weak historical BUYs switch learning to cautious once the learning window is mature',()=>{
   const buyRows=[0,1,2].map(i=>({ts:t0-i*60000,symbol:`B${i}`,action:'BUY',returnPct:.18,score:55,forecast20mScore:58,theme:'TEST',regime:'SIDEWAYS'}));
   const holdRows=Array.from({length:17},(_,i)=>({ts:t0-(i+3)*60000,symbol:`H${i}`,action:'HOLD',returnPct:0,score:50,forecast20mScore:50,theme:'TEST',regime:'SIDEWAYS'}));
   const recent20=[...buyRows,...holdRows];
@@ -55,7 +56,7 @@ test('three weak historical BUYs switch learning to defensive once the learning 
   const l=updateOutcomeLearningMemoryV312(memory,{candidates:[],positions:[]},t0+60000);
   assert.equal(l.status.matured,20);
   assert.equal(l.status.buySamples,3);
-  assert.equal(l.status.mode,'DEFENSIVE');
+  assert.equal(l.status.mode,'CAUTIOUS');
   assert.equal(l.status.buyHitRate,0);
   assert.ok(l.status.avgBuy20mNetReturnPct<0);
   assert.ok(l.status.thresholdAdjustment>0);

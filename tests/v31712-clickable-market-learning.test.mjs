@@ -41,11 +41,11 @@ assert.equal(recovered.weights.velocity,3.5);
 assert.equal(recovered.persistedMemoryRecovered,true);
 assert.equal(recovered.statusSource,'PERSISTED_MEMORY+CURRENT_STATE');
 
-const observationalMemory={recent20:Array.from({length:24},(_,i)=>({ts:now-i*30_000,action:'HOLD',returnPct:i<12?.65:.05}))};
+const observationalMemory={recent20:Array.from({length:24},(_,i)=>({ts:now-i*30_000,action:'HOLD',returnPct:i<12?.65:.05,counterfactualEligible:true,counterfactualSetupId:`SETUP-${i}`,counterfactualHorizonMinutes:20,counterfactualEstimatedCostPct:.3,counterfactualNetReturnPct:i<12?.35:-.25}))};
 const observational=persistedOutcomeStatusV31712(observationalMemory,[],{mode:'WARMUP',matured:0,buySamples:0},now);
-assert.equal(observational.mode,'OPPORTUNITY','mature observational samples must restore the active learning mode after restart');
-assert.equal(observational.thresholdAdjustment,-2,'missed opportunities must restore the learned entry-threshold adjustment');
-assert.equal(observational.allocationAdjustment,4,'missed opportunities must restore the learned allocation adjustment');
+assert.equal(observational.mode,'OPPORTUNITY','mature, uniquely tradeable counterfactual samples must restore the active learning mode after restart');
+assert.equal(observational.thresholdAdjustment,-2,'net missed opportunities must restore the learned entry-threshold adjustment');
+assert.equal(observational.allocationAdjustment,4,'net missed opportunities must restore the learned allocation adjustment');
 assert.equal(observational.buySamples,0,'observational learning must not invent executed BUY samples');
 
 console.log(JSON.stringify({ok:true,universalCharts:true,clickableNews:true,untradedChartBackend:true,persistedLearningRecovered:true},null,2));
