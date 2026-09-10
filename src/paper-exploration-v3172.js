@@ -54,9 +54,13 @@ const sellOf=c=>String(c?.momentumSellSignal||c?.momentum_sell_signal||'NONE').t
 const lastTs=x=>Date.parse(String(x?.ts||x?.at||x?.timestamp||x?.time||''));
 
 function candidateFresh(c,now,cfg){
-  if(!(c?.fresh===true||Number(c?.fresh)===1))return false;
-  const t=Date.parse(String(c?.updated_at||c?.updatedAt||''));
-  return !Number.isFinite(t)||(now-t>=0&&now-t<=cfg.maxQuoteAgeMinutes*60000);
+  if(c?.stale===true||c?.quoteStale===true||c?.quote_stale===true||c?.fresh===false||Number(c?.fresh)===0)return false;
+  const age=Number(c?.quoteAgeMinutes??c?.quote_age_minutes);
+  if(Number.isFinite(age))return age>=0&&age<=cfg.maxQuoteAgeMinutes;
+  const rawTs=Number(c?.marketTimestamp??c?.market_timestamp),marketMs=Number.isFinite(rawTs)&&rawTs>0?(rawTs>1e12?rawTs:rawTs*1000):NaN;
+  const textTs=Date.parse(String(c?.quoteUpdatedAt||c?.last_quote_at||c?.updated_at||c?.updatedAt||'')),t=Number.isFinite(marketMs)?marketMs:textTs;
+  if(Number.isFinite(t))return now-t>=0&&now-t<=cfg.maxQuoteAgeMinutes*60000;
+  return c?.fresh===true||Number(c?.fresh)===1;
 }
 function brokerMap(state={},brokerRows=[]){
   const bySymbol=new Map(),byName=new Map();
@@ -101,7 +105,7 @@ function commonBlock(c,a,state,now,cfg){
   if(recentSellBlocked(state,symbol,now,cfg))return{ok:false,reason:'REENTRY_COOLDOWN',symbol};
   const market=String(state?.marketPhase||state?.market_phase||state?.config?.market_phase||state?.config?.marketPhase||'').toUpperCase();
   if(/CLOSED|OFFLINE|HOLIDAY/.test(market))return{ok:false,reason:'MARKET_CLOSED',symbol};
-  const quoteAge=num(c?.quoteAgeMinutes,NaN);if(Number.isFinite(quoteAge)&&quoteAge>3)return{ok:false,reason:'STALE_QUOTE',symbol,quoteAge};
+  const quoteAge=num(c?.quoteAgeMinutes??c?.quote_age_minutes,NaN);if(Number.isFinite(quoteAge)&&quoteAge>3)return{ok:false,reason:'STALE_QUOTE',symbol,quoteAge};
   return{ok:true,symbol};
 }
 function candidateEligible(p,c,a,state,now,cfg){

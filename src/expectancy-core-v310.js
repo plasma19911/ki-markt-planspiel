@@ -37,7 +37,7 @@ function pnlPct(p){const ep=num(p?.entry_price),lp=num(p?.last_price,ep),ef=num(
 function ageMin(p,now=Date.now()){const t=Date.parse(p?.opened_at||p?.openedAt||'');return Number.isFinite(t)?Math.max(0,(now-t)/60000):999}
 function canonicalScore(v){let x=num(v,0);if(x>0&&x<=10)x*=10;return clamp(x,0,100)}
 function actionMap(actions){const m=new Map();actions.forEach((a,i)=>{const s=key(a);if(s&&!m.has(s))m.set(s,i)});return m}
-function lastSellFor(history,symbol){return arr(history).filter(x=>key(x)===symbol&&String(x?.action||x?.side||'').toUpperCase()==='SELL').sort((a,b)=>Date.parse(b?.at||b?.timestamp||b?.time||0)-Date.parse(a?.at||a?.timestamp||a?.time||0))[0]||null}
+function lastSellFor(history,symbol){return arr(history).filter(x=>key(x)===symbol&&['SELL','VERKAUF'].includes(String(x?.action||x?.side||'').toUpperCase())).sort((a,b)=>Date.parse(b?.ts||b?.at||b?.timestamp||b?.time||0)-Date.parse(a?.ts||a?.at||a?.timestamp||a?.time||0))[0]||null}
 
 export function enforceExpectancyCoreV310(plan,state={},now=Date.now()){
  if(!plan||!Array.isArray(plan.actions))return{plan,counters:{}};
@@ -97,7 +97,7 @@ export function enforceExpectancyCoreV310(plan,state={},now=Date.now()){
    const a=actions[i]; if(String(a?.action||'').toUpperCase()!=='BUY')continue;
    const s=key(a),c=candidates.get(s)||{},score=canonicalScore(c?.daytradeLiveScore??c?.decisionScore??c?.score??a?.score);
    if(num(c?.score,0)>0&&num(c?.score,0)<=10)scoreScaleFixes++;
-   const sell=lastSellFor(history,s); if(sell){const t=Date.parse(sell?.at||sell?.timestamp||sell?.time||'');if(Number.isFinite(t)){const mins=(now-t)/60000,lastScore=canonicalScore(sell?.score??sell?.decisionScore??sell?.entryDecisionScore),improve=score-lastScore;if(mins<cfg.reentryMinutes&&improve<cfg.reentryScoreImprovement){actions[i]={...a,action:'HOLD',allocation_pct:0,expectancyCoreV310:true,reentryBlockedV310:true,reason:`V31.3 RE-ENTRY: letzter SELL vor ${mins.toFixed(1)} Min.; neuer Scorevorsprung ${improve.toFixed(1)} < ${cfg.reentryScoreImprovement}. Kein kostenintensives SELL->BUY-Churn.`};reentryBlocks++;continue}}}
+   const sell=lastSellFor(history,s); if(sell){const t=Date.parse(sell?.ts||sell?.at||sell?.timestamp||sell?.time||'');if(Number.isFinite(t)){const mins=(now-t)/60000,lastScore=canonicalScore(sell?.score??sell?.decisionScore??sell?.entryDecisionScore),improve=score-lastScore;if(mins<cfg.reentryMinutes&&improve<cfg.reentryScoreImprovement){actions[i]={...a,action:'HOLD',allocation_pct:0,expectancyCoreV310:true,reentryBlockedV310:true,reason:`V31.3 RE-ENTRY: letzter SELL vor ${mins.toFixed(1)} Min.; neuer Scorevorsprung ${improve.toFixed(1)} < ${cfg.reentryScoreImprovement}. Kein kostenintensives SELL->BUY-Churn.`};reentryBlocks++;continue}}}
    const pct=clamp(num(a?.allocation_pct),0,100),eur=cash*pct/100;
    if(eur>0&&cash<cfg.minPositionEur){
      actions[i]={...a,action:'HOLD',allocation_pct:0,expectancyCoreV310:true,subEconomicTicketBlockedV310:true,reason:`V31.3 SIZE-SPERRE: freies Kapital ${cash.toFixed(0)} EUR < Mindestposition ${cfg.minPositionEur.toFixed(0)} EUR. Eine kleinere Order traegt Fixkosten und Slippage, die die erwartete Bewegung aufzehren. Kein Kauf, bis wieder genug Kapital frei ist.`};

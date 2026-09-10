@@ -31,10 +31,13 @@ function promptTradingState(input){
 }
 function currentDecisionState(baseState={},input=null){
   const base=baseState&&typeof baseState==='object'?baseState:{},prompt=promptTradingState(input),baseCandidates=arr(base?.candidates);
-  if(!prompt.candidates.length)return{...base,candidates:baseCandidates,candidateStateSource:baseCandidates.length?'STATE':'EMPTY'};
+  const basePositions=arr(base?.positions),basePositionBySymbol=new Map(basePositions.map(p=>[key(p),p]).filter(([s])=>s));
+  const promptPositionSymbols=new Set(prompt.held.map(key).filter(Boolean));
+  const positions=prompt.held.length?[...prompt.held.map(h=>{const stored=basePositionBySymbol.get(key(h));return stored?{...stored,...h}:h}),...basePositions.filter(p=>!promptPositionSymbols.has(key(p)))]:basePositions;
+  if(!prompt.candidates.length)return{...base,positions,candidates:baseCandidates,candidateStateSource:baseCandidates.length?'STATE':'EMPTY',positionStateSource:prompt.held.length?'PROMPT_CURRENT_SCAN':'STATE'};
   const baseBySymbol=new Map(baseCandidates.map(c=>[key(c),c]).filter(([s])=>s));
   const candidates=prompt.candidates.map(c=>{const s=key(c),stored=baseBySymbol.get(s);return stored?{...stored,...c}:c}).filter(c=>key(c));
-  return{...base,candidates,candidateStateSource:'PROMPT_CURRENT_SCAN'};
+  return{...base,positions,candidates,candidateStateSource:'PROMPT_CURRENT_SCAN',positionStateSource:prompt.held.length?'PROMPT_CURRENT_SCAN':'STATE'};
 }
 function canonicalScore(v){let x=num(v);if(x>0&&x<=10)x*=10;return Math.max(0,Math.min(100,x))}
 function actionSnapshot(a={}){return{symbol:key(a),action:String(a?.action||'HOLD').toUpperCase(),allocationPct:num(a?.allocation_pct),entryScoreV317:a?.entryScoreV317!=null&&Number.isFinite(Number(a.entryScoreV317))?num(a.entryScoreV317):null,dataQualityV317:a?.dataQualityV317!=null&&Number.isFinite(Number(a.dataQualityV317))?num(a.dataQualityV317):null,expectedNetEdgePctV317:a?.expectedNetEdgePctV317!=null&&Number.isFinite(Number(a.expectedNetEdgePctV317))?num(a.expectedNetEdgePctV317):null,orthogonalConfirmationsV317:num(a?.orthogonalConfirmationsV317),entryScoreV316:a?.entryScoreV316!=null&&Number.isFinite(Number(a.entryScoreV316))?num(a.entryScoreV316):null,dataQualityV316:a?.dataQualityV316!=null&&Number.isFinite(Number(a.dataQualityV316))?num(a.dataQualityV316):null,expectedNetEdgePctV316:a?.expectedNetEdgePctV316!=null&&Number.isFinite(Number(a.expectedNetEdgePctV316))?num(a.expectedNetEdgePctV316):null,predictiveEntry:a?.predictiveEntryV311===true,outcomeEntry:a?.outcomeEntryV312===true,paperExploration:a?.paperExplorationV3172===true,forecast20mScore:a?.forecast20mScore!=null&&Number.isFinite(Number(a.forecast20mScore))?num(a.forecast20mScore):null,reason:String(a?.reason||'').slice(0,700)}}
@@ -58,6 +61,7 @@ export async function enforceUnifiedDecisionCoreV310(plan,state={},input=null,br
     patch:UNIFIED_DECISION_CORE_V310.patch,
     scanCount:num(state?.config?.scan_count),
     candidateStateSource:state?.candidateStateSource||'STATE',
+    positionStateSource:state?.positionStateSource||'STATE',
     currentCandidateCount:arr(state?.candidates).length,
     cash:num(state?.config?.cash,state?.cash),
     positions:positionDiagnostics(state),

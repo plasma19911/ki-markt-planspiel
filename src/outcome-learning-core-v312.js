@@ -22,7 +22,8 @@ export const OUTCOME_LEARNING_V312={
   maxOpenPositions:4,
   defaultBuyRoundTripCostPct:.45,
   minNetBuyWinPct:.10,
-  defensiveAfterBuySamples:3
+  cautiousAfterBuySamples:3,
+  defensiveAfterBuySamples:8
 };
 
 const DEFAULT_WEIGHTS={velocity:3.6,m5:2.8,m20:2.6,accel:2.2,news:1.8,confidence:1.2,direction:1.2};
@@ -76,12 +77,12 @@ function learningProfile(m,now=Date.now()){
   let thresholdAdjustment=0,allocationAdjustment=0,mode='WARMUP';
   if(matured>=OUTCOME_LEARNING_V312.minLearningSamples){
     mode='BALANCED';
-    const badBuyRate=buys.length?badBuys/buys.length:0,missRate=holds.length?missed/holds.length:0,hasBuyEvidence=buys.length>=OUTCOME_LEARNING_V312.defensiveAfterBuySamples;
-    if(hasBuyEvidence&&((buyHitRate??0)<.45||(avgBuyNet??0)<=0||badBuyRate>=.5)){thresholdAdjustment=3;allocationAdjustment=-4;mode='DEFENSIVE'}
-    else if(hasBuyEvidence&&((buyHitRate??0)<.55||(avgBuyNet??0)<.08)){thresholdAdjustment=1.5;allocationAdjustment=-2;mode='CAUTIOUS'}
-    else if(missRate>.28&&(!hasBuyEvidence||((buyHitRate??0)>=.55&&(avgBuyNet??0)>=.05))){thresholdAdjustment=-2;allocationAdjustment=4;mode='OPPORTUNITY'}
+    const badBuyRate=buys.length?badBuys/buys.length:0,missRate=holds.length?missed/holds.length:0,hasCautiousEvidence=buys.length>=OUTCOME_LEARNING_V312.cautiousAfterBuySamples,hasDefensiveEvidence=buys.length>=OUTCOME_LEARNING_V312.defensiveAfterBuySamples;
+    if(hasDefensiveEvidence&&((buyHitRate??0)<.45||(avgBuyNet??0)<=0||badBuyRate>=.5)){thresholdAdjustment=3;allocationAdjustment=-4;mode='DEFENSIVE'}
+    else if(hasCautiousEvidence&&((buyHitRate??0)<.55||(avgBuyNet??0)<.08)){thresholdAdjustment=1.5;allocationAdjustment=-2;mode='CAUTIOUS'}
+    else if(missRate>.28&&(!hasCautiousEvidence||((buyHitRate??0)>=.55&&(avgBuyNet??0)>=.05))){thresholdAdjustment=-2;allocationAdjustment=4;mode='OPPORTUNITY'}
     else if(buys.length>=8&&(buyHitRate??0)>=.62&&(avgBuyNet??0)>=.15){thresholdAdjustment=-2;allocationAdjustment=6;mode='CONFIDENT'}
-    else if(missRate>.16&&(!hasBuyEvidence||((buyHitRate??0)>=.55&&(avgBuyNet??0)>=.05))){thresholdAdjustment=-1;allocationAdjustment=2;mode='PROACTIVE'}
+    else if(missRate>.16&&(!hasCautiousEvidence||((buyHitRate??0)>=.55&&(avgBuyNet??0)>=.05))){thresholdAdjustment=-1;allocationAdjustment=2;mode='PROACTIVE'}
   }
   return{mode,matured,buySamples:buys.length,newsSamples:newsRows.length,positiveNewsSamples:positiveNewsRows.length,negativeNewsSamples:negativeNewsRows.length,avgNews20mReturnPct:avgNews20m==null?null:+avgNews20m.toFixed(3),buyHitRate:buyHitRate==null?null:+(buyHitRate*100).toFixed(1),avgBuy20mReturnPct:avgBuyNet==null?null:+avgBuyNet.toFixed(3),avgBuy20mNetReturnPct:avgBuyNet==null?null:+avgBuyNet.toFixed(3),avgBuy20mRawReturnPct:avgBuyRaw==null?null:+avgBuyRaw.toFixed(3),avg20mReturnPct:avgAll==null?null:+avgAll.toFixed(3),missedOpportunities:missed,badBuys,earlySells,correctSells,thresholdAdjustment,allocationAdjustment,costAwareBuyLearning:true,newsOutcomeLearning:true,defaultBuyRoundTripCostPct:OUTCOME_LEARNING_V312.defaultBuyRoundTripCostPct};
 }
@@ -122,7 +123,7 @@ export function updateOutcomeLearningMemoryV312(memory={},state={},now=Date.now(
   const m=cleanMemory(memory),observations=observationMap(state);evaluateSamples(m,observations,now);const profile=learningProfile(m,now),predictions={};
   for(const c of candidateRows(state)){const v=vector(c),slot=m.symbols[v.symbol]&&typeof m.symbols[v.symbol]==='object'?m.symbols[v.symbol]:{samples:[]},previous=[...arr(slot.samples)].reverse().find(x=>now-num(x.ts)<=20*60000)||null;predictions[v.symbol]=forecastFor(v,previous,profile,m.weights,now)}
   m.updatedAt=new Date(now).toISOString();const top=Object.values(predictions).sort((a,b)=>b.forecast20mScore-a.forecast20mScore||b.velocity5-a.velocity5).slice(0,12).map(p=>({symbol:p.symbol,score:p.score,forecast20mScore:p.forecast20mScore,velocity5:p.velocity5,confidence:p.signalConfidence,earlySignal:p.earlySignal,regime:p.regime}));const recentMisses=arr(m.recent20).filter(x=>x.action==='HOLD'&&num(x.returnPct)>=.5).slice(-8).reverse().map(x=>({symbol:x.symbol,returnPct:x.returnPct,ts:x.ts}));
-  return{memory:m,predictions,status:{enabled:true,...OUTCOME_LEARNING_V312,...profile,trackedSymbols:Object.keys(m.symbols).length,currentCandidates:Object.keys(predictions).length,weights:{...m.weights},topForecasts:top,recentMissedOpportunities:recentMisses,rule:'V31.2.1 verfolgt BUY/HOLD/SELL nach 5/20/60/240 Minuten. BUY-Lernen bewertet die Netto-Bewegung nach konservativ geschätzten Trade-Republic-Roundtrip-Kosten statt nur den Rohkurs. Schwache BUY-Samples verschärfen die Schwelle bereits ab drei auswertbaren Käufen; Velocity darf einen fallenden kurzfristigen Kurs nicht allein zum Early-Entry machen.'}};
+  return{memory:m,predictions,status:{enabled:true,...OUTCOME_LEARNING_V312,...profile,trackedSymbols:Object.keys(m.symbols).length,currentCandidates:Object.keys(predictions).length,weights:{...m.weights},topForecasts:top,recentMissedOpportunities:recentMisses,rule:'V31.2.2 verfolgt BUY/HOLD/SELL nach 5/20/60/240 Minuten. Drei schwache BUY-Samples schalten zunaechst nur auf CAUTIOUS; DEFENSIVE braucht acht auswertbare Kaeufe. BUY-Lernen bewertet die Netto-Bewegung nach konservativ geschaetzten Trade-Republic-Roundtrip-Kosten.'}};
 }
 
 function estimatedBuyRoundTripCostPct(state={},action={},symbol=''){
