@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-09T09:03:22.569Z",
-  "nextRefreshAfter": "2026-09-10T09:03:22.569Z",
+  "updatedAt": "2026-09-10T09:02:20.859Z",
+  "nextRefreshAfter": "2026-09-11T09:02:20.859Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -17,7 +17,7 @@
   "rawUpcomingCount": 21,
   "matchedUpcomingCount": 6,
   "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-09-09T08:14:00.699826Z",
+  "universeGeneratedAt": "2026-09-10T08:13:18.135670Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -30,8 +30,8 @@
       "companyKey": "NETAPP",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 86,
-      "fundamentalScore": 86,
+      "baseScore": 88,
+      "fundamentalScore": 88,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -49,7 +49,7 @@
         "revenueCurrentYearEstimate": 7537.01,
         "revenueNextYearEstimate": 7968.88
       },
-      "daysUntil": 0,
+      "daysUntil": -1,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -64,19 +64,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 0,
+          "delta": 2,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": 12,
-      "newsDelta": 0,
+      "newsDelta": 2,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Bull of the Day: Seagate Technology (STX)",
-        "How to Profit From Sharp Stock Moves—Up or Down",
-        "SpaceX, Nvidia Lead Schwab Buys As Software Rally Spurs Profit-Taking – Trading Gauge Posts First Dip Since April",
-        "STX Stock: The Math Hidden In Its Price"
+        "Zacks.com featured highlights include Globus Medical, NetApp and Assurant",
+        "Micron's Operating Margin Surged Past 80% for the First Time Ever. History Says This Is What's Coming Next.",
+        "SanDisk Traded Its Best Prices For Something Rarer",
+        "NetApp (NTAP) Q1 2027 Earnings Call Transcript"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -87,19 +87,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 189.1,
-        "changeM1": -0.2,
-        "changeM3": 11.1,
-        "changeM6": 88,
-        "sma50": 179.4,
-        "sma200": 131,
-        "position52w": 84.1,
-        "drawdownFromHigh": -8.7,
-        "volatility20d": 35.1,
-        "volumeTrend": 0.9
+        "last": 184.7,
+        "changeM1": -7,
+        "changeM3": 12,
+        "changeM6": 90.6,
+        "sma50": 180,
+        "sma200": 131.4,
+        "position52w": 80.2,
+        "drawdownFromHigh": -10.8,
+        "volatility20d": 31.2,
+        "volumeTrend": 2
       },
-      "scoreEvaluatedAt": "2026-09-09T09:03:22.569Z",
-      "scoreValidUntil": "2026-09-10T09:03:22.569Z"
+      "scoreEvaluatedAt": "2026-09-10T09:02:20.859Z",
+      "scoreValidUntil": "2026-09-11T09:02:20.859Z"
     },
     {
       "date": "2026-09-10",
@@ -130,7 +130,7 @@
         "revenueCurrentYearEstimate": 9543.87,
         "revenueNextYearEstimate": 9787.56
       },
-      "daysUntil": 1,
+      "daysUntil": 0,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -164,20 +164,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 254,
-        "last": 150.6,
-        "changeM1": -5.8,
-        "changeM3": -1.2,
-        "changeM6": 2.9,
+        "samples": 253,
+        "last": 149.7,
+        "changeM1": -6.3,
+        "changeM3": -1.8,
+        "changeM6": 2.2,
         "sma50": 158.6,
         "sma200": 143.6,
-        "position52w": 65.1,
-        "drawdownFromHigh": -10.5,
+        "position52w": 63.3,
+        "drawdownFromHigh": -11,
         "volatility20d": 23,
-        "volumeTrend": -16.9
+        "volumeTrend": -11.5
       },
-      "scoreEvaluatedAt": "2026-09-09T09:03:22.569Z",
-      "scoreValidUntil": "2026-09-10T09:03:22.569Z"
+      "scoreEvaluatedAt": "2026-09-10T09:02:20.859Z",
+      "scoreValidUntil": "2026-09-11T09:02:20.859Z"
     },
     {
       "date": "2026-09-10",
@@ -189,8 +189,8 @@
       "companyKey": "RYANAIR",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 13,
-      "fundamentalScore": 13,
+      "baseScore": 12,
+      "fundamentalScore": 12,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -208,7 +208,7 @@
         "revenueCurrentYearEstimate": 15925.44,
         "revenueNextYearEstimate": 17205.48
       },
-      "daysUntil": 1,
+      "daysUntil": 0,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -218,24 +218,24 @@
         },
         {
           "key": "CHART",
-          "delta": -13,
+          "delta": -16,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": 0,
+          "delta": 2,
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": -13,
-      "newsDelta": 0,
+      "chartDelta": -16,
+      "newsDelta": 2,
       "fundamentalDelta": -24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "WAM Alternative Assets Ltd (ASX:WMA) (FY 2026) Earnings Call Highlights: Portfolio Returns ...",
-        "Platinum surplus masks persistent supply challenge for PGM miners",
-        "Form 8.3 - [ADVANCED MEDICAL SOLUTIONS GROUP PLC - 08 09 2026] - (CGWL)",
-        "2026 Obstructive Sleep Apnea (OSA) Competitive Landscape and Clinical Trial Analysis - 18+ Companies Advance New OSA Therapies"
+        "US retailers seek greater role in shaping AI standards",
+        "UK retailers target 100,000 young people for jobs by 2029",
+        "UK retail sales growth slows as consumer demand cools in August",
+        "American Eagle Outfitters Inc (AEO) (Q2 2026) Earnings Call Highlights: Aerie's 25% Surge and ..."
       ],
       "dataQuality": {
         "zahlen": true,
@@ -246,19 +246,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 54.4,
-        "changeM1": -9.7,
-        "changeM3": -3.5,
-        "changeM6": -13.8,
-        "sma50": 59.6,
+        "last": 54.3,
+        "changeM1": -8.8,
+        "changeM3": -6.5,
+        "changeM6": -15.1,
+        "sma50": 59.4,
         "sma200": 62.6,
-        "position52w": 5.5,
-        "drawdownFromHigh": -26.3,
-        "volatility20d": 24.7,
-        "volumeTrend": -29.5
+        "position52w": 4.9,
+        "drawdownFromHigh": -26.5,
+        "volatility20d": 24.6,
+        "volumeTrend": -21.2
       },
-      "scoreEvaluatedAt": "2026-09-09T09:03:22.569Z",
-      "scoreValidUntil": "2026-09-10T09:03:22.569Z"
+      "scoreEvaluatedAt": "2026-09-10T09:02:20.859Z",
+      "scoreValidUntil": "2026-09-11T09:02:20.859Z"
     },
     {
       "date": "2026-09-14",
@@ -270,8 +270,8 @@
       "companyKey": "DECKERS OUTDOOR",
       "currency": "EUR",
       "matchConfidence": 1,
-      "baseScore": 19,
-      "fundamentalScore": 19,
+      "baseScore": 12,
+      "fundamentalScore": 12,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -289,12 +289,12 @@
         "revenueCurrentYearEstimate": 5886.98,
         "revenueNextYearEstimate": 6322.24
       },
-      "daysUntil": 5,
+      "daysUntil": 4,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -17,
+          "delta": -24,
           "label": "Analystenschaetzungen"
         },
         {
@@ -310,13 +310,13 @@
       ],
       "chartDelta": -15,
       "newsDelta": 1,
-      "fundamentalDelta": -17,
+      "fundamentalDelta": -24,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "BMO cautious on softlines, bearish on athletic names",
+        "BMO Capital Initiates Deckers Outdoor at Underperform With $70 Price Target",
         "DECK, DKS Stocks In Focus: BMO Warns Athletic Retailers Face A ‘Messy’ Road Ahead",
-        "Nike Is In Free Fall: This Wall Street Ratings Agency Says It’s Doubling Soon",
-        "On Holding's Robust APAC Performance Strengthens Its Global Footprint",
-        "Deckers (DECK) Gains As Market Dips: What You Should Know"
+        "Nike Is In Free Fall: This Wall Street Ratings Agency Says It’s Doubling Soon"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -326,7 +326,7 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 253,
+        "samples": 252,
         "last": 73.5,
         "changeM1": -12,
         "changeM3": -24.4,
@@ -338,8 +338,8 @@
         "volatility20d": 25.4,
         "volumeTrend": 18.9
       },
-      "scoreEvaluatedAt": "2026-09-09T09:03:22.569Z",
-      "scoreValidUntil": "2026-09-10T09:03:22.569Z"
+      "scoreEvaluatedAt": "2026-09-10T09:02:20.859Z",
+      "scoreValidUntil": "2026-09-11T09:02:20.859Z"
     },
     {
       "date": "2026-09-16",
@@ -351,16 +351,17 @@
       "companyKey": "GAMES WORKSHOP",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 55,
-      "fundamentalScore": 55,
-      "fundamentalConfidence": 0.754,
+      "baseScore": 46,
+      "fundamentalScore": 46,
+      "fundamentalConfidence": 0.761,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+6%)",
         "Umsatzschätzung nächstes Jahr +6%",
         "Kurs unter der 200-Tage-Linie",
         "Gesunde Position im 52-Wochen-Band (58%)",
-        "Gesunde Position im 52-Wochen-Band (52%)"
+        "Gesunde Position im 52-Wochen-Band (52%)",
+        "Kurs faellt kurz vor der HV (-8% in 1 Monat)"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -369,23 +370,23 @@
         "revenueCurrentYearEstimate": 692.18,
         "revenueNextYearEstimate": 736.75
       },
-      "daysUntil": 7,
+      "daysUntil": 6,
       "baseLabel": "NEUTRAL",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 11,
+          "delta": 5,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -6,
+          "delta": -9,
           "label": "Kursstruktur 1 Jahr"
         }
       ],
-      "chartDelta": -6,
+      "chartDelta": -9,
       "newsDelta": 0,
-      "fundamentalDelta": 11,
+      "fundamentalDelta": 5,
       "newsGuidance": 0,
       "newsHeadlines": [],
       "dataQuality": {
@@ -396,20 +397,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 254,
-        "last": 17670,
-        "changeM1": -6.8,
-        "changeM3": -8.2,
-        "changeM6": 1.8,
-        "sma50": 19401.2,
-        "sma200": 18920.6,
-        "position52w": 44.8,
-        "drawdownFromHigh": -19.5,
-        "volatility20d": 18.7,
-        "volumeTrend": -18.8
+        "samples": 253,
+        "last": 17400,
+        "changeM1": -8.2,
+        "changeM3": -9.6,
+        "changeM6": 0.2,
+        "sma50": 19395.8,
+        "sma200": 18919.2,
+        "position52w": 41.3,
+        "drawdownFromHigh": -20.7,
+        "volatility20d": 20.8,
+        "volumeTrend": -19.4
       },
-      "scoreEvaluatedAt": "2026-09-09T09:03:22.569Z",
-      "scoreValidUntil": "2026-09-10T09:03:22.569Z"
+      "scoreEvaluatedAt": "2026-09-10T09:02:20.859Z",
+      "scoreValidUntil": "2026-09-11T09:02:20.859Z"
     },
     {
       "date": "2026-09-16",
@@ -421,8 +422,8 @@
       "companyKey": "MOONPIG",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 76,
-      "fundamentalScore": 76,
+      "baseScore": 83,
+      "fundamentalScore": 83,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": null,
       "fundamentalReasons": [
@@ -444,12 +445,12 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 7,
-      "baseLabel": "POSITIV",
+      "daysUntil": 6,
+      "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 19,
+          "delta": 24,
           "label": "Analystenschaetzungen"
         },
         {
@@ -459,19 +460,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 0,
+          "delta": 2,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": 7,
-      "newsDelta": 0,
-      "fundamentalDelta": 19,
+      "newsDelta": 2,
+      "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "WAM Alternative Assets Ltd (ASX:WMA) (FY 2026) Earnings Call Highlights: Portfolio Returns ...",
-        "Platinum surplus masks persistent supply challenge for PGM miners",
-        "Form 8.3 - [ADVANCED MEDICAL SOLUTIONS GROUP PLC - 08 09 2026] - (CGWL)",
-        "2026 Obstructive Sleep Apnea (OSA) Competitive Landscape and Clinical Trial Analysis - 18+ Companies Advance New OSA Therapies"
+        "US retailers seek greater role in shaping AI standards",
+        "UK retailers target 100,000 young people for jobs by 2029",
+        "UK retail sales growth slows as consumer demand cools in August",
+        "American Eagle Outfitters Inc (AEO) (Q2 2026) Earnings Call Highlights: Aerie's 25% Surge and ..."
       ],
       "dataQuality": {
         "zahlen": true,
@@ -481,20 +482,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 254,
-        "last": 256.4,
-        "changeM1": -9.8,
-        "changeM3": 15.6,
-        "changeM6": 20.4,
+        "samples": 253,
+        "last": 256.8,
+        "changeM1": -9.6,
+        "changeM3": 15.8,
+        "changeM6": 20.6,
         "sma50": 273,
         "sma200": 227.5,
         "position52w": 62.3,
-        "drawdownFromHigh": -12.5,
-        "volatility20d": 26.4,
-        "volumeTrend": -3.6
+        "drawdownFromHigh": -12.4,
+        "volatility20d": 26.3,
+        "volumeTrend": -3.7
       },
-      "scoreEvaluatedAt": "2026-09-09T09:03:22.569Z",
-      "scoreValidUntil": "2026-09-10T09:03:22.569Z"
+      "scoreEvaluatedAt": "2026-09-10T09:02:20.859Z",
+      "scoreValidUntil": "2026-09-11T09:02:20.859Z"
     }
   ],
   "estimateAttemptCount": 6,
