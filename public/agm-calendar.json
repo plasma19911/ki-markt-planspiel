@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-10T09:02:20.859Z",
-  "nextRefreshAfter": "2026-09-11T09:02:20.859Z",
+  "updatedAt": "2026-09-11T08:59:59.706Z",
+  "nextRefreshAfter": "2026-09-12T08:59:59.706Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,93 +14,12 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 21,
-  "matchedUpcomingCount": 6,
+  "rawUpcomingCount": 17,
+  "matchedUpcomingCount": 5,
   "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-09-10T08:13:18.135670Z",
+  "universeGeneratedAt": "2026-09-11T08:08:32.398483Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
-    {
-      "date": "2026-09-09",
-      "sourceCompanyName": "NetApp Inc.",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/net_app",
-      "symbol": "NTAP",
-      "name": "NetApp, Inc.",
-      "companyKey": "NETAPP",
-      "currency": "USD",
-      "matchConfidence": 1,
-      "baseScore": 88,
-      "fundamentalScore": 88,
-      "fundamentalConfidence": 0.92,
-      "profitForecastPositive": true,
-      "fundamentalReasons": [
-        "Analysten erwarten leicht höheres EPS (+11%)",
-        "Umsatzschätzung nächstes Jahr +6%",
-        "Chart im Aufwaertstrend (Kurs > 50- > 200-Tage-Linie)",
-        "Gesunde Position im 52-Wochen-Band (82%)",
-        "Gesunde Position im 52-Wochen-Band (81%)",
-        "Gesunde Position im 52-Wochen-Band (79%)"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 9.02,
-        "epsNextYearEstimate": 10.03,
-        "revenueCurrentYearEstimate": 7537.01,
-        "revenueNextYearEstimate": 7968.88
-      },
-      "daysUntil": -1,
-      "baseLabel": "SEHR POSITIV",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": 24,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": 12,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 2,
-          "label": "10 frische Meldungen"
-        }
-      ],
-      "chartDelta": 12,
-      "newsDelta": 2,
-      "fundamentalDelta": 24,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "Zacks.com featured highlights include Globus Medical, NetApp and Assurant",
-        "Micron's Operating Margin Surged Past 80% for the First Time Ever. History Says This Is What's Coming Next.",
-        "SanDisk Traded Its Best Prices For Something Rarer",
-        "NetApp (NTAP) Q1 2027 Earnings Call Transcript"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "USD",
-        "samples": 251,
-        "last": 184.7,
-        "changeM1": -7,
-        "changeM3": 12,
-        "changeM6": 90.6,
-        "sma50": 180,
-        "sma200": 131.4,
-        "position52w": 80.2,
-        "drawdownFromHigh": -10.8,
-        "volatility20d": 31.2,
-        "volumeTrend": 2
-      },
-      "scoreEvaluatedAt": "2026-09-10T09:02:20.859Z",
-      "scoreValidUntil": "2026-09-11T09:02:20.859Z"
-    },
     {
       "date": "2026-09-10",
       "sourceCompanyName": "Currys PLC Registered Shs",
@@ -130,7 +49,7 @@
         "revenueCurrentYearEstimate": 9543.87,
         "revenueNextYearEstimate": 9787.56
       },
-      "daysUntil": 0,
+      "daysUntil": -1,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -165,19 +84,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 253,
-        "last": 149.7,
-        "changeM1": -6.3,
-        "changeM3": -1.8,
-        "changeM6": 2.2,
-        "sma50": 158.6,
-        "sma200": 143.6,
-        "position52w": 63.3,
-        "drawdownFromHigh": -11,
-        "volatility20d": 23,
-        "volumeTrend": -11.5
+        "last": 149,
+        "changeM1": -7.1,
+        "changeM3": -3,
+        "changeM6": 2.7,
+        "sma50": 158.3,
+        "sma200": 143.8,
+        "position52w": 61.9,
+        "drawdownFromHigh": -11.4,
+        "volatility20d": 23.7,
+        "volumeTrend": -5.3
       },
-      "scoreEvaluatedAt": "2026-09-10T09:02:20.859Z",
-      "scoreValidUntil": "2026-09-11T09:02:20.859Z"
+      "scoreEvaluatedAt": "2026-09-11T08:59:59.706Z",
+      "scoreValidUntil": "2026-09-12T08:59:59.706Z"
     },
     {
       "date": "2026-09-10",
@@ -189,8 +108,8 @@
       "companyKey": "RYANAIR",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 12,
-      "fundamentalScore": 12,
+      "baseScore": 13,
+      "fundamentalScore": 13,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -208,7 +127,7 @@
         "revenueCurrentYearEstimate": 15925.44,
         "revenueNextYearEstimate": 17205.48
       },
-      "daysUntil": 0,
+      "daysUntil": -1,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -218,24 +137,24 @@
         },
         {
           "key": "CHART",
-          "delta": -16,
+          "delta": -13,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": 2,
+          "delta": 0,
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": -16,
-      "newsDelta": 2,
+      "chartDelta": -13,
+      "newsDelta": 0,
       "fundamentalDelta": -24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "US retailers seek greater role in shaping AI standards",
-        "UK retailers target 100,000 young people for jobs by 2029",
-        "UK retail sales growth slows as consumer demand cools in August",
-        "American Eagle Outfitters Inc (AEO) (Q2 2026) Earnings Call Highlights: Aerie's 25% Surge and ..."
+        "Ryanair’s CEO warns travelers that cheap European flights may not last if oil remains above $100 a barrel into next year",
+        "Ryanair CEO Michael O'Leary warns of airfare hikes amid high oil prices",
+        "Update: Ryanair CEO Cautions High Fuel Costs Could Increase Airfares Next Year",
+        "Ryanair CEO Cautions High Fuel Costs Could Increase Airfares Next Year"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -246,19 +165,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 54.3,
-        "changeM1": -8.8,
-        "changeM3": -6.5,
-        "changeM6": -15.1,
-        "sma50": 59.4,
-        "sma200": 62.6,
-        "position52w": 4.9,
-        "drawdownFromHigh": -26.5,
-        "volatility20d": 24.6,
-        "volumeTrend": -21.2
+        "last": 53,
+        "changeM1": -10.7,
+        "changeM3": -4.9,
+        "changeM6": -17.1,
+        "sma50": 59.1,
+        "sma200": 62.5,
+        "position52w": 0,
+        "drawdownFromHigh": -28.2,
+        "volatility20d": 25.4,
+        "volumeTrend": -15.3
       },
-      "scoreEvaluatedAt": "2026-09-10T09:02:20.859Z",
-      "scoreValidUntil": "2026-09-11T09:02:20.859Z"
+      "scoreEvaluatedAt": "2026-09-11T08:59:59.706Z",
+      "scoreValidUntil": "2026-09-12T08:59:59.706Z"
     },
     {
       "date": "2026-09-14",
@@ -289,7 +208,7 @@
         "revenueCurrentYearEstimate": 5886.98,
         "revenueNextYearEstimate": 6322.24
       },
-      "daysUntil": 4,
+      "daysUntil": 3,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -313,10 +232,10 @@
       "fundamentalDelta": -24,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "Nike Gets Booted From S&P 100 After Losing 80% of Its Value",
         "BMO cautious on softlines, bearish on athletic names",
         "BMO Capital Initiates Deckers Outdoor at Underperform With $70 Price Target",
-        "DECK, DKS Stocks In Focus: BMO Warns Athletic Retailers Face A ‘Messy’ Road Ahead",
-        "Nike Is In Free Fall: This Wall Street Ratings Agency Says It’s Doubling Soon"
+        "DECK, DKS Stocks In Focus: BMO Warns Athletic Retailers Face A ‘Messy’ Road Ahead"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -331,15 +250,15 @@
         "changeM1": -12,
         "changeM3": -24.4,
         "changeM6": -16.9,
-        "sma50": 83.9,
+        "sma50": 83.6,
         "sma200": 88.6,
         "position52w": 13.4,
         "drawdownFromHigh": -29.6,
         "volatility20d": 25.4,
         "volumeTrend": 18.9
       },
-      "scoreEvaluatedAt": "2026-09-10T09:02:20.859Z",
-      "scoreValidUntil": "2026-09-11T09:02:20.859Z"
+      "scoreEvaluatedAt": "2026-09-11T08:59:59.706Z",
+      "scoreValidUntil": "2026-09-12T08:59:59.706Z"
     },
     {
       "date": "2026-09-16",
@@ -351,9 +270,9 @@
       "companyKey": "GAMES WORKSHOP",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 46,
-      "fundamentalScore": 46,
-      "fundamentalConfidence": 0.761,
+      "baseScore": 37,
+      "fundamentalScore": 37,
+      "fundamentalConfidence": 0.764,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+6%)",
@@ -370,12 +289,12 @@
         "revenueCurrentYearEstimate": 692.18,
         "revenueNextYearEstimate": 736.75
       },
-      "daysUntil": 6,
-      "baseLabel": "NEUTRAL",
+      "daysUntil": 5,
+      "baseLabel": "VORSICHT",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 5,
+          "delta": -4,
           "label": "Analystenschaetzungen"
         },
         {
@@ -386,7 +305,7 @@
       ],
       "chartDelta": -9,
       "newsDelta": 0,
-      "fundamentalDelta": 5,
+      "fundamentalDelta": -4,
       "newsGuidance": 0,
       "newsHeadlines": [],
       "dataQuality": {
@@ -398,19 +317,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 253,
-        "last": 17400,
-        "changeM1": -8.2,
-        "changeM3": -9.6,
-        "changeM6": 0.2,
-        "sma50": 19395.8,
-        "sma200": 18919.2,
-        "position52w": 41.3,
-        "drawdownFromHigh": -20.7,
-        "volatility20d": 20.8,
-        "volumeTrend": -19.4
+        "last": 17580,
+        "changeM1": -8.6,
+        "changeM3": -11.2,
+        "changeM6": 1.9,
+        "sma50": 19320,
+        "sma200": 18912.8,
+        "position52w": 43.7,
+        "drawdownFromHigh": -19.9,
+        "volatility20d": 18.3,
+        "volumeTrend": -11.1
       },
-      "scoreEvaluatedAt": "2026-09-10T09:02:20.859Z",
-      "scoreValidUntil": "2026-09-11T09:02:20.859Z"
+      "scoreEvaluatedAt": "2026-09-11T08:59:59.706Z",
+      "scoreValidUntil": "2026-09-12T08:59:59.706Z"
     },
     {
       "date": "2026-09-16",
@@ -422,8 +341,8 @@
       "companyKey": "MOONPIG",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 83,
-      "fundamentalScore": 83,
+      "baseScore": 80,
+      "fundamentalScore": 80,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": null,
       "fundamentalReasons": [
@@ -445,8 +364,8 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 6,
-      "baseLabel": "SEHR POSITIV",
+      "daysUntil": 5,
+      "baseLabel": "POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
@@ -455,24 +374,24 @@
         },
         {
           "key": "CHART",
-          "delta": 7,
+          "delta": 5,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": 2,
+          "delta": 1,
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": 7,
-      "newsDelta": 2,
+      "chartDelta": 5,
+      "newsDelta": 1,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "US retailers seek greater role in shaping AI standards",
-        "UK retailers target 100,000 young people for jobs by 2029",
-        "UK retail sales growth slows as consumer demand cools in August",
-        "American Eagle Outfitters Inc (AEO) (Q2 2026) Earnings Call Highlights: Aerie's 25% Surge and ..."
+        "Saipem, Jan De Nul sign LoI for Mozambique Rovuma LNG project",
+        "Should You Buy Redwire While It's Below $13?",
+        "Market Chatter: JD.com Facing Criticism Over Concessions to Clear Ceconomy Acquisition in EU",
+        "UK economy grows by most since early 2025 on possible AI boost"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -483,27 +402,27 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 253,
-        "last": 256.8,
-        "changeM1": -9.6,
-        "changeM3": 15.8,
-        "changeM6": 20.6,
-        "sma50": 273,
-        "sma200": 227.5,
-        "position52w": 62.3,
-        "drawdownFromHigh": -12.4,
-        "volatility20d": 26.3,
-        "volumeTrend": -3.7
+        "last": 254.4,
+        "changeM1": -10.5,
+        "changeM3": 13.3,
+        "changeM6": 21.7,
+        "sma50": 273.1,
+        "sma200": 227.8,
+        "position52w": 59.8,
+        "drawdownFromHigh": -13.2,
+        "volatility20d": 26.8,
+        "volumeTrend": -5.5
       },
-      "scoreEvaluatedAt": "2026-09-10T09:02:20.859Z",
-      "scoreValidUntil": "2026-09-11T09:02:20.859Z"
+      "scoreEvaluatedAt": "2026-09-11T08:59:59.706Z",
+      "scoreValidUntil": "2026-09-12T08:59:59.706Z"
     }
   ],
-  "estimateAttemptCount": 6,
+  "estimateAttemptCount": 5,
   "scoreModelVersion": 27.7,
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
-  "chartProfileCount": 6,
-  "newsProfileCount": 5,
+  "chartProfileCount": 5,
+  "newsProfileCount": 4,
   "neutralScoreCount": 0,
-  "signalCoveredCount": 6
+  "signalCoveredCount": 5
 }
