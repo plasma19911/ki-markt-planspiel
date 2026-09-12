@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-11T08:59:59.706Z",
-  "nextRefreshAfter": "2026-09-12T08:59:59.706Z",
+  "updatedAt": "2026-09-12T08:43:44.983Z",
+  "nextRefreshAfter": "2026-09-13T08:43:44.983Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,171 +14,12 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 17,
-  "matchedUpcomingCount": 5,
+  "rawUpcomingCount": 13,
+  "matchedUpcomingCount": 3,
   "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-09-11T08:08:32.398483Z",
+  "universeGeneratedAt": "2026-09-12T07:59:20.571972Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
-    {
-      "date": "2026-09-10",
-      "sourceCompanyName": "Currys PLC Registered Shs",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/currys_1",
-      "symbol": "CURY.L",
-      "name": "Currys plc",
-      "companyKey": "CURRYS",
-      "currency": "GBp",
-      "matchConfidence": 1,
-      "baseScore": 83,
-      "fundamentalScore": 83,
-      "fundamentalConfidence": 0.913,
-      "profitForecastPositive": true,
-      "fundamentalReasons": [
-        "Analysten erwarten leicht höheres EPS (+7%)",
-        "Umsatzschätzung nächstes Jahr +3%",
-        "Kurs ueber der 200-Tage-Linie",
-        "Kurs faellt kurz vor der HV (-10% in 1 Monat)",
-        "Gesunde Position im 52-Wochen-Band (73%)",
-        "1 positive von 2 frischen Meldungen"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 0.14,
-        "epsNextYearEstimate": 0.15,
-        "revenueCurrentYearEstimate": 9543.87,
-        "revenueNextYearEstimate": 9787.56
-      },
-      "daysUntil": -1,
-      "baseLabel": "SEHR POSITIV",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": 24,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": 6,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 3,
-          "label": "1 frische Meldungen"
-        }
-      ],
-      "chartDelta": 6,
-      "newsDelta": 3,
-      "fundamentalDelta": 24,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "Could NICE (NICE)’s AI Growth Finally Offset its Legacy Revenue Drag?"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "GBp",
-        "samples": 253,
-        "last": 149,
-        "changeM1": -7.1,
-        "changeM3": -3,
-        "changeM6": 2.7,
-        "sma50": 158.3,
-        "sma200": 143.8,
-        "position52w": 61.9,
-        "drawdownFromHigh": -11.4,
-        "volatility20d": 23.7,
-        "volumeTrend": -5.3
-      },
-      "scoreEvaluatedAt": "2026-09-11T08:59:59.706Z",
-      "scoreValidUntil": "2026-09-12T08:59:59.706Z"
-    },
-    {
-      "date": "2026-09-10",
-      "sourceCompanyName": "Ryanair",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/ryanair",
-      "symbol": "RYAAY",
-      "name": "Ryanair Holdings plc",
-      "companyKey": "RYANAIR",
-      "currency": "USD",
-      "matchConfidence": 1,
-      "baseScore": 13,
-      "fundamentalScore": 13,
-      "fundamentalConfidence": 0.92,
-      "profitForecastPositive": true,
-      "fundamentalReasons": [
-        "Analysten erwarten leicht höheres EPS (+10%)",
-        "Umsatzschätzung nächstes Jahr +8%",
-        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
-        "Kurs faellt kurz vor der HV (-8% in 1 Monat)",
-        "Kurs nahe 52-Wochen-Tief",
-        "Kurs faellt kurz vor der HV (-10% in 1 Monat)"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 1.72,
-        "epsNextYearEstimate": 1.89,
-        "revenueCurrentYearEstimate": 15925.44,
-        "revenueNextYearEstimate": 17205.48
-      },
-      "daysUntil": -1,
-      "baseLabel": "NEGATIV",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": -24,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": -13,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 0,
-          "label": "10 frische Meldungen"
-        }
-      ],
-      "chartDelta": -13,
-      "newsDelta": 0,
-      "fundamentalDelta": -24,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "Ryanair’s CEO warns travelers that cheap European flights may not last if oil remains above $100 a barrel into next year",
-        "Ryanair CEO Michael O'Leary warns of airfare hikes amid high oil prices",
-        "Update: Ryanair CEO Cautions High Fuel Costs Could Increase Airfares Next Year",
-        "Ryanair CEO Cautions High Fuel Costs Could Increase Airfares Next Year"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "USD",
-        "samples": 251,
-        "last": 53,
-        "changeM1": -10.7,
-        "changeM3": -4.9,
-        "changeM6": -17.1,
-        "sma50": 59.1,
-        "sma200": 62.5,
-        "position52w": 0,
-        "drawdownFromHigh": -28.2,
-        "volatility20d": 25.4,
-        "volumeTrend": -15.3
-      },
-      "scoreEvaluatedAt": "2026-09-11T08:59:59.706Z",
-      "scoreValidUntil": "2026-09-12T08:59:59.706Z"
-    },
     {
       "date": "2026-09-14",
       "sourceCompanyName": "Deckers Outdoor Corp.",
@@ -208,7 +49,7 @@
         "revenueCurrentYearEstimate": 5886.98,
         "revenueNextYearEstimate": 6322.24
       },
-      "daysUntil": 3,
+      "daysUntil": 2,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -232,10 +73,10 @@
       "fundamentalDelta": -24,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "Deckers (DECK) Beats Stock Market Upswing: What Investors Need to Know",
+        "Q2 Earnings Outperformers: Deckers (NYSE:DECK) And The Rest Of The Consumer Discretionary - Footwear Stocks",
         "Nike Gets Booted From S&P 100 After Losing 80% of Its Value",
-        "BMO cautious on softlines, bearish on athletic names",
-        "BMO Capital Initiates Deckers Outdoor at Underperform With $70 Price Target",
-        "DECK, DKS Stocks In Focus: BMO Warns Athletic Retailers Face A ‘Messy’ Road Ahead"
+        "BMO cautious on softlines, bearish on athletic names"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -245,20 +86,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 252,
+        "samples": 253,
         "last": 73.5,
         "changeM1": -12,
-        "changeM3": -24.4,
+        "changeM3": -25.6,
         "changeM6": -16.9,
-        "sma50": 83.6,
+        "sma50": 83.3,
         "sma200": 88.6,
         "position52w": 13.4,
         "drawdownFromHigh": -29.6,
         "volatility20d": 25.4,
-        "volumeTrend": 18.9
+        "volumeTrend": 10.6
       },
-      "scoreEvaluatedAt": "2026-09-11T08:59:59.706Z",
-      "scoreValidUntil": "2026-09-12T08:59:59.706Z"
+      "scoreEvaluatedAt": "2026-09-12T08:43:44.983Z",
+      "scoreValidUntil": "2026-09-13T08:43:44.983Z"
     },
     {
       "date": "2026-09-16",
@@ -270,9 +111,9 @@
       "companyKey": "GAMES WORKSHOP",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 37,
-      "fundamentalScore": 37,
-      "fundamentalConfidence": 0.764,
+      "baseScore": 28,
+      "fundamentalScore": 28,
+      "fundamentalConfidence": 0.766,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+6%)",
@@ -289,12 +130,12 @@
         "revenueCurrentYearEstimate": 692.18,
         "revenueNextYearEstimate": 736.75
       },
-      "daysUntil": 5,
-      "baseLabel": "VORSICHT",
+      "daysUntil": 4,
+      "baseLabel": "NEGATIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -4,
+          "delta": -13,
           "label": "Analystenschaetzungen"
         },
         {
@@ -305,7 +146,7 @@
       ],
       "chartDelta": -9,
       "newsDelta": 0,
-      "fundamentalDelta": -4,
+      "fundamentalDelta": -13,
       "newsGuidance": 0,
       "newsHeadlines": [],
       "dataQuality": {
@@ -317,19 +158,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 253,
-        "last": 17580,
-        "changeM1": -8.6,
-        "changeM3": -11.2,
-        "changeM6": 1.9,
-        "sma50": 19320,
-        "sma200": 18912.8,
-        "position52w": 43.7,
-        "drawdownFromHigh": -19.9,
-        "volatility20d": 18.3,
-        "volumeTrend": -11.1
+        "last": 17330,
+        "changeM1": -9.9,
+        "changeM3": -12.4,
+        "changeM6": 0.5,
+        "sma50": 19315,
+        "sma200": 18911.5,
+        "position52w": 40.4,
+        "drawdownFromHigh": -21,
+        "volatility20d": 18.5,
+        "volumeTrend": -1.8
       },
-      "scoreEvaluatedAt": "2026-09-11T08:59:59.706Z",
-      "scoreValidUntil": "2026-09-12T08:59:59.706Z"
+      "scoreEvaluatedAt": "2026-09-12T08:43:44.983Z",
+      "scoreValidUntil": "2026-09-13T08:43:44.983Z"
     },
     {
       "date": "2026-09-16",
@@ -341,8 +182,8 @@
       "companyKey": "MOONPIG",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 80,
-      "fundamentalScore": 80,
+      "baseScore": 78,
+      "fundamentalScore": 78,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": null,
       "fundamentalReasons": [
@@ -364,7 +205,7 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 5,
+      "daysUntil": 4,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
@@ -379,19 +220,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 1,
+          "delta": -1,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": 5,
-      "newsDelta": 1,
+      "newsDelta": -1,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Saipem, Jan De Nul sign LoI for Mozambique Rovuma LNG project",
-        "Should You Buy Redwire While It's Below $13?",
-        "Market Chatter: JD.com Facing Criticism Over Concessions to Clear Ceconomy Acquisition in EU",
-        "UK economy grows by most since early 2025 on possible AI boost"
+        "1 Top Warren Buffett Stock for Dividend Investors",
+        "Lagarde enters French election debate as ECB exit speculation grows",
+        "MGM Shenzhen Prince Bay Grand Opening",
+        "Is a Stock Market Crash Looming Under President Donald Trump? Nearly 156 Years of History Offers Up an Unpleasant Truth for Wall Street."
       ],
       "dataQuality": {
         "zahlen": true,
@@ -402,27 +243,27 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 253,
-        "last": 254.4,
-        "changeM1": -10.5,
-        "changeM3": 13.3,
-        "changeM6": 21.7,
+        "last": 256,
+        "changeM1": -10,
+        "changeM3": 14,
+        "changeM6": 22.5,
         "sma50": 273.1,
         "sma200": 227.8,
-        "position52w": 59.8,
-        "drawdownFromHigh": -13.2,
-        "volatility20d": 26.8,
-        "volumeTrend": -5.5
+        "position52w": 61.5,
+        "drawdownFromHigh": -12.6,
+        "volatility20d": 27,
+        "volumeTrend": -8.3
       },
-      "scoreEvaluatedAt": "2026-09-11T08:59:59.706Z",
-      "scoreValidUntil": "2026-09-12T08:59:59.706Z"
+      "scoreEvaluatedAt": "2026-09-12T08:43:44.983Z",
+      "scoreValidUntil": "2026-09-13T08:43:44.983Z"
     }
   ],
-  "estimateAttemptCount": 5,
+  "estimateAttemptCount": 3,
   "scoreModelVersion": 27.7,
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
-  "chartProfileCount": 5,
-  "newsProfileCount": 4,
+  "chartProfileCount": 3,
+  "newsProfileCount": 2,
   "neutralScoreCount": 0,
-  "signalCoveredCount": 5
+  "signalCoveredCount": 3
 }
