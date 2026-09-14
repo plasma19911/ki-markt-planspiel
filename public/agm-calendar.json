@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-12T08:43:44.983Z",
-  "nextRefreshAfter": "2026-09-13T08:43:44.983Z",
+  "updatedAt": "2026-09-14T10:00:52.051Z",
+  "nextRefreshAfter": "2026-09-15T10:00:52.051Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,10 +14,10 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 13,
-  "matchedUpcomingCount": 3,
-  "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-09-12T07:59:20.571972Z",
+  "rawUpcomingCount": 17,
+  "matchedUpcomingCount": 6,
+  "fundamentalEstimateCount": 1,
+  "universeGeneratedAt": "2026-09-14T09:02:49.396192Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -30,8 +30,8 @@
       "companyKey": "DECKERS OUTDOOR",
       "currency": "EUR",
       "matchConfidence": 1,
-      "baseScore": 12,
-      "fundamentalScore": 12,
+      "baseScore": 11,
+      "fundamentalScore": 11,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -49,7 +49,7 @@
         "revenueCurrentYearEstimate": 5886.98,
         "revenueNextYearEstimate": 6322.24
       },
-      "daysUntil": 2,
+      "daysUntil": 0,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -59,7 +59,7 @@
         },
         {
           "key": "CHART",
-          "delta": -15,
+          "delta": -16,
           "label": "Kursstruktur 1 Jahr"
         },
         {
@@ -68,7 +68,7 @@
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": -15,
+      "chartDelta": -16,
       "newsDelta": 1,
       "fundamentalDelta": -24,
       "newsGuidance": 0,
@@ -86,20 +86,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 253,
-        "last": 73.5,
-        "changeM1": -12,
-        "changeM3": -25.6,
-        "changeM6": -16.9,
-        "sma50": 83.3,
+        "samples": 252,
+        "last": 70.1,
+        "changeM1": -16.1,
+        "changeM3": -28.2,
+        "changeM6": -20.8,
+        "sma50": 82.8,
         "sma200": 88.6,
-        "position52w": 13.4,
-        "drawdownFromHigh": -29.6,
-        "volatility20d": 25.4,
+        "position52w": 3.9,
+        "drawdownFromHigh": -32.8,
+        "volatility20d": 28.8,
         "volumeTrend": 10.6
       },
-      "scoreEvaluatedAt": "2026-09-12T08:43:44.983Z",
-      "scoreValidUntil": "2026-09-13T08:43:44.983Z"
+      "scoreEvaluatedAt": "2026-09-14T10:00:52.051Z",
+      "scoreValidUntil": "2026-09-15T10:00:52.051Z"
     },
     {
       "date": "2026-09-16",
@@ -111,9 +111,9 @@
       "companyKey": "GAMES WORKSHOP",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 28,
-      "fundamentalScore": 28,
-      "fundamentalConfidence": 0.766,
+      "baseScore": 22,
+      "fundamentalScore": 22,
+      "fundamentalConfidence": 0.767,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+6%)",
@@ -130,23 +130,23 @@
         "revenueCurrentYearEstimate": 692.18,
         "revenueNextYearEstimate": 736.75
       },
-      "daysUntil": 4,
+      "daysUntil": 2,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -13,
+          "delta": -22,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -9,
+          "delta": -6,
           "label": "Kursstruktur 1 Jahr"
         }
       ],
-      "chartDelta": -9,
+      "chartDelta": -6,
       "newsDelta": 0,
-      "fundamentalDelta": -13,
+      "fundamentalDelta": -22,
       "newsGuidance": 0,
       "newsHeadlines": [],
       "dataQuality": {
@@ -158,19 +158,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 253,
-        "last": 17330,
-        "changeM1": -9.9,
-        "changeM3": -12.4,
-        "changeM6": 0.5,
-        "sma50": 19315,
-        "sma200": 18911.5,
-        "position52w": 40.4,
-        "drawdownFromHigh": -21,
-        "volatility20d": 18.5,
-        "volumeTrend": -1.8
+        "last": 17580,
+        "changeM1": -7.9,
+        "changeM3": -13.6,
+        "changeM6": 1.9,
+        "sma50": 19167.2,
+        "sma200": 18891.6,
+        "position52w": 43.7,
+        "drawdownFromHigh": -19.9,
+        "volatility20d": 19.7,
+        "volumeTrend": -2.8
       },
-      "scoreEvaluatedAt": "2026-09-12T08:43:44.983Z",
-      "scoreValidUntil": "2026-09-13T08:43:44.983Z"
+      "scoreEvaluatedAt": "2026-09-14T10:00:52.051Z",
+      "scoreValidUntil": "2026-09-15T10:00:52.051Z"
     },
     {
       "date": "2026-09-16",
@@ -182,8 +182,8 @@
       "companyKey": "MOONPIG",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 78,
-      "fundamentalScore": 78,
+      "baseScore": 84,
+      "fundamentalScore": 84,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": null,
       "fundamentalReasons": [
@@ -205,8 +205,8 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 4,
-      "baseLabel": "POSITIV",
+      "daysUntil": 2,
+      "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
@@ -215,24 +215,24 @@
         },
         {
           "key": "CHART",
-          "delta": 5,
+          "delta": 7,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": -1,
+          "delta": 3,
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": 5,
-      "newsDelta": -1,
+      "chartDelta": 7,
+      "newsDelta": 3,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "1 Top Warren Buffett Stock for Dividend Investors",
-        "Lagarde enters French election debate as ECB exit speculation grows",
-        "MGM Shenzhen Prince Bay Grand Opening",
-        "Is a Stock Market Crash Looming Under President Donald Trump? Nearly 156 Years of History Offers Up an Unpleasant Truth for Wall Street."
+        "Update: Market Chatter: Anthropic Signs $13.7 Billion Computing Deal With Trump-Linked Rum Group",
+        "CLARITY Act Faces Tuesday Senate Vote: Senate Republicans Release ‘Final’ Draft With Trump-Backed Ethics Deal",
+        "Market Chatter: Chevron Australia President Sees LNG Prices Remaining Elevated",
+        "Market Chatter: Chevron Weighs European LNG Infrastructure, Awaits Clarity on EU Methane Rules"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -243,27 +243,268 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 253,
-        "last": 256,
-        "changeM1": -10,
-        "changeM3": 14,
-        "changeM6": 22.5,
-        "sma50": 273.1,
-        "sma200": 227.8,
-        "position52w": 61.5,
-        "drawdownFromHigh": -12.6,
-        "volatility20d": 27,
-        "volumeTrend": -8.3
+        "last": 260.2,
+        "changeM1": -8.8,
+        "changeM3": 18.2,
+        "changeM6": 24.2,
+        "sma50": 273.2,
+        "sma200": 228.3,
+        "position52w": 65.8,
+        "drawdownFromHigh": -11.2,
+        "volatility20d": 26,
+        "volumeTrend": -18.1
       },
-      "scoreEvaluatedAt": "2026-09-12T08:43:44.983Z",
-      "scoreValidUntil": "2026-09-13T08:43:44.983Z"
+      "scoreEvaluatedAt": "2026-09-14T10:00:52.051Z",
+      "scoreValidUntil": "2026-09-15T10:00:52.051Z"
+    },
+    {
+      "date": "2026-09-22",
+      "sourceCompanyName": "Alibaba Group Holding Ltd Registered Shs",
+      "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/alibaba_group_3",
+      "symbol": "BABA",
+      "name": "Alibaba Group Holding Limited",
+      "companyKey": "ALIBABA",
+      "currency": "USD",
+      "matchConfidence": 1,
+      "baseScore": 38,
+      "fundamentalScore": 38,
+      "fundamentalConfidence": 0.683,
+      "profitForecastPositive": null,
+      "fundamentalReasons": [
+        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
+        "Kurs faellt kurz vor der HV (-13% in 1 Monat)"
+      ],
+      "fundamentals": {
+        "source": "Yahoo quote",
+        "epsTrailingTwelveMonths": null,
+        "epsForward": null,
+        "epsCurrentYear": null,
+        "averageAnalystRating": null,
+        "fiftyTwoWeekChange": null,
+        "forwardPE": null,
+        "trailingPE": null,
+        "marketCap": null
+      },
+      "daysUntil": 8,
+      "baseLabel": "VORSICHT",
+      "scoreParts": [
+        {
+          "key": "ZAHLEN",
+          "delta": 0,
+          "label": "Analystenschaetzungen"
+        },
+        {
+          "key": "CHART",
+          "delta": -12,
+          "label": "Kursstruktur 1 Jahr"
+        },
+        {
+          "key": "NEWS",
+          "delta": 0,
+          "label": "10 frische Meldungen"
+        }
+      ],
+      "chartDelta": -12,
+      "newsDelta": 0,
+      "fundamentalDelta": 0,
+      "newsGuidance": 0,
+      "newsHeadlines": [
+        "'Freaking Insane': Daniel Newman Says Chinese AI Labs 'Lifted' US Frontier Models As Anthropic Accuses Alibaba, DeepSeek Of Training On Clau",
+        "Alibaba and Amazon Face the Same AI Spending Question: How Quickly Does Capacity Become Cash?",
+        "Alibaba (BABA)’s AI Bet Faces a $10.2 Billion Test",
+        "Anthropic’s 200M-Exchange Distillation Report Is the Evidence Behind the Joint US Intelligence Accusation"
+      ],
+      "dataQuality": {
+        "zahlen": true,
+        "chart": true,
+        "news": true
+      },
+      "chart": {
+        "source": "Yahoo chart 1y/1d",
+        "currency": "USD",
+        "samples": 251,
+        "last": 109.3,
+        "changeM1": -12.7,
+        "changeM3": -3,
+        "changeM6": -18.6,
+        "sma50": 117.3,
+        "sma200": 134.5,
+        "position52w": 15.3,
+        "drawdownFromHigh": -42.3,
+        "volatility20d": 40.2,
+        "volumeTrend": -39.2
+      },
+      "scoreEvaluatedAt": "2026-09-14T10:00:52.051Z",
+      "scoreValidUntil": "2026-09-15T10:00:52.051Z"
+    },
+    {
+      "date": "2026-09-22",
+      "sourceCompanyName": "Kainos Group PLC",
+      "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/kainos_group",
+      "symbol": "KNOS.L",
+      "name": "Kainos Group plc",
+      "companyKey": "KAINOS",
+      "currency": "GBp",
+      "matchConfidence": 1,
+      "baseScore": 67,
+      "fundamentalScore": 67,
+      "fundamentalConfidence": 0.683,
+      "profitForecastPositive": null,
+      "fundamentalReasons": [
+        "Chart im Aufwaertstrend (Kurs > 50- > 200-Tage-Linie)",
+        "3-Monats-Trend +46%",
+        "Gesunde Position im 52-Wochen-Band (84%)",
+        "Hohe Schwankung (83% p.a.)",
+        "3 positive von 10 frischen Meldungen"
+      ],
+      "fundamentals": {
+        "source": "Yahoo quote",
+        "epsTrailingTwelveMonths": null,
+        "epsForward": null,
+        "epsCurrentYear": null,
+        "averageAnalystRating": null,
+        "fiftyTwoWeekChange": null,
+        "forwardPE": null,
+        "trailingPE": null,
+        "marketCap": null
+      },
+      "daysUntil": 8,
+      "baseLabel": "LEICHT POSITIV",
+      "scoreParts": [
+        {
+          "key": "ZAHLEN",
+          "delta": 0,
+          "label": "Analystenschaetzungen"
+        },
+        {
+          "key": "CHART",
+          "delta": 14,
+          "label": "Kursstruktur 1 Jahr"
+        },
+        {
+          "key": "NEWS",
+          "delta": 3,
+          "label": "10 frische Meldungen"
+        }
+      ],
+      "chartDelta": 14,
+      "newsDelta": 3,
+      "fundamentalDelta": 0,
+      "newsGuidance": 0,
+      "newsHeadlines": [
+        "Update: Market Chatter: Anthropic Signs $13.7 Billion Computing Deal With Trump-Linked Rum Group",
+        "CLARITY Act Faces Tuesday Senate Vote: Senate Republicans Release ‘Final’ Draft With Trump-Backed Ethics Deal",
+        "Market Chatter: Chevron Australia President Sees LNG Prices Remaining Elevated",
+        "Market Chatter: Chevron Weighs European LNG Infrastructure, Awaits Clarity on EU Methane Rules"
+      ],
+      "dataQuality": {
+        "zahlen": true,
+        "chart": true,
+        "news": true
+      },
+      "chart": {
+        "source": "Yahoo chart 1y/1d",
+        "currency": "GBp",
+        "samples": 253,
+        "last": 1200,
+        "changeM1": 31.4,
+        "changeM3": 46.1,
+        "changeM6": 52.7,
+        "sma50": 996.7,
+        "sma200": 892.4,
+        "position52w": 84.2,
+        "drawdownFromHigh": -7.3,
+        "volatility20d": 83.3,
+        "volumeTrend": -41.2
+      },
+      "scoreEvaluatedAt": "2026-09-14T10:00:52.051Z",
+      "scoreValidUntil": "2026-09-15T10:00:52.051Z"
+    },
+    {
+      "date": "2026-09-25",
+      "sourceCompanyName": "ZUMTOBEL AG",
+      "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/zumtobel",
+      "symbol": "ZAG.VI",
+      "name": "Zumtobel Group AG",
+      "companyKey": "ZUMTOBEL",
+      "currency": "EUR",
+      "matchConfidence": 1,
+      "baseScore": 69,
+      "fundamentalScore": 69,
+      "fundamentalConfidence": 0.781,
+      "profitForecastPositive": true,
+      "fundamentalReasons": [
+        "Analysten erwarten EPS-Wachstum ca. 43%",
+        "Kurs ueber der 200-Tage-Linie",
+        "Gesunde Position im 52-Wochen-Band (62%)"
+      ],
+      "fundamentals": {
+        "source": "finanzen.net Schätzungen",
+        "epsCurrentYearEstimate": 0.51,
+        "epsNextYearEstimate": 0.73,
+        "revenueCurrentYearEstimate": null,
+        "revenueNextYearEstimate": null
+      },
+      "daysUntil": 11,
+      "baseLabel": "LEICHT POSITIV",
+      "estimateUrl": "https://www.finanzen.net/schaetzungen/zumtobel",
+      "scoreParts": [
+        {
+          "key": "ZAHLEN",
+          "delta": 16,
+          "label": "Analystenschaetzungen"
+        },
+        {
+          "key": "CHART",
+          "delta": 3,
+          "label": "Kursstruktur 1 Jahr"
+        },
+        {
+          "key": "NEWS",
+          "delta": 0,
+          "label": "1 frische Meldungen"
+        }
+      ],
+      "chartDelta": 3,
+      "newsDelta": 0,
+      "fundamentalDelta": 16,
+      "newsGuidance": 0,
+      "newsHeadlines": [
+        "Zumtobel Group AG (WBO:ZAG) (Q1 2027) Earnings Call Highlights: Efficiency Gains Offset by ..."
+      ],
+      "dataQuality": {
+        "zahlen": true,
+        "chart": true,
+        "news": true
+      },
+      "chart": {
+        "source": "Yahoo chart 1y/1d",
+        "currency": "EUR",
+        "samples": 252,
+        "last": 4,
+        "changeM1": -3.2,
+        "changeM3": -6.8,
+        "changeM6": -4.2,
+        "sma50": 4,
+        "sma200": 3.8,
+        "position52w": 61.7,
+        "drawdownFromHigh": -10,
+        "volatility20d": 21.2,
+        "volumeTrend": -6.2
+      },
+      "scoreEvaluatedAt": "2026-09-14T10:00:52.051Z",
+      "scoreValidUntil": "2026-09-15T10:00:52.051Z"
     }
   ],
-  "estimateAttemptCount": 3,
+  "estimateAttemptCount": 6,
   "scoreModelVersion": 27.7,
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
-  "chartProfileCount": 3,
-  "newsProfileCount": 2,
+  "chartProfileCount": 6,
+  "newsProfileCount": 5,
   "neutralScoreCount": 0,
-  "signalCoveredCount": 3
+  "signalCoveredCount": 6
 }
