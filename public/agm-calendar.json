@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-14T10:00:52.051Z",
-  "nextRefreshAfter": "2026-09-15T10:00:52.051Z",
+  "updatedAt": "2026-09-15T09:30:47.324Z",
+  "nextRefreshAfter": "2026-09-16T09:30:47.324Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -16,8 +16,8 @@
   "sourceErrors": [],
   "rawUpcomingCount": 17,
   "matchedUpcomingCount": 6,
-  "fundamentalEstimateCount": 1,
-  "universeGeneratedAt": "2026-09-14T09:02:49.396192Z",
+  "fundamentalEstimateCount": 0,
+  "universeGeneratedAt": "2026-09-15T08:46:14.816889Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -49,7 +49,7 @@
         "revenueCurrentYearEstimate": 5886.98,
         "revenueNextYearEstimate": 6322.24
       },
-      "daysUntil": 0,
+      "daysUntil": -1,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -86,20 +86,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 252,
-        "last": 70.1,
-        "changeM1": -16.1,
-        "changeM3": -28.2,
-        "changeM6": -20.8,
-        "sma50": 82.8,
-        "sma200": 88.6,
-        "position52w": 3.9,
-        "drawdownFromHigh": -32.8,
-        "volatility20d": 28.8,
-        "volumeTrend": 10.6
+        "samples": 253,
+        "last": 68.6,
+        "changeM1": -17.9,
+        "changeM3": -29.8,
+        "changeM6": -22.5,
+        "sma50": 82.4,
+        "sma200": 88.5,
+        "position52w": 0,
+        "drawdownFromHigh": -34.3,
+        "volatility20d": 29,
+        "volumeTrend": 8.8
       },
-      "scoreEvaluatedAt": "2026-09-14T10:00:52.051Z",
-      "scoreValidUntil": "2026-09-15T10:00:52.051Z"
+      "scoreEvaluatedAt": "2026-09-15T09:30:47.324Z",
+      "scoreValidUntil": "2026-09-16T09:30:47.324Z"
     },
     {
       "date": "2026-09-16",
@@ -111,8 +111,8 @@
       "companyKey": "GAMES WORKSHOP",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 22,
-      "fundamentalScore": 22,
+      "baseScore": 17,
+      "fundamentalScore": 17,
       "fundamentalConfidence": 0.767,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -130,23 +130,23 @@
         "revenueCurrentYearEstimate": 692.18,
         "revenueNextYearEstimate": 736.75
       },
-      "daysUntil": 2,
+      "daysUntil": 1,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -22,
+          "delta": -24,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -6,
+          "delta": -9,
           "label": "Kursstruktur 1 Jahr"
         }
       ],
-      "chartDelta": -6,
+      "chartDelta": -9,
       "newsDelta": 0,
-      "fundamentalDelta": -22,
+      "fundamentalDelta": -24,
       "newsGuidance": 0,
       "newsHeadlines": [],
       "dataQuality": {
@@ -157,20 +157,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 253,
-        "last": 17580,
-        "changeM1": -7.9,
-        "changeM3": -13.6,
-        "changeM6": 1.9,
-        "sma50": 19167.2,
-        "sma200": 18891.6,
-        "position52w": 43.7,
-        "drawdownFromHigh": -19.9,
-        "volatility20d": 19.7,
-        "volumeTrend": -2.8
+        "samples": 254,
+        "last": 17549.6,
+        "changeM1": -8.2,
+        "changeM3": -14.1,
+        "changeM6": 2.7,
+        "sma50": 19103.8,
+        "sma200": 18881.8,
+        "position52w": 43.3,
+        "drawdownFromHigh": -20,
+        "volatility20d": 19.6,
+        "volumeTrend": 17.4
       },
-      "scoreEvaluatedAt": "2026-09-14T10:00:52.051Z",
-      "scoreValidUntil": "2026-09-15T10:00:52.051Z"
+      "scoreEvaluatedAt": "2026-09-15T09:30:47.324Z",
+      "scoreValidUntil": "2026-09-16T09:30:47.324Z"
     },
     {
       "date": "2026-09-16",
@@ -182,9 +182,9 @@
       "companyKey": "MOONPIG",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 84,
-      "fundamentalScore": 84,
-      "fundamentalConfidence": 0.92,
+      "baseScore": 81,
+      "fundamentalScore": 81,
+      "fundamentalConfidence": 0.836,
       "profitForecastPositive": null,
       "fundamentalReasons": [
         "Kurs ueber der 200-Tage-Linie",
@@ -205,8 +205,8 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 2,
-      "baseLabel": "SEHR POSITIV",
+      "daysUntil": 1,
+      "baseLabel": "POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
@@ -217,45 +217,35 @@
           "key": "CHART",
           "delta": 7,
           "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 3,
-          "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": 7,
-      "newsDelta": 3,
+      "newsDelta": 0,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
-      "newsHeadlines": [
-        "Update: Market Chatter: Anthropic Signs $13.7 Billion Computing Deal With Trump-Linked Rum Group",
-        "CLARITY Act Faces Tuesday Senate Vote: Senate Republicans Release ‘Final’ Draft With Trump-Backed Ethics Deal",
-        "Market Chatter: Chevron Australia President Sees LNG Prices Remaining Elevated",
-        "Market Chatter: Chevron Weighs European LNG Infrastructure, Awaits Clarity on EU Methane Rules"
-      ],
+      "newsHeadlines": [],
       "dataQuality": {
         "zahlen": true,
         "chart": true,
-        "news": true
+        "news": false
       },
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 253,
-        "last": 260.2,
-        "changeM1": -8.8,
-        "changeM3": 18.2,
-        "changeM6": 24.2,
+        "samples": 254,
+        "last": 261.8,
+        "changeM1": -8.5,
+        "changeM3": 19.9,
+        "changeM6": 26.2,
         "sma50": 273.2,
-        "sma200": 228.3,
-        "position52w": 65.8,
-        "drawdownFromHigh": -11.2,
-        "volatility20d": 26,
-        "volumeTrend": -18.1
+        "sma200": 228.6,
+        "position52w": 67.5,
+        "drawdownFromHigh": -10.6,
+        "volatility20d": 26.3,
+        "volumeTrend": -6.4
       },
-      "scoreEvaluatedAt": "2026-09-14T10:00:52.051Z",
-      "scoreValidUntil": "2026-09-15T10:00:52.051Z"
+      "scoreEvaluatedAt": "2026-09-15T09:30:47.324Z",
+      "scoreValidUntil": "2026-09-16T09:30:47.324Z"
     },
     {
       "date": "2026-09-22",
@@ -267,13 +257,14 @@
       "companyKey": "ALIBABA",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 38,
-      "fundamentalScore": 38,
-      "fundamentalConfidence": 0.683,
+      "baseScore": 26,
+      "fundamentalScore": 26,
+      "fundamentalConfidence": 0.909,
       "profitForecastPositive": null,
       "fundamentalReasons": [
         "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
-        "Kurs faellt kurz vor der HV (-13% in 1 Monat)"
+        "Kurs faellt kurz vor der HV (-13% in 1 Monat)",
+        "Kurs faellt kurz vor der HV (-11% in 1 Monat)"
       ],
       "fundamentals": {
         "source": "Yahoo quote",
@@ -286,12 +277,12 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 8,
-      "baseLabel": "VORSICHT",
+      "daysUntil": 7,
+      "baseLabel": "NEGATIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 0,
+          "delta": -12,
           "label": "Analystenschaetzungen"
         },
         {
@@ -307,13 +298,13 @@
       ],
       "chartDelta": -12,
       "newsDelta": 0,
-      "fundamentalDelta": 0,
+      "fundamentalDelta": -12,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "'Freaking Insane': Daniel Newman Says Chinese AI Labs 'Lifted' US Frontier Models As Anthropic Accuses Alibaba, DeepSeek Of Training On Clau",
-        "Alibaba and Amazon Face the Same AI Spending Question: How Quickly Does Capacity Become Cash?",
-        "Alibaba (BABA)’s AI Bet Faces a $10.2 Billion Test",
-        "Anthropic’s 200M-Exchange Distillation Report Is the Evidence Behind the Joint US Intelligence Accusation"
+        "NIO Stock Rises Overnight: Nio Capital Joins Sequoia China And SMIC-Linked Backers In Robot-Sensor Bet",
+        "Electronic Line Calling and AI Broadcasting Make CIFTIS Debut: Orange Lion Sports' Smartshot 2.0 Presents an Inclusive \"Sports + AI\" Solutio",
+        "Singdata Delivers True Multi-Cloud Data Freedom: Fully Managed Lakehouse SaaS Now Live Across 8 Global Clouds and 3 CPU Architectures",
+        "'Freaking Insane': Daniel Newman Says Chinese AI Labs 'Lifted' US Frontier Models As Anthropic Accuses Alibaba, DeepSeek Of Training On Clau"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -324,19 +315,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 109.3,
-        "changeM1": -12.7,
-        "changeM3": -3,
-        "changeM6": -18.6,
-        "sma50": 117.3,
-        "sma200": 134.5,
+        "last": 109.2,
+        "changeM1": -10.6,
+        "changeM3": -3.2,
+        "changeM6": -19.2,
+        "sma50": 117.5,
+        "sma200": 134.3,
         "position52w": 15.3,
         "drawdownFromHigh": -42.3,
-        "volatility20d": 40.2,
-        "volumeTrend": -39.2
+        "volatility20d": 39.7,
+        "volumeTrend": -40.9
       },
-      "scoreEvaluatedAt": "2026-09-14T10:00:52.051Z",
-      "scoreValidUntil": "2026-09-15T10:00:52.051Z"
+      "scoreEvaluatedAt": "2026-09-15T09:30:47.324Z",
+      "scoreValidUntil": "2026-09-16T09:30:47.324Z"
     },
     {
       "date": "2026-09-22",
@@ -348,16 +339,17 @@
       "companyKey": "KAINOS",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 67,
-      "fundamentalScore": 67,
-      "fundamentalConfidence": 0.683,
+      "baseScore": 81,
+      "fundamentalScore": 81,
+      "fundamentalConfidence": 0.729,
       "profitForecastPositive": null,
       "fundamentalReasons": [
         "Chart im Aufwaertstrend (Kurs > 50- > 200-Tage-Linie)",
         "3-Monats-Trend +46%",
         "Gesunde Position im 52-Wochen-Band (84%)",
         "Hohe Schwankung (83% p.a.)",
-        "3 positive von 10 frischen Meldungen"
+        "3 positive von 10 frischen Meldungen",
+        "3-Monats-Trend +43%"
       ],
       "fundamentals": {
         "source": "Yahoo quote",
@@ -370,57 +362,47 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 8,
-      "baseLabel": "LEICHT POSITIV",
+      "daysUntil": 7,
+      "baseLabel": "POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 0,
+          "delta": 17,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
           "delta": 14,
           "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 3,
-          "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": 14,
-      "newsDelta": 3,
-      "fundamentalDelta": 0,
+      "newsDelta": 0,
+      "fundamentalDelta": 17,
       "newsGuidance": 0,
-      "newsHeadlines": [
-        "Update: Market Chatter: Anthropic Signs $13.7 Billion Computing Deal With Trump-Linked Rum Group",
-        "CLARITY Act Faces Tuesday Senate Vote: Senate Republicans Release ‘Final’ Draft With Trump-Backed Ethics Deal",
-        "Market Chatter: Chevron Australia President Sees LNG Prices Remaining Elevated",
-        "Market Chatter: Chevron Weighs European LNG Infrastructure, Awaits Clarity on EU Methane Rules"
-      ],
+      "newsHeadlines": [],
       "dataQuality": {
         "zahlen": true,
         "chart": true,
-        "news": true
+        "news": false
       },
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 253,
-        "last": 1200,
-        "changeM1": 31.4,
-        "changeM3": 46.1,
-        "changeM6": 52.7,
-        "sma50": 996.7,
-        "sma200": 892.4,
-        "position52w": 84.2,
-        "drawdownFromHigh": -7.3,
-        "volatility20d": 83.3,
-        "volumeTrend": -41.2
+        "samples": 254,
+        "last": 1186.9,
+        "changeM1": 22.4,
+        "changeM3": 42.5,
+        "changeM6": 56.6,
+        "sma50": 1004.7,
+        "sma200": 893.2,
+        "position52w": 82,
+        "drawdownFromHigh": -8.3,
+        "volatility20d": 81.7,
+        "volumeTrend": -39.8
       },
-      "scoreEvaluatedAt": "2026-09-14T10:00:52.051Z",
-      "scoreValidUntil": "2026-09-15T10:00:52.051Z"
+      "scoreEvaluatedAt": "2026-09-15T09:30:47.324Z",
+      "scoreValidUntil": "2026-09-16T09:30:47.324Z"
     },
     {
       "date": "2026-09-25",
@@ -432,14 +414,15 @@
       "companyKey": "ZUMTOBEL",
       "currency": "EUR",
       "matchConfidence": 1,
-      "baseScore": 69,
-      "fundamentalScore": 69,
-      "fundamentalConfidence": 0.781,
+      "baseScore": 72,
+      "fundamentalScore": 72,
+      "fundamentalConfidence": 0.853,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Wachstum ca. 43%",
         "Kurs ueber der 200-Tage-Linie",
-        "Gesunde Position im 52-Wochen-Band (62%)"
+        "Gesunde Position im 52-Wochen-Band (62%)",
+        "Gesunde Position im 52-Wochen-Band (59%)"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -448,13 +431,12 @@
         "revenueCurrentYearEstimate": null,
         "revenueNextYearEstimate": null
       },
-      "daysUntil": 11,
-      "baseLabel": "LEICHT POSITIV",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/zumtobel",
+      "daysUntil": 10,
+      "baseLabel": "POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 16,
+          "delta": 19,
           "label": "Analystenschaetzungen"
         },
         {
@@ -470,7 +452,7 @@
       ],
       "chartDelta": 3,
       "newsDelta": 0,
-      "fundamentalDelta": 16,
+      "fundamentalDelta": 19,
       "newsGuidance": 0,
       "newsHeadlines": [
         "Zumtobel Group AG (WBO:ZAG) (Q1 2027) Earnings Call Highlights: Efficiency Gains Offset by ..."
@@ -483,20 +465,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 252,
-        "last": 4,
-        "changeM1": -3.2,
-        "changeM3": -6.8,
-        "changeM6": -4.2,
+        "samples": 253,
+        "last": 3.9,
+        "changeM1": -3.7,
+        "changeM3": -10.7,
+        "changeM6": -4.1,
         "sma50": 4,
         "sma200": 3.8,
-        "position52w": 61.7,
-        "drawdownFromHigh": -10,
-        "volatility20d": 21.2,
-        "volumeTrend": -6.2
+        "position52w": 59.1,
+        "drawdownFromHigh": -10.7,
+        "volatility20d": 21.3,
+        "volumeTrend": -12.6
       },
-      "scoreEvaluatedAt": "2026-09-14T10:00:52.051Z",
-      "scoreValidUntil": "2026-09-15T10:00:52.051Z"
+      "scoreEvaluatedAt": "2026-09-15T09:30:47.324Z",
+      "scoreValidUntil": "2026-09-16T09:30:47.324Z"
     }
   ],
   "estimateAttemptCount": 6,
@@ -504,7 +486,7 @@
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
   "chartProfileCount": 6,
-  "newsProfileCount": 5,
+  "newsProfileCount": 3,
   "neutralScoreCount": 0,
   "signalCoveredCount": 6
 }
