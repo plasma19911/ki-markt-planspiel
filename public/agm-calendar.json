@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-16T09:23:44.160Z",
-  "nextRefreshAfter": "2026-09-17T09:23:44.160Z",
+  "updatedAt": "2026-09-17T09:33:29.142Z",
+  "nextRefreshAfter": "2026-09-18T09:33:29.142Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,10 +14,10 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 16,
+  "rawUpcomingCount": 14,
   "matchedUpcomingCount": 5,
   "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-09-16T08:40:28.505102Z",
+  "universeGeneratedAt": "2026-09-17T08:44:17.026931Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -49,7 +49,7 @@
         "revenueCurrentYearEstimate": 692.18,
         "revenueNextYearEstimate": 736.75
       },
-      "daysUntil": 0,
+      "daysUntil": -1,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -77,19 +77,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 254,
-        "last": 17740,
-        "changeM1": -5.2,
-        "changeM3": -13.9,
-        "changeM6": 2.4,
-        "sma50": 19045.8,
-        "sma200": 18874.2,
-        "position52w": 45.7,
-        "drawdownFromHigh": -19.1,
-        "volatility20d": 19,
-        "volumeTrend": 24.1
+        "last": 17850,
+        "changeM1": -4.6,
+        "changeM3": -12.3,
+        "changeM6": 3.5,
+        "sma50": 19002,
+        "sma200": 18865.2,
+        "position52w": 47.2,
+        "drawdownFromHigh": -18.6,
+        "volatility20d": 19.3,
+        "volumeTrend": 29.5
       },
-      "scoreEvaluatedAt": "2026-09-16T09:23:44.160Z",
-      "scoreValidUntil": "2026-09-17T09:23:44.160Z"
+      "scoreEvaluatedAt": "2026-09-17T09:33:29.142Z",
+      "scoreValidUntil": "2026-09-18T09:33:29.142Z"
     },
     {
       "date": "2026-09-16",
@@ -101,9 +101,9 @@
       "companyKey": "MOONPIG",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 79,
-      "fundamentalScore": 79,
-      "fundamentalConfidence": 0.798,
+      "baseScore": 81,
+      "fundamentalScore": 81,
+      "fundamentalConfidence": 0.781,
       "profitForecastPositive": null,
       "fundamentalReasons": [
         "Kurs ueber der 200-Tage-Linie",
@@ -124,7 +124,7 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 0,
+      "daysUntil": -1,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
@@ -134,11 +134,11 @@
         },
         {
           "key": "CHART",
-          "delta": 5,
+          "delta": 7,
           "label": "Kursstruktur 1 Jahr"
         }
       ],
-      "chartDelta": 5,
+      "chartDelta": 7,
       "newsDelta": 0,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
@@ -152,19 +152,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 254,
-        "last": 245,
-        "changeM1": -12.7,
-        "changeM3": 12.2,
-        "changeM6": 16.1,
-        "sma50": 272.8,
-        "sma200": 228.7,
-        "position52w": 50,
-        "drawdownFromHigh": -16.4,
-        "volatility20d": 32.4,
-        "volumeTrend": 2.1
+        "last": 259.2,
+        "changeM1": -8,
+        "changeM3": 18.9,
+        "changeM6": 15.7,
+        "sma50": 273.1,
+        "sma200": 229,
+        "position52w": 64.8,
+        "drawdownFromHigh": -11.5,
+        "volatility20d": 26,
+        "volumeTrend": 1.4
       },
-      "scoreEvaluatedAt": "2026-09-16T09:23:44.160Z",
-      "scoreValidUntil": "2026-09-17T09:23:44.160Z"
+      "scoreEvaluatedAt": "2026-09-17T09:33:29.142Z",
+      "scoreValidUntil": "2026-09-18T09:33:29.142Z"
     },
     {
       "date": "2026-09-22",
@@ -184,7 +184,8 @@
         "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
         "Kurs faellt kurz vor der HV (-13% in 1 Monat)",
         "Kurs faellt kurz vor der HV (-11% in 1 Monat)",
-        "Kurs faellt kurz vor der HV (-12% in 1 Monat)"
+        "Kurs faellt kurz vor der HV (-12% in 1 Monat)",
+        "Kurs faellt kurz vor der HV (-14% in 1 Monat)"
       ],
       "fundamentals": {
         "source": "Yahoo quote",
@@ -197,7 +198,7 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 6,
+      "daysUntil": 5,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -221,10 +222,10 @@
       "fundamentalDelta": -24,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "Asian Equities Traded in the US as American Depositary Receipts Edge Up in Wednesday Trading",
+        "Meta MTIA 450 Arke AI chip deployment: cost savings 2027",
         "Alibaba vs. Uber Technologies: Which Consumer Stock Is a Better Buy in 2026?",
-        "China’s State Media Calls AI Slowdown a “Cold War” Tactic. Z.AI Is Raising $5 Billion to Do the Opposite",
-        "Taobao Bets Big on ‘Ugly Goods’",
-        "Alibaba’s (BABA) Short-Term Capex Drag Creates a 30% Valuation Discount"
+        "China’s State Media Calls AI Slowdown a “Cold War” Tactic. Z.AI Is Raising $5 Billion to Do the Opposite"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -235,19 +236,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 109.3,
-        "changeM1": -11.7,
-        "changeM3": -2.9,
-        "changeM6": -20,
-        "sma50": 117.8,
-        "sma200": 134,
-        "position52w": 15.4,
-        "drawdownFromHigh": -42.3,
+        "last": 107.3,
+        "changeM1": -14,
+        "changeM3": -3.3,
+        "changeM6": -21.5,
+        "sma50": 118,
+        "sma200": 133.8,
+        "position52w": 13.2,
+        "drawdownFromHigh": -43.3,
         "volatility20d": 39.2,
-        "volumeTrend": -42
+        "volumeTrend": -43.8
       },
-      "scoreEvaluatedAt": "2026-09-16T09:23:44.160Z",
-      "scoreValidUntil": "2026-09-17T09:23:44.160Z"
+      "scoreEvaluatedAt": "2026-09-17T09:33:29.142Z",
+      "scoreValidUntil": "2026-09-18T09:33:29.142Z"
     },
     {
       "date": "2026-09-22",
@@ -261,7 +262,7 @@
       "matchConfidence": 1,
       "baseScore": 88,
       "fundamentalScore": 88,
-      "fundamentalConfidence": 0.75,
+      "fundamentalConfidence": 0.76,
       "profitForecastPositive": null,
       "fundamentalReasons": [
         "Chart im Aufwaertstrend (Kurs > 50- > 200-Tage-Linie)",
@@ -282,7 +283,7 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 6,
+      "daysUntil": 5,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -310,19 +311,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 254,
-        "last": 1173,
-        "changeM1": 20.6,
-        "changeM3": 48.5,
-        "changeM6": 56.5,
-        "sma50": 1012.5,
-        "sma200": 893.8,
-        "position52w": 79.7,
-        "drawdownFromHigh": -9.4,
-        "volatility20d": 82,
-        "volumeTrend": -33.6
+        "last": 1198,
+        "changeM1": 1,
+        "changeM3": 51.4,
+        "changeM6": 61,
+        "sma50": 1021.8,
+        "sma200": 894.6,
+        "position52w": 83.9,
+        "drawdownFromHigh": -7.4,
+        "volatility20d": 30.4,
+        "volumeTrend": -38
       },
-      "scoreEvaluatedAt": "2026-09-16T09:23:44.160Z",
-      "scoreValidUntil": "2026-09-17T09:23:44.160Z"
+      "scoreEvaluatedAt": "2026-09-17T09:33:29.142Z",
+      "scoreValidUntil": "2026-09-18T09:33:29.142Z"
     },
     {
       "date": "2026-09-25",
@@ -334,16 +335,17 @@
       "companyKey": "ZUMTOBEL",
       "currency": "EUR",
       "matchConfidence": 1,
-      "baseScore": 75,
-      "fundamentalScore": 75,
-      "fundamentalConfidence": 0.886,
+      "baseScore": 77,
+      "fundamentalScore": 77,
+      "fundamentalConfidence": 0.901,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Wachstum ca. 43%",
         "Kurs ueber der 200-Tage-Linie",
         "Gesunde Position im 52-Wochen-Band (62%)",
         "Gesunde Position im 52-Wochen-Band (59%)",
-        "Gesunde Position im 52-Wochen-Band (65%)"
+        "Gesunde Position im 52-Wochen-Band (65%)",
+        "Gesunde Position im 52-Wochen-Band (68%)"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -352,12 +354,12 @@
         "revenueCurrentYearEstimate": null,
         "revenueNextYearEstimate": null
       },
-      "daysUntil": 9,
+      "daysUntil": 8,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 22,
+          "delta": 24,
           "label": "Analystenschaetzungen"
         },
         {
@@ -373,7 +375,7 @@
       ],
       "chartDelta": 3,
       "newsDelta": 0,
-      "fundamentalDelta": 22,
+      "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
         "Zumtobel Group AG (WBO:ZAG) (Q1 2027) Earnings Call Highlights: Efficiency Gains Offset by ..."
@@ -386,20 +388,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 253,
+        "samples": 252,
         "last": 4,
-        "changeM1": 0.5,
-        "changeM3": -9.1,
-        "changeM6": -2.4,
+        "changeM1": 1.3,
+        "changeM3": -8.4,
+        "changeM6": -1.7,
         "sma50": 4,
         "sma200": 3.8,
-        "position52w": 65.2,
-        "drawdownFromHigh": -9.1,
-        "volatility20d": 20.1,
-        "volumeTrend": -10.7
+        "position52w": 67.8,
+        "drawdownFromHigh": -8.4,
+        "volatility20d": 20.5,
+        "volumeTrend": -7.8
       },
-      "scoreEvaluatedAt": "2026-09-16T09:23:44.160Z",
-      "scoreValidUntil": "2026-09-17T09:23:44.160Z"
+      "scoreEvaluatedAt": "2026-09-17T09:33:29.142Z",
+      "scoreValidUntil": "2026-09-18T09:33:29.142Z"
     }
   ],
   "estimateAttemptCount": 5,
