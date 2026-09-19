@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-18T09:05:47.400Z",
-  "nextRefreshAfter": "2026-09-19T09:05:47.400Z",
+  "updatedAt": "2026-09-19T08:53:01.397Z",
+  "nextRefreshAfter": "2026-09-20T08:53:01.397Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,10 +14,10 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 10,
+  "rawUpcomingCount": 7,
   "matchedUpcomingCount": 3,
   "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-09-18T08:20:09.552038Z",
+  "universeGeneratedAt": "2026-09-19T08:08:10.385613Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -30,8 +30,8 @@
       "companyKey": "ALIBABA",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 14,
-      "fundamentalScore": 14,
+      "baseScore": 16,
+      "fundamentalScore": 16,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": null,
       "fundamentalReasons": [
@@ -53,7 +53,7 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 4,
+      "daysUntil": 3,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -63,7 +63,7 @@
         },
         {
           "key": "CHART",
-          "delta": -12,
+          "delta": -10,
           "label": "Kursstruktur 1 Jahr"
         },
         {
@@ -72,15 +72,15 @@
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": -12,
+      "chartDelta": -10,
       "newsDelta": 0,
       "fundamentalDelta": -24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Alibaba Raised $10 Billion for AI While Sitting on $30 Billion in Cash. Here’s Where the Stock Could Go",
-        "China AI companies earn fraction of OpenAI, Anthropic revenue",
-        "Market Chatter: Microsoft-Backed OpenAI, Amazon-backed Anthropic Revenue Outpaces China's AI Startups, Research Firm Says",
-        "Asian Equities Traded in the US as American Depositary Receipts Edge Up in Wednesday Trading"
+        "OpenAI and Anthropic's Chinese Rivals Face a Revenue Reality Check",
+        "Asian Equities Traded in the US as American Depositary Receipts Decline in Friday Trading; Up Marginally for Week",
+        "Alibaba Climbs 3%, PDD and JD.com Tick Up: Is China Technology Finding Buyers Again?",
+        "Alibaba Raised $10 Billion for AI While Sitting on $30 Billion in Cash. Here’s Where the Stock Could Go"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -91,19 +91,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 108.5,
-        "changeM1": -15.3,
-        "changeM3": 1,
-        "changeM6": -19.3,
-        "sma50": 117.9,
-        "sma200": 133.5,
-        "position52w": 14.5,
-        "drawdownFromHigh": -42.7,
-        "volatility20d": 37.8,
-        "volumeTrend": -41.5
+        "last": 113.2,
+        "changeM1": -12.1,
+        "changeM3": 5.7,
+        "changeM6": -9.3,
+        "sma50": 118,
+        "sma200": 133.3,
+        "position52w": 19.5,
+        "drawdownFromHigh": -40.2,
+        "volatility20d": 41.5,
+        "volumeTrend": -37.2
       },
-      "scoreEvaluatedAt": "2026-09-18T09:05:47.400Z",
-      "scoreValidUntil": "2026-09-19T09:05:47.400Z"
+      "scoreEvaluatedAt": "2026-09-19T08:53:01.397Z",
+      "scoreValidUntil": "2026-09-20T08:53:01.397Z"
     },
     {
       "date": "2026-09-22",
@@ -115,9 +115,9 @@
       "companyKey": "KAINOS",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 85,
-      "fundamentalScore": 85,
-      "fundamentalConfidence": 0.764,
+      "baseScore": 88,
+      "fundamentalScore": 88,
+      "fundamentalConfidence": 0.766,
       "profitForecastPositive": null,
       "fundamentalReasons": [
         "Chart im Aufwaertstrend (Kurs > 50- > 200-Tage-Linie)",
@@ -138,7 +138,7 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 4,
+      "daysUntil": 3,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -148,11 +148,11 @@
         },
         {
           "key": "CHART",
-          "delta": 11,
+          "delta": 14,
           "label": "Kursstruktur 1 Jahr"
         }
       ],
-      "chartDelta": 11,
+      "chartDelta": 14,
       "newsDelta": 0,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
@@ -166,19 +166,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 253,
-        "last": 1223,
-        "changeM1": 3.1,
-        "changeM3": 54.5,
-        "changeM6": 64.4,
-        "sma50": 1022.3,
-        "sma200": 894.8,
-        "position52w": 88.1,
-        "drawdownFromHigh": -5.5,
-        "volatility20d": 32.1,
-        "volumeTrend": -37.5
+        "last": 1216,
+        "changeM1": 2.5,
+        "changeM3": 53.6,
+        "changeM6": 63.4,
+        "sma50": 1022.2,
+        "sma200": 894.7,
+        "position52w": 86.9,
+        "drawdownFromHigh": -6,
+        "volatility20d": 31.4,
+        "volumeTrend": -25.9
       },
-      "scoreEvaluatedAt": "2026-09-18T09:05:47.400Z",
-      "scoreValidUntil": "2026-09-19T09:05:47.400Z"
+      "scoreEvaluatedAt": "2026-09-19T08:53:01.397Z",
+      "scoreValidUntil": "2026-09-20T08:53:01.397Z"
     },
     {
       "date": "2026-09-25",
@@ -192,7 +192,7 @@
       "matchConfidence": 1,
       "baseScore": 77,
       "fundamentalScore": 77,
-      "fundamentalConfidence": 0.827,
+      "fundamentalConfidence": 0.874,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Wachstum ca. 43%",
@@ -209,7 +209,7 @@
         "revenueCurrentYearEstimate": null,
         "revenueNextYearEstimate": null
       },
-      "daysUntil": 7,
+      "daysUntil": 6,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
@@ -221,35 +221,42 @@
           "key": "CHART",
           "delta": 3,
           "label": "Kursstruktur 1 Jahr"
+        },
+        {
+          "key": "NEWS",
+          "delta": 0,
+          "label": "1 frische Meldungen"
         }
       ],
       "chartDelta": 3,
       "newsDelta": 0,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
-      "newsHeadlines": [],
+      "newsHeadlines": [
+        "Zumtobel Group AG (WBO:ZAG) (Q1 2027) Earnings Call Highlights: Efficiency Gains Offset by ..."
+      ],
       "dataQuality": {
         "zahlen": true,
         "chart": true,
-        "news": false
+        "news": true
       },
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 251,
+        "samples": 252,
         "last": 4,
-        "changeM1": 1.3,
-        "changeM3": -8.4,
-        "changeM6": -1.7,
+        "changeM1": 2,
+        "changeM3": -7.1,
+        "changeM6": 0.6,
         "sma50": 4,
         "sma200": 3.8,
         "position52w": 67.8,
         "drawdownFromHigh": -8.4,
-        "volatility20d": 20.5,
-        "volumeTrend": -7.8
+        "volatility20d": 20.7,
+        "volumeTrend": -45.5
       },
-      "scoreEvaluatedAt": "2026-09-18T09:05:47.400Z",
-      "scoreValidUntil": "2026-09-19T09:05:47.400Z"
+      "scoreEvaluatedAt": "2026-09-19T08:53:01.397Z",
+      "scoreValidUntil": "2026-09-20T08:53:01.397Z"
     }
   ],
   "estimateAttemptCount": 3,
@@ -257,7 +264,7 @@
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
   "chartProfileCount": 3,
-  "newsProfileCount": 1,
+  "newsProfileCount": 2,
   "neutralScoreCount": 0,
   "signalCoveredCount": 3
 }
