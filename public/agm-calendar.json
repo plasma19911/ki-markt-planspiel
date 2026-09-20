@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-19T08:53:01.397Z",
-  "nextRefreshAfter": "2026-09-20T08:53:01.397Z",
+  "updatedAt": "2026-09-20T09:22:33.912Z",
+  "nextRefreshAfter": "2026-09-21T09:22:33.912Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -17,7 +17,7 @@
   "rawUpcomingCount": 7,
   "matchedUpcomingCount": 3,
   "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-09-19T08:08:10.385613Z",
+  "universeGeneratedAt": "2026-09-20T08:40:24.699603Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -53,7 +53,7 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 3,
+      "daysUntil": 2,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -102,8 +102,8 @@
         "volatility20d": 41.5,
         "volumeTrend": -37.2
       },
-      "scoreEvaluatedAt": "2026-09-19T08:53:01.397Z",
-      "scoreValidUntil": "2026-09-20T08:53:01.397Z"
+      "scoreEvaluatedAt": "2026-09-20T09:22:33.912Z",
+      "scoreValidUntil": "2026-09-21T09:22:33.912Z"
     },
     {
       "date": "2026-09-22",
@@ -115,9 +115,9 @@
       "companyKey": "KAINOS",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 88,
-      "fundamentalScore": 88,
-      "fundamentalConfidence": 0.766,
+      "baseScore": 85,
+      "fundamentalScore": 85,
+      "fundamentalConfidence": 0.767,
       "profitForecastPositive": null,
       "fundamentalReasons": [
         "Chart im Aufwaertstrend (Kurs > 50- > 200-Tage-Linie)",
@@ -138,7 +138,7 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 3,
+      "daysUntil": 2,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -148,11 +148,11 @@
         },
         {
           "key": "CHART",
-          "delta": 14,
+          "delta": 11,
           "label": "Kursstruktur 1 Jahr"
         }
       ],
-      "chartDelta": 14,
+      "chartDelta": 11,
       "newsDelta": 0,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
@@ -165,20 +165,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 253,
-        "last": 1216,
-        "changeM1": 2.5,
-        "changeM3": 53.6,
-        "changeM6": 63.4,
-        "sma50": 1022.2,
-        "sma200": 894.7,
-        "position52w": 86.9,
-        "drawdownFromHigh": -6,
-        "volatility20d": 31.4,
+        "samples": 254,
+        "last": 1225,
+        "changeM1": 1,
+        "changeM3": 58,
+        "changeM6": 62.6,
+        "sma50": 1031.3,
+        "sma200": 895.6,
+        "position52w": 88.4,
+        "drawdownFromHigh": -5.3,
+        "volatility20d": 30.6,
         "volumeTrend": -25.9
       },
-      "scoreEvaluatedAt": "2026-09-19T08:53:01.397Z",
-      "scoreValidUntil": "2026-09-20T08:53:01.397Z"
+      "scoreEvaluatedAt": "2026-09-20T09:22:33.912Z",
+      "scoreValidUntil": "2026-09-21T09:22:33.912Z"
     },
     {
       "date": "2026-09-25",
@@ -190,9 +190,9 @@
       "companyKey": "ZUMTOBEL",
       "currency": "EUR",
       "matchConfidence": 1,
-      "baseScore": 77,
-      "fundamentalScore": 77,
-      "fundamentalConfidence": 0.874,
+      "baseScore": 84,
+      "fundamentalScore": 84,
+      "fundamentalConfidence": 0.895,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Wachstum ca. 43%",
@@ -209,8 +209,8 @@
         "revenueCurrentYearEstimate": null,
         "revenueNextYearEstimate": null
       },
-      "daysUntil": 6,
-      "baseLabel": "POSITIV",
+      "daysUntil": 5,
+      "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
@@ -219,7 +219,7 @@
         },
         {
           "key": "CHART",
-          "delta": 3,
+          "delta": 10,
           "label": "Kursstruktur 1 Jahr"
         },
         {
@@ -228,7 +228,7 @@
           "label": "1 frische Meldungen"
         }
       ],
-      "chartDelta": 3,
+      "chartDelta": 10,
       "newsDelta": 0,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
@@ -243,20 +243,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 252,
-        "last": 4,
-        "changeM1": 2,
-        "changeM3": -7.1,
-        "changeM6": 0.6,
+        "samples": 253,
+        "last": 4.1,
+        "changeM1": 2.8,
+        "changeM3": -2.9,
+        "changeM6": 2.8,
         "sma50": 4,
         "sma200": 3.8,
-        "position52w": 67.8,
-        "drawdownFromHigh": -8.4,
-        "volatility20d": 20.7,
+        "position52w": 70.4,
+        "drawdownFromHigh": -7.7,
+        "volatility20d": 20.8,
         "volumeTrend": -45.5
       },
-      "scoreEvaluatedAt": "2026-09-19T08:53:01.397Z",
-      "scoreValidUntil": "2026-09-20T08:53:01.397Z"
+      "scoreEvaluatedAt": "2026-09-20T09:22:33.912Z",
+      "scoreValidUntil": "2026-09-21T09:22:33.912Z"
     }
   ],
   "estimateAttemptCount": 3,
