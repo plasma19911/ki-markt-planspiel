@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-20T09:22:33.912Z",
-  "nextRefreshAfter": "2026-09-21T09:22:33.912Z",
+  "updatedAt": "2026-09-21T10:06:06.544Z",
+  "nextRefreshAfter": "2026-09-22T10:06:06.544Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,10 +14,10 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 7,
-  "matchedUpcomingCount": 3,
-  "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-09-20T08:40:24.699603Z",
+  "rawUpcomingCount": 12,
+  "matchedUpcomingCount": 5,
+  "fundamentalEstimateCount": 1,
+  "universeGeneratedAt": "2026-09-21T09:03:22.406080Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -53,7 +53,7 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 2,
+      "daysUntil": 1,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -77,10 +77,10 @@
       "fundamentalDelta": -24,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "Alibaba Burned RMB 44.73 Billion in Free Cash Flow Last Quarter. The Numbers Tell a Messier Story.",
         "OpenAI and Anthropic's Chinese Rivals Face a Revenue Reality Check",
         "Asian Equities Traded in the US as American Depositary Receipts Decline in Friday Trading; Up Marginally for Week",
-        "Alibaba Climbs 3%, PDD and JD.com Tick Up: Is China Technology Finding Buyers Again?",
-        "Alibaba Raised $10 Billion for AI While Sitting on $30 Billion in Cash. Here’s Where the Stock Could Go"
+        "Alibaba Climbs 3%, PDD and JD.com Tick Up: Is China Technology Finding Buyers Again?"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -102,8 +102,8 @@
         "volatility20d": 41.5,
         "volumeTrend": -37.2
       },
-      "scoreEvaluatedAt": "2026-09-20T09:22:33.912Z",
-      "scoreValidUntil": "2026-09-21T09:22:33.912Z"
+      "scoreEvaluatedAt": "2026-09-21T10:06:06.544Z",
+      "scoreValidUntil": "2026-09-22T10:06:06.544Z"
     },
     {
       "date": "2026-09-22",
@@ -138,7 +138,7 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 2,
+      "daysUntil": 1,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -165,20 +165,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 254,
-        "last": 1225,
-        "changeM1": 1,
-        "changeM3": 58,
-        "changeM6": 62.6,
-        "sma50": 1031.3,
-        "sma200": 895.6,
-        "position52w": 88.4,
-        "drawdownFromHigh": -5.3,
-        "volatility20d": 30.6,
-        "volumeTrend": -25.9
+        "samples": 253,
+        "last": 1232,
+        "changeM1": -2.7,
+        "changeM3": 56.5,
+        "changeM6": 69.6,
+        "sma50": 1040.5,
+        "sma200": 896.4,
+        "position52w": 89.6,
+        "drawdownFromHigh": -4.8,
+        "volatility20d": 26.4,
+        "volumeTrend": -27.2
       },
-      "scoreEvaluatedAt": "2026-09-20T09:22:33.912Z",
-      "scoreValidUntil": "2026-09-21T09:22:33.912Z"
+      "scoreEvaluatedAt": "2026-09-21T10:06:06.544Z",
+      "scoreValidUntil": "2026-09-22T10:06:06.544Z"
     },
     {
       "date": "2026-09-25",
@@ -192,7 +192,7 @@
       "matchConfidence": 1,
       "baseScore": 84,
       "fundamentalScore": 84,
-      "fundamentalConfidence": 0.895,
+      "fundamentalConfidence": 0.905,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Wachstum ca. 43%",
@@ -209,7 +209,7 @@
         "revenueCurrentYearEstimate": null,
         "revenueNextYearEstimate": null
       },
-      "daysUntil": 5,
+      "daysUntil": 4,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -243,7 +243,7 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 253,
+        "samples": 251,
         "last": 4.1,
         "changeM1": 2.8,
         "changeM3": -2.9,
@@ -255,16 +255,157 @@
         "volatility20d": 20.8,
         "volumeTrend": -45.5
       },
-      "scoreEvaluatedAt": "2026-09-20T09:22:33.912Z",
-      "scoreValidUntil": "2026-09-21T09:22:33.912Z"
+      "scoreEvaluatedAt": "2026-09-21T10:06:06.544Z",
+      "scoreValidUntil": "2026-09-22T10:06:06.544Z"
+    },
+    {
+      "date": "2026-09-29",
+      "sourceCompanyName": "BRANICKS Group AG (ex DIC Asset AG)",
+      "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/branicks_group",
+      "symbol": "DIC.VI",
+      "name": "Branicks Group AG",
+      "companyKey": "BRANICKS",
+      "currency": "EUR",
+      "matchConfidence": 1,
+      "baseScore": 34,
+      "fundamentalScore": 34,
+      "fundamentalConfidence": 0.503,
+      "profitForecastPositive": null,
+      "fundamentalReasons": [
+        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
+        "3-Monats-Trend -50%",
+        "Kurs faellt kurz vor der HV (-37% in 1 Monat)",
+        "Kurs nahe 52-Wochen-Tief"
+      ],
+      "fundamentals": {
+        "source": "Yahoo quote",
+        "epsTrailingTwelveMonths": null,
+        "epsForward": null,
+        "epsCurrentYear": null,
+        "averageAnalystRating": null,
+        "fiftyTwoWeekChange": null,
+        "forwardPE": null,
+        "trailingPE": null,
+        "marketCap": null
+      },
+      "daysUntil": 8,
+      "baseLabel": "VORSICHT",
+      "scoreParts": [
+        {
+          "key": "ZAHLEN",
+          "delta": 0,
+          "label": "Analystenschaetzungen"
+        },
+        {
+          "key": "CHART",
+          "delta": -16,
+          "label": "Kursstruktur 1 Jahr"
+        }
+      ],
+      "chartDelta": -16,
+      "newsDelta": 0,
+      "fundamentalDelta": 0,
+      "newsGuidance": 0,
+      "newsHeadlines": [],
+      "dataQuality": {
+        "zahlen": true,
+        "chart": true,
+        "news": false
+      },
+      "chart": {
+        "source": "Yahoo chart 1y/1d",
+        "currency": "EUR",
+        "samples": 252,
+        "last": 0.5,
+        "changeM1": -37,
+        "changeM3": -49.6,
+        "changeM6": -64.2,
+        "sma50": 0.8,
+        "sma200": 1.3,
+        "position52w": 0,
+        "drawdownFromHigh": -76.4,
+        "volatility20d": 80,
+        "volumeTrend": -56.5
+      },
+      "scoreEvaluatedAt": "2026-09-21T10:06:06.544Z",
+      "scoreValidUntil": "2026-09-22T10:06:06.544Z"
+    },
+    {
+      "date": "2026-10-01",
+      "sourceCompanyName": "AGL Energy LtdShs",
+      "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/agl_energy",
+      "symbol": "AGL.AX",
+      "name": "AGL Energy Limited",
+      "companyKey": "AGL ENERGY",
+      "currency": "AUD",
+      "matchConfidence": 0.84,
+      "baseScore": 30,
+      "fundamentalScore": 30,
+      "fundamentalConfidence": 0.701,
+      "profitForecastPositive": false,
+      "fundamentalReasons": [
+        "Analysten erwarten EPS-Rückgang ca. 16%",
+        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)"
+      ],
+      "fundamentals": {
+        "source": "finanzen.net Schätzungen",
+        "epsCurrentYearEstimate": 0.87,
+        "epsNextYearEstimate": 0.73,
+        "revenueCurrentYearEstimate": 13297.53,
+        "revenueNextYearEstimate": 13360.87
+      },
+      "daysUntil": 10,
+      "baseLabel": "VORSICHT",
+      "estimateUrl": "https://www.finanzen.net/schaetzungen/agl_energy",
+      "scoreParts": [
+        {
+          "key": "ZAHLEN",
+          "delta": -13,
+          "label": "Analystenschaetzungen"
+        },
+        {
+          "key": "CHART",
+          "delta": -7,
+          "label": "Kursstruktur 1 Jahr"
+        }
+      ],
+      "chartDelta": -7,
+      "newsDelta": 0,
+      "fundamentalDelta": -13,
+      "newsGuidance": 0,
+      "newsHeadlines": [],
+      "dataQuality": {
+        "zahlen": true,
+        "chart": true,
+        "news": false
+      },
+      "chart": {
+        "source": "Yahoo chart 1y/1d",
+        "currency": "AUD",
+        "samples": 254,
+        "last": 8.4,
+        "changeM1": -4.8,
+        "changeM3": -0.9,
+        "changeM6": -10.8,
+        "sma50": 8.5,
+        "sma200": 9,
+        "position52w": 13,
+        "drawdownFromHigh": -20.3,
+        "volatility20d": 17.9,
+        "volumeTrend": -24.7
+      },
+      "scoreEvaluatedAt": "2026-09-21T10:06:06.544Z",
+      "scoreValidUntil": "2026-09-22T10:06:06.544Z"
     }
   ],
-  "estimateAttemptCount": 3,
+  "estimateAttemptCount": 5,
   "scoreModelVersion": 27.7,
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
-  "chartProfileCount": 3,
+  "chartProfileCount": 5,
   "newsProfileCount": 2,
   "neutralScoreCount": 0,
-  "signalCoveredCount": 3
+  "signalCoveredCount": 5
 }
