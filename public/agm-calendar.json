@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-21T10:06:06.544Z",
-  "nextRefreshAfter": "2026-09-22T10:06:06.544Z",
+  "updatedAt": "2026-09-22T09:24:01.973Z",
+  "nextRefreshAfter": "2026-09-23T09:24:01.973Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -16,8 +16,8 @@
   "sourceErrors": [],
   "rawUpcomingCount": 12,
   "matchedUpcomingCount": 5,
-  "fundamentalEstimateCount": 1,
-  "universeGeneratedAt": "2026-09-21T09:03:22.406080Z",
+  "fundamentalEstimateCount": 0,
+  "universeGeneratedAt": "2026-09-22T08:37:53.553294Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -30,8 +30,8 @@
       "companyKey": "ALIBABA",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 16,
-      "fundamentalScore": 16,
+      "baseScore": 18,
+      "fundamentalScore": 18,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": null,
       "fundamentalReasons": [
@@ -53,7 +53,7 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 1,
+      "daysUntil": 0,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -68,19 +68,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 0,
+          "delta": 2,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": -10,
-      "newsDelta": 0,
+      "newsDelta": 2,
       "fundamentalDelta": -24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Alibaba Burned RMB 44.73 Billion in Free Cash Flow Last Quarter. The Numbers Tell a Messier Story.",
-        "OpenAI and Anthropic's Chinese Rivals Face a Revenue Reality Check",
-        "Asian Equities Traded in the US as American Depositary Receipts Decline in Friday Trading; Up Marginally for Week",
-        "Alibaba Climbs 3%, PDD and JD.com Tick Up: Is China Technology Finding Buyers Again?"
+        "Alibaba’s Zhenwu V900 Is China’s Answer to Nvidia’s Absence – and Export Controls Are the Reason It Exists",
+        "Alibaba Details New AI Chip, Sets Out Expansion Plans for Flagship Large Language Model",
+        "Stocks rise on AI buzz, oil prices cool",
+        "Nasdaq, S&P 500 Futures Pause After Record AI-Driven Rally: AMD, META, BABA, GME, HOOD, GRAB, VKTX Stocks In Focus"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -91,19 +91,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 113.2,
-        "changeM1": -12.1,
-        "changeM3": 5.7,
-        "changeM6": -9.3,
-        "sma50": 118,
-        "sma200": 133.3,
-        "position52w": 19.5,
-        "drawdownFromHigh": -40.2,
-        "volatility20d": 41.5,
-        "volumeTrend": -37.2
+        "last": 115.8,
+        "changeM1": -11.3,
+        "changeM3": 10.3,
+        "changeM6": -5.4,
+        "sma50": 118.1,
+        "sma200": 133.1,
+        "position52w": 22.2,
+        "drawdownFromHigh": -38.9,
+        "volatility20d": 42.2,
+        "volumeTrend": -34
       },
-      "scoreEvaluatedAt": "2026-09-21T10:06:06.544Z",
-      "scoreValidUntil": "2026-09-22T10:06:06.544Z"
+      "scoreEvaluatedAt": "2026-09-22T09:24:01.973Z",
+      "scoreValidUntil": "2026-09-23T09:24:01.973Z"
     },
     {
       "date": "2026-09-22",
@@ -138,7 +138,7 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 1,
+      "daysUntil": 0,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -165,20 +165,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
-        "samples": 253,
-        "last": 1232,
-        "changeM1": -2.7,
-        "changeM3": 56.5,
-        "changeM6": 69.6,
-        "sma50": 1040.5,
-        "sma200": 896.4,
-        "position52w": 89.6,
-        "drawdownFromHigh": -4.8,
+        "samples": 254,
+        "last": 1262,
+        "changeM1": -2.5,
+        "changeM3": 61.8,
+        "changeM6": 72.3,
+        "sma50": 1050.4,
+        "sma200": 897.3,
+        "position52w": 94.6,
+        "drawdownFromHigh": -2.5,
         "volatility20d": 26.4,
-        "volumeTrend": -27.2
+        "volumeTrend": -25.1
       },
-      "scoreEvaluatedAt": "2026-09-21T10:06:06.544Z",
-      "scoreValidUntil": "2026-09-22T10:06:06.544Z"
+      "scoreEvaluatedAt": "2026-09-22T09:24:01.973Z",
+      "scoreValidUntil": "2026-09-23T09:24:01.973Z"
     },
     {
       "date": "2026-09-25",
@@ -192,7 +192,7 @@
       "matchConfidence": 1,
       "baseScore": 84,
       "fundamentalScore": 84,
-      "fundamentalConfidence": 0.905,
+      "fundamentalConfidence": 0.829,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Wachstum ca. 43%",
@@ -209,7 +209,7 @@
         "revenueCurrentYearEstimate": null,
         "revenueNextYearEstimate": null
       },
-      "daysUntil": 4,
+      "daysUntil": 3,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -221,42 +221,35 @@
           "key": "CHART",
           "delta": 10,
           "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 0,
-          "label": "1 frische Meldungen"
         }
       ],
       "chartDelta": 10,
       "newsDelta": 0,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
-      "newsHeadlines": [
-        "Zumtobel Group AG (WBO:ZAG) (Q1 2027) Earnings Call Highlights: Efficiency Gains Offset by ..."
-      ],
+      "newsHeadlines": [],
       "dataQuality": {
         "zahlen": true,
         "chart": true,
-        "news": true
+        "news": false
       },
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 251,
+        "samples": 254,
         "last": 4.1,
-        "changeM1": 2.8,
-        "changeM3": -2.9,
-        "changeM6": 2.8,
+        "changeM1": 1.7,
+        "changeM3": 2.5,
+        "changeM6": 0.2,
         "sma50": 4,
         "sma200": 3.8,
-        "position52w": 70.4,
-        "drawdownFromHigh": -7.7,
-        "volatility20d": 20.8,
-        "volumeTrend": -45.5
+        "position52w": 73.9,
+        "drawdownFromHigh": -6.8,
+        "volatility20d": 19.5,
+        "volumeTrend": -66.9
       },
-      "scoreEvaluatedAt": "2026-09-21T10:06:06.544Z",
-      "scoreValidUntil": "2026-09-22T10:06:06.544Z"
+      "scoreEvaluatedAt": "2026-09-22T09:24:01.973Z",
+      "scoreValidUntil": "2026-09-23T09:24:01.973Z"
     },
     {
       "date": "2026-09-29",
@@ -268,15 +261,17 @@
       "companyKey": "BRANICKS",
       "currency": "EUR",
       "matchConfidence": 1,
-      "baseScore": 34,
-      "fundamentalScore": 34,
-      "fundamentalConfidence": 0.503,
+      "baseScore": 18,
+      "fundamentalScore": 18,
+      "fundamentalConfidence": 0.648,
       "profitForecastPositive": null,
       "fundamentalReasons": [
         "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
         "3-Monats-Trend -50%",
         "Kurs faellt kurz vor der HV (-37% in 1 Monat)",
-        "Kurs nahe 52-Wochen-Tief"
+        "Kurs nahe 52-Wochen-Tief",
+        "3-Monats-Trend -46%",
+        "Kurs faellt kurz vor der HV (-36% in 1 Monat)"
       ],
       "fundamentals": {
         "source": "Yahoo quote",
@@ -289,12 +284,12 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 8,
-      "baseLabel": "VORSICHT",
+      "daysUntil": 7,
+      "baseLabel": "NEGATIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 0,
+          "delta": -16,
           "label": "Analystenschaetzungen"
         },
         {
@@ -305,7 +300,7 @@
       ],
       "chartDelta": -16,
       "newsDelta": 0,
-      "fundamentalDelta": 0,
+      "fundamentalDelta": -16,
       "newsGuidance": 0,
       "newsHeadlines": [],
       "dataQuality": {
@@ -316,20 +311,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 252,
+        "samples": 254,
         "last": 0.5,
-        "changeM1": -37,
-        "changeM3": -49.6,
-        "changeM6": -64.2,
+        "changeM1": -35.8,
+        "changeM3": -46.4,
+        "changeM6": -62,
         "sma50": 0.8,
         "sma200": 1.3,
-        "position52w": 0,
-        "drawdownFromHigh": -76.4,
-        "volatility20d": 80,
+        "position52w": 1.9,
+        "drawdownFromHigh": -75,
+        "volatility20d": 83.3,
         "volumeTrend": -56.5
       },
-      "scoreEvaluatedAt": "2026-09-21T10:06:06.544Z",
-      "scoreValidUntil": "2026-09-22T10:06:06.544Z"
+      "scoreEvaluatedAt": "2026-09-22T09:24:01.973Z",
+      "scoreValidUntil": "2026-09-23T09:24:01.973Z"
     },
     {
       "date": "2026-10-01",
@@ -341,13 +336,14 @@
       "companyKey": "AGL ENERGY",
       "currency": "AUD",
       "matchConfidence": 0.84,
-      "baseScore": 30,
-      "fundamentalScore": 30,
-      "fundamentalConfidence": 0.701,
+      "baseScore": 20,
+      "fundamentalScore": 20,
+      "fundamentalConfidence": 0.737,
       "profitForecastPositive": false,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Rückgang ca. 16%",
-        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)"
+        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
+        "Kurs nahe 52-Wochen-Tief"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -356,24 +352,23 @@
         "revenueCurrentYearEstimate": 13297.53,
         "revenueNextYearEstimate": 13360.87
       },
-      "daysUntil": 10,
-      "baseLabel": "VORSICHT",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/agl_energy",
+      "daysUntil": 9,
+      "baseLabel": "NEGATIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -13,
+          "delta": -20,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -7,
+          "delta": -10,
           "label": "Kursstruktur 1 Jahr"
         }
       ],
-      "chartDelta": -7,
+      "chartDelta": -10,
       "newsDelta": 0,
-      "fundamentalDelta": -13,
+      "fundamentalDelta": -20,
       "newsGuidance": 0,
       "newsHeadlines": [],
       "dataQuality": {
@@ -384,20 +379,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "AUD",
-        "samples": 254,
-        "last": 8.4,
-        "changeM1": -4.8,
-        "changeM3": -0.9,
-        "changeM6": -10.8,
+        "samples": 255,
+        "last": 8.3,
+        "changeM1": -5.9,
+        "changeM3": -1.4,
+        "changeM6": -14.8,
         "sma50": 8.5,
         "sma200": 9,
-        "position52w": 13,
-        "drawdownFromHigh": -20.3,
-        "volatility20d": 17.9,
-        "volumeTrend": -24.7
+        "position52w": 5.3,
+        "drawdownFromHigh": -22.1,
+        "volatility20d": 19,
+        "volumeTrend": -25
       },
-      "scoreEvaluatedAt": "2026-09-21T10:06:06.544Z",
-      "scoreValidUntil": "2026-09-22T10:06:06.544Z"
+      "scoreEvaluatedAt": "2026-09-22T09:24:01.973Z",
+      "scoreValidUntil": "2026-09-23T09:24:01.973Z"
     }
   ],
   "estimateAttemptCount": 5,
@@ -405,7 +400,7 @@
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
   "chartProfileCount": 5,
-  "newsProfileCount": 2,
+  "newsProfileCount": 1,
   "neutralScoreCount": 0,
   "signalCoveredCount": 5
 }
