@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-23T09:24:56.803Z",
-  "nextRefreshAfter": "2026-09-24T09:24:56.803Z",
+  "updatedAt": "2026-09-24T09:24:49.419Z",
+  "nextRefreshAfter": "2026-09-25T09:24:49.419Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,73 +14,68 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 12,
-  "matchedUpcomingCount": 5,
-  "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-09-23T08:40:20.472209Z",
+  "rawUpcomingCount": 9,
+  "matchedUpcomingCount": 4,
+  "fundamentalEstimateCount": 1,
+  "universeGeneratedAt": "2026-09-24T08:33:11.563590Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
-      "date": "2026-09-22",
-      "sourceCompanyName": "Alibaba Group Holding Ltd Registered Shs",
+      "date": "2026-09-23",
+      "sourceCompanyName": "Darden Restaurants Inc.",
       "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/alibaba_group_3",
-      "symbol": "BABA",
-      "name": "Alibaba Group Holding Limited",
-      "companyKey": "ALIBABA",
+      "sourceHref": "https://www.finanzen.net/termine/darden_restaurants",
+      "symbol": "DRI",
+      "name": "Darden Restaurants, Inc.",
+      "companyKey": "DARDEN RESTAURANTS",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 16,
-      "fundamentalScore": 16,
-      "fundamentalConfidence": 0.92,
-      "profitForecastPositive": null,
+      "baseScore": 73,
+      "fundamentalScore": 73,
+      "fundamentalConfidence": 0.881,
+      "profitForecastPositive": true,
       "fundamentalReasons": [
-        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
-        "Kurs faellt kurz vor der HV (-13% in 1 Monat)",
-        "Kurs faellt kurz vor der HV (-11% in 1 Monat)",
-        "Kurs faellt kurz vor der HV (-12% in 1 Monat)",
-        "Kurs faellt kurz vor der HV (-14% in 1 Monat)",
-        "Kurs faellt kurz vor der HV (-15% in 1 Monat)"
+        "Analysten erwarten leicht höheres EPS (+10%)",
+        "Umsatzschätzung nächstes Jahr +6%",
+        "Chart im Aufwaertstrend (Kurs > 50- > 200-Tage-Linie)",
+        "Gesunde Position im 52-Wochen-Band (76%)"
       ],
       "fundamentals": {
-        "source": "Yahoo quote",
-        "epsTrailingTwelveMonths": null,
-        "epsForward": null,
-        "epsCurrentYear": null,
-        "averageAnalystRating": null,
-        "fiftyTwoWeekChange": null,
-        "forwardPE": null,
-        "trailingPE": null,
-        "marketCap": null
+        "source": "finanzen.net Schätzungen",
+        "epsCurrentYearEstimate": 11.29,
+        "epsNextYearEstimate": 12.42,
+        "revenueCurrentYearEstimate": 13691.46,
+        "revenueNextYearEstimate": 14520.31
       },
       "daysUntil": -1,
-      "baseLabel": "NEGATIV",
+      "baseLabel": "POSITIV",
+      "estimateUrl": "https://www.finanzen.net/schaetzungen/darden_restaurants",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -24,
+          "delta": 11,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -10,
+          "delta": 10,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": 0,
+          "delta": 2,
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": -10,
-      "newsDelta": 0,
-      "fundamentalDelta": -24,
+      "chartDelta": 10,
+      "newsDelta": 2,
+      "fundamentalDelta": 11,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Alibaba Cloud to Add Regions in Turkiye, Finland, Netherlands",
-        "Alibaba to Add Data Centers in Europe, Middle East in AI Push",
-        "Alibaba Group Holding (BABA) Is Up 6.4% After Major In-House AI Chip And Cloud Investment Push",
-        "Alibaba Just Unveiled an AI Chip 3x Faster Than Its Predecessor. Nvidia Has a China Problem to Watch"
+        "Trump-Xi Meeting, Costco Earnings: What to Watch the Rest of the Week",
+        "MU, SNDK Extend Slide For A Second Day As Memory Rally Fizzles: Micron Results Next Week To Test AI Demand",
+        "3 Stocks That Get Paid More When Memory Prices Rise. I'd Buy Only 1 of Them.",
+        "Darden Restaurants Shareholders Elect Board, Reject Disclosure Proposal"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -91,104 +86,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 250,
-        "last": 115.8,
-        "changeM1": -11.3,
-        "changeM3": 10.3,
-        "changeM6": -5.4,
-        "sma50": 118.1,
-        "sma200": 133.1,
-        "position52w": 22.2,
-        "drawdownFromHigh": -38.9,
-        "volatility20d": 42.2,
-        "volumeTrend": -26.9
+        "last": 213.7,
+        "changeM1": -3.6,
+        "changeM3": 1.5,
+        "changeM6": 9,
+        "sma50": 211.1,
+        "sma200": 203.2,
+        "position52w": 76.1,
+        "drawdownFromHigh": -6.1,
+        "volatility20d": 31.7,
+        "volumeTrend": 12.5
       },
-      "scoreEvaluatedAt": "2026-09-23T09:24:56.803Z",
-      "scoreValidUntil": "2026-09-24T09:24:56.803Z"
-    },
-    {
-      "date": "2026-09-22",
-      "sourceCompanyName": "Kainos Group PLC",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/kainos_group",
-      "symbol": "KNOS.L",
-      "name": "Kainos Group plc",
-      "companyKey": "KAINOS",
-      "currency": "GBp",
-      "matchConfidence": 1,
-      "baseScore": 86,
-      "fundamentalScore": 86,
-      "fundamentalConfidence": 0.92,
-      "profitForecastPositive": null,
-      "fundamentalReasons": [
-        "Chart im Aufwaertstrend (Kurs > 50- > 200-Tage-Linie)",
-        "3-Monats-Trend +46%",
-        "Gesunde Position im 52-Wochen-Band (84%)",
-        "Hohe Schwankung (83% p.a.)",
-        "3 positive von 10 frischen Meldungen",
-        "3-Monats-Trend +43%"
-      ],
-      "fundamentals": {
-        "source": "Yahoo quote",
-        "epsTrailingTwelveMonths": null,
-        "epsForward": null,
-        "epsCurrentYear": null,
-        "averageAnalystRating": null,
-        "fiftyTwoWeekChange": null,
-        "forwardPE": null,
-        "trailingPE": null,
-        "marketCap": null
-      },
-      "daysUntil": -1,
-      "baseLabel": "SEHR POSITIV",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": 24,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": 11,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 1,
-          "label": "10 frische Meldungen"
-        }
-      ],
-      "chartDelta": 11,
-      "newsDelta": 1,
-      "fundamentalDelta": 24,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "EIL secures $450m EPCM role for Dangote’s refinery in Kenya",
-        "Bernstein Initiates Amphenol at Outperform With $99 Price Target",
-        "IHCL opens new Ginger-branded hotel in Goa’s Arpora",
-        "Dollar at 2-month highs as Fed outlook 'dominant'"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "GBp",
-        "samples": 253,
-        "last": 1239.5,
-        "changeM1": -4.2,
-        "changeM3": 58.9,
-        "changeM6": 69.2,
-        "sma50": 1049.9,
-        "sma200": 897.2,
-        "position52w": 90.8,
-        "drawdownFromHigh": -4.2,
-        "volatility20d": 26.2,
-        "volumeTrend": -26.6
-      },
-      "scoreEvaluatedAt": "2026-09-23T09:24:56.803Z",
-      "scoreValidUntil": "2026-09-24T09:24:56.803Z"
+      "scoreEvaluatedAt": "2026-09-24T09:24:49.419Z",
+      "scoreValidUntil": "2026-09-25T09:24:49.419Z"
     },
     {
       "date": "2026-09-25",
@@ -202,7 +112,7 @@
       "matchConfidence": 1,
       "baseScore": 84,
       "fundamentalScore": 84,
-      "fundamentalConfidence": 0.795,
+      "fundamentalConfidence": 0.78,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Wachstum ca. 43%",
@@ -219,7 +129,7 @@
         "revenueCurrentYearEstimate": null,
         "revenueNextYearEstimate": null
       },
-      "daysUntil": 2,
+      "daysUntil": 1,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -248,18 +158,18 @@
         "currency": "EUR",
         "samples": 253,
         "last": 4.1,
-        "changeM1": 0.5,
-        "changeM3": 1.3,
-        "changeM6": -1,
+        "changeM1": 0.7,
+        "changeM3": 1.5,
+        "changeM6": 1.6,
         "sma50": 4,
         "sma200": 3.8,
         "position52w": 69.6,
         "drawdownFromHigh": -8,
-        "volatility20d": 19.1,
-        "volumeTrend": -67.7
+        "volatility20d": 20,
+        "volumeTrend": -69
       },
-      "scoreEvaluatedAt": "2026-09-23T09:24:56.803Z",
-      "scoreValidUntil": "2026-09-24T09:24:56.803Z"
+      "scoreEvaluatedAt": "2026-09-24T09:24:49.419Z",
+      "scoreValidUntil": "2026-09-25T09:24:49.419Z"
     },
     {
       "date": "2026-09-29",
@@ -273,7 +183,7 @@
       "matchConfidence": 1,
       "baseScore": 10,
       "fundamentalScore": 10,
-      "fundamentalConfidence": 0.714,
+      "fundamentalConfidence": 0.743,
       "profitForecastPositive": null,
       "fundamentalReasons": [
         "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
@@ -294,7 +204,7 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 6,
+      "daysUntil": 5,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -321,20 +231,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 253,
+        "samples": 254,
         "last": 0.6,
-        "changeM1": -27.7,
-        "changeM3": -39.7,
-        "changeM6": -57.2,
+        "changeM1": -13.4,
+        "changeM3": -35,
+        "changeM6": -51.4,
         "sma50": 0.8,
         "sma200": 1.3,
-        "position52w": 6.1,
-        "drawdownFromHigh": -71.8,
-        "volatility20d": 107.7,
+        "position52w": 9.6,
+        "drawdownFromHigh": -69,
+        "volatility20d": 108.7,
         "volumeTrend": -56.5
       },
-      "scoreEvaluatedAt": "2026-09-23T09:24:56.803Z",
-      "scoreValidUntil": "2026-09-24T09:24:56.803Z"
+      "scoreEvaluatedAt": "2026-09-24T09:24:49.419Z",
+      "scoreValidUntil": "2026-09-25T09:24:49.419Z"
     },
     {
       "date": "2026-10-01",
@@ -348,7 +258,7 @@
       "matchConfidence": 0.84,
       "baseScore": 16,
       "fundamentalScore": 16,
-      "fundamentalConfidence": 0.754,
+      "fundamentalConfidence": 0.761,
       "profitForecastPositive": false,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Rückgang ca. 16%",
@@ -362,7 +272,7 @@
         "revenueCurrentYearEstimate": 13297.53,
         "revenueNextYearEstimate": 13360.87
       },
-      "daysUntil": 8,
+      "daysUntil": 7,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -391,26 +301,26 @@
         "currency": "AUD",
         "samples": 255,
         "last": 8.2,
-        "changeM1": -4.2,
-        "changeM3": -2.5,
-        "changeM6": -15.9,
+        "changeM1": -5.7,
+        "changeM3": -2,
+        "changeM6": -16.7,
         "sma50": 8.5,
         "sma200": 9,
-        "position52w": 3.2,
-        "drawdownFromHigh": -22.5,
-        "volatility20d": 17.4,
-        "volumeTrend": -22.7
+        "position52w": 1.2,
+        "drawdownFromHigh": -23,
+        "volatility20d": 17,
+        "volumeTrend": -21.8
       },
-      "scoreEvaluatedAt": "2026-09-23T09:24:56.803Z",
-      "scoreValidUntil": "2026-09-24T09:24:56.803Z"
+      "scoreEvaluatedAt": "2026-09-24T09:24:49.419Z",
+      "scoreValidUntil": "2026-09-25T09:24:49.419Z"
     }
   ],
-  "estimateAttemptCount": 5,
+  "estimateAttemptCount": 4,
   "scoreModelVersion": 27.7,
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
-  "chartProfileCount": 5,
-  "newsProfileCount": 2,
+  "chartProfileCount": 4,
+  "newsProfileCount": 1,
   "neutralScoreCount": 0,
-  "signalCoveredCount": 5
+  "signalCoveredCount": 4
 }
