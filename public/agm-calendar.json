@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-25T09:42:41.414Z",
-  "nextRefreshAfter": "2026-09-26T09:42:41.414Z",
+  "updatedAt": "2026-09-26T09:26:45.755Z",
+  "nextRefreshAfter": "2026-09-27T09:26:45.755Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,10 +14,10 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 7,
+  "rawUpcomingCount": 6,
   "matchedUpcomingCount": 3,
   "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-09-25T08:54:39.414469Z",
+  "universeGeneratedAt": "2026-09-26T08:41:24.645094Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -32,7 +32,7 @@
       "matchConfidence": 1,
       "baseScore": 86,
       "fundamentalScore": 86,
-      "fundamentalConfidence": 0.773,
+      "fundamentalConfidence": 0.77,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Wachstum ca. 43%",
@@ -49,7 +49,7 @@
         "revenueCurrentYearEstimate": null,
         "revenueNextYearEstimate": null
       },
-      "daysUntil": 0,
+      "daysUntil": -1,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -78,18 +78,18 @@
         "currency": "EUR",
         "samples": 254,
         "last": 4.2,
-        "changeM1": 3.7,
-        "changeM3": 6,
-        "changeM6": 9.8,
+        "changeM1": 2.7,
+        "changeM3": 5,
+        "changeM6": 8.8,
         "sma50": 4,
         "sma200": 3.9,
-        "position52w": 86.1,
-        "drawdownFromHigh": -3.6,
-        "volatility20d": 23.2,
-        "volumeTrend": -57.6
+        "position52w": 82.6,
+        "drawdownFromHigh": -4.5,
+        "volatility20d": 21.7,
+        "volumeTrend": -37.7
       },
-      "scoreEvaluatedAt": "2026-09-25T09:42:41.414Z",
-      "scoreValidUntil": "2026-09-26T09:42:41.414Z"
+      "scoreEvaluatedAt": "2026-09-26T09:26:45.755Z",
+      "scoreValidUntil": "2026-09-27T09:26:45.755Z"
     },
     {
       "date": "2026-09-29",
@@ -103,7 +103,7 @@
       "matchConfidence": 1,
       "baseScore": 10,
       "fundamentalScore": 10,
-      "fundamentalConfidence": 0.756,
+      "fundamentalConfidence": 0.762,
       "profitForecastPositive": null,
       "fundamentalReasons": [
         "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
@@ -124,7 +124,7 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 4,
+      "daysUntil": 3,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -163,8 +163,8 @@
         "volatility20d": 90.1,
         "volumeTrend": -56.6
       },
-      "scoreEvaluatedAt": "2026-09-25T09:42:41.414Z",
-      "scoreValidUntil": "2026-09-26T09:42:41.414Z"
+      "scoreEvaluatedAt": "2026-09-26T09:26:45.755Z",
+      "scoreValidUntil": "2026-09-27T09:26:45.755Z"
     },
     {
       "date": "2026-10-01",
@@ -178,7 +178,7 @@
       "matchConfidence": 0.84,
       "baseScore": 16,
       "fundamentalScore": 16,
-      "fundamentalConfidence": 0.764,
+      "fundamentalConfidence": 0.766,
       "profitForecastPositive": false,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Rückgang ca. 16%",
@@ -192,7 +192,7 @@
         "revenueCurrentYearEstimate": 13297.53,
         "revenueNextYearEstimate": 13360.87
       },
-      "daysUntil": 6,
+      "daysUntil": 5,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -229,10 +229,10 @@
         "position52w": 0,
         "drawdownFromHigh": -24.4,
         "volatility20d": 17.8,
-        "volumeTrend": -21.1
+        "volumeTrend": -21
       },
-      "scoreEvaluatedAt": "2026-09-25T09:42:41.414Z",
-      "scoreValidUntil": "2026-09-26T09:42:41.414Z"
+      "scoreEvaluatedAt": "2026-09-26T09:26:45.755Z",
+      "scoreValidUntil": "2026-09-27T09:26:45.755Z"
     }
   ],
   "estimateAttemptCount": 3,
