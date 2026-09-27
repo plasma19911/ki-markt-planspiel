@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-26T09:26:45.755Z",
-  "nextRefreshAfter": "2026-09-27T09:26:45.755Z",
+  "updatedAt": "2026-09-27T10:06:20.104Z",
+  "nextRefreshAfter": "2026-09-28T10:06:20.104Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,83 +14,12 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 6,
-  "matchedUpcomingCount": 3,
+  "rawUpcomingCount": 5,
+  "matchedUpcomingCount": 2,
   "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-09-26T08:41:24.645094Z",
+  "universeGeneratedAt": "2026-09-27T09:21:11.773964Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
-    {
-      "date": "2026-09-25",
-      "sourceCompanyName": "ZUMTOBEL AG",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/zumtobel",
-      "symbol": "ZAG.VI",
-      "name": "Zumtobel Group AG",
-      "companyKey": "ZUMTOBEL",
-      "currency": "EUR",
-      "matchConfidence": 1,
-      "baseScore": 86,
-      "fundamentalScore": 86,
-      "fundamentalConfidence": 0.77,
-      "profitForecastPositive": true,
-      "fundamentalReasons": [
-        "Analysten erwarten EPS-Wachstum ca. 43%",
-        "Kurs ueber der 200-Tage-Linie",
-        "Gesunde Position im 52-Wochen-Band (62%)",
-        "Gesunde Position im 52-Wochen-Band (59%)",
-        "Gesunde Position im 52-Wochen-Band (65%)",
-        "Gesunde Position im 52-Wochen-Band (68%)"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 0.51,
-        "epsNextYearEstimate": 0.73,
-        "revenueCurrentYearEstimate": null,
-        "revenueNextYearEstimate": null
-      },
-      "daysUntil": -1,
-      "baseLabel": "SEHR POSITIV",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": 24,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": 12,
-          "label": "Kursstruktur 1 Jahr"
-        }
-      ],
-      "chartDelta": 12,
-      "newsDelta": 0,
-      "fundamentalDelta": 24,
-      "newsGuidance": 0,
-      "newsHeadlines": [],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": false
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "EUR",
-        "samples": 254,
-        "last": 4.2,
-        "changeM1": 2.7,
-        "changeM3": 5,
-        "changeM6": 8.8,
-        "sma50": 4,
-        "sma200": 3.9,
-        "position52w": 82.6,
-        "drawdownFromHigh": -4.5,
-        "volatility20d": 21.7,
-        "volumeTrend": -37.7
-      },
-      "scoreEvaluatedAt": "2026-09-26T09:26:45.755Z",
-      "scoreValidUntil": "2026-09-27T09:26:45.755Z"
-    },
     {
       "date": "2026-09-29",
       "sourceCompanyName": "BRANICKS Group AG (ex DIC Asset AG)",
@@ -103,7 +32,7 @@
       "matchConfidence": 1,
       "baseScore": 10,
       "fundamentalScore": 10,
-      "fundamentalConfidence": 0.762,
+      "fundamentalConfidence": 0.765,
       "profitForecastPositive": null,
       "fundamentalReasons": [
         "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
@@ -124,7 +53,7 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 3,
+      "daysUntil": 2,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -163,8 +92,8 @@
         "volatility20d": 90.1,
         "volumeTrend": -56.6
       },
-      "scoreEvaluatedAt": "2026-09-26T09:26:45.755Z",
-      "scoreValidUntil": "2026-09-27T09:26:45.755Z"
+      "scoreEvaluatedAt": "2026-09-27T10:06:20.104Z",
+      "scoreValidUntil": "2026-09-28T10:06:20.104Z"
     },
     {
       "date": "2026-10-01",
@@ -178,7 +107,7 @@
       "matchConfidence": 0.84,
       "baseScore": 16,
       "fundamentalScore": 16,
-      "fundamentalConfidence": 0.766,
+      "fundamentalConfidence": 0.767,
       "profitForecastPositive": false,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Rückgang ca. 16%",
@@ -192,7 +121,7 @@
         "revenueCurrentYearEstimate": 13297.53,
         "revenueNextYearEstimate": 13360.87
       },
-      "daysUntil": 5,
+      "daysUntil": 4,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -231,16 +160,16 @@
         "volatility20d": 17.8,
         "volumeTrend": -21
       },
-      "scoreEvaluatedAt": "2026-09-26T09:26:45.755Z",
-      "scoreValidUntil": "2026-09-27T09:26:45.755Z"
+      "scoreEvaluatedAt": "2026-09-27T10:06:20.104Z",
+      "scoreValidUntil": "2026-09-28T10:06:20.104Z"
     }
   ],
-  "estimateAttemptCount": 3,
+  "estimateAttemptCount": 2,
   "scoreModelVersion": 27.7,
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
-  "chartProfileCount": 3,
+  "chartProfileCount": 2,
   "newsProfileCount": 0,
   "neutralScoreCount": 0,
-  "signalCoveredCount": 3
+  "signalCoveredCount": 2
 }
