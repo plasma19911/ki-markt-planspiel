@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-28T11:06:09.369Z",
-  "nextRefreshAfter": "2026-09-29T11:06:09.369Z",
+  "updatedAt": "2026-09-29T10:48:43.525Z",
+  "nextRefreshAfter": "2026-09-30T10:48:43.525Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -17,7 +17,7 @@
   "rawUpcomingCount": 8,
   "matchedUpcomingCount": 2,
   "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-09-28T09:54:36.932324Z",
+  "universeGeneratedAt": "2026-09-29T09:56:00.003078Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -32,7 +32,7 @@
       "matchConfidence": 1,
       "baseScore": 10,
       "fundamentalScore": 10,
-      "fundamentalConfidence": 0.766,
+      "fundamentalConfidence": 0.767,
       "profitForecastPositive": null,
       "fundamentalReasons": [
         "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
@@ -53,7 +53,7 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 1,
+      "daysUntil": 0,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -80,20 +80,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "EUR",
-        "samples": 253,
+        "samples": 254,
         "last": 0.6,
-        "changeM1": -28.6,
-        "changeM3": -44.7,
-        "changeM6": -59.6,
+        "changeM1": -11.4,
+        "changeM3": -43.5,
+        "changeM6": -60.8,
         "sma50": 0.7,
         "sma200": 1.3,
-        "position52w": 3.6,
-        "drawdownFromHigh": -73.6,
-        "volatility20d": 90.3,
+        "position52w": 4.1,
+        "drawdownFromHigh": -73.2,
+        "volatility20d": 65.8,
         "volumeTrend": -56.5
       },
-      "scoreEvaluatedAt": "2026-09-28T11:06:09.369Z",
-      "scoreValidUntil": "2026-09-29T11:06:09.369Z"
+      "scoreEvaluatedAt": "2026-09-29T10:48:43.525Z",
+      "scoreValidUntil": "2026-09-30T10:48:43.525Z"
     },
     {
       "date": "2026-10-01",
@@ -121,7 +121,7 @@
         "revenueCurrentYearEstimate": 13297.53,
         "revenueNextYearEstimate": 13360.87
       },
-      "daysUntil": 3,
+      "daysUntil": 2,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -148,20 +148,20 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "AUD",
-        "samples": 254,
+        "samples": 255,
         "last": 8.1,
-        "changeM1": -4.9,
-        "changeM3": -3.2,
-        "changeM6": -17.6,
+        "changeM1": -6.1,
+        "changeM3": -2.8,
+        "changeM6": -18.7,
         "sma50": 8.5,
         "sma200": 9,
-        "position52w": 4.2,
-        "drawdownFromHigh": -23.4,
-        "volatility20d": 18.7,
-        "volumeTrend": -18.5
+        "position52w": 1.9,
+        "drawdownFromHigh": -24,
+        "volatility20d": 18.6,
+        "volumeTrend": -22.5
       },
-      "scoreEvaluatedAt": "2026-09-28T11:06:09.369Z",
-      "scoreValidUntil": "2026-09-29T11:06:09.369Z"
+      "scoreEvaluatedAt": "2026-09-29T10:48:43.525Z",
+      "scoreValidUntil": "2026-09-30T10:48:43.525Z"
     }
   ],
   "estimateAttemptCount": 2,
