@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-09-30T10:36:28.820Z",
-  "nextRefreshAfter": "2026-10-01T10:36:28.820Z",
+  "updatedAt": "2026-10-01T11:04:23.774Z",
+  "nextRefreshAfter": "2026-10-02T11:04:23.774Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,87 +14,12 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 8,
-  "matchedUpcomingCount": 2,
+  "rawUpcomingCount": 6,
+  "matchedUpcomingCount": 1,
   "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-09-30T09:48:08.778960Z",
+  "universeGeneratedAt": "2026-10-01T10:14:54.128487Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
-    {
-      "date": "2026-09-29",
-      "sourceCompanyName": "BRANICKS Group AG (ex DIC Asset AG)",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/branicks_group",
-      "symbol": "DIC.VI",
-      "name": "Branicks Group AG",
-      "companyKey": "BRANICKS",
-      "currency": "EUR",
-      "matchConfidence": 1,
-      "baseScore": 10,
-      "fundamentalScore": 10,
-      "fundamentalConfidence": 0.767,
-      "profitForecastPositive": null,
-      "fundamentalReasons": [
-        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
-        "3-Monats-Trend -50%",
-        "Kurs faellt kurz vor der HV (-37% in 1 Monat)",
-        "Kurs nahe 52-Wochen-Tief",
-        "3-Monats-Trend -46%",
-        "Kurs faellt kurz vor der HV (-36% in 1 Monat)"
-      ],
-      "fundamentals": {
-        "source": "Yahoo quote",
-        "epsTrailingTwelveMonths": null,
-        "epsForward": null,
-        "epsCurrentYear": null,
-        "averageAnalystRating": null,
-        "fiftyTwoWeekChange": null,
-        "forwardPE": null,
-        "trailingPE": null,
-        "marketCap": null
-      },
-      "daysUntil": -1,
-      "baseLabel": "NEGATIV",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": -24,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": -16,
-          "label": "Kursstruktur 1 Jahr"
-        }
-      ],
-      "chartDelta": -16,
-      "newsDelta": 0,
-      "fundamentalDelta": -24,
-      "newsGuidance": 0,
-      "newsHeadlines": [],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": false
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "EUR",
-        "samples": 254,
-        "last": 0.5,
-        "changeM1": -16.4,
-        "changeM3": -47.1,
-        "changeM6": -62.9,
-        "sma50": 0.7,
-        "sma200": 1.3,
-        "position52w": 2.4,
-        "drawdownFromHigh": -74.5,
-        "volatility20d": 67.6,
-        "volumeTrend": -56.5
-      },
-      "scoreEvaluatedAt": "2026-09-30T10:36:28.820Z",
-      "scoreValidUntil": "2026-10-01T10:36:28.820Z"
-    },
     {
       "date": "2026-10-01",
       "sourceCompanyName": "AGL Energy LtdShs",
@@ -121,7 +46,7 @@
         "revenueCurrentYearEstimate": 13297.53,
         "revenueNextYearEstimate": 13360.87
       },
-      "daysUntil": 1,
+      "daysUntil": 0,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -149,27 +74,27 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "AUD",
         "samples": 255,
-        "last": 8.2,
-        "changeM1": -5.9,
-        "changeM3": -1.8,
-        "changeM6": -17.6,
+        "last": 8.1,
+        "changeM1": -7.8,
+        "changeM3": -3.7,
+        "changeM6": -18,
         "sma50": 8.5,
         "sma200": 9,
-        "position52w": 6.2,
-        "drawdownFromHigh": -22.9,
-        "volatility20d": 18.8,
-        "volumeTrend": -23.5
+        "position52w": 2.3,
+        "drawdownFromHigh": -23.9,
+        "volatility20d": 18.6,
+        "volumeTrend": -24.5
       },
-      "scoreEvaluatedAt": "2026-09-30T10:36:28.820Z",
-      "scoreValidUntil": "2026-10-01T10:36:28.820Z"
+      "scoreEvaluatedAt": "2026-10-01T11:04:23.774Z",
+      "scoreValidUntil": "2026-10-02T11:04:23.774Z"
     }
   ],
-  "estimateAttemptCount": 2,
+  "estimateAttemptCount": 1,
   "scoreModelVersion": 27.7,
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
-  "chartProfileCount": 2,
+  "chartProfileCount": 1,
   "newsProfileCount": 0,
   "neutralScoreCount": 0,
-  "signalCoveredCount": 2
+  "signalCoveredCount": 1
 }
