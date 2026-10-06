@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-10-05T11:42:11.751Z",
-  "nextRefreshAfter": "2026-10-06T11:42:11.751Z",
+  "updatedAt": "2026-10-06T11:24:06.151Z",
+  "nextRefreshAfter": "2026-10-07T11:24:06.151Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -16,87 +16,12 @@
   "sourceErrors": [],
   "rawUpcomingCount": 10,
   "matchedUpcomingCount": 6,
-  "fundamentalEstimateCount": 5,
-  "universeGeneratedAt": "2026-10-05T10:35:06.522933Z",
+  "fundamentalEstimateCount": 1,
+  "universeGeneratedAt": "2026-10-06T10:26:46.160055Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
-      "date": "2026-10-13",
-      "sourceCompanyName": "Origin Energy Ltd.",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/origin_energy",
-      "symbol": "ORG.AX",
-      "name": "Origin Energy Limited",
-      "companyKey": "ORIGIN ENERGY",
-      "currency": "AUD",
-      "matchConfidence": 1,
-      "baseScore": 41,
-      "fundamentalScore": 41,
-      "fundamentalConfidence": 0.781,
-      "profitForecastPositive": false,
-      "fundamentalReasons": [
-        "Analysten erwarten leicht rückläufiges EPS",
-        "Kurs unter der 200-Tage-Linie"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 0.66,
-        "epsNextYearEstimate": 0.6,
-        "revenueCurrentYearEstimate": 15401.93,
-        "revenueNextYearEstimate": 15316.77
-      },
-      "daysUntil": 8,
-      "baseLabel": "VORSICHT",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/origin_energy",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": -6,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": -3,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 0,
-          "label": "1 frische Meldungen"
-        }
-      ],
-      "chartDelta": -3,
-      "newsDelta": 0,
-      "fundamentalDelta": -6,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "3 Dividend Stocks That Could Hold Up Better As Rates Stay Higher"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "AUD",
-        "samples": 255,
-        "last": 10.9,
-        "changeM1": -3,
-        "changeM3": 3.4,
-        "changeM6": -12.1,
-        "sma50": 11.4,
-        "sma200": 11.4,
-        "position52w": 27.7,
-        "drawdownFromHigh": -14.9,
-        "volatility20d": 22.8,
-        "volumeTrend": -28.9
-      },
-      "scoreEvaluatedAt": "2026-10-05T11:42:11.751Z",
-      "scoreValidUntil": "2026-10-06T11:42:11.751Z"
-    },
-    {
-      "date": "2026-10-13",
+      "date": "2026-10-12",
       "sourceCompanyName": "Telstra Corp. Ltd.",
       "source": "finanzen.net Hauptversammlung",
       "sourceHref": "https://www.finanzen.net/termine/telstra",
@@ -120,7 +45,7 @@
         "revenueCurrentYearEstimate": 23578.3,
         "revenueNextYearEstimate": 23944.68
       },
-      "daysUntil": 8,
+      "daysUntil": 6,
       "baseLabel": "NEUTRAL",
       "estimateUrl": "https://www.finanzen.net/schaetzungen/telstra",
       "scoreParts": [
@@ -159,100 +84,21 @@
         "currency": "USD",
         "samples": 251,
         "last": 16.8,
-        "changeM1": -2.5,
-        "changeM3": -3.1,
-        "changeM6": -10.6,
+        "changeM1": -1.5,
+        "changeM3": -3.8,
+        "changeM6": -11.1,
         "sma50": 17.1,
         "sma200": 17.7,
-        "position52w": 26.4,
-        "drawdownFromHigh": -15.3,
-        "volatility20d": 12,
-        "volumeTrend": -10.2
+        "position52w": 27.6,
+        "drawdownFromHigh": -15.1,
+        "volatility20d": 11.9,
+        "volumeTrend": -9.3
       },
-      "scoreEvaluatedAt": "2026-10-05T11:42:11.751Z",
-      "scoreValidUntil": "2026-10-06T11:42:11.751Z"
+      "scoreEvaluatedAt": "2026-10-06T11:24:06.151Z",
+      "scoreValidUntil": "2026-10-07T11:24:06.151Z"
     },
     {
       "date": "2026-10-13",
-      "sourceCompanyName": "Procter & Gamble Co.",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/procter_gamble",
-      "symbol": "PG",
-      "name": "The Procter & Gamble Company",
-      "companyKey": "PROCTER GAMBLE",
-      "currency": "USD",
-      "matchConfidence": 1,
-      "baseScore": 52,
-      "fundamentalScore": 52,
-      "fundamentalConfidence": 0.881,
-      "profitForecastPositive": true,
-      "fundamentalReasons": [
-        "Analysten erwarten leicht höheres EPS (+6%)",
-        "Umsatzschätzung nächstes Jahr +3%",
-        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 6.97,
-        "epsNextYearEstimate": 7.39,
-        "revenueCurrentYearEstimate": 88734.51,
-        "revenueNextYearEstimate": 91283
-      },
-      "daysUntil": 8,
-      "baseLabel": "NEUTRAL",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/procter_gamble",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": 9,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": -7,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 0,
-          "label": "10 frische Meldungen"
-        }
-      ],
-      "chartDelta": -7,
-      "newsDelta": 0,
-      "fundamentalDelta": 9,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "Jim Cramer Flags PepsiCo’s (PEP) Frito-Lay Problem While Pointing to Procter & Gamble (PG)",
-        "Municipal Bonds vs Dividend Stocks: Which Income Actually Keeps More of Your Money?",
-        "This 3-Stock Roth Portfolio Pays $25,849 a Year Without a Federal Tax Bill",
-        "KMB vs. PG: 54 and 70 Straight Years of Raises. Only One Covers Its Dividend Comfortably"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "USD",
-        "samples": 251,
-        "last": 144.9,
-        "changeM1": -1.8,
-        "changeM3": -2.9,
-        "changeM6": 1.3,
-        "sma50": 145.7,
-        "sma200": 147.6,
-        "position52w": 23.6,
-        "drawdownFromHigh": -13.3,
-        "volatility20d": 16.6,
-        "volumeTrend": -20.2
-      },
-      "scoreEvaluatedAt": "2026-10-05T11:42:11.751Z",
-      "scoreValidUntil": "2026-10-06T11:42:11.751Z"
-    },
-    {
-      "date": "2026-10-14",
       "sourceCompanyName": "Origin Energy Ltd.",
       "source": "finanzen.net Hauptversammlung",
       "sourceHref": "https://www.finanzen.net/termine/origin_energy",
@@ -261,9 +107,9 @@
       "companyKey": "ORIGIN ENERGY",
       "currency": "AUD",
       "matchConfidence": 1,
-      "baseScore": 41,
-      "fundamentalScore": 41,
-      "fundamentalConfidence": 0.781,
+      "baseScore": 40,
+      "fundamentalScore": 40,
+      "fundamentalConfidence": 0.853,
       "profitForecastPositive": false,
       "fundamentalReasons": [
         "Analysten erwarten leicht rückläufiges EPS",
@@ -276,18 +122,17 @@
         "revenueCurrentYearEstimate": 15401.93,
         "revenueNextYearEstimate": 15316.77
       },
-      "daysUntil": 9,
+      "daysUntil": 7,
       "baseLabel": "VORSICHT",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/origin_energy",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -6,
+          "delta": -9,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -3,
+          "delta": -1,
           "label": "Kursstruktur 1 Jahr"
         },
         {
@@ -296,9 +141,9 @@
           "label": "1 frische Meldungen"
         }
       ],
-      "chartDelta": -3,
+      "chartDelta": -1,
       "newsDelta": 0,
-      "fundamentalDelta": -6,
+      "fundamentalDelta": -9,
       "newsGuidance": 0,
       "newsHeadlines": [
         "3 Dividend Stocks That Could Hold Up Better As Rates Stay Higher"
@@ -311,20 +156,174 @@
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "AUD",
-        "samples": 255,
-        "last": 10.9,
-        "changeM1": -3,
-        "changeM3": 3.4,
-        "changeM6": -12.1,
+        "samples": 256,
+        "last": 11,
+        "changeM1": -2.7,
+        "changeM3": 5.2,
+        "changeM6": -11,
         "sma50": 11.4,
         "sma200": 11.4,
-        "position52w": 27.7,
-        "drawdownFromHigh": -14.9,
-        "volatility20d": 22.8,
-        "volumeTrend": -28.9
+        "position52w": 32.6,
+        "drawdownFromHigh": -13.9,
+        "volatility20d": 23,
+        "volumeTrend": -32.1
       },
-      "scoreEvaluatedAt": "2026-10-05T11:42:11.751Z",
-      "scoreValidUntil": "2026-10-06T11:42:11.751Z"
+      "scoreEvaluatedAt": "2026-10-06T11:24:06.151Z",
+      "scoreValidUntil": "2026-10-07T11:24:06.151Z"
+    },
+    {
+      "date": "2026-10-13",
+      "sourceCompanyName": "Procter & Gamble Co.",
+      "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/procter_gamble",
+      "symbol": "PG",
+      "name": "The Procter & Gamble Company",
+      "companyKey": "PROCTER GAMBLE",
+      "currency": "USD",
+      "matchConfidence": 1,
+      "baseScore": 53,
+      "fundamentalScore": 53,
+      "fundamentalConfidence": 0.92,
+      "profitForecastPositive": true,
+      "fundamentalReasons": [
+        "Analysten erwarten leicht höheres EPS (+6%)",
+        "Umsatzschätzung nächstes Jahr +3%",
+        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
+        "Kurs unter der 200-Tage-Linie",
+        "4 positive von 10 frischen Meldungen"
+      ],
+      "fundamentals": {
+        "source": "finanzen.net Schätzungen",
+        "epsCurrentYearEstimate": 6.97,
+        "epsNextYearEstimate": 7.39,
+        "revenueCurrentYearEstimate": 88734.51,
+        "revenueNextYearEstimate": 91283
+      },
+      "daysUntil": 7,
+      "baseLabel": "NEUTRAL",
+      "scoreParts": [
+        {
+          "key": "ZAHLEN",
+          "delta": 2,
+          "label": "Analystenschaetzungen"
+        },
+        {
+          "key": "CHART",
+          "delta": -3,
+          "label": "Kursstruktur 1 Jahr"
+        },
+        {
+          "key": "NEWS",
+          "delta": 4,
+          "label": "10 frische Meldungen"
+        }
+      ],
+      "chartDelta": -3,
+      "newsDelta": 4,
+      "fundamentalDelta": 2,
+      "newsGuidance": 0,
+      "newsHeadlines": [
+        "A2Z Cust2Mate Completes Acquisition of In-Store Retail Media Business Hedia",
+        "P&G to Webcast the Procter & Gamble 2026 Virtual Annual Meeting of Shareholders October 13",
+        "A2Z Cust2Mate Completes Acquisition of In-Store Retail Media Business Hedia",
+        "RBC Trims Price Target on Procter & Gamble to $166 From $167, Keeps Outperform Rating"
+      ],
+      "dataQuality": {
+        "zahlen": true,
+        "chart": true,
+        "news": true
+      },
+      "chart": {
+        "source": "Yahoo chart 1y/1d",
+        "currency": "USD",
+        "samples": 251,
+        "last": 145.9,
+        "changeM1": -0.7,
+        "changeM3": -4.5,
+        "changeM6": 2.2,
+        "sma50": 145.7,
+        "sma200": 147.6,
+        "position52w": 27.1,
+        "drawdownFromHigh": -12.7,
+        "volatility20d": 16.8,
+        "volumeTrend": -17.5
+      },
+      "scoreEvaluatedAt": "2026-10-06T11:24:06.151Z",
+      "scoreValidUntil": "2026-10-07T11:24:06.151Z"
+    },
+    {
+      "date": "2026-10-14",
+      "sourceCompanyName": "Origin Energy Ltd.",
+      "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/origin_energy",
+      "symbol": "ORG.AX",
+      "name": "Origin Energy Limited",
+      "companyKey": "ORIGIN ENERGY",
+      "currency": "AUD",
+      "matchConfidence": 1,
+      "baseScore": 40,
+      "fundamentalScore": 40,
+      "fundamentalConfidence": 0.853,
+      "profitForecastPositive": false,
+      "fundamentalReasons": [
+        "Analysten erwarten leicht rückläufiges EPS",
+        "Kurs unter der 200-Tage-Linie"
+      ],
+      "fundamentals": {
+        "source": "finanzen.net Schätzungen",
+        "epsCurrentYearEstimate": 0.66,
+        "epsNextYearEstimate": 0.6,
+        "revenueCurrentYearEstimate": 15401.93,
+        "revenueNextYearEstimate": 15316.77
+      },
+      "daysUntil": 8,
+      "baseLabel": "VORSICHT",
+      "scoreParts": [
+        {
+          "key": "ZAHLEN",
+          "delta": -9,
+          "label": "Analystenschaetzungen"
+        },
+        {
+          "key": "CHART",
+          "delta": -1,
+          "label": "Kursstruktur 1 Jahr"
+        },
+        {
+          "key": "NEWS",
+          "delta": 0,
+          "label": "1 frische Meldungen"
+        }
+      ],
+      "chartDelta": -1,
+      "newsDelta": 0,
+      "fundamentalDelta": -9,
+      "newsGuidance": 0,
+      "newsHeadlines": [
+        "3 Dividend Stocks That Could Hold Up Better As Rates Stay Higher"
+      ],
+      "dataQuality": {
+        "zahlen": true,
+        "chart": true,
+        "news": true
+      },
+      "chart": {
+        "source": "Yahoo chart 1y/1d",
+        "currency": "AUD",
+        "samples": 256,
+        "last": 11,
+        "changeM1": -2.7,
+        "changeM3": 5.2,
+        "changeM6": -11,
+        "sma50": 11.4,
+        "sma200": 11.4,
+        "position52w": 32.6,
+        "drawdownFromHigh": -13.9,
+        "volatility20d": 23,
+        "volumeTrend": -32.1
+      },
+      "scoreEvaluatedAt": "2026-10-06T11:24:06.151Z",
+      "scoreValidUntil": "2026-10-07T11:24:06.151Z"
     },
     {
       "date": "2026-10-15",
@@ -336,14 +335,16 @@
       "companyKey": "MEDTRONIC",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 52,
-      "fundamentalScore": 52,
-      "fundamentalConfidence": 0.683,
+      "baseScore": 56,
+      "fundamentalScore": 56,
+      "fundamentalConfidence": 0.909,
       "profitForecastPositive": null,
       "fundamentalReasons": [
         "Kurs unter der 200-Tage-Linie",
         "Umsatz zieht vor der HV an (+143%)",
-        "3 positive von 10 frischen Meldungen"
+        "3 positive von 10 frischen Meldungen",
+        "Gesunde Position im 52-Wochen-Band (45%)",
+        "Umsatz zieht vor der HV an (+190%)"
       ],
       "fundamentals": {
         "source": "Yahoo quote",
@@ -356,34 +357,34 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 10,
+      "daysUntil": 9,
       "baseLabel": "NEUTRAL",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 0,
+          "delta": 2,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -1,
+          "delta": 2,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": 3,
+          "delta": 2,
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": -1,
-      "newsDelta": 3,
-      "fundamentalDelta": 0,
+      "chartDelta": 2,
+      "newsDelta": 2,
+      "fundamentalDelta": 2,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "2 High-Yield Stocks to Buy in October Without Any Hesitation",
-        "4 Dividend Aristocrats Still Raising Their Payouts No Matter What Their Stock Price Did",
-        "Wall Street Is Bracing for the Fed's Next Move on Rates. These 3 Stocks Win Either Way.",
-        "Medtronic’s 49-Year Dividend Streak Faces a New Challenge: Is Growth Finally the Real Story?"
+        "Is Medtronic (MDT) Undervalued Following Its Permanent CPT Code Win?",
+        "Medtronic (MDT) Outperforms Broader Market: What You Need to Know",
+        "Why I Think These Are the 2 Smartest Stocks to Buy With $5,000 in October",
+        "Jim Cramer Likes Medtronic (MDT) at 14x Earnings — So Why Isn’t He Buying More?"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -394,19 +395,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 86.4,
-        "changeM1": -6.3,
-        "changeM3": 4,
-        "changeM6": -0.3,
-        "sma50": 89.9,
+        "last": 88,
+        "changeM1": -5.5,
+        "changeM3": 4.9,
+        "changeM6": 2,
+        "sma50": 90,
         "sma200": 88.6,
-        "position52w": 40,
-        "drawdownFromHigh": -18,
-        "volatility20d": 19.6,
-        "volumeTrend": 143.2
+        "position52w": 45,
+        "drawdownFromHigh": -16.5,
+        "volatility20d": 20.5,
+        "volumeTrend": 189.9
       },
-      "scoreEvaluatedAt": "2026-10-05T11:42:11.751Z",
-      "scoreValidUntil": "2026-10-06T11:42:11.751Z"
+      "scoreEvaluatedAt": "2026-10-06T11:24:06.151Z",
+      "scoreValidUntil": "2026-10-07T11:24:06.151Z"
     },
     {
       "date": "2026-10-15",
@@ -418,9 +419,9 @@
       "companyKey": "PAYCHEX",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 55,
-      "fundamentalScore": 55,
-      "fundamentalConfidence": 0.881,
+      "baseScore": 46,
+      "fundamentalScore": 46,
+      "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+8%)",
@@ -436,35 +437,34 @@
         "revenueCurrentYearEstimate": 6863.25,
         "revenueNextYearEstimate": 7239.77
       },
-      "daysUntil": 10,
+      "daysUntil": 9,
       "baseLabel": "NEUTRAL",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/paychex",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 11,
+          "delta": 5,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -7,
+          "delta": -9,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": 1,
-          "label": "10 frische Meldungen"
+          "delta": 0,
+          "label": "9 frische Meldungen"
         }
       ],
-      "chartDelta": -7,
-      "newsDelta": 1,
-      "fundamentalDelta": 11,
+      "chartDelta": -9,
+      "newsDelta": 0,
+      "fundamentalDelta": 5,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Micron Stock Looks Like a Top AI Investment to Make Right Now",
-        "Here’s the 1 ETF I Would Put $1,000 Into This October",
-        "Phillip Securities Adjusts Price Target on Micron Technology to $1,950 From $1,870, Keeps Buy Rating",
-        "Meet the Low-Cost Vanguard ETF With 32.4% Invested in Nvidia, Broadcom, Micron, AMD, Intel, and Lam Research, While VOO Has Just 14.8%."
+        "Six Companies Just Grew 100% Or More — Four May Surprise You",
+        "Social Buzz: Wallstreetbets Stocks Mixed Pre-Bell Tuesday; SpaceX to Rise, Nike to Fall",
+        "Will Micron Do a Stock Split Before the End of 2026?",
+        "INTC, AMD, MU, SNDK, SOXX: Chips, Memory Stocks Slip Premarket After Sharp October Rally"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -475,19 +475,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 98.9,
+        "last": 99.8,
         "changeM1": -20.2,
-        "changeM3": -6.1,
-        "changeM6": 7.9,
-        "sma50": 117,
-        "sma200": 103.8,
-        "position52w": 31.1,
-        "drawdownFromHigh": -23.1,
+        "changeM3": -7.7,
+        "changeM6": 8.6,
+        "sma50": 116.8,
+        "sma200": 103.7,
+        "position52w": 33,
+        "drawdownFromHigh": -22.4,
         "volatility20d": 37.5,
-        "volumeTrend": 46.1
+        "volumeTrend": 44.8
       },
-      "scoreEvaluatedAt": "2026-10-05T11:42:11.751Z",
-      "scoreValidUntil": "2026-10-06T11:42:11.751Z"
+      "scoreEvaluatedAt": "2026-10-06T11:24:06.151Z",
+      "scoreValidUntil": "2026-10-07T11:24:06.151Z"
     }
   ],
   "estimateAttemptCount": 6,
