@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-10-08T11:30:04.224Z",
-  "nextRefreshAfter": "2026-10-09T11:30:04.224Z",
+  "updatedAt": "2026-10-09T11:25:43.212Z",
+  "nextRefreshAfter": "2026-10-10T11:25:43.212Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -17,7 +17,7 @@
   "rawUpcomingCount": 9,
   "matchedUpcomingCount": 6,
   "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-10-08T10:42:02.111751Z",
+  "universeGeneratedAt": "2026-10-09T10:40:57.147910Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -30,9 +30,9 @@
       "companyKey": "TELSTRA",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 35,
-      "fundamentalScore": 35,
-      "fundamentalConfidence": 0.836,
+      "baseScore": 28,
+      "fundamentalScore": 28,
+      "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+5%)",
@@ -45,47 +45,57 @@
         "revenueCurrentYearEstimate": 23578.3,
         "revenueNextYearEstimate": 23944.68
       },
-      "daysUntil": 4,
-      "baseLabel": "VORSICHT",
+      "daysUntil": 3,
+      "baseLabel": "NEGATIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -8,
+          "delta": -15,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
           "delta": -7,
           "label": "Kursstruktur 1 Jahr"
+        },
+        {
+          "key": "NEWS",
+          "delta": 0,
+          "label": "6 frische Meldungen"
         }
       ],
       "chartDelta": -7,
       "newsDelta": 0,
-      "fundamentalDelta": -8,
+      "fundamentalDelta": -15,
       "newsGuidance": 0,
-      "newsHeadlines": [],
+      "newsHeadlines": [
+        "What Telstra Group (ASX:TLS)'s Perth–Sydney Aura Fibre Link Means For Shareholders",
+        "Telstra expands Aura Network to strengthen Australia's east-west digital corridor",
+        "Telstra expands Aura Network to strengthen Australia's east-west digital corridor",
+        "Nationwide Disaster Roaming Access Could Be A Game Changer For TPG Telecom (ASX:TPG)"
+      ],
       "dataQuality": {
         "zahlen": true,
         "chart": true,
-        "news": false
+        "news": true
       },
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 16.7,
-        "changeM1": -3.6,
-        "changeM3": -3.4,
-        "changeM6": -11.3,
+        "last": 16.8,
+        "changeM1": -2.6,
+        "changeM3": -0.8,
+        "changeM6": -12.4,
         "sma50": 17.1,
         "sma200": 17.7,
-        "position52w": 24.7,
-        "drawdownFromHigh": -15.7,
-        "volatility20d": 10.7,
-        "volumeTrend": -12.4
+        "position52w": 27.8,
+        "drawdownFromHigh": -15,
+        "volatility20d": 11.2,
+        "volumeTrend": -22
       },
-      "scoreEvaluatedAt": "2026-10-08T11:30:04.224Z",
-      "scoreValidUntil": "2026-10-09T11:30:04.224Z"
+      "scoreEvaluatedAt": "2026-10-09T11:25:43.212Z",
+      "scoreValidUntil": "2026-10-10T11:25:43.212Z"
     },
     {
       "date": "2026-10-13",
@@ -97,13 +107,14 @@
       "companyKey": "ORIGIN ENERGY",
       "currency": "AUD",
       "matchConfidence": 1,
-      "baseScore": 38,
-      "fundamentalScore": 38,
-      "fundamentalConfidence": 0.901,
+      "baseScore": 40,
+      "fundamentalScore": 40,
+      "fundamentalConfidence": 0.907,
       "profitForecastPositive": false,
       "fundamentalReasons": [
         "Analysten erwarten leicht rückläufiges EPS",
-        "Kurs unter der 200-Tage-Linie"
+        "Kurs unter der 200-Tage-Linie",
+        "Gesunde Position im 52-Wochen-Band (46%)"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -112,17 +123,17 @@
         "revenueCurrentYearEstimate": 15401.93,
         "revenueNextYearEstimate": 15316.77
       },
-      "daysUntil": 5,
+      "daysUntil": 4,
       "baseLabel": "VORSICHT",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -11,
+          "delta": -12,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -1,
+          "delta": 2,
           "label": "Kursstruktur 1 Jahr"
         },
         {
@@ -131,9 +142,9 @@
           "label": "1 frische Meldungen"
         }
       ],
-      "chartDelta": -1,
+      "chartDelta": 2,
       "newsDelta": 0,
-      "fundamentalDelta": -11,
+      "fundamentalDelta": -12,
       "newsGuidance": 0,
       "newsHeadlines": [
         "3 Dividend Stocks That Could Hold Up Better As Rates Stay Higher"
@@ -147,19 +158,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "AUD",
         "samples": 256,
-        "last": 11.2,
-        "changeM1": -2.9,
-        "changeM3": 7,
-        "changeM6": -8.1,
+        "last": 11.4,
+        "changeM1": -1.7,
+        "changeM3": 8.3,
+        "changeM6": -8.2,
         "sma50": 11.4,
         "sma200": 11.4,
-        "position52w": 39.8,
-        "drawdownFromHigh": -12.4,
-        "volatility20d": 23.1,
-        "volumeTrend": -36
+        "position52w": 46.2,
+        "drawdownFromHigh": -11.1,
+        "volatility20d": 23.8,
+        "volumeTrend": -37.5
       },
-      "scoreEvaluatedAt": "2026-10-08T11:30:04.224Z",
-      "scoreValidUntil": "2026-10-09T11:30:04.224Z"
+      "scoreEvaluatedAt": "2026-10-09T11:25:43.212Z",
+      "scoreValidUntil": "2026-10-10T11:25:43.212Z"
     },
     {
       "date": "2026-10-13",
@@ -171,8 +182,8 @@
       "companyKey": "PROCTER GAMBLE",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 62,
-      "fundamentalScore": 62,
+      "baseScore": 68,
+      "fundamentalScore": 68,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -190,12 +201,12 @@
         "revenueCurrentYearEstimate": 88734.51,
         "revenueNextYearEstimate": 91283
       },
-      "daysUntil": 5,
+      "daysUntil": 4,
       "baseLabel": "LEICHT POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 6,
+          "delta": 12,
           "label": "Analystenschaetzungen"
         },
         {
@@ -211,13 +222,13 @@
       ],
       "chartDelta": 3,
       "newsDelta": 3,
-      "fundamentalDelta": 6,
+      "fundamentalDelta": 12,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "P&G AND THE McLAREN MASTERCARD FORMULA 1 TEAM ANNOUNCE PARTNERSHIP TO DRIVE CONSUMER ENGAGEMENT ACROSS ASIA PACIFIC",
-        "Procter & Gamble (PG) Debuts New Leave In Hair Treatment",
-        "This Analyst Just Upgraded Procter & Gamble Stock. Here's Why.",
-        "The Crash-Proof Portfolio: 5 Elite Dividend Stocks Built to Survive a Market Meltdown"
+        "What Is Procter & Gamble Stock's Biggest Opportunity?",
+        "Top Analyst Reports for Eli Lilly, Procter & Gamble & Shell",
+        "Anheuser-Busch InBev Seeing Growth in Emerging Markets, Benefiting From Currency Tailwind, RBC Says",
+        "These 5 Dividend Stocks Are Americas Favorite Companies"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -228,19 +239,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 147.8,
-        "changeM1": 1.5,
-        "changeM3": 0.7,
-        "changeM6": 2,
-        "sma50": 145.7,
+        "last": 150.6,
+        "changeM1": 5.6,
+        "changeM3": 2.4,
+        "changeM6": 2.7,
+        "sma50": 145.8,
         "sma200": 147.7,
-        "position52w": 33.5,
-        "drawdownFromHigh": -11.6,
-        "volatility20d": 17.7,
-        "volumeTrend": -5.5
+        "position52w": 43,
+        "drawdownFromHigh": -9.9,
+        "volatility20d": 17,
+        "volumeTrend": -0.4
       },
-      "scoreEvaluatedAt": "2026-10-08T11:30:04.224Z",
-      "scoreValidUntil": "2026-10-09T11:30:04.224Z"
+      "scoreEvaluatedAt": "2026-10-09T11:25:43.212Z",
+      "scoreValidUntil": "2026-10-10T11:25:43.212Z"
     },
     {
       "date": "2026-10-14",
@@ -252,13 +263,14 @@
       "companyKey": "ORIGIN ENERGY",
       "currency": "AUD",
       "matchConfidence": 1,
-      "baseScore": 38,
-      "fundamentalScore": 38,
-      "fundamentalConfidence": 0.901,
+      "baseScore": 40,
+      "fundamentalScore": 40,
+      "fundamentalConfidence": 0.907,
       "profitForecastPositive": false,
       "fundamentalReasons": [
         "Analysten erwarten leicht rückläufiges EPS",
-        "Kurs unter der 200-Tage-Linie"
+        "Kurs unter der 200-Tage-Linie",
+        "Gesunde Position im 52-Wochen-Band (46%)"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -267,17 +279,17 @@
         "revenueCurrentYearEstimate": 15401.93,
         "revenueNextYearEstimate": 15316.77
       },
-      "daysUntil": 6,
+      "daysUntil": 5,
       "baseLabel": "VORSICHT",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -11,
+          "delta": -12,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -1,
+          "delta": 2,
           "label": "Kursstruktur 1 Jahr"
         },
         {
@@ -286,9 +298,9 @@
           "label": "1 frische Meldungen"
         }
       ],
-      "chartDelta": -1,
+      "chartDelta": 2,
       "newsDelta": 0,
-      "fundamentalDelta": -11,
+      "fundamentalDelta": -12,
       "newsGuidance": 0,
       "newsHeadlines": [
         "3 Dividend Stocks That Could Hold Up Better As Rates Stay Higher"
@@ -302,19 +314,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "AUD",
         "samples": 256,
-        "last": 11.2,
-        "changeM1": -2.9,
-        "changeM3": 7,
-        "changeM6": -8.1,
+        "last": 11.4,
+        "changeM1": -1.7,
+        "changeM3": 8.3,
+        "changeM6": -8.2,
         "sma50": 11.4,
         "sma200": 11.4,
-        "position52w": 39.8,
-        "drawdownFromHigh": -12.4,
-        "volatility20d": 23.1,
-        "volumeTrend": -36
+        "position52w": 46.2,
+        "drawdownFromHigh": -11.1,
+        "volatility20d": 23.8,
+        "volumeTrend": -37.5
       },
-      "scoreEvaluatedAt": "2026-10-08T11:30:04.224Z",
-      "scoreValidUntil": "2026-10-09T11:30:04.224Z"
+      "scoreEvaluatedAt": "2026-10-09T11:25:43.212Z",
+      "scoreValidUntil": "2026-10-10T11:25:43.212Z"
     },
     {
       "date": "2026-10-15",
@@ -326,8 +338,8 @@
       "companyKey": "MEDTRONIC",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 56,
-      "fundamentalScore": 56,
+      "baseScore": 55,
+      "fundamentalScore": 55,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": null,
       "fundamentalReasons": [
@@ -349,12 +361,12 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 7,
+      "daysUntil": 6,
       "baseLabel": "NEUTRAL",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 7,
+          "delta": 6,
           "label": "Analystenschaetzungen"
         },
         {
@@ -370,13 +382,13 @@
       ],
       "chartDelta": -1,
       "newsDelta": 0,
-      "fundamentalDelta": 7,
+      "fundamentalDelta": 6,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "The Monopolistic Razor-and-Blade Engine I Can’t Stop Buying",
-        "Medtronic Announces Final Exchange Ratio of 4.5939 in Split-Off of MiniMed Group, Inc.",
-        "Medtronic names Felicia Kurz as cardiac ablation VP, GM",
-        "Flutter upgraded, AppFolio downgraded: Wall Street's top analyst calls"
+        "How Investors Are Reacting To Medtronic (MDT) Advancing Altaviva, Symplicity Spyral And Spinning Off MiniMed",
+        "Medtronic (MDT) Commits $700 Million To Robotics As 2026 Impact Report Lands",
+        "Is Medtronic (MDT) On Its Way to Become a Multi-Platform Powerhouse?",
+        "Medtronic Is Just 1 Year From Dividend King Status. Should You Buy the Stock Before It Gets There?"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -387,19 +399,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 85.5,
-        "changeM1": -7.4,
-        "changeM3": 3.8,
-        "changeM6": -3.5,
-        "sma50": 90,
-        "sma200": 88.5,
-        "position52w": 37.2,
-        "drawdownFromHigh": -18.8,
-        "volatility20d": 19.9,
-        "volumeTrend": 286
+        "last": 87.8,
+        "changeM1": -4.5,
+        "changeM3": 4.6,
+        "changeM6": -0.2,
+        "sma50": 90.1,
+        "sma200": 88.4,
+        "position52w": 44.3,
+        "drawdownFromHigh": -16.7,
+        "volatility20d": 22.4,
+        "volumeTrend": 401.6
       },
-      "scoreEvaluatedAt": "2026-10-08T11:30:04.224Z",
-      "scoreValidUntil": "2026-10-09T11:30:04.224Z"
+      "scoreEvaluatedAt": "2026-10-09T11:25:43.212Z",
+      "scoreValidUntil": "2026-10-10T11:25:43.212Z"
     },
     {
       "date": "2026-10-15",
@@ -430,34 +442,34 @@
         "revenueCurrentYearEstimate": 6863.25,
         "revenueNextYearEstimate": 7239.77
       },
-      "daysUntil": 7,
+      "daysUntil": 6,
       "baseLabel": "VORSICHT",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -16,
+          "delta": -13,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -6,
+          "delta": 0,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": 9,
+          "delta": 0,
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": -6,
-      "newsDelta": 9,
-      "fundamentalDelta": -16,
-      "newsGuidance": 1,
+      "chartDelta": 0,
+      "newsDelta": 0,
+      "fundamentalDelta": -13,
+      "newsGuidance": 0,
       "newsHeadlines": [
-        "Dow Jones Futures Fall As Oil Prices, Treasury Yields Jump; Samsung, Micron, Taiwan Semi, Sandisk In Focus",
-        "Wall St futures slide as rising oil, yields dampen mood",
-        "Social Buzz: Wallstreetbets Stocks Mostly Down Pre-Bell Thursday; Hertz, Sandisk to Fall",
-        "97 Billion Nvidia Partners Just Got a Strong Buy Endorsement (Hint: It's Not Palantir or Micron)"
+        "Micron Stock Is Range-Bound in Choppy AI Trade. What Could Change That.",
+        "Social Buzz: Wallstreetbets Stocks Mostly Higher Pre-Bell Friday; SpaceX, Nebius Group to Advance",
+        "Why Are Nasdaq Futures Surging Premarket? SPCX, ASTS, AAPL, TMUS, VZ, NVDA, MU, LITE Stocks In Focus",
+        "Stocktwits AI Roundup: OpenAI Revenue Woes Rattle Chip Stocks, SoftBank Hunts $100B, Microsoft Goes AI-First"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -468,19 +480,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 101.6,
-        "changeM1": -13.2,
-        "changeM3": -4.4,
-        "changeM6": 13,
-        "sma50": 116.1,
+        "last": 104.5,
+        "changeM1": -9,
+        "changeM3": -2.9,
+        "changeM6": 18.9,
+        "sma50": 115.8,
         "sma200": 103.6,
-        "position52w": 37.1,
-        "drawdownFromHigh": -21,
-        "volatility20d": 36.4,
-        "volumeTrend": 11.9
+        "position52w": 43.9,
+        "drawdownFromHigh": -18.8,
+        "volatility20d": 38,
+        "volumeTrend": 6.8
       },
-      "scoreEvaluatedAt": "2026-10-08T11:30:04.224Z",
-      "scoreValidUntil": "2026-10-09T11:30:04.224Z"
+      "scoreEvaluatedAt": "2026-10-09T11:25:43.212Z",
+      "scoreValidUntil": "2026-10-10T11:25:43.212Z"
     }
   ],
   "estimateAttemptCount": 6,
@@ -488,7 +500,7 @@
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
   "chartProfileCount": 6,
-  "newsProfileCount": 5,
+  "newsProfileCount": 6,
   "neutralScoreCount": 0,
   "signalCoveredCount": 6
 }
