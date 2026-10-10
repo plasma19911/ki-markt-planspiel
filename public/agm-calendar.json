@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-10-09T11:25:43.212Z",
-  "nextRefreshAfter": "2026-10-10T11:25:43.212Z",
+  "updatedAt": "2026-10-10T10:43:16.555Z",
+  "nextRefreshAfter": "2026-10-11T10:43:16.555Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,10 +14,10 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 9,
+  "rawUpcomingCount": 7,
   "matchedUpcomingCount": 6,
-  "fundamentalEstimateCount": 0,
-  "universeGeneratedAt": "2026-10-09T10:40:57.147910Z",
+  "fundamentalEstimateCount": 1,
+  "universeGeneratedAt": "2026-10-10T09:57:15.810952Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -25,37 +25,38 @@
       "sourceCompanyName": "Telstra Corp. Ltd.",
       "source": "finanzen.net Hauptversammlung",
       "sourceHref": "https://www.finanzen.net/termine/telstra",
-      "symbol": "TLGPY",
+      "symbol": "TLS.AX",
       "name": "Telstra Group Limited",
       "companyKey": "TELSTRA",
-      "currency": "USD",
+      "currency": "AUD",
       "matchConfidence": 1,
-      "baseScore": 28,
-      "fundamentalScore": 28,
-      "fundamentalConfidence": 0.92,
+      "baseScore": 53,
+      "fundamentalScore": 53,
+      "fundamentalConfidence": 0.881,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+5%)",
-        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)"
+        "Kurs unter der 200-Tage-Linie"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
         "epsCurrentYearEstimate": 0.22,
         "epsNextYearEstimate": 0.23,
-        "revenueCurrentYearEstimate": 23578.3,
-        "revenueNextYearEstimate": 23944.68
+        "revenueCurrentYearEstimate": 23578.33,
+        "revenueNextYearEstimate": 23944.66
       },
-      "daysUntil": 3,
-      "baseLabel": "NEGATIV",
+      "daysUntil": 2,
+      "baseLabel": "NEUTRAL",
+      "estimateUrl": "https://www.finanzen.net/schaetzungen/telstra",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -15,
+          "delta": 6,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -7,
+          "delta": -3,
           "label": "Kursstruktur 1 Jahr"
         },
         {
@@ -64,9 +65,9 @@
           "label": "6 frische Meldungen"
         }
       ],
-      "chartDelta": -7,
+      "chartDelta": -3,
       "newsDelta": 0,
-      "fundamentalDelta": -15,
+      "fundamentalDelta": 6,
       "newsGuidance": 0,
       "newsHeadlines": [
         "What Telstra Group (ASX:TLS)'s Perth–Sydney Aura Fibre Link Means For Shareholders",
@@ -81,21 +82,21 @@
       },
       "chart": {
         "source": "Yahoo chart 1y/1d",
-        "currency": "USD",
-        "samples": 251,
-        "last": 16.8,
-        "changeM1": -2.6,
-        "changeM3": -0.8,
-        "changeM6": -12.4,
-        "sma50": 17.1,
-        "sma200": 17.7,
-        "position52w": 27.8,
-        "drawdownFromHigh": -15,
+        "currency": "AUD",
+        "samples": 256,
+        "last": 4.8,
+        "changeM1": -1.2,
+        "changeM3": -2.5,
+        "changeM6": -10.7,
+        "sma50": 4.8,
+        "sma200": 5,
+        "position52w": 19.6,
+        "drawdownFromHigh": -14.1,
         "volatility20d": 11.2,
-        "volumeTrend": -22
+        "volumeTrend": -4.9
       },
-      "scoreEvaluatedAt": "2026-10-09T11:25:43.212Z",
-      "scoreValidUntil": "2026-10-10T11:25:43.212Z"
+      "scoreEvaluatedAt": "2026-10-10T10:43:16.555Z",
+      "scoreValidUntil": "2026-10-11T10:43:16.555Z"
     },
     {
       "date": "2026-10-13",
@@ -107,9 +108,9 @@
       "companyKey": "ORIGIN ENERGY",
       "currency": "AUD",
       "matchConfidence": 1,
-      "baseScore": 40,
-      "fundamentalScore": 40,
-      "fundamentalConfidence": 0.907,
+      "baseScore": 42,
+      "fundamentalScore": 42,
+      "fundamentalConfidence": 0.91,
       "profitForecastPositive": false,
       "fundamentalReasons": [
         "Analysten erwarten leicht rückläufiges EPS",
@@ -123,12 +124,12 @@
         "revenueCurrentYearEstimate": 15401.93,
         "revenueNextYearEstimate": 15316.77
       },
-      "daysUntil": 4,
+      "daysUntil": 3,
       "baseLabel": "VORSICHT",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -12,
+          "delta": -10,
           "label": "Analystenschaetzungen"
         },
         {
@@ -144,7 +145,7 @@
       ],
       "chartDelta": 2,
       "newsDelta": 0,
-      "fundamentalDelta": -12,
+      "fundamentalDelta": -10,
       "newsGuidance": 0,
       "newsHeadlines": [
         "3 Dividend Stocks That Could Hold Up Better As Rates Stay Higher"
@@ -169,8 +170,8 @@
         "volatility20d": 23.8,
         "volumeTrend": -37.5
       },
-      "scoreEvaluatedAt": "2026-10-09T11:25:43.212Z",
-      "scoreValidUntil": "2026-10-10T11:25:43.212Z"
+      "scoreEvaluatedAt": "2026-10-10T10:43:16.555Z",
+      "scoreValidUntil": "2026-10-11T10:43:16.555Z"
     },
     {
       "date": "2026-10-13",
@@ -182,8 +183,8 @@
       "companyKey": "PROCTER GAMBLE",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 68,
-      "fundamentalScore": 68,
+      "baseScore": 76,
+      "fundamentalScore": 76,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -201,34 +202,34 @@
         "revenueCurrentYearEstimate": 88734.51,
         "revenueNextYearEstimate": 91283
       },
-      "daysUntil": 4,
-      "baseLabel": "LEICHT POSITIV",
+      "daysUntil": 3,
+      "baseLabel": "POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 12,
+          "delta": 18,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": 3,
+          "delta": 6,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": 3,
+          "delta": 2,
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": 3,
-      "newsDelta": 3,
-      "fundamentalDelta": 12,
+      "chartDelta": 6,
+      "newsDelta": 2,
+      "fundamentalDelta": 18,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "What Is Procter & Gamble Stock's Biggest Opportunity?",
-        "Top Analyst Reports for Eli Lilly, Procter & Gamble & Shell",
-        "Anheuser-Busch InBev Seeing Growth in Emerging Markets, Benefiting From Currency Tailwind, RBC Says",
-        "These 5 Dividend Stocks Are Americas Favorite Companies"
+        "Procter & Gamble could face new cost problem",
+        "3 Consumer Staples Stocks With Pricing Power as Households Feel the Squeeze",
+        "Church & Dwight (CHD): Is Faster Growth Earning an Adequate Return on Brand Spending?",
+        "Hedge Funds Think Colgate-Palmolive Is One of the Best Dividend King Stocks To Buy"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -239,19 +240,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 150.6,
-        "changeM1": 5.6,
-        "changeM3": 2.4,
-        "changeM6": 2.7,
-        "sma50": 145.8,
+        "last": 151.2,
+        "changeM1": 5.8,
+        "changeM3": 1.9,
+        "changeM6": 4.2,
+        "sma50": 145.9,
         "sma200": 147.7,
-        "position52w": 43,
-        "drawdownFromHigh": -9.9,
+        "position52w": 45.2,
+        "drawdownFromHigh": -9.6,
         "volatility20d": 17,
-        "volumeTrend": -0.4
+        "volumeTrend": 0.4
       },
-      "scoreEvaluatedAt": "2026-10-09T11:25:43.212Z",
-      "scoreValidUntil": "2026-10-10T11:25:43.212Z"
+      "scoreEvaluatedAt": "2026-10-10T10:43:16.555Z",
+      "scoreValidUntil": "2026-10-11T10:43:16.555Z"
     },
     {
       "date": "2026-10-14",
@@ -263,9 +264,9 @@
       "companyKey": "ORIGIN ENERGY",
       "currency": "AUD",
       "matchConfidence": 1,
-      "baseScore": 40,
-      "fundamentalScore": 40,
-      "fundamentalConfidence": 0.907,
+      "baseScore": 42,
+      "fundamentalScore": 42,
+      "fundamentalConfidence": 0.91,
       "profitForecastPositive": false,
       "fundamentalReasons": [
         "Analysten erwarten leicht rückläufiges EPS",
@@ -279,12 +280,12 @@
         "revenueCurrentYearEstimate": 15401.93,
         "revenueNextYearEstimate": 15316.77
       },
-      "daysUntil": 5,
+      "daysUntil": 4,
       "baseLabel": "VORSICHT",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -12,
+          "delta": -10,
           "label": "Analystenschaetzungen"
         },
         {
@@ -300,7 +301,7 @@
       ],
       "chartDelta": 2,
       "newsDelta": 0,
-      "fundamentalDelta": -12,
+      "fundamentalDelta": -10,
       "newsGuidance": 0,
       "newsHeadlines": [
         "3 Dividend Stocks That Could Hold Up Better As Rates Stay Higher"
@@ -325,8 +326,8 @@
         "volatility20d": 23.8,
         "volumeTrend": -37.5
       },
-      "scoreEvaluatedAt": "2026-10-09T11:25:43.212Z",
-      "scoreValidUntil": "2026-10-10T11:25:43.212Z"
+      "scoreEvaluatedAt": "2026-10-10T10:43:16.555Z",
+      "scoreValidUntil": "2026-10-11T10:43:16.555Z"
     },
     {
       "date": "2026-10-15",
@@ -338,8 +339,8 @@
       "companyKey": "MEDTRONIC",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 55,
-      "fundamentalScore": 55,
+      "baseScore": 65,
+      "fundamentalScore": 65,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": null,
       "fundamentalReasons": [
@@ -361,17 +362,17 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 6,
-      "baseLabel": "NEUTRAL",
+      "daysUntil": 5,
+      "baseLabel": "LEICHT POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 6,
+          "delta": 5,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -1,
+          "delta": 10,
           "label": "Kursstruktur 1 Jahr"
         },
         {
@@ -380,15 +381,15 @@
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": -1,
+      "chartDelta": 10,
       "newsDelta": 0,
-      "fundamentalDelta": 6,
+      "fundamentalDelta": 5,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "Medtronic (MDT) Stock Could Be A Bargain Despite Its 36% Run",
         "How Investors Are Reacting To Medtronic (MDT) Advancing Altaviva, Symplicity Spyral And Spinning Off MiniMed",
         "Medtronic (MDT) Commits $700 Million To Robotics As 2026 Impact Report Lands",
-        "Is Medtronic (MDT) On Its Way to Become a Multi-Platform Powerhouse?",
-        "Medtronic Is Just 1 Year From Dividend King Status. Should You Buy the Stock Before It Gets There?"
+        "Is Medtronic (MDT) On Its Way to Become a Multi-Platform Powerhouse?"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -399,19 +400,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 87.8,
-        "changeM1": -4.5,
-        "changeM3": 4.6,
-        "changeM6": -0.2,
+        "last": 88.5,
+        "changeM1": -3.4,
+        "changeM3": 5.9,
+        "changeM6": 1.5,
         "sma50": 90.1,
         "sma200": 88.4,
-        "position52w": 44.3,
-        "drawdownFromHigh": -16.7,
-        "volatility20d": 22.4,
-        "volumeTrend": 401.6
+        "position52w": 46.6,
+        "drawdownFromHigh": -16,
+        "volatility20d": 22.7,
+        "volumeTrend": 429.3
       },
-      "scoreEvaluatedAt": "2026-10-09T11:25:43.212Z",
-      "scoreValidUntil": "2026-10-10T11:25:43.212Z"
+      "scoreEvaluatedAt": "2026-10-10T10:43:16.555Z",
+      "scoreValidUntil": "2026-10-11T10:43:16.555Z"
     },
     {
       "date": "2026-10-15",
@@ -423,8 +424,8 @@
       "companyKey": "PAYCHEX",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 37,
-      "fundamentalScore": 37,
+      "baseScore": 35,
+      "fundamentalScore": 35,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -442,7 +443,7 @@
         "revenueCurrentYearEstimate": 6863.25,
         "revenueNextYearEstimate": 7239.77
       },
-      "daysUntil": 6,
+      "daysUntil": 5,
       "baseLabel": "VORSICHT",
       "scoreParts": [
         {
@@ -452,24 +453,24 @@
         },
         {
           "key": "CHART",
-          "delta": 0,
+          "delta": -3,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": 0,
-          "label": "10 frische Meldungen"
+          "delta": 1,
+          "label": "9 frische Meldungen"
         }
       ],
-      "chartDelta": 0,
-      "newsDelta": 0,
+      "chartDelta": -3,
+      "newsDelta": 1,
       "fundamentalDelta": -13,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Micron Stock Is Range-Bound in Choppy AI Trade. What Could Change That.",
-        "Social Buzz: Wallstreetbets Stocks Mostly Higher Pre-Bell Friday; SpaceX, Nebius Group to Advance",
-        "Why Are Nasdaq Futures Surging Premarket? SPCX, ASTS, AAPL, TMUS, VZ, NVDA, MU, LITE Stocks In Focus",
-        "Stocktwits AI Roundup: OpenAI Revenue Woes Rattle Chip Stocks, SoftBank Hunts $100B, Microsoft Goes AI-First"
+        "Why Is Micron Technology (MU) Facing New Supply Chain Risk In Taiwan?",
+        "This Forgotten AI Stock Is Up 689% and Nobody's Talking About It",
+        "Paychex (PAYX) vs ADP (ADP): Which Payment Giant Has a Wider Moat?",
+        "Estimates Keep Rising as Q3 Earnings Season Takes Center Stage"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -480,19 +481,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 104.5,
-        "changeM1": -9,
-        "changeM3": -2.9,
-        "changeM6": 18.9,
-        "sma50": 115.8,
-        "sma200": 103.6,
-        "position52w": 43.9,
-        "drawdownFromHigh": -18.8,
-        "volatility20d": 38,
-        "volumeTrend": 6.8
+        "last": 104,
+        "changeM1": -9.7,
+        "changeM3": -6.1,
+        "changeM6": 21.5,
+        "sma50": 115.5,
+        "sma200": 103.5,
+        "position52w": 42.8,
+        "drawdownFromHigh": -19.1,
+        "volatility20d": 37.9,
+        "volumeTrend": 0.1
       },
-      "scoreEvaluatedAt": "2026-10-09T11:25:43.212Z",
-      "scoreValidUntil": "2026-10-10T11:25:43.212Z"
+      "scoreEvaluatedAt": "2026-10-10T10:43:16.555Z",
+      "scoreValidUntil": "2026-10-11T10:43:16.555Z"
     }
   ],
   "estimateAttemptCount": 6,
