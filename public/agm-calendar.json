@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-10-10T10:43:16.555Z",
-  "nextRefreshAfter": "2026-10-11T10:43:16.555Z",
+  "updatedAt": "2026-10-11T10:56:08.527Z",
+  "nextRefreshAfter": "2026-10-12T10:56:08.527Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -16,8 +16,8 @@
   "sourceErrors": [],
   "rawUpcomingCount": 7,
   "matchedUpcomingCount": 6,
-  "fundamentalEstimateCount": 1,
-  "universeGeneratedAt": "2026-10-10T09:57:15.810952Z",
+  "fundamentalEstimateCount": 0,
+  "universeGeneratedAt": "2026-10-11T10:06:47.234426Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
     {
@@ -30,9 +30,9 @@
       "companyKey": "TELSTRA",
       "currency": "AUD",
       "matchConfidence": 1,
-      "baseScore": 53,
-      "fundamentalScore": 53,
-      "fundamentalConfidence": 0.881,
+      "baseScore": 50,
+      "fundamentalScore": 50,
+      "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+5%)",
@@ -45,13 +45,12 @@
         "revenueCurrentYearEstimate": 23578.33,
         "revenueNextYearEstimate": 23944.66
       },
-      "daysUntil": 2,
+      "daysUntil": 1,
       "baseLabel": "NEUTRAL",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/telstra",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 6,
+          "delta": 3,
           "label": "Analystenschaetzungen"
         },
         {
@@ -67,7 +66,7 @@
       ],
       "chartDelta": -3,
       "newsDelta": 0,
-      "fundamentalDelta": 6,
+      "fundamentalDelta": 3,
       "newsGuidance": 0,
       "newsHeadlines": [
         "What Telstra Group (ASX:TLS)'s Perth–Sydney Aura Fibre Link Means For Shareholders",
@@ -95,8 +94,8 @@
         "volatility20d": 11.2,
         "volumeTrend": -4.9
       },
-      "scoreEvaluatedAt": "2026-10-10T10:43:16.555Z",
-      "scoreValidUntil": "2026-10-11T10:43:16.555Z"
+      "scoreEvaluatedAt": "2026-10-11T10:56:08.527Z",
+      "scoreValidUntil": "2026-10-12T10:56:08.527Z"
     },
     {
       "date": "2026-10-13",
@@ -108,9 +107,9 @@
       "companyKey": "ORIGIN ENERGY",
       "currency": "AUD",
       "matchConfidence": 1,
-      "baseScore": 42,
-      "fundamentalScore": 42,
-      "fundamentalConfidence": 0.91,
+      "baseScore": 44,
+      "fundamentalScore": 44,
+      "fundamentalConfidence": 0.911,
       "profitForecastPositive": false,
       "fundamentalReasons": [
         "Analysten erwarten leicht rückläufiges EPS",
@@ -124,12 +123,12 @@
         "revenueCurrentYearEstimate": 15401.93,
         "revenueNextYearEstimate": 15316.77
       },
-      "daysUntil": 3,
-      "baseLabel": "VORSICHT",
+      "daysUntil": 2,
+      "baseLabel": "NEUTRAL",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -10,
+          "delta": -8,
           "label": "Analystenschaetzungen"
         },
         {
@@ -145,7 +144,7 @@
       ],
       "chartDelta": 2,
       "newsDelta": 0,
-      "fundamentalDelta": -10,
+      "fundamentalDelta": -8,
       "newsGuidance": 0,
       "newsHeadlines": [
         "3 Dividend Stocks That Could Hold Up Better As Rates Stay Higher"
@@ -170,8 +169,8 @@
         "volatility20d": 23.8,
         "volumeTrend": -37.5
       },
-      "scoreEvaluatedAt": "2026-10-10T10:43:16.555Z",
-      "scoreValidUntil": "2026-10-11T10:43:16.555Z"
+      "scoreEvaluatedAt": "2026-10-11T10:56:08.527Z",
+      "scoreValidUntil": "2026-10-12T10:56:08.527Z"
     },
     {
       "date": "2026-10-13",
@@ -183,8 +182,8 @@
       "companyKey": "PROCTER GAMBLE",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 76,
-      "fundamentalScore": 76,
+      "baseScore": 81,
+      "fundamentalScore": 81,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -202,12 +201,12 @@
         "revenueCurrentYearEstimate": 88734.51,
         "revenueNextYearEstimate": 91283
       },
-      "daysUntil": 3,
+      "daysUntil": 2,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 18,
+          "delta": 24,
           "label": "Analystenschaetzungen"
         },
         {
@@ -217,19 +216,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 2,
+          "delta": 1,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": 6,
-      "newsDelta": 2,
-      "fundamentalDelta": 18,
+      "newsDelta": 1,
+      "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "Want to Retire on Dividends? Here Are 4 Stocks to Buy Now and Never Sell.",
         "Procter & Gamble could face new cost problem",
         "3 Consumer Staples Stocks With Pricing Power as Households Feel the Squeeze",
-        "Church & Dwight (CHD): Is Faster Growth Earning an Adequate Return on Brand Spending?",
-        "Hedge Funds Think Colgate-Palmolive Is One of the Best Dividend King Stocks To Buy"
+        "Church & Dwight (CHD): Is Faster Growth Earning an Adequate Return on Brand Spending?"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -251,8 +250,8 @@
         "volatility20d": 17,
         "volumeTrend": 0.4
       },
-      "scoreEvaluatedAt": "2026-10-10T10:43:16.555Z",
-      "scoreValidUntil": "2026-10-11T10:43:16.555Z"
+      "scoreEvaluatedAt": "2026-10-11T10:56:08.527Z",
+      "scoreValidUntil": "2026-10-12T10:56:08.527Z"
     },
     {
       "date": "2026-10-14",
@@ -264,9 +263,9 @@
       "companyKey": "ORIGIN ENERGY",
       "currency": "AUD",
       "matchConfidence": 1,
-      "baseScore": 42,
-      "fundamentalScore": 42,
-      "fundamentalConfidence": 0.91,
+      "baseScore": 44,
+      "fundamentalScore": 44,
+      "fundamentalConfidence": 0.911,
       "profitForecastPositive": false,
       "fundamentalReasons": [
         "Analysten erwarten leicht rückläufiges EPS",
@@ -280,12 +279,12 @@
         "revenueCurrentYearEstimate": 15401.93,
         "revenueNextYearEstimate": 15316.77
       },
-      "daysUntil": 4,
-      "baseLabel": "VORSICHT",
+      "daysUntil": 3,
+      "baseLabel": "NEUTRAL",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -10,
+          "delta": -8,
           "label": "Analystenschaetzungen"
         },
         {
@@ -301,7 +300,7 @@
       ],
       "chartDelta": 2,
       "newsDelta": 0,
-      "fundamentalDelta": -10,
+      "fundamentalDelta": -8,
       "newsGuidance": 0,
       "newsHeadlines": [
         "3 Dividend Stocks That Could Hold Up Better As Rates Stay Higher"
@@ -326,8 +325,8 @@
         "volatility20d": 23.8,
         "volumeTrend": -37.5
       },
-      "scoreEvaluatedAt": "2026-10-10T10:43:16.555Z",
-      "scoreValidUntil": "2026-10-11T10:43:16.555Z"
+      "scoreEvaluatedAt": "2026-10-11T10:56:08.527Z",
+      "scoreValidUntil": "2026-10-12T10:56:08.527Z"
     },
     {
       "date": "2026-10-15",
@@ -339,8 +338,8 @@
       "companyKey": "MEDTRONIC",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 65,
-      "fundamentalScore": 65,
+      "baseScore": 75,
+      "fundamentalScore": 75,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": null,
       "fundamentalReasons": [
@@ -362,12 +361,12 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 5,
-      "baseLabel": "LEICHT POSITIV",
+      "daysUntil": 4,
+      "baseLabel": "POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 5,
+          "delta": 15,
           "label": "Analystenschaetzungen"
         },
         {
@@ -383,7 +382,7 @@
       ],
       "chartDelta": 10,
       "newsDelta": 0,
-      "fundamentalDelta": 5,
+      "fundamentalDelta": 15,
       "newsGuidance": 0,
       "newsHeadlines": [
         "Medtronic (MDT) Stock Could Be A Bargain Despite Its 36% Run",
@@ -411,8 +410,8 @@
         "volatility20d": 22.7,
         "volumeTrend": 429.3
       },
-      "scoreEvaluatedAt": "2026-10-10T10:43:16.555Z",
-      "scoreValidUntil": "2026-10-11T10:43:16.555Z"
+      "scoreEvaluatedAt": "2026-10-11T10:56:08.527Z",
+      "scoreValidUntil": "2026-10-12T10:56:08.527Z"
     },
     {
       "date": "2026-10-15",
@@ -424,8 +423,8 @@
       "companyKey": "PAYCHEX",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 35,
-      "fundamentalScore": 35,
+      "baseScore": 31,
+      "fundamentalScore": 31,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -443,12 +442,12 @@
         "revenueCurrentYearEstimate": 6863.25,
         "revenueNextYearEstimate": 7239.77
       },
-      "daysUntil": 5,
+      "daysUntil": 4,
       "baseLabel": "VORSICHT",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -13,
+          "delta": -15,
           "label": "Analystenschaetzungen"
         },
         {
@@ -458,19 +457,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 1,
-          "label": "9 frische Meldungen"
+          "delta": -1,
+          "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": -3,
-      "newsDelta": 1,
-      "fundamentalDelta": -13,
+      "newsDelta": -1,
+      "fundamentalDelta": -15,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Why Is Micron Technology (MU) Facing New Supply Chain Risk In Taiwan?",
-        "This Forgotten AI Stock Is Up 689% and Nobody's Talking About It",
-        "Paychex (PAYX) vs ADP (ADP): Which Payment Giant Has a Wider Moat?",
-        "Estimates Keep Rising as Q3 Earnings Season Takes Center Stage"
+        "Prediction: This Is How Much Micron Stock Will Be Worth By the End of 2027",
+        "3 Retirement Tax Stocks Investors Should Watch Including ADP Stock",
+        "AI Revenue Questions Pull Semiconductor Stocks Off October Highs",
+        "Micron vs. Western Digital: Which AI Data Stock Has More Room for Profits to Normalize?"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -492,8 +491,8 @@
         "volatility20d": 37.9,
         "volumeTrend": 0.1
       },
-      "scoreEvaluatedAt": "2026-10-10T10:43:16.555Z",
-      "scoreValidUntil": "2026-10-11T10:43:16.555Z"
+      "scoreEvaluatedAt": "2026-10-11T10:56:08.527Z",
+      "scoreValidUntil": "2026-10-12T10:56:08.527Z"
     }
   ],
   "estimateAttemptCount": 6,
@@ -502,6 +501,6 @@
   "scoreReevaluation": "once daily only",
   "chartProfileCount": 6,
   "newsProfileCount": 6,
-  "neutralScoreCount": 0,
+  "neutralScoreCount": 1,
   "signalCoveredCount": 6
 }
