@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-10-14T09:37:51.717Z",
-  "nextRefreshAfter": "2026-10-15T09:37:51.717Z",
+  "updatedAt": "2026-10-15T09:15:53.406Z",
+  "nextRefreshAfter": "2026-10-16T09:15:53.406Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,172 +14,12 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 17,
-  "matchedUpcomingCount": 11,
-  "fundamentalEstimateCount": 1,
-  "universeGeneratedAt": "2026-10-14T08:49:00.804844Z",
+  "rawUpcomingCount": 14,
+  "matchedUpcomingCount": 9,
+  "fundamentalEstimateCount": 0,
+  "universeGeneratedAt": "2026-10-15T08:24:05.160381Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
-    {
-      "date": "2026-10-13",
-      "sourceCompanyName": "Origin Energy Ltd.",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/origin_energy",
-      "symbol": "ORG.AX",
-      "name": "Origin Energy Limited",
-      "companyKey": "ORIGIN ENERGY",
-      "currency": "AUD",
-      "matchConfidence": 1,
-      "baseScore": 59,
-      "fundamentalScore": 59,
-      "fundamentalConfidence": 0.92,
-      "profitForecastPositive": false,
-      "fundamentalReasons": [
-        "Analysten erwarten leicht rückläufiges EPS",
-        "Kurs unter der 200-Tage-Linie",
-        "Gesunde Position im 52-Wochen-Band (46%)",
-        "Kurs ueber der 200-Tage-Linie",
-        "Gesunde Position im 52-Wochen-Band (53%)",
-        "Gesunde Position im 52-Wochen-Band (54%)"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 0.66,
-        "epsNextYearEstimate": 0.6,
-        "revenueCurrentYearEstimate": 15401.93,
-        "revenueNextYearEstimate": 15316.77
-      },
-      "daysUntil": -1,
-      "baseLabel": "LEICHT POSITIV",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": 1,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": 8,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 0,
-          "label": "2 frische Meldungen"
-        }
-      ],
-      "chartDelta": 8,
-      "newsDelta": 0,
-      "fundamentalDelta": 1,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "Energy & Utilities Roundup: Market Talk",
-        "3 Dividend Stocks That Could Hold Up Better As Rates Stay Higher"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "AUD",
-        "samples": 256,
-        "last": 11.6,
-        "changeM1": -2.2,
-        "changeM3": 10.2,
-        "changeM6": -6.7,
-        "sma50": 11.4,
-        "sma200": 11.4,
-        "position52w": 53.8,
-        "drawdownFromHigh": -9.5,
-        "volatility20d": 25.6,
-        "volumeTrend": -37.8
-      },
-      "scoreEvaluatedAt": "2026-10-14T09:37:51.717Z",
-      "scoreValidUntil": "2026-10-15T09:37:51.717Z"
-    },
-    {
-      "date": "2026-10-13",
-      "sourceCompanyName": "Procter & Gamble Co.",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/procter_gamble",
-      "symbol": "PG",
-      "name": "The Procter & Gamble Company",
-      "companyKey": "PROCTER GAMBLE",
-      "currency": "USD",
-      "matchConfidence": 1,
-      "baseScore": 81,
-      "fundamentalScore": 81,
-      "fundamentalConfidence": 0.92,
-      "profitForecastPositive": true,
-      "fundamentalReasons": [
-        "Analysten erwarten leicht höheres EPS (+6%)",
-        "Umsatzschätzung nächstes Jahr +3%",
-        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
-        "Kurs unter der 200-Tage-Linie",
-        "4 positive von 10 frischen Meldungen",
-        "Kurs ueber der 200-Tage-Linie"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 6.97,
-        "epsNextYearEstimate": 7.39,
-        "revenueCurrentYearEstimate": 88734.51,
-        "revenueNextYearEstimate": 91283
-      },
-      "daysUntil": -1,
-      "baseLabel": "POSITIV",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": 24,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": 6,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 1,
-          "label": "10 frische Meldungen"
-        }
-      ],
-      "chartDelta": 6,
-      "newsDelta": 1,
-      "fundamentalDelta": 24,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "P&G (PG) Trades Below Its Historical Average: Bargain or Value Trap?",
-        "Retiring at 56 on $5,950 a Month for Life: The Portfolio Size Most People Guess Wrong",
-        "The Market Is Flashing Warning Signals Not Seen in Years. Here’s Why I Just Bought 3 of SCHD’s Dividend Kings.",
-        "Kimberly-Clark’s 54-Year Dividend Streak Faces Pressure as Free Cash Flow Barely Covers Payout"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "USD",
-        "samples": 251,
-        "last": 153,
-        "changeM1": 4.7,
-        "changeM3": 3.4,
-        "changeM6": 6,
-        "sma50": 146.3,
-        "sma200": 147.8,
-        "position52w": 51.4,
-        "drawdownFromHigh": -8.5,
-        "volatility20d": 16.7,
-        "volumeTrend": -5
-      },
-      "scoreEvaluatedAt": "2026-10-14T09:37:51.717Z",
-      "scoreValidUntil": "2026-10-15T09:37:51.717Z"
-    },
     {
       "date": "2026-10-15",
       "sourceCompanyName": "Medtronic PLC",
@@ -190,8 +30,8 @@
       "companyKey": "MEDTRONIC",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 91,
-      "fundamentalScore": 91,
+      "baseScore": 89,
+      "fundamentalScore": 89,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": null,
       "fundamentalReasons": [
@@ -213,7 +53,7 @@
         "trailingPE": null,
         "marketCap": null
       },
-      "daysUntil": 1,
+      "daysUntil": 0,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -223,7 +63,7 @@
         },
         {
           "key": "CHART",
-          "delta": 16,
+          "delta": 14,
           "label": "Kursstruktur 1 Jahr"
         },
         {
@@ -232,15 +72,15 @@
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": 16,
+      "chartDelta": 14,
       "newsDelta": 1,
       "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Medtronic (MDT) Increases Despite Market Slip: Here's What You Need to Know",
-        "mHealth Solutions Market Forecasts Growth from $109.05B (2026) to $275.44B by 2031, Profiling Philips, Medtronic, Abbott, Dexcom, ResMed & 2",
-        "US Stock Market Today: S&P 500 Futures Edge Higher On Hot Inflation Expectations",
-        "Global Bioelectronic Medicine Device Market 2026 | Capitalize on 17% CAGR Through 2030 as Medtronic, Abbott, Boston Scientific and LivaNova "
+        "What Could BSX Stock Be Worth In Three Years?",
+        "ISRG Gains Nearly 12% in a Month: Should You Buy, Hold or Sell?",
+        "Medtronic to Exchange Remaining MiniMed Stake After Oversubscribed Offer",
+        "Why Did J&J Stock Fall After Q3 Earnings Despite Raised Guidance?"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -251,19 +91,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 93,
-        "changeM1": -0.8,
-        "changeM3": 15.6,
-        "changeM6": 5.5,
-        "sma50": 90.4,
+        "last": 94.2,
+        "changeM1": 0.5,
+        "changeM3": 12.8,
+        "changeM6": 8.2,
+        "sma50": 90.5,
         "sma200": 88.3,
-        "position52w": 60.9,
-        "drawdownFromHigh": -11.7,
-        "volatility20d": 24.5,
-        "volumeTrend": 420.5
+        "position52w": 64.8,
+        "drawdownFromHigh": -10.6,
+        "volatility20d": 24.9,
+        "volumeTrend": 422.3
       },
-      "scoreEvaluatedAt": "2026-10-14T09:37:51.717Z",
-      "scoreValidUntil": "2026-10-15T09:37:51.717Z"
+      "scoreEvaluatedAt": "2026-10-15T09:15:53.406Z",
+      "scoreValidUntil": "2026-10-16T09:15:53.406Z"
     },
     {
       "date": "2026-10-15",
@@ -275,8 +115,8 @@
       "companyKey": "PAYCHEX",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 32,
-      "fundamentalScore": 32,
+      "baseScore": 33,
+      "fundamentalScore": 33,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -294,34 +134,34 @@
         "revenueCurrentYearEstimate": 6863.25,
         "revenueNextYearEstimate": 7239.77
       },
-      "daysUntil": 1,
+      "daysUntil": 0,
       "baseLabel": "VORSICHT",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -23,
+          "delta": -18,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": 3,
+          "delta": 0,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": 2,
+          "delta": 1,
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": 3,
-      "newsDelta": 2,
-      "fundamentalDelta": -23,
+      "chartDelta": 0,
+      "newsDelta": 1,
+      "fundamentalDelta": -18,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Dow Jones Futures Rise After Meta, AMD Lead Buys; ASML Earnings Strong, CPI Inflation Due",
-        "Palantir Billionaire Peter Thiel Buys 2 Brilliant AI Stocks (Hint: Not Nvidia or Micron)",
-        "Dow Futures Rise, Nasdaq Subdued Premarket Ahead Of Inflation Data: ASML, MU, SKHY, TSLA, BAC, LQDA, GME, IREN Stocks In Focus",
-        "Micron's Customer Contracts Just Took the Memory Cycle Off the Table"
+        "Why Are Nasdaq Futures Sinking Premarket? CRWV, MU, TSM, SKHY, IBRX, RKLB, TSLA Stocks In Focus",
+        "The Stock Market Is Echoing a Warning From the Dot-Com Bubble, and History Says Investors Should Make This 1 Move",
+        "Global chipmakers sink as inflation data fuels rate-hike fears, AI rout",
+        "Nvidia stock sinks as chip sell-off deepens on hot inflation data"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -332,19 +172,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 106.3,
-        "changeM1": -10.3,
-        "changeM3": -3.4,
-        "changeM6": 19.6,
-        "sma50": 115.1,
+        "last": 108.4,
+        "changeM1": -8.4,
+        "changeM3": -5.5,
+        "changeM6": 20.1,
+        "sma50": 114.9,
         "sma200": 103.4,
-        "position52w": 48.1,
-        "drawdownFromHigh": -17.4,
-        "volatility20d": 37.3,
-        "volumeTrend": -12.5
+        "position52w": 54.3,
+        "drawdownFromHigh": -15,
+        "volatility20d": 38.3,
+        "volumeTrend": -15.1
       },
-      "scoreEvaluatedAt": "2026-10-14T09:37:51.717Z",
-      "scoreValidUntil": "2026-10-15T09:37:51.717Z"
+      "scoreEvaluatedAt": "2026-10-15T09:15:53.406Z",
+      "scoreValidUntil": "2026-10-16T09:15:53.406Z"
     },
     {
       "date": "2026-10-19",
@@ -356,14 +196,15 @@
       "companyKey": "STOCKLAND",
       "currency": "AUD",
       "matchConfidence": 1,
-      "baseScore": 32,
-      "fundamentalScore": 32,
-      "fundamentalConfidence": 0.754,
+      "baseScore": 26,
+      "fundamentalScore": 26,
+      "fundamentalConfidence": 0.861,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+5%)",
         "Umsatzschätzung nächstes Jahr +4%",
-        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)"
+        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
+        "1 positive von 2 frischen Meldungen"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -372,47 +213,55 @@
         "revenueCurrentYearEstimate": 1251.71,
         "revenueNextYearEstimate": 1306.76
       },
-      "daysUntil": 5,
-      "baseLabel": "VORSICHT",
+      "daysUntil": 4,
+      "baseLabel": "NEGATIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -9,
+          "delta": -18,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
           "delta": -9,
           "label": "Kursstruktur 1 Jahr"
+        },
+        {
+          "key": "NEWS",
+          "delta": 3,
+          "label": "2 frische Meldungen"
         }
       ],
       "chartDelta": -9,
-      "newsDelta": 0,
-      "fundamentalDelta": -9,
+      "newsDelta": 3,
+      "fundamentalDelta": -18,
       "newsGuidance": 0,
-      "newsHeadlines": [],
+      "newsHeadlines": [
+        "Should Stockland’s Hyperscale Data Center Pivot With EdgeConneX Require Action From Stockland (ASX:SGP) Investors?",
+        "EdgeConneX Enters Australia in Partnership with Stockland, with Hyperscale Data Center Campuses Planned in Sydney and Melbourne"
+      ],
       "dataQuality": {
         "zahlen": true,
         "chart": true,
-        "news": false
+        "news": true
       },
       "chart": {
         "source": "Yahoo chart 1y/1d",
         "currency": "AUD",
         "samples": 256,
         "last": 4.2,
-        "changeM1": 0.5,
-        "changeM3": 1.2,
-        "changeM6": -1.9,
+        "changeM1": 1,
+        "changeM3": 2.4,
+        "changeM6": 0.5,
         "sma50": 4.3,
         "sma200": 4.4,
-        "position52w": 14.6,
-        "drawdownFromHigh": -38.2,
-        "volatility20d": 32.4,
-        "volumeTrend": -61.1
+        "position52w": 17.3,
+        "drawdownFromHigh": -37,
+        "volatility20d": 32.7,
+        "volumeTrend": -60.1
       },
-      "scoreEvaluatedAt": "2026-10-14T09:37:51.717Z",
-      "scoreValidUntil": "2026-10-15T09:37:51.717Z"
+      "scoreEvaluatedAt": "2026-10-15T09:15:53.406Z",
+      "scoreValidUntil": "2026-10-16T09:15:53.406Z"
     },
     {
       "date": "2026-10-21",
@@ -424,9 +273,9 @@
       "companyKey": "BRAMBLES",
       "currency": "AUD",
       "matchConfidence": 0.76,
-      "baseScore": 55,
-      "fundamentalScore": 55,
-      "fundamentalConfidence": 0.886,
+      "baseScore": 52,
+      "fundamentalScore": 52,
+      "fundamentalConfidence": 0.901,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Wachstum ca. 12%",
@@ -440,12 +289,12 @@
         "revenueCurrentYearEstimate": 7287.9,
         "revenueNextYearEstimate": 7618.56
       },
-      "daysUntil": 7,
+      "daysUntil": 6,
       "baseLabel": "NEUTRAL",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 8,
+          "delta": 5,
           "label": "Analystenschaetzungen"
         },
         {
@@ -461,7 +310,7 @@
       ],
       "chartDelta": -3,
       "newsDelta": 0,
-      "fundamentalDelta": 8,
+      "fundamentalDelta": 5,
       "newsGuidance": 0,
       "newsHeadlines": [
         "Brambles (ASX:BXB) Just Gave Investors Something To Think About"
@@ -475,19 +324,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "AUD",
         "samples": 256,
-        "last": 19.6,
-        "changeM1": 3.5,
-        "changeM3": 0.8,
-        "changeM6": -13.8,
+        "last": 19.8,
+        "changeM1": 5.3,
+        "changeM3": 2.6,
+        "changeM6": -11.9,
         "sma50": 19.2,
         "sma200": 20.7,
-        "position52w": 35.4,
-        "drawdownFromHigh": -22.7,
-        "volatility20d": 20.8,
-        "volumeTrend": -25.3
+        "position52w": 38.6,
+        "drawdownFromHigh": -21.6,
+        "volatility20d": 21.2,
+        "volumeTrend": -22.4
       },
-      "scoreEvaluatedAt": "2026-10-14T09:37:51.717Z",
-      "scoreValidUntil": "2026-10-15T09:37:51.717Z"
+      "scoreEvaluatedAt": "2026-10-15T09:15:53.406Z",
+      "scoreValidUntil": "2026-10-16T09:15:53.406Z"
     },
     {
       "date": "2026-10-21",
@@ -499,9 +348,9 @@
       "companyKey": "INSURANCE AUSTRALIA",
       "currency": "AUD",
       "matchConfidence": 1,
-      "baseScore": 80,
-      "fundamentalScore": 80,
-      "fundamentalConfidence": 0.886,
+      "baseScore": 78,
+      "fundamentalScore": 78,
+      "fundamentalConfidence": 0.901,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+4%)",
@@ -518,17 +367,17 @@
         "revenueCurrentYearEstimate": 19287.38,
         "revenueNextYearEstimate": 20077.59
       },
-      "daysUntil": 7,
+      "daysUntil": 6,
       "baseLabel": "POSITIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 23,
+          "delta": 24,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": 10,
+          "delta": 7,
           "label": "Kursstruktur 1 Jahr"
         },
         {
@@ -537,9 +386,9 @@
           "label": "1 frische Meldungen"
         }
       ],
-      "chartDelta": 10,
+      "chartDelta": 7,
       "newsDelta": -3,
-      "fundamentalDelta": 23,
+      "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
         "Insurance Australia agrees to settle $2 bln Credit Suisse Greensill lawsuit"
@@ -553,19 +402,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "AUD",
         "samples": 256,
-        "last": 8.3,
-        "changeM1": 3.2,
-        "changeM3": -1.4,
-        "changeM6": 11.1,
+        "last": 8.5,
+        "changeM1": 4.7,
+        "changeM3": 0.5,
+        "changeM6": 13.5,
         "sma50": 8,
         "sma200": 7.7,
-        "position52w": 81.6,
-        "drawdownFromHigh": -4.8,
-        "volatility20d": 21.2,
-        "volumeTrend": -21.1
+        "position52w": 89.5,
+        "drawdownFromHigh": -2.8,
+        "volatility20d": 22.3,
+        "volumeTrend": -15.6
       },
-      "scoreEvaluatedAt": "2026-10-14T09:37:51.717Z",
-      "scoreValidUntil": "2026-10-15T09:37:51.717Z"
+      "scoreEvaluatedAt": "2026-10-15T09:15:53.406Z",
+      "scoreValidUntil": "2026-10-16T09:15:53.406Z"
     },
     {
       "date": "2026-10-21",
@@ -577,15 +426,16 @@
       "companyKey": "TRANSURBAN",
       "currency": "AUD",
       "matchConfidence": 1,
-      "baseScore": 16,
-      "fundamentalScore": 16,
-      "fundamentalConfidence": 0.85,
+      "baseScore": 20,
+      "fundamentalScore": 20,
+      "fundamentalConfidence": 0.884,
       "profitForecastPositive": false,
       "fundamentalReasons": [
         "Analysten erwarten leicht rückläufiges EPS",
         "Umsatzschätzung nächstes Jahr +4%",
         "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
-        "Kurs nahe 52-Wochen-Tief"
+        "Kurs nahe 52-Wochen-Tief",
+        "Kurs unter der 200-Tage-Linie"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -594,88 +444,12 @@
         "revenueCurrentYearEstimate": 3919.78,
         "revenueNextYearEstimate": 4081.55
       },
-      "daysUntil": 7,
+      "daysUntil": 6,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
           "delta": -24,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": -10,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 0,
-          "label": "1 frische Meldungen"
-        }
-      ],
-      "chartDelta": -10,
-      "newsDelta": 0,
-      "fundamentalDelta": -24,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "Transurban to buy $4.5 billion of Sydney toll-road stakes from CPP Investments"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "AUD",
-        "samples": 256,
-        "last": 13.3,
-        "changeM1": -0.7,
-        "changeM3": -9.8,
-        "changeM6": -3.4,
-        "sma50": 13.6,
-        "sma200": 14.1,
-        "position52w": 14.7,
-        "drawdownFromHigh": -14.5,
-        "volatility20d": 16.6,
-        "volumeTrend": -25.8
-      },
-      "scoreEvaluatedAt": "2026-10-14T09:37:51.717Z",
-      "scoreValidUntil": "2026-10-15T09:37:51.717Z"
-    },
-    {
-      "date": "2026-10-22",
-      "sourceCompanyName": "Aurizon Holdings Ltd",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/aurizon_holdings",
-      "symbol": "AZJ.AX",
-      "name": "Aurizon Holdings Limited",
-      "companyKey": "AURIZON",
-      "currency": "AUD",
-      "matchConfidence": 1,
-      "baseScore": 25,
-      "fundamentalScore": 25,
-      "fundamentalConfidence": 0.886,
-      "profitForecastPositive": false,
-      "fundamentalReasons": [
-        "Analysten erwarten leicht rückläufiges EPS",
-        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
-        "Kurs unter der 200-Tage-Linie",
-        "Gesunde Position im 52-Wochen-Band (47%)"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 0.26,
-        "epsNextYearEstimate": 0.25,
-        "revenueCurrentYearEstimate": 4233.76,
-        "revenueNextYearEstimate": 4240.86
-      },
-      "daysUntil": 8,
-      "baseLabel": "NEGATIV",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": -19,
           "label": "Analystenschaetzungen"
         },
         {
@@ -691,7 +465,84 @@
       ],
       "chartDelta": -6,
       "newsDelta": 0,
-      "fundamentalDelta": -19,
+      "fundamentalDelta": -24,
+      "newsGuidance": 0,
+      "newsHeadlines": [
+        "Transurban to buy $4.5 billion of Sydney toll-road stakes from CPP Investments"
+      ],
+      "dataQuality": {
+        "zahlen": true,
+        "chart": true,
+        "news": true
+      },
+      "chart": {
+        "source": "Yahoo chart 1y/1d",
+        "currency": "AUD",
+        "samples": 256,
+        "last": 13.6,
+        "changeM1": 1.4,
+        "changeM3": -6.9,
+        "changeM6": -1.7,
+        "sma50": 13.6,
+        "sma200": 14.1,
+        "position52w": 24.1,
+        "drawdownFromHigh": -12.9,
+        "volatility20d": 17.9,
+        "volumeTrend": -13.5
+      },
+      "scoreEvaluatedAt": "2026-10-15T09:15:53.406Z",
+      "scoreValidUntil": "2026-10-16T09:15:53.406Z"
+    },
+    {
+      "date": "2026-10-22",
+      "sourceCompanyName": "Aurizon Holdings Ltd",
+      "source": "finanzen.net Hauptversammlung",
+      "sourceHref": "https://www.finanzen.net/termine/aurizon_holdings",
+      "symbol": "AZJ.AX",
+      "name": "Aurizon Holdings Limited",
+      "companyKey": "AURIZON",
+      "currency": "AUD",
+      "matchConfidence": 1,
+      "baseScore": 23,
+      "fundamentalScore": 23,
+      "fundamentalConfidence": 0.901,
+      "profitForecastPositive": false,
+      "fundamentalReasons": [
+        "Analysten erwarten leicht rückläufiges EPS",
+        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
+        "Kurs unter der 200-Tage-Linie",
+        "Gesunde Position im 52-Wochen-Band (47%)",
+        "Gesunde Position im 52-Wochen-Band (46%)"
+      ],
+      "fundamentals": {
+        "source": "finanzen.net Schätzungen",
+        "epsCurrentYearEstimate": 0.26,
+        "epsNextYearEstimate": 0.25,
+        "revenueCurrentYearEstimate": 4233.76,
+        "revenueNextYearEstimate": 4240.86
+      },
+      "daysUntil": 7,
+      "baseLabel": "NEGATIV",
+      "scoreParts": [
+        {
+          "key": "ZAHLEN",
+          "delta": -24,
+          "label": "Analystenschaetzungen"
+        },
+        {
+          "key": "CHART",
+          "delta": -3,
+          "label": "Kursstruktur 1 Jahr"
+        },
+        {
+          "key": "NEWS",
+          "delta": 0,
+          "label": "1 frische Meldungen"
+        }
+      ],
+      "chartDelta": -3,
+      "newsDelta": 0,
+      "fundamentalDelta": -24,
       "newsGuidance": 0,
       "newsHeadlines": [
         "3 Australian Dividend Stocks Offering Defensive Income Right Now"
@@ -707,17 +558,17 @@
         "samples": 256,
         "last": 3.8,
         "changeM1": 1.1,
-        "changeM3": -12,
-        "changeM6": -8.3,
+        "changeM3": -10.8,
+        "changeM6": -8,
         "sma50": 3.8,
         "sma200": 4,
-        "position52w": 44.2,
-        "drawdownFromHigh": -14.4,
+        "position52w": 45.9,
+        "drawdownFromHigh": -13.5,
         "volatility20d": 14.2,
-        "volumeTrend": -28.4
+        "volumeTrend": -27.3
       },
-      "scoreEvaluatedAt": "2026-10-14T09:37:51.717Z",
-      "scoreValidUntil": "2026-10-15T09:37:51.717Z"
+      "scoreEvaluatedAt": "2026-10-15T09:15:53.406Z",
+      "scoreValidUntil": "2026-10-16T09:15:53.406Z"
     },
     {
       "date": "2026-10-24",
@@ -729,15 +580,16 @@
       "companyKey": "SEAGATE TECHNOLOGY",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 75,
-      "fundamentalScore": 75,
-      "fundamentalConfidence": 0.881,
+      "baseScore": 80,
+      "fundamentalScore": 80,
+      "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Wachstum ca. 59%",
         "Umsatzschätzung nächstes Jahr +36%",
         "Kurs ueber der 200-Tage-Linie",
-        "Gesunde Position im 52-Wochen-Band (61%)"
+        "Gesunde Position im 52-Wochen-Band (61%)",
+        "Gesunde Position im 52-Wochen-Band (57%)"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -746,35 +598,34 @@
         "revenueCurrentYearEstimate": 18900.72,
         "revenueNextYearEstimate": 25757.16
       },
-      "daysUntil": 10,
+      "daysUntil": 9,
       "baseLabel": "POSITIV",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/seagate_technology",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 21,
+          "delta": 24,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": 3,
+          "delta": 6,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": 1,
-          "label": "8 frische Meldungen"
+          "delta": 0,
+          "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": 3,
-      "newsDelta": 1,
-      "fundamentalDelta": 21,
+      "chartDelta": 6,
+      "newsDelta": 0,
+      "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Earnings Momentum Likely to Support U.S. Equities Despite High Bond Yields",
-        "China Spooked Memory Stocks. Investors Picked Their Losers.",
-        "Seagate Technology to Report Fiscal First Quarter 2027 Financial Results on October 27, 2026",
-        "China's CXMT Sparked a Global Chip Stock Rout. Why Samsung, Micron and SK Hynix Are Tumbling."
+        "Global chipmakers sink as inflation data fuels rate-hike fears, AI rout",
+        "AI Memory Chip Selloff Looks Overblown: 2 Stocks to Buy on the Dip",
+        "Western Digital Lost One Third Its Value Over 3 Months: It’S Ready to Provide 175% Returns Says This Wall Street Pro",
+        "Not Nvidia. Not Broadcom. This Storage Stock Could Be 2027's Hidden AI Winner."
       ],
       "dataQuality": {
         "zahlen": true,
@@ -785,19 +636,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 747.2,
-        "changeM1": -7.2,
-        "changeM3": -9.8,
-        "changeM6": 40.1,
-        "sma50": 851.5,
-        "sma200": 668.5,
-        "position52w": 60.7,
-        "drawdownFromHigh": -31.7,
-        "volatility20d": 67,
-        "volumeTrend": 27.8
+        "last": 713.5,
+        "changeM1": -7.5,
+        "changeM3": -4.3,
+        "changeM6": 37.3,
+        "sma50": 848.9,
+        "sma200": 670.6,
+        "position52w": 56.7,
+        "drawdownFromHigh": -34.8,
+        "volatility20d": 67.2,
+        "volumeTrend": 32.1
       },
-      "scoreEvaluatedAt": "2026-10-14T09:37:51.717Z",
-      "scoreValidUntil": "2026-10-15T09:37:51.717Z"
+      "scoreEvaluatedAt": "2026-10-15T09:15:53.406Z",
+      "scoreValidUntil": "2026-10-16T09:15:53.406Z"
     },
     {
       "date": "2026-10-25",
@@ -809,8 +660,8 @@
       "companyKey": "COCHLEAR",
       "currency": "AUD",
       "matchConfidence": 1,
-      "baseScore": 38,
-      "fundamentalScore": 38,
+      "baseScore": 31,
+      "fundamentalScore": 31,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -825,12 +676,12 @@
         "revenueCurrentYearEstimate": 2380.69,
         "revenueNextYearEstimate": 2513.88
       },
-      "daysUntil": 11,
+      "daysUntil": 10,
       "baseLabel": "VORSICHT",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -5,
+          "delta": -12,
           "label": "Analystenschaetzungen"
         },
         {
@@ -841,14 +692,15 @@
         {
           "key": "NEWS",
           "delta": 0,
-          "label": "3 frische Meldungen"
+          "label": "4 frische Meldungen"
         }
       ],
       "chartDelta": -7,
       "newsDelta": 0,
-      "fundamentalDelta": -5,
+      "fundamentalDelta": -12,
       "newsGuidance": 0,
       "newsHeadlines": [
+        "Cochlear Named #1 Most Trustworthy Healthcare Company In The World For 2026",
         "Top 3 Australian Healthcare Stocks To Watch In October 2026",
         "Cochlear And 2 Australian Healthcare Stocks To Watch",
         "Cochlear Reaches More Than 1 Million Hours of Patient Experience Across Its Fully Implantable Hearing Technology Research Program"
@@ -862,27 +714,27 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "AUD",
         "samples": 256,
-        "last": 129.3,
-        "changeM1": -5.8,
-        "changeM3": 8.6,
-        "changeM6": -23,
+        "last": 128.7,
+        "changeM1": -5.6,
+        "changeM3": 9.1,
+        "changeM6": 29.3,
         "sma50": 135.3,
-        "sma200": 153.4,
-        "position52w": 19,
-        "drawdownFromHigh": -56.4,
+        "sma200": 152.7,
+        "position52w": 18.8,
+        "drawdownFromHigh": -56.5,
         "volatility20d": 39.7,
-        "volumeTrend": -29.9
+        "volumeTrend": -31.3
       },
-      "scoreEvaluatedAt": "2026-10-14T09:37:51.717Z",
-      "scoreValidUntil": "2026-10-15T09:37:51.717Z"
+      "scoreEvaluatedAt": "2026-10-15T09:15:53.406Z",
+      "scoreValidUntil": "2026-10-16T09:15:53.406Z"
     }
   ],
-  "estimateAttemptCount": 11,
+  "estimateAttemptCount": 9,
   "scoreModelVersion": 27.7,
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
-  "chartProfileCount": 11,
-  "newsProfileCount": 10,
+  "chartProfileCount": 9,
+  "newsProfileCount": 9,
   "neutralScoreCount": 0,
-  "signalCoveredCount": 11
+  "signalCoveredCount": 9
 }
