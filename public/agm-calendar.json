@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-10-28T10:42:25.575Z",
-  "nextRefreshAfter": "2026-10-29T10:42:25.575Z",
+  "updatedAt": "2026-10-29T10:59:27.617Z",
+  "nextRefreshAfter": "2026-10-30T10:59:27.617Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,173 +14,12 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 26,
-  "matchedUpcomingCount": 11,
-  "fundamentalEstimateCount": 2,
-  "universeGeneratedAt": "2026-10-28T09:47:30.582881Z",
+  "rawUpcomingCount": 21,
+  "matchedUpcomingCount": 8,
+  "fundamentalEstimateCount": 0,
+  "universeGeneratedAt": "2026-10-29T10:06:21.850579Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
-    {
-      "date": "2026-10-27",
-      "sourceCompanyName": "Cintas Corp.",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/cintas",
-      "symbol": "CTAS",
-      "name": "Cintas Corporation",
-      "companyKey": "CINTAS",
-      "currency": "USD",
-      "matchConfidence": 1,
-      "baseScore": 84,
-      "fundamentalScore": 84,
-      "fundamentalConfidence": 0.92,
-      "profitForecastPositive": true,
-      "fundamentalReasons": [
-        "Analysten erwarten leicht höheres EPS (+12%)",
-        "Umsatzschätzung nächstes Jahr +7%",
-        "Chart im Aufwaertstrend (Kurs > 50- > 200-Tage-Linie)",
-        "Kurs direkt am 52-Wochen-Hoch - wenig Vorab-Luft",
-        "Gesunde Position im 52-Wochen-Band (82%)"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 5.54,
-        "epsNextYearEstimate": 6.18,
-        "revenueCurrentYearEstimate": 12249.81,
-        "revenueNextYearEstimate": 13168.31
-      },
-      "daysUntil": -1,
-      "baseLabel": "SEHR POSITIV",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": 24,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": 10,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 0,
-          "label": "10 frische Meldungen"
-        }
-      ],
-      "chartDelta": 10,
-      "newsDelta": 0,
-      "fundamentalDelta": 24,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "UniFirst Sinks 10% as FTC Reportedly Moves to Block $5.5 Billion Cintas Takeover",
-        "Cintas Corporation Announces Quarterly Cash Dividend",
-        "Columbia Sportswear to Report Q3 Earnings: Key Insights for Investors",
-        "Stock Market Midday, Oct. 27: Tech Stocks Drive Momentum and SoFi Surges 15%"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "USD",
-        "samples": 251,
-        "last": 214.8,
-        "changeM1": 7.1,
-        "changeM3": -0.8,
-        "changeM6": 23.3,
-        "sma50": 203.6,
-        "sma200": 189.9,
-        "position52w": 82.2,
-        "drawdownFromHigh": -4.9,
-        "volatility20d": 25.9,
-        "volumeTrend": 20.7
-      },
-      "scoreEvaluatedAt": "2026-10-28T10:42:25.575Z",
-      "scoreValidUntil": "2026-10-29T10:42:25.575Z"
-    },
-    {
-      "date": "2026-10-27",
-      "sourceCompanyName": "Synaptics Inc.",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/synaptics",
-      "symbol": "S2YN34.SA",
-      "name": "Synaptics Incorporated",
-      "companyKey": "SYNAPTICS",
-      "currency": "BRL",
-      "matchConfidence": 1,
-      "baseScore": 56,
-      "fundamentalScore": 56,
-      "fundamentalConfidence": 0.837,
-      "profitForecastPositive": true,
-      "fundamentalReasons": [
-        "Analysten erwarten EPS-Wachstum ca. 25%",
-        "Umsatzschätzung nächstes Jahr +11%",
-        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
-        "Kurs nahe 52-Wochen-Tief",
-        "3 positive von 10 frischen Meldungen"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 5.21,
-        "epsNextYearEstimate": 6.5,
-        "revenueCurrentYearEstimate": 1288.8,
-        "revenueNextYearEstimate": 1430.17
-      },
-      "daysUntil": -1,
-      "baseLabel": "NEUTRAL",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/synaptics",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": 16,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": -13,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 3,
-          "label": "10 frische Meldungen"
-        }
-      ],
-      "chartDelta": -13,
-      "newsDelta": 3,
-      "fundamentalDelta": 16,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "Market Chatter: ON Semiconductor Nears Deal to Buy Ferric for About $1 Billion",
-        "Synaptics Stockholders Approve Equity Plan Expansion, Elect Eight Directors",
-        "Rambus (RMBS) Beats Q3 Earnings and Revenue Estimates",
-        "Ase Technology to Report Q3 Earnings: Buy, Sell or Hold the Stock?"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "BRL",
-        "samples": 71,
-        "last": 16.7,
-        "changeM1": 0,
-        "changeM3": -7.9,
-        "changeM6": -13.9,
-        "sma50": 16.9,
-        "sma200": 17.5,
-        "position52w": 0,
-        "drawdownFromHigh": -17.5,
-        "volatility20d": 0,
-        "volumeTrend": null
-      },
-      "scoreEvaluatedAt": "2026-10-28T10:42:25.575Z",
-      "scoreValidUntil": "2026-10-29T10:42:25.575Z"
-    },
     {
       "date": "2026-10-28",
       "sourceCompanyName": "Parker Hannifin Corp.",
@@ -191,8 +30,8 @@
       "companyKey": "PARKER HANNIFIN",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 20,
-      "fundamentalScore": 20,
+      "baseScore": 25,
+      "fundamentalScore": 25,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -210,7 +49,7 @@
         "revenueCurrentYearEstimate": 24976.85,
         "revenueNextYearEstimate": 26803.71
       },
-      "daysUntil": 0,
+      "daysUntil": -1,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -220,24 +59,24 @@
         },
         {
           "key": "CHART",
-          "delta": -6,
+          "delta": -3,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": 0,
+          "delta": 2,
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": -6,
-      "newsDelta": 0,
+      "chartDelta": -3,
+      "newsDelta": 2,
       "fundamentalDelta": -24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "What Does TransDigm Offer That Huntington Ingalls Does Not?",
-        "Can TransDigm Stock Bounce Off The Current Support?",
-        "Parker-Hannifin Earnings Preview: What to Expect",
-        "What Is The Market Seeing In Loar Stock?"
+        "Is Parker Hannifin (PH) Undervalued Following Its Record Fiscal Year?",
+        "Is Parker Hannifin (PH) Stock Reasonably Valued on Cash Flow?",
+        "Parker Declares Quarterly Cash Dividend",
+        "Flowserve (FLS) Q3 Earnings and Revenues Surpass Estimates"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -248,19 +87,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 900.7,
-        "changeM1": -7.1,
+        "last": 911.9,
+        "changeM1": -6,
         "changeM3": -5.3,
-        "changeM6": -6.4,
-        "sma50": 962.5,
-        "sma200": 949.5,
-        "position52w": 43.6,
-        "drawdownFromHigh": -16.1,
-        "volatility20d": 31.8,
-        "volumeTrend": 17.2
+        "changeM6": -3.8,
+        "sma50": 959.9,
+        "sma200": 949.4,
+        "position52w": 46.9,
+        "drawdownFromHigh": -15.1,
+        "volatility20d": 32.2,
+        "volumeTrend": 14.8
       },
-      "scoreEvaluatedAt": "2026-10-28T10:42:25.575Z",
-      "scoreValidUntil": "2026-10-29T10:42:25.575Z"
+      "scoreEvaluatedAt": "2026-10-29T10:59:27.617Z",
+      "scoreValidUntil": "2026-10-30T10:59:27.617Z"
     },
     {
       "date": "2026-10-29",
@@ -272,14 +111,16 @@
       "companyKey": "WESFARMERS",
       "currency": "AUD",
       "matchConfidence": 0.76,
-      "baseScore": 20,
-      "fundamentalScore": 20,
+      "baseScore": 14,
+      "fundamentalScore": 14,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten leicht höheres EPS (+8%)",
         "Umsatzschätzung nächstes Jahr +5%",
-        "Kurs unter der 200-Tage-Linie"
+        "Kurs unter der 200-Tage-Linie",
+        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
+        "3-Monats-Trend -19%"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -288,7 +129,7 @@
         "revenueCurrentYearEstimate": 49473.49,
         "revenueNextYearEstimate": 51702.12
       },
-      "daysUntil": 1,
+      "daysUntil": 0,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -298,7 +139,7 @@
         },
         {
           "key": "CHART",
-          "delta": -6,
+          "delta": -12,
           "label": "Kursstruktur 1 Jahr"
         },
         {
@@ -307,7 +148,7 @@
           "label": "2 frische Meldungen"
         }
       ],
-      "chartDelta": -6,
+      "chartDelta": -12,
       "newsDelta": 0,
       "fundamentalDelta": -24,
       "newsGuidance": 0,
@@ -324,90 +165,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "AUD",
         "samples": 256,
-        "last": 77.1,
-        "changeM1": 0.7,
-        "changeM3": -14.9,
-        "changeM6": 6.8,
-        "sma50": 76.8,
-        "sma200": 80.3,
-        "position52w": 25.6,
-        "drawdownFromHigh": -18.1,
-        "volatility20d": 22.5,
-        "volumeTrend": -1.2
-      },
-      "scoreEvaluatedAt": "2026-10-28T10:42:25.575Z",
-      "scoreValidUntil": "2026-10-29T10:42:25.575Z"
-    },
-    {
-      "date": "2026-10-30",
-      "sourceCompanyName": "Filtronic plc",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/filtronic",
-      "symbol": "FTC.L",
-      "name": "Filtronic plc",
-      "companyKey": "FILTRONIC",
-      "currency": "GBp",
-      "matchConfidence": 1,
-      "baseScore": 17,
-      "fundamentalScore": 17,
-      "fundamentalConfidence": 0.769,
-      "profitForecastPositive": true,
-      "fundamentalReasons": [
-        "Analysten erwarten EPS-Wachstum ca. 33%",
-        "Umsatzschätzung nächstes Jahr +22%",
-        "Kurs ueber der 200-Tage-Linie",
-        "Hohe Schwankung (108% p.a.)",
-        "Hohe Schwankung (111% p.a.)",
-        "Hohe Schwankung (113% p.a.)"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 0.03,
-        "epsNextYearEstimate": 0.04,
-        "revenueCurrentYearEstimate": 61.67,
-        "revenueNextYearEstimate": 75.1
-      },
-      "daysUntil": 2,
-      "baseLabel": "NEGATIV",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": -24,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": -9,
-          "label": "Kursstruktur 1 Jahr"
-        }
-      ],
-      "chartDelta": -9,
-      "newsDelta": 0,
-      "fundamentalDelta": -24,
-      "newsGuidance": 0,
-      "newsHeadlines": [],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": false
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "GBp",
-        "samples": 254,
-        "last": 230.5,
+        "last": 74,
         "changeM1": -2.3,
-        "changeM3": -1.9,
-        "changeM6": -20.8,
-        "sma50": 251,
-        "sma200": 256.1,
-        "position52w": 30.6,
-        "drawdownFromHigh": -50.9,
-        "volatility20d": 120.1,
-        "volumeTrend": 90.3
+        "changeM3": -18.7,
+        "changeM6": 1.8,
+        "sma50": 76.6,
+        "sma200": 80.2,
+        "position52w": 12.7,
+        "drawdownFromHigh": -20.4,
+        "volatility20d": 26.3,
+        "volumeTrend": -2.8
       },
-      "scoreEvaluatedAt": "2026-10-28T10:42:25.575Z",
-      "scoreValidUntil": "2026-10-29T10:42:25.575Z"
+      "scoreEvaluatedAt": "2026-10-29T10:59:27.617Z",
+      "scoreValidUntil": "2026-10-30T10:59:27.617Z"
     },
     {
       "date": "2026-11-03",
@@ -419,8 +189,8 @@
       "companyKey": "LAM RESEARCH",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 47,
-      "fundamentalScore": 47,
+      "baseScore": 39,
+      "fundamentalScore": 39,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -438,34 +208,34 @@
         "revenueCurrentYearEstimate": 35406.26,
         "revenueNextYearEstimate": 42721.59
       },
-      "daysUntil": 6,
-      "baseLabel": "NEUTRAL",
+      "daysUntil": 5,
+      "baseLabel": "VORSICHT",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 0,
+          "delta": -3,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -6,
+          "delta": -9,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": 3,
+          "delta": 1,
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": -6,
-      "newsDelta": 3,
-      "fundamentalDelta": 0,
+      "chartDelta": -9,
+      "newsDelta": 1,
+      "fundamentalDelta": -3,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "The Case For Lam Research Stock Rests On One Thing",
-        "Zacks Investment Ideas feature highlights: Teradyne, Lam Research and ATI",
-        "Equities Bounce: 3 Top Ranked Stocks to Buy Now (TER, LRCX, ATI)",
-        "Lam Research Stock Is 45% Below Its High. How Deep Have Past Drops Gone?"
+        "Is Lam Research (LRCX) Undervalued As Earnings Reframe The AI Memory Bet?",
+        "Chip Equipment Stocks Rally as SK Hynix Signals Memory Shortage Into 2030: Lam Research Jumps 5%, Applied Materials Climbs 4%, KLA Gains 3%",
+        "“Now in Full Force”: Applied Materials Is Up 73% in a Year. Take Profits, or Buy More?",
+        "Top 5 AI Stocks in Billionaires Ray Dalio and Philippe Laffont’s Portfolios"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -476,19 +246,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 240.9,
-        "changeM1": -23.4,
-        "changeM3": -4.6,
-        "changeM6": -4.1,
-        "sma50": 298.4,
-        "sma200": 283.7,
-        "position52w": 34.5,
-        "drawdownFromHigh": -44.4,
-        "volatility20d": 57.7,
-        "volumeTrend": 50.8
+        "last": 253.8,
+        "changeM1": -21.6,
+        "changeM3": -14.7,
+        "changeM6": 2,
+        "sma50": 297,
+        "sma200": 283.9,
+        "position52w": 38.9,
+        "drawdownFromHigh": -41.4,
+        "volatility20d": 60.4,
+        "volumeTrend": 53.4
       },
-      "scoreEvaluatedAt": "2026-10-28T10:42:25.575Z",
-      "scoreValidUntil": "2026-10-29T10:42:25.575Z"
+      "scoreEvaluatedAt": "2026-10-29T10:59:27.617Z",
+      "scoreValidUntil": "2026-10-30T10:59:27.617Z"
     },
     {
       "date": "2026-11-04",
@@ -519,7 +289,7 @@
         "revenueCurrentYearEstimate": 17647.89,
         "revenueNextYearEstimate": 17570.06
       },
-      "daysUntil": 7,
+      "daysUntil": 6,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -557,19 +327,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 64.5,
-        "changeM1": 2.3,
-        "changeM3": 9.5,
-        "changeM6": 2.2,
-        "sma50": 65.4,
-        "sma200": 62.4,
-        "position52w": 57.6,
-        "drawdownFromHigh": -15.2,
-        "volatility20d": 29.1,
-        "volumeTrend": 6.6
+        "last": 63.4,
+        "changeM1": 1.5,
+        "changeM3": 7.8,
+        "changeM6": 0.7,
+        "sma50": 65.2,
+        "sma200": 62.3,
+        "position52w": 53.4,
+        "drawdownFromHigh": -16.7,
+        "volatility20d": 29.7,
+        "volumeTrend": 14.8
       },
-      "scoreEvaluatedAt": "2026-10-28T10:42:25.575Z",
-      "scoreValidUntil": "2026-10-29T10:42:25.575Z"
+      "scoreEvaluatedAt": "2026-10-29T10:59:27.617Z",
+      "scoreValidUntil": "2026-10-30T10:59:27.617Z"
     },
     {
       "date": "2026-11-04",
@@ -581,9 +351,9 @@
       "companyKey": "KLA",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 52,
-      "fundamentalScore": 52,
-      "fundamentalConfidence": 0.881,
+      "baseScore": 39,
+      "fundamentalScore": 39,
+      "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Wachstum ca. 23%",
@@ -598,13 +368,12 @@
         "revenueCurrentYearEstimate": 18181.82,
         "revenueNextYearEstimate": 21849.98
       },
-      "daysUntil": 7,
-      "baseLabel": "NEUTRAL",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/kla",
+      "daysUntil": 6,
+      "baseLabel": "VORSICHT",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 16,
+          "delta": 2,
           "label": "Analystenschaetzungen"
         },
         {
@@ -614,19 +383,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 1,
+          "delta": 2,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": -15,
-      "newsDelta": 1,
-      "fundamentalDelta": 16,
+      "newsDelta": 2,
+      "fundamentalDelta": 2,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "The Case For Lam Research Stock Rests On One Thing",
-        "Lam Research Stock Is 45% Below Its High. How Deep Have Past Drops Gone?",
-        "Earnings to watch: KLA Corporation (KLAC) reports Q3 results tomorrow",
-        "Market Rotation Overshadows KLA Corp’s (KLAC) Solid Results and Guidance"
+        "Wells Fargo Adjusts Price Target on KLA to $210 From $245",
+        "Citigroup Adjusts Price Target on KLA to $275 From $290",
+        "Stifel Adjusts Price Target on KLA to $230 From $250",
+        "Needham Adjusts Price Target on KLA to $200 From $270"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -637,19 +406,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 153.7,
-        "changeM1": -18.8,
-        "changeM3": -9.7,
-        "changeM6": -15.1,
-        "sma50": 180.3,
-        "sma200": 181.8,
-        "position52w": 22.9,
-        "drawdownFromHigh": -49.1,
-        "volatility20d": 51.6,
-        "volumeTrend": 37.8
+        "last": 158.8,
+        "changeM1": -19.2,
+        "changeM3": -12,
+        "changeM6": -12.6,
+        "sma50": 179.6,
+        "sma200": 181.9,
+        "position52w": 25.6,
+        "drawdownFromHigh": -47.4,
+        "volatility20d": 51,
+        "volumeTrend": 34.2
       },
-      "scoreEvaluatedAt": "2026-10-28T10:42:25.575Z",
-      "scoreValidUntil": "2026-10-29T10:42:25.575Z"
+      "scoreEvaluatedAt": "2026-10-29T10:59:27.617Z",
+      "scoreValidUntil": "2026-10-30T10:59:27.617Z"
     },
     {
       "date": "2026-11-05",
@@ -680,7 +449,7 @@
         "revenueCurrentYearEstimate": 156.24,
         "revenueNextYearEstimate": 172.02
       },
-      "daysUntil": 8,
+      "daysUntil": 7,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -718,19 +487,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 254,
-        "last": 223.7,
-        "changeM1": 3.7,
-        "changeM3": 8.1,
-        "changeM6": 7.8,
-        "sma50": 219.4,
+        "last": 223.4,
+        "changeM1": 2.9,
+        "changeM3": 8.2,
+        "changeM6": 7,
+        "sma50": 219.3,
         "sma200": 218.2,
-        "position52w": 62,
-        "drawdownFromHigh": -16.2,
-        "volatility20d": 23.5,
-        "volumeTrend": 30.5
+        "position52w": 61.7,
+        "drawdownFromHigh": -16.3,
+        "volatility20d": 23.6,
+        "volumeTrend": 40.8
       },
-      "scoreEvaluatedAt": "2026-10-28T10:42:25.575Z",
-      "scoreValidUntil": "2026-10-29T10:42:25.575Z"
+      "scoreEvaluatedAt": "2026-10-29T10:59:27.617Z",
+      "scoreValidUntil": "2026-10-30T10:59:27.617Z"
     },
     {
       "date": "2026-11-05",
@@ -751,7 +520,8 @@
         "Chart im Aufwaertstrend (Kurs > 50- > 200-Tage-Linie)",
         "Gesunde Position im 52-Wochen-Band (79%)",
         "Gesunde Position im 52-Wochen-Band (74%)",
-        "Gesunde Position im 52-Wochen-Band (69%)"
+        "Gesunde Position im 52-Wochen-Band (69%)",
+        "Gesunde Position im 52-Wochen-Band (66%)"
       ],
       "fundamentals": {
         "source": "finanzen.net Schätzungen",
@@ -760,7 +530,7 @@
         "revenueCurrentYearEstimate": 19120.49,
         "revenueNextYearEstimate": 19237.32
       },
-      "daysUntil": 8,
+      "daysUntil": 7,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -784,10 +554,10 @@
       "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "New Strong Buy Stocks for October 28th",
-        "Best Value Stocks to Buy for October 28th",
-        "Best Income Stocks to Buy for October 28th",
-        "India bulk Scotch probe ‘undermining UK agreement, trade group says’"
+        "SMIRNOFF ASSEMBLES AN EPIC FAN EXPERIENCE TO CELEBRATE MARVEL STUDIOS' \"AVENGERS: DOOMSDAY\"",
+        "BLADE AND BOW UNVEILS RARE CASK STRENGTH BOTTLING OF ITS 30-YEAR-OLD KENTUCKY STRAIGHT BOURBON WHISKEY",
+        "All You Need to Know About Diageo (DEO) Rating Upgrade to Strong Buy",
+        "New Strong Buy Stocks for October 28th"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -798,19 +568,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 93.1,
-        "changeM1": 7.9,
-        "changeM3": 4.4,
-        "changeM6": 17.9,
+        "last": 92,
+        "changeM1": 7.8,
+        "changeM3": 3.3,
+        "changeM6": 18.8,
         "sma50": 89.7,
         "sma200": 85.8,
-        "position52w": 69.4,
-        "drawdownFromHigh": -8.9,
-        "volatility20d": 25.8,
+        "position52w": 65.7,
+        "drawdownFromHigh": -10,
+        "volatility20d": 25.9,
         "volumeTrend": -11.3
       },
-      "scoreEvaluatedAt": "2026-10-28T10:42:25.575Z",
-      "scoreValidUntil": "2026-10-29T10:42:25.575Z"
+      "scoreEvaluatedAt": "2026-10-29T10:59:27.617Z",
+      "scoreValidUntil": "2026-10-30T10:59:27.617Z"
     },
     {
       "date": "2026-11-06",
@@ -822,9 +592,9 @@
       "companyKey": "QANTAS AIRWAYS",
       "currency": "AUD",
       "matchConfidence": 1,
-      "baseScore": 32,
-      "fundamentalScore": 32,
-      "fundamentalConfidence": 0.919,
+      "baseScore": 20,
+      "fundamentalScore": 20,
+      "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Wachstum ca. 35%",
@@ -841,12 +611,12 @@
         "revenueCurrentYearEstimate": 27394.98,
         "revenueNextYearEstimate": 28193.81
       },
-      "daysUntil": 9,
-      "baseLabel": "VORSICHT",
+      "daysUntil": 8,
+      "baseLabel": "NEGATIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -6,
+          "delta": -18,
           "label": "Analystenschaetzungen"
         },
         {
@@ -862,7 +632,7 @@
       ],
       "chartDelta": -12,
       "newsDelta": 0,
-      "fundamentalDelta": -6,
+      "fundamentalDelta": -18,
       "newsGuidance": 0,
       "newsHeadlines": [
         "Brambles (ASX:BXB) Shares May Be 43% Undervalued Despite Board Governance Scrutiny",
@@ -878,26 +648,26 @@
         "currency": "AUD",
         "samples": 256,
         "last": 8.7,
-        "changeM1": -4.8,
-        "changeM3": -15.7,
-        "changeM6": 3.7,
+        "changeM1": -3.2,
+        "changeM3": -15.6,
+        "changeM6": 1.4,
         "sma50": 8.9,
         "sma200": 9.4,
-        "position52w": 21,
+        "position52w": 20.5,
         "drawdownFromHigh": -19.2,
-        "volatility20d": 24.1,
-        "volumeTrend": 20.6
+        "volatility20d": 23.3,
+        "volumeTrend": 17.8
       },
-      "scoreEvaluatedAt": "2026-10-28T10:42:25.575Z",
-      "scoreValidUntil": "2026-10-29T10:42:25.575Z"
+      "scoreEvaluatedAt": "2026-10-29T10:59:27.617Z",
+      "scoreValidUntil": "2026-10-30T10:59:27.617Z"
     }
   ],
-  "estimateAttemptCount": 11,
+  "estimateAttemptCount": 8,
   "scoreModelVersion": 27.7,
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
-  "chartProfileCount": 11,
-  "newsProfileCount": 10,
+  "chartProfileCount": 8,
+  "newsProfileCount": 8,
   "neutralScoreCount": 0,
-  "signalCoveredCount": 11
+  "signalCoveredCount": 8
 }
