@@ -1,7 +1,7 @@
 // Automatisch erzeugt durch scripts/calibrate_fast_signals.py.
 export const FAST_CALIBRATION={
   version:'historical-15m-purged-holdout-v2',
-  generatedAt:'2026-10-29T11:05:00.112069+00:00',
+  generatedAt:'2026-10-30T11:00:33.920153+00:00',
   sampleCount:17976,
   trainSampleCount:12432,
   holdoutSampleCount:5256,
@@ -14,5 +14,5 @@ export const FAST_CALIBRATION={
   maxAtrPctBuy:2.50,
   minRelativeVolume:1.10,
   trailing:{activatePnlPct:2.0,minGivebackPct:0.8,maxGivebackPct:2.2,givebackShare:0.34},
-  validation:{trainBuySamples:239,trainBuyHitRate:0.5146,trainBuyMeanPct:0.1439,holdoutBuySamples:92,holdoutBuyHitRate:0.6848,holdoutBuyMeanPct:0.1599,trainSellSamples:1611,trainSellHitRate:0.4569,trainSellMeanPct:-0.1191,holdoutSellSamples:621,holdoutSellHitRate:0.4783,holdoutSellMeanPct:-0.1727,symbols:12,purgeBars:12}
+  validation:{trainBuySamples:231,trainBuyHitRate:0.5238,trainBuyMeanPct:0.1653,holdoutBuySamples:96,holdoutBuyHitRate:0.6458,holdoutBuyMeanPct:-0.0100,trainSellSamples:1601,trainSellHitRate:0.4516,trainSellMeanPct:-0.1244,holdoutSellSamples:631,holdoutSellHitRate:0.4818,holdoutSellMeanPct:-0.1687,symbols:12,purgeBars:12}
 };
