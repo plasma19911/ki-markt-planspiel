@@ -1,8 +1,8 @@
 {
   "version": 1,
   "modelVersion": 27.6,
-  "updatedAt": "2026-10-30T10:57:21.020Z",
-  "nextRefreshAfter": "2026-10-31T10:57:21.020Z",
+  "updatedAt": "2026-10-31T10:29:31.029Z",
+  "nextRefreshAfter": "2026-11-01T10:29:31.029Z",
   "refreshCadence": "daily",
   "source": "finanzen.net HV-Termine + finanzen.net Schätzungen + Yahoo Chart/News",
   "sourceUrls": [
@@ -14,91 +14,12 @@
     "https://www.finanzen.net/index/tecdax/hv-termine"
   ],
   "sourceErrors": [],
-  "rawUpcomingCount": 16,
-  "matchedUpcomingCount": 8,
-  "fundamentalEstimateCount": 1,
-  "universeGeneratedAt": "2026-10-30T10:09:15.286160Z",
+  "rawUpcomingCount": 14,
+  "matchedUpcomingCount": 7,
+  "fundamentalEstimateCount": 0,
+  "universeGeneratedAt": "2026-10-31T09:45:08.357587Z",
   "scoreMeaning": "0-100 interner Vorab-Chancen-Score aus ZAHLEN + CHART + NEWS; keine Gewinnwahrscheinlichkeit",
   "events": [
-    {
-      "date": "2026-10-29",
-      "sourceCompanyName": "Wesfarmers LtdShs",
-      "source": "finanzen.net Hauptversammlung",
-      "sourceHref": "https://www.finanzen.net/termine/wesfarmers_1",
-      "symbol": "WES.AX",
-      "name": "Wesfarmers Limited",
-      "companyKey": "WESFARMERS",
-      "currency": "AUD",
-      "matchConfidence": 0.76,
-      "baseScore": 18,
-      "fundamentalScore": 18,
-      "fundamentalConfidence": 0.92,
-      "profitForecastPositive": true,
-      "fundamentalReasons": [
-        "Analysten erwarten leicht höheres EPS (+8%)",
-        "Umsatzschätzung nächstes Jahr +5%",
-        "Kurs unter der 200-Tage-Linie",
-        "Chart im Abwaertstrend (Kurs < 50- < 200-Tage-Linie)",
-        "3-Monats-Trend -19%",
-        "3-Monats-Trend -16%"
-      ],
-      "fundamentals": {
-        "source": "finanzen.net Schätzungen",
-        "epsCurrentYearEstimate": 2.72,
-        "epsNextYearEstimate": 2.93,
-        "revenueCurrentYearEstimate": 49473.49,
-        "revenueNextYearEstimate": 51702.12
-      },
-      "daysUntil": -1,
-      "baseLabel": "NEGATIV",
-      "scoreParts": [
-        {
-          "key": "ZAHLEN",
-          "delta": -24,
-          "label": "Analystenschaetzungen"
-        },
-        {
-          "key": "CHART",
-          "delta": -8,
-          "label": "Kursstruktur 1 Jahr"
-        },
-        {
-          "key": "NEWS",
-          "delta": 0,
-          "label": "2 frische Meldungen"
-        }
-      ],
-      "chartDelta": -8,
-      "newsDelta": 0,
-      "fundamentalDelta": -24,
-      "newsGuidance": 0,
-      "newsHeadlines": [
-        "Australian Stock Market Today: ASX Futures Slip As Fed Path Keeps Volatility Elevated",
-        "Wesfarmers (ASX:WES) Shares Look Above Fair Value At Current Earnings"
-      ],
-      "dataQuality": {
-        "zahlen": true,
-        "chart": true,
-        "news": true
-      },
-      "chart": {
-        "source": "Yahoo chart 1y/1d",
-        "currency": "AUD",
-        "samples": 256,
-        "last": 76.7,
-        "changeM1": 0.6,
-        "changeM3": -16,
-        "changeM6": 4.1,
-        "sma50": 76.5,
-        "sma200": 80.2,
-        "position52w": 25,
-        "drawdownFromHigh": -17.5,
-        "volatility20d": 29.2,
-        "volumeTrend": -0.3
-      },
-      "scoreEvaluatedAt": "2026-10-30T10:57:21.020Z",
-      "scoreValidUntil": "2026-10-31T10:57:21.020Z"
-    },
     {
       "date": "2026-10-30",
       "sourceCompanyName": "Filtronic plc",
@@ -109,9 +30,9 @@
       "companyKey": "FILTRONIC",
       "currency": "GBp",
       "matchConfidence": 1,
-      "baseScore": 56,
-      "fundamentalScore": 56,
-      "fundamentalConfidence": 0.701,
+      "baseScore": 41,
+      "fundamentalScore": 41,
+      "fundamentalConfidence": 0.737,
       "profitForecastPositive": true,
       "fundamentalReasons": [
         "Analysten erwarten EPS-Wachstum ca. 33%",
@@ -128,13 +49,12 @@
         "revenueCurrentYearEstimate": 61.67,
         "revenueNextYearEstimate": 75.1
       },
-      "daysUntil": 0,
-      "baseLabel": "NEUTRAL",
-      "estimateUrl": "https://www.finanzen.net/schaetzungen/filtronic",
+      "daysUntil": -1,
+      "baseLabel": "VORSICHT",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": 21,
+          "delta": 6,
           "label": "Analystenschaetzungen"
         },
         {
@@ -145,7 +65,7 @@
       ],
       "chartDelta": -15,
       "newsDelta": 0,
-      "fundamentalDelta": 21,
+      "fundamentalDelta": 6,
       "newsGuidance": 0,
       "newsHeadlines": [],
       "dataQuality": {
@@ -157,19 +77,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 254,
-        "last": 220.5,
-        "changeM1": -14.2,
-        "changeM3": -12.2,
-        "changeM6": -37,
-        "sma50": 249.5,
+        "last": 223,
+        "changeM1": -13.2,
+        "changeM3": -11.2,
+        "changeM6": -36.3,
+        "sma50": 249.6,
         "sma200": 256.4,
-        "position52w": 27.7,
-        "drawdownFromHigh": -53,
-        "volatility20d": 117.4,
-        "volumeTrend": 89.4
+        "position52w": 28.4,
+        "drawdownFromHigh": -52.5,
+        "volatility20d": 117.3,
+        "volumeTrend": 94
       },
-      "scoreEvaluatedAt": "2026-10-30T10:57:21.020Z",
-      "scoreValidUntil": "2026-10-31T10:57:21.020Z"
+      "scoreEvaluatedAt": "2026-10-31T10:29:31.029Z",
+      "scoreValidUntil": "2026-11-01T10:29:31.029Z"
     },
     {
       "date": "2026-11-03",
@@ -181,8 +101,8 @@
       "companyKey": "LAM RESEARCH",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 32,
-      "fundamentalScore": 32,
+      "baseScore": 21,
+      "fundamentalScore": 21,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -200,34 +120,34 @@
         "revenueCurrentYearEstimate": 35406.26,
         "revenueNextYearEstimate": 42721.59
       },
-      "daysUntil": 4,
-      "baseLabel": "VORSICHT",
+      "daysUntil": 3,
+      "baseLabel": "NEGATIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -11,
+          "delta": -18,
           "label": "Analystenschaetzungen"
         },
         {
           "key": "CHART",
-          "delta": -9,
+          "delta": -11,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": 2,
+          "delta": 0,
           "label": "10 frische Meldungen"
         }
       ],
-      "chartDelta": -9,
-      "newsDelta": 2,
-      "fundamentalDelta": -11,
+      "chartDelta": -11,
+      "newsDelta": 0,
+      "fundamentalDelta": -18,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Top Analyst Reports for Lam Research, Lockheed Martin & Equinor",
-        "Did The Market Read Lam Research Stock Right?",
-        "Is Applied Materials Still The Company You Bought?",
-        "How Unusual Is Lattice's Latest Sales Growth?"
+        "Jim Cramer Likes Lam Research but Says Buy Just 25% of Your Position",
+        "TSMC Just Dropped 11% in a Month. Is It Time to Sell, or Load Up?",
+        "What Would It Take For Onto Stock To Do It Again?",
+        "Should You Buy, Sell, or Hold AEIS Stock Before Q3 Earnings Release?"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -238,19 +158,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 254.4,
-        "changeM1": -22.6,
-        "changeM3": -13.2,
-        "changeM6": -1.3,
-        "sma50": 295.9,
-        "sma200": 284.1,
-        "position52w": 39.1,
-        "drawdownFromHigh": -41.3,
-        "volatility20d": 59.9,
-        "volumeTrend": 47.5
+        "last": 239.1,
+        "changeM1": -29.7,
+        "changeM3": -18.8,
+        "changeM6": -6.9,
+        "sma50": 294.5,
+        "sma200": 284.2,
+        "position52w": 33.9,
+        "drawdownFromHigh": -44.8,
+        "volatility20d": 59.6,
+        "volumeTrend": 54.9
       },
-      "scoreEvaluatedAt": "2026-10-30T10:57:21.020Z",
-      "scoreValidUntil": "2026-10-31T10:57:21.020Z"
+      "scoreEvaluatedAt": "2026-10-31T10:29:31.029Z",
+      "scoreValidUntil": "2026-11-01T10:29:31.029Z"
     },
     {
       "date": "2026-11-04",
@@ -281,7 +201,7 @@
         "revenueCurrentYearEstimate": 17647.89,
         "revenueNextYearEstimate": 17570.06
       },
-      "daysUntil": 5,
+      "daysUntil": 4,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -305,10 +225,10 @@
       "fundamentalDelta": 24,
       "newsGuidance": 0,
       "newsHeadlines": [
-        "Wall Street Analysts Think Fox (FOXA) Could Surge 26.03%: Read This Before Placing a Bet",
-        "Unlocking Q1 Potential of Fox (FOXA): Exploring Wall Street Estimates for Key Metrics",
-        "Sirius XM (SIRI) Tops Q3 Earnings Estimates",
-        "How Earnings Optimism At Fox (FOXA) Has Changed Its Investment Story"
+        "FOXA Gears Up to Report Q1 Earnings: What's in Store for the Stock?",
+        "Cinemark Set to Report Q3 Earnings: What's in the Cards for the Stock?",
+        "Gray Media (GTN) Reports Next Week: Wall Street Expects Earnings Growth",
+        "Wall Street Analysts Think Fox (FOXA) Could Surge 26.03%: Read This Before Placing a Bet"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -319,19 +239,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 64.5,
-        "changeM1": 3,
-        "changeM3": 10.8,
-        "changeM6": 1.6,
-        "sma50": 65.2,
-        "sma200": 62.3,
-        "position52w": 57.5,
-        "drawdownFromHigh": -15.2,
-        "volatility20d": 30.2,
-        "volumeTrend": 18.2
+        "last": 63.2,
+        "changeM1": 3.2,
+        "changeM3": 7.7,
+        "changeM6": -0.2,
+        "sma50": 65.1,
+        "sma200": 62.2,
+        "position52w": 52.9,
+        "drawdownFromHigh": -16.9,
+        "volatility20d": 30,
+        "volumeTrend": 29.7
       },
-      "scoreEvaluatedAt": "2026-10-30T10:57:21.020Z",
-      "scoreValidUntil": "2026-10-31T10:57:21.020Z"
+      "scoreEvaluatedAt": "2026-10-31T10:29:31.029Z",
+      "scoreValidUntil": "2026-11-01T10:29:31.029Z"
     },
     {
       "date": "2026-11-04",
@@ -343,8 +263,8 @@
       "companyKey": "KLA",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 34,
-      "fundamentalScore": 34,
+      "baseScore": 21,
+      "fundamentalScore": 21,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -362,12 +282,12 @@
         "revenueCurrentYearEstimate": 18181.82,
         "revenueNextYearEstimate": 21849.98
       },
-      "daysUntil": 5,
-      "baseLabel": "VORSICHT",
+      "daysUntil": 4,
+      "baseLabel": "NEGATIV",
       "scoreParts": [
         {
           "key": "ZAHLEN",
-          "delta": -11,
+          "delta": -16,
           "label": "Analystenschaetzungen"
         },
         {
@@ -377,19 +297,19 @@
         },
         {
           "key": "NEWS",
-          "delta": 10,
+          "delta": 2,
           "label": "10 frische Meldungen"
         }
       ],
       "chartDelta": -15,
-      "newsDelta": 10,
-      "fundamentalDelta": -11,
-      "newsGuidance": 1,
+      "newsDelta": 2,
+      "fundamentalDelta": -16,
+      "newsGuidance": 0,
       "newsHeadlines": [
-        "KLA (KLAC) Stock Gains Attention As Q1 Earnings Meet Valuation Doubts",
-        "Is KLA (KLAC) Undervalued On Its Earnings Beat And AI Driven Guidance?",
-        "Why KLA Corporation Rallied Today",
-        "KLA Stocks Rise 7.2% With Cash Covering Its Capital Returns"
+        "What Would It Take For Onto Stock To Do It Again?",
+        "FORM Drops 12% Post Q3 Earnings: Should You Buy the Stock on the Dip?",
+        "KLA (KLAC) Q1 Earnings: How Key Metrics Compare to Wall Street Estimates",
+        "Should You Buy, Sell, or Hold AEIS Stock Before Q3 Earnings Release?"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -400,19 +320,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 167.4,
-        "changeM1": -14.1,
-        "changeM3": -8.4,
-        "changeM6": -4.3,
-        "sma50": 179.2,
-        "sma200": 182,
-        "position52w": 30.1,
-        "drawdownFromHigh": -44.5,
-        "volatility20d": 55.6,
-        "volumeTrend": 34.7
+        "last": 157.9,
+        "changeM1": -21.2,
+        "changeM3": -13.6,
+        "changeM6": -8.5,
+        "sma50": 178.6,
+        "sma200": 182.1,
+        "position52w": 25.1,
+        "drawdownFromHigh": -47.7,
+        "volatility20d": 56.7,
+        "volumeTrend": 44.7
       },
-      "scoreEvaluatedAt": "2026-10-30T10:57:21.020Z",
-      "scoreValidUntil": "2026-10-31T10:57:21.020Z"
+      "scoreEvaluatedAt": "2026-10-31T10:29:31.029Z",
+      "scoreValidUntil": "2026-11-01T10:29:31.029Z"
     },
     {
       "date": "2026-11-05",
@@ -443,7 +363,7 @@
         "revenueCurrentYearEstimate": 156.24,
         "revenueNextYearEstimate": 172.02
       },
-      "daysUntil": 6,
+      "daysUntil": 5,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -481,19 +401,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "GBp",
         "samples": 254,
-        "last": 223.4,
-        "changeM1": 4.9,
-        "changeM3": 6,
-        "changeM6": 7.3,
+        "last": 224.4,
+        "changeM1": 5.4,
+        "changeM3": 6.5,
+        "changeM6": 7.8,
         "sma50": 219.3,
         "sma200": 218.2,
-        "position52w": 61.7,
-        "drawdownFromHigh": -16.3,
-        "volatility20d": 23.1,
-        "volumeTrend": 57.3
+        "position52w": 62.6,
+        "drawdownFromHigh": -15.9,
+        "volatility20d": 22.9,
+        "volumeTrend": 81.4
       },
-      "scoreEvaluatedAt": "2026-10-30T10:57:21.020Z",
-      "scoreValidUntil": "2026-10-31T10:57:21.020Z"
+      "scoreEvaluatedAt": "2026-10-31T10:29:31.029Z",
+      "scoreValidUntil": "2026-11-01T10:29:31.029Z"
     },
     {
       "date": "2026-11-05",
@@ -505,8 +425,8 @@
       "companyKey": "DIAGEO",
       "currency": "USD",
       "matchConfidence": 1,
-      "baseScore": 85,
-      "fundamentalScore": 85,
+      "baseScore": 97,
+      "fundamentalScore": 97,
       "fundamentalConfidence": 0.92,
       "profitForecastPositive": true,
       "fundamentalReasons": [
@@ -524,7 +444,7 @@
         "revenueCurrentYearEstimate": 19120.49,
         "revenueNextYearEstimate": 19237.32
       },
-      "daysUntil": 6,
+      "daysUntil": 5,
       "baseLabel": "SEHR POSITIV",
       "scoreParts": [
         {
@@ -534,24 +454,24 @@
         },
         {
           "key": "CHART",
-          "delta": 10,
+          "delta": 14,
           "label": "Kursstruktur 1 Jahr"
         },
         {
           "key": "NEWS",
-          "delta": 1,
+          "delta": 9,
           "label": "9 frische Meldungen"
         }
       ],
-      "chartDelta": 10,
-      "newsDelta": 1,
+      "chartDelta": 14,
+      "newsDelta": 9,
       "fundamentalDelta": 24,
-      "newsGuidance": 0,
+      "newsGuidance": 1,
       "newsHeadlines": [
-        "Tobacco, Beer and Spirits: 4 Sin Stocks Paying Dividends Up to 5.5%",
-        "FEMSA Q3 Earnings Miss Estimates Despite Strong OXXO Sales",
-        "ORPHAN BARREL UNVEILS LATVERIAN CASK INSPIRED BY MARVEL STUDIOS' \"AVENGERS: DOOMSDAY\"",
-        "Fed Holds Interest Rates Steady Amid Inflationary Concerns: 4 Safe Bets"
+        "Diageo (LSE:DGE) Unveils Marvel Tie In Release, Is It A Bargain?",
+        "AB InBev Q3 Earnings Beat Estimates on Revenue Growth & Premiumization",
+        "What Is Diageo (LSE:DGE) Telling Investors With Its New Premium Drinks Launches?",
+        "Tobacco, Beer and Spirits: 4 Sin Stocks Paying Dividends Up to 5.5%"
       ],
       "dataQuality": {
         "zahlen": true,
@@ -562,19 +482,19 @@
         "source": "Yahoo chart 1y/1d",
         "currency": "USD",
         "samples": 251,
-        "last": 91.3,
-        "changeM1": 6.7,
-        "changeM3": 3.7,
-        "changeM6": 13.2,
+        "last": 93.4,
+        "changeM1": 10.7,
+        "changeM3": 5.6,
+        "changeM6": 17.2,
         "sma50": 89.7,
         "sma200": 85.8,
-        "position52w": 63.6,
-        "drawdownFromHigh": -10.6,
-        "volatility20d": 26.2,
-        "volumeTrend": -10.7
+        "position52w": 70.7,
+        "drawdownFromHigh": -8.5,
+        "volatility20d": 26.3,
+        "volumeTrend": -7.8
       },
-      "scoreEvaluatedAt": "2026-10-30T10:57:21.020Z",
-      "scoreValidUntil": "2026-10-31T10:57:21.020Z"
+      "scoreEvaluatedAt": "2026-10-31T10:29:31.029Z",
+      "scoreValidUntil": "2026-11-01T10:29:31.029Z"
     },
     {
       "date": "2026-11-06",
@@ -605,7 +525,7 @@
         "revenueCurrentYearEstimate": 27394.98,
         "revenueNextYearEstimate": 28193.81
       },
-      "daysUntil": 7,
+      "daysUntil": 6,
       "baseLabel": "NEGATIV",
       "scoreParts": [
         {
@@ -650,18 +570,18 @@
         "position52w": 24.7,
         "drawdownFromHigh": -18.2,
         "volatility20d": 22.8,
-        "volumeTrend": 40.6
+        "volumeTrend": 43
       },
-      "scoreEvaluatedAt": "2026-10-30T10:57:21.020Z",
-      "scoreValidUntil": "2026-10-31T10:57:21.020Z"
+      "scoreEvaluatedAt": "2026-10-31T10:29:31.029Z",
+      "scoreValidUntil": "2026-11-01T10:29:31.029Z"
     }
   ],
-  "estimateAttemptCount": 8,
+  "estimateAttemptCount": 7,
   "scoreModelVersion": 27.7,
   "scoreEvaluationCadence": "daily",
   "scoreReevaluation": "once daily only",
-  "chartProfileCount": 8,
-  "newsProfileCount": 7,
+  "chartProfileCount": 7,
+  "newsProfileCount": 6,
   "neutralScoreCount": 0,
-  "signalCoveredCount": 8
+  "signalCoveredCount": 7
 }
